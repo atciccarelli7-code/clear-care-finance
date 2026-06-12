@@ -103,7 +103,7 @@ const Index = () => {
                 key={t.title}
                 icon={t.icon}
                 title={t.title}
-                description={t.desc}
+                description={t.description}
                 href="/tools"
                 cta="Try the calculator"
                 accent="blue"

@@ -20,19 +20,61 @@ const Index = () => {
               Financial clarity for healthcare workers and the patients they care for.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              Simple guides, calculators, and visual explanations for pay, benefits, insurance,
-              retirement accounts, Medicare, Medicaid, and healthcare costs.
+              Understand pay, benefits, insurance, retirement accounts, Medicare, Medicaid, and healthcare costs
+              with simple guides and practical calculators.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
               <Button asChild variant="hero" size="lg">
                 <Link to="/tools">Start with a calculator <ArrowRight className="h-4 w-4" /></Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/articles">Explore articles</Link>
+                <a href="#choose-path">Choose your path</a>
               </Button>
             </div>
+            <p className="text-sm text-muted-foreground pt-1">
+              Plain-English education. Credible sources. No spammy finance noise.
+            </p>
           </div>
         </div>
+        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+        <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-secondary/10 blur-3xl pointer-events-none" />
+      </section>
+
+      {/* Audience cards */}
+      <section id="choose-path" className="container py-20 scroll-mt-20">
+        <SectionHeading
+          centered
+          eyebrow="Choose your path"
+          title="Where do you fit?"
+          description="The same financial vocabulary affects everyone in a hospital — just from different sides of the bed."
+        />
+        <div className="grid gap-6 md:grid-cols-3">
+          <TopicCard
+            icon={Stethoscope}
+            title="I'm a healthcare worker"
+            description="Learn how paychecks, benefits, overtime, insurance, and retirement accounts actually work."
+            href="/healthcare-workers"
+            cta="Start here"
+            accent="blue"
+          />
+          <TopicCard
+            icon={Users}
+            title="I'm a patient or caregiver"
+            description="Understand insurance terms, Medicare, Medicaid, hospital bills, and common cost surprises."
+            href="/patients-families"
+            cta="Start here"
+            accent="green"
+          />
+          <TopicCard
+            icon={Calculator}
+            title="I want to estimate costs"
+            description="Use simple calculators to estimate contributions, visits, and healthcare costs."
+            href="/tools"
+            cta="View tools"
+            accent="blue"
+          />
+        </div>
+      </section>
         <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
         <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-secondary/10 blur-3xl pointer-events-none" />
       </section>

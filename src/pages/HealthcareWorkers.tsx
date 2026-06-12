@@ -34,12 +34,12 @@ const HealthcareWorkers = () => {
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {[
-            { icon: Wallet, title: "Paychecks and overtime", desc: "Differentials, overtime rules, and pre-tax deductions explained line by line." },
-            { icon: PiggyBank, title: "403(b), 401(a), and workplace retirement plans", desc: "What they are, how matches work, and how to make sense of contribution choices." },
-            { icon: Shield, title: "Health insurance through work", desc: "PPO vs HMO vs HDHP, HSAs, FSAs, and how to actually compare plans at open enrollment." },
-            { icon: Receipt, title: "Taxes and benefits", desc: "Pre-tax accounts, withholdings, and the benefits that quietly save you money." },
-            { icon: TrendingUp, title: "Career income growth", desc: "Certifications, shift planning, and decisions that move income up over a career." },
-            { icon: Calculator, title: "Calculators built for your paycheck", desc: "Estimate retirement contributions and out-of-pocket costs in plain English.", href: "/tools" },
+            { icon: Wallet, title: "Paychecks and overtime", description: "Differentials, overtime rules, and pre-tax deductions explained line by line." },
+            { icon: PiggyBank, title: "403(b), 401(a), and workplace retirement plans", description: "What they are, how matches work, and how to make sense of contribution choices." },
+            { icon: Shield, title: "Health insurance through work", description: "PPO vs HMO vs HDHP, HSAs, FSAs, and how to actually compare plans at open enrollment." },
+            { icon: Receipt, title: "Taxes and benefits", description: "Pre-tax accounts, withholdings, and the benefits that quietly save you money." },
+            { icon: TrendingUp, title: "Career income growth", description: "Certifications, shift planning, and decisions that move income up over a career." },
+            { icon: Calculator, title: "Calculators built for your paycheck", description: "Estimate retirement contributions and out-of-pocket costs in plain English.", href: "/tools" },
           ].map((t) => (
             <TopicCard key={t.title} {...t} href={t.href} cta={t.href ? "Open calculators" : undefined} />
           ))}

@@ -34,12 +34,12 @@ const PatientsFamilies = () => {
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {[
-            { icon: HeartPulse, title: "Medicare basics", desc: "Parts A, B, C, and D — what each one actually covers and when to sign up.", accent: "green" as const },
-            { icon: Shield, title: "Medicaid basics", desc: "Who qualifies, how it differs from Medicare, and what it pays for.", accent: "green" as const },
-            { icon: FileText, title: "Insurance terms", desc: "Deductibles, copays, coinsurance, networks — translated into normal English." },
-            { icon: Receipt, title: "Hospital bills", desc: "Why bills are confusing, what an EOB really means, and what to ask before paying." },
-            { icon: Home, title: "Long-term care planning reminders", desc: "The conversations and paperwork that are easier to handle before they're urgent.", accent: "green" as const },
-            { icon: ArrowRight, title: "Estimate Medicare costs", desc: "A simple calculator for premiums, deductibles, and coinsurance.", href: "/tools" },
+            { icon: HeartPulse, title: "Medicare basics", description: "Parts A, B, C, and D — what each one actually covers and when to sign up.", accent: "green" as const },
+            { icon: Shield, title: "Medicaid basics", description: "Who qualifies, how it differs from Medicare, and what it pays for.", accent: "green" as const },
+            { icon: FileText, title: "Insurance terms", description: "Deductibles, copays, coinsurance, networks — translated into normal English." },
+            { icon: Receipt, title: "Hospital bills", description: "Why bills are confusing, what an EOB really means, and what to ask before paying." },
+            { icon: Home, title: "Long-term care planning reminders", description: "The conversations and paperwork that are easier to handle before they're urgent.", accent: "green" as const },
+            { icon: ArrowRight, title: "Estimate Medicare costs", description: "A simple calculator for premiums, deductibles, and coinsurance.", href: "/tools" },
           ].map((t) => (
             <TopicCard key={t.title} {...t} href={t.href} cta={t.href ? "Open calculator" : undefined} />
           ))}

@@ -86,17 +86,17 @@ const Index = () => {
               {
                 icon: Wallet,
                 title: "403(b) Paycheck Contribution",
-                desc: "Estimate how much goes into a 403(b) from each paycheck based on your hourly pay, hours, and contribution percentage.",
+                description: "Estimate how much goes into a 403(b) from each paycheck based on your hourly pay, hours, and contribution percentage.",
               },
               {
                 icon: Shield,
                 title: "Insurance Visit Cost",
-                desc: "Estimate annual out-of-pocket cost based on premium, deductible, copay, coinsurance, and number of visits.",
+                description: "Estimate annual out-of-pocket cost based on premium, deductible, copay, coinsurance, and number of visits.",
               },
               {
                 icon: HeartPulse,
                 title: "Medicare Cost Estimator",
-                desc: "Estimate common Medicare-related costs and learn the difference between premiums, deductibles, and coverage gaps.",
+                description: "Estimate common Medicare-related costs and learn the difference between premiums, deductibles, and coverage gaps.",
               },
             ].map((t) => (
               <TopicCard

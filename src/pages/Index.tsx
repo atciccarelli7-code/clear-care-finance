@@ -75,45 +75,6 @@ const Index = () => {
           />
         </div>
       </section>
-        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-        <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-secondary/10 blur-3xl pointer-events-none" />
-      </section>
-
-      {/* Audience cards */}
-      <section className="container py-20">
-        <SectionHeading
-          centered
-          eyebrow="Where do you fit?"
-          title="Pick the path that's right for you"
-          description="The same financial vocabulary affects everyone in a hospital — just from different sides of the bed."
-        />
-        <div className="grid gap-6 md:grid-cols-3">
-          <TopicCard
-            icon={Stethoscope}
-            title="I'm a healthcare worker"
-            description="Understand paychecks, benefits, 403(b)s, insurance options, taxes, and career-related financial decisions."
-            href="/healthcare-workers"
-            cta="Learn for healthcare workers"
-            accent="blue"
-          />
-          <TopicCard
-            icon={Users}
-            title="I'm a patient or caregiver"
-            description="Understand insurance terms, Medicare, Medicaid, hospital bills, and what costs may show up before care becomes a crisis."
-            href="/patients-families"
-            cta="Learn for patients & families"
-            accent="green"
-          />
-          <TopicCard
-            icon={Calculator}
-            title="I want to use a calculator"
-            description="Estimate paycheck contributions, insurance costs, and healthcare expenses with simple plain-English tools."
-            href="/tools"
-            cta="View calculators"
-            accent="blue"
-          />
-        </div>
-      </section>
 
       {/* Featured tools */}
       <section className="bg-muted/30 py-20">

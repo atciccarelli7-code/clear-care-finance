@@ -152,8 +152,8 @@ const Index = () => {
         <div className="container">
           <SectionHeading
             centered
-            eyebrow="Why this site exists"
-            title="Honest education, not financial hype"
+            eyebrow="Our standards"
+            title="Built for clarity, not clicks."
             description="Healthcare is complicated enough. The money side shouldn't add to the chaos."
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">

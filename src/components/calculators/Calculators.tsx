@@ -21,7 +21,7 @@ export const Calc403b = () => {
     <div className="grid gap-8 lg:grid-cols-5">
       <div className="lg:col-span-3 space-y-5 rounded-2xl border border-border bg-card p-6 md:p-8 shadow-card">
         <Field label="Hourly pay" helper="Your base hourly rate (before differentials).">
-          <Input type="number" value={hourly} onChange={(e) => setHourly(+e.target.value || 0)} prefix="$" />
+          <Input type="number" value={hourly} onChange={(e) => setHourly(+e.target.value || 0)} />
         </Field>
         <Field label="Hours per pay period" helper="Typical hours you work in one paycheck cycle.">
           <Input type="number" value={hours} onChange={(e) => setHours(+e.target.value || 0)} />

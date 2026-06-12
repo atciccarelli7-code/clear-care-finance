@@ -109,31 +109,32 @@ export const CalcInsurance = () => {
 
 export const CalcMedicare = () => {
   const [partB, setPartB] = useState(185);
-  const [partD, setPartD] = useState(35);
-  const [supplement, setSupplement] = useState(150);
   const [deductible, setDeductible] = useState(257);
+  const [rxPerMonth, setRxPerMonth] = useState(3);
+  const [rxCost, setRxCost] = useState(15);
   const [visits, setVisits] = useState(10);
   const [coins, setCoins] = useState(20);
 
-  const annualPremiums = (partB + partD + supplement) * 12;
+  const annualPremium = partB * 12;
+  const annualRx = rxPerMonth * rxCost * 12;
   const visitShare = visits * 50 * (coins / 100);
-  const total = annualPremiums + deductible + visitShare;
+  const total = annualPremium + deductible + visitShare + annualRx;
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">
       <div className="lg:col-span-3 space-y-5 rounded-2xl border border-border bg-card p-6 md:p-8 shadow-card">
         <div className="grid sm:grid-cols-2 gap-5">
-          <Field label="Part B premium / month" helper="Doctor visits and outpatient care.">
+          <Field label="Monthly Part B premium" helper="Doctor visits and outpatient care.">
             <Input type="number" value={partB} onChange={(e) => setPartB(+e.target.value || 0)} />
           </Field>
-          <Field label="Part D premium / month" helper="Prescription drug plan.">
-            <Input type="number" value={partD} onChange={(e) => setPartD(+e.target.value || 0)} />
-          </Field>
-          <Field label="Supplement (Medigap) / month" helper="Optional plan to fill gaps. Use 0 if none.">
-            <Input type="number" value={supplement} onChange={(e) => setSupplement(+e.target.value || 0)} />
-          </Field>
-          <Field label="Annual Part B deductible" helper="Yearly amount you pay before Part B kicks in.">
+          <Field label="Annual deductible" helper="Yearly amount you pay before Part B kicks in.">
             <Input type="number" value={deductible} onChange={(e) => setDeductible(+e.target.value || 0)} />
+          </Field>
+          <Field label="Prescriptions per month" helper="How many prescription fills you expect each month.">
+            <Input type="number" value={rxPerMonth} onChange={(e) => setRxPerMonth(+e.target.value || 0)} />
+          </Field>
+          <Field label="Avg cost per prescription" helper="Rough out-of-pocket per fill.">
+            <Input type="number" value={rxCost} onChange={(e) => setRxCost(+e.target.value || 0)} />
           </Field>
           <Field label="Expected doctor visits" helper="Routine and specialist visits per year.">
             <Input type="number" value={visits} onChange={(e) => setVisits(+e.target.value || 0)} />
@@ -145,12 +146,12 @@ export const CalcMedicare = () => {
       </div>
 
       <div className="lg:col-span-2 space-y-4">
-        <ResultCard label="Annual premiums" value={formatUSD(annualPremiums)} muted />
-        <ResultCard label="Part B deductible" value={formatUSD(deductible)} muted />
+        <ResultCard label="Annual Part B premium" value={formatUSD(annualPremium)} muted />
+        <ResultCard label="Annual prescriptions" value={formatUSD(annualRx)} muted />
         <ResultCard label="Visit coinsurance share" value={formatUSD(visitShare)} muted />
         <ResultCard label="Estimated yearly Medicare cost" value={formatUSD(total)} accent="green" />
         <p className="text-xs text-muted-foreground px-1">
-          Educational placeholder. Real Medicare costs depend on income, plan choices, and coverage details.
+          Medicare costs vary by plan and coverage type. This is a rough educational estimate, not a quote.
         </p>
       </div>
     </div>

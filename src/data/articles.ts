@@ -54,6 +54,7 @@ export const categories = [
   "Retirement",
   "Insurance",
   "Medicare",
+  "Medicaid",
   "Hospital Bills",
   "Healthcare Workers",
   "Patients",

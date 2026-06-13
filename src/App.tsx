@@ -7,6 +7,7 @@ import { Layout } from "@/components/layout/Layout";
 import Index from "./pages/Index.tsx";
 import HealthcareWorkers from "./pages/HealthcareWorkers.tsx";
 import PatientsFamilies from "./pages/PatientsFamilies.tsx";
+import MedicareMedicaidGuide from "./pages/MedicareMedicaidGuide.tsx";
 import Tools from "./pages/Tools.tsx";
 import Articles from "./pages/Articles.tsx";
 import About from "./pages/About.tsx";

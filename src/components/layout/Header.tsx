@@ -6,6 +6,7 @@ import { Menu, X, Stethoscope } from "lucide-react";
 const nav = [
   { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patients & Families" },
+  { to: "/medicare-medicaid", label: "Medicare & Medicaid Guide" },
   { to: "/tools", label: "Tools" },
   { to: "/articles", label: "Articles" },
   { to: "/about", label: "About" },

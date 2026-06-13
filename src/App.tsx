@@ -7,6 +7,7 @@ import { Layout } from "@/components/layout/Layout";
 import Index from "./pages/Index.tsx";
 import HealthcareWorkers from "./pages/HealthcareWorkers.tsx";
 import PatientsFamilies from "./pages/PatientsFamilies.tsx";
+import MedicareMedicaidGuide from "./pages/MedicareMedicaidGuide.tsx";
 import Tools from "./pages/Tools.tsx";
 import Articles from "./pages/Articles.tsx";
 import About from "./pages/About.tsx";
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
             <Route path="/patients-families" element={<PatientsFamilies />} />
+            <Route path="/medicare-medicaid" element={<MedicareMedicaidGuide />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/about" element={<About />} />

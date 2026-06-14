@@ -1,36 +1,32 @@
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { articles, categories } from "@/data/articles";
+import { ARTICLES, categories } from "@/data/articles";
+import { PageHero } from "@/components/shared/PageHero";
+import { ArticleCard } from "@/components/shared/ArticleCard";
 import { cn } from "@/lib/utils";
 
 const Articles = () => {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<(typeof categories)[number]>("All");
 
-  const filtered = useMemo(() => {
-    return articles.filter((a) => {
-      const matchesCat = cat === "All" || a.category === cat;
-      const matchesQ = !q || (a.title + a.description).toLowerCase().includes(q.toLowerCase());
-      return matchesCat && matchesQ;
-    });
-  }, [q, cat]);
+  const filtered = useMemo(
+    () =>
+      ARTICLES.filter((a) => {
+        const matchesCat = cat === "All" || a.category === cat;
+        const matchesQ = !q || (a.title + " " + a.promise).toLowerCase().includes(q.toLowerCase());
+        return matchesCat && matchesQ;
+      }),
+    [q, cat],
+  );
 
   return (
     <>
-      <section className="bg-gradient-hero">
-        <div className="container py-16 md:py-20 text-center max-w-3xl mx-auto space-y-4 animate-fade-up">
-          <span className="inline-block px-3 py-1 rounded-full bg-card border border-border text-xs font-semibold text-primary shadow-card">
-            Articles
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-extrabold tracking-tight">
-            Short, honest reads.
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            No scare tactics, no sales funnel — just plain-English explanations of healthcare money topics.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Articles"
+        title="Short, honest reads."
+        description="No scare tactics, no sales funnel — plain-English explanations of healthcare money topics."
+      />
 
       <section className="container py-12">
         <div className="max-w-xl mx-auto relative mb-6">
@@ -51,7 +47,7 @@ const Articles = () => {
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-semibold transition-smooth border",
                 cat === c
-                  ? "bg-primary text-primary-foreground border-primary shadow-card"
+                  ? "bg-primary text-primary-foreground border-primary"
                   : "bg-card border-border text-muted-foreground hover:text-foreground hover:border-primary/40",
               )}
             >
@@ -62,17 +58,7 @@ const Articles = () => {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((a) => (
-            <article
-              key={a.slug}
-              className="group rounded-2xl border border-border bg-card p-7 shadow-card transition-smooth hover:-translate-y-1 hover:shadow-hover hover:border-primary/30"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="px-2.5 py-1 rounded-full bg-secondary-soft text-secondary text-xs font-semibold">{a.category}</span>
-                <span className="text-xs text-muted-foreground">{a.readTime}</span>
-              </div>
-              <h3 className="font-display text-lg font-bold mb-2 group-hover:text-primary transition-smooth">{a.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{a.description}</p>
-            </article>
+            <ArticleCard key={a.slug} article={a} />
           ))}
         </div>
 

@@ -2,73 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark sage theme — Community Acquired Finance
+   Sleek, calm, sophisticated. Sage green primary on a near-black canvas. */
+
 @layer base {
   :root {
-    --background: 210 40% 99%;
-    --foreground: 215 35% 15%;
+    /* Surfaces */
+    --background: 160 12% 7%;
+    --foreground: 90 12% 94%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 35% 15%;
+    --card: 160 12% 10%;
+    --card-foreground: 90 12% 94%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 35% 15%;
+    --popover: 160 14% 9%;
+    --popover-foreground: 90 12% 94%;
 
-    --primary: 210 85% 50%;
-    --primary-foreground: 0 0% 100%;
-    --primary-soft: 210 90% 96%;
+    /* Sage primary */
+    --primary: 145 28% 58%;
+    --primary-foreground: 160 20% 8%;
+    --primary-soft: 145 25% 16%;
 
-    --secondary: 158 55% 42%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-soft: 158 60% 95%;
+    /* Warm cream secondary, used sparingly */
+    --secondary: 40 30% 78%;
+    --secondary-foreground: 160 20% 8%;
+    --secondary-soft: 40 18% 14%;
 
-    --muted: 210 30% 96%;
-    --muted-foreground: 215 18% 45%;
+    --muted: 160 10% 14%;
+    --muted-foreground: 100 8% 65%;
 
-    --accent: 158 55% 42%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 145 28% 58%;
+    --accent-foreground: 160 20% 8%;
 
-    --destructive: 0 75% 55%;
+    --destructive: 12 70% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 25% 92%;
-    --input: 215 25% 92%;
-    --ring: 210 85% 50%;
+    --border: 160 10% 18%;
+    --input: 160 10% 18%;
+    --ring: 145 28% 58%;
 
     --radius: 1rem;
 
-    --shadow-soft: 0 4px 24px -8px hsl(215 35% 15% / 0.08);
-    --shadow-card: 0 2px 12px -4px hsl(215 35% 15% / 0.06);
-    --shadow-hover: 0 12px 32px -12px hsl(210 85% 50% / 0.18);
+    --shadow-soft: 0 4px 24px -8px hsl(160 30% 2% / 0.6);
+    --shadow-card: 0 2px 12px -4px hsl(160 30% 2% / 0.5);
+    --shadow-hover: 0 16px 40px -16px hsl(145 50% 30% / 0.45);
 
-    --gradient-hero: linear-gradient(135deg, hsl(210 90% 96%) 0%, hsl(158 60% 95%) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(210 85% 50%), hsl(195 80% 55%));
-    --gradient-accent: linear-gradient(135deg, hsl(158 55% 42%), hsl(175 60% 45%));
+    --gradient-hero: radial-gradient(ellipse at top, hsl(145 30% 14% / 0.6) 0%, hsl(160 12% 7%) 60%);
+    --gradient-primary: linear-gradient(135deg, hsl(145 30% 52%), hsl(160 32% 44%));
+    --gradient-accent: linear-gradient(135deg, hsl(145 28% 38%), hsl(165 30% 32%));
 
     --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .dark {
-    --background: 215 35% 8%;
-    --foreground: 210 40% 98%;
-    --card: 215 30% 12%;
-    --card-foreground: 210 40% 98%;
-    --popover: 215 30% 12%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 85% 60%;
-    --primary-foreground: 215 35% 8%;
-    --primary-soft: 210 40% 18%;
-    --secondary: 158 55% 50%;
-    --secondary-foreground: 215 35% 8%;
-    --secondary-soft: 158 30% 18%;
-    --muted: 215 25% 16%;
-    --muted-foreground: 215 15% 65%;
-    --accent: 158 55% 50%;
-    --accent-foreground: 215 35% 8%;
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 215 25% 20%;
-    --input: 215 25% 20%;
-    --ring: 210 85% 60%;
+  /* Light theme kept as opt-in only */
+  .light {
+    --background: 90 20% 98%;
+    --foreground: 160 20% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 160 20% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 20% 10%;
+    --primary: 145 32% 38%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 145 35% 94%;
+    --secondary: 40 30% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-soft: 40 30% 95%;
+    --muted: 100 15% 95%;
+    --muted-foreground: 160 10% 40%;
+    --accent: 145 32% 38%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 100 12% 88%;
+    --input: 100 12% 88%;
+    --ring: 145 32% 38%;
   }
 }
 
@@ -78,11 +85,15 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv11", "ss01";
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(145 30% 14% / 0.35), transparent 70%);
+    background-attachment: fixed;
   }
   h1, h2, h3, h4 {
     @apply tracking-tight;
     font-feature-settings: "ss01";
   }
+  ::selection { background: hsl(var(--primary) / 0.3); }
 }
 
 @layer utilities {
@@ -93,4 +104,5 @@
   .bg-gradient-primary { background: var(--gradient-primary); }
   .bg-gradient-accent { background: var(--gradient-accent); }
   .transition-smooth { transition: var(--transition-smooth); }
+  .text-balance { text-wrap: balance; }
 }

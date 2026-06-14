@@ -1,193 +1,254 @@
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CalculatorInput, CalculatorSelectField } from "@/components/shared/CalculatorInput";
+import { CalculatorResult } from "@/components/shared/CalculatorResult";
+import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
+import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 
 const formatUSD = (n: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(
+    isFinite(n) ? n : 0,
+  );
 
+const num = (s: string, fallback = 0) => {
+  const n = parseFloat(s);
+  return isFinite(n) ? n : fallback;
+};
+
+/* ============= 403(b) Paycheck Contribution ============= */
 export const Calc403b = () => {
-  const [hourly, setHourly] = useState(45);
-  const [hours, setHours] = useState(72);
-  const [pct, setPct] = useState(8);
-  const [freq, setFreq] = useState("26");
+  const [hourly, setHourly] = useState("45");
+  const [hoursWeek, setHoursWeek] = useState("36");
+  const [freq, setFreq] = useState("26"); // pay periods/yr
+  const [pct, setPct] = useState("8");
+  const [matchPct, setMatchPct] = useState("4");
+  const [type, setType] = useState<"traditional" | "roth">("traditional");
+  const [taxBracket, setTaxBracket] = useState("22");
 
-  const grossPerCheck = hourly * hours;
-  const contribPerCheck = grossPerCheck * (pct / 100);
-  const annualContrib = contribPerCheck * Number(freq);
-  const annualGross = grossPerCheck * Number(freq);
+  const hourlyN = num(hourly);
+  const hoursWeekN = num(hoursWeek);
+  const freqN = num(freq, 26);
+  const pctN = num(pct);
+  const matchPctN = num(matchPct);
+
+  const weeksPerPeriod = 52 / freqN;
+  const grossPerCheck = hourlyN * hoursWeekN * weeksPerPeriod;
+  const employeePerCheck = grossPerCheck * (pctN / 100);
+  const annualEmployee = employeePerCheck * freqN;
+  const effectiveMatch = Math.min(matchPctN, pctN);
+  const employerPerCheck = grossPerCheck * (effectiveMatch / 100);
+  const annualEmployer = employerPerCheck * freqN;
+  const totalRetirement = annualEmployee + annualEmployer;
+  const taxReduction = type === "traditional" ? annualEmployee * (num(taxBracket) / 100) : 0;
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">
-      <div className="lg:col-span-3 space-y-5 rounded-2xl border border-border bg-card p-6 md:p-8 shadow-card">
-        <Field label="Hourly pay" helper="Your base hourly rate (before differentials).">
-          <Input type="number" value={hourly} onChange={(e) => setHourly(+e.target.value || 0)} />
-        </Field>
-        <Field label="Hours per pay period" helper="Typical hours you work in one paycheck cycle.">
-          <Input type="number" value={hours} onChange={(e) => setHours(+e.target.value || 0)} />
-        </Field>
-        <Field label="403(b) contribution %" helper="The percent of each paycheck going into your 403(b).">
-          <Input type="number" value={pct} onChange={(e) => setPct(+e.target.value || 0)} />
-        </Field>
-        <Field label="Pay frequency" helper="How often you get paid.">
-          <Select value={freq} onValueChange={setFreq}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="52">Weekly (52)</SelectItem>
-              <SelectItem value="26">Bi-weekly (26)</SelectItem>
-              <SelectItem value="24">Semi-monthly (24)</SelectItem>
-              <SelectItem value="12">Monthly (12)</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
+      <div className="lg:col-span-3 space-y-5">
+        <div className="grid sm:grid-cols-2 gap-5">
+          <CalculatorInput label="Hourly wage" prefix="$" value={hourly} onChange={setHourly} helper="Base hourly rate." />
+          <CalculatorInput label="Hours per week" value={hoursWeek} onChange={setHoursWeek} helper="Typical scheduled hours." />
+          <CalculatorSelectField label="Pay frequency" helper="Most hospitals pay biweekly.">
+            <Select value={freq} onValueChange={setFreq}>
+              <SelectTrigger className="h-11"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="52">Weekly (52)</SelectItem>
+                <SelectItem value="26">Bi-weekly (26)</SelectItem>
+                <SelectItem value="24">Semi-monthly (24)</SelectItem>
+                <SelectItem value="12">Monthly (12)</SelectItem>
+              </SelectContent>
+            </Select>
+          </CalculatorSelectField>
+          <CalculatorInput label="Your contribution %" suffix="%" value={pct} onChange={setPct} helper="Portion of each paycheck going to your 403(b)." />
+          <CalculatorInput label="Employer match %" suffix="%" value={matchPct} onChange={setMatchPct} helper="Max % of pay your employer matches." />
+          <CalculatorSelectField label="Contribution type" helper="Traditional = pre-tax. Roth = after-tax.">
+            <Select value={type} onValueChange={(v) => setType(v as "traditional" | "roth")}>
+              <SelectTrigger className="h-11"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="traditional">Traditional (pre-tax)</SelectItem>
+                <SelectItem value="roth">Roth (after-tax)</SelectItem>
+              </SelectContent>
+            </Select>
+          </CalculatorSelectField>
+          {type === "traditional" && (
+            <CalculatorInput label="Estimated tax bracket" suffix="%" value={taxBracket} onChange={setTaxBracket} helper="Rough federal marginal rate." />
+          )}
+        </div>
       </div>
 
-      <div className="lg:col-span-2 space-y-4">
-        <ResultCard label="Per-paycheck contribution" value={formatUSD(contribPerCheck)} accent="green" />
-        <ResultCard label="Estimated annual contribution" value={formatUSD(annualContrib)} accent="blue" />
-        <ResultCard label="Estimated annual gross pay" value={formatUSD(annualGross)} muted />
-        <p className="text-xs text-muted-foreground px-1">
-          Placeholder estimate. Doesn't include employer match, taxes, differentials, or IRS limits.
-        </p>
+      <div className="lg:col-span-2 space-y-3">
+        <CalculatorResult label="Estimated gross paycheck" value={formatUSD(grossPerCheck)} />
+        <CalculatorResult label="Employee contribution / paycheck" value={formatUSD(employeePerCheck)} />
+        <CalculatorResult label="Annual employee contribution" value={formatUSD(annualEmployee)} emphasis="primary" />
+        <CalculatorResult label="Estimated employer match (yearly)" value={formatUSD(annualEmployer)} />
+        <CalculatorResult label="Total retirement savings / year" value={formatUSD(totalRetirement)} emphasis="accent" />
+        {type === "traditional" && (
+          <CalculatorResult label="Estimated taxable income reduction" value={formatUSD(taxReduction)} helper="Pre-tax contributions lower taxable income." />
+        )}
+        <CalculatorMeaning>
+          Contributing enough to get the full match is usually the single highest-return move available in a workplace plan.
+          This is an educational estimate — actual paychecks include differentials, overtime, and other deductions.
+        </CalculatorMeaning>
+        <DisclaimerBox short />
       </div>
     </div>
   );
 };
 
+/* ============= Insurance Visit Cost ============= */
 export const CalcInsurance = () => {
-  const [premium, setPremium] = useState(180);
-  const [deductible, setDeductible] = useState(1500);
-  const [copay, setCopay] = useState(30);
-  const [coins, setCoins] = useState(20);
-  const [visits, setVisits] = useState(6);
-  const [services, setServices] = useState(2000);
+  const [premium, setPremium] = useState("180");
+  const [deductible, setDeductible] = useState("1500");
+  const [met, setMet] = useState("0");
+  const [copay, setCopay] = useState("30");
+  const [coins, setCoins] = useState("20");
+  const [allowed, setAllowed] = useState("220");
+  const [visits, setVisits] = useState("6");
+  const [oopMax, setOopMax] = useState("6000");
 
-  const annualPremium = premium * 12;
-  const visitCosts = visits * copay;
-  const afterDeductible = Math.max(services - deductible, 0);
-  const coinsCost = afterDeductible * (coins / 100);
-  const deductibleCost = Math.min(services, deductible);
-  const totalOOP = annualPremium + visitCosts + deductibleCost + coinsCost;
+  const premiumN = num(premium);
+  const deductibleN = num(deductible);
+  const metN = num(met);
+  const copayN = num(copay);
+  const coinsN = num(coins);
+  const allowedN = num(allowed);
+  const visitsN = num(visits);
+  const oopMaxN = num(oopMax);
+
+  const annualPremium = premiumN * 12;
+  const remainingDeductible = Math.max(deductibleN - metN, 0);
+  const totalAllowed = allowedN * visitsN;
+  const towardDeductible = Math.min(totalAllowed, remainingDeductible);
+  const afterDeductible = Math.max(totalAllowed - towardDeductible, 0);
+  const coinsCost = afterDeductible * (coinsN / 100);
+  const copayCost = copayN * visitsN;
+  let patientPays = towardDeductible + coinsCost + copayCost;
+  if (oopMaxN > 0) patientPays = Math.min(patientPays, oopMaxN);
+  const insurancePays = Math.max(totalAllowed - (towardDeductible + coinsCost), 0);
+  const totalAnnual = annualPremium + patientPays;
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">
-      <div className="lg:col-span-3 space-y-5 rounded-2xl border border-border bg-card p-6 md:p-8 shadow-card">
+      <div className="lg:col-span-3 space-y-5">
         <div className="grid sm:grid-cols-2 gap-5">
-          <Field label="Monthly premium" helper="What you pay each month for coverage.">
-            <Input type="number" value={premium} onChange={(e) => setPremium(+e.target.value || 0)} />
-          </Field>
-          <Field label="Annual deductible" helper="You pay this before insurance covers most things.">
-            <Input type="number" value={deductible} onChange={(e) => setDeductible(+e.target.value || 0)} />
-          </Field>
-          <Field label="Copay per visit" helper="Flat fee per doctor visit.">
-            <Input type="number" value={copay} onChange={(e) => setCopay(+e.target.value || 0)} />
-          </Field>
-          <Field label="Coinsurance %" helper="Your share after meeting the deductible.">
-            <Input type="number" value={coins} onChange={(e) => setCoins(+e.target.value || 0)} />
-          </Field>
-          <Field label="Doctor visits / year" helper="Estimated routine visits.">
-            <Input type="number" value={visits} onChange={(e) => setVisits(+e.target.value || 0)} />
-          </Field>
-          <Field label="Other expected costs" helper="Labs, imaging, procedures, etc.">
-            <Input type="number" value={services} onChange={(e) => setServices(+e.target.value || 0)} />
-          </Field>
+          <CalculatorInput label="Monthly premium" prefix="$" value={premium} onChange={setPremium} helper="What you pay each month for coverage." />
+          <CalculatorInput label="Annual deductible" prefix="$" value={deductible} onChange={setDeductible} helper="Amount you pay before insurance starts paying." />
+          <CalculatorInput label="Deductible already met" prefix="$" value={met} onChange={setMet} helper="Amount counted toward this year's deductible." />
+          <CalculatorInput label="Copay per visit" prefix="$" value={copay} onChange={setCopay} helper="Flat fee per visit." />
+          <CalculatorInput label="Coinsurance" suffix="%" value={coins} onChange={setCoins} helper="Your share after deductible." />
+          <CalculatorInput label="Allowed amount / visit" prefix="$" value={allowed} onChange={setAllowed} helper="Negotiated price per visit." />
+          <CalculatorInput label="Number of visits" value={visits} onChange={setVisits} helper="Expected visits this year." />
+          <CalculatorInput label="Out-of-pocket maximum" prefix="$" value={oopMax} onChange={setOopMax} helper="Worst-case in-network ceiling." />
         </div>
       </div>
 
-      <div className="lg:col-span-2 space-y-4">
-        <ResultCard label="Annual premium" value={formatUSD(annualPremium)} muted />
-        <ResultCard label="Visit copays" value={formatUSD(visitCosts)} muted />
-        <ResultCard label="Deductible + coinsurance" value={formatUSD(deductibleCost + coinsCost)} muted />
-        <ResultCard label="Estimated total out-of-pocket" value={formatUSD(totalOOP)} accent="blue" />
-        <p className="text-xs text-muted-foreground px-1">
-          Simplified estimate. Real plans have out-of-pocket maximums, networks, and exclusions.
-        </p>
+      <div className="lg:col-span-2 space-y-3">
+        <CalculatorResult label="You pay" value={formatUSD(patientPays)} emphasis="primary" />
+        <CalculatorResult label="Insurance pays" value={formatUSD(insurancePays)} />
+        <CalculatorResult label="Annual premium" value={formatUSD(annualPremium)} />
+        <CalculatorResult label="Estimated total annual cost" value={formatUSD(totalAnnual)} emphasis="accent" />
+        <CalculatorMeaning>
+          "Total annual cost" is what the plan really costs you this year — premiums plus what you pay at the point of care.
+          Compare this across plans, not just the premium.
+        </CalculatorMeaning>
+        <DisclaimerBox short />
       </div>
     </div>
   );
 };
 
+/* ============= Medicare Cost Exposure ============= */
 export const CalcMedicare = () => {
-  const [partB, setPartB] = useState(185);
-  const [deductible, setDeductible] = useState(257);
-  const [rxPerMonth, setRxPerMonth] = useState(3);
-  const [rxCost, setRxCost] = useState(15);
-  const [visits, setVisits] = useState(10);
-  const [coins, setCoins] = useState(20);
+  const [partB, setPartB] = useState("185");
+  const [deductible, setDeductible] = useState("257");
+  const [rxPerMonth, setRxPerMonth] = useState("3");
+  const [rxCost, setRxCost] = useState("15");
+  const [visits, setVisits] = useState("10");
+  const [coins, setCoins] = useState("20");
 
-  const annualPremium = partB * 12;
-  const annualRx = rxPerMonth * rxCost * 12;
-  const visitShare = visits * 50 * (coins / 100);
-  const total = annualPremium + deductible + visitShare + annualRx;
+  const annualPremium = num(partB) * 12;
+  const annualRx = num(rxPerMonth) * num(rxCost) * 12;
+  const visitShare = num(visits) * 50 * (num(coins) / 100);
+  const total = annualPremium + num(deductible) + visitShare + annualRx;
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">
-      <div className="lg:col-span-3 space-y-5 rounded-2xl border border-border bg-card p-6 md:p-8 shadow-card">
+      <div className="lg:col-span-3 space-y-5">
         <div className="grid sm:grid-cols-2 gap-5">
-          <Field label="Monthly Part B premium" helper="Doctor visits and outpatient care.">
-            <Input type="number" value={partB} onChange={(e) => setPartB(+e.target.value || 0)} />
-          </Field>
-          <Field label="Annual deductible" helper="Yearly amount you pay before Part B kicks in.">
-            <Input type="number" value={deductible} onChange={(e) => setDeductible(+e.target.value || 0)} />
-          </Field>
-          <Field label="Prescriptions per month" helper="How many prescription fills you expect each month.">
-            <Input type="number" value={rxPerMonth} onChange={(e) => setRxPerMonth(+e.target.value || 0)} />
-          </Field>
-          <Field label="Avg cost per prescription" helper="Rough out-of-pocket per fill.">
-            <Input type="number" value={rxCost} onChange={(e) => setRxCost(+e.target.value || 0)} />
-          </Field>
-          <Field label="Expected doctor visits" helper="Routine and specialist visits per year.">
-            <Input type="number" value={visits} onChange={(e) => setVisits(+e.target.value || 0)} />
-          </Field>
-          <Field label="Coinsurance %" helper="Typically 20% for Part B services.">
-            <Input type="number" value={coins} onChange={(e) => setCoins(+e.target.value || 0)} />
-          </Field>
+          <CalculatorInput label="Monthly Part B premium" prefix="$" value={partB} onChange={setPartB} helper="Doctor and outpatient coverage." />
+          <CalculatorInput label="Annual deductible" prefix="$" value={deductible} onChange={setDeductible} helper="Part B yearly deductible." />
+          <CalculatorInput label="Prescriptions per month" value={rxPerMonth} onChange={setRxPerMonth} helper="How many fills you expect monthly." />
+          <CalculatorInput label="Avg cost per prescription" prefix="$" value={rxCost} onChange={setRxCost} helper="Rough out-of-pocket per fill." />
+          <CalculatorInput label="Expected doctor visits" value={visits} onChange={setVisits} helper="Routine + specialist visits." />
+          <CalculatorInput label="Coinsurance" suffix="%" value={coins} onChange={setCoins} helper="Typically 20% for Part B." />
         </div>
       </div>
-
-      <div className="lg:col-span-2 space-y-4">
-        <ResultCard label="Annual Part B premium" value={formatUSD(annualPremium)} muted />
-        <ResultCard label="Annual prescriptions" value={formatUSD(annualRx)} muted />
-        <ResultCard label="Visit coinsurance share" value={formatUSD(visitShare)} muted />
-        <ResultCard label="Estimated yearly Medicare cost" value={formatUSD(total)} accent="green" />
-        <p className="text-xs text-muted-foreground px-1">
-          Medicare costs vary by plan and coverage type. This is a rough educational estimate, not a quote.
-        </p>
+      <div className="lg:col-span-2 space-y-3">
+        <CalculatorResult label="Annual Part B premium" value={formatUSD(annualPremium)} />
+        <CalculatorResult label="Annual prescriptions" value={formatUSD(annualRx)} />
+        <CalculatorResult label="Visit coinsurance share" value={formatUSD(visitShare)} />
+        <CalculatorResult label="Estimated yearly Medicare cost" value={formatUSD(total)} emphasis="accent" />
+        <CalculatorMeaning>
+          Medicare costs depend heavily on which plan structure you choose (Original Medicare vs. Medicare Advantage)
+          and whether you add Medigap. This is a directional estimate, not a quote.
+        </CalculatorMeaning>
+        <DisclaimerBox short />
       </div>
     </div>
   );
 };
 
-const Field = ({ label, helper, children }: { label: string; helper?: string; children: React.ReactNode }) => (
-  <div className="space-y-2">
-    <Label className="text-sm font-semibold">{label}</Label>
-    {children}
-    {helper && <p className="text-xs text-muted-foreground">{helper}</p>}
-  </div>
-);
+/* ============= Hospital Café Savings Rate ============= */
+export const CalcCafe = () => {
+  const [coffee, setCoffee] = useState("4");
+  const [snack, setSnack] = useState("3");
+  const [lunch, setLunch] = useState("11");
+  const [shifts, setShifts] = useState("3");
+  const [home, setHome] = useState("4");
+  const [years, setYears] = useState("10");
+  const [returnPct, setReturnPct] = useState("7");
 
-const ResultCard = ({
-  label,
-  value,
-  accent,
-  muted,
-}: {
-  label: string;
-  value: string;
-  accent?: "blue" | "green";
-  muted?: boolean;
-}) => {
-  const cls = muted
-    ? "bg-muted/40 border-border"
-    : accent === "green"
-    ? "bg-gradient-accent text-secondary-foreground border-transparent"
-    : "bg-gradient-primary text-primary-foreground border-transparent";
+  const perShift = num(coffee) + num(snack) + num(lunch);
+  const homePerShift = num(home);
+  const shiftsN = num(shifts);
+  const weekly = perShift * shiftsN;
+  const monthly = weekly * 4.33;
+  const annual = weekly * 52;
+  const homeAnnual = homePerShift * shiftsN * 52;
+  const potentialSavings = Math.max(annual - homeAnnual, 0);
+
+  const r = num(returnPct) / 100;
+  const yrs = num(years);
+  const monthlyContribution = potentialSavings / 12;
+  // Future value of monthly contributions
+  const months = yrs * 12;
+  const monthlyR = r / 12;
+  const futureValue =
+    monthlyR > 0 ? monthlyContribution * ((Math.pow(1 + monthlyR, months) - 1) / monthlyR) : monthlyContribution * months;
+
   return (
-    <div className={`rounded-2xl border p-5 shadow-card ${cls}`}>
-      <div className={`text-xs font-semibold uppercase tracking-wider ${muted ? "text-muted-foreground" : "opacity-90"}`}>
-        {label}
+    <div className="grid gap-8 lg:grid-cols-5">
+      <div className="lg:col-span-3 space-y-5">
+        <div className="grid sm:grid-cols-2 gap-5">
+          <CalculatorInput label="Coffee" prefix="$" value={coffee} onChange={setCoffee} helper="What you usually spend on a shift coffee." />
+          <CalculatorInput label="Snack / treat" prefix="$" value={snack} onChange={setSnack} helper="The chips, bar, or pastry." />
+          <CalculatorInput label="Lunch" prefix="$" value={lunch} onChange={setLunch} helper="Café or to-go lunch cost." />
+          <CalculatorInput label="Shifts per week" value={shifts} onChange={setShifts} helper="Days you usually buy food at work." />
+          <CalculatorInput label="Bring-from-home alternative" prefix="$" value={home} onChange={setHome} helper="What a home-packed version would cost." />
+          <CalculatorInput label="Investing time horizon" suffix="yrs" value={years} onChange={setYears} helper="If you redirected the savings." />
+          <CalculatorInput label="Assumed return" suffix="%" value={returnPct} onChange={setReturnPct} helper="Rough long-term stock-market average." />
+        </div>
       </div>
-      <div className="mt-1 font-display text-2xl font-bold">{value}</div>
+      <div className="lg:col-span-2 space-y-3">
+        <CalculatorResult label="Weekly spend at work" value={formatUSD(weekly)} />
+        <CalculatorResult label="Monthly spend" value={formatUSD(monthly)} />
+        <CalculatorResult label="Annual spend" value={formatUSD(annual)} emphasis="primary" />
+        <CalculatorResult label="Potential annual savings" value={formatUSD(potentialSavings)} helper="If you brought the alternative from home." />
+        <CalculatorResult label={`Invested over ${yrs} years`} value={formatUSD(futureValue)} emphasis="accent" />
+        <CalculatorMeaning>
+          This isn't about giving up coffee. It's about seeing the number. Awareness is the lever — what you do with it is yours.
+        </CalculatorMeaning>
+        <DisclaimerBox short />
+      </div>
     </div>
   );
 };

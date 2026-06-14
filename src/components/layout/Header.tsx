@@ -1,31 +1,35 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Stethoscope } from "lucide-react";
+import { Menu, X, Leaf } from "lucide-react";
 
 const nav = [
-  { to: "/healthcare-workers", label: "Healthcare Workers" },
-  { to: "/patients-families", label: "Patients & Families" },
-  { to: "/medicare-medicaid", label: "Medicare & Medicaid Guide" },
-  { to: "/tools", label: "Tools" },
+  { to: "/healthcare-workers", label: "Healthcare Worker Money" },
+  { to: "/patients-families", label: "Patient & Caregiver Money" },
+  { to: "/tools", label: "Calculators" },
   { to: "/articles", label: "Articles" },
-  { to: "/about", label: "About" },
+  { to: "/glossary", label: "Glossary" },
+  { to: "/about", label: "About / Sources" },
 ];
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
-      <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 font-display font-bold text-lg" onClick={() => setOpen(false)}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-primary text-primary-foreground">
-            <Stethoscope className="h-5 w-5" />
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
+      <div className="container flex h-16 items-center justify-between gap-4">
+        <Link
+          to="/"
+          className="flex items-center gap-2.5 font-display font-bold tracking-tight"
+          onClick={() => setOpen(false)}
+        >
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-soft text-primary border border-primary/20">
+            <Leaf className="h-4.5 w-4.5" />
           </span>
-          <span className="hidden sm:inline">Community Acquired Finance</span>
-          <span className="sm:hidden">CAF</span>
+          <span className="hidden sm:inline text-base">Community Acquired Finance</span>
+          <span className="sm:hidden text-base">CAF</span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden xl:flex items-center gap-1">
           {nav.map((n) => (
             <NavLink
               key={n.to}
@@ -43,10 +47,10 @@ export const Header = () => {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex">
-            <Link to="/tools">Start with a calculator</Link>
+            <Link to="/tools">Open a calculator</Link>
           </Button>
           <button
-            className="lg:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
+            className="xl:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
             onClick={() => setOpen(!open)}
             aria-label="Menu"
           >
@@ -56,7 +60,7 @@ export const Header = () => {
       </div>
 
       {open && (
-        <div className="lg:hidden border-t border-border bg-background animate-fade-in">
+        <div className="xl:hidden border-t border-border bg-background animate-fade-in">
           <nav className="container py-4 flex flex-col gap-1">
             {nav.map((n) => (
               <NavLink
@@ -72,8 +76,19 @@ export const Header = () => {
                 {n.label}
               </NavLink>
             ))}
+            <NavLink
+              to="/topics"
+              onClick={() => setOpen(false)}
+              className={({ isActive }) =>
+                `px-3 py-3 text-sm font-medium rounded-lg transition-smooth ${
+                  isActive ? "text-primary bg-primary-soft" : "text-foreground hover:bg-muted"
+                }`
+              }
+            >
+              All topics
+            </NavLink>
             <Button asChild variant="hero" className="mt-2 sm:hidden">
-              <Link to="/tools" onClick={() => setOpen(false)}>Start with a calculator</Link>
+              <Link to="/tools" onClick={() => setOpen(false)}>Open a calculator</Link>
             </Button>
           </nav>
         </div>

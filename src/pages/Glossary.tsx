@@ -1,46 +1,46 @@
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { ARTICLES, categories } from "@/data/articles";
 import { PageHero } from "@/components/shared/PageHero";
-import { ArticleCard } from "@/components/shared/ArticleCard";
+import { GLOSSARY, GLOSSARY_CATEGORIES } from "@/data/glossary";
+import { GlossaryTerm } from "@/components/shared/GlossaryTerm";
+import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { cn } from "@/lib/utils";
 
-const Articles = () => {
+const Glossary = () => {
   const [q, setQ] = useState("");
-  const [cat, setCat] = useState<(typeof categories)[number]>("All");
+  const [cat, setCat] = useState<(typeof GLOSSARY_CATEGORIES)[number]>("All");
 
   const filtered = useMemo(
     () =>
-      ARTICLES.filter((a) => {
-        const matchesCat = cat === "All" || a.category === cat;
-        const matchesQ = !q || (a.title + " " + a.promise).toLowerCase().includes(q.toLowerCase());
-        return matchesCat && matchesQ;
-      }),
+      GLOSSARY.filter(
+        (e) =>
+          (cat === "All" || e.category === cat) &&
+          (!q || (e.term + " " + e.definition).toLowerCase().includes(q.toLowerCase())),
+      ).sort((a, b) => a.term.localeCompare(b.term)),
     [q, cat],
   );
 
   return (
     <>
       <PageHero
-        eyebrow="Articles"
-        title="Short, honest reads."
-        description="No scare tactics, no sales funnel — plain-English explanations of healthcare money topics."
+        eyebrow="Glossary"
+        title="Healthcare finance terms, defined like a human."
+        description="Quick definitions for the words that show up on benefits paperwork, hospital bills, and Medicare letters."
       />
-
       <section className="container py-12">
         <div className="max-w-xl mx-auto relative mb-6">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search articles..."
+            placeholder="Search terms..."
             className="pl-11 h-12 rounded-full"
           />
         </div>
 
         <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {categories.map((c) => (
+          {GLOSSARY_CATEGORIES.map((c) => (
             <button
               key={c}
               onClick={() => setCat(c)}
@@ -56,18 +56,22 @@ const Articles = () => {
           ))}
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((a) => (
-            <ArticleCard key={a.slug} article={a} />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+          {filtered.map((e) => (
+            <GlossaryTerm key={e.term} entry={e} />
           ))}
         </div>
 
         {filtered.length === 0 && (
-          <div className="text-center py-16 text-muted-foreground">No articles match that search yet.</div>
+          <div className="text-center py-16 text-muted-foreground">No terms match that search.</div>
         )}
+
+        <div className="max-w-3xl mx-auto mt-16">
+          <DisclaimerBox />
+        </div>
       </section>
     </>
   );
 };
 
-export default Articles;
+export default Glossary;

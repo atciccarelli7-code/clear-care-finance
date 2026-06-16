@@ -31,7 +31,7 @@ const TopicPage = () => {
         </Button>
       </PageHero>
 
-      <section className="container py-16 md:py-20">
+      <section className="container py-10 md:py-16">
         <TopicOverview startHere={topic.startHere} definitions={topic.definitions} />
       </section>
 

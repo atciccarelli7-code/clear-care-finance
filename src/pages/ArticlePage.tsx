@@ -31,7 +31,7 @@ const ArticlePage = () => {
         </div>
       </PageHero>
 
-      <article className="container max-w-3xl py-12 md:py-16 space-y-12">
+      <article className="container max-w-3xl py-8 md:py-16 space-y-8 md:space-y-12">
         <Section icon={Users} title="Who this is for">
           <p>{article.audience}</p>
         </Section>

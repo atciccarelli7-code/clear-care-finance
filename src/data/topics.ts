@@ -66,7 +66,7 @@ export const TOPICS: Topic[] = [
           "Based on income, family size, and resources",
           "Covers pregnant women, children, and some seniors",
           "Rules and benefits vary by state",
-          "Usually little or no monthly premium",
+          "Often low or no monthly premium for people who qualify",
           "State and federal partnership program",
         ],
       },

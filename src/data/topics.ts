@@ -39,7 +39,7 @@ export const TOPICS: Topic[] = [
     definitions: [
       { term: "Medicare Part A", meaning: "Hospital insurance — inpatient stays, short-term skilled nursing, hospice." },
       { term: "Medicare Part B", meaning: "Doctor visits, outpatient care, preventive services." },
-      { term: "Medicare Advantage", meaning: "Part C — bundled plans from private insurers that replace Original Medicare." },
+      { term: "Medicare Advantage", meaning: "Part C — a private plan alternative for receiving Part A and Part B benefits." },
       { term: "Dual eligible", meaning: "Qualifying for both Medicare and Medicaid. Medicare pays first; Medicaid may fill gaps." },
       { term: "Custodial care", meaning: "Help with daily living — generally NOT covered by Medicare." },
     ],

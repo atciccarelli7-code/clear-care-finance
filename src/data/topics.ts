@@ -55,7 +55,7 @@ export const TOPICS: Topic[] = [
           "Also covers some younger people with disabilities",
           "Not based on income",
           "Has monthly premiums for most parts",
-          "Federal program — consistent rules nationwide",
+          "Federal program, but Medicare Advantage and Part D plan details can vary",
         ],
       },
       right: {

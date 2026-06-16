@@ -184,28 +184,43 @@ export const CalcInsurance = () => {
 
 /* ============= Medicare Cost Exposure ============= */
 export const CalcMedicare = () => {
-  const [partB, setPartB] = useState("185");
-  const [deductible, setDeductible] = useState("257");
+  const [partB, setPartB] = useState("202.90");
+  const [deductible, setDeductible] = useState("283");
   const [rxPerMonth, setRxPerMonth] = useState("3");
   const [rxCost, setRxCost] = useState("15");
   const [visits, setVisits] = useState("10");
+  const [visitAmount, setVisitAmount] = useState("50");
   const [coins, setCoins] = useState("20");
 
   const annualPremium = num(partB) * 12;
   const annualRx = num(rxPerMonth) * num(rxCost) * 12;
-  const visitShare = num(visits) * 50 * (num(coins) / 100);
+  const visitShare = num(visits) * num(visitAmount) * (num(coins) / 100);
   const total = annualPremium + num(deductible) + visitShare + annualRx;
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">
       <div className="lg:col-span-3 space-y-5">
         <div className="grid sm:grid-cols-2 gap-5">
-          <CalculatorInput label="Monthly Part B premium" prefix="$" value={partB} onChange={setPartB} helper="Doctor and outpatient coverage." />
-          <CalculatorInput label="Annual deductible" prefix="$" value={deductible} onChange={setDeductible} helper="Part B yearly deductible." />
+          <CalculatorInput label="Monthly Part B premium" prefix="$" value={partB} onChange={setPartB} helper="2026 standard is about $202.90. Yours may differ — editable." />
+          <CalculatorInput label="Annual Part B deductible" prefix="$" value={deductible} onChange={setDeductible} helper="2026 estimate is about $283. Editable." />
           <CalculatorInput label="Prescriptions per month" value={rxPerMonth} onChange={setRxPerMonth} helper="How many fills you expect monthly." />
           <CalculatorInput label="Avg cost per prescription" prefix="$" value={rxCost} onChange={setRxCost} helper="Rough out-of-pocket per fill." />
-          <CalculatorInput label="Expected doctor visits" value={visits} onChange={setVisits} helper="Routine + specialist visits." />
+          <CalculatorInput label="Expected doctor visits" value={visits} onChange={setVisits} helper="Routine + specialist visits per year." />
+          <CalculatorInput label="Avg Medicare-approved amount per visit" prefix="$" value={visitAmount} onChange={setVisitAmount} helper="Approved amount Medicare uses to calculate your 20%." />
           <CalculatorInput label="Coinsurance" suffix="%" value={coins} onChange={setCoins} helper="Typically 20% for Part B." />
+        </div>
+
+        <div className="rounded-2xl bg-muted/30 border border-border p-5 text-sm leading-relaxed">
+          <div className="text-xs font-semibold uppercase tracking-wider text-secondary mb-2">How this is calculated</div>
+          <ul className="space-y-1.5 text-muted-foreground">
+            <li>Annual Part B premium = monthly Part B premium × 12</li>
+            <li>Annual prescriptions = prescriptions/month × avg prescription cost × 12</li>
+            <li>Visit coinsurance = expected visits × avg Medicare-approved amount × coinsurance %</li>
+            <li>Estimated yearly cost = Part B premium + deductible + prescriptions + visit coinsurance</li>
+          </ul>
+          <p className="mt-3 text-xs text-muted-foreground/80">
+            This is an educational estimate, not a quote. It does not include every possible Medicare, Medicare Advantage, Medigap, Part D, hospital, or long-term care cost.
+          </p>
         </div>
       </div>
       <div className="lg:col-span-2 space-y-3">
@@ -214,8 +229,7 @@ export const CalcMedicare = () => {
         <CalculatorResult label="Visit coinsurance share" value={formatUSD(visitShare)} />
         <CalculatorResult label="Estimated yearly Medicare cost" value={formatUSD(total)} emphasis="accent" />
         <CalculatorMeaning>
-          Medicare costs depend heavily on which plan structure you choose (Original Medicare vs. Medicare Advantage)
-          and whether you add Medigap. This is a directional estimate, not a quote.
+          Your actual cost depends on whether you have Original Medicare, Medicare Advantage (Part C — a private plan alternative for receiving Part A and Part B benefits), or a Medigap supplement. This is a directional estimate, not a quote.
         </CalculatorMeaning>
         <DisclaimerBox short />
       </div>

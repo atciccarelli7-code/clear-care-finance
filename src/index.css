@@ -80,7 +80,8 @@
 }
 
 @layer base {
-  * { @apply border-border; }
+  * { @apply border-border; box-sizing: border-box; }
+  html, body { max-width: 100%; overflow-x: hidden; }
   html { scroll-behavior: smooth; }
   body {
     @apply bg-background text-foreground antialiased;
@@ -93,6 +94,7 @@
     @apply tracking-tight;
     font-feature-settings: "ss01";
   }
+  img, video, canvas, svg { max-width: 100%; }
   ::selection { background: hsl(var(--primary) / 0.3); }
 }
 

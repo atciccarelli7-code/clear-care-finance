@@ -7,14 +7,14 @@ import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
 
 const Section = ({ icon: Icon, title, children }: { icon: any; title: string; children: React.ReactNode }) => (
-  <div className="space-y-3">
-    <div className="flex items-center gap-3">
-      <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-soft text-primary">
-        <Icon className="h-4 w-4" />
+  <div className="space-y-2.5 md:space-y-3">
+    <div className="flex items-center gap-2.5 md:gap-3">
+      <div className="inline-flex h-7 w-7 md:h-9 md:w-9 items-center justify-center rounded-lg bg-primary-soft text-primary shrink-0">
+        <Icon className="h-3.5 w-3.5 md:h-4 md:w-4" />
       </div>
-      <h2 className="font-display text-xl md:text-2xl font-bold">{title}</h2>
+      <h2 className="font-display text-lg md:text-2xl font-bold">{title}</h2>
     </div>
-    <div className="text-base text-muted-foreground leading-relaxed space-y-4 pl-12">{children}</div>
+    <div className="text-[0.95rem] md:text-base text-muted-foreground leading-[1.65] md:leading-relaxed space-y-3 md:space-y-4 pl-0 md:pl-12">{children}</div>
   </div>
 );
 
@@ -31,7 +31,7 @@ const ArticlePage = () => {
         </div>
       </PageHero>
 
-      <article className="container max-w-3xl py-12 md:py-16 space-y-12">
+      <article className="container max-w-3xl py-8 md:py-16 space-y-8 md:space-y-12">
         <Section icon={Users} title="Who this is for">
           <p>{article.audience}</p>
         </Section>

@@ -25,11 +25,11 @@ export const Calc403b = () => {
   const [type, setType] = useState<"traditional" | "roth">("traditional");
   const [taxBracket, setTaxBracket] = useState("22");
 
-  const hourlyN = num(hourly);
-  const hoursWeekN = num(hoursWeek);
-  const freqN = num(freq, 26);
-  const pctN = num(pct);
-  const matchPctN = num(matchPct);
+  const hourlyN = Math.max(0, num(hourly));
+  const hoursWeekN = Math.max(0, num(hoursWeek));
+  const freqN = Math.max(1, num(freq, 26));
+  const pctN = Math.max(0, num(pct));
+  const matchPctN = Math.max(0, num(matchPct));
 
   const weeksPerPeriod = 52 / freqN;
   const grossPerCheck = hourlyN * hoursWeekN * weeksPerPeriod;
@@ -39,7 +39,8 @@ export const Calc403b = () => {
   const employerPerCheck = grossPerCheck * (effectiveMatch / 100);
   const annualEmployer = employerPerCheck * freqN;
   const totalRetirement = annualEmployee + annualEmployer;
-  const taxReduction = type === "traditional" ? annualEmployee * (num(taxBracket) / 100) : 0;
+  const taxableReduction = type === "traditional" ? annualEmployee : 0;
+  const estTaxSavings = type === "traditional" ? annualEmployee * (Math.max(0, num(taxBracket)) / 100) : 0;
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">
@@ -70,8 +71,22 @@ export const Calc403b = () => {
             </Select>
           </CalculatorSelectField>
           {type === "traditional" && (
-            <CalculatorInput label="Estimated tax bracket" suffix="%" value={taxBracket} onChange={setTaxBracket} helper="Rough federal marginal rate." />
+            <CalculatorInput label="Estimated tax bracket" suffix="%" value={taxBracket} onChange={setTaxBracket} helper="Rough federal marginal rate — for tax-savings estimate only." />
           )}
+        </div>
+
+        <div className="rounded-2xl bg-muted/30 border border-border p-5 text-sm leading-relaxed">
+          <div className="text-xs font-semibold uppercase tracking-wider text-secondary mb-2">How this is calculated</div>
+          <ul className="space-y-1.5 text-muted-foreground">
+            <li>Gross paycheck = hourly wage × hours/week × (52 ÷ pay periods/year)</li>
+            <li>Employee contribution / paycheck = gross paycheck × contribution %</li>
+            <li>Annual employee contribution = contribution/paycheck × pay periods/year</li>
+            <li>Employer match = gross paycheck × min(match %, contribution %), annualized</li>
+            <li>Total annual savings = employee contribution + employer match</li>
+          </ul>
+          <p className="mt-3 text-xs text-muted-foreground/80">
+            Actual tax impact depends on federal, state, and payroll taxes, other deductions, and your full tax situation. This is an educational estimate, not tax advice.
+          </p>
         </div>
       </div>
 
@@ -81,8 +96,19 @@ export const Calc403b = () => {
         <CalculatorResult label="Annual employee contribution" value={formatUSD(annualEmployee)} emphasis="primary" />
         <CalculatorResult label="Estimated employer match (yearly)" value={formatUSD(annualEmployer)} />
         <CalculatorResult label="Total retirement savings / year" value={formatUSD(totalRetirement)} emphasis="accent" />
+        <CalculatorResult
+          label="Estimated taxable income reduction"
+          value={formatUSD(taxableReduction)}
+          helper={type === "traditional"
+            ? "Equals your annual pre-tax contribution. Roth contributions would show $0 here."
+            : "Roth contributions are after-tax, so current taxable income is not reduced."}
+        />
         {type === "traditional" && (
-          <CalculatorResult label="Estimated taxable income reduction" value={formatUSD(taxReduction)} helper="Pre-tax contributions lower taxable income." />
+          <CalculatorResult
+            label="Estimated tax savings"
+            value={formatUSD(estTaxSavings)}
+            helper="Rough estimate = pre-tax contribution × marginal rate. Actual savings vary."
+          />
         )}
         <CalculatorMeaning>
           Contributing enough to get the full match is usually the single highest-return move available in a workplace plan.

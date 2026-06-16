@@ -55,7 +55,7 @@ export const TOPICS: Topic[] = [
           "Also covers some younger people with disabilities",
           "Not based on income",
           "Has monthly premiums for most parts",
-          "Federal program — consistent rules nationwide",
+          "Federal program, but Medicare Advantage and Part D plan details can vary",
         ],
       },
       right: {
@@ -66,7 +66,7 @@ export const TOPICS: Topic[] = [
           "Based on income, family size, and resources",
           "Covers pregnant women, children, and some seniors",
           "Rules and benefits vary by state",
-          "Usually little or no monthly premium",
+          "Often low or no monthly premium for people who qualify",
           "State and federal partnership program",
         ],
       },

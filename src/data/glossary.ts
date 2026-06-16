@@ -25,7 +25,7 @@ export const GLOSSARY: GlossaryEntry[] = [
   { term: "HRA", category: "Insurance", definition: "Health Reimbursement Arrangement. Employer-funded account that reimburses certain medical expenses." },
   { term: "Medicare Part A", category: "Medicare", definition: "Hospital insurance. Covers inpatient stays, some skilled nursing, hospice, and limited home health." },
   { term: "Medicare Part B", category: "Medicare", definition: "Medical insurance. Covers doctor visits, outpatient care, and preventive services." },
-  { term: "Medicare Advantage", category: "Medicare", definition: "Part C — bundled plans from private insurers that include Parts A and B and often Part D." },
+  { term: "Medicare Advantage", category: "Medicare", definition: "Part C — a private plan alternative for receiving Part A and Part B benefits. Often bundles Part D." },
   { term: "Part D", category: "Medicare", definition: "Prescription drug coverage offered through private plans." },
   { term: "Medigap", category: "Medicare", definition: "Supplemental insurance that helps pay costs Original Medicare leaves behind, like coinsurance and deductibles." },
   { term: "Medicaid", category: "Medicaid", definition: "Joint federal/state program that helps with healthcare costs for people with limited income and resources." },

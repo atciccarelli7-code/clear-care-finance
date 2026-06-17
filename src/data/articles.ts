@@ -64,6 +64,92 @@ export const ARTICLES: Article[] = [
       "Before choosing a Medicare path, ask: Are my doctors covered? Are my hospitals covered? Are my specialists covered? Are my prescriptions covered? What is the monthly premium? What is the deductible? What copays or coinsurance apply? Is there a yearly out-of-pocket maximum? Do I need referrals? Does the plan require prior authorization? What happens if I travel? Could I qualify for Medicaid, Extra Help, or a Medicare Savings Program? Do I need a long-term care plan?",
       "Medicare is powerful, but it is not automatic full protection. The right choice is not the plan with the flashiest brochure or the lowest premium. The right choice is the one that fits the person’s doctors, medications, health needs, travel habits, total yearly cost, and long-term care risk.",
     ],
+    sections: [
+      {
+        title: "Original Medicare",
+        definition: "The federal Medicare program — Part A (hospital) and Part B (medical) — run directly by the government.",
+        keyPoints: [
+          "Usually lets a person see any doctor or hospital that accepts Medicare nationwide.",
+          "Has deductibles and coinsurance, and no built-in yearly out-of-pocket maximum on its own.",
+          "Most people pay no Part A premium, but Part B has a monthly premium.",
+          "Often paired with a Part D drug plan and sometimes a Medigap policy.",
+        ],
+        watchOut: "Without Medigap, Medicaid, or retiree coverage, repeated deductibles and coinsurance can add up with no annual cap.",
+      },
+      {
+        title: "Medicare Advantage (Part C)",
+        definition: "A private plan alternative for receiving Part A and Part B benefits, approved by Medicare.",
+        keyPoints: [
+          "Must cover medically necessary services that Original Medicare covers.",
+          "Usually uses networks, referrals, and prior authorization rules.",
+          "Has a yearly limit on what a person pays for covered Medicare services.",
+          "Often includes Part D drug coverage and may add dental, vision, hearing, or fitness benefits.",
+          "A person still generally pays the Part B premium, even on a $0-premium plan.",
+        ],
+        watchOut: "A low premium does not mean low total cost. Check doctors, hospitals, drugs, prior authorization rules, and travel coverage before enrolling.",
+      },
+      {
+        title: "Part D — Prescription Drugs",
+        definition: "Outpatient prescription drug coverage, offered either as a standalone plan with Original Medicare or bundled inside a Medicare Advantage plan.",
+        keyPoints: [
+          "Each plan has its own formulary (list of covered drugs) and preferred pharmacies.",
+          "Costs include premium, deductible, and copays or coinsurance per prescription.",
+          "Formularies, premiums, and pharmacy networks can change every year.",
+        ],
+        watchOut: "Skipping a yearly Part D review can mean paying more for the same medications or losing coverage for a needed drug.",
+      },
+      {
+        title: "Medigap (Medicare Supplement)",
+        definition: "Private supplemental insurance that helps pay some of the deductibles, copays, and coinsurance Original Medicare leaves behind.",
+        keyPoints: [
+          "Works only with Original Medicare, not Medicare Advantage.",
+          "Sold in standardized plan letters, so the same letter plan offers the same core benefits across insurers.",
+          "Does not include drug coverage — a separate Part D plan is usually added.",
+        ],
+        watchOut: "Switching from Medicare Advantage back to Original Medicare plus Medigap later may involve medical underwriting depending on timing and state rules.",
+      },
+      {
+        title: "Medicaid",
+        definition: "A separate program from Medicare based on income and resources, with rules that vary by state.",
+        keyPoints: [
+          "May help pay Medicare premiums, deductibles, and coinsurance for people who qualify.",
+          "Can help cover long-term services and supports that Medicare does not fully cover.",
+          "People with both Medicare and Medicaid are sometimes called dual-eligible.",
+        ],
+        watchOut: "Eligibility, covered services, and long-term care rules are set at the state level — always verify with the state Medicaid agency.",
+      },
+      {
+        title: "What Medicare usually does not cover",
+        keyPoints: [
+          "Most long-term custodial care, such as ongoing help with bathing, dressing, toileting, meals, and supervision.",
+          "Most routine dental, vision, and hearing care under Original Medicare.",
+          "Care received outside the United States in most situations.",
+          "Cosmetic procedures and most non-medical services.",
+        ],
+        watchOut: "Medicare may cover a limited skilled nursing facility stay when strict rules are met — that is not the same as long-term nursing home care.",
+      },
+      {
+        title: "How to choose",
+        keyPoints: [
+          "Decide on the structure first: Original Medicare (often with Part D and Medigap) or Medicare Advantage.",
+          "Then compare specific plans based on doctors, hospitals, medications, and total yearly cost.",
+          "Consider travel needs, network rules, and prior authorization requirements.",
+          "Check whether Medicaid, Extra Help, or a Medicare Savings Program could lower costs.",
+        ],
+      },
+      {
+        title: "Questions to ask before enrolling",
+        keyPoints: [
+          "Are my doctors, hospitals, and specialists covered?",
+          "Are my prescriptions on the plan's formulary, and at what cost?",
+          "What is the monthly premium, deductible, and out-of-pocket maximum?",
+          "Do I need referrals or prior authorization for common services?",
+          "What happens if I travel or need care out of state?",
+          "Could I qualify for Medicaid, Extra Help, or a Medicare Savings Program?",
+          "Do I have a plan for long-term care, which Medicare generally does not cover?",
+        ],
+      },
+    ],
     commonMistakes: [
       "Assuming Medicare means healthcare is free.",
       "Choosing a Medicare Advantage plan without checking doctors, hospitals, drugs, network rules, and prior authorization.",

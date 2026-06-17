@@ -40,11 +40,50 @@ const ArticlePage = () => {
           <p className="text-foreground/90">{article.summary}</p>
         </Section>
 
-        <Section icon={Clock} title="Plain-English explanation">
-          {article.body.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-        </Section>
+        {article.sections && article.sections.length > 0 ? (
+          <Section icon={BookOpen} title="Fact sheet">
+            <div className="grid gap-4 md:gap-5">
+              {article.sections.map((s, i) => (
+                <div key={i} className="rounded-2xl border border-border bg-card p-5 md:p-6 space-y-3">
+                  <h3 className="font-display text-base md:text-lg font-bold text-foreground">{s.title}</h3>
+                  {s.definition && (
+                    <p className="text-[0.95rem] md:text-base text-muted-foreground leading-[1.65]">{s.definition}</p>
+                  )}
+                  {s.keyPoints && s.keyPoints.length > 0 && (
+                    <ul className="space-y-2">
+                      {s.keyPoints.map((p, j) => (
+                        <li key={j} className="flex items-start gap-2.5 text-[0.95rem] md:text-base text-muted-foreground leading-[1.6]">
+                          <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                          <span>{p}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {s.watchOut && (
+                    <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-3 md:p-4 flex items-start gap-2.5">
+                      <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                      <div className="text-sm md:text-[0.95rem] text-foreground/90 leading-[1.6]">
+                        <span className="font-semibold text-destructive">Watch out: </span>{s.watchOut}
+                      </div>
+                    </div>
+                  )}
+                  {s.example && (
+                    <div className="rounded-xl border border-border bg-muted/30 p-3 md:p-4">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-secondary mb-1">Example</div>
+                      <p className="text-sm md:text-[0.95rem] text-muted-foreground leading-[1.6]">{s.example}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </Section>
+        ) : (
+          <Section icon={Clock} title="Plain-English explanation">
+            {article.body.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </Section>
+        )}
 
         {article.example && (
           <div className="rounded-2xl border border-border bg-card p-6 md:p-8">

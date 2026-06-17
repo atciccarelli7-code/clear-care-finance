@@ -1,6 +1,14 @@
 import type { Source } from "./sources";
 import { SOURCE_PRESETS } from "./sources";
 
+export type ArticleSection = {
+  title: string;
+  definition?: string;
+  keyPoints?: string[];
+  watchOut?: string;
+  example?: string;
+};
+
 export type Article = {
   slug: string;
   title: string;
@@ -9,7 +17,8 @@ export type Article = {
   promise: string;                  // one-sentence promise
   audience: string;                 // who this is for
   summary: string;                  // 60-second summary
-  body: string[];                   // plain-English paragraphs
+  body: string[];                   // plain-English paragraphs (fallback)
+  sections?: ArticleSection[];      // optional fact-sheet sections
   example?: { title: string; body: string };
   relatedCalculator?: { label: string; href: string };
   commonMistakes?: string[];

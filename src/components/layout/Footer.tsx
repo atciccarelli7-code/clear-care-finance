@@ -27,7 +27,7 @@ export const Footer = () => {
           </p>
         </div>
 
-        <div className="md:col-span-3">
+        <div className="md:col-span-2">
           <h4 className="font-semibold text-sm mb-3 text-foreground">Audiences</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/healthcare-workers" className="hover:text-primary transition-smooth">Healthcare Worker Money</Link></li>
@@ -36,7 +36,7 @@ export const Footer = () => {
           </ul>
         </div>
 
-        <div className="md:col-span-3">
+        <div className="md:col-span-2">
           <h4 className="font-semibold text-sm mb-3 text-foreground">Learn</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/tools" className="hover:text-primary transition-smooth">Calculators</Link></li>
@@ -54,6 +54,15 @@ export const Footer = () => {
                 <Link to={`/topics/${t.slug}`} className="hover:text-primary transition-smooth">{t.title}</Link>
               </li>
             ))}
+          </ul>
+        </div>
+
+        <div className="md:col-span-2">
+          <h4 className="font-semibold text-sm mb-3 text-foreground">Policies</h4>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/privacy" className="hover:text-primary transition-smooth">Privacy Policy</Link></li>
+            <li><Link to="/terms" className="hover:text-primary transition-smooth">Terms of Use</Link></li>
+            <li><Link to="/editorial-policy" className="hover:text-primary transition-smooth">Editorial Policy</Link></li>
           </ul>
         </div>
       </div>

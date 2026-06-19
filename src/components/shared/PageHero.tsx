@@ -10,24 +10,24 @@ interface PageHeroProps {
 }
 
 export const PageHero = ({ eyebrow, title, description, children, className }: PageHeroProps) => (
-  <section className={cn("relative overflow-hidden bg-gradient-hero border-b border-border/60", className)}>
-    <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-    <div className="absolute -bottom-40 -right-32 h-96 w-96 rounded-full bg-secondary/5 blur-3xl pointer-events-none" />
-    <div className="container relative py-16 md:py-24 text-center max-w-3xl mx-auto space-y-5 animate-fade-up">
+  <section className={cn("relative w-full min-w-0 overflow-hidden bg-gradient-hero border-b border-border/60", className)}>
+    <div className="absolute -top-32 -left-32 h-96 w-96 max-w-full rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+    <div className="absolute -bottom-40 -right-32 h-96 w-96 max-w-full rounded-full bg-secondary/5 blur-3xl pointer-events-none" />
+    <div className="container relative mx-auto max-w-3xl min-w-0 space-y-5 py-16 text-center animate-fade-up md:py-24">
       {eyebrow && (
-        <span className="inline-block px-3 py-1 rounded-full bg-card/60 border border-border text-xs font-semibold text-primary backdrop-blur">
+        <span className="inline-block max-w-full break-words rounded-full border border-border bg-card/60 px-3 py-1 text-xs font-semibold text-primary backdrop-blur">
           {eyebrow}
         </span>
       )}
-      <h1 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.1] text-balance">
+      <h1 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.1] text-balance break-words">
         {title}
       </h1>
       {description && (
-        <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto text-balance">
+        <p className="mx-auto max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed text-balance break-words">
           {description}
         </p>
       )}
-      {children && <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">{children}</div>}
+      {children && <div className="pt-2 flex w-full min-w-0 flex-col sm:flex-row items-center justify-center gap-3">{children}</div>}
     </div>
   </section>
 );

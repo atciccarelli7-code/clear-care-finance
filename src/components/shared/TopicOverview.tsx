@@ -21,14 +21,14 @@ export const TopicOverview = ({ startHere, definitions }: TopicOverviewProps) =>
     }, []);
 
   return (
-    <div className="space-y-10">
-      <div className="max-w-2xl mx-auto">
-        <div className="inline-flex px-3 py-1 rounded-full bg-secondary-soft text-secondary text-xs font-semibold uppercase tracking-wider mb-4">
+    <div className="min-w-0 space-y-10">
+      <div className="mx-auto max-w-2xl min-w-0 break-words">
+        <div className="mb-4 inline-flex max-w-full break-words rounded-full bg-secondary-soft px-3 py-1 text-xs font-semibold uppercase tracking-wider text-secondary">
           Start here
         </div>
-        <div className="space-y-3 text-left">
+        <div className="space-y-3 text-left min-w-0">
           {paragraphs.map((p, i) => (
-            <p key={i} className="text-base md:text-lg text-foreground leading-relaxed">
+            <p key={i} className="text-base md:text-lg text-foreground leading-relaxed break-words">
               {p}
             </p>
           ))}
@@ -36,9 +36,9 @@ export const TopicOverview = ({ startHere, definitions }: TopicOverviewProps) =>
       </div>
 
       {definitions.length > 0 && (
-        <div>
+        <div className="min-w-0">
           <SectionHeading centered eyebrow="Key definitions" title="The vocabulary you need" />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {definitions.map((d) => (
               <DefinitionCard key={d.term} {...d} />
             ))}

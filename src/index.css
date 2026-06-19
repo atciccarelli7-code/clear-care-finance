@@ -8,47 +8,47 @@
 @layer base {
   :root {
     /* Surfaces */
-    --background: 105 28% 96%;
-    --foreground: 165 28% 13%;
+    --background: 106 24% 93%;
+    --foreground: 165 32% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 165 28% 13%;
+    --card-foreground: 165 32% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 165 28% 13%;
+    --popover-foreground: 165 32% 11%;
 
     /* Sage primary */
-    --primary: 148 38% 32%;
+    --primary: 150 42% 27%;
     --primary-foreground: 0 0% 100%;
-    --primary-soft: 145 42% 92%;
+    --primary-soft: 145 36% 88%;
 
     /* Warm cream secondary, used sparingly */
-    --secondary: 42 42% 48%;
-    --secondary-foreground: 165 28% 13%;
-    --secondary-soft: 43 50% 93%;
+    --secondary: 42 44% 42%;
+    --secondary-foreground: 165 32% 11%;
+    --secondary-soft: 43 48% 90%;
 
-    --muted: 105 24% 92%;
-    --muted-foreground: 160 12% 38%;
+    --muted: 105 20% 88%;
+    --muted-foreground: 160 14% 32%;
 
-    --accent: 148 38% 32%;
+    --accent: 150 42% 27%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 105 18% 84%;
-    --input: 105 18% 84%;
-    --ring: 148 38% 32%;
+    --border: 105 18% 78%;
+    --input: 105 18% 78%;
+    --ring: 150 42% 27%;
 
     --radius: 1rem;
 
-    --shadow-soft: 0 4px 24px -10px hsl(160 30% 24% / 0.18);
-    --shadow-card: 0 2px 16px -8px hsl(160 30% 24% / 0.18);
-    --shadow-hover: 0 18px 44px -20px hsl(145 42% 26% / 0.32);
+    --shadow-soft: 0 4px 24px -10px hsl(160 30% 20% / 0.2);
+    --shadow-card: 0 2px 16px -8px hsl(160 30% 20% / 0.2);
+    --shadow-hover: 0 18px 44px -20px hsl(145 44% 22% / 0.34);
 
-    --gradient-hero: radial-gradient(ellipse at top, hsl(145 45% 88% / 0.85) 0%, hsl(105 28% 96%) 62%);
-    --gradient-primary: linear-gradient(135deg, hsl(148 38% 35%), hsl(165 36% 30%));
-    --gradient-accent: linear-gradient(135deg, hsl(148 32% 40%), hsl(42 42% 48%));
+    --gradient-hero: radial-gradient(ellipse at top, hsl(145 38% 82% / 0.86) 0%, hsl(106 24% 93%) 64%);
+    --gradient-primary: linear-gradient(135deg, hsl(150 42% 30%), hsl(166 40% 25%));
+    --gradient-accent: linear-gradient(135deg, hsl(150 35% 34%), hsl(42 44% 42%));
 
     --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -93,8 +93,8 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv11", "ss01";
     background-image:
-      radial-gradient(ellipse 70% 42% at 50% -10%, hsl(145 45% 88% / 0.65), transparent 72%),
-      linear-gradient(180deg, hsl(105 28% 96%), hsl(100 28% 98%));
+      radial-gradient(ellipse 70% 42% at 50% -10%, hsl(145 38% 82% / 0.65), transparent 72%),
+      linear-gradient(180deg, hsl(106 24% 93%), hsl(100 24% 96%));
     background-attachment: fixed;
   }
   #root { width: 100%; max-width: 100%; min-width: 0; }

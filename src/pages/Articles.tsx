@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { ARTICLES, categories } from "@/data/articles";
+import { categories } from "@/data/articles";
+import { SITE_ARTICLES } from "@/data/siteArticles";
 import { PageHero } from "@/components/shared/PageHero";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { cn } from "@/lib/utils";
@@ -13,7 +14,7 @@ const Articles = () => {
 
   const filtered = useMemo(
     () =>
-      publishedArticles(ARTICLES).filter((a) => {
+      publishedArticles(SITE_ARTICLES).filter((a) => {
         const matchesCat = cat === "All" || a.category === cat;
         const matchesQ = !q || (a.title + " " + a.promise).toLowerCase().includes(q.toLowerCase());
         return matchesCat && matchesQ;
@@ -26,7 +27,7 @@ const Articles = () => {
       <PageHero
         eyebrow="Articles"
         title="Short, honest reads."
-        description="No scare tactics, no sales funnel — plain-English explanations of healthcare money topics."
+        description="Plain-English explanations of healthcare money topics."
       />
 
       <section className="container py-12">

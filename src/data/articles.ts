@@ -299,17 +299,258 @@ export const ARTICLES: Article[] = [
     sources: [SOURCE_PRESETS.federalReserve],
   }),
   a({
+    slug: "deductible-copay-coinsurance-out-of-pocket-max",
+    title: "Deductible, Copay, Coinsurance, and Out-of-Pocket Max",
+    category: "Insurance",
+    readTime: "7 min read",
+    promise: "Understand the four health insurance numbers that decide what a covered medical visit may cost you.",
+    audience: "Patients, caregivers, new healthcare workers, and anyone comparing insurance plans or trying to understand a bill.",
+    summary: "Most medical bill confusion comes from four plan terms: deductible, copay, coinsurance, and out-of-pocket maximum. The deductible is what you may pay before insurance shares costs. A copay is a fixed amount. Coinsurance is a percentage. The out-of-pocket maximum is the in-network yearly ceiling for covered services, but it does not include every possible cost.",
+    body: [
+      "Health insurance does not usually mean the insurance company pays every bill immediately. The plan first applies its rules, negotiates or recognizes an allowed amount, then splits the cost between the plan and the patient.",
+      "The four numbers to understand are deductible, copay, coinsurance, and out-of-pocket maximum. Once those are clear, most medical bills become easier to predict and easier to question.",
+      "This guide is educational. Always verify plan-specific rules with the insurer, employer benefits portal, Marketplace documents, Medicare materials, Medicaid agency, or the provider billing office."
+    ],
+    sections: [
+      {
+        title: "Deductible",
+        definition: "The amount you may have to pay for covered healthcare services before your insurance plan starts meaningfully sharing certain costs.",
+        keyPoints: [
+          "A deductible usually resets each plan year.",
+          "Some services may be covered before the deductible, depending on the plan.",
+          "A high deductible can make an insured person still owe a large bill early in the year.",
+        ],
+        watchOut: "Do not assume covered means free. Covered means the service is eligible under the plan, not that your cost is zero.",
+        example: "If your deductible is $2,000 and you have met $500, you may still owe $1,500 before coinsurance rules begin for many services.",
+      },
+      {
+        title: "Copay",
+        definition: "A fixed dollar amount you pay for a covered service, such as a primary care visit, specialist visit, urgent care visit, or prescription.",
+        keyPoints: [
+          "Copays are usually easier to understand because the dollar amount is fixed.",
+          "Different services can have different copays.",
+          "Some plans apply copays before or after deductible rules, so check the plan document.",
+        ],
+        watchOut: "A copay does not always mean that no other cost can apply. Labs, imaging, procedures, or separate bills may be handled differently.",
+      },
+      {
+        title: "Coinsurance",
+        definition: "A percentage of the allowed amount that you pay after deductible rules are met.",
+        keyPoints: [
+          "Common examples are 10%, 20%, or 30% of the allowed amount.",
+          "Coinsurance is based on the plan's allowed amount, not necessarily the provider's sticker price.",
+          "Coinsurance can feel unpredictable because the final allowed amount may not be obvious upfront.",
+        ],
+        watchOut: "A 20% coinsurance rate can still be expensive when the allowed amount is large, such as for surgery, imaging, or a hospital stay.",
+        example: "If the allowed amount is $1,000 and your coinsurance is 20%, your share may be $200 after deductible rules are satisfied.",
+      },
+      {
+        title: "Out-of-pocket maximum",
+        definition: "The most you pay in a plan year for covered, in-network services under the plan's rules.",
+        keyPoints: [
+          "Deductibles, copays, and coinsurance for covered in-network care usually count toward this limit.",
+          "Premiums usually do not count toward the out-of-pocket maximum.",
+          "Out-of-network care, non-covered services, and charges above allowed amounts may not be protected the same way.",
+        ],
+        watchOut: "The out-of-pocket maximum is a safety cap, not a promise that every possible healthcare cost is capped.",
+      },
+      {
+        title: "What to check before care",
+        keyPoints: [
+          "Is the provider in-network?",
+          "Is the facility in-network?",
+          "How much deductible remains?",
+          "Does this service use a copay, coinsurance, or both?",
+          "What has already counted toward the out-of-pocket maximum?",
+          "Could the service require prior authorization?",
+        ],
+      },
+    ],
+    example: {
+      title: "A simple hospital bill example",
+      body: "A patient has a $2,000 deductible, has already met $500, and has 20% coinsurance. If a covered in-network hospital service has a $10,000 allowed amount, the patient may first owe the remaining $1,500 deductible. Then they may owe 20% of the remaining $8,500, or $1,700, unless the out-of-pocket maximum limits the bill. Estimated patient responsibility: $3,200."
+    },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    commonMistakes: [
+      "Thinking covered means free.",
+      "Comparing plans by premium only, without checking deductible and out-of-pocket maximum.",
+      "Forgetting that premiums usually do not count toward the out-of-pocket maximum.",
+      "Ignoring whether the provider and facility are both in-network.",
+      "Assuming coinsurance is based on the sticker price instead of the allowed amount."
+    ],
+    takeaway: "Most medical bills become easier to understand when you separate the four cost-sharing pieces: deductible, copay, coinsurance, and out-of-pocket maximum.",
+    sources: [SOURCE_PRESETS.healthcareGov, SOURCE_PRESETS.kff],
+  }),
+  a({
+    slug: "how-to-read-an-eob",
+    title: "How to Read an Explanation of Benefits Without Losing Your Mind",
+    category: "Hospital Bills",
+    readTime: "6 min read",
+    promise: "Learn how to compare your EOB to the actual medical bill before you pay.",
+    audience: "Patients, caregivers, and anyone trying to understand what insurance allowed, paid, denied, or assigned to them.",
+    summary: "An Explanation of Benefits, or EOB, is not a bill. It is the insurer's explanation of how a claim was processed. The medical bill comes from the provider. Before paying a confusing bill, compare the EOB and the provider bill for the same date of service, provider, allowed amount, insurance payment, and patient responsibility.",
+    body: [
+      "An Explanation of Benefits is one of the most useful documents in medical billing, but it is also one of the easiest to ignore because it looks like another bill.",
+      "The EOB usually comes from the insurance company. The bill comes from the doctor, hospital, lab, imaging center, or other provider. The EOB tells you how the claim was processed. The provider bill tells you what someone is asking you to pay.",
+      "Before paying a large or confusing medical bill, compare the two documents. The amount requested by the provider should generally make sense next to the patient responsibility shown by the insurer."
+    ],
+    sections: [
+      {
+        title: "EOB",
+        definition: "A statement from your insurer explaining how a claim was processed.",
+        keyPoints: [
+          "It is usually generated after a provider submits a claim.",
+          "It may show billed charges, allowed amount, discounts, insurance payment, denials, and patient responsibility.",
+          "It often says it is not a bill.",
+        ],
+        watchOut: "Do not pay the EOB itself. Use it to understand whether the provider bill makes sense.",
+      },
+      {
+        title: "Provider bill",
+        definition: "A request for payment from the hospital, doctor, lab, imaging center, or other provider.",
+        keyPoints: [
+          "It may arrive before or after insurance finishes processing the claim.",
+          "It may use an account number instead of the insurer's claim number.",
+          "It should be compared with the EOB before payment, especially for large balances.",
+        ],
+        watchOut: "If the provider bill asks for more than the EOB says you owe, call before paying.",
+      },
+      {
+        title: "Allowed amount",
+        definition: "The amount the insurance plan recognizes for a covered service under the plan's rules or contract.",
+        keyPoints: [
+          "The allowed amount can be much lower than the original billed charge.",
+          "Patient cost-sharing is usually calculated from the allowed amount, not the chargemaster price.",
+          "If a claim is out-of-network or denied, the allowed amount may work differently.",
+        ],
+        watchOut: "A provider's billed charge is not automatically the amount you should personally pay.",
+      },
+      {
+        title: "Patient responsibility",
+        definition: "The amount the insurer says may be your share after applying plan rules.",
+        keyPoints: [
+          "This can include deductible, copay, coinsurance, denied amounts, or non-covered services.",
+          "It should be checked against the provider bill.",
+          "If the claim is still pending, wait for final processing before paying when possible.",
+        ],
+      },
+      {
+        title: "What to compare before paying",
+        keyPoints: [
+          "Patient name and date of service.",
+          "Provider or facility name.",
+          "Claim number, account number, or invoice number.",
+          "Billed charge and allowed amount.",
+          "Insurance payment and adjustments.",
+          "Patient responsibility on the EOB versus the provider bill amount.",
+        ],
+      },
+    ],
+    example: {
+      title: "When the bill and EOB do not match",
+      body: "A provider bills $1,200. The insurer's EOB shows a $450 allowed amount, $300 paid by insurance, and $150 patient responsibility. If the provider then sends a bill for $1,200, do not pay automatically. Call the provider billing office and insurer and ask why the provider bill does not match the EOB."
+    },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    commonMistakes: [
+      "Paying the first bill before insurance finishes processing.",
+      "Ignoring the allowed amount.",
+      "Confusing the EOB with a bill.",
+      "Assuming every denial is final.",
+      "Calling billing without the date of service, claim number, or account number."
+    ],
+    takeaway: "The EOB is your map. The bill is the payment request. Compare them before paying any large, confusing, or surprising medical balance.",
+    sources: [SOURCE_PRESETS.cms, SOURCE_PRESETS.healthcareGov, SOURCE_PRESETS.kff],
+  }),
+  a({
     slug: "why-er-visit-is-expensive",
     title: "Why an ER Visit Can Be So Expensive",
     category: "Hospital Bills",
     readTime: "6 min read",
-    promise: "Chargemasters, facility fees, and out-of-network billing explained.",
-    audience: "Anyone who got an ER bill and felt blindsided.",
-    summary: "ER pricing is built from a base facility fee tied to acuity level, plus charges from physicians who may bill separately and may be out of network.",
-    body: ["Paste this article from Notion."],
+    promise: "Understand the pieces that can turn one emergency visit into several separate charges.",
+    audience: "Patients, caregivers, and healthcare workers who want a plain-English explanation of emergency department bills.",
+    summary: "An ER visit can be expensive because the final bill may include a hospital facility fee, a separate emergency physician charge, labs, imaging, medications, supplies, observation care, and insurance cost-sharing. Insurance can reduce the price, but deductibles, copays, coinsurance, network rules, and separate bills can still leave the patient with a large balance.",
+    body: [
+      "An emergency room bill rarely reflects just one doctor visit. It can be a bundle of hospital readiness, facility charges, professional services, diagnostics, supplies, medications, and insurance cost-sharing.",
+      "That does not mean every bill is correct or easy to understand. It means patients should know which pieces can appear before deciding whether the balance makes sense.",
+      "The goal is not to avoid emergency care when it is truly needed. The goal is to understand the bill, compare it with the EOB, ask for an itemized statement, and question charges that look wrong."
+    ],
+    sections: [
+      {
+        title: "Facility fee",
+        definition: "The hospital's charge for using the emergency department and the 24/7 system behind it.",
+        keyPoints: [
+          "The ER is staffed and equipped for emergencies at all hours.",
+          "Facility charges can vary based on visit complexity and hospital billing rules.",
+          "This fee is separate from the clinician's professional fee.",
+        ],
+        watchOut: "Patients often think the ER bill is only for the provider they saw. The facility component can be a large part of the bill.",
+      },
+      {
+        title: "Separate physician or provider bill",
+        definition: "The emergency physician, advanced practice provider, radiologist, anesthesiologist, or other clinician may bill separately from the hospital.",
+        keyPoints: [
+          "One ER visit can generate more than one bill.",
+          "A hospital bill and physician bill may arrive weeks apart.",
+          "Insurance may process each claim separately.",
+        ],
+        watchOut: "Do not assume a second bill is automatically a duplicate. Compare dates, providers, services, and EOBs.",
+      },
+      {
+        title: "Labs, imaging, medications, and supplies",
+        definition: "Tests and treatments ordered during the visit can each add cost.",
+        keyPoints: [
+          "Bloodwork, urine testing, X-rays, CT scans, ultrasounds, medications, IV fluids, splints, and wound supplies may all be billed.",
+          "Imaging and lab work can be billed by the hospital and sometimes by separate interpreting clinicians.",
+          "The patient may not notice every billable item during a stressful visit.",
+        ],
+      },
+      {
+        title: "Insurance cost-sharing",
+        definition: "The part of the allowed amount that the patient owes under the plan.",
+        keyPoints: [
+          "A deductible can make the patient owe more early in the plan year.",
+          "A copay may apply to the ER visit.",
+          "Coinsurance may apply after deductible rules are met.",
+          "The out-of-pocket maximum may limit covered in-network costs, but not every charge is always protected the same way.",
+        ],
+        watchOut: "Having insurance does not mean the ER visit will be cheap. It means the claim runs through plan rules.",
+      },
+      {
+        title: "Observation or admission",
+        definition: "A visit can become more complex if the patient is kept for observation or admitted to the hospital.",
+        keyPoints: [
+          "Observation status can create outpatient hospital charges.",
+          "A formal inpatient admission can move the stay into a different billing category.",
+          "Hospital status can also affect some post-hospital coverage questions.",
+        ],
+        watchOut: "Ask whether the stay is observation or inpatient before discharge when possible.",
+      },
+      {
+        title: "What to ask before paying",
+        keyPoints: [
+          "Can I get an itemized bill?",
+          "Has insurance fully processed every claim from this visit?",
+          "Does this bill match my Explanation of Benefits?",
+          "Was the claim processed as emergency care?",
+          "Is financial assistance or charity care available?",
+          "Can denied or unexpected charges be appealed or corrected?",
+        ],
+      },
+    ],
+    example: {
+      title: "A chest pain visit that ends in discharge",
+      body: "A patient goes to the ER for chest pain. They receive an EKG, bloodwork, chest X-ray, IV medication, monitoring, and an emergency provider evaluation. They go home the same day. Even without surgery or admission, the visit may still include a facility fee, professional bill, lab charges, imaging charges, medication charges, and deductible or coinsurance responsibility."
+    },
     relatedCalculator: { label: "Insurance Visit Cost Calculator", href: "/tools#insurance" },
-    takeaway: "Always request an itemized bill and check that providers were in-network. Many charges are negotiable.",
-    sources: [SOURCE_PRESETS.kff, SOURCE_PRESETS.healthcareGov],
+    commonMistakes: [
+      "Assuming a discharge means the visit should be cheap.",
+      "Paying before comparing the bill with the EOB.",
+      "Ignoring separate physician, imaging, or lab bills.",
+      "Thinking covered means free.",
+      "Not asking for financial assistance, charity care, payment plan options, or claim review."
+    ],
+    takeaway: "An ER bill is often a stack of charges, not one simple visit price. Before paying a large balance, request an itemized bill, compare every charge with the EOB, and ask the insurer or billing office to explain anything that does not match.",
+    sources: [SOURCE_PRESETS.medicare, SOURCE_PRESETS.cms, SOURCE_PRESETS.kff, SOURCE_PRESETS.healthcareGov],
   }),
 ];
 

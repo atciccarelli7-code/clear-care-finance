@@ -60,8 +60,8 @@ export const Footer = () => {
         <div className="md:col-span-2">
           <h4 className="font-semibold text-sm mb-3 text-foreground">Policies</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/privacy" className="hover:text-primary transition-smooth">Privacy Policy</Link></li>
-            <li><Link to="/terms" className="hover:text-primary transition-smooth">Terms of Use</Link></li>
+            <li><Link to="/privacy-policy" className="hover:text-primary transition-smooth">Privacy Policy</Link></li>
+            <li><Link to="/terms-of-use" className="hover:text-primary transition-smooth">Terms of Use</Link></li>
             <li><Link to="/editorial-policy" className="hover:text-primary transition-smooth">Editorial Policy</Link></li>
             <li><Link to="/disclosures" className="hover:text-primary transition-smooth">Disclosures</Link></li>
             <li><Link to="/accessibility" className="hover:text-primary transition-smooth">Accessibility</Link></li>

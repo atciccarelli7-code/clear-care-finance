@@ -198,7 +198,7 @@ export const CalcInsurance = () => {
             helper="Choose one simplified method for these visits so copay and coinsurance are not double-counted."
           >
             <Select value={costShareMode} onValueChange={(value) => setCostShareMode(value as InsuranceCostShareMode)}>
-              <SelectTrigger className="h-11"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="h-11" aria-label="After-deductible cost sharing"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="coinsurance">Coinsurance percentage</SelectItem>
                 <SelectItem value="copay">Flat copay per visit</SelectItem>

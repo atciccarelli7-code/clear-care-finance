@@ -13,8 +13,8 @@ const Tools = () => {
         description="Five friendly calculators to estimate paychecks, insurance, Medicare, café spend, and student loans."
       />
 
-      <section className="container py-12 md:py-16 space-y-12">
-        <div id="403b" className="scroll-mt-24">
+      <section className="container min-w-0 py-12 md:py-16 space-y-12">
+        <div id="403b" className="scroll-mt-24 min-w-0">
           <CalculatorCard
             icon={Wallet}
             eyebrow="For healthcare workers"
@@ -26,7 +26,7 @@ const Tools = () => {
           </CalculatorCard>
         </div>
 
-        <div id="insurance" className="scroll-mt-24">
+        <div id="insurance" className="scroll-mt-24 min-w-0">
           <CalculatorCard
             icon={Shield}
             eyebrow="For everyone"
@@ -38,7 +38,7 @@ const Tools = () => {
           </CalculatorCard>
         </div>
 
-        <div id="medicare" className="scroll-mt-24">
+        <div id="medicare" className="scroll-mt-24 min-w-0">
           <CalculatorCard
             icon={HeartPulse}
             eyebrow="For patients & caregivers"
@@ -50,7 +50,7 @@ const Tools = () => {
           </CalculatorCard>
         </div>
 
-        <div id="cafe" className="scroll-mt-24">
+        <div id="cafe" className="scroll-mt-24 min-w-0">
           <CalculatorCard
             icon={Coffee}
             eyebrow="Spending, no shame"
@@ -62,7 +62,7 @@ const Tools = () => {
           </CalculatorCard>
         </div>
 
-        <div id="loan" className="scroll-mt-24">
+        <div id="loan" className="scroll-mt-24 min-w-0">
           <CalculatorCard
             icon={CreditCard}
             eyebrow="For everyone"

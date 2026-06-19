@@ -1,7 +1,8 @@
-import { Wallet, Shield, HeartPulse, Coffee } from "lucide-react";
+import { Wallet, Shield, HeartPulse, Coffee, CreditCard } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { Calc403b, CalcInsurance, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
+import CalcLoanPayment from "@/components/calculators/LoanPayment";
 
 const Tools = () => {
   return (
@@ -9,7 +10,7 @@ const Tools = () => {
       <PageHero
         eyebrow="Calculators"
         title="Run the numbers in plain English."
-        description="Four friendly calculators to estimate paychecks, insurance, Medicare, and quietly accumulating café spend."
+        description="Five friendly calculators to estimate paychecks, insurance, Medicare, café spend, and student loans."
       />
 
       <section className="container py-12 md:py-16 space-y-12">
@@ -58,6 +59,17 @@ const Tools = () => {
             relatedArticle={{ label: "Your Hospital Café Habit Might Be Quietly Eating Your Savings Rate", href: "/articles/hospital-cafe-habit" }}
           >
             <CalcCafe />
+          </CalculatorCard>
+        </div>
+
+        <div id="loan" className="scroll-mt-24">
+          <CalculatorCard
+            icon={CreditCard}
+            eyebrow="For everyone"
+            title="Student Loan Payment Calculator"
+            description="Estimate monthly payment, total paid, and interest over time."
+          >
+            <CalcLoanPayment />
           </CalculatorCard>
         </div>
       </section>

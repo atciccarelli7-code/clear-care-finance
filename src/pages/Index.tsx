@@ -55,7 +55,7 @@ const Index = () => {
           <TopicCard
             icon={Calculator}
             title="Just the calculators"
-            description="Four simple tools to estimate paycheck, insurance, Medicare, and café spend."
+            description="Five simple tools to estimate paycheck, insurance, Medicare, café spend, and student loans."
             href="/tools"
             cta="Open calculators"
           />

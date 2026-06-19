@@ -2,80 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dark sage theme — Community Acquired Finance
-   Sleek, calm, sophisticated. Sage green primary on a near-black canvas. */
+/* Light clinical sage theme — Community Acquired Finance
+   Clean, calm, trustworthy. Sage green identity on a soft healthcare-finance canvas. */
 
 @layer base {
   :root {
     /* Surfaces */
-    --background: 160 12% 7%;
-    --foreground: 90 12% 94%;
+    --background: 105 28% 96%;
+    --foreground: 165 28% 13%;
 
-    --card: 160 12% 10%;
-    --card-foreground: 90 12% 94%;
+    --card: 0 0% 100%;
+    --card-foreground: 165 28% 13%;
 
-    --popover: 160 14% 9%;
-    --popover-foreground: 90 12% 94%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 165 28% 13%;
 
     /* Sage primary */
-    --primary: 145 28% 58%;
-    --primary-foreground: 160 20% 8%;
-    --primary-soft: 145 25% 16%;
+    --primary: 148 38% 32%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 145 42% 92%;
 
     /* Warm cream secondary, used sparingly */
-    --secondary: 40 30% 78%;
-    --secondary-foreground: 160 20% 8%;
-    --secondary-soft: 40 18% 14%;
+    --secondary: 42 42% 48%;
+    --secondary-foreground: 165 28% 13%;
+    --secondary-soft: 43 50% 93%;
 
-    --muted: 160 10% 14%;
-    --muted-foreground: 100 8% 65%;
+    --muted: 105 24% 92%;
+    --muted-foreground: 160 12% 38%;
 
-    --accent: 145 28% 58%;
-    --accent-foreground: 160 20% 8%;
+    --accent: 148 38% 32%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 12 70% 58%;
+    --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 160 10% 18%;
-    --input: 160 10% 18%;
-    --ring: 145 28% 58%;
+    --border: 105 18% 84%;
+    --input: 105 18% 84%;
+    --ring: 148 38% 32%;
 
     --radius: 1rem;
 
-    --shadow-soft: 0 4px 24px -8px hsl(160 30% 2% / 0.6);
-    --shadow-card: 0 2px 12px -4px hsl(160 30% 2% / 0.5);
-    --shadow-hover: 0 16px 40px -16px hsl(145 50% 30% / 0.45);
+    --shadow-soft: 0 4px 24px -10px hsl(160 30% 24% / 0.18);
+    --shadow-card: 0 2px 16px -8px hsl(160 30% 24% / 0.18);
+    --shadow-hover: 0 18px 44px -20px hsl(145 42% 26% / 0.32);
 
-    --gradient-hero: radial-gradient(ellipse at top, hsl(145 30% 14% / 0.6) 0%, hsl(160 12% 7%) 60%);
-    --gradient-primary: linear-gradient(135deg, hsl(145 30% 52%), hsl(160 32% 44%));
-    --gradient-accent: linear-gradient(135deg, hsl(145 28% 38%), hsl(165 30% 32%));
+    --gradient-hero: radial-gradient(ellipse at top, hsl(145 45% 88% / 0.85) 0%, hsl(105 28% 96%) 62%);
+    --gradient-primary: linear-gradient(135deg, hsl(148 38% 35%), hsl(165 36% 30%));
+    --gradient-accent: linear-gradient(135deg, hsl(148 32% 40%), hsl(42 42% 48%));
 
     --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Light theme kept as opt-in only */
-  .light {
-    --background: 90 20% 98%;
-    --foreground: 160 20% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 160 20% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 160 20% 10%;
-    --primary: 145 32% 38%;
-    --primary-foreground: 0 0% 100%;
-    --primary-soft: 145 35% 94%;
-    --secondary: 40 30% 50%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-soft: 40 30% 95%;
-    --muted: 100 15% 95%;
-    --muted-foreground: 160 10% 40%;
-    --accent: 145 32% 38%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 70% 50%;
+  /* Dark theme kept as opt-in only */
+  .dark {
+    --background: 160 12% 7%;
+    --foreground: 90 12% 94%;
+    --card: 160 12% 10%;
+    --card-foreground: 90 12% 94%;
+    --popover: 160 14% 9%;
+    --popover-foreground: 90 12% 94%;
+    --primary: 145 28% 58%;
+    --primary-foreground: 160 20% 8%;
+    --primary-soft: 145 25% 16%;
+    --secondary: 40 30% 78%;
+    --secondary-foreground: 160 20% 8%;
+    --secondary-soft: 40 18% 14%;
+    --muted: 160 10% 14%;
+    --muted-foreground: 100 8% 65%;
+    --accent: 145 28% 58%;
+    --accent-foreground: 160 20% 8%;
+    --destructive: 12 70% 58%;
     --destructive-foreground: 0 0% 100%;
-    --border: 100 12% 88%;
-    --input: 100 12% 88%;
-    --ring: 145 32% 38%;
+    --border: 160 10% 18%;
+    --input: 160 10% 18%;
+    --ring: 145 28% 58%;
+    --shadow-soft: 0 4px 24px -8px hsl(160 30% 2% / 0.6);
+    --shadow-card: 0 2px 12px -4px hsl(160 30% 2% / 0.5);
+    --shadow-hover: 0 16px 40px -16px hsl(145 50% 30% / 0.45);
+    --gradient-hero: radial-gradient(ellipse at top, hsl(145 30% 14% / 0.6) 0%, hsl(160 12% 7%) 60%);
+    --gradient-primary: linear-gradient(135deg, hsl(145 30% 52%), hsl(160 32% 44%));
+    --gradient-accent: linear-gradient(135deg, hsl(145 28% 38%), hsl(165 30% 32%));
   }
 }
 
@@ -87,7 +93,8 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv11", "ss01";
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(145 30% 14% / 0.35), transparent 70%);
+      radial-gradient(ellipse 70% 42% at 50% -10%, hsl(145 45% 88% / 0.65), transparent 72%),
+      linear-gradient(180deg, hsl(105 28% 96%), hsl(100 28% 98%));
     background-attachment: fixed;
   }
   #root { width: 100%; max-width: 100%; min-width: 0; }
@@ -99,7 +106,7 @@
   p, li, a, span, dd, dt { overflow-wrap: anywhere; }
   img, video, canvas, svg { max-width: 100%; }
   button, input, select, textarea { max-width: 100%; }
-  ::selection { background: hsl(var(--primary) / 0.3); }
+  ::selection { background: hsl(var(--primary) / 0.18); }
 }
 
 @layer components {

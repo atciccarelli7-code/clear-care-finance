@@ -1,18 +1,25 @@
 import { Link } from "react-router-dom";
-import { Leaf } from "lucide-react";
 import { TOPICS } from "@/data/topics";
 import { DISCLAIMER_TEXT } from "@/components/shared/DisclaimerBox";
 
+const LogoMark = () => (
+  <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-primary/25 bg-gradient-primary text-[0.62rem] font-extrabold tracking-tight text-primary-foreground shadow-card">
+    CAF
+    <span aria-hidden="true" className="absolute right-1 top-1 h-2.5 w-2.5 rounded-sm bg-primary-foreground/15">
+      <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-primary-foreground/85" />
+      <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-primary-foreground/85" />
+    </span>
+  </span>
+);
+
 export const Footer = () => {
   return (
-    <footer className="border-t border-border bg-card/30 mt-24">
+    <footer className="border-t border-border bg-card/55 mt-24">
       <div className="container py-14 grid gap-10 md:grid-cols-12">
         <div className="md:col-span-4 space-y-3">
-          <Link to="/" className="flex items-center gap-2.5 font-display font-bold text-lg">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-soft text-primary border border-primary/20">
-              <Leaf className="h-4.5 w-4.5" />
-            </span>
-            Community Acquired Finance
+          <Link to="/" className="flex min-w-0 items-center gap-2.5 font-display font-bold text-lg text-foreground">
+            <LogoMark />
+            <span className="min-w-0 break-words">Community Acquired Finance</span>
           </Link>
           <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
             Plain-English financial education for healthcare workers and the patients they care for —

@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Leaf } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const nav = [
   { to: "/healthcare-workers", label: "Healthcare Worker Money" },
@@ -13,21 +13,29 @@ const nav = [
   { to: "/about", label: "About / Sources" },
 ];
 
+const LogoMark = () => (
+  <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-primary/25 bg-gradient-primary text-[0.62rem] font-extrabold tracking-tight text-primary-foreground shadow-card">
+    CAF
+    <span aria-hidden="true" className="absolute right-1 top-1 h-2.5 w-2.5 rounded-sm bg-primary-foreground/15">
+      <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-primary-foreground/85" />
+      <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-primary-foreground/85" />
+    </span>
+  </span>
+);
+
 export const Header = () => {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/90 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between gap-4">
         <Link
           to="/"
-          className="flex items-center gap-2.5 font-display font-bold tracking-tight"
+          className="flex min-w-0 items-center gap-2.5 font-display font-bold tracking-tight text-foreground"
           onClick={() => setOpen(false)}
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-soft text-primary border border-primary/20">
-            <Leaf className="h-4.5 w-4.5" />
-          </span>
-          <span className="hidden sm:inline text-base">Community Acquired Finance</span>
-          <span className="sm:hidden text-base">CAF</span>
+          <LogoMark />
+          <span className="hidden min-w-0 break-words text-base sm:inline">Community Acquired Finance</span>
+          <span className="text-base sm:hidden">CAF</span>
         </Link>
 
         <nav className="hidden xl:flex items-center gap-1">

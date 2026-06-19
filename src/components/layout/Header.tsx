@@ -26,7 +26,7 @@ const LogoMark = () => (
 export const Header = () => {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/88 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/90 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between gap-4">
         <Link
           to="/"

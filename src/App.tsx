@@ -39,15 +39,21 @@ const App = () => (
             <Route path="/articles/:slug" element={<ArticlePage />} />
             <Route path="/topics" element={<Topics />} />
             <Route path="/topics/:slug" element={<TopicPage />} />
-            {/* Legacy route — Medicare/Medicaid is now a topic */}
             <Route path="/medicare-medicaid" element={<Navigate to="/topics/medicare-medicaid" replace />} />
             <Route path="/glossary" element={<Glossary />} />
             <Route path="/about" element={<About />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<TermsOfUse />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-use" element={<TermsOfUse />} />
             <Route path="/editorial-policy" element={<EditorialPolicy />} />
             <Route path="/disclosures" element={<Disclosures />} />
             <Route path="/accessibility" element={<Accessibility />} />
+            <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+            <Route path="/terms" element={<Navigate to="/terms-of-use" replace />} />
+            <Route path="/terms-of-service" element={<Navigate to="/terms-of-use" replace />} />
+            <Route path="/editorial" element={<Navigate to="/editorial-policy" replace />} />
+            <Route path="/policy" element={<Navigate to="/privacy-policy" replace />} />
+            <Route path="/policies" element={<Navigate to="/privacy-policy" replace />} />
+            <Route path="/legal" element={<Navigate to="/privacy-policy" replace />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

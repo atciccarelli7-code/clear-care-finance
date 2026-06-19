@@ -2,59 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light clinical sage theme — Community Acquired Finance
-   Clean, calm, trustworthy. Sage green identity on a soft healthcare-finance canvas. */
+/* Community Acquired Finance theme
+   Calm healthcare sage + warm finance accent. Kept light, readable, and trust-oriented. */
 
 @layer base {
   :root {
+    color-scheme: light;
+
     /* Surfaces */
-    --background: 106 24% 93%;
-    --foreground: 165 32% 11%;
+    --background: 96 28% 90%;
+    --foreground: 165 34% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 165 32% 11%;
+    --card-foreground: 165 34% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 165 32% 11%;
+    --popover-foreground: 165 34% 10%;
 
-    /* Sage primary */
-    --primary: 150 42% 27%;
+    /* Deeper sage primary */
+    --primary: 154 48% 23%;
     --primary-foreground: 0 0% 100%;
-    --primary-soft: 145 36% 88%;
+    --primary-soft: 146 38% 82%;
 
-    /* Warm cream secondary, used sparingly */
-    --secondary: 42 44% 42%;
-    --secondary-foreground: 165 32% 11%;
-    --secondary-soft: 43 48% 90%;
+    /* Warm brass secondary, used sparingly */
+    --secondary: 38 52% 45%;
+    --secondary-foreground: 165 34% 10%;
+    --secondary-soft: 42 52% 88%;
 
-    --muted: 105 20% 88%;
-    --muted-foreground: 160 14% 32%;
+    --muted: 95 20% 86%;
+    --muted-foreground: 160 16% 29%;
 
-    --accent: 150 42% 27%;
+    --accent: 154 48% 23%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 105 18% 78%;
-    --input: 105 18% 78%;
-    --ring: 150 42% 27%;
+    --border: 100 20% 72%;
+    --input: 100 20% 72%;
+    --ring: 154 48% 23%;
 
     --radius: 1rem;
 
-    --shadow-soft: 0 4px 24px -10px hsl(160 30% 20% / 0.2);
-    --shadow-card: 0 2px 16px -8px hsl(160 30% 20% / 0.2);
-    --shadow-hover: 0 18px 44px -20px hsl(145 44% 22% / 0.34);
+    --shadow-soft: 0 4px 24px -10px hsl(160 34% 18% / 0.22);
+    --shadow-card: 0 2px 16px -8px hsl(160 34% 18% / 0.22);
+    --shadow-hover: 0 18px 44px -20px hsl(145 50% 18% / 0.38);
 
-    --gradient-hero: radial-gradient(ellipse at top, hsl(145 38% 82% / 0.86) 0%, hsl(106 24% 93%) 64%);
-    --gradient-primary: linear-gradient(135deg, hsl(150 42% 30%), hsl(166 40% 25%));
-    --gradient-accent: linear-gradient(135deg, hsl(150 35% 34%), hsl(42 44% 42%));
+    --gradient-hero: radial-gradient(ellipse at top, hsl(146 42% 78% / 0.9) 0%, hsl(96 28% 90%) 64%);
+    --gradient-primary: linear-gradient(135deg, hsl(154 50% 25%), hsl(168 45% 22%));
+    --gradient-accent: linear-gradient(135deg, hsl(154 42% 30%), hsl(38 52% 45%));
 
     --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Dark theme kept as opt-in only */
   .dark {
+    color-scheme: dark;
     --background: 160 12% 7%;
     --foreground: 90 12% 94%;
     --card: 160 12% 10%;
@@ -93,8 +96,8 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv11", "ss01";
     background-image:
-      radial-gradient(ellipse 70% 42% at 50% -10%, hsl(145 38% 82% / 0.65), transparent 72%),
-      linear-gradient(180deg, hsl(106 24% 93%), hsl(100 24% 96%));
+      radial-gradient(ellipse 70% 42% at 50% -10%, hsl(146 42% 80% / 0.8), transparent 72%),
+      linear-gradient(180deg, hsl(96 28% 90%), hsl(72 31% 96%));
     background-attachment: fixed;
   }
   #root { width: 100%; max-width: 100%; min-width: 0; }

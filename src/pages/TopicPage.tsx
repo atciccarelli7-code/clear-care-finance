@@ -5,6 +5,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { TopicOverview } from "@/components/shared/TopicOverview";
 import { ComparisonCard } from "@/components/shared/ComparisonCard";
+import { FactSheetGrid } from "@/components/shared/FactSheetGrid";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { CalloutWarning } from "@/components/shared/CalloutWarning";
 import { SourceList } from "@/components/shared/SourceList";
@@ -47,6 +48,12 @@ const TopicPage = () => {
             <ComparisonCard side={topic.comparison.left} />
             <ComparisonCard side={topic.comparison.right} />
           </div>
+        </section>
+      )}
+
+      {topic.factSheet && (
+        <section className="container py-12">
+          <FactSheetGrid factSheet={topic.factSheet} />
         </section>
       )}
 

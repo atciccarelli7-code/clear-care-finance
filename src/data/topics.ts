@@ -11,6 +11,20 @@ export type ComparisonSide = {
   points: string[];
 };
 
+export type FactSheetItem = {
+  title: string;
+  definition: string;
+  bullets: string[];
+  reminder?: string;
+};
+
+export type FactSheet = {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  items: FactSheetItem[];
+};
+
 export type Topic = {
   slug: string;
   category: string;
@@ -20,6 +34,7 @@ export type Topic = {
   startHere: string;          // explainer paragraph(s)
   definitions: { term: string; meaning: string }[];
   comparison?: { title: string; description?: string; left: ComparisonSide; right: ComparisonSide };
+  factSheet?: FactSheet;
   calculator?: { key: CalculatorKey; title: string; description: string };
   relatedArticleSlugs: string[];
   sources: Source[];
@@ -33,43 +48,98 @@ export const TOPICS: Topic[] = [
     icon: HeartPulse,
     title: "Medicare & Medicaid",
     promise:
-      "Two programs, one letter apart, very different jobs. Here's what each covers, who qualifies, and where the gaps are.",
+      "A quick guide to what each program does, how Medicare's parts fit together, and where long-term care gaps can appear.",
     startHere:
-      "Medicare is mostly age- or disability-based health insurance run by the federal government. Medicaid is income- and resource-based assistance run jointly with your state. Many people qualify for one. Some qualify for both — and that combination (dual eligible) can fill in important gaps.",
+      "Medicare and Medicaid are different public health coverage programs. Medicare is federal health insurance mainly for people 65 and older and certain younger people with disabilities. Medicaid is jointly funded by federal and state governments and administered by each state. Some people qualify for both.",
     definitions: [
-      { term: "Medicare Part A", meaning: "Hospital insurance — inpatient stays, short-term skilled nursing, hospice." },
-      { term: "Medicare Part B", meaning: "Doctor visits, outpatient care, preventive services." },
-      { term: "Medicare Advantage", meaning: "Part C — a private plan alternative for receiving Part A and Part B benefits." },
-      { term: "Dual eligible", meaning: "Qualifying for both Medicare and Medicaid. Medicare pays first; Medicaid may fill gaps." },
-      { term: "Custodial care", meaning: "Help with daily living — generally NOT covered by Medicare." },
+      {
+        term: "Medicare",
+        meaning:
+          "Federal health insurance mainly for people 65 and older, plus certain younger people with disabilities or qualifying conditions. Eligibility is not generally based on income.",
+      },
+      {
+        term: "Medicaid",
+        meaning:
+          "Health coverage administered by each state within federal rules. Eligibility and benefits depend on the state, eligibility group, income, and sometimes other factors.",
+      },
+      {
+        term: "Dual eligible",
+        meaning:
+          "A person enrolled in both Medicare and Medicaid. Medicare generally pays first for Medicare-covered services; Medicaid may help with premiums, cost-sharing, and additional benefits under state rules.",
+      },
     ],
     comparison: {
-      title: "Medicare vs Medicaid",
-      description: "Two programs. One letter apart. Very different jobs.",
+      title: "Original Medicare vs Medicare Advantage",
+      description: "Two ways to receive Medicare Part A and Part B benefits.",
       left: {
-        title: "Medicare",
-        subtitle: "Age- or disability-based insurance",
+        title: "Original Medicare",
+        subtitle: "Part A and Part B through the federal government",
         accent: "primary",
         points: [
-          "Most people qualify at age 65",
-          "Also covers some younger people with disabilities",
-          "Not based on income",
-          "Has monthly premiums for most parts",
-          "Federal program, but Medicare Advantage and Part D plan details can vary",
+          "Use any doctor or hospital that accepts Medicare.",
+          "Add a standalone Part D plan for prescription coverage.",
+          "Medigap may help with deductibles and coinsurance.",
+          "No built-in yearly out-of-pocket limit for Part A and Part B services.",
         ],
       },
       right: {
-        title: "Medicaid",
-        subtitle: "Income/resource-based assistance",
+        title: "Medicare Advantage",
+        subtitle: "A Medicare-approved private plan, also called Part C",
         accent: "secondary",
         points: [
-          "Based on income, family size, and resources",
-          "Covers pregnant women, children, and some seniors",
-          "Rules and benefits vary by state",
-          "Often low or no monthly premium for people who qualify",
-          "State and federal partnership program",
+          "Provides Part A and Part B benefits through a private plan.",
+          "Often includes Part D and may include extra benefits.",
+          "Usually uses provider networks and plan-specific rules.",
+          "Includes a yearly out-of-pocket limit for covered Part A and Part B services.",
         ],
       },
+    },
+    factSheet: {
+      eyebrow: "Medicare fact sheet",
+      title: "The parts at a glance",
+      description: "Four building blocks that are easy to confuse.",
+      items: [
+        {
+          title: "Part A — Hospital insurance",
+          definition: "Helps cover inpatient hospital care and certain post-hospital services.",
+          bullets: [
+            "Inpatient hospital care.",
+            "Limited skilled nursing facility care when coverage rules are met.",
+            "Hospice and some home health care.",
+          ],
+          reminder: "Inpatient hospital care is not the same as long-term custodial care.",
+        },
+        {
+          title: "Part B — Medical insurance",
+          definition: "Helps cover medically necessary outpatient care and preventive services.",
+          bullets: [
+            "Doctor and outpatient visits.",
+            "Preventive services and screenings.",
+            "Durable medical equipment and some home health care.",
+          ],
+          reminder: "Part B usually has a monthly premium and cost-sharing.",
+        },
+        {
+          title: "Part D — Prescription drugs",
+          definition: "Helps pay for outpatient prescription medications through private plans.",
+          bullets: [
+            "Available as a standalone plan with Original Medicare.",
+            "Often included in Medicare Advantage plans.",
+            "Formularies, pharmacies, and costs can change each year.",
+          ],
+          reminder: "Check every medication and preferred pharmacy during annual enrollment.",
+        },
+        {
+          title: "Medigap — Supplemental coverage",
+          definition: "Private insurance that helps pay some costs left by Original Medicare.",
+          bullets: [
+            "Works with Original Medicare, not Medicare Advantage.",
+            "May help with deductibles, copays, and coinsurance.",
+            "Does not replace a Part D prescription drug plan.",
+          ],
+          reminder: "Enrollment timing can affect whether a policy is available without medical underwriting.",
+        },
+      ],
     },
     calculator: {
       key: "calcMedicare",
@@ -77,10 +147,19 @@ export const TOPICS: Topic[] = [
       description: "Estimate a rough yearly out-of-pocket for premiums, deductible, prescriptions, and coinsurance.",
     },
     relatedArticleSlugs: ["medicare-options-explained", "discharge-coverage-guide", "long-term-care-and-custodial-care"],
-    sources: [SOURCE_PRESETS.medicare, SOURCE_PRESETS.medicaid, SOURCE_PRESETS.cms, SOURCE_PRESETS.kff],
+    sources: [
+      SOURCE_PRESETS.medicareParts,
+      SOURCE_PRESETS.medicareMedigap,
+      SOURCE_PRESETS.medicareLongTermCare,
+      SOURCE_PRESETS.medicaidEligibility,
+      SOURCE_PRESETS.medicaidLtss,
+      SOURCE_PRESETS.cmsMedicaidCoordination,
+      SOURCE_PRESETS.kffMedicareAdvantage2026,
+      SOURCE_PRESETS.kffMedicaid101,
+    ],
     warning: {
-      title: "Medicare does not pay for most long-term custodial care.",
-      body: "Help with bathing, dressing, toileting, meals, supervision, and daily living is usually considered custodial care and is generally not covered by Medicare. Medicaid is the primary public program for long-term nursing home and home-based care, for those who qualify.",
+      title: "Medicare does not cover most long-term custodial care.",
+      body: "Ongoing help with bathing, dressing, eating, toileting, meals, or supervision is usually custodial care. Medicare may cover limited skilled care when specific rules are met, but not indefinite personal care. Medicaid can cover long-term services and supports for people who qualify, but eligibility, covered services, and delivery systems vary by state.",
     },
   },
   {

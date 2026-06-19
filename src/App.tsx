@@ -14,6 +14,9 @@ import Topics from "./pages/Topics.tsx";
 import TopicPage from "./pages/TopicPage.tsx";
 import Glossary from "./pages/Glossary.tsx";
 import About from "./pages/About.tsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
+import TermsOfUse from "./pages/TermsOfUse.tsx";
+import EditorialPolicy from "./pages/EditorialPolicy.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -38,6 +41,9 @@ const App = () => (
             <Route path="/medicare-medicaid" element={<Navigate to="/topics/medicare-medicaid" replace />} />
             <Route path="/glossary" element={<Glossary />} />
             <Route path="/about" element={<About />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfUse />} />
+            <Route path="/editorial-policy" element={<EditorialPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

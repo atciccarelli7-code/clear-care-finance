@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BookOpen, Calculator } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -18,9 +18,11 @@ const NotFound = () => {
         <p className="mx-auto mt-4 max-w-md text-lg text-muted-foreground">
           The link may be outdated, or the page may have moved. The rest of the site is still right where you left it.
         </p>
-        <Button asChild variant="hero" size="lg" className="mt-8">
-          <Link to="/"><ArrowLeft className="h-4 w-4" /> Return home</Link>
-        </Button>
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <Button asChild variant="hero" size="lg"><Link to="/"><ArrowLeft className="h-4 w-4" /> Return home</Link></Button>
+          <Button asChild variant="outline" size="lg"><Link to="/articles"><BookOpen className="h-4 w-4" /> Browse articles</Link></Button>
+          <Button asChild variant="outline" size="lg"><Link to="/tools"><Calculator className="h-4 w-4" /> Open tools</Link></Button>
+        </div>
       </div>
     </section>
   );

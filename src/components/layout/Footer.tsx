@@ -25,7 +25,8 @@ export const Footer = () => {
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/healthcare-workers" className="hover:text-primary transition-smooth">Healthcare Worker Money</Link></li>
             <li><Link to="/patients-families" className="hover:text-primary transition-smooth">Patient & Caregiver Money</Link></li>
-            <li><Link to="/about" className="hover:text-primary transition-smooth">About / Sources</Link></li>
+            <li><Link to="/about" className="hover:text-primary transition-smooth">About</Link></li>
+            <li><Link to="/sources" className="hover:text-primary transition-smooth">Sources</Link></li>
           </ul>
         </div>
 
@@ -53,6 +54,13 @@ export const Footer = () => {
 
       <div className="border-t border-border">
         <div className="container py-6 text-xs text-muted-foreground space-y-2">
+          <nav aria-label="Policies" className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <Link to="/editorial-policy" className="hover:text-primary">Editorial policy</Link>
+            <Link to="/privacy" className="hover:text-primary">Privacy</Link>
+            <Link to="/terms" className="hover:text-primary">Terms</Link>
+            <Link to="/disclaimer" className="hover:text-primary">Disclaimer</Link>
+            <Link to="/contact" className="hover:text-primary">Contact</Link>
+          </nav>
           <p>
             <strong className="text-foreground">Disclaimer:</strong> {DISCLAIMER_TEXT}
           </p>

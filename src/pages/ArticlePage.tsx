@@ -1,5 +1,5 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen } from "lucide-react";
+import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, type LucideIcon } from "lucide-react";
 import { ARTICLES } from "@/data/articles";
 import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
@@ -7,7 +7,7 @@ import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
 
-const Section = ({ icon: Icon, title, children }: { icon: any; title: string; children: React.ReactNode }) => (
+const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: string; children: React.ReactNode }) => (
   <div className="space-y-2.5 md:space-y-3">
     <div className="flex items-center gap-2.5 md:gap-3">
       <div className="inline-flex h-7 w-7 md:h-9 md:w-9 items-center justify-center rounded-lg bg-primary-soft text-primary shrink-0">
@@ -137,6 +137,19 @@ const ArticlePage = () => {
                 <li key={m} className="flex items-start gap-2.5">
                   <span className="mt-2 h-1.5 w-1.5 rounded-full bg-destructive shrink-0" />
                   <span>{m}</span>
+                </li>
+              ))}
+            </ul>
+          </Section>
+        )}
+
+        {article.nextSteps && article.nextSteps.length > 0 && (
+          <Section icon={CheckCircle2} title="What to do next">
+            <ul className="space-y-2">
+              {article.nextSteps.map((step) => (
+                <li key={step} className="flex items-start gap-2.5">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <span>{step}</span>
                 </li>
               ))}
             </ul>

@@ -96,6 +96,36 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.federalreserve.gov/publications/report-economic-well-being-us-households.htm",
     note: "Household financial well-being and savings benchmarks.",
   },
+  federalReserveMonetaryPolicy: {
+    name: "Federal Reserve",
+    pageTitle: "Monetary policy",
+    url: "https://www.federalreserve.gov/monetarypolicy.htm",
+    note: "Official explanations of interest-rate policy and how it affects financial conditions.",
+  },
+  blsEmployment: {
+    name: "Bureau of Labor Statistics",
+    pageTitle: "Employment Situation",
+    url: "https://www.bls.gov/news.release/empsit.toc.htm",
+    note: "Official national data on jobs, unemployment, hours, and earnings.",
+  },
+  investorGov: {
+    name: "Investor.gov",
+    pageTitle: "Introduction to investing",
+    url: "https://www.investor.gov/introduction-investing",
+    note: "SEC educational material on stocks, bonds, funds, risk, and fees.",
+  },
+  cmsPaymentSystems: {
+    name: "CMS",
+    pageTitle: "Medicare payment systems",
+    url: "https://www.cms.gov/outreach-and-education/medicare-learning-network-mln/mlnproducts/html/medicare-payment-systems.html",
+    note: "Official overview of how Medicare pays different healthcare settings.",
+  },
+  medicareHomeHealth: {
+    name: "Medicare.gov",
+    pageTitle: "Home health services",
+    url: "https://www.medicare.gov/coverage/home-health-services",
+    note: "Official rules for Medicare-covered home health services.",
+  },
   healthcareGov: {
     name: "Healthcare.gov",
     pageTitle: "Marketplace insurance basics",

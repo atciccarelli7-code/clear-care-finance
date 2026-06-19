@@ -3,12 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Heart, Shield, BookOpen, Users } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
-import { SOURCE_PRESETS } from "@/data/sources";
 
 const About = () => {
-  const allSources = Object.values(SOURCE_PRESETS);
   return (
     <>
       <PageHero
@@ -24,12 +21,8 @@ const About = () => {
             just by living their lives. Financial confusion in healthcare works the same way: nobody hands
             out a manual, and the rules quietly affect everyone.
           </p>
-          <p className="text-muted-foreground">
-            This site exists to translate the confusing parts into plain English: paychecks, benefits,
-            insurance, retirement accounts, Medicare, Medicaid, and hospital bills. Calculators show the
-            numbers. Articles fill in the context. Nothing here is meant to push a product or scare you into
-            a decision.
-          </p>
+          <p className="text-muted-foreground">This site is for healthcare workers, patients, families, and caregivers. It translates pay, benefits, retirement accounts, insurance, Medicare, Medicaid, hospital bills, and healthcare financial systems into plain English.</p>
+          <p className="text-muted-foreground">We use official government sources first, then reputable nonprofit and research sources when they add useful context. Nothing here provides individualized advice, pushes a product, or uses fear to force a decision.</p>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 mt-12">
@@ -51,9 +44,9 @@ const About = () => {
           ))}
         </div>
 
-        <div className="mt-16">
-          <SectionHeading eyebrow="Sources" title="Where our information comes from" />
-          <SourceList sources={allSources} />
+        <div id="sources" className="mt-16 scroll-mt-24">
+          <SectionHeading eyebrow="Sources" title="Official sources first" description="Each article links to its supporting sources. The full source directory explains what we prioritize and why." />
+          <Button asChild variant="soft"><Link to="/sources">Browse source directory</Link></Button>
         </div>
 
         <div className="mt-12">

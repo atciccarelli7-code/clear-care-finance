@@ -5,6 +5,7 @@ import { ARTICLES, categories } from "@/data/articles";
 import { PageHero } from "@/components/shared/PageHero";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { cn } from "@/lib/utils";
+import { publishedArticles } from "@/lib/article-status";
 
 const Articles = () => {
   const [q, setQ] = useState("");
@@ -12,7 +13,7 @@ const Articles = () => {
 
   const filtered = useMemo(
     () =>
-      ARTICLES.filter((a) => {
+      publishedArticles(ARTICLES).filter((a) => {
         const matchesCat = cat === "All" || a.category === cat;
         const matchesQ = !q || (a.title + " " + a.promise).toLowerCase().includes(q.toLowerCase());
         return matchesCat && matchesQ;

@@ -3,6 +3,9 @@ export type Source = {
   pageTitle: string;  // page or topic title
   url: string;
   note?: string;      // why this source is useful
+  publisher?: string;
+  reviewedDate?: string;
+  accessedDate?: string;
 };
 
 export const SOURCE_PRESETS: Record<string, Source> = {

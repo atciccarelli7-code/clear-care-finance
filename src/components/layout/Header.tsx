@@ -6,6 +6,7 @@ import { Menu, X, Leaf } from "lucide-react";
 const nav = [
   { to: "/healthcare-workers", label: "Healthcare Worker Money" },
   { to: "/patients-families", label: "Patient & Caregiver Money" },
+  { to: "/topics", label: "All topics" },
   { to: "/tools", label: "Calculators" },
   { to: "/articles", label: "Articles" },
   { to: "/glossary", label: "Glossary" },
@@ -76,17 +77,6 @@ export const Header = () => {
                 {n.label}
               </NavLink>
             ))}
-            <NavLink
-              to="/topics"
-              onClick={() => setOpen(false)}
-              className={({ isActive }) =>
-                `px-3 py-3 text-sm font-medium rounded-lg transition-smooth ${
-                  isActive ? "text-primary bg-primary-soft" : "text-foreground hover:bg-muted"
-                }`
-              }
-            >
-              All topics
-            </NavLink>
             <Button asChild variant="hero" className="mt-2 sm:hidden">
               <Link to="/tools" onClick={() => setOpen(false)}>Open a calculator</Link>
             </Button>

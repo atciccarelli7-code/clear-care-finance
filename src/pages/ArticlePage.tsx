@@ -2,8 +2,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen } from "lucide-react";
 import { ARTICLES } from "@/data/articles";
 import { PageHero } from "@/components/shared/PageHero";
-import { SourceList } from "@/components/shared/SourceList";
-import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
+import { ArticleTrustBlock } from "@/components/shared/ArticleTrustBlock";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
 
@@ -147,14 +146,7 @@ const ArticlePage = () => {
           <p className="text-foreground font-medium">{article.takeaway}</p>
         </Section>
 
-        {article.sources.length > 0 && (
-          <div className="space-y-4">
-            <h2 className="font-display text-xl md:text-2xl font-bold">Sources</h2>
-            <SourceList sources={article.sources} />
-          </div>
-        )}
-
-        <DisclaimerBox />
+        <ArticleTrustBlock sources={article.sources} reviewedDate="June 2026" />
 
         <div className="pt-4">
           <Button asChild variant="soft">

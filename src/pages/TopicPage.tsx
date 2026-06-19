@@ -32,19 +32,19 @@ const TopicPage = () => {
         </Button>
       </PageHero>
 
-      <section className="container py-10 md:py-16">
+      <section className="container min-w-0 py-10 md:py-16">
         <TopicOverview startHere={topic.startHere} definitions={topic.definitions} />
       </section>
 
       {topic.comparison && (
-        <section className="container py-12">
+        <section className="container min-w-0 py-12">
           <SectionHeading
             centered
             eyebrow="Comparison"
             title={topic.comparison.title}
             description={topic.comparison.description}
           />
-          <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
+          <div className="grid min-w-0 gap-6 md:grid-cols-2 max-w-4xl mx-auto">
             <ComparisonCard side={topic.comparison.left} />
             <ComparisonCard side={topic.comparison.right} />
           </div>
@@ -52,13 +52,13 @@ const TopicPage = () => {
       )}
 
       {topic.factSheet && (
-        <section className="container py-12">
+        <section className="container min-w-0 py-12">
           <FactSheetGrid factSheet={topic.factSheet} />
         </section>
       )}
 
       {topic.warning && (
-        <section className="container py-12">
+        <section className="container min-w-0 py-12">
           <CalloutWarning title={topic.warning.title}>
             <p>{topic.warning.body}</p>
           </CalloutWarning>
@@ -66,7 +66,7 @@ const TopicPage = () => {
       )}
 
       {topic.calculator && (
-        <section id="calculator" className="container py-12 scroll-mt-20">
+        <section id="calculator" className="container min-w-0 py-12 scroll-mt-20">
           <SectionHeading centered eyebrow="Tool" title={topic.calculator.title} description={topic.calculator.description} />
           <CalculatorCard
             eyebrow={topic.category}
@@ -79,18 +79,18 @@ const TopicPage = () => {
       )}
 
       {topic.relatedArticleSlugs.length > 0 && (
-        <section className="container py-16">
+        <section className="container min-w-0 py-16">
           <RelatedArticles slugs={topic.relatedArticleSlugs} />
         </section>
       )}
 
-      <section id="sources" className="container py-16 scroll-mt-20">
+      <section id="sources" className="container min-w-0 py-16 scroll-mt-20">
         <SectionHeading centered eyebrow="Sources" title="Where this comes from" description="Verifiable, publicly available sources you can explore further." />
-        <div className="max-w-2xl mx-auto space-y-6">
+        <div className="max-w-2xl mx-auto min-w-0 space-y-6">
           <SourceList sources={topic.sources} />
           <DisclaimerBox />
         </div>
-        <div className="mt-10 text-center">
+        <div className="mt-10 text-center min-w-0">
           <Button asChild variant="soft">
             <Link to="/topics">Browse all topics <ArrowRight className="h-4 w-4" /></Link>
           </Button>

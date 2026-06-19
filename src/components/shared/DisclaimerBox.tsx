@@ -6,7 +6,7 @@ interface DisclaimerBoxProps {
 }
 
 export const DISCLAIMER_TEXT =
-  "Community Acquired Finance provides educational information only. It is not financial, tax, legal, insurance, or medical advice. Always verify details with official sources, your benefits department, a qualified professional, or your plan documents.";
+  "This content is for education only. It is not financial, tax, legal, insurance, or medical advice. Rules, plan details, and costs can change. Confirm important decisions with your employer, plan documents, Medicare.gov, IRS.gov, a licensed professional, or another appropriate source.";
 
 export const DisclaimerBox = ({ className, short }: DisclaimerBoxProps) => (
   <div

@@ -17,6 +17,8 @@ import About from "./pages/About.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import TermsOfUse from "./pages/TermsOfUse.tsx";
 import EditorialPolicy from "./pages/EditorialPolicy.tsx";
+import Disclosures from "./pages/Disclosures.tsx";
+import Accessibility from "./pages/Accessibility.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -44,6 +46,8 @@ const App = () => (
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfUse />} />
             <Route path="/editorial-policy" element={<EditorialPolicy />} />
+            <Route path="/disclosures" element={<Disclosures />} />
+            <Route path="/accessibility" element={<Accessibility />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

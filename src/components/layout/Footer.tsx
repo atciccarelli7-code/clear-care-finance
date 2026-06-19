@@ -63,6 +63,8 @@ export const Footer = () => {
             <li><Link to="/privacy" className="hover:text-primary transition-smooth">Privacy Policy</Link></li>
             <li><Link to="/terms" className="hover:text-primary transition-smooth">Terms of Use</Link></li>
             <li><Link to="/editorial-policy" className="hover:text-primary transition-smooth">Editorial Policy</Link></li>
+            <li><Link to="/disclosures" className="hover:text-primary transition-smooth">Disclosures</Link></li>
+            <li><Link to="/accessibility" className="hover:text-primary transition-smooth">Accessibility</Link></li>
           </ul>
         </div>
       </div>

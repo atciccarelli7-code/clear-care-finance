@@ -10,7 +10,7 @@ const nav = [
   { to: "/tools", label: "Calculators" },
   { to: "/articles", label: "Articles" },
   { to: "/glossary", label: "Glossary" },
-  { to: "/about", label: "About / Sources" },
+  { to: "/about", label: "About" },
 ];
 
 export const Header = () => {
@@ -53,7 +53,9 @@ export const Header = () => {
           <button
             className="xl:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
             onClick={() => setOpen(!open)}
-            aria-label="Menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -62,7 +64,7 @@ export const Header = () => {
 
       {open && (
         <div className="xl:hidden border-t border-border bg-background animate-fade-in">
-          <nav className="container py-4 flex flex-col gap-1">
+          <nav id="mobile-navigation" className="container py-4 flex flex-col gap-1">
             {nav.map((n) => (
               <NavLink
                 key={n.to}

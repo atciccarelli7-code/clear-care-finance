@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import { HeartPulse, Briefcase, PiggyBank, Shield, Receipt, Building2, Brain, Tag } from "lucide-react";
 import { SOURCE_PRESETS, type Source } from "./sources";
 
-export type CalculatorKey = "calc403b" | "calcInsurance" | "calcMedicare" | "calcCafe";
+export type CalculatorKey = "calc403b" | "calcInsurance" | "calcMedicare" | "calcCafe" | "calcLoan";
 
 export type ComparisonSide = {
   title: string;
@@ -146,7 +146,7 @@ export const TOPICS: Topic[] = [
       title: "Medicare Cost Exposure Tool",
       description: "Estimate a rough yearly out-of-pocket for premiums, deductible, prescriptions, and coinsurance.",
     },
-    relatedArticleSlugs: ["medicare-options-explained", "discharge-coverage-guide", "long-term-care-and-custodial-care"],
+    relatedArticleSlugs: ["medicare-options-explained", "discharge-coverage-guide", "long-term-care-and-custodial-care", "home-health-after-discharge"],
     sources: [
       SOURCE_PRESETS.medicareParts,
       SOURCE_PRESETS.medicareMedigap,
@@ -205,7 +205,7 @@ export const TOPICS: Topic[] = [
       title: "403(b) Paycheck Contribution Calculator",
       description: "Model contribution %, employer match, and estimated annual contribution.",
     },
-    relatedArticleSlugs: ["how-to-pick-retirement-investments-at-work", "workplace-benefits-definitions"],
+    relatedArticleSlugs: ["how-to-pick-retirement-investments-at-work", "workplace-benefits-definitions", "how-interest-rates-affect-daily-life"],
     sources: [SOURCE_PRESETS.irs, SOURCE_PRESETS.federalReserve],
   },
   {
@@ -268,7 +268,7 @@ export const TOPICS: Topic[] = [
       { term: "DRG", meaning: "Diagnosis-Related Group — how Medicare pays a fixed bundled rate per inpatient stay." },
       { term: "340B", meaning: "Federal drug-pricing program that lets eligible hospitals buy outpatient drugs at a discount." },
     ],
-    relatedArticleSlugs: ["why-er-visit-is-expensive"],
+    relatedArticleSlugs: ["why-er-visit-is-expensive", "how-interest-rates-affect-healthcare-workplace"],
     sources: [SOURCE_PRESETS.kff, SOURCE_PRESETS.cms],
   },
   {
@@ -289,7 +289,7 @@ export const TOPICS: Topic[] = [
       title: "Hospital Café Savings Rate Calculator",
       description: "See what daily café spend adds up to in a year — without shame.",
     },
-    relatedArticleSlugs: ["hospital-cafe-habit", "burnout-overspending-overeating"],
+    relatedArticleSlugs: ["hospital-cafe-habit", "burnout-overspending-overeating", "how-interest-rates-affect-daily-life"],
     sources: [SOURCE_PRESETS.federalReserve, SOURCE_PRESETS.bls],
   },
   {

@@ -80,8 +80,8 @@
 }
 
 @layer base {
-  * { @apply border-border; box-sizing: border-box; }
-  html, body { max-width: 100%; overflow-x: hidden; }
+  *, *::before, *::after { @apply border-border; box-sizing: border-box; }
+  html, body { width: 100%; max-width: 100%; min-width: 0; }
   html { scroll-behavior: smooth; }
   body {
     @apply bg-background text-foreground antialiased;
@@ -90,12 +90,33 @@
       radial-gradient(ellipse 80% 50% at 50% -10%, hsl(145 30% 14% / 0.35), transparent 70%);
     background-attachment: fixed;
   }
+  #root { width: 100%; max-width: 100%; min-width: 0; }
   h1, h2, h3, h4 {
     @apply tracking-tight;
     font-feature-settings: "ss01";
+    overflow-wrap: anywhere;
   }
+  p, li, a, span, dd, dt { overflow-wrap: anywhere; }
   img, video, canvas, svg { max-width: 100%; }
+  button, input, select, textarea { max-width: 100%; }
   ::selection { background: hsl(var(--primary) / 0.3); }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @screen sm {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
 }
 
 @layer utilities {
@@ -107,4 +128,5 @@
   .bg-gradient-accent { background: var(--gradient-accent); }
   .transition-smooth { transition: var(--transition-smooth); }
   .text-balance { text-wrap: balance; }
+  .break-anywhere { overflow-wrap: anywhere; }
 }

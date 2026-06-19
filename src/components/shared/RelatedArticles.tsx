@@ -1,6 +1,7 @@
 import { SectionHeading } from "./SectionHeading";
 import { ArticleCard } from "./ArticleCard";
 import { ARTICLES } from "@/data/articles";
+import { isArticleDraft } from "@/lib/article-status";
 
 interface RelatedArticlesProps {
   slugs: string[];
@@ -9,7 +10,9 @@ interface RelatedArticlesProps {
 }
 
 export const RelatedArticles = ({ slugs, title = "Related articles", description }: RelatedArticlesProps) => {
-  const items = slugs.map((s) => ARTICLES.find((a) => a.slug === s)).filter(Boolean) as typeof ARTICLES;
+  const items = slugs
+    .map((s) => ARTICLES.find((a) => a.slug === s))
+    .filter((article) => article && !isArticleDraft(article)) as typeof ARTICLES;
   if (!items.length) return null;
   return (
     <div>

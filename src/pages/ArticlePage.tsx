@@ -5,6 +5,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
+import { isArticleDraft } from "@/lib/article-status";
 
 const Section = ({ icon: Icon, title, children }: { icon: any; title: string; children: React.ReactNode }) => (
   <div className="space-y-2.5 md:space-y-3">
@@ -22,6 +23,30 @@ const ArticlePage = () => {
   const { slug = "" } = useParams();
   const article = ARTICLES.find((a) => a.slug === slug);
   if (!article) return <Navigate to="/articles" replace />;
+
+  if (isArticleDraft(article)) {
+    return (
+      <>
+        <PageHero
+          eyebrow={`${article.category} · Coming soon`}
+          title={article.title}
+          description="This guide is still being reviewed and completed. It is not being presented as finished educational content yet."
+        />
+        <section className="container max-w-3xl py-12 md:py-16">
+          <div className="rounded-2xl border border-border bg-card p-6 text-center shadow-card md:p-10">
+            <h2 className="font-display text-2xl font-bold">This article is still in progress.</h2>
+            <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
+              We would rather publish a complete, source-backed guide than fill the page with unfinished copy.
+              Published articles and calculators remain available while this one is completed.
+            </p>
+            <Button asChild variant="soft" className="mt-6">
+              <Link to="/articles"><ArrowLeft className="h-4 w-4" /> Browse published articles</Link>
+            </Button>
+          </div>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>

@@ -6,11 +6,12 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { PageHero } from "@/components/shared/PageHero";
 import { ARTICLES } from "@/data/articles";
+import { publishedArticles } from "@/lib/article-status";
 import { TOPICS } from "@/data/topics";
 
 const Index = () => {
   const featuredTopics = TOPICS.slice(0, 6);
-  const featuredArticles = ARTICLES.slice(0, 4);
+  const featuredArticles = publishedArticles(ARTICLES).slice(0, 4);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen } from "lucide-react";
-import { ARTICLES } from "@/data/articles";
+import { SITE_ARTICLES } from "@/data/siteArticles";
 import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
@@ -21,7 +21,7 @@ const Section = ({ icon: Icon, title, children }: { icon: any; title: string; ch
 
 const ArticlePage = () => {
   const { slug = "" } = useParams();
-  const article = ARTICLES.find((a) => a.slug === slug);
+  const article = SITE_ARTICLES.find((a) => a.slug === slug);
   if (!article) return <Navigate to="/articles" replace />;
 
   if (isArticleDraft(article)) {

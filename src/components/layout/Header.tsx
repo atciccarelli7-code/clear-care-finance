@@ -4,13 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, Leaf } from "lucide-react";
 
 const nav = [
-  { to: "/healthcare-workers", label: "Healthcare Worker Money" },
-  { to: "/patients-families", label: "Patient & Caregiver Money" },
-  { to: "/topics", label: "All topics" },
-  { to: "/tools", label: "Calculators" },
   { to: "/articles", label: "Articles" },
-  { to: "/glossary", label: "Glossary" },
-  { to: "/about", label: "About / Sources" },
+  { to: "/tools", label: "Calculators" },
+  { to: "/topics/medicare-medicaid", label: "Medicare/Medicaid" },
+  { to: "/healthcare-workers", label: "Healthcare Workers" },
+  { to: "/patients-families", label: "Patients" },
+  { to: "/about", label: "About" },
 ];
 
 export const Header = () => {

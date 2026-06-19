@@ -17,11 +17,11 @@ export const CalculatorResult = ({ label, value, emphasis = "muted", helper }: C
   const labelColor = emphasis === "muted" ? "text-muted-foreground" : "opacity-90";
 
   return (
-    <div className={cn("rounded-2xl border p-5 shadow-card", styles)}>
-      <div className={cn("text-xs font-semibold uppercase tracking-wider", labelColor)}>{label}</div>
-      <div className="mt-1 font-display text-2xl md:text-3xl font-bold tabular-nums">{value}</div>
+    <div className={cn("min-w-0 break-words rounded-2xl border p-5 shadow-card", styles)}>
+      <div className={cn("break-words text-xs font-semibold uppercase tracking-wider", labelColor)}>{label}</div>
+      <div className="mt-1 break-words font-display text-2xl font-bold tabular-nums md:text-3xl">{value}</div>
       {helper && (
-        <div className={cn("text-xs mt-1", emphasis === "muted" ? "text-muted-foreground" : "opacity-80")}>
+        <div className={cn("mt-1 break-words text-xs", emphasis === "muted" ? "text-muted-foreground" : "opacity-80")}>
           {helper}
         </div>
       )}

@@ -26,9 +26,9 @@ export const CalculatorInput = ({
   step,
   className,
 }: CalculatorInputProps) => (
-  <div className={cn("space-y-2", className)}>
-    <Label className="text-sm font-semibold">{label}</Label>
-    <div className="relative">
+  <div className={cn("min-w-0 space-y-2", className)}>
+    <Label className="text-sm font-semibold break-words">{label}</Label>
+    <div className="relative min-w-0">
       {prefix && (
         <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-muted-foreground pointer-events-none">
           {prefix}
@@ -39,7 +39,7 @@ export const CalculatorInput = ({
         step={step}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={cn("h-11 text-base", prefix && "pl-7", suffix && "pr-10")}
+        className={cn("h-11 w-full min-w-0 text-base", prefix && "pl-7", suffix && "pr-10")}
         inputMode={type === "number" ? "decimal" : undefined}
       />
       {suffix && (
@@ -48,7 +48,7 @@ export const CalculatorInput = ({
         </span>
       )}
     </div>
-    {helper && <p className="text-xs text-muted-foreground">{helper}</p>}
+    {helper && <p className="text-xs text-muted-foreground break-words">{helper}</p>}
   </div>
 );
 
@@ -61,9 +61,9 @@ interface CalculatorSelectProps {
 }
 
 export const CalculatorSelectField = ({ label, helper, children }: { label: string; helper?: string; children: ReactNode }) => (
-  <div className="space-y-2">
-    <Label className="text-sm font-semibold">{label}</Label>
-    {children}
-    {helper && <p className="text-xs text-muted-foreground">{helper}</p>}
+  <div className="min-w-0 space-y-2">
+    <Label className="text-sm font-semibold break-words">{label}</Label>
+    <div className="min-w-0">{children}</div>
+    {helper && <p className="text-xs text-muted-foreground break-words">{helper}</p>}
   </div>
 );

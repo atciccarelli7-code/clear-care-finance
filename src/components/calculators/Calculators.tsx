@@ -4,6 +4,10 @@ import { CalculatorInput, CalculatorSelectField } from "@/components/shared/Calc
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
 import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
+import {
+  calculateHealthInsuranceEstimate,
+  type InsuranceCostShareMode,
+} from "@/lib/calculators";
 
 const formatUSD = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(
@@ -124,57 +128,188 @@ export const Calc403b = () => {
 export const CalcInsurance = () => {
   const [premium, setPremium] = useState("180");
   const [deductible, setDeductible] = useState("1500");
-  const [met, setMet] = useState("0");
+  const [deductibleMet, setDeductibleMet] = useState("0");
+  const [costShareMode, setCostShareMode] = useState<InsuranceCostShareMode>("coinsurance");
   const [copay, setCopay] = useState("30");
-  const [coins, setCoins] = useState("20");
+  const [coinsurance, setCoinsurance] = useState("20");
   const [allowed, setAllowed] = useState("220");
   const [visits, setVisits] = useState("6");
-  const [oopMax, setOopMax] = useState("6000");
+  const [outOfPocketMaximum, setOutOfPocketMaximum] = useState("6000");
+  const [outOfPocketMet, setOutOfPocketMet] = useState("0");
 
-  const premiumN = num(premium);
-  const deductibleN = num(deductible);
-  const metN = num(met);
-  const copayN = num(copay);
-  const coinsN = num(coins);
-  const allowedN = num(allowed);
-  const visitsN = num(visits);
-  const oopMaxN = num(oopMax);
+  const estimate = calculateHealthInsuranceEstimate({
+    monthlyPremium: num(premium),
+    annualDeductible: num(deductible),
+    deductibleMet: num(deductibleMet),
+    costShareMode,
+    copayPerVisit: num(copay),
+    coinsuranceRate: num(coinsurance),
+    allowedAmountPerVisit: num(allowed),
+    visits: num(visits),
+    outOfPocketMaximum: num(outOfPocketMaximum),
+    outOfPocketMet: num(outOfPocketMet),
+  });
 
-  const annualPremium = premiumN * 12;
-  const remainingDeductible = Math.max(deductibleN - metN, 0);
-  const totalAllowed = allowedN * visitsN;
-  const towardDeductible = Math.min(totalAllowed, remainingDeductible);
-  const afterDeductible = Math.max(totalAllowed - towardDeductible, 0);
-  const coinsCost = afterDeductible * (coinsN / 100);
-  const copayCost = copayN * visitsN;
-  let patientPays = towardDeductible + coinsCost + copayCost;
-  if (oopMaxN > 0) patientPays = Math.min(patientPays, oopMaxN);
-  const insurancePays = Math.max(totalAllowed - (towardDeductible + coinsCost), 0);
-  const totalAnnual = annualPremium + patientPays;
+  const {
+    annualPremium,
+    totalAllowed,
+    deductibleCost,
+    postDeductibleCost,
+    medicalCostSharing,
+    insurancePays,
+    totalAnnualCost,
+    remainingOutOfPocket,
+  } = estimate;
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">
       <div className="lg:col-span-3 space-y-5">
         <div className="grid sm:grid-cols-2 gap-5">
-          <CalculatorInput label="Monthly premium" prefix="$" value={premium} onChange={setPremium} helper="What you pay each month for coverage." />
-          <CalculatorInput label="Annual deductible" prefix="$" value={deductible} onChange={setDeductible} helper="Amount you pay before insurance starts paying." />
-          <CalculatorInput label="Deductible already met" prefix="$" value={met} onChange={setMet} helper="Amount counted toward this year's deductible." />
-          <CalculatorInput label="Copay per visit" prefix="$" value={copay} onChange={setCopay} helper="Flat fee per visit." />
-          <CalculatorInput label="Coinsurance" suffix="%" value={coins} onChange={setCoins} helper="Your share after deductible." />
-          <CalculatorInput label="Allowed amount / visit" prefix="$" value={allowed} onChange={setAllowed} helper="Negotiated price per visit." />
-          <CalculatorInput label="Number of visits" value={visits} onChange={setVisits} helper="Expected visits this year." />
-          <CalculatorInput label="Out-of-pocket maximum" prefix="$" value={oopMax} onChange={setOopMax} helper="Worst-case in-network ceiling." />
+          <CalculatorInput
+            label="Monthly premium"
+            prefix="$"
+            value={premium}
+            onChange={setPremium}
+            min={0}
+            step="0.01"
+            helper="Paid for coverage each month. Premiums do not count toward the out-of-pocket maximum."
+          />
+          <CalculatorInput
+            label="Annual deductible"
+            prefix="$"
+            value={deductible}
+            onChange={setDeductible}
+            min={0}
+            step="0.01"
+            helper="Amount the plan requires before this estimate applies post-deductible cost sharing."
+          />
+          <CalculatorInput
+            label="Deductible already met"
+            prefix="$"
+            value={deductibleMet}
+            onChange={setDeductibleMet}
+            min={0}
+            max={Math.max(0, num(deductible))}
+            step="0.01"
+            helper="Use the current amount shown by your insurer; it cannot exceed the annual deductible here."
+          />
+          <CalculatorSelectField
+            label="After-deductible cost sharing"
+            helper="Choose one simplified method for these visits so copay and coinsurance are not double-counted."
+          >
+            <Select value={costShareMode} onValueChange={(value) => setCostShareMode(value as InsuranceCostShareMode)}>
+              <SelectTrigger className="h-11"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="coinsurance">Coinsurance percentage</SelectItem>
+                <SelectItem value="copay">Flat copay per visit</SelectItem>
+              </SelectContent>
+            </Select>
+          </CalculatorSelectField>
+          {costShareMode === "coinsurance" ? (
+            <CalculatorInput
+              label="Coinsurance after deductible"
+              suffix="%"
+              value={coinsurance}
+              onChange={setCoinsurance}
+              min={0}
+              max={100}
+              step="0.1"
+              helper="Your percentage of the remaining allowed amount after the deductible."
+            />
+          ) : (
+            <CalculatorInput
+              label="Copay after deductible"
+              prefix="$"
+              value={copay}
+              onChange={setCopay}
+              min={0}
+              step="0.01"
+              helper="Flat amount per modeled visit after the deductible; capped at that visit's remaining allowed amount."
+            />
+          )}
+          <CalculatorInput
+            label="Allowed amount per visit"
+            prefix="$"
+            value={allowed}
+            onChange={setAllowed}
+            min={0}
+            step="0.01"
+            helper="The in-network negotiated amount, not the provider's billed charge."
+          />
+          <CalculatorInput
+            label="Number of visits"
+            value={visits}
+            onChange={setVisits}
+            min={0}
+            step="1"
+            helper="Whole visits expected during the plan year."
+          />
+          <CalculatorInput
+            label="In-network out-of-pocket maximum"
+            prefix="$"
+            value={outOfPocketMaximum}
+            onChange={setOutOfPocketMaximum}
+            min={0}
+            step="0.01"
+            helper="Enter 0 if unknown. Premiums and non-covered or out-of-network charges are not included."
+          />
+          <CalculatorInput
+            label="Out-of-pocket maximum already met"
+            prefix="$"
+            value={outOfPocketMet}
+            onChange={setOutOfPocketMet}
+            min={0}
+            max={Math.max(0, num(outOfPocketMaximum))}
+            step="0.01"
+            helper="Use the current in-network amount reported by your insurer, which usually includes deductible payments."
+          />
+        </div>
+
+        <div className="rounded-2xl bg-muted/30 border border-border p-5 text-sm leading-relaxed">
+          <div className="text-xs font-semibold uppercase tracking-wider text-secondary mb-2">Simplified calculation model</div>
+          <ul className="space-y-1.5 text-muted-foreground">
+            <li>Annual premium = monthly premium × 12 and stays separate from medical cost sharing.</li>
+            <li>Each visit's allowed amount first applies to the remaining deductible.</li>
+            <li>After the deductible, the selected copay or coinsurance applies — never both.</li>
+            <li>New medical cost sharing stops at the remaining in-network out-of-pocket maximum.</li>
+            <li>Patient cost sharing + insurer payment = modeled allowed charges.</li>
+          </ul>
+          <p className="mt-3 text-xs text-muted-foreground/80">
+            This assumes the deductible applies to every modeled visit before one uniform cost-sharing method.
+            Real plans may exempt services from the deductible or use different copays and coinsurance by service.
+          </p>
         </div>
       </div>
 
       <div className="lg:col-span-2 space-y-3">
-        <CalculatorResult label="You pay" value={formatUSD(patientPays)} emphasis="primary" />
-        <CalculatorResult label="Insurance pays" value={formatUSD(insurancePays)} />
-        <CalculatorResult label="Annual premium" value={formatUSD(annualPremium)} />
-        <CalculatorResult label="Estimated total annual cost" value={formatUSD(totalAnnual)} emphasis="accent" />
+        <CalculatorResult
+          label="Annual premium"
+          value={formatUSD(annualPremium)}
+          helper="Shown separately; premiums do not count toward the out-of-pocket maximum."
+        />
+        <CalculatorResult label="Modeled allowed charges" value={formatUSD(totalAllowed)} />
+        <CalculatorResult label="Deductible portion you pay" value={formatUSD(deductibleCost)} />
+        <CalculatorResult
+          label={costShareMode === "copay" ? "Copay portion you pay" : "Coinsurance portion you pay"}
+          value={formatUSD(postDeductibleCost)}
+        />
+        <CalculatorResult label="Modeled medical cost sharing" value={formatUSD(medicalCostSharing)} emphasis="primary" />
+        <CalculatorResult label="Estimated insurer payment" value={formatUSD(insurancePays)} />
+        <CalculatorResult
+          label="Premium + modeled medical cost sharing"
+          value={formatUSD(totalAnnualCost)}
+          emphasis="accent"
+        />
+        <CalculatorResult
+          label="Remaining in-network out-of-pocket room"
+          value={remainingOutOfPocket === null ? "Not calculated" : formatUSD(remainingOutOfPocket)}
+          helper={remainingOutOfPocket === null
+            ? "No cap was applied because the out-of-pocket maximum was entered as $0."
+            : "Based on the amount already met plus the visits modeled here."}
+        />
         <CalculatorMeaning>
-          "Total annual cost" is what the plan really costs you this year — premiums plus what you pay at the point of care.
-          Compare this across plans, not just the premium.
+          This is a planning estimate, not a bill prediction. Actual costs depend on plan rules, network status,
+          covered services, allowed amounts, pharmacy costs, claim order, and insurer processing.
         </CalculatorMeaning>
         <DisclaimerBox short />
       </div>

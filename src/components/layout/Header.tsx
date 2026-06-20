@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 const nav = [
-  { to: "/healthcare-workers", label: "Healthcare Worker Money" },
+  { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patient & Caregiver Money" },
   { to: "/topics", label: "All topics" },
   { to: "/tools", label: "Calculators" },

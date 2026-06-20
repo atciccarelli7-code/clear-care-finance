@@ -30,6 +30,36 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.kff.org",
     note: "Independent analysis on insurance, Medicare, and Medicaid.",
   },
+  medicareCosts: {
+    name: "Medicare.gov",
+    pageTitle: "Medicare costs",
+    url: "https://www.medicare.gov/basics/costs/medicare-costs",
+    note: "Official Medicare premiums, deductibles, coinsurance, and cost-sharing amounts.",
+  },
+  medicareCompareOriginalAdvantage: {
+    name: "Medicare.gov",
+    pageTitle: "Compare Original Medicare & Medicare Advantage",
+    url: "https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/your-coverage-options/compare-original-medicare-medicare-advantage",
+    note: "Official comparison of provider access, referrals, drug coverage, and plan rules.",
+  },
+  medicareSnf: {
+    name: "Medicare.gov",
+    pageTitle: "Skilled nursing facility care",
+    url: "https://www.medicare.gov/coverage/skilled-nursing-facility-care",
+    note: "Official Medicare coverage guidance for post-hospital skilled nursing facility care.",
+  },
+  medicareHomeHealth: {
+    name: "Medicare.gov",
+    pageTitle: "Home health services",
+    url: "https://www.medicare.gov/coverage/home-health-services",
+    note: "Official Medicare coverage guidance for skilled home health services.",
+  },
+  medicareDme: {
+    name: "Medicare.gov",
+    pageTitle: "Durable medical equipment coverage",
+    url: "https://www.medicare.gov/coverage/durable-medical-equipment-dme-coverage",
+    note: "Official Medicare coverage guidance for equipment used at home.",
+  },
   medicareParts: {
     name: "Medicare.gov",
     pageTitle: "Parts of Medicare",
@@ -41,6 +71,18 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     pageTitle: "Medigap basics",
     url: "https://www.medicare.gov/health-drug-plans/medigap/basics",
     note: "Official explanation of how Medicare Supplement insurance works with Original Medicare.",
+  },
+  medicareMedigapHowWorks: {
+    name: "Medicare.gov",
+    pageTitle: "How Medigap works",
+    url: "https://www.medicare.gov/health-drug-plans/medigap/basics/how-medigap-works",
+    note: "Official explanation of how Medigap helps with Original Medicare cost-sharing.",
+  },
+  medicareMedigapCompareBenefits: {
+    name: "Medicare.gov",
+    pageTitle: "Compare Medigap plan benefits",
+    url: "https://www.medicare.gov/health-drug-plans/medigap/basics/compare-plan-benefits",
+    note: "Official Medigap benefit comparison, including skilled nursing facility coinsurance coverage by plan type.",
   },
   medicareLongTermCare: {
     name: "Medicare.gov",
@@ -66,6 +108,12 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.cms.gov/medicare/medicaid-coordination/about",
     note: "CMS resources for coordinating benefits for people enrolled in both programs.",
   },
+  kffMedicareCoverageSnapshot: {
+    name: "KFF",
+    pageTitle: "A Snapshot of Sources of Coverage Among Medicare Beneficiaries",
+    url: "https://www.kff.org/medicare/a-snapshot-of-sources-of-coverage-among-medicare-beneficiaries/",
+    note: "Independent context on Medicare Advantage, Traditional Medicare, supplemental coverage, and dual eligibility.",
+  },
   kffMedicareAdvantage2026: {
     name: "KFF",
     pageTitle: "Medicare Advantage in 2026: Enrollment Update and Key Trends",
@@ -77,6 +125,42 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     pageTitle: "Medicaid 101",
     url: "https://www.kff.org/medicaid/health-policy-101-medicaid/",
     note: "Independent overview of Medicaid structure, financing, eligibility, and benefits.",
+  },
+  healthcareGovPremium: {
+    name: "HealthCare.gov",
+    pageTitle: "Premium",
+    url: "https://www.healthcare.gov/glossary/premium/",
+    note: "Official Marketplace definition for monthly insurance premiums.",
+  },
+  healthcareGovDeductible: {
+    name: "HealthCare.gov",
+    pageTitle: "Deductible",
+    url: "https://www.healthcare.gov/glossary/deductible/",
+    note: "Official Marketplace definition for deductibles.",
+  },
+  healthcareGovCopayment: {
+    name: "HealthCare.gov",
+    pageTitle: "Copayment",
+    url: "https://www.healthcare.gov/glossary/co-payment/",
+    note: "Official Marketplace definition for fixed copayments.",
+  },
+  healthcareGovCoinsurance: {
+    name: "HealthCare.gov",
+    pageTitle: "Coinsurance",
+    url: "https://www.healthcare.gov/glossary/co-insurance/",
+    note: "Official Marketplace definition for percentage cost-sharing.",
+  },
+  healthcareGovOutOfPocketMax: {
+    name: "HealthCare.gov",
+    pageTitle: "Out-of-pocket maximum/limit",
+    url: "https://www.healthcare.gov/glossary/out-of-pocket-maximum-limit/",
+    note: "Official Marketplace definition for annual covered in-network cost limits.",
+  },
+  healthcareGovHmo: {
+    name: "HealthCare.gov",
+    pageTitle: "Health Maintenance Organization (HMO)",
+    url: "https://www.healthcare.gov/glossary/health-maintenance-organization-hmo/",
+    note: "Official Marketplace definition for HMO plan structure.",
   },
   irs: {
     name: "IRS",

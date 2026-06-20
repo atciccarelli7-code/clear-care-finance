@@ -5,13 +5,12 @@ import { TopicCard } from "@/components/shared/TopicCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { PageHero } from "@/components/shared/PageHero";
-import { SITE_ARTICLES } from "@/data/siteArticles";
-import { publishedArticles } from "@/lib/article-status";
+import { ALL_ARTICLES } from "@/data/allArticles";
 import { TOPICS } from "@/data/topics";
 
 const Index = () => {
   const featuredTopics = TOPICS.slice(0, 6);
-  const featuredArticles = publishedArticles(SITE_ARTICLES).slice(0, 4);
+  const featuredArticles = ALL_ARTICLES.slice(0, 4);
 
   return (
     <>

@@ -126,6 +126,24 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.kff.org/medicaid/health-policy-101-medicaid/",
     note: "Independent overview of Medicaid structure, financing, eligibility, and benefits.",
   },
+  reutersMedicaidWorkRequirements2027: {
+    name: "Reuters",
+    pageTitle: "US agency announces interim guidance on Medicaid work requirements",
+    url: "https://www.reuters.com/world/us-agency-announces-interim-guidance-medicaid-work-requirements-2026-06-01/",
+    note: "Current reporting on CMS interim guidance for the January 1, 2027 Medicaid work-rule rollout.",
+  },
+  kiplingerObbbMedicareMedicaid: {
+    name: "Kiplinger",
+    pageTitle: "Four Proposed Changes to Medicare in the One Big Beautiful Bill Act — and What Ended Up in the Signed Bill",
+    url: "https://www.kiplinger.com/retirement/medicare/changes-to-medicare-in-the-one-big-beautiful-bill-act",
+    note: "Summary separating limited direct Medicare changes from broader Medicaid provisions in the signed law.",
+  },
+  investopediaObbbMedicaid: {
+    name: "Investopedia",
+    pageTitle: "What Medicaid Recipients Should Know About The One Big Beautiful Bill",
+    url: "https://www.investopedia.com/what-medicaid-recipients-should-know-about-the-one-big-beautiful-bill-11773484",
+    note: "Consumer-oriented summary of Medicaid verification, cost-sharing, retroactive coverage, and long-term care concerns.",
+  },
   healthcareGovPremium: {
     name: "HealthCare.gov",
     pageTitle: "Premium",

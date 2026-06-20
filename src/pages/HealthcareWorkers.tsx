@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { TopicCard } from "@/components/shared/TopicCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PageHero } from "@/components/shared/PageHero";
-import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight } from "lucide-react";
+import { OBBB_OVERTIME_ARTICLE } from "@/data/healthcareWorkerArticles";
+import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock } from "lucide-react";
 
 const HealthcareWorkers = () => {
   return (
@@ -21,6 +22,31 @@ const HealthcareWorkers = () => {
         </Button>
       </PageHero>
 
+      <section className="container py-10 md:py-14">
+        <Link
+          to={`/articles/${OBBB_OVERTIME_ARTICLE.slug}`}
+          className="group block rounded-3xl border border-primary/25 bg-primary-soft/35 p-6 shadow-card transition-smooth hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-hover md:p-8"
+        >
+          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-3xl min-w-0 space-y-2">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Paycheck update</div>
+              <h2 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                {OBBB_OVERTIME_ARTICLE.title}
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                {OBBB_OVERTIME_ARTICLE.promise}
+              </p>
+              <div className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+                <Clock className="h-4 w-4" /> {OBBB_OVERTIME_ARTICLE.readTime}
+              </div>
+            </div>
+            <div className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-primary transition-all group-hover:gap-3">
+              Read guide <ArrowRight className="h-4 w-4" />
+            </div>
+          </div>
+        </Link>
+      </section>
+
       <section className="container py-16 md:py-20">
         <SectionHeading
           centered
@@ -31,8 +57,8 @@ const HealthcareWorkers = () => {
           <TopicCard icon={Wallet} title="Workplace Benefits" description="Decode open enrollment paperwork without calling HR." href="/topics/workplace-benefits" cta="Open guide" />
           <TopicCard icon={PiggyBank} title="Retirement Accounts" description="403(b), 401(a), 457(b), Roth vs Traditional — explained simply." href="/topics/retirement-accounts" cta="Open guide" />
           <TopicCard icon={Shield} title="Health Insurance" description="PPO vs HMO vs HDHP, HSA vs FSA, and how to compare plans." href="/topics/health-insurance" cta="Open guide" />
-          <TopicCard icon={Brain} title="Spending, Burnout & Behavior" description="Decision fatigue and the money side of long shifts." href="/topics/spending-burnout-behavior" cta="Open guide" />
-          <TopicCard icon={Tag} title="Healthcare Worker Discounts" description="Legitimate discount programs — without spammy affiliate noise." href="/topics/healthcare-worker-discounts" cta="Open guide" />
+          <TopicCard icon={Brain} title="Behavior & Burnout" description="Decision fatigue and the money side of long shifts." href="/topics/behavior-burnout" cta="Open guide" />
+          <TopicCard icon={Tag} title="Healthcare Worker Discounts & Perks" description="Legitimate discounts without letting them become shopping traps." href="/topics/discounts-perks" cta="Open guide" />
           <TopicCard icon={Receipt} title="Patient Medical Costs" description="Useful even when you're on the clinician side — patients ask." href="/topics/patient-medical-costs" cta="Open guide" accent="green" />
         </div>
       </section>

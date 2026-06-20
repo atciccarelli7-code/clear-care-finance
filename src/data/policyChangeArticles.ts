@@ -86,6 +86,9 @@ export const JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE: Article = {
   ],
   takeaway: "The January 1, 2027 story is bigger than one rule. Medicaid is becoming more conditional and more verification-heavy. For patients and caregivers, preparation means documentation and early help. For healthcare workers, the practical impact may show up in discharge planning, coverage gaps, long-term care access, and patient confusion.",
   sources: [
+    SOURCE_PRESETS.reutersMedicaidWorkRequirements2027,
+    SOURCE_PRESETS.kiplingerObbbMedicareMedicaid,
+    SOURCE_PRESETS.investopediaObbbMedicaid,
     SOURCE_PRESETS.medicaidEligibility,
     SOURCE_PRESETS.medicaidLtss,
     SOURCE_PRESETS.cmsMedicaidCoordination,

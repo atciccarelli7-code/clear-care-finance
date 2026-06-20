@@ -30,6 +30,11 @@ export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
     title: "Hard shifts create predictable weak points.",
     body: "After charge shifts, staffing problems, family complaints, admissions, discharges, and emotionally heavy days, willpower is usually not at full strength. That does not make someone lazy or irresponsible. It means the plan has to be built before the shift: food available, money moved automatically, easy recovery options, and friction around the purchases that feel good for ten minutes but create stress the next morning.",
   },
+  "backup-care-plans-for-busy-healthcare-workers": {
+    eyebrow: "From shift-work reality",
+    title: "Backup care is part of the real cost of working in healthcare.",
+    body: "Healthcare schedules do not always respect daycare pickup, pet medication, family routines, or the plan you made at the start of the week. This is not about making life perfectly optimized. It is about having a simple backup plan before a late shift, overtime call, or bad day forces you to solve everything while exhausted.",
+  },
   "why-er-visit-is-expensive": {
     eyebrow: "From inside the hospital system",
     title: "One visit can become many bills.",

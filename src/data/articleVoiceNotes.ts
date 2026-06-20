@@ -5,6 +5,11 @@ export type ArticleVoiceNote = {
 };
 
 export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
+  "medicare-medicaid-changes-january-2027": {
+    eyebrow: "From the discharge side",
+    title: "Policy changes eventually become bedside problems.",
+    body: "In the hospital, Medicaid is not just a policy word. It can affect discharge options, long-term care placement, transportation, medications, home support, and what families can realistically afford. This article is meant to help readers understand the January 2027 changes before they show up as confusing paperwork or a delayed discharge.",
+  },
   "workplace-benefits-definitions": {
     eyebrow: "From the hospital side",
     title: "Benefits are part of your paycheck, even when they do not feel like it.",

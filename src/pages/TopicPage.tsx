@@ -10,6 +10,7 @@ import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { CalloutWarning } from "@/components/shared/CalloutWarning";
 import { SourceList } from "@/components/shared/SourceList";
 import { RelatedArticles } from "@/components/shared/RelatedArticles";
+import { MedicareLearningPath } from "@/components/shared/MedicareLearningPath";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { CalculatorByKey } from "@/components/calculators/CalculatorByKey";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,8 @@ const TopicPage = () => {
   const { slug = "" } = useParams();
   const topic = findTopic(slug);
   if (!topic) return <Navigate to="/topics" replace />;
+
+  const isMedicareHub = topic.slug === "medicare-medicaid";
 
   return (
     <>
@@ -80,7 +83,7 @@ const TopicPage = () => {
 
       {topic.relatedArticleSlugs.length > 0 && (
         <section className="container min-w-0 py-16">
-          <RelatedArticles slugs={topic.relatedArticleSlugs} />
+          {isMedicareHub ? <MedicareLearningPath /> : <RelatedArticles slugs={topic.relatedArticleSlugs} />}
         </section>
       )}
 

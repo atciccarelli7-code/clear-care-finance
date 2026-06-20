@@ -1,9 +1,16 @@
 import { CompactArticleCard } from "./CompactArticleCard";
 import { SectionHeading } from "./SectionHeading";
-import { SITE_ARTICLES } from "@/data/siteArticles";
+import { ALL_ARTICLES } from "@/data/allArticles";
 import { isArticleDraft } from "@/lib/article-status";
 
 const learningPathGroups = [
+  {
+    title: "Policy changes to watch",
+    description: "Start here for planned Medicare and Medicaid changes that may affect patients, caregivers, hospitals, and discharge planning.",
+    slugs: [
+      "medicare-medicaid-changes-january-2027",
+    ],
+  },
   {
     title: "Start here",
     description: "Use these first if you are trying to understand the big Medicare and Medicaid map.",
@@ -28,7 +35,7 @@ const learningPathGroups = [
 
 const getPublishedArticles = (slugs: string[]) =>
   slugs
-    .map((slug) => SITE_ARTICLES.find((article) => article.slug === slug))
+    .map((slug) => ALL_ARTICLES.find((article) => article.slug === slug))
     .filter((article) => article && !isArticleDraft(article));
 
 export const MedicareLearningPath = () => (
@@ -36,7 +43,7 @@ export const MedicareLearningPath = () => (
     <SectionHeading
       eyebrow="Articles"
       title="Medicare learning path"
-      description="Start with the big-picture Medicare choices, then use the discharge guides when a patient is leaving the hospital or needs care at home."
+      description="Start with the upcoming policy changes, then use the big-picture Medicare guides and discharge guides when a patient needs coverage clarity."
       className="mb-8"
     />
 

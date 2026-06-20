@@ -81,7 +81,7 @@ export const OBBB_OVERTIME_ARTICLE: Article = {
     title: "A nurse picking up an overtime shift",
     body: "Assume a nurse earns $40 per hour and works qualifying overtime at time-and-a-half, or $60 per hour. The $40 regular-rate portion is still normal wage income. The extra $20 half-time premium may be the part eligible for the OBBB overtime deduction, subject to the annual cap, income phaseout, filing status rules, and payroll reporting."
   },
-  relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+  relatedCalculator: { label: "OBBB Overtime Deduction Estimator", href: "/tools#overtime" },
   commonMistakes: [
     "Thinking the whole 1.5x overtime hour is tax-free.",
     "Forgetting that Social Security and Medicare payroll taxes can still apply.",

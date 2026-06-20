@@ -1,6 +1,7 @@
 import type { CalculatorKey } from "@/data/topics";
 import { Calc403b, CalcInsurance, CalcMedicare, CalcCafe } from "./Calculators";
 import CalcLoanPayment from "./LoanPayment";
+import CalcOvertimeDeduction from "./OvertimeDeduction";
 
 export const CalculatorByKey = ({ k }: { k: CalculatorKey }) => {
   switch (k) {
@@ -14,6 +15,8 @@ export const CalculatorByKey = ({ k }: { k: CalculatorKey }) => {
       return <CalcCafe />;
     case "calcLoan":
       return <CalcLoanPayment />;
+    case "calcOvertime":
+      return <CalcOvertimeDeduction />;
     default:
       return null;
   }

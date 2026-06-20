@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { categories } from "@/data/articles";
-import { SITE_ARTICLES } from "@/data/siteArticles";
+import { ALL_ARTICLES } from "@/data/allArticles";
 import { PageHero } from "@/components/shared/PageHero";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ const Articles = () => {
 
   const filtered = useMemo(
     () =>
-      publishedArticles(SITE_ARTICLES).filter((a) => {
+      publishedArticles(ALL_ARTICLES).filter((a) => {
         const matchesCat = cat === "All" || a.category === cat;
         const matchesQ = !q || (a.title + " " + a.promise).toLowerCase().includes(q.toLowerCase());
         return matchesCat && matchesQ;

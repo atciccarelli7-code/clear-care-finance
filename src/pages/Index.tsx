@@ -39,14 +39,14 @@ const Index = () => {
         <div className="grid min-w-0 gap-6 md:grid-cols-3 max-w-5xl mx-auto">
           <TopicCard
             icon={TOPICS[1].icon}
-            title="Healthcare Worker Money"
+            title="Healthcare Workers"
             description="Paychecks, benefits, retirement plans, and quiet spending patterns on shift."
             href="/healthcare-workers"
             cta="Start here"
           />
           <TopicCard
             icon={TOPICS[0].icon}
-            title="Patient & Caregiver Money"
+            title="Patients & Caregivers"
             description="Insurance, Medicare, Medicaid, hospital bills, and long-term care basics."
             href="/patients-families"
             cta="Start here"
@@ -55,7 +55,7 @@ const Index = () => {
           <TopicCard
             icon={Calculator}
             title="Just the calculators"
-            description="Five simple tools to estimate paycheck, insurance, Medicare, café spend, and student loans."
+            description="Six simple tools to estimate paycheck, overtime, insurance, Medicare, café spend, and student loans."
             href="/tools"
             cta="Open calculators"
           />

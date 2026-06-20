@@ -1,6 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen } from "lucide-react";
+import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, Quote } from "lucide-react";
 import { ALL_ARTICLES } from "@/data/allArticles";
+import { ARTICLE_VOICE_NOTES } from "@/data/articleVoiceNotes";
 import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
@@ -23,6 +24,8 @@ const ArticlePage = () => {
   const { slug = "" } = useParams();
   const article = ALL_ARTICLES.find((a) => a.slug === slug);
   if (!article) return <Navigate to="/articles" replace />;
+
+  const voiceNote = ARTICLE_VOICE_NOTES[article.slug];
 
   if (isArticleDraft(article)) {
     return (
@@ -64,6 +67,21 @@ const ArticlePage = () => {
         <Section icon={Sparkles} title="60-second summary">
           <p className="text-foreground/90">{article.summary}</p>
         </Section>
+
+        {voiceNote && (
+          <div className="rounded-2xl border border-primary/20 bg-primary-soft/40 p-5 shadow-card md:p-6">
+            <div className="flex items-start gap-3">
+              <div className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-background text-primary">
+                <Quote className="h-4 w-4" />
+              </div>
+              <div className="space-y-2">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">{voiceNote.eyebrow}</div>
+                <h2 className="font-display text-lg font-bold text-foreground md:text-xl">{voiceNote.title}</h2>
+                <p className="text-[0.95rem] leading-[1.65] text-muted-foreground md:text-base">{voiceNote.body}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {article.sections && article.sections.length > 0 ? (
           <Section icon={BookOpen} title="Fact sheet">

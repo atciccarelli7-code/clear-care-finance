@@ -1,8 +1,9 @@
-import { Wallet, Shield, HeartPulse, Coffee, CreditCard } from "lucide-react";
+import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { Calc403b, CalcInsurance, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
+import CalcOvertimeDeduction from "@/components/calculators/OvertimeDeduction";
 
 const Tools = () => {
   return (
@@ -10,7 +11,7 @@ const Tools = () => {
       <PageHero
         eyebrow="Calculators"
         title="Run the numbers in plain English."
-        description="Five friendly calculators to estimate paychecks, insurance, Medicare, café spend, and student loans."
+        description="Six friendly calculators to estimate paychecks, overtime deductions, insurance, Medicare, café spend, and student loans."
       />
 
       <section className="container min-w-0 py-12 md:py-16 space-y-12">
@@ -23,6 +24,18 @@ const Tools = () => {
             relatedArticle={{ label: "How to Pick Retirement Investments at Work", href: "/articles/how-to-pick-retirement-investments-at-work" }}
           >
             <Calc403b />
+          </CalculatorCard>
+        </div>
+
+        <div id="overtime" className="scroll-mt-24 min-w-0">
+          <CalculatorCard
+            icon={Receipt}
+            eyebrow="For healthcare workers"
+            title="OBBB Overtime Deduction Estimator"
+            description="Estimate the qualifying half-time overtime premium, deduction cap, and rough federal income-tax savings."
+            relatedArticle={{ label: "OBBB Overtime Tax Deduction Explained", href: "/articles/obbb-overtime-tax-deduction-healthcare-workers" }}
+          >
+            <CalcOvertimeDeduction />
           </CalculatorCard>
         </div>
 

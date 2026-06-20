@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react";
 
 const nav = [
   { to: "/healthcare-workers", label: "Healthcare Workers" },
-  { to: "/patients-families", label: "Patient & Caregiver Money" },
+  { to: "/patients-families", label: "Patients & Caregivers" },
   { to: "/topics", label: "All topics" },
   { to: "/tools", label: "Calculators" },
   { to: "/articles", label: "Articles" },

@@ -22,17 +22,19 @@ export const Footer = () => {
             <span className="min-w-0 break-words">Community Acquired Finance</span>
           </Link>
           <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-            Plain-English financial education for healthcare workers and the patients they care for —
-            calculators, guides, glossary, and source-backed explanations.
+            Plain-English financial education for healthcare workers and the patients they care for — calculators, guides, glossary, and source-backed explanations.
           </p>
+          <p className="text-xs text-muted-foreground">Written by Andrew Ciccarelli, RN, BSN.</p>
         </div>
 
         <div className="md:col-span-2">
-          <h4 className="font-semibold text-sm mb-3 text-foreground">Audiences</h4>
+          <h4 className="font-semibold text-sm mb-3 text-foreground">Start here</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/open-enrollment" className="hover:text-primary transition-smooth">Open Enrollment Guide</Link></li>
             <li><Link to="/healthcare-workers" className="hover:text-primary transition-smooth">Healthcare Workers</Link></li>
             <li><Link to="/patients-families" className="hover:text-primary transition-smooth">Patients & Caregivers</Link></li>
-            <li><Link to="/about" className="hover:text-primary transition-smooth">About / Sources</Link></li>
+            <li><Link to="/about" className="hover:text-primary transition-smooth">About</Link></li>
+            <li><Link to="/contact" className="hover:text-primary transition-smooth">Contact</Link></li>
           </ul>
         </div>
 
@@ -43,6 +45,7 @@ export const Footer = () => {
             <li><Link to="/articles" className="hover:text-primary transition-smooth">Articles</Link></li>
             <li><Link to="/glossary" className="hover:text-primary transition-smooth">Glossary</Link></li>
             <li><Link to="/topics" className="hover:text-primary transition-smooth">All topics</Link></li>
+            <li><Link to="/methodology" className="hover:text-primary transition-smooth">Sources & Methodology</Link></li>
           </ul>
         </div>
 

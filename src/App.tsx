@@ -14,6 +14,9 @@ import Topics from "./pages/Topics.tsx";
 import TopicPage from "./pages/TopicPage.tsx";
 import Glossary from "./pages/Glossary.tsx";
 import About from "./pages/About.tsx";
+import Contact from "./pages/Contact.tsx";
+import OpenEnrollmentGuide from "./pages/OpenEnrollmentGuide.tsx";
+import Methodology from "./pages/Methodology.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import TermsOfUse from "./pages/TermsOfUse.tsx";
 import EditorialPolicy from "./pages/EditorialPolicy.tsx";
@@ -39,13 +42,18 @@ const App = () => (
             <Route path="/articles/:slug" element={<ArticlePage />} />
             <Route path="/topics" element={<Topics />} />
             <Route path="/topics/:slug" element={<TopicPage />} />
+            <Route path="/open-enrollment" element={<OpenEnrollmentGuide />} />
             <Route path="/medicare-medicaid" element={<Navigate to="/topics/medicare-medicaid" replace />} />
             <Route path="/glossary" element={<Glossary />} />
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/methodology" element={<Methodology />} />
+            <Route path="/sources" element={<Navigate to="/methodology" replace />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-use" element={<TermsOfUse />} />
             <Route path="/editorial-policy" element={<EditorialPolicy />} />
             <Route path="/disclosures" element={<Disclosures />} />
+            <Route path="/disclaimer" element={<Navigate to="/disclosures" replace />} />
             <Route path="/accessibility" element={<Accessibility />} />
             <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
             <Route path="/terms" element={<Navigate to="/terms-of-use" replace />} />

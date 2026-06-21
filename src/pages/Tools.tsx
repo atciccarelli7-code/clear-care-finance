@@ -1,9 +1,10 @@
-import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt } from "lucide-react";
+import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { Calc403b, CalcInsurance, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
 import CalcOvertimeDeduction from "@/components/calculators/OvertimeDeduction";
+import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
 
 const Tools = () => {
   return (
@@ -11,7 +12,7 @@ const Tools = () => {
       <PageHero
         eyebrow="Calculators"
         title="Run the numbers in plain English."
-        description="Six friendly calculators to estimate paychecks, overtime deductions, insurance, Medicare, café spend, and student loans."
+        description="Seven friendly calculators to estimate paychecks, overtime deductions, insurance, HSA vs FSA choices, Medicare, café spend, and student loans."
       />
 
       <section className="container min-w-0 py-12 md:py-16 space-y-12">
@@ -48,6 +49,18 @@ const Tools = () => {
             relatedArticle={{ label: "Plain-English Healthcare Finance Glossary", href: "/articles/plain-english-glossary" }}
           >
             <CalcInsurance />
+          </CalculatorCard>
+        </div>
+
+        <div id="hsa-fsa" className="scroll-mt-24 min-w-0">
+          <CalculatorCard
+            icon={PiggyBank}
+            eyebrow="Open enrollment"
+            title="HSA vs FSA Decision Helper"
+            description="Compare tax savings, employer HSA money, HDHP premium savings, deductible risk, FSA forfeiture risk, and provider factors."
+            relatedArticle={{ label: "HSA vs FSA Guide", href: "/articles/hsa-vs-fsa-healthcare-workers" }}
+          >
+            <HsaFsaDecisionHelper />
           </CalculatorCard>
         </div>
 

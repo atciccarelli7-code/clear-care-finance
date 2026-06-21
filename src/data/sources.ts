@@ -180,6 +180,12 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.healthcare.gov/glossary/health-maintenance-organization-hmo/",
     note: "Official Marketplace definition for HMO plan structure.",
   },
+  healthcareGovDental: {
+    name: "HealthCare.gov",
+    pageTitle: "Dental coverage in the Marketplace",
+    url: "https://www.healthcare.gov/coverage/dental-coverage/",
+    note: "Official Marketplace overview of dental coverage options and how dental benefits may be offered.",
+  },
   irs: {
     name: "IRS",
     pageTitle: "Retirement plan and tax guidance",

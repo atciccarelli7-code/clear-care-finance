@@ -1,25 +1,33 @@
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { categories } from "@/data/articles";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { PageHero } from "@/components/shared/PageHero";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { cn } from "@/lib/utils";
 import { publishedArticles } from "@/lib/article-status";
+import { useSeo } from "@/lib/seo";
 
 const Articles = () => {
+  useSeo({
+    title: "Articles",
+    description: "Plain-English healthcare finance articles for healthcare workers, patients, caregivers, benefits, hospital bills, Medicare, Medicaid, and open enrollment.",
+    canonicalPath: "/articles",
+  });
+
   const [q, setQ] = useState("");
-  const [cat, setCat] = useState<(typeof categories)[number]>("All");
+  const [cat, setCat] = useState("All");
+  const published = useMemo(() => publishedArticles(ALL_ARTICLES), []);
+  const categories = useMemo(() => ["All", ...Array.from(new Set(published.map((article) => article.category))).sort()], [published]);
 
   const filtered = useMemo(
     () =>
-      publishedArticles(ALL_ARTICLES).filter((a) => {
+      published.filter((a) => {
         const matchesCat = cat === "All" || a.category === cat;
-        const matchesQ = !q || (a.title + " " + a.promise).toLowerCase().includes(q.toLowerCase());
+        const matchesQ = !q || (a.title + " " + a.promise + " " + a.summary).toLowerCase().includes(q.toLowerCase());
         return matchesCat && matchesQ;
       }),
-    [q, cat],
+    [published, q, cat],
   );
 
   return (
@@ -27,7 +35,7 @@ const Articles = () => {
       <PageHero
         eyebrow="Articles"
         title="Short, honest reads."
-        description="Plain-English explanations of healthcare money topics."
+        description={`${published.length} plain-English guides for healthcare workers, patients, families, and caregivers.`}
       />
 
       <section className="container py-12">

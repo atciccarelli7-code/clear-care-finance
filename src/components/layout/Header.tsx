@@ -6,11 +6,11 @@ import { Menu, X } from "lucide-react";
 const nav = [
   { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patients & Caregivers" },
-  { to: "/topics", label: "All topics" },
+  { to: "/open-enrollment", label: "Open Enrollment" },
   { to: "/tools", label: "Calculators" },
   { to: "/articles", label: "Articles" },
   { to: "/glossary", label: "Glossary" },
-  { to: "/about", label: "About / Sources" },
+  { to: "/about", label: "About" },
 ];
 
 const LogoMark = () => (
@@ -56,7 +56,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex">
-            <Link to="/tools">Open a calculator</Link>
+            <Link to="/open-enrollment">Launch guide</Link>
           </Button>
           <button
             className="xl:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
@@ -86,7 +86,7 @@ export const Header = () => {
               </NavLink>
             ))}
             <Button asChild variant="hero" className="mt-2 sm:hidden">
-              <Link to="/tools" onClick={() => setOpen(false)}>Open a calculator</Link>
+              <Link to="/open-enrollment" onClick={() => setOpen(false)}>Launch guide</Link>
             </Button>
           </nav>
         </div>

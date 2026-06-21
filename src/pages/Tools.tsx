@@ -5,6 +5,11 @@ import { Calc403b, CalcInsurance, CalcMedicare, CalcCafe } from "@/components/ca
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
 import CalcOvertimeDeduction from "@/components/calculators/OvertimeDeduction";
 import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
+import {
+  OpenEnrollmentPaycheckImpactCalculator,
+  OpenEnrollmentTrueCostCalculator,
+  SupplementalBenefitsDecisionHelper,
+} from "@/components/calculators/OpenEnrollmentTools";
 
 const Tools = () => {
   return (
@@ -12,7 +17,7 @@ const Tools = () => {
       <PageHero
         eyebrow="Calculators"
         title="Run the numbers in plain English."
-        description="Seven friendly calculators to estimate paychecks, overtime deductions, insurance, HSA vs FSA choices, Medicare, café spend, and student loans."
+        description="Ten friendly calculators to estimate paychecks, benefits, insurance choices, HSA vs FSA decisions, Medicare, café spend, and student loans."
       />
 
       <section className="container min-w-0 py-12 md:py-16 space-y-12">
@@ -49,6 +54,42 @@ const Tools = () => {
             relatedArticle={{ label: "Plain-English Healthcare Finance Glossary", href: "/articles/plain-english-glossary" }}
           >
             <CalcInsurance />
+          </CalculatorCard>
+        </div>
+
+        <div id="open-enrollment" className="scroll-mt-24 min-w-0">
+          <CalculatorCard
+            icon={Shield}
+            eyebrow="Open enrollment"
+            title="Open Enrollment True Cost Calculator"
+            description="Compare two plans by annual premiums, expected out-of-pocket costs, employer HSA/HRA money, and bad-year exposure."
+            relatedArticle={{ label: "Premium, Deductible, and Out-of-Pocket Max", href: "/articles/premium-deductible-out-of-pocket-open-enrollment" }}
+          >
+            <OpenEnrollmentTrueCostCalculator />
+          </CalculatorCard>
+        </div>
+
+        <div id="paycheck-impact" className="scroll-mt-24 min-w-0">
+          <CalculatorCard
+            icon={Receipt}
+            eyebrow="Open enrollment"
+            title="Open Enrollment Paycheck Impact Calculator"
+            description="Estimate how benefit elections may change take-home pay after pre-tax savings and after-tax deductions."
+            relatedArticle={{ label: "How Open Enrollment Changes Your Paycheck", href: "/articles/open-enrollment-paycheck-impact" }}
+          >
+            <OpenEnrollmentPaycheckImpactCalculator />
+          </CalculatorCard>
+        </div>
+
+        <div id="supplemental-benefits" className="scroll-mt-24 min-w-0">
+          <CalculatorCard
+            icon={Wallet}
+            eyebrow="Open enrollment"
+            title="Supplemental Benefits Decision Helper"
+            description="Evaluate accident, critical illness, and hospital indemnity policies against annual premium, emergency fund, and likely payout."
+            relatedArticle={{ label: "Accident, Critical Illness, and Hospital Indemnity", href: "/articles/accident-critical-illness-hospital-indemnity-open-enrollment" }}
+          >
+            <SupplementalBenefitsDecisionHelper />
           </CalculatorCard>
         </div>
 

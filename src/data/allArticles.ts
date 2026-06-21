@@ -5,10 +5,20 @@ import { JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE } from "./policyChangeAr
 import { HSA_FSA_ARTICLE } from "./hsaFsaArticle";
 import { HEALTHCARE_CONFUSION_ARTICLES } from "./healthcareConfusionArticles";
 import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
+import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
 
+const OPEN_ENROLLMENT_ARTICLES_READY = OPEN_ENROLLMENT_ARTICLES.map((article) =>
+  article.slug === "dental-vision-insurance-open-enrollment"
+    ? {
+        ...article,
+        sources: [SOURCE_PRESETS.healthcareGovDental, SOURCE_PRESETS.healthcareGovDeductible, SOURCE_PRESETS.healthcareGovOutOfPocketMax],
+      }
+    : article,
+);
+
 export const ALL_ARTICLES = publishedArticles([
-  ...OPEN_ENROLLMENT_ARTICLES,
+  ...OPEN_ENROLLMENT_ARTICLES_READY,
   ...HEALTHCARE_CONFUSION_ARTICLES,
   HSA_FSA_ARTICLE,
   JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE,

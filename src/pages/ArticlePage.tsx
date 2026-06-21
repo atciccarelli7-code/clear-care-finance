@@ -7,6 +7,7 @@ import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
+import { useSeo } from "@/lib/seo";
 
 const Section = ({ icon: Icon, title, children }: { icon: any; title: string; children: React.ReactNode }) => (
   <div className="space-y-2.5 md:space-y-3">
@@ -23,6 +24,14 @@ const Section = ({ icon: Icon, title, children }: { icon: any; title: string; ch
 const ArticlePage = () => {
   const { slug = "" } = useParams();
   const article = ALL_ARTICLES.find((a) => a.slug === slug);
+
+  useSeo({
+    title: article?.title ?? "Article",
+    description: article?.description ?? article?.promise ?? "Plain-English healthcare finance article from Community Acquired Finance.",
+    canonicalPath: article ? `/articles/${article.slug}` : "/articles",
+    type: "article",
+  });
+
   if (!article) return <Navigate to="/articles" replace />;
 
   const voiceNote = ARTICLE_VOICE_NOTES[article.slug];

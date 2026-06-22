@@ -51,10 +51,10 @@ const Accessibility = () => {
 
         <Section title="Feedback">
           <p>
-            A dedicated public contact method should be added before production launch. Once available, users should be able to report accessibility barriers, broken links, unreadable text, keyboard issues, or confusing page behavior.
+            Users can report accessibility barriers, broken links, unreadable text, keyboard issues, or confusing page behavior through the Contact page.
           </p>
           <p>
-            Please do not send protected health information, account numbers, Social Security numbers, insurance IDs, or other sensitive information when reporting a site issue.
+            Please do not send sensitive personal, medical, financial, insurance, employment, account, or login details when reporting a site issue.
           </p>
         </Section>
 

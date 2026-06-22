@@ -1,5 +1,43 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "header",
+          "key": "host",
+          "value": "communityaqcuiredfinance.com"
+        }
+      ],
+      "destination": "https://communityacquiredfinance.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "header",
+          "key": "host",
+          "value": "www.communityaqcuiredfinance.com"
+        }
+      ],
+      "destination": "https://communityacquiredfinance.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "header",
+          "key": "host",
+          "value": "www.communityacquiredfinance.com"
+        }
+      ],
+      "destination": "https://communityacquiredfinance.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

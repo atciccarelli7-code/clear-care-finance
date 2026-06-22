@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Community Acquired Finance logo</title>
+  <desc id="desc">A healthcare cross, growth chart, and upward arrow in bright green on a dark green background.</desc>
+  <rect width="512" height="512" rx="88" fill="#004022"/>
+  <path d="M306 104C237 78 155 107 113 174C66 249 89 347 164 394C206 420 256 428 303 416" fill="none" stroke="#00C805" stroke-width="42" stroke-linecap="butt"/>
+  <rect x="171" y="181" width="134" height="45" rx="10" fill="#00C805"/>
+  <rect x="216" y="136" width="45" height="134" rx="10" fill="#00C805"/>
+  <path d="M168 347C228 327 320 282 416 166" fill="none" stroke="#00C805" stroke-width="19" stroke-linecap="butt"/>
+  <path d="M416 166L365 197L395 217Z" fill="#00C805"/>
+  <rect x="286" y="330" width="36" height="89" rx="8" fill="#00C805"/>
+  <rect x="344" y="292" width="36" height="127" rx="8" fill="#00C805"/>
+  <rect x="402" y="246" width="36" height="173" rx="8" fill="#00C805"/>
+</svg>

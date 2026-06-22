@@ -36,7 +36,7 @@ const PrivacyPolicy = () => {
             Community Acquired Finance is an independent educational website. It is not a hospital, insurer, government agency, financial advisory firm, law firm, tax firm, or medical practice.
           </p>
           <p>
-            A dedicated public contact email should be added before production launch and before applying to advertising networks. Do not send sensitive medical, financial, insurance, employment, tax, legal, or account information through any informal contact channel.
+            Privacy requests, correction requests, and source questions can be sent to the official Community Acquired Finance inbox listed on the Contact page. Do not send sensitive medical, financial, insurance, employment, tax, legal, or account information through email.
           </p>
         </Section>
 
@@ -124,7 +124,7 @@ const PrivacyPolicy = () => {
             Depending on where a user lives and whether a privacy law applies to this website, users may have rights to request access, correction, deletion, portability, or information about personal data processing, and may have rights to opt out of certain targeted advertising, sale, or sharing of personal information.
           </p>
           <p>
-            The site should not discriminate against users for exercising applicable privacy rights. A dedicated request method should be added before the site begins collecting contact information, analytics identifiers, advertising identifiers, or other personal information at scale.
+            Privacy-related questions can be sent through the Contact page. If the site begins collecting contact information, analytics identifiers, advertising identifiers, or other personal information at scale, additional privacy request, consent, or opt-out mechanisms may be added where required.
           </p>
         </Section>
 

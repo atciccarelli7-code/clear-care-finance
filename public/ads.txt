@@ -1,0 +1,2 @@
+# ads.txt placeholder
+# Replace this file with the authorized seller line from Google AdSense after approval.

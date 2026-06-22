@@ -29,14 +29,9 @@ const Contact = () => {
             <div className="space-y-2">
               <h2 className="font-display text-xl font-bold">Email</h2>
               <p className="text-muted-foreground leading-relaxed">
-                For corrections, source suggestions, website issues, or general educational topic ideas, email:
+                For corrections, source suggestions, website issues, privacy requests, or general educational topic ideas, email the official Community Acquired Finance inbox:
               </p>
-              <a className="text-primary font-semibold hover:underline" href="mailto:atciccarelli7@gmail.com">
-                atciccarelli7@gmail.com
-              </a>
-              <p className="text-xs text-muted-foreground">
-                A domain-based inbox can replace this before heavier public promotion.
-              </p>
+              <p className="text-primary font-semibold">communityaqcuiredfinance [at] gmail [dot] com</p>
             </div>
           </div>
         </section>
@@ -46,14 +41,14 @@ const Contact = () => {
             <MessageSquareWarning className="h-6 w-6 text-primary" />
             <h2 className="font-display text-lg font-bold">Do not send sensitive details</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Please do not send Social Security numbers, medical record numbers, claim numbers, account numbers, private diagnoses, employer login details, or full financial documents.
+              Please do not send highly sensitive personal, medical, insurance, employment, tax, financial, account, or login details through email.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card space-y-3">
             <ShieldCheck className="h-6 w-6 text-primary" />
             <h2 className="font-display text-lg font-bold">What contact is for</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Corrections, broken links, unclear language, source suggestions, topic requests, and general feedback about making the site more useful.
+              Corrections, broken links, unclear language, source suggestions, privacy requests, topic requests, and general feedback about making the site more useful.
             </p>
           </div>
         </section>

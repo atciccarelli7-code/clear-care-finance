@@ -1,80 +1,48 @@
-import { Wallet, Shield, HeartPulse, Coffee, CreditCard } from "lucide-react";
+import { ArrowRight, LockKeyhole } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/shared/PageHero";
-import { CalculatorCard } from "@/components/shared/CalculatorCard";
-import { Calc403b, CalcInsurance, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
-import CalcLoanPayment from "@/components/calculators/LoanPayment";
+import { CALCULATOR_ICONS } from "@/components/calculators/CalculatorIcon";
+import { CALCULATORS } from "@/data/calculators";
 
-const Tools = () => {
-  return (
-    <>
-      <PageHero
-        eyebrow="Calculators"
-        title="Run the numbers in plain English."
-        description="Five friendly calculators to estimate paychecks, insurance, Medicare, café spend, and student loans."
-      />
+const Tools = () => (
+  <>
+    <PageHero
+      eyebrow="Calculators"
+      title="Run the numbers in plain English."
+      description="Eight focused tools for healthcare paychecks, benefits, bills, savings, work spending, overtime, Medicare, and student loans."
+    />
 
-      <section className="container py-12 md:py-16 space-y-12">
-        <div id="403b" className="scroll-mt-24">
-          <CalculatorCard
-            icon={Wallet}
-            eyebrow="For healthcare workers"
-            title="403(b) Paycheck Contribution Calculator"
-            description="See per-paycheck contributions, annual contribution, and a rough employer match estimate."
-            relatedArticle={{ label: "How to Pick Retirement Investments at Work", href: "/articles/how-to-pick-retirement-investments-at-work" }}
-          >
-            <Calc403b />
-          </CalculatorCard>
-        </div>
+    <section className="container py-12 md:py-16">
+      <div className="mx-auto mb-8 flex max-w-3xl items-start gap-3 rounded-2xl border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
+        <LockKeyhole className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+        <p>Calculations run in your browser. Do not enter account numbers, Social Security numbers, medical records, or other sensitive information.</p>
+      </div>
 
-        <div id="insurance" className="scroll-mt-24">
-          <CalculatorCard
-            icon={Shield}
-            eyebrow="For everyone"
-            title="Health Insurance Visit Cost Calculator"
-            description="Estimate yearly out-of-pocket cost across premium, deductible, copays, coinsurance, and visits."
-            relatedArticle={{ label: "Plain-English Healthcare Finance Glossary", href: "/articles/plain-english-glossary" }}
-          >
-            <CalcInsurance />
-          </CalculatorCard>
-        </div>
-
-        <div id="medicare" className="scroll-mt-24">
-          <CalculatorCard
-            icon={HeartPulse}
-            eyebrow="For patients & caregivers"
-            title="Medicare Cost Exposure Tool"
-            description="Rough estimate for premiums, deductibles, prescriptions, and coinsurance over a year."
-            relatedArticle={{ label: "Medicare Options Explained", href: "/articles/medicare-options-explained" }}
-          >
-            <CalcMedicare />
-          </CalculatorCard>
-        </div>
-
-        <div id="cafe" className="scroll-mt-24">
-          <CalculatorCard
-            icon={Coffee}
-            eyebrow="Spending, no shame"
-            title="Hospital Café Savings Rate Calculator"
-            description="See what daily café spend adds up to over a year — and what redirecting some of it could grow into."
-            relatedArticle={{ label: "Your Hospital Café Habit Might Be Quietly Eating Your Savings Rate", href: "/articles/hospital-cafe-habit" }}
-          >
-            <CalcCafe />
-          </CalculatorCard>
-        </div>
-
-        <div id="loan" className="scroll-mt-24">
-          <CalculatorCard
-            icon={CreditCard}
-            eyebrow="For everyone"
-            title="Student Loan Payment Calculator"
-            description="Estimate monthly payment, total paid, and interest over time."
-          >
-            <CalcLoanPayment />
-          </CalculatorCard>
-        </div>
-      </section>
-    </>
-  );
-};
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {CALCULATORS.map((calculator) => {
+          const Icon = CALCULATOR_ICONS[calculator.icon];
+          return (
+            <article
+              key={calculator.key}
+              id={calculator.legacyAnchor}
+              className="scroll-mt-24 rounded-3xl border border-border bg-card/60 p-6 shadow-card transition-smooth hover:border-primary/40 hover:shadow-hover"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-soft text-primary">
+                <Icon className="h-6 w-6" aria-hidden="true" />
+              </div>
+              <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-secondary">{calculator.eyebrow}</p>
+              <h2 className="mt-2 font-display text-xl font-bold">{calculator.title}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{calculator.description}</p>
+              <Button asChild className="mt-5 min-h-11 w-full sm:w-auto">
+                <Link to={`/tools/${calculator.slug}`}>Open calculator <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  </>
+);
 
 export default Tools;

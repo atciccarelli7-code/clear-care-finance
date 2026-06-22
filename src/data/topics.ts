@@ -2,7 +2,15 @@ import type { LucideIcon } from "lucide-react";
 import { HeartPulse, Briefcase, PiggyBank, Shield, Receipt, Building2, Brain, Tag } from "lucide-react";
 import { SOURCE_PRESETS, type Source } from "./sources";
 
-export type CalculatorKey = "calc403b" | "calcInsurance" | "calcMedicare" | "calcCafe" | "calcLoan";
+export type CalculatorKey =
+  | "calc403b"
+  | "calcInsurance"
+  | "calcMedicare"
+  | "calcCafe"
+  | "calcLoan"
+  | "calcEmergencyFund"
+  | "calcSavingsRate"
+  | "calcOvertime";
 
 export type ComparisonSide = {
   title: string;

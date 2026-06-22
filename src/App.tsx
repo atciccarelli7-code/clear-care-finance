@@ -8,6 +8,7 @@ import Index from "./pages/Index.tsx";
 import HealthcareWorkers from "./pages/HealthcareWorkers.tsx";
 import PatientsFamilies from "./pages/PatientsFamilies.tsx";
 import Tools from "./pages/Tools.tsx";
+import CalculatorPage from "./pages/CalculatorPage.tsx";
 import Articles from "./pages/Articles.tsx";
 import ArticlePage from "./pages/ArticlePage.tsx";
 import Topics from "./pages/Topics.tsx";
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
             <Route path="/patients-families" element={<PatientsFamilies />} />
             <Route path="/tools" element={<Tools />} />
+            <Route path="/tools/:calculatorSlug" element={<CalculatorPage />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />
             <Route path="/topics" element={<Topics />} />

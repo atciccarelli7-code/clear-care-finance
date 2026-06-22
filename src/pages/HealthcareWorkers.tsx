@@ -14,7 +14,7 @@ const HealthcareWorkers = () => {
         description="You take care of patients. We'll help you make sense of the paycheck, benefits, and long-term decisions that come with the job."
       >
         <Button asChild variant="hero" size="lg">
-          <Link to="/tools#403b">Try the 403(b) calculator <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/tools/403b-contribution">Try the 403(b) calculator <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
           <Link to="/topics">Browse topics</Link>
@@ -42,7 +42,7 @@ const HealthcareWorkers = () => {
           <h2 className="font-display text-3xl font-bold mb-3 text-balance">See what a small bump in your 403(b) does</h2>
           <p className="opacity-90 mb-6 max-w-xl mx-auto">Adjust contribution % and employer match and watch the per-paycheck and yearly totals update.</p>
           <Button asChild size="lg" variant="secondary">
-            <Link to="/tools#403b">Open the 403(b) calculator</Link>
+            <Link to="/tools/403b-contribution">Open the 403(b) calculator</Link>
           </Button>
         </div>
       </section>

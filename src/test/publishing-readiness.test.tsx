@@ -1,4 +1,5 @@
 import { cleanup, render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it } from "vitest";
 import { CalculatorByKey } from "@/components/calculators/CalculatorByKey";
 import { ARTICLES } from "@/data/articles";
@@ -21,13 +22,16 @@ describe("publishing readiness", () => {
   });
 
   it.each<[CalculatorKey, RegExp]>([
-    ["calc403b", /Estimated gross paycheck/i],
-    ["calcInsurance", /Estimated total annual cost/i],
-    ["calcMedicare", /Estimated yearly Medicare cost/i],
-    ["calcCafe", /Weekly spend at work/i],
-    ["calcLoan", /Monthly payment/i],
+    ["calc403b", /^Required per paycheck$/i],
+    ["calcInsurance", /^Estimated patient responsibility$/i],
+    ["calcMedicare", /^Estimated yearly Medicare cost$/i],
+    ["calcCafe", /^Weekly spending$/i],
+    ["calcLoan", /^Monthly payment$/i],
+    ["calcEmergencyFund", /^Target emergency fund$/i],
+    ["calcSavingsRate", /^Cash savings rate$/i],
+    ["calcOvertime", /^Estimated net benefit$/i],
   ])("renders the %s calculator", (key, resultLabel) => {
-    render(<CalculatorByKey k={key} />);
+    render(<MemoryRouter><CalculatorByKey k={key} /></MemoryRouter>);
     expect(screen.getByText(resultLabel)).toBeInTheDocument();
   });
 });

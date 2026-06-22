@@ -132,4 +132,34 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.healthcare.gov",
     note: "Definitions for premiums, deductibles, copays, and coinsurance.",
   },
+  cmsMedicalBills: {
+    name: "CMS",
+    pageTitle: "Medical bill rights and protections",
+    url: "https://www.cms.gov/medical-bill-rights",
+    note: "Federal guidance on billing protections, estimates, and disputing certain charges.",
+  },
+  cfpbEmergencyFund: {
+    name: "Consumer Financial Protection Bureau",
+    pageTitle: "An essential guide to building an emergency fund",
+    url: "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+    note: "Practical federal guidance for setting a savings goal and building a consistent habit.",
+  },
+  dolOvertime: {
+    name: "U.S. Department of Labor",
+    pageTitle: "FLSA overtime pay fact sheet",
+    url: "https://www.dol.gov/agencies/whd/fact-sheets/23-flsa-overtime-pay",
+    note: "Official overview of federal overtime pay rules; state and contract rules may be different.",
+  },
+  nioshWorkHours: {
+    name: "CDC/NIOSH",
+    pageTitle: "Training for nurses on shift work and long work hours",
+    url: "https://www.cdc.gov/niosh/work-hour-training-for-nurses/",
+    note: "Evidence-based education on fatigue, recovery, health, and safety for nurses.",
+  },
+  studentAidLoanSimulator: {
+    name: "Federal Student Aid",
+    pageTitle: "Loan Simulator",
+    url: "https://studentaid.gov/loan-simulator/",
+    note: "Official federal tool for comparing repayment options for eligible federal student loans.",
+  },
 };

@@ -31,7 +31,7 @@ const Contact = () => {
               <p className="text-muted-foreground leading-relaxed">
                 For corrections, source suggestions, website issues, privacy requests, or general educational topic ideas, email the official Community Acquired Finance inbox:
               </p>
-              <p className="text-primary font-semibold">communityaqcuiredfinance [at] gmail [dot] com</p>
+              <p className="text-primary font-semibold">communityacquiredfinance [at] gmail [dot] com</p>
             </div>
           </div>
         </section>

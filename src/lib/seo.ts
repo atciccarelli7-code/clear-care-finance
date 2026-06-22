@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 
 export const SITE_NAME = "Community Acquired Finance";
-export const SITE_URL = "https://clear-care-finance.vercel.app";
+
+const configuredSiteUrl = import.meta.env.VITE_SITE_URL as string | undefined;
+
+export const SITE_URL = (configuredSiteUrl?.replace(/\/$/, "") || "https://communityacquiredfinance.com");
 
 const setMeta = (selector: string, attr: "content" | "href", value: string) => {
   let element = document.head.querySelector(selector) as HTMLMetaElement | HTMLLinkElement | null;

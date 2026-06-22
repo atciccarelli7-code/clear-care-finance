@@ -35,13 +35,16 @@ const About = () => {
                 My name is <strong>Andrew Ciccarelli, RN, BSN</strong>. I am a bedside nurse with a real passion for finance.
               </p>
               <p>
-                Ever since my Nonno introduced me to the stock market by showing me a notebook full of his stock purchases dating back to his early days in America after immigrating from Italy, I have not been able to kick the desire to learn more about money and finances.
+                Nursing and service have always been close to home for me. My sister and my aunt are nurses, both of my parents worked as teachers, and my dad later became a principal. I grew up around people who spent their careers helping others through complicated, stressful, and important moments.
               </p>
               <p>
-                I have been a charge nurse, discharge nurse, new nurse, assistant nurse manager, and just about everything else nurses are required to do each day. Healthcare workers help patients every way we can. This site is my attempt to help fellow healthcare workers, patients, families, and caregivers understand what to do with the money side of healthcare.
+                My interest in finance came from my Nonno. He introduced me to the stock market by showing me a notebook filled with stock purchases from his early years in America after immigrating from Italy. That notebook made money feel less abstract to me. It showed me that personal finance is not just numbers on a screen. It is decisions, discipline, and a way to build stability over time.
               </p>
               <p>
-                The goal is not to sound like a hospital policy manual, a brokerage brochure, or an insurance packet. The goal is to make confusing decisions understandable enough that a normal person can ask better questions before money leaves their paycheck, bank account, retirement plan, or household.
+                As a nurse, I have seen how confusing the money side of healthcare can be for workers, patients, families, and caregivers. Healthcare workers are trying to understand paychecks, benefits, overtime, retirement accounts, taxes, and insurance. Patients and families are trying to understand hospital bills, coverage rules, deductibles, Medicare, Medicaid, and what care may actually cost.
+              </p>
+              <p>
+                Community Acquired Finance is my attempt to make those decisions easier to understand. The goal is not to sound like a hospital policy manual, a brokerage brochure, or an insurance packet. The goal is to explain healthcare money in plain English so real people can ask better questions before money leaves their paycheck, bank account, retirement plan, or household.
               </p>
             </div>
           </div>

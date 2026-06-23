@@ -1,2 +1,1 @@
-# ads.txt placeholder
-# Replace this file with the authorized seller line from Google AdSense after approval.
+google.com, pub-3330626498830044, DIRECT, f08c47fec0942fa0

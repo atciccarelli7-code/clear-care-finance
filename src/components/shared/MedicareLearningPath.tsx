@@ -26,6 +26,7 @@ const learningPathGroups = [
     slugs: [
       "discharge-coverage-guide",
       "short-term-rehab-after-hospital",
+      "home-health-after-hospital",
       "home-health-after-discharge",
       "durable-medical-equipment-after-discharge",
       "long-term-care-and-custodial-care",

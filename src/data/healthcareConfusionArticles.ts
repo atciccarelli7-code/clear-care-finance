@@ -140,7 +140,7 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       title: "A simple ER example",
       body: "A patient goes to the ER for abdominal pain. They receive a facility charge, an emergency clinician bill, a CT scan facility charge, a radiologist interpretation bill, lab charges, and a medication charge. The visit was one experience, but the claims can come from several billing entities."
     },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     commonMistakes: [
       "Assuming every separate bill is a duplicate.",
       "Paying a provider bill before insurance finishes processing.",
@@ -209,7 +209,7 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       title: "Imaging bill example",
       body: "A patient gets a CT scan at a hospital outpatient department. The hospital may bill for the scanner, staff, contrast, supplies, and facility resources. A radiologist may bill separately for reading the CT and writing the report."
     },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     commonMistakes: [
       "Calling every two-part bill a duplicate without checking the billing entity.",
       "Ignoring professional bills that arrive after the hospital bill.",
@@ -280,7 +280,7 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       title: "Overnight but outpatient",
       body: "A Medicare patient goes to the ER, is moved to a hospital bed, receives labs and imaging, and stays overnight. The family assumes the patient was admitted. Later, they learn the stay was observation status, which is outpatient, because there was no formal inpatient admission order."
     },
-    relatedCalculator: { label: "Medicare Cost Exposure Tool", href: "/tools#medicare" },
+    relatedCalculator: { label: "Medicare Cost Exposure Tool", href: "/tools/medicare-cost-exposure" },
     commonMistakes: [
       "Assuming overnight equals inpatient.",
       "Waiting until discharge day to ask about status.",
@@ -350,7 +350,7 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       title: "The in-network ER with a separate bill",
       body: "A patient goes to an in-network ER. The hospital bill processes in-network, but a separate physician group sends a higher out-of-network bill. Depending on the facts, the patient may have No Surprises Act protections and should ask the insurer and provider to review the claim before paying."
     },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     commonMistakes: [
       "Assuming one network check covers every provider involved.",
       "Paying an out-of-network bill before asking whether surprise billing protections apply.",
@@ -422,7 +422,7 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       title: "The bill is not the allowed amount",
       body: "A hospital bills $5,000. The plan allowed amount is $1,800. Insurance pays $1,200 and assigns $600 to the patient. The patient should not assume they owe $5,000. The key number to compare with the provider bill is the $600 patient responsibility shown on the EOB."
     },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     commonMistakes: [
       "Reacting to the billed charge before insurance processing.",
       "Ignoring the allowed amount line on the EOB.",
@@ -493,7 +493,7 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       title: "The MRI that is ordered but not approved yet",
       body: "A clinician orders an MRI for back pain. The imaging center schedules it, but the insurer requires prior authorization. If the patient gets the MRI before approval, the plan may deny or delay payment. The safer path is to confirm the authorization number, approved location, and expected patient cost before the appointment when possible."
     },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     commonMistakes: [
       "Assuming an order means insurance approval.",
       "Assuming authorization means the service is free.",
@@ -566,7 +566,7 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       title: "The credit card mistake",
       body: "A patient receives a $3,800 hospital bill after insurance. Before putting it on a credit card, they request the hospital's financial assistance application, itemized bill, and EOB match. They learn they qualify for a partial discount. The balance is reduced before any payment plan is arranged."
     },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     commonMistakes: [
       "Putting a large hospital bill on a credit card before asking about assistance.",
       "Assuming a payment plan is the only option.",

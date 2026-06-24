@@ -87,7 +87,7 @@ export const HSA_FSA_ARTICLE: Article = {
     title: "A nurse comparing HDHP + HSA versus PPO + FSA",
     body: "A nurse compares two options. The HDHP saves $1,200 per year in premiums and the employer adds $750 to the HSA, so the HSA path starts with a $1,950 advantage before tax savings. But if the HDHP deductible exposure is $3,000 higher and the nurse has little emergency cash, the PPO plus a carefully funded FSA may still be the safer open-enrollment choice."
   },
-  relatedCalculator: { label: "HSA vs FSA Decision Helper", href: "/tools#hsa-fsa" },
+  relatedCalculator: { label: "HSA vs FSA Decision Helper", href: "/tools/hsa-vs-fsa" },
   commonMistakes: [
     "Choosing the HDHP only because an HSA sounds like free money.",
     "Ignoring the employer HSA contribution when comparing plans.",

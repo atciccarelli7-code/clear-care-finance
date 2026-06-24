@@ -17,7 +17,7 @@ const PatientsFamilies = () => {
           <Link to="/topics/medicare-medicaid">Open the Medicare & Medicaid guide <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/tools#medicare">Estimate Medicare costs</Link>
+          <Link to="/tools/medicare-cost-exposure">Estimate Medicare costs</Link>
         </Button>
       </PageHero>
 

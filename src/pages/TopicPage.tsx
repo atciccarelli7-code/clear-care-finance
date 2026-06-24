@@ -11,6 +11,7 @@ import { CalloutWarning } from "@/components/shared/CalloutWarning";
 import { SourceList } from "@/components/shared/SourceList";
 import { RelatedArticles } from "@/components/shared/RelatedArticles";
 import { MedicareLearningPath } from "@/components/shared/MedicareLearningPath";
+import { MedicareMedicaidVisualGuide } from "@/components/shared/MedicareMedicaidVisualGuide";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { CalculatorByKey } from "@/components/calculators/CalculatorByKey";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,12 @@ const TopicPage = () => {
       <section className="container min-w-0 py-10 md:py-16">
         <TopicOverview startHere={topic.startHere} definitions={topic.definitions} />
       </section>
+
+      {isMedicareHub && (
+        <section className="container min-w-0 py-12">
+          <MedicareMedicaidVisualGuide />
+        </section>
+      )}
 
       {topic.comparison && (
         <section className="container min-w-0 py-12">

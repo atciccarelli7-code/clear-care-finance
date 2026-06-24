@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { CalculatorInput } from "@/components/shared/CalculatorInput";
+import { CalculatorInput, CalculatorSelectField } from "@/components/shared/CalculatorInput";
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
 import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 
-type CompareMode = "sameContribution" | "samePaycheckCost";
-type TaxSavingsBehavior = "invested" | "spent";
+type FilingStatus = "single" | "married" | "head";
+type AccountType = "403b" | "401k" | "457b" | "ira" | "unsure";
+type MatchMode = "percent" | "dollars";
+type MatchTreatment = "traditional" | "roth";
 type ResultEmphasis = "primary" | "accent" | "muted";
 
 const formatUSD = (value: number) =>
@@ -21,257 +23,185 @@ const formatSignedUSD = (value: number) => {
   return value > 0 ? `+${absValue}` : `-${absValue}`;
 };
 
+const formatPercent = (value: number) =>
+  new Intl.NumberFormat("en-US", {
+    style: "percent",
+    maximumFractionDigits: 1,
+  }).format((Number.isFinite(value) ? value : 0) / 100);
+
 const num = (value: string, fallback = 0) => {
   const parsed = Number.parseFloat(value);
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 
-const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+const nonNegative = (value: number) => (Number.isFinite(value) ? Math.max(0, value) : 0);
+const percent = (value: number) => Math.min(nonNegative(value), 100);
 
-const futureValueMonthly = (monthlyContribution: number, years: number, annualReturnPct: number) => {
-  const months = Math.max(0, Math.round(years * 12));
-  const monthly = Math.max(0, monthlyContribution);
-  if (months === 0 || monthly === 0) return 0;
+const futureValueAnnual = (annualContribution: number, yearsUntilRetirement: number, annualReturnPct: number) => {
+  const contribution = nonNegative(annualContribution);
+  const years = Math.floor(nonNegative(yearsUntilRetirement));
+  const annualReturn = percent(annualReturnPct) / 100;
 
-  const monthlyRate = annualReturnPct / 100 / 12;
-  if (Math.abs(monthlyRate) < 0.000001) return monthly * months;
+  if (years === 0 || contribution === 0) return 0;
+  if (annualReturn === 0) return contribution * years;
 
-  return monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+  return contribution * ((Math.pow(1 + annualReturn, years) - 1) / annualReturn);
 };
 
-const ToggleButton = ({
-  active,
-  children,
-  onClick,
-}: {
-  active: boolean;
-  children: React.ReactNode;
-  onClick: () => void;
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={`rounded-lg px-3 py-2 text-sm font-semibold transition-smooth ${
-      active ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-muted"
-    }`}
+const accountTypeLabels: Record<AccountType, string> = {
+  "403b": "403(b)",
+  "401k": "401(k)",
+  "457b": "457(b)",
+  ira: "IRA",
+  unsure: "unsure",
+};
+
+const filingStatusLabels: Record<FilingStatus, string> = {
+  single: "single",
+  married: "married filing jointly",
+  head: "head of household",
+};
+
+const Select = ({ value, onChange, children }: { value: string; onChange: (value: string) => void; children: React.ReactNode }) => (
+  <select
+    value={value}
+    onChange={(event) => onChange(event.target.value)}
+    className="h-11 w-full min-w-0 rounded-md border border-input bg-background px-3 text-base text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
   >
     {children}
-  </button>
+  </select>
 );
 
 const RothTraditionalDecisionCalculator = () => {
-  const [monthlyAmount, setMonthlyAmount] = useState("500");
-  const [compareMode, setCompareMode] = useState<CompareMode>("sameContribution");
-  const [currentTaxRate, setCurrentTaxRate] = useState("22");
-  const [retirementTaxRate, setRetirementTaxRate] = useState("15");
-  const [yearsInvested, setYearsInvested] = useState("30");
-  const [expectedReturn, setExpectedReturn] = useState("7");
-  const [taxSavingsBehavior, setTaxSavingsBehavior] = useState<TaxSavingsBehavior>("invested");
+  const [annualGrossIncome, setAnnualGrossIncome] = useState("82000");
+  const [filingStatus, setFilingStatus] = useState<FilingStatus>("single");
+  const [currentFederalTaxRate, setCurrentFederalTaxRate] = useState("22");
+  const [currentStateTaxRate, setCurrentStateTaxRate] = useState("4");
+  const [retirementFederalTaxRate, setRetirementFederalTaxRate] = useState("12");
+  const [retirementStateTaxRate, setRetirementStateTaxRate] = useState("3");
+  const [annualContribution, setAnnualContribution] = useState("6500");
+  const [yearsUntilRetirement, setYearsUntilRetirement] = useState("25");
+  const [expectedAnnualReturn, setExpectedAnnualReturn] = useState("6");
+  const [accountType, setAccountType] = useState<AccountType>("403b");
+  const [matchMode, setMatchMode] = useState<MatchMode>("percent");
+  const [matchValue, setMatchValue] = useState("4");
+  const [matchTreatment, setMatchTreatment] = useState<MatchTreatment>("traditional");
 
-  const monthlyInput = Math.max(0, num(monthlyAmount));
-  const currentTax = clamp(num(currentTaxRate) / 100, 0, 0.6);
-  const retirementTax = clamp(num(retirementTaxRate) / 100, 0, 0.6);
-  const years = Math.max(0, num(yearsInvested));
-  const annualReturn = clamp(num(expectedReturn), -20, 20);
+  const income = nonNegative(num(annualGrossIncome));
+  const contribution = Math.min(nonNegative(num(annualContribution)), income);
+  const currentCombinedTaxRate = Math.min(percent(num(currentFederalTaxRate)) + percent(num(currentStateTaxRate)), 100);
+  const retirementCombinedTaxRate = Math.min(percent(num(retirementFederalTaxRate)) + percent(num(retirementStateTaxRate)), 100);
+  const years = Math.floor(nonNegative(num(yearsUntilRetirement)));
+  const annualReturn = percent(num(expectedAnnualReturn));
+  const matchEstimate = matchMode === "percent"
+    ? income * (percent(num(matchValue)) / 100)
+    : nonNegative(num(matchValue));
 
-  const sameContributionMode = compareMode === "sameContribution";
-  const rothMonthlyContribution = monthlyInput;
-  const traditionalMonthlyContribution = sameContributionMode
-    ? monthlyInput
-    : currentTax >= 0.6
-      ? monthlyInput / 0.4
-      : monthlyInput / (1 - currentTax);
+  const traditionalCurrentYearTaxSavings = contribution * (currentCombinedTaxRate / 100);
+  const rothCurrentYearTaxCost = traditionalCurrentYearTaxSavings;
+  const futureValue = futureValueAnnual(contribution, years, annualReturn);
+  const traditionalFutureTaxDrag = futureValue * (retirementCombinedTaxRate / 100);
+  const traditionalAfterTaxValue = Math.max(futureValue - traditionalFutureTaxDrag, 0);
+  const rothQualifiedValue = futureValue;
+  const rothMinusTraditional = rothQualifiedValue - traditionalAfterTaxValue;
+  const matchFutureValue = futureValueAnnual(matchEstimate, years, annualReturn);
+  const matchFutureTaxDrag = matchTreatment === "traditional" ? matchFutureValue * (retirementCombinedTaxRate / 100) : 0;
+  const matchAfterTaxValue = Math.max(matchFutureValue - matchFutureTaxDrag, 0);
+  const taxRateSpread = retirementCombinedTaxRate - currentCombinedTaxRate;
 
-  const traditionalMonthlyTaxSavings = traditionalMonthlyContribution * currentTax;
-  const rothMonthlyPaycheckCost = rothMonthlyContribution;
-  const traditionalMonthlyPaycheckCost = Math.max(0, traditionalMonthlyContribution - traditionalMonthlyTaxSavings);
-  const investedTaxSavingsMonthly =
-    sameContributionMode && taxSavingsBehavior === "invested" ? traditionalMonthlyTaxSavings : 0;
+  const signal = Math.abs(taxRateSpread) <= 3
+    ? "Too close to call"
+    : taxRateSpread > 0
+      ? "Lean Roth"
+      : "Lean Traditional";
+  const signalEmphasis: ResultEmphasis = signal === "Lean Roth" ? "primary" : signal === "Lean Traditional" ? "accent" : "muted";
 
-  const rothFutureValue = futureValueMonthly(rothMonthlyContribution, years, annualReturn);
-  const traditionalFutureValueBeforeTax = futureValueMonthly(traditionalMonthlyContribution, years, annualReturn);
-  const traditionalFutureValueAfterTax = traditionalFutureValueBeforeTax * (1 - retirementTax);
-  const sideAccountFutureValue = futureValueMonthly(investedTaxSavingsMonthly, years, annualReturn);
-  const traditionalComparableValue = traditionalFutureValueAfterTax + sideAccountFutureValue;
-  const difference = rothFutureValue - traditionalComparableValue;
-  const differencePct = Math.abs(difference) / Math.max(rothFutureValue, traditionalComparableValue, 1);
-
-  const verdict =
-    differencePct < 0.03
-      ? "Too close to call"
-      : difference > 0
-        ? "Lean Roth"
-        : "Lean Traditional";
-
-  const verdictEmphasis: ResultEmphasis = verdict === "Lean Roth" ? "primary" : verdict === "Lean Traditional" ? "accent" : "muted";
-
-  const verdictExplanation =
-    verdict === "Lean Roth"
-      ? "Roth is favored on these assumptions because paying tax now appears cheaper than the estimated future tax cost of traditional withdrawals."
-      : verdict === "Lean Traditional"
-        ? "Traditional is favored on these assumptions because the current tax break and after-tax projection appear stronger than paying tax now."
-        : "The projected difference is small. A split strategy may be reasonable because future tax rates, income, and retirement rules are uncertain.";
-
-  const taxRateSignal =
-    currentTax + 0.03 < retirementTax
-      ? "Your future tax estimate is higher than today, which generally pushes the math toward Roth."
-      : currentTax > retirementTax + 0.03
-        ? "Your current tax estimate is higher than retirement, which generally pushes the math toward traditional."
-        : "Your current and future tax estimates are close, so contribution rate and flexibility may matter more than a perfect tax-bucket answer.";
-
-  const monthlyCashFlowGap = rothMonthlyPaycheckCost - traditionalMonthlyPaycheckCost;
-  const cashFlowWarning =
-    sameContributionMode && monthlyCashFlowGap > 25
-      ? `For the same contribution amount, Roth costs about ${formatUSD(monthlyCashFlowGap)} more per month from take-home pay because it does not create the current tax break.`
-      : "The paycheck-cost gap is small under the assumptions entered.";
+  const interpretation = signal === "Lean Traditional"
+    ? "Traditional may look better when your current tax rate is higher than your expected retirement tax rate. The current tax break can matter, especially during high-overtime or high-income years."
+    : signal === "Lean Roth"
+      ? "Roth may look better when your current tax rate is lower than your expected future tax rate, or when tax-free flexibility is valuable."
+      : "If the result is close, savings rate, employer match, fees, diversification, plan rules, and consistency may matter more than trying to perfectly predict future taxes.";
 
   return (
     <div className="space-y-8">
       <div className="grid gap-8 lg:grid-cols-5">
-        <div className="lg:col-span-3 space-y-5">
+        <div className="space-y-5 lg:col-span-3">
           <div className="grid gap-5 sm:grid-cols-2">
-            <CalculatorInput
-              label={sameContributionMode ? "Monthly contribution" : "Monthly paycheck cost"}
-              prefix="$"
-              value={monthlyAmount}
-              onChange={setMonthlyAmount}
-              helper={
-                sameContributionMode
-                  ? "Compare equal monthly contribution amounts."
-                  : "Compare equal after-tax paycheck cost."
-              }
-            />
-
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-foreground">Comparison mode</label>
-              <div className="grid grid-cols-1 gap-2 rounded-xl border border-border bg-background p-1 sm:grid-cols-2">
-                <ToggleButton active={sameContributionMode} onClick={() => setCompareMode("sameContribution")}>
-                  Same contribution
-                </ToggleButton>
-                <ToggleButton active={!sameContributionMode} onClick={() => setCompareMode("samePaycheckCost")}>
-                  Same paycheck cost
-                </ToggleButton>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Same paycheck cost is usually the cleaner comparison because traditional contributions create current tax savings.
-              </p>
-            </div>
-
-            <CalculatorInput
-              label="Current marginal tax estimate"
-              suffix="%"
-              value={currentTaxRate}
-              onChange={setCurrentTaxRate}
-              helper="Use a rough combined federal + state marginal rate."
-            />
-            <CalculatorInput
-              label="Estimated retirement tax rate"
-              suffix="%"
-              value={retirementTaxRate}
-              onChange={setRetirementTaxRate}
-              helper="Estimate the tax rate that may apply to future traditional withdrawals."
-            />
-            <CalculatorInput
-              label="Years invested"
-              value={yearsInvested}
-              onChange={setYearsInvested}
-              helper="Years until the money is used."
-            />
-            <CalculatorInput
-              label="Expected annual return"
-              suffix="%"
-              value={expectedReturn}
-              onChange={setExpectedReturn}
-              helper="Long-term annual return assumption before fees and taxes."
-            />
-
-            {sameContributionMode && (
-              <div className="space-y-2 sm:col-span-2">
-                <label className="text-sm font-semibold text-foreground">Traditional tax savings</label>
-                <div className="grid grid-cols-1 gap-2 rounded-xl border border-border bg-background p-1 sm:grid-cols-2">
-                  <ToggleButton active={taxSavingsBehavior === "invested"} onClick={() => setTaxSavingsBehavior("invested")}>
-                    Save or invest tax savings
-                  </ToggleButton>
-                  <ToggleButton active={taxSavingsBehavior === "spent"} onClick={() => setTaxSavingsBehavior("spent")}>
-                    Spend tax savings
-                  </ToggleButton>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Traditional looks stronger when the current tax savings are saved or invested instead of disappearing into spending.
-                </p>
-              </div>
-            )}
+            <CalculatorInput label="Annual gross income" prefix="$" value={annualGrossIncome} onChange={setAnnualGrossIncome} helper="Before taxes, insurance, retirement contributions, and other payroll deductions." />
+            <CalculatorSelectField label="Filing status" helper="Used as context only; this tool uses your entered marginal tax-rate estimates.">
+              <Select value={filingStatus} onChange={(value) => setFilingStatus(value as FilingStatus)}>
+                <option value="single">Single</option>
+                <option value="married">Married filing jointly</option>
+                <option value="head">Head of household</option>
+              </Select>
+            </CalculatorSelectField>
+            <CalculatorInput label="Current federal marginal tax rate estimate" suffix="%" value={currentFederalTaxRate} onChange={setCurrentFederalTaxRate} helper="Use your best estimate for the next dollar of income, not your average tax rate." />
+            <CalculatorInput label="Current state income tax rate estimate" suffix="%" value={currentStateTaxRate} onChange={setCurrentStateTaxRate} helper="Use 0 if your state has no income tax or you want to ignore state tax." />
+            <CalculatorInput label="Expected retirement federal tax rate estimate" suffix="%" value={retirementFederalTaxRate} onChange={setRetirementFederalTaxRate} helper="This is an assumption. Future tax laws and income can change." />
+            <CalculatorInput label="Expected retirement state tax rate estimate" suffix="%" value={retirementStateTaxRate} onChange={setRetirementStateTaxRate} helper="Use 0 if you expect no state income tax in retirement." />
+            <CalculatorInput label="Annual contribution amount" prefix="$" value={annualContribution} onChange={setAnnualContribution} helper="Employee contribution amount to compare as Traditional or Roth." />
+            <CalculatorInput label="Years until retirement" value={yearsUntilRetirement} onChange={setYearsUntilRetirement} helper="Whole years are used in the estimate." />
+            <CalculatorInput label="Expected annual return before taxes" suffix="%" value={expectedAnnualReturn} onChange={setExpectedAnnualReturn} helper="Investment returns are not guaranteed." />
+            <CalculatorSelectField label="Account type" helper="Plan rules vary by employer and account type.">
+              <Select value={accountType} onChange={(value) => setAccountType(value as AccountType)}>
+                <option value="403b">403(b)</option>
+                <option value="401k">401(k)</option>
+                <option value="457b">457(b)</option>
+                <option value="ira">IRA</option>
+                <option value="unsure">Unsure</option>
+              </Select>
+            </CalculatorSelectField>
+            <CalculatorSelectField label="Employer match input" helper="Enter an annual dollar estimate or a simple percent of gross income.">
+              <Select value={matchMode} onChange={(value) => setMatchMode(value as MatchMode)}>
+                <option value="percent">Match percentage</option>
+                <option value="dollars">Annual dollar estimate</option>
+              </Select>
+            </CalculatorSelectField>
+            <CalculatorInput label={matchMode === "percent" ? "Employer match percentage" : "Employer match estimate"} prefix={matchMode === "dollars" ? "$" : undefined} suffix={matchMode === "percent" ? "%" : undefined} value={matchValue} onChange={setMatchValue} helper="Simplified estimate. Vesting, caps, and formulas vary by plan." />
+            <CalculatorSelectField label="Employer match tax treatment" helper="Many employer contributions are pre-tax/traditional, but plan rules can differ.">
+              <Select value={matchTreatment} onChange={(value) => setMatchTreatment(value as MatchTreatment)}>
+                <option value="traditional">Treat match as traditional/pre-tax</option>
+                <option value="roth">Treat match as Roth/after-tax</option>
+              </Select>
+            </CalculatorSelectField>
           </div>
 
-          <div className="rounded-2xl border border-border bg-muted/30 p-5 text-sm leading-relaxed">
-            <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">How this is calculated</div>
-            <ul className="space-y-1.5 text-muted-foreground">
-              <li>Roth projection = after-tax contribution grown for the selected years.</li>
-              <li>Traditional projection = pre-tax contribution grown, then reduced by the estimated retirement tax rate.</li>
-              <li>Same contribution mode compares the same payroll contribution amount.</li>
-              <li>Same paycheck-cost mode increases the traditional contribution so both choices feel similar in take-home pay.</li>
-              <li>When selected, invested tax savings are projected as a separate side-account estimate.</li>
-            </ul>
+          <div className="rounded-2xl border border-secondary/35 bg-secondary-soft p-5 text-sm leading-relaxed">
+            <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">Employer match note</div>
+            <p className="text-muted-foreground">
+              Employer contributions are often treated as pre-tax/traditional even if you choose Roth employee contributions. Verify your own {accountTypeLabels[accountType]} plan documents, payroll election page, and vesting rules.
+            </p>
           </div>
         </div>
 
-        <div className="lg:col-span-2 space-y-3">
-          <CalculatorResult label="Decision signal" value={verdict} emphasis={verdictEmphasis} helper={taxRateSignal} />
-          <CalculatorResult
-            label="Roth future spendable estimate"
-            value={formatUSD(rothFutureValue)}
-            emphasis="primary"
-            helper="Assumes qualified Roth withdrawals are tax-free."
-          />
-          <CalculatorResult
-            label="Traditional comparable estimate"
-            value={formatUSD(traditionalComparableValue)}
-            emphasis="accent"
-            helper="After estimated retirement tax, plus any invested tax-savings side account."
-          />
-          <CalculatorResult
-            label="Projected difference"
-            value={formatSignedUSD(difference)}
-            helper="Positive favors Roth. Negative favors traditional. Small differences are treated as too close to call."
-          />
-          <CalculatorResult
-            label="Roth monthly paycheck cost"
-            value={formatUSD(rothMonthlyPaycheckCost)}
-            helper="Roth contribution is after-tax for this simplified comparison."
-          />
-          <CalculatorResult
-            label="Traditional monthly paycheck cost"
-            value={formatUSD(traditionalMonthlyPaycheckCost)}
-            helper={`Estimated current tax savings: ${formatUSD(traditionalMonthlyTaxSavings)} per month.`}
-          />
-          <CalculatorMeaning>
-            {verdictExplanation} {cashFlowWarning}
-          </CalculatorMeaning>
+        <div className="space-y-3 lg:col-span-2">
+          <CalculatorResult label="Decision signal" value={signal} emphasis={signalEmphasis} helper={`Current combined estimate: ${formatPercent(currentCombinedTaxRate)}. Retirement combined estimate: ${formatPercent(retirementCombinedTaxRate)}.`} />
+          <CalculatorResult label="Estimated current tax savings from Traditional" value={formatUSD(traditionalCurrentYearTaxSavings)} emphasis="primary" helper="Contribution multiplied by current combined marginal tax-rate assumption." />
+          <CalculatorResult label="Estimated after-tax cost of Roth today" value={formatUSD(rothCurrentYearTaxCost)} helper="Compared with making the same contribution pre-tax." />
+          <CalculatorResult label="Estimated future account value before retirement taxes" value={formatUSD(futureValue)} helper="Employee contribution stream only; before withdrawal taxes." />
+          <CalculatorResult label="Estimated Traditional after-tax retirement value" value={formatUSD(traditionalAfterTaxValue)} emphasis={signal === "Lean Traditional" ? "accent" : "muted"} helper="Future value minus estimated future tax drag." />
+          <CalculatorResult label="Estimated Roth retirement value under qualified-withdrawal assumption" value={formatUSD(rothQualifiedValue)} emphasis={signal === "Lean Roth" ? "accent" : "muted"} helper="Qualified Roth withdrawals may be tax-free if IRS rules are met." />
+          <CalculatorResult label="Roth minus after-tax Traditional estimate" value={formatSignedUSD(rothMinusTraditional)} helper="This does not model investing the Traditional tax savings." />
+          <CalculatorMeaning>{interpretation}</CalculatorMeaning>
           <DisclaimerBox short />
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
-          <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">Best use</div>
-          <h3 className="font-display text-lg font-bold">Use this as a decision aid, not a prediction.</h3>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            The calculator is most useful for comparing tax assumptions. It cannot know future tax law, investment returns, retirement income, or your exact withdrawal plan.
-          </p>
+          <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">Model limits</div>
+          <h3 className="font-display text-lg font-bold">Educational, not exact.</h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">This is not a perfect lifetime tax model. Tax laws, IRS limits, plan rules, state taxes, withdrawal rules, and personal circumstances can change.</p>
         </div>
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
-          <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">Healthcare worker note</div>
-          <h3 className="font-display text-lg font-bold">Overtime years can change the answer.</h3>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            Heavy overtime, charge pay, shift differentials, bonuses, and second jobs can make traditional contributions more attractive during higher-tax years.
-          </p>
+          <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">Match estimate</div>
+          <h3 className="font-display text-lg font-bold">Estimated after-tax match value: {formatUSD(matchAfterTaxValue)}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">This separate estimate uses an annual match of {formatUSD(matchEstimate)} and the selected match tax treatment.</p>
         </div>
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
-          <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">Practical rule</div>
-          <h3 className="font-display text-lg font-bold">Too close usually means split.</h3>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            If the output is close, splitting contributions between Roth and traditional can build tax flexibility without pretending you know the future perfectly.
-          </p>
+          <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">Source notes</div>
+          <h3 className="font-display text-lg font-bold">Verify current IRS and plan rules.</h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Sources: IRS retirement plan guidance and IRS designated Roth account FAQs. The example assumes {filingStatusLabels[filingStatus]} filing status only as context.</p>
         </div>
       </div>
     </div>

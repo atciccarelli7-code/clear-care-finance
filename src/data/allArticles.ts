@@ -4,6 +4,7 @@ import { BACKUP_CARE_ARTICLE } from "./familyLogisticsArticles";
 import { JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE } from "./policyChangeArticles";
 import { HSA_FSA_ARTICLE } from "./hsaFsaArticle";
 import { HEALTHCARE_CONFUSION_ARTICLES } from "./healthcareConfusionArticles";
+import { PATIENT_READY_ARTICLES } from "./patientReadyArticles";
 import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
 import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
@@ -20,6 +21,7 @@ const OPEN_ENROLLMENT_ARTICLES_READY = OPEN_ENROLLMENT_ARTICLES.map((article) =>
 export const ALL_ARTICLES = publishedArticles([
   ...OPEN_ENROLLMENT_ARTICLES_READY,
   ...HEALTHCARE_CONFUSION_ARTICLES,
+  ...PATIENT_READY_ARTICLES,
   HSA_FSA_ARTICLE,
   JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE,
   OBBB_OVERTIME_ARTICLE,

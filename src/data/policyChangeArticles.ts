@@ -76,7 +76,7 @@ export const JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE: Article = {
     title: "How this could show up in real life",
     body: "A patient has Medicare and Medicaid. Medicare helps with hospital and doctor coverage, but Medicaid helps with long-term care, premiums, transportation, or other support. If Medicaid paperwork is incomplete in 2027, the patient may still have Medicare, but the discharge plan, facility placement, home support, or out-of-pocket cost picture can change."
   },
-  relatedCalculator: { label: "Medicare Cost Exposure Tool", href: "/tools#medicare" },
+  relatedCalculator: { label: "Medicare Cost Exposure Tool", href: "/tools/medicare-cost-exposure" },
   commonMistakes: [
     "Thinking the January 1 change is mainly a new Medicare benefit.",
     "Assuming every Medicaid enrollee has the same requirement.",

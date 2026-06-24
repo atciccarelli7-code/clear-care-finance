@@ -56,7 +56,7 @@ const OpenEnrollmentGuide = () => {
         description="A practical sequence for comparing health plans, tax accounts, family coverage, disability insurance, supplemental benefits, and paycheck impact before you submit elections."
       >
         <Button asChild variant="hero" size="lg">
-          <Link to="/tools#open-enrollment">Compare two health plans</Link>
+          <Link to="/tools/open-enrollment-true-cost">Compare two health plans</Link>
         </Button>
         <Button asChild variant="outline" size="lg">
           <a href="#final-checklist">Final checklist</a>
@@ -101,7 +101,7 @@ const OpenEnrollmentGuide = () => {
               </p>
             </div>
             <Button asChild variant="hero" size="lg">
-              <Link to="/tools#open-enrollment">Open calculator</Link>
+              <Link to="/tools/open-enrollment-true-cost">Open calculator</Link>
             </Button>
           </div>
         </section>
@@ -122,7 +122,7 @@ const OpenEnrollmentGuide = () => {
                 <ClipboardCheck className="h-4 w-4" /> Print checklist
               </Button>
               <Button asChild variant="outline">
-                <Link to="/tools#paycheck-impact">Run paycheck impact</Link>
+                <Link to="/tools/open-enrollment-paycheck-impact">Run paycheck impact</Link>
               </Button>
             </div>
           </div>

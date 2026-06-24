@@ -193,7 +193,7 @@ export const ARTICLES: Article[] = [
     audience: "Anyone who has ever stared at an EOB.",
     summary: "Deductible, copay, coinsurance, premium, allowed amount, out-of-pocket max, HSA, FSA — defined in one or two sentences each.",
     body: ["See the full glossary on the Glossary page."],
-    relatedCalculator: { label: "Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     takeaway: "Most insurance confusion disappears once you can name the four cost-sharing pieces: premium, deductible, copay, coinsurance.",
     sources: [SOURCE_PRESETS.healthcareGov, SOURCE_PRESETS.kff],
   }),
@@ -232,7 +232,7 @@ export const ARTICLES: Article[] = [
       "COBRA may allow certain employees and family members to continue employer health coverage after losing coverage, usually by paying the full premium themselves. Plain English: COBRA can preserve coverage, but it can be expensive.",
       "The goal is not to memorize every benefits term. The goal is to understand enough to make better choices: what comes out of your paycheck, what your worst-case year could cost, and what employer money you do not want to miss."
     ],
-    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools/403b-contribution" },
     commonMistakes: [
       "Choosing the lowest-premium health plan without checking the deductible and out-of-pocket maximum.",
       "Missing the employer retirement match.",
@@ -252,7 +252,7 @@ export const ARTICLES: Article[] = [
     audience: "Healthcare workers who got a fund list and didn't know where to start.",
     summary: "Look for a low-cost target-date fund matching your retirement year, or a simple mix of broad index funds. Avoid funds with high expense ratios.",
     body: ["Paste this article from Notion."],
-    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools/403b-contribution" },
     commonMistakes: [
       "Leaving contributions in the default money-market fund for years.",
       "Picking high-fee actively managed funds without comparing expense ratios.",
@@ -270,7 +270,7 @@ export const ARTICLES: Article[] = [
     audience: "Healthcare workers who feel like money disappears between paychecks.",
     summary: "Coffee + snack + lunch on shift can quietly run $3,000–$6,000 a year. The point isn't to never buy coffee; it's to see the number.",
     body: ["Paste this article from Notion."],
-    relatedCalculator: { label: "Hospital Café Savings Rate Calculator", href: "/tools#cafe" },
+    relatedCalculator: { label: "Hospital Café Savings Rate Calculator", href: "/tools/hospital-cafe-savings" },
     takeaway: "Run the number once. Decide consciously. No shame, no rules.",
     sources: [SOURCE_PRESETS.bls, SOURCE_PRESETS.federalReserve],
   }),
@@ -370,7 +370,7 @@ export const ARTICLES: Article[] = [
       title: "A simple hospital bill example",
       body: "A patient has a $2,000 deductible, has already met $500, and has 20% coinsurance. If a covered in-network hospital service has a $10,000 allowed amount, the patient may first owe the remaining $1,500 deductible. Then they may owe 20% of the remaining $8,500, or $1,700, unless the out-of-pocket maximum limits the bill. Estimated patient responsibility: $3,200."
     },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     commonMistakes: [
       "Thinking covered means free.",
       "Comparing plans by premium only, without checking deductible and out-of-pocket maximum.",
@@ -450,7 +450,7 @@ export const ARTICLES: Article[] = [
       title: "When the bill and EOB do not match",
       body: "A provider bills $1,200. The insurer's EOB shows a $450 allowed amount, $300 paid by insurance, and $150 patient responsibility. If the provider then sends a bill for $1,200, do not pay automatically. Call the provider billing office and insurer and ask why the provider bill does not match the EOB."
     },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     commonMistakes: [
       "Paying the first bill before insurance finishes processing.",
       "Ignoring the allowed amount.",
@@ -541,7 +541,7 @@ export const ARTICLES: Article[] = [
       title: "A chest pain visit that ends in discharge",
       body: "A patient goes to the ER for chest pain. They receive an EKG, bloodwork, chest X-ray, IV medication, monitoring, and an emergency provider evaluation. They go home the same day. Even without surgery or admission, the visit may still include a facility fee, professional bill, lab charges, imaging charges, medication charges, and deductible or coinsurance responsibility."
     },
-    relatedCalculator: { label: "Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Insurance Visit Cost Calculator", href: "/tools/insurance-visit-cost" },
     commonMistakes: [
       "Assuming a discharge means the visit should be cheap.",
       "Paying before comparing the bill with the EOB.",

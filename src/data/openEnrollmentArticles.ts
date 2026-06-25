@@ -108,7 +108,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Mistake 5: not checking paycheck impact", keyPoints: ["Medical, dental, vision, HSA, FSA, disability, life, supplemental policies, and retirement elections all hit payroll.", "Pre-tax benefits reduce taxable pay, but the paycheck still changes.", "Run the paycheck impact before submitting elections."] }
     ],
     example: { title: "The rushed nurse example", body: "A nurse picks the lowest premium plan because she is healthy. She forgets a planned MRI, an expensive medication, and the employer HSA contribution on another plan. The cheaper paycheck option ends up more expensive by spring." },
-    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools#open-enrollment" },
+    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools/open-enrollment-true-cost" },
     commonMistakes: ["Picking by premium only.", "Ignoring medications and preferred pharmacies.", "Skipping disability insurance because you are young.", "Forgetting spouse surcharge rules.", "Adding every supplemental policy without checking the annual premium.", "Not updating beneficiaries."],
     takeaway: "Open enrollment should be treated like a one-year household risk plan, not a checkbox. Compare total cost, worst-case exposure, payroll impact, and income protection.",
     sources: [HC_DEDUCTIBLE, HC_OOP_MAX, HC_FORMULARY, HC_NETWORK, IRS_HSA_2026]
@@ -129,7 +129,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Employer HSA/HRA money", keyPoints: ["Employer account money can offset deductible risk.", "Do not ignore it when comparing plans.", "A plan with a higher deductible can still be competitive if the premium savings and employer contribution are large enough."] }
     ],
     example: { title: "The $80/paycheck trap", body: "Plan A costs $80 less per paycheck than Plan B. Over 26 paychecks, that saves $2,080. But if Plan A has a $4,000 higher out-of-pocket max and no employer HSA money, it may be cheaper only in a healthy year." },
-    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools#open-enrollment" },
+    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools/open-enrollment-true-cost" },
     commonMistakes: ["Only comparing premiums.", "Ignoring employer HSA contributions.", "Not checking prescription deductibles.", "Assuming the out-of-pocket max includes premiums.", "Not comparing worst-case exposure."],
     takeaway: "Compare premium, expected spending, employer account money, and out-of-pocket max together. A health plan is a risk tradeoff, not just a payroll deduction.",
     sources: [HC_DEDUCTIBLE, HC_OOP_MAX, HC_COINSURANCE, HC_ALLOWED_AMOUNT, IRS_HSA_2026]
@@ -150,7 +150,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "When split coverage can make sense", keyPoints: ["One spouse has expensive medications covered better on their own plan.", "One employer charges a spouse surcharge.", "Kids have a better pediatric network on one parent's plan.", "One plan has better maternity, specialist, or mental health access."] }
     ],
     example: { title: "The split-plan example", body: "A couple compares both employers. The spouse surcharge makes family coverage expensive on one plan, while the children's doctors are in-network on the other. They split coverage instead of defaulting everyone to one plan." },
-    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools#open-enrollment" },
+    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools/open-enrollment-true-cost" },
     commonMistakes: ["Assuming family coverage is automatically cheaper.", "Missing spouse surcharge rules.", "Ignoring children's doctors and medications.", "Not checking both family out-of-pocket maxes.", "Assuming one employer's plan is always better."],
     takeaway: "Compare spouse and family coverage like a household insurance portfolio. The best answer may be one plan, two plans, or kids on a different parent plan.",
     sources: [HC_DEDUCTIBLE, HC_OOP_MAX, HC_NETWORK, HC_FORMULARY]
@@ -171,7 +171,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Prescription deductible", keyPoints: ["Some plans have a separate drug deductible.", "Some drugs may bypass the deductible while others do not.", "Expensive prescriptions should be included in total plan comparison."] }
     ],
     example: { title: "The inhaler example", body: "A respiratory medication is $20 on one plan but subject to a deductible and prior authorization on another. The lower premium plan loses once medication costs are included." },
-    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools#open-enrollment" },
+    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools/open-enrollment-true-cost" },
     commonMistakes: ["Checking only doctors, not drugs.", "Not checking dosage and quantity.", "Ignoring preferred pharmacy rules.", "Missing prior authorization requirements.", "Assuming last year's formulary still applies."],
     takeaway: "Medication coverage should be checked before plan selection, not after the first refill of the new year.",
     sources: [HC_FORMULARY, HC_PREAUTH, HC_DEDUCTIBLE]
@@ -192,7 +192,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "What not to assume", keyPoints: ["A doctor listed last year is still in-network.", "A hospital being in-network means every clinician involved is in-network.", "A pharmacy being in-network means it is preferred.", "A referral guarantees payment."] }
     ],
     example: { title: "The specialist problem", body: "A worker checks that the hospital is in-network but forgets to check a child's specialist. The plan saves premium dollars but creates higher specialty care costs and scheduling problems." },
-    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools#open-enrollment" },
+    relatedCalculator: { label: "Open Enrollment True Cost Calculator", href: "/tools/open-enrollment-true-cost" },
     commonMistakes: ["Checking only the hospital system.", "Not checking labs and imaging.", "Ignoring mental health access.", "Trusting an old provider directory without confirming.", "Forgetting kids and spouse providers."],
     takeaway: "Network fit is a practical access issue and a financial issue. Verify providers and services before enrollment closes.",
     sources: [HC_NETWORK, HC_ALLOWED_AMOUNT, HC_FORMULARY]
@@ -213,7 +213,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Healthcare-worker questions", keyPoints: ["Does the plan cover pregnancy-related disability?", "How are back injuries, mental health, and chronic conditions handled?", "What is the elimination period?", "What documentation is required?", "Does it coordinate with PTO, workers' compensation, or state benefits?"] }
     ],
     example: { title: "The back injury example", body: "A nurse cannot safely lift or transfer patients after a back injury. PTO covers only part of the absence. Disability coverage can be the difference between a temporary setback and a cash-flow crisis." },
-    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools#paycheck-impact" },
+    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools/open-enrollment-paycheck-impact" },
     commonMistakes: ["Skipping coverage because you are young.", "Not checking the waiting period.", "Assuming PTO is enough.", "Ignoring tax treatment.", "Not reading the definition of disability."],
     takeaway: "Disability insurance is not a side benefit for healthcare workers. It is paycheck protection for a physically and emotionally demanding profession.",
     sources: [IRS_PUB_15B]
@@ -234,7 +234,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Portability and conversion", keyPoints: ["Ask what happens if you leave the employer.", "Portable coverage may cost more.", "Conversion may be available but not always attractive."] }
     ],
     example: { title: "The one-times-salary problem", body: "A worker has one times salary in basic life insurance but a mortgage, student loans, a spouse, and a child. The employer benefit helps, but it is not a full household protection plan." },
-    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools#paycheck-impact" },
+    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools/open-enrollment-paycheck-impact" },
     commonMistakes: ["Assuming employer life insurance is enough.", "Forgetting coverage may end with the job.", "Ignoring evidence-of-insurability rules.", "Not naming beneficiaries.", "Not noticing imputed income over $50,000 of employer-provided coverage."],
     takeaway: "Employer life insurance is useful, but workers should compare it to household needs and understand job dependency, underwriting, portability, and beneficiaries.",
     sources: [IRS_PUB_15B]
@@ -255,7 +255,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Decision framework", keyPoints: ["Calculate the annual premium.", "Compare it to your deductible and emergency fund.", "Read the benefit schedule before buying.", "Avoid buying every optional policy just because each one feels cheap per paycheck."] }
     ],
     example: { title: "The $18/paycheck bundle", body: "A worker buys multiple supplemental policies for $18 per paycheck. That is $468 per year over 26 paychecks. If the emergency fund is already strong and the policy triggers are narrow, the money may be better directed elsewhere." },
-    relatedCalculator: { label: "Supplemental Benefits Decision Helper", href: "/tools#supplemental-benefits" },
+    relatedCalculator: { label: "Supplemental Benefits Decision Helper", href: "/tools/supplemental-benefits" },
     commonMistakes: ["Treating supplemental policies like health insurance.", "Only looking at the per-paycheck cost.", "Not reading benefit triggers.", "Ignoring exclusions.", "Buying policies instead of building an emergency fund."],
     takeaway: "Supplemental policies can help fill gaps, but only when the benefit triggers, annual premium, and household cash position make sense.",
     sources: [HC_DEDUCTIBLE, HC_OOP_MAX]
@@ -276,7 +276,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Healthcare-worker angle", keyPoints: ["Shift work makes scheduling preventive care harder.", "Dental pain can interrupt work fast.", "Vision needs matter for charting, driving, night shift, and screen-heavy work."] }
     ],
     example: { title: "The vision plan example", body: "A vision plan costs $7 per paycheck, or $182 per year. If the worker only uses a basic exam and buys cheap glasses elsewhere, cash pay may be better. If they use contacts, lens upgrades, and an in-network provider, the plan may win." },
-    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools#paycheck-impact" },
+    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools/open-enrollment-paycheck-impact" },
     commonMistakes: ["Assuming dental covers major work like medical insurance.", "Ignoring annual maximums.", "Ignoring frequency limits.", "Overbuying vision coverage when cash pricing is cheaper.", "Forgetting orthodontic lifetime limits."],
     takeaway: "Dental and vision can be useful, but they should pass a simple annual premium versus expected-use test.",
     sources: []
@@ -297,7 +297,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Open enrollment questions", keyPoints: ["What is the health FSA limit and carryover?", "What is the dependent care limit for my filing status?", "What receipts are required?", "What is the runout deadline?", "Can I change elections after enrollment only for qualifying events?"] }
     ],
     example: { title: "The daycare confusion", body: "A worker contributes to a health FSA thinking it can help with daycare. It cannot. Dependent care needs a separate election under the dependent care FSA rules." },
-    relatedCalculator: { label: "HSA vs FSA Decision Helper", href: "/tools#hsa-fsa" },
+    relatedCalculator: { label: "HSA vs FSA Decision Helper", href: "/tools/hsa-vs-fsa" },
     commonMistakes: ["Using the wrong FSA type.", "Overfunding based on guesses.", "Ignoring runout deadlines.", "Assuming carryover applies to every FSA.", "Forgetting dependent care rules interact with tax credits."],
     takeaway: "Health FSA and dependent care FSA are separate tools. Use each for the correct kind of expense and only elect amounts you can justify with predictable need.",
     sources: [IRS_PUB_969, IRS_FSA_2026, IRS_PUB_503]
@@ -318,7 +318,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Best practice", keyPoints: ["Add every election together before submitting.", "Convert per-paycheck cost to annual cost.", "Make sure the benefit stack still leaves room for rent, savings, emergency fund, and debt payments."] }
     ],
     example: { title: "The stacked deduction example", body: "A worker adds medical, dental, vision, HSA, disability, life, critical illness, and a retirement increase. Each line looked small, but the combined take-home reduction is much larger than expected." },
-    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools#paycheck-impact" },
+    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools/open-enrollment-paycheck-impact" },
     commonMistakes: ["Only looking at one deduction at a time.", "Forgetting annual cost.", "Confusing pre-tax with free.", "Not checking disability tax treatment.", "Submitting elections before modeling the first paycheck."],
     takeaway: "Open enrollment is a paycheck decision as much as a benefits decision. Stack the deductions before submitting elections.",
     sources: [IRS_PUB_15B, IRS_PUB_969]
@@ -339,7 +339,7 @@ export const OPEN_ENROLLMENT_ARTICLES: Article[] = [
       { title: "Documentation", keyPoints: ["Save confirmation pages.", "Tell the right person where documents are stored.", "Review annually during open enrollment."] }
     ],
     example: { title: "The old account problem", body: "A worker changes jobs, opens a new retirement plan, and forgets an old employer account. Years later, the old beneficiary is still listed. Annual review catches this before it becomes a family problem." },
-    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools#paycheck-impact" },
+    relatedCalculator: { label: "Paycheck Impact Calculator", href: "/tools/open-enrollment-paycheck-impact" },
     commonMistakes: ["Only updating life insurance, not retirement accounts.", "Forgetting contingent beneficiaries.", "Leaving an ex-partner listed.", "Not saving confirmation.", "Ignoring old employer accounts."],
     takeaway: "Open enrollment is the perfect annual reminder to update beneficiaries across insurance, retirement, HSA, and old accounts.",
     sources: [IRS_PUB_15B]

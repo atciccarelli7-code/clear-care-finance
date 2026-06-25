@@ -30,16 +30,19 @@ export const useSeo = ({
   title,
   description,
   canonicalPath,
+  imagePath = "/logo.svg",
   type = "website",
 }: {
   title: string;
   description: string;
   canonicalPath: string;
+  imagePath?: string;
   type?: "website" | "article";
 }) => {
   useEffect(() => {
     const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
     const canonical = absoluteUrl(canonicalPath);
+    const image = absoluteUrl(imagePath);
 
     document.title = fullTitle;
     setMeta('meta[name="description"]', "content", description);
@@ -48,9 +51,11 @@ export const useSeo = ({
     setMeta('meta[property="og:description"]', "content", description);
     setMeta('meta[property="og:type"]', "content", type);
     setMeta('meta[property="og:url"]', "content", canonical);
+    setMeta('meta[property="og:image"]', "content", image);
     setMeta('meta[property="og:site_name"]', "content", SITE_NAME);
     setMeta('meta[name="twitter:card"]', "content", "summary");
     setMeta('meta[name="twitter:title"]', "content", fullTitle);
     setMeta('meta[name="twitter:description"]', "content", description);
-  }, [title, description, canonicalPath, type]);
+    setMeta('meta[name="twitter:image"]', "content", image);
+  }, [title, description, canonicalPath, imagePath, type]);
 };

@@ -164,6 +164,7 @@ const Tools = () => {
                 key={item}
                 type="button"
                 onClick={() => setCategory(item)}
+                aria-pressed={category === item}
                 className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition-smooth ${
                   category === item
                     ? "border-primary bg-primary text-primary-foreground"

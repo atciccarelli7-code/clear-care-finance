@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CalculatorInput } from "@/components/shared/CalculatorInput";
+import { CalculatorFormula } from "@/components/shared/CalculatorFormula";
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
 import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
@@ -40,6 +41,15 @@ export const CalcLoanPayment = () => {
           <CalculatorInput label="Annual interest rate" suffix="%" value={rate} onChange={setRate} helper="Fixed yearly rate." />
           <CalculatorInput label="Term" suffix="yrs" value={years} onChange={setYears} helper="Loan term in years." />
         </div>
+        <CalculatorFormula
+          items={[
+            "Monthly rate = annual interest rate / 12",
+            "Number of payments = loan term in years x 12",
+            "Monthly payment uses the standard fixed-rate amortization formula",
+            "Total interest = total paid - original loan amount",
+          ]}
+          note="This does not model fees, deferment, variable rates, income-driven repayment, forgiveness, or prepayment."
+        />
       </div>
       <div className="lg:col-span-2 space-y-3">
         <CalculatorResult label="Monthly payment" value={formatUSD(monthlyPayment)} emphasis="primary" />

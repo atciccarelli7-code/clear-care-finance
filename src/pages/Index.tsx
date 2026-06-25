@@ -7,10 +7,21 @@ import { ArticleCard } from "@/components/shared/ArticleCard";
 import { PageHero } from "@/components/shared/PageHero";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { TOPICS } from "@/data/topics";
+import { TOOLS } from "@/data/tools";
+import { publishedArticles } from "@/lib/article-status";
+import { useSeo } from "@/lib/seo";
 
 const Index = () => {
+  useSeo({
+    title: "Healthcare Money Explained Clearly",
+    description:
+      "Plain-English financial education and calculators for healthcare workers, patients, families, caregivers, benefits, insurance, Medicare, Medicaid, and hospital costs.",
+    canonicalPath: "/",
+  });
+
   const featuredTopics = TOPICS.slice(0, 6);
-  const featuredArticles = ALL_ARTICLES.slice(0, 4);
+  const featuredArticles = publishedArticles(ALL_ARTICLES).slice(0, 4);
+  const toolCount = TOOLS.length;
 
   return (
     <>
@@ -54,7 +65,7 @@ const Index = () => {
           <TopicCard
             icon={Calculator}
             title="Just the calculators"
-            description="Six simple tools to estimate paycheck, overtime, insurance, Medicare, café spend, and student loans."
+            description={`${toolCount} plain-English tools for benefits, bills, paycheck choices, Medicare, cafe spend, and student loans.`}
             href="/tools"
             cta="Open calculators"
           />

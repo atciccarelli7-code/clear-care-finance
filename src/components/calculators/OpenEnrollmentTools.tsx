@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CalculatorInput } from "@/components/shared/CalculatorInput";
+import { CalculatorFormula } from "@/components/shared/CalculatorFormula";
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
 import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
@@ -80,6 +81,15 @@ export const OpenEnrollmentTrueCostCalculator = () => {
             <PlanInputs label="Plan A" premium={aPremium} setPremium={setAPremium} expectedOop={aExpected} setExpectedOop={setAExpected} oopMax={aOopMax} setOopMax={setAOopMax} employerMoney={aEmployer} setEmployerMoney={setAEmployer} />
             <PlanInputs label="Plan B" premium={bPremium} setPremium={setBPremium} expectedOop={bExpected} setExpectedOop={setBExpected} oopMax={bOopMax} setOopMax={setBOopMax} employerMoney={bEmployer} setEmployerMoney={setBEmployer} />
           </div>
+          <CalculatorFormula
+            items={[
+              "Annual premium = premium per paycheck x pay periods",
+              "Expected yearly cost = annual premium + expected medical spending - employer HSA/HRA money, floored at $0",
+              "Worst-case exposure = annual premium + in-network out-of-pocket max - employer HSA/HRA money, floored at $0",
+              "The lower expected-year plan is not always the lower-risk plan.",
+            ]}
+            note="Use plan documents from the same plan year and compare in-network amounts unless you are intentionally modeling out-of-network risk."
+          />
         </div>
         <div className="lg:col-span-2 space-y-3">
           <CalculatorResult label="Plan A expected yearly cost" value={formatUSD(aExpectedTotal)} emphasis="primary" />
@@ -119,17 +129,28 @@ export const OpenEnrollmentPaycheckImpactCalculator = () => {
   return (
     <div className="space-y-8">
       <div className="grid gap-8 lg:grid-cols-5">
-        <div className="lg:col-span-3 grid sm:grid-cols-2 gap-5">
-          <CalculatorInput label="Pay periods per year" value={payPeriods} onChange={setPayPeriods} helper="Most biweekly workers use 26." />
-          <CalculatorInput label="Estimated tax rate" suffix="%" value={taxRate} onChange={setTaxRate} helper="Combined federal, state, and payroll estimate." />
-          <CalculatorInput label="Medical premium" prefix="$" value={medical} onChange={setMedical} helper="Per paycheck." />
-          <CalculatorInput label="Dental premium" prefix="$" value={dental} onChange={setDental} helper="Per paycheck." />
-          <CalculatorInput label="Vision premium" prefix="$" value={vision} onChange={setVision} helper="Per paycheck." />
-          <CalculatorInput label="HSA or FSA contribution" prefix="$" value={hsaFsa} onChange={setHsaFsa} helper="Per paycheck." />
-          <CalculatorInput label="Retirement contribution" prefix="$" value={retirement} onChange={setRetirement} helper="Per paycheck pre-tax estimate." />
-          <CalculatorInput label="Disability premium" prefix="$" value={disability} onChange={setDisability} helper="Often after-tax if employee-paid, but check your plan." />
-          <CalculatorInput label="Supplemental life" prefix="$" value={life} onChange={setLife} helper="Per paycheck." />
-          <CalculatorInput label="Accident / critical / hospital plans" prefix="$" value={supplemental} onChange={setSupplemental} helper="Total per paycheck." />
+        <div className="lg:col-span-3 space-y-5">
+          <div className="grid sm:grid-cols-2 gap-5">
+            <CalculatorInput label="Pay periods per year" value={payPeriods} onChange={setPayPeriods} helper="Most biweekly workers use 26." />
+            <CalculatorInput label="Estimated tax rate" suffix="%" value={taxRate} onChange={setTaxRate} helper="Combined federal, state, and payroll estimate." />
+            <CalculatorInput label="Medical premium" prefix="$" value={medical} onChange={setMedical} helper="Per paycheck." />
+            <CalculatorInput label="Dental premium" prefix="$" value={dental} onChange={setDental} helper="Per paycheck." />
+            <CalculatorInput label="Vision premium" prefix="$" value={vision} onChange={setVision} helper="Per paycheck." />
+            <CalculatorInput label="HSA or FSA contribution" prefix="$" value={hsaFsa} onChange={setHsaFsa} helper="Per paycheck." />
+            <CalculatorInput label="Retirement contribution" prefix="$" value={retirement} onChange={setRetirement} helper="Per paycheck pre-tax estimate." />
+            <CalculatorInput label="Disability premium" prefix="$" value={disability} onChange={setDisability} helper="Often after-tax if employee-paid, but check your plan." />
+            <CalculatorInput label="Supplemental life" prefix="$" value={life} onChange={setLife} helper="Per paycheck." />
+            <CalculatorInput label="Accident / critical / hospital plans" prefix="$" value={supplemental} onChange={setSupplemental} helper="Total per paycheck." />
+          </div>
+          <CalculatorFormula
+            items={[
+              "Pre-tax deductions = medical + dental + vision + HSA/FSA + retirement",
+              "After-tax deductions = disability + life + supplemental benefits",
+              "Estimated tax savings = pre-tax deductions x estimated tax rate",
+              "Estimated take-home reduction = pre-tax deductions + after-tax deductions - estimated tax savings",
+            ]}
+            note="Payroll systems can apply deductions differently by employer, pay period, and benefit type. Use this as a paycheck planning estimate."
+          />
         </div>
         <div className="lg:col-span-2 space-y-3">
           <CalculatorResult label="Gross paycheck deductions" value={formatUSD(grossDeductions)} />
@@ -169,16 +190,27 @@ export const SupplementalBenefitsDecisionHelper = () => {
   return (
     <div className="space-y-8">
       <div className="grid gap-8 lg:grid-cols-5">
-        <div className="lg:col-span-3 grid sm:grid-cols-2 gap-5">
-          <CalculatorInput label="Pay periods per year" value={payPeriods} onChange={setPayPeriods} helper="Most biweekly workers use 26." />
-          <CalculatorInput label="Accident plan premium" prefix="$" value={accident} onChange={setAccident} helper="Per paycheck." />
-          <CalculatorInput label="Critical illness premium" prefix="$" value={critical} onChange={setCritical} helper="Per paycheck." />
-          <CalculatorInput label="Hospital indemnity premium" prefix="$" value={hospital} onChange={setHospital} helper="Per paycheck." />
-          <CalculatorInput label="Emergency fund" prefix="$" value={emergencyFund} onChange={setEmergencyFund} helper="Cash available for a medical year." />
-          <CalculatorInput label="Health plan deductible" prefix="$" value={deductible} onChange={setDeductible} helper="In-network deductible." />
-          <CalculatorInput label="Health plan out-of-pocket max" prefix="$" value={oopMax} onChange={setOopMax} helper="In-network max, premiums excluded." />
-          <CalculatorInput label="Chance one policy pays" suffix="%" value={triggerChance} onChange={setTriggerChance} helper="Your rough annual probability estimate." />
-          <CalculatorInput label="Likely payout if triggered" prefix="$" value={likelyPayout} onChange={setLikelyPayout} helper="Read the policy schedule, not the marketing headline." />
+        <div className="lg:col-span-3 space-y-5">
+          <div className="grid sm:grid-cols-2 gap-5">
+            <CalculatorInput label="Pay periods per year" value={payPeriods} onChange={setPayPeriods} helper="Most biweekly workers use 26." />
+            <CalculatorInput label="Accident plan premium" prefix="$" value={accident} onChange={setAccident} helper="Per paycheck." />
+            <CalculatorInput label="Critical illness premium" prefix="$" value={critical} onChange={setCritical} helper="Per paycheck." />
+            <CalculatorInput label="Hospital indemnity premium" prefix="$" value={hospital} onChange={setHospital} helper="Per paycheck." />
+            <CalculatorInput label="Emergency fund" prefix="$" value={emergencyFund} onChange={setEmergencyFund} helper="Cash available for a medical year." />
+            <CalculatorInput label="Health plan deductible" prefix="$" value={deductible} onChange={setDeductible} helper="In-network deductible." />
+            <CalculatorInput label="Health plan out-of-pocket max" prefix="$" value={oopMax} onChange={setOopMax} helper="In-network max, premiums excluded." />
+            <CalculatorInput label="Chance one policy pays" suffix="%" value={triggerChance} onChange={setTriggerChance} helper="Your rough annual probability estimate." />
+            <CalculatorInput label="Likely payout if triggered" prefix="$" value={likelyPayout} onChange={setLikelyPayout} helper="Read the policy schedule, not the marketing headline." />
+          </div>
+          <CalculatorFormula
+            items={[
+              "Annual premium = total supplemental premiums per paycheck x pay periods",
+              "Expected payout value = likely payout x estimated trigger chance",
+              "Emergency-fund gap = lower of deductible or out-of-pocket max - emergency fund, floored at $0",
+              "Expected payout minus premium = expected payout value - annual premium",
+            ]}
+            note="Supplemental policies depend heavily on exclusions, waiting periods, diagnosis definitions, and documentation rules."
+          />
         </div>
         <div className="lg:col-span-2 space-y-3">
           <CalculatorResult label="Annual premiums" value={formatUSD(annualPremium)} emphasis="primary" />

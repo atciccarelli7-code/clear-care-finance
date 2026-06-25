@@ -47,6 +47,8 @@ export interface ToolDefinition {
   componentKey: ToolComponentKey;
   icon: ToolIconName;
   disclaimerNote?: string;
+  assumptionNotes?: string[];
+  sourceNotes?: string[];
 }
 
 export const TOOL_CATEGORIES: ToolCategory[] = [
@@ -55,6 +57,58 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
   "Healthcare worker money",
   "Patients, caregivers, and loans",
 ];
+
+export interface ToolGuidance {
+  assumptionNotes: string[];
+  sourceNotes: string[];
+}
+
+export const TOOL_CATEGORY_GUIDANCE: Record<ToolCategory, ToolGuidance> = {
+  "Open enrollment": {
+    assumptionNotes: [
+      "Use per-paycheck premiums and annual limits from the same plan year.",
+      "Enter in-network amounts unless you are deliberately comparing out-of-network risk.",
+    ],
+    sourceNotes: [
+      "Employer enrollment portal",
+      "Plan Summary of Benefits and Coverage",
+      "Plan Evidence of Coverage or benefit booklet",
+    ],
+  },
+  "Hospital bills": {
+    assumptionNotes: [
+      "Match bills to the same patient, date of service, provider, and claim whenever possible.",
+      "Treat checklist results as a call-prep aid, not a final billing decision.",
+    ],
+    sourceNotes: [
+      "Insurer explanation of benefits",
+      "Provider itemized bill",
+      "Hospital financial assistance or charity care policy",
+    ],
+  },
+  "Healthcare worker money": {
+    assumptionNotes: [
+      "Use gross pay, consistent pay periods, and the same year for all paycheck inputs.",
+      "Investment growth examples are illustrations, not guaranteed returns.",
+    ],
+    sourceNotes: [
+      "Employer payroll and benefits documents",
+      "Retirement plan summary or match formula",
+      "Current IRS guidance when tax treatment matters",
+    ],
+  },
+  "Patients, caregivers, and loans": {
+    assumptionNotes: [
+      "Use current premium, prescription, visit, or loan statements when available.",
+      "Actual costs can change with plan design, provider network, repayment program, and timing.",
+    ],
+    sourceNotes: [
+      "Medicare.gov or plan documents",
+      "Insurer or provider cost estimates",
+      "Loan servicer disclosures for repayment terms",
+    ],
+  },
+};
 
 export const TOOLS: ToolDefinition[] = [
   {
@@ -72,6 +126,7 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "Open Enrollment Guide", href: "/open-enrollment" },
     componentKey: "openEnrollmentChecklist",
     icon: "clipboard",
+    sourceNotes: ["Save the confirmation page after submitting elections and compare it with the first paycheck after changes start."],
   },
   {
     slug: "hospital-bill-review",
@@ -89,6 +144,7 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "Financial Assistance Guide", href: "/articles/check-hospital-financial-assistance-before-paying" },
     componentKey: "hospitalBillReview",
     icon: "clipboard",
+    sourceNotes: ["If a balance is large or surprising, ask for an itemized bill and wait for insurance processing when possible."],
   },
   {
     slug: "eob-bill-match",
@@ -104,6 +160,7 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "How to Read an EOB", href: "/articles/how-to-read-an-eob" },
     componentKey: "eobBillMatch",
     icon: "receipt",
+    sourceNotes: ["Use the insurer-listed patient responsibility as the main comparison point when reviewing a provider bill."],
   },
   {
     slug: "financial-assistance-checklist",
@@ -119,6 +176,7 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "Financial Assistance Guide", href: "/articles/check-hospital-financial-assistance-before-paying" },
     componentKey: "financialAssistanceChecklist",
     icon: "shield",
+    sourceNotes: ["Nonprofit hospitals generally must maintain a written financial assistance policy, but eligibility and process vary by hospital."],
   },
   {
     slug: "403b-contribution",
@@ -136,6 +194,8 @@ export const TOOLS: ToolDefinition[] = [
     componentKey: "calc403b",
     icon: "wallet",
     disclaimerNote: "This is an educational retirement contribution estimate, not tax or investment advice.",
+    assumptionNotes: ["Employer matches can be per-pay-period, annual, discretionary, or vesting-based; enter the formula your plan actually uses."],
+    sourceNotes: ["Check your plan summary for match limits, vesting, Roth availability, and annual contribution limits."],
   },
   {
     slug: "overtime-deduction",
@@ -153,6 +213,8 @@ export const TOOLS: ToolDefinition[] = [
     componentKey: "overtimeDeduction",
     icon: "receipt",
     disclaimerNote: "Tax rules can change and personal eligibility varies. Verify with IRS guidance or a qualified tax professional.",
+    assumptionNotes: ["The estimate focuses on the half-time FLSA overtime premium, not the full overtime paycheck."],
+    sourceNotes: ["Confirm current IRS rules, filing-status limits, MAGI phaseout rules, and employer wage reporting before filing."],
   },
   {
     slug: "insurance-visit-cost",
@@ -169,6 +231,8 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "Plain-English Healthcare Finance Glossary", href: "/articles/plain-english-glossary" },
     componentKey: "insuranceVisitCost",
     icon: "shield",
+    assumptionNotes: ["The estimate assumes in-network care and does not model denied claims, prior authorization, balance billing, or noncovered services."],
+    sourceNotes: ["Use the plan Summary of Benefits and Coverage plus insurer or provider cost estimates for allowed amounts."],
   },
   {
     slug: "open-enrollment-true-cost",
@@ -185,6 +249,8 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "Premium, Deductible, and Out-of-Pocket Max", href: "/articles/premium-deductible-out-of-pocket-open-enrollment" },
     componentKey: "openEnrollmentTrueCost",
     icon: "shield",
+    assumptionNotes: ["Expected-year cost and worst-case exposure answer different questions; a lower expected cost can still mean more risk."],
+    sourceNotes: ["Compare premiums, deductible, out-of-pocket maximum, employer HSA/HRA money, and covered services from the same plan year."],
   },
   {
     slug: "open-enrollment-paycheck-impact",
@@ -200,6 +266,8 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "How Open Enrollment Changes Your Paycheck", href: "/articles/open-enrollment-paycheck-impact" },
     componentKey: "openEnrollmentPaycheckImpact",
     icon: "receipt",
+    assumptionNotes: ["Pre-tax elections reduce taxable pay; after-tax benefits usually reduce take-home pay dollar for dollar."],
+    sourceNotes: ["Verify deduction timing with payroll because some benefits are taken weekly, biweekly, semi-monthly, or only for certain checks."],
   },
   {
     slug: "supplemental-benefits",
@@ -215,6 +283,8 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "Accident, Critical Illness, and Hospital Indemnity", href: "/articles/accident-critical-illness-hospital-indemnity-open-enrollment" },
     componentKey: "supplementalBenefits",
     icon: "wallet",
+    assumptionNotes: ["A policy can be emotionally useful even when the expected payout math is not a clear financial win."],
+    sourceNotes: ["Read the certificate of coverage for exclusions, waiting periods, benefit triggers, and documentation requirements."],
   },
   {
     slug: "hsa-vs-fsa",
@@ -231,6 +301,8 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "HSA vs FSA Guide", href: "/articles/hsa-vs-fsa-healthcare-workers" },
     componentKey: "hsaVsFsa",
     icon: "piggyBank",
+    assumptionNotes: ["HSA eligibility depends on having qualifying HDHP coverage and no disqualifying coverage."],
+    sourceNotes: ["Check IRS HSA/FSA rules, employer plan documents, and any FSA carryover or grace-period policy."],
   },
   {
     slug: "medicare-cost-exposure",
@@ -247,6 +319,8 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "Medicare Options Explained", href: "/articles/medicare-options-explained" },
     componentKey: "medicareCostExposure",
     icon: "heart",
+    assumptionNotes: ["This is a first-pass annual cost range; it does not model every Part C, Part D, Medigap, hospital, dental, vision, or long-term care cost."],
+    sourceNotes: ["Use Medicare.gov, the plan Evidence of Coverage, drug formulary, and provider network information for current figures."],
   },
   {
     slug: "hospital-cafe-savings",
@@ -262,6 +336,8 @@ export const TOOLS: ToolDefinition[] = [
     relatedArticle: { label: "Your Hospital Cafe Habit Might Be Quietly Eating Your Savings Rate", href: "/articles/hospital-cafe-habit" },
     componentKey: "hospitalCafeSavings",
     icon: "coffee",
+    assumptionNotes: ["The investing example assumes steady monthly savings and a constant annual return, which real markets do not provide."],
+    sourceNotes: ["Use your own shift pattern, receipts, and budget priorities; this tool is for awareness, not guilt."],
   },
   {
     slug: "student-loan-payment",
@@ -276,6 +352,8 @@ export const TOOLS: ToolDefinition[] = [
     priority: 140,
     componentKey: "studentLoanPayment",
     icon: "creditCard",
+    assumptionNotes: ["The payment estimate assumes a fixed interest rate, fixed term, and level monthly payments."],
+    sourceNotes: ["Use your promissory note, loan servicer disclosure, or official repayment estimator for final repayment decisions."],
   },
 ];
 

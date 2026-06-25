@@ -17,7 +17,7 @@ import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { PageHero } from "@/components/shared/PageHero";
 import { ToolRenderer } from "@/components/calculators/ToolRenderer";
-import { getRelatedTools, getToolBySlug, type ToolIconName } from "@/data/tools";
+import { getRelatedTools, getToolBySlug, TOOL_CATEGORY_GUIDANCE, type ToolIconName } from "@/data/tools";
 import { useSeo } from "@/lib/seo";
 import NotFound from "@/pages/NotFound";
 
@@ -48,6 +48,9 @@ const ToolPage = () => {
 
   const Icon = TOOL_ICONS[tool.icon];
   const relatedTools = getRelatedTools(tool);
+  const categoryGuidance = TOOL_CATEGORY_GUIDANCE[tool.category];
+  const assumptionNotes = [...categoryGuidance.assumptionNotes, ...(tool.assumptionNotes ?? [])];
+  const sourceNotes = [...categoryGuidance.sourceNotes, ...(tool.sourceNotes ?? [])];
 
   return (
     <>
@@ -73,6 +76,37 @@ const ToolPage = () => {
             <div className="text-xs font-semibold uppercase tracking-wider text-secondary">Time estimate</div>
             <p className="mt-1 text-sm leading-relaxed text-foreground">{tool.estimatedUseTime}</p>
           </div>
+        </div>
+
+        <div className="mb-6 grid gap-3 lg:grid-cols-2">
+          <section className="rounded-2xl border border-border bg-card p-5 shadow-card">
+            <div className="mb-3 flex items-center gap-2">
+              <ClipboardCheck className="h-4 w-4 text-primary" aria-hidden="true" />
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-secondary">Before you start</h2>
+            </div>
+            <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
+              {assumptionNotes.map((note) => (
+                <li key={note} className="flex gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  <span>{note}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className="rounded-2xl border border-border bg-card p-5 shadow-card">
+            <div className="mb-3 flex items-center gap-2">
+              <Shield className="h-4 w-4 text-primary" aria-hidden="true" />
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-secondary">Source notes</h2>
+            </div>
+            <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
+              {sourceNotes.map((note) => (
+                <li key={note} className="flex gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  <span>{note}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
 
         <div id={tool.legacyAnchorId} className="scroll-mt-28">

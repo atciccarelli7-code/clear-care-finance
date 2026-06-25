@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CalculatorInput } from "@/components/shared/CalculatorInput";
+import { CalculatorFormula } from "@/components/shared/CalculatorFormula";
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
 import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
@@ -66,6 +67,15 @@ const HsaFsaDecisionHelper = () => {
             <CalculatorInput label="Estimated tax rate" suffix="%" value={taxRate} onChange={setTaxRate} helper="Combined federal, state, and payroll estimate." />
             <CalculatorInput label="FSA carryover allowed" prefix="$" value={fsaCarryover} onChange={setFsaCarryover} helper="Use $0 if no carryover is allowed." />
           </div>
+          <CalculatorFormula
+            items={[
+              "HSA tax savings = your HSA contribution x estimated tax rate, if HSA-eligible",
+              "HSA value before risk = employer HSA money + premium savings + HSA tax savings",
+              "Uncovered deductible risk = extra deductible risk - cash cushion, floored at $0",
+              "FSA net value = FSA tax savings - possible forfeiture",
+            ]}
+            note="HSA and FSA eligibility, contribution limits, carryover, and grace-period rules can change. Confirm the current plan-year rules before choosing."
+          />
         </div>
 
         <div className="lg:col-span-2 space-y-3">

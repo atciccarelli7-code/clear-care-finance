@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CalculatorInput, CalculatorSelectField } from "@/components/shared/CalculatorInput";
+import { CalculatorFormula } from "@/components/shared/CalculatorFormula";
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
 import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
@@ -165,6 +166,16 @@ export const CalcInsurance = () => {
           <CalculatorInput label="Number of visits" value={visits} onChange={setVisits} helper="Expected visits this year." />
           <CalculatorInput label="Out-of-pocket maximum" prefix="$" value={oopMax} onChange={setOopMax} helper="Worst-case in-network ceiling." />
         </div>
+        <CalculatorFormula
+          items={[
+            "Annual premium = monthly premium x 12",
+            "Remaining deductible = annual deductible - deductible already met, floored at $0",
+            "Total allowed amount = allowed amount per visit x number of visits",
+            "Patient care cost = deductible portion + coinsurance after deductible + copays",
+            "Estimated total annual cost = annual premium + patient care cost",
+          ]}
+          note="This assumes in-network care. It does not model denied claims, noncovered care, balance billing, prior authorization, or separate facility/provider bills."
+        />
       </div>
 
       <div className="lg:col-span-2 space-y-3">
@@ -277,6 +288,15 @@ export const CalcCafe = () => {
           <CalculatorInput label="Investing time horizon" suffix="yrs" value={years} onChange={setYears} helper="If you redirected the savings." />
           <CalculatorInput label="Assumed return" suffix="%" value={returnPct} onChange={setReturnPct} helper="Rough long-term stock-market average." />
         </div>
+        <CalculatorFormula
+          items={[
+            "Per-shift cafe spend = coffee + snack/treat + lunch",
+            "Weekly spend = per-shift cafe spend x shifts per week",
+            "Potential annual savings = annual cafe spend - annual bring-from-home cost, floored at $0",
+            "Invested value uses monthly contributions and the assumed annual return entered above",
+          ]}
+          note="The investing example assumes steady monthly contributions and a constant return. Real markets do not move that cleanly."
+        />
       </div>
       <div className="lg:col-span-2 space-y-3">
         <CalculatorResult label="Weekly spend at work" value={formatUSD(weekly)} />

@@ -39,21 +39,25 @@ const Articles = () => {
       />
 
       <section className="container py-12">
-        <div className="max-w-xl mx-auto relative mb-6">
+        <label className="max-w-xl mx-auto relative mb-6 block">
+          <span className="sr-only">Search articles</span>
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
+            type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search articles..."
             className="pl-11 h-12 rounded-full"
           />
-        </div>
+        </label>
 
         <div className="flex flex-wrap justify-center gap-2 mb-12">
           {categories.map((c) => (
             <button
               key={c}
+              type="button"
               onClick={() => setCat(c)}
+              aria-pressed={cat === c}
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-semibold transition-smooth border",
                 cat === c

@@ -38,7 +38,7 @@ export const Header = () => {
           <span className="text-base sm:hidden">CAF</span>
         </Link>
 
-        <nav className="hidden xl:flex items-center gap-1">
+        <nav className="hidden xl:flex items-center gap-1" aria-label="Primary navigation">
           {nav.map((n) => (
             <NavLink
               key={n.to}
@@ -59,9 +59,12 @@ export const Header = () => {
             <Link to="/open-enrollment">Launch guide</Link>
           </Button>
           <button
+            type="button"
             className="xl:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
             onClick={() => setOpen(!open)}
-            aria-label="Menu"
+            aria-controls="mobile-navigation"
+            aria-expanded={open}
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -70,7 +73,7 @@ export const Header = () => {
 
       {open && (
         <div className="xl:hidden border-t border-border bg-background animate-fade-in">
-          <nav className="container py-4 flex flex-col gap-1">
+          <nav id="mobile-navigation" className="container py-4 flex flex-col gap-1" aria-label="Mobile navigation">
             {nav.map((n) => (
               <NavLink
                 key={n.to}

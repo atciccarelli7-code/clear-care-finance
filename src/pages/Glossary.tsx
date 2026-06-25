@@ -6,10 +6,36 @@ import { GLOSSARY, GLOSSARY_CATEGORIES } from "@/data/glossary";
 import { GlossaryTerm } from "@/components/shared/GlossaryTerm";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { cn } from "@/lib/utils";
+import { absoluteUrl, SITE_NAME, SITE_URL, useJsonLd, useSeo } from "@/lib/seo";
 
 const Glossary = () => {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<(typeof GLOSSARY_CATEGORIES)[number]>("All");
+
+  useSeo({
+    title: "Healthcare Finance Glossary",
+    description:
+      "Plain-English definitions for healthcare finance terms used in benefits paperwork, hospital bills, Medicare letters, insurance plans, and paycheck decisions.",
+    canonicalPath: "/glossary",
+  });
+
+  useJsonLd("glossary-page", {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    name: "Healthcare Finance Glossary",
+    url: absoluteUrl("/glossary"),
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    hasDefinedTerm: GLOSSARY.map((entry) => ({
+      "@type": "DefinedTerm",
+      name: entry.term,
+      description: entry.definition,
+      inDefinedTermSet: absoluteUrl("/glossary"),
+    })),
+  });
 
   const filtered = useMemo(
     () =>

@@ -26,6 +26,9 @@ const setMeta = (selector: string, attr: "content" | "href", value: string) => {
 
 export const absoluteUrl = (path: string) => `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
+type JsonLdValue = string | number | boolean | null | JsonLdObject | JsonLdValue[];
+export type JsonLdObject = { [key: string]: JsonLdValue };
+
 export const useSeo = ({
   title,
   description,
@@ -53,4 +56,37 @@ export const useSeo = ({
     setMeta('meta[name="twitter:title"]', "content", fullTitle);
     setMeta('meta[name="twitter:description"]', "content", description);
   }, [title, description, canonicalPath, type]);
+};
+
+export const useJsonLd = (id: string, data: JsonLdObject | JsonLdObject[] | null) => {
+  const serialized = data ? JSON.stringify(data) : "";
+
+  useEffect(() => {
+    const elementId = `json-ld-${id}`;
+    const existing = document.getElementById(elementId);
+
+    if (!serialized) {
+      existing?.remove();
+      return;
+    }
+
+    if (existing && !(existing instanceof HTMLScriptElement)) {
+      existing.remove();
+    }
+
+    const script =
+      existing instanceof HTMLScriptElement ? existing : document.createElement("script");
+
+    script.id = elementId;
+    script.type = "application/ld+json";
+    script.textContent = serialized;
+
+    if (!script.parentElement) {
+      document.head.appendChild(script);
+    }
+
+    return () => {
+      script.remove();
+    };
+  }, [id, serialized]);
 };

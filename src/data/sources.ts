@@ -210,4 +210,16 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.healthcare.gov",
     note: "Definitions for premiums, deductibles, copays, and coinsurance.",
   },
+  financialLiteracyProviders: {
+    name: "MDPI",
+    pageTitle: "Financial Literacy Among Healthcare Providers: A Systematic Review",
+    url: "https://www.mdpi.com/1911-8074/18/1/29",
+    note: "Systematic review showing that financial literacy among healthcare providers is often suboptimal and influenced by factors like age, gender, qualification, and income.",
+  },
+  kffAmericansHealthcareCosts: {
+    name: "KFF",
+    pageTitle: "Americans’ Challenges with Health Care Costs",
+    url: "https://www.kff.org/health-costs/americans-challenges-with-health-care-costs/",
+    note: "Independent survey showing that many adults skip or postpone care and medications due to cost, with significant impacts on health and financial well-being.",
+  },
 };

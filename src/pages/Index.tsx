@@ -7,10 +7,31 @@ import { ArticleCard } from "@/components/shared/ArticleCard";
 import { PageHero } from "@/components/shared/PageHero";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { TOPICS } from "@/data/topics";
+import { SITE_NAME, SITE_URL, useJsonLd, useSeo } from "@/lib/seo";
 
 const Index = () => {
   const featuredTopics = TOPICS.slice(0, 6);
   const featuredArticles = ALL_ARTICLES.slice(0, 4);
+
+  useSeo({
+    title: "Healthcare Money Explained Clearly",
+    description:
+      "Plain-English healthcare finance guides and calculators for healthcare workers, patients, families, and caregivers.",
+    canonicalPath: "/",
+  });
+
+  useJsonLd("home-page", {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    inLanguage: "en-US",
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  });
 
   return (
     <>

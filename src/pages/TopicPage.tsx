@@ -14,10 +14,59 @@ import { MedicareLearningPath } from "@/components/shared/MedicareLearningPath";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { CalculatorByKey } from "@/components/calculators/CalculatorByKey";
 import { Button } from "@/components/ui/button";
+import { absoluteUrl, SITE_NAME, SITE_URL, useJsonLd, useSeo } from "@/lib/seo";
 
 const TopicPage = () => {
   const { slug = "" } = useParams();
   const topic = findTopic(slug);
+
+  useSeo({
+    title: topic?.title ?? "Topics",
+    description:
+      topic?.promise ??
+      "Plain-English healthcare finance topic hubs from Community Acquired Finance.",
+    canonicalPath: topic ? `/topics/${topic.slug}` : "/topics",
+  });
+
+  useJsonLd(
+    "topic-page",
+    topic
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: `${topic.title} Guide`,
+            url: absoluteUrl(`/topics/${topic.slug}`),
+            description: topic.promise,
+            isPartOf: {
+              "@type": "WebSite",
+              name: SITE_NAME,
+              url: SITE_URL,
+            },
+            about: topic.definitions.map((definition) => definition.term),
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Topics",
+                item: absoluteUrl("/topics"),
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: topic.title,
+                item: absoluteUrl(`/topics/${topic.slug}`),
+              },
+            ],
+          },
+        ]
+      : null,
+  );
+
   if (!topic) return <Navigate to="/topics" replace />;
 
   const isMedicareHub = topic.slug === "medicare-medicaid";

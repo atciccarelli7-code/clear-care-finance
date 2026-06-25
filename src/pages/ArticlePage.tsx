@@ -1,5 +1,5 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, Quote } from "lucide-react";
+import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, Quote, type LucideIcon } from "lucide-react";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { ARTICLE_VOICE_NOTES } from "@/data/articleVoiceNotes";
 import { PageHero } from "@/components/shared/PageHero";
@@ -7,9 +7,9 @@ import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
-import { useSeo } from "@/lib/seo";
+import { absoluteUrl, SITE_NAME, SITE_URL, useJsonLd, useSeo } from "@/lib/seo";
 
-const Section = ({ icon: Icon, title, children }: { icon: any; title: string; children: React.ReactNode }) => (
+const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: string; children: React.ReactNode }) => (
   <div className="space-y-2.5 md:space-y-3">
     <div className="flex items-center gap-2.5 md:gap-3">
       <div className="inline-flex h-7 w-7 md:h-9 md:w-9 items-center justify-center rounded-lg bg-primary-soft text-primary shrink-0">
@@ -24,6 +24,7 @@ const Section = ({ icon: Icon, title, children }: { icon: any; title: string; ch
 const ArticlePage = () => {
   const { slug = "" } = useParams();
   const article = ALL_ARTICLES.find((a) => a.slug === slug);
+  const isDraft = article ? isArticleDraft(article) : false;
 
   useSeo({
     title: article?.title ?? "Article",
@@ -32,11 +33,59 @@ const ArticlePage = () => {
     type: "article",
   });
 
+  useJsonLd(
+    "article-page",
+    article && !isDraft
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: article.title,
+            description: article.description ?? article.promise,
+            articleSection: article.category,
+            inLanguage: "en-US",
+            mainEntityOfPage: absoluteUrl(`/articles/${article.slug}`),
+            author: {
+              "@type": "Person",
+              name: "Andrew Ciccarelli, RN, BSN",
+            },
+            publisher: {
+              "@type": "Organization",
+              name: SITE_NAME,
+              url: SITE_URL,
+              logo: {
+                "@type": "ImageObject",
+                url: absoluteUrl("/logo.svg"),
+              },
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Articles",
+                item: absoluteUrl("/articles"),
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: article.title,
+                item: absoluteUrl(`/articles/${article.slug}`),
+              },
+            ],
+          },
+        ]
+      : null,
+  );
+
   if (!article) return <Navigate to="/articles" replace />;
 
   const voiceNote = ARTICLE_VOICE_NOTES[article.slug];
 
-  if (isArticleDraft(article)) {
+  if (isDraft) {
     return (
       <>
         <PageHero

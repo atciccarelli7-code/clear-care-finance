@@ -4,8 +4,16 @@ import { TopicCard } from "@/components/shared/TopicCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PageHero } from "@/components/shared/PageHero";
 import { HeartPulse, Shield, Receipt, Building2, ArrowRight } from "lucide-react";
+import { useSeo } from "@/lib/seo";
 
 const PatientsFamilies = () => {
+  useSeo({
+    title: "Patient and Caregiver Healthcare Cost Guides",
+    description:
+      "Plain-English healthcare cost guides for patients, families, and caregivers covering Medicare, Medicaid, insurance, EOBs, and hospital bills.",
+    canonicalPath: "/patients-families",
+  });
+
   return (
     <>
       <PageHero

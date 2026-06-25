@@ -1,5 +1,9 @@
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { track } from "@vercel/analytics";
 import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { Calc403b, CalcInsurance, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
@@ -16,7 +20,7 @@ import {
   HospitalBillChecklistTool,
   OpenEnrollmentChecklistTool,
 } from "@/components/calculators/LaunchChecklistTools";
-import { useSeo } from "@/lib/seo";
+import { absoluteUrl, SITE_NAME, SITE_URL, useJsonLd, useSeo } from "@/lib/seo";
 
 const calculatorGroups = [
   {
@@ -55,19 +59,117 @@ const calculatorGroups = [
   },
 ];
 
+const calculatorItems = calculatorGroups.flatMap((group) =>
+  group.items.map((item) => ({ ...item, group: group.label })),
+);
+
+const calculatorById = new Map(calculatorItems.map((item) => [item.id, item]));
+
+const guideLinks = [
+  { label: "Open enrollment guide", href: "/open-enrollment" },
+  { label: "Healthcare glossary", href: "/glossary" },
+  { label: "Sources and methods", href: "/methodology" },
+  { label: "All healthcare finance articles", href: "/articles" },
+];
+
+const calculatorFaqs = [
+  {
+    question: "Are these calculators financial, tax, medical, or insurance advice?",
+    answer:
+      "No. They are educational estimates that help you ask better questions before checking plan documents, benefit portals, bills, insurer notices, tax guidance, or a qualified professional.",
+  },
+  {
+    question: "Do the calculators store my personal information?",
+    answer:
+      "No. The calculators run in the browser and are designed for examples or estimates, not for collecting private medical, financial, employment, or account information.",
+  },
+  {
+    question: "Why do some calculators ask for rough numbers?",
+    answer:
+      "Healthcare and workplace benefits vary by plan, employer, location, and year. Editable assumptions let you model your own paperwork instead of relying on a generic example.",
+  },
+  {
+    question: "Where should I go after running a calculator?",
+    answer:
+      "Use the related article beside each tool, the glossary, and the sources page to understand the terms, then verify important decisions with official documents or the organization that issued them.",
+  },
+];
+
+const trackCalculatorEvent = (action: "jump" | "deep_link", id: string) => {
+  const calculator = calculatorById.get(id);
+  if (!calculator) return;
+
+  try {
+    track("calculator_navigation", {
+      action,
+      calculator_group: calculator.group,
+      calculator_id: id,
+      calculator_name: calculator.label,
+    });
+  } catch {
+    // Analytics should never block calculator navigation.
+  }
+};
+
 const jumpToCalculator = (id: string) => {
   if (!id) return;
   const element = document.getElementById(id);
-  element?.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!element) return;
+
+  element.scrollIntoView({ behavior: "smooth", block: "start" });
   window.history.replaceState(null, "", `#${id}`);
+  trackCalculatorEvent("jump", id);
 };
 
 const Tools = () => {
   useSeo({
-    title: "Calculators and Checklists",
-    description: "Plain-English calculators and checklists for healthcare workers, patients, open enrollment, medical bills, Medicare, savings, and workplace benefits.",
+    title: "Healthcare Finance Calculators and Checklists",
+    description: "Plain-English healthcare finance calculators and checklists for open enrollment, medical bills, Medicare, workplace benefits, savings, overtime, and student loans.",
     canonicalPath: "/tools",
   });
+
+  useJsonLd("tools-page", [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Healthcare Finance Calculators and Checklists",
+      url: absoluteUrl("/tools"),
+      description:
+        "Plain-English calculators and checklists for healthcare workers, patients, caregivers, open enrollment, Medicare, medical bills, and workplace benefits.",
+      isPartOf: {
+        "@type": "WebSite",
+        name: SITE_NAME,
+        url: SITE_URL,
+      },
+      mainEntity: {
+        "@type": "ItemList",
+        name: "Community Acquired Finance calculator library",
+        itemListElement: calculatorItems.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.label,
+          url: `${absoluteUrl("/tools")}#${item.id}`,
+        })),
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: calculatorFaqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    },
+  ]);
+
+  useEffect(() => {
+    const id = window.location.hash.replace("#", "");
+    if (id) trackCalculatorEvent("deep_link", id);
+  }, []);
 
   return (
     <>
@@ -92,6 +194,7 @@ const Tools = () => {
               <select
                 className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm font-medium text-foreground shadow-sm outline-none transition-smooth focus:border-primary focus:ring-2 focus:ring-primary/20"
                 defaultValue=""
+                aria-describedby="calculator-jump-help"
                 onChange={(event) => jumpToCalculator(event.target.value)}
               >
                 <option value="" disabled>Choose a calculator...</option>
@@ -104,6 +207,14 @@ const Tools = () => {
                 ))}
               </select>
             </label>
+          </div>
+          <div id="calculator-jump-help" className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">Need context first?</span>
+            {guideLinks.map((link) => (
+              <Link key={link.href} to={link.href} className="font-semibold text-primary underline-offset-4 hover:underline">
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -191,6 +302,22 @@ const Tools = () => {
           <CalculatorCard icon={CreditCard} eyebrow="For everyone" title="Student Loan Payment Calculator" description="Estimate monthly payment, total paid, and interest over time.">
             <CalcLoanPayment />
           </CalculatorCard>
+        </div>
+      </section>
+
+      <section className="container min-w-0 pb-16 md:pb-20">
+        <SectionHeading
+          eyebrow="Calculator FAQ"
+          title="Use the numbers as a starting point"
+          description="Each tool is intentionally simple, transparent, and tied back to source-backed guides instead of pretending to know every plan rule or household detail."
+        />
+        <div className="grid gap-4 md:grid-cols-2">
+          {calculatorFaqs.map((faq) => (
+            <div key={faq.question} className="rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+              <h2 className="font-display text-lg font-bold text-foreground">{faq.question}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{faq.answer}</p>
+            </div>
+          ))}
         </div>
       </section>
     </>

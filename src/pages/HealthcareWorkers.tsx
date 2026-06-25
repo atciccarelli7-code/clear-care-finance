@@ -5,8 +5,16 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PageHero } from "@/components/shared/PageHero";
 import { OBBB_OVERTIME_ARTICLE } from "@/data/healthcareWorkerArticles";
 import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock } from "lucide-react";
+import { useSeo } from "@/lib/seo";
 
 const HealthcareWorkers = () => {
+  useSeo({
+    title: "Healthcare Worker Money Guides",
+    description:
+      "Plain-English guides and calculators for nurses and healthcare workers covering paychecks, benefits, retirement, insurance, overtime, and burnout spending.",
+    canonicalPath: "/healthcare-workers",
+  });
+
   return (
     <>
       <PageHero

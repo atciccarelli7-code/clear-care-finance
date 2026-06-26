@@ -1057,6 +1057,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       "Assuming a verified discount is automatically the best available price.",
       "Giving sensitive information to questionable coupon sites."
     ],
+    relatedCalculator: { label: "Healthcare Worker Discount Value Checker", href: "/tools/healthcare-worker-discount-value" },
     takeaway: "Use healthcare discounts as a price reducer, not a shopping trigger. The best discount is on something you already planned to buy, at a final price that beats the alternatives.",
     sources: [SOURCE_PRESETS.federalReserve],
   },
@@ -1119,7 +1120,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       title: "The post-shift loop",
       body: "A respiratory therapist leaves work drained, orders $28 of delivery, buys a few online items while scrolling, and feels guilty the next morning. A better system is not shame. It is a freezer meal, a planned $40 weekly convenience budget, app notifications turned off, and a rule that nonessential purchases wait until after sleep."
     },
-    relatedCalculator: { label: "Hospital Café Savings Rate Calculator", href: "/tools/hospital-cafe-savings" },
+    relatedCalculator: { label: "Post-Shift Recovery Budget Calculator", href: "/tools/post-shift-recovery-budget" },
     commonMistakes: [
       "Calling it laziness when it is often exhaustion and stress.",
       "Trying to cut every comfort instead of planning better ones.",

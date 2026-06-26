@@ -94,5 +94,6 @@ export const BACKUP_CARE_ARTICLE: Article = {
     "Treating every overtime shift as automatically worth it without subtracting hidden care costs."
   ],
   takeaway: "A backup-care plan is part of financial stability for healthcare workers. It protects your paycheck, your household, your pets, your kids, and your decision-making when a shift does not go according to plan.",
+  relatedCalculator: { label: "Backup Care Cost Planner", href: "/tools/backup-care-cost-planner" },
   sources: [SOURCE_PRESETS.federalReserve, SOURCE_PRESETS.bls],
 };

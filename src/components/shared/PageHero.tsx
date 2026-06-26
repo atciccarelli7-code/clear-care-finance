@@ -19,7 +19,7 @@ export const PageHero = ({ eyebrow, title, description, children, className }: P
           {eyebrow}
         </span>
       )}
-      <h1 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.1] text-balance break-words">
+      <h1 className="mx-auto max-w-full font-display text-2xl font-extrabold tracking-tight leading-[1.15] text-balance break-words sm:text-3xl md:text-5xl md:leading-[1.1]">
         {title}
       </h1>
       {description && (

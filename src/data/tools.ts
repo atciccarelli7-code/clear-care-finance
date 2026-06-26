@@ -18,6 +18,9 @@ export type ToolComponentKey =
   | "hsaVsFsa"
   | "medicareCostExposure"
   | "hospitalCafeSavings"
+  | "backupCareCost"
+  | "healthcareDiscountValue"
+  | "postShiftRecoveryBudget"
   | "studentLoanPayment";
 
 export type ToolIconName =
@@ -338,6 +341,60 @@ export const TOOLS: ToolDefinition[] = [
     icon: "coffee",
     assumptionNotes: ["The investing example assumes steady monthly savings and a constant annual return, which real markets do not provide."],
     sourceNotes: ["Use your own shift pattern, receipts, and budget priorities; this tool is for awareness, not guilt."],
+  },
+  {
+    slug: "backup-care-cost-planner",
+    legacyAnchorId: "backup-care",
+    legacyAnchorAliases: ["backup-care-cost"],
+    title: "Backup Care Cost Planner",
+    shortTitle: "Backup care",
+    category: "Healthcare worker money",
+    audience: "Healthcare workers planning for late shifts, call, overtime, pets, child care, or household coverage",
+    description: "Estimate expected backup-care events, monthly cushion needs, emergency-rate exposure, and pickup-shift value after hidden care costs.",
+    plainEnglishUseCase: "Use this before a schedule change or overtime offer so backup care is part of the math.",
+    estimatedUseTime: "5-7 min",
+    priority: 135,
+    relatedArticle: { label: "Backup Care Plans for Busy Healthcare Workers", href: "/articles/backup-care-plans-for-busy-healthcare-workers" },
+    componentKey: "backupCareCost",
+    icon: "heart",
+    assumptionNotes: ["Backup-care costs are household planning inputs, not fixed recommendations; use local rates and your real shift pattern."],
+    sourceNotes: ["Use daycare policies, sitter or pet-care rates, transportation costs, payroll estimates, and your own schedule history."],
+  },
+  {
+    slug: "healthcare-worker-discount-value",
+    legacyAnchorId: "healthcare-discount-value",
+    legacyAnchorAliases: ["discount-value", "healthcare-worker-discounts"],
+    title: "Healthcare Worker Discount Value Checker",
+    shortTitle: "Discount value",
+    category: "Healthcare worker money",
+    audience: "Healthcare workers checking whether a discount is actually worth the price, fees, and friction",
+    description: "Compare a healthcare-worker discount against fees, verification time, planned budget, and the best non-discount alternative.",
+    plainEnglishUseCase: "Use this before letting a discount turn into a new purchase.",
+    estimatedUseTime: "4-6 min",
+    priority: 136,
+    relatedArticle: { label: "Healthcare Worker Discounts and Perks Directory", href: "/articles/healthcare-worker-discounts" },
+    componentKey: "healthcareDiscountValue",
+    icon: "wallet",
+    assumptionNotes: ["A discount is only useful if the final price, fees, time, and purchase timing still fit the plan."],
+    sourceNotes: ["Compare the verified checkout price, shipping, subscription terms, expiration rules, and a normal sale or competitor price."],
+  },
+  {
+    slug: "post-shift-recovery-budget",
+    legacyAnchorId: "post-shift-recovery",
+    legacyAnchorAliases: ["recovery-budget", "burnout-spending"],
+    title: "Post-Shift Recovery Budget Calculator",
+    shortTitle: "Recovery budget",
+    category: "Healthcare worker money",
+    audience: "Healthcare workers replacing tired impulse spending with a planned recovery default",
+    description: "Estimate the monthly and yearly cash difference between unplanned post-shift spending and a kinder planned recovery routine.",
+    plainEnglishUseCase: "Use this to design a realistic default for hard shifts without turning recovery into shame math.",
+    estimatedUseTime: "4-6 min",
+    priority: 137,
+    relatedArticle: { label: "Burnout, Overspending, and Overeating After Hard Shifts", href: "/articles/burnout-overspending-overeating" },
+    componentKey: "postShiftRecoveryBudget",
+    icon: "coffee",
+    assumptionNotes: ["The planned default should still support recovery; this tool compares patterns, not personal discipline."],
+    sourceNotes: ["Use recent bank transactions, shift counts, grocery costs, takeout costs, and realistic recovery needs."],
   },
   {
     slug: "student-loan-payment",

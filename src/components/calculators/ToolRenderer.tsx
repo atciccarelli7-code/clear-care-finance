@@ -4,6 +4,11 @@ import CalcLoanPayment from "@/components/calculators/LoanPayment";
 import CalcOvertimeDeduction from "@/components/calculators/OvertimeDeduction";
 import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
 import {
+  BackupCareCostPlanner,
+  HealthcareDiscountValueChecker,
+  PostShiftRecoveryBudgetCalculator,
+} from "@/components/calculators/NextCalculatorBatch";
+import {
   OpenEnrollmentPaycheckImpactCalculator,
   OpenEnrollmentTrueCostCalculator,
   SupplementalBenefitsDecisionHelper,
@@ -45,6 +50,12 @@ export const ToolRenderer = ({ toolKey }: { toolKey: ToolComponentKey }) => {
       return <CalcCafe />;
     case "studentLoanPayment":
       return <CalcLoanPayment />;
+    case "backupCareCost":
+      return <BackupCareCostPlanner />;
+    case "healthcareDiscountValue":
+      return <HealthcareDiscountValueChecker />;
+    case "postShiftRecoveryBudget":
+      return <PostShiftRecoveryBudgetCalculator />;
     default:
       return null;
   }

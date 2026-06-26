@@ -1,5 +1,15 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Calculator, FileText, BookOpen, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  Calculator,
+  FileText,
+  BookOpen,
+  CheckCircle2,
+  HeartPulse,
+  Receipt,
+  PiggyBank,
+  Tag,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TopicCard } from "@/components/shared/TopicCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -11,6 +21,63 @@ import { TOPICS } from "@/data/topics";
 const Index = () => {
   const featuredTopics = TOPICS.slice(0, 6);
   const featuredArticles = ALL_ARTICLES.slice(0, 4);
+
+  // Define the primary navigation cards for the homepage. Each object supplies the icon,
+  // title, description, destination and call‑to‑action text. The second card uses a
+  // green accent to visually differentiate the patients & caregivers pathway.
+  const pathCards = [
+    {
+      icon: TOPICS[1].icon,
+      title: "Healthcare Workers",
+      description: "Paychecks, benefits, retirement plans, and quiet spending patterns on shift.",
+      href: "/healthcare-workers",
+      cta: "Start here",
+      accent: "blue",
+    },
+    {
+      icon: TOPICS[0].icon,
+      title: "Patients & Caregivers",
+      description: "Insurance, Medicare, Medicaid, hospital bills, and long‑term care basics.",
+      href: "/patients-families",
+      cta: "Start here",
+      accent: "green",
+    },
+    {
+      icon: HeartPulse,
+      title: "Medicare & Medicaid",
+      description: "What each program covers, differences between parts, cost basics, and long‑term care gaps.",
+      href: "/topics/medicare-medicaid",
+      cta: "Learn more",
+    },
+    {
+      icon: Receipt,
+      title: "Hospital Bills & Insurance",
+      description: "Estimate visit costs, understand EOBs, bills, and health insurance terms.",
+      href: "/topics/patient-medical-costs",
+      cta: "Learn more",
+    },
+    {
+      icon: PiggyBank,
+      title: "Retirement & 403(b)",
+      description: "Plain‑English retirement accounts: 403(b), 401(a), 457(b) and employer matches.",
+      href: "/topics/retirement-accounts",
+      cta: "Learn more",
+    },
+    {
+      icon: Tag,
+      title: "Budgeting & Savings",
+      description: "Tips for building an emergency fund and spotting small spending habits that add up.",
+      href: "/tools",
+      cta: "Explore",
+    },
+    {
+      icon: Calculator,
+      title: "Calculators & Tools",
+      description: "Interactive tools to model paychecks, overtime, insurance, Medicare, café spend, and student loans.",
+      href: "/tools",
+      cta: "Open calculators",
+    },
+  ];
 
   return (
     <>
@@ -35,29 +102,18 @@ const Index = () => {
           title="Where do you fit?"
           description="The same financial vocabulary affects everyone in a hospital — just from different sides of the bed."
         />
-        <div className="grid min-w-0 gap-6 md:grid-cols-3 max-w-5xl mx-auto">
-          <TopicCard
-            icon={TOPICS[1].icon}
-            title="Healthcare Workers"
-            description="Paychecks, benefits, retirement plans, and quiet spending patterns on shift."
-            href="/healthcare-workers"
-            cta="Start here"
-          />
-          <TopicCard
-            icon={TOPICS[0].icon}
-            title="Patients & Caregivers"
-            description="Insurance, Medicare, Medicaid, hospital bills, and long-term care basics."
-            href="/patients-families"
-            cta="Start here"
-            accent="green"
-          />
-          <TopicCard
-            icon={Calculator}
-            title="Just the calculators"
-            description="Six simple tools to estimate paycheck, overtime, insurance, Medicare, café spend, and student loans."
-            href="/tools"
-            cta="Open calculators"
-          />
+        <div className="grid min-w-0 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-6xl mx-auto">
+          {pathCards.map(({ icon, title, description, href, cta, accent }) => (
+            <TopicCard
+              key={title}
+              icon={icon}
+              title={title}
+              description={description}
+              href={href}
+              cta={cta}
+              accent={accent as any}
+            />
+          ))}
         </div>
       </section>
 
@@ -151,7 +207,12 @@ const Index = () => {
             <Button asChild size="lg" variant="secondary">
               <Link to="/tools"><Calculator className="h-4 w-4" /> Try a calculator</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="bg-transparent text-primary-foreground border-primary-foreground/40 hover:bg-primary-foreground/10 hover:text-primary-foreground">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="bg-transparent text-primary-foreground border-primary-foreground/40 hover:bg-primary-foreground/10 hover:text-primary-foreground"
+            >
               <Link to="/articles"><FileText className="h-4 w-4" /> Read an article</Link>
             </Button>
           </div>

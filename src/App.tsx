@@ -19,7 +19,17 @@ import About from "./pages/About.tsx";
 import Contact from "./pages/Contact.tsx";
 import OpenEnrollmentGuide from "./pages/OpenEnrollmentGuide.tsx";
 import MedicareAdvantageComparisonPage from "./pages/MedicareAdvantageComparisonPage.tsx";
-import { InsuranceDecisionToolsIndex } from "./pages/InsuranceDecisionToolsBundle.tsx";
+import {
+  HealthcareWorkerPaycheckTools,
+  HospitalDischargeCoverageGuide,
+  InsuranceDecisionToolsIndex,
+  InsuranceMarketingRealityPage,
+  MedicalBillReviewToolkit,
+  MedicareAdvantagePlanHelper,
+  MedicareAdvantageVsMedigap,
+  MedicationCoverageChecklist,
+  PriorAuthorizationGuide,
+} from "./pages/InsuranceDecisionToolsBundle.tsx";
 import Methodology from "./pages/Methodology.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import TermsOfUse from "./pages/TermsOfUse.tsx";
@@ -40,8 +50,10 @@ const App = () => (
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
+            <Route path="/healthcare-workers/paycheck-tools" element={<HealthcareWorkerPaycheckTools />} />
             <Route path="/patients-families" element={<PatientsFamilies />} />
             <Route path="/tools" element={<Tools />} />
+            <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />
             <Route path="/topics" element={<Topics />} />
@@ -49,6 +61,12 @@ const App = () => (
             <Route path="/open-enrollment" element={<OpenEnrollmentGuide />} />
             <Route path="/insurance" element={<InsuranceDecisionToolsIndex />} />
             <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
+            <Route path="/insurance/prior-authorization-guide" element={<PriorAuthorizationGuide />} />
+            <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoverageGuide />} />
+            <Route path="/insurance/medication-coverage-checklist" element={<MedicationCoverageChecklist />} />
+            <Route path="/insurance/medical-bill-review-toolkit" element={<MedicalBillReviewToolkit />} />
+            <Route path="/insurance/medicare-advantage-vs-medigap" element={<MedicareAdvantageVsMedigap />} />
+            <Route path="/insurance/what-medicare-advantage-marketing-may-not-emphasize" element={<InsuranceMarketingRealityPage />} />
             <Route path="/medicare-medicaid" element={<Navigate to="/topics/medicare-medicaid" replace />} />
             <Route path="/glossary" element={<Glossary />} />
             <Route path="/about" element={<About />} />

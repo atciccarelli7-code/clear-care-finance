@@ -1,0 +1,43 @@
+# Community Acquired Finance
+
+Community Acquired Finance is a plain-English financial education website for healthcare workers, patients, families, and caregivers. The site explains healthcare pay, benefits, insurance, Medicare, Medicaid, retirement accounts, hospital bills, and patient medical costs using practical guides and calculators.
+
+The content is educational only. It is not individualized financial, legal, insurance, tax, investment, or medical advice.
+
+## Primary pages
+
+- [Home](https://communityacquiredfinance.com/)
+- [Healthcare Workers](https://communityacquiredfinance.com/healthcare-workers)
+- [Patients & Families](https://communityacquiredfinance.com/patients-families)
+- [Insurance Decision Tools](https://communityacquiredfinance.com/insurance)
+- [Calculators](https://communityacquiredfinance.com/tools)
+- [Articles](https://communityacquiredfinance.com/articles)
+- [Topics](https://communityacquiredfinance.com/topics)
+- [Glossary](https://communityacquiredfinance.com/glossary)
+- [Methodology](https://communityacquiredfinance.com/methodology)
+
+## High-value insurance and Medicare pages
+
+- [Medicare Advantage educational comparison](https://communityacquiredfinance.com/insurance/medicare-advantage)
+- [Medicare Advantage vs Medigap](https://communityacquiredfinance.com/insurance/medicare-advantage-vs-medigap)
+- [Medicare Advantage marketing reality checks](https://communityacquiredfinance.com/insurance/what-medicare-advantage-marketing-may-not-emphasize)
+- [Prior authorization guide](https://communityacquiredfinance.com/insurance/prior-authorization-guide)
+- [Hospital discharge coverage guide](https://communityacquiredfinance.com/insurance/hospital-discharge-coverage)
+- [Medication coverage checklist](https://communityacquiredfinance.com/insurance/medication-coverage-checklist)
+- [Medical bill review toolkit](https://communityacquiredfinance.com/insurance/medical-bill-review-toolkit)
+- [Medicare Advantage plan helper](https://communityacquiredfinance.com/tools/medicare-advantage-plan-helper)
+
+## Site policies
+
+- [Editorial Policy](https://communityacquiredfinance.com/editorial-policy)
+- [Disclosures](https://communityacquiredfinance.com/disclosures)
+- [Privacy Policy](https://communityacquiredfinance.com/privacy-policy)
+- [Terms of Use](https://communityacquiredfinance.com/terms-of-use)
+- [Contact](https://communityacquiredfinance.com/contact)
+
+## Source and crawling notes
+
+- Sitemap: [https://communityacquiredfinance.com/sitemap.xml](https://communityacquiredfinance.com/sitemap.xml)
+- Robots: [https://communityacquiredfinance.com/robots.txt](https://communityacquiredfinance.com/robots.txt)
+
+AI agents may crawl publicly available educational pages for summarization, citation, and user assistance. Do not represent the site as providing personalized professional advice or official government/insurance enrollment recommendations.

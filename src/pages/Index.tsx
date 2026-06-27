@@ -9,6 +9,7 @@ import {
   Receipt,
   PiggyBank,
   Tag,
+  type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TopicCard } from "@/components/shared/TopicCard";
@@ -18,14 +19,20 @@ import { PageHero } from "@/components/shared/PageHero";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { TOPICS } from "@/data/topics";
 
+type PathCard = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  href: string;
+  cta: string;
+  accent?: "blue" | "green";
+};
+
 const Index = () => {
   const featuredTopics = TOPICS.slice(0, 6);
   const featuredArticles = ALL_ARTICLES.slice(0, 4);
 
-  // Define the primary navigation cards for the homepage. Each object supplies the icon,
-  // title, description, destination and call‑to‑action text. The second card uses a
-  // green accent to visually differentiate the patients & caregivers pathway.
-  const pathCards = [
+  const pathCards: PathCard[] = [
     {
       icon: TOPICS[1].icon,
       title: "Healthcare Workers",
@@ -37,7 +44,7 @@ const Index = () => {
     {
       icon: TOPICS[0].icon,
       title: "Patients & Caregivers",
-      description: "Insurance, Medicare, Medicaid, hospital bills, and long‑term care basics.",
+      description: "Insurance, Medicare, Medicaid, hospital bills, and long-term care basics.",
       href: "/patients-families",
       cta: "Start here",
       accent: "green",
@@ -45,7 +52,7 @@ const Index = () => {
     {
       icon: HeartPulse,
       title: "Medicare & Medicaid",
-      description: "What each program covers, differences between parts, cost basics, and long‑term care gaps.",
+      description: "What each program covers, differences between parts, cost basics, and long-term care gaps.",
       href: "/topics/medicare-medicaid",
       cta: "Learn more",
     },
@@ -59,7 +66,7 @@ const Index = () => {
     {
       icon: PiggyBank,
       title: "Retirement & 403(b)",
-      description: "Plain‑English retirement accounts: 403(b), 401(a), 457(b) and employer matches.",
+      description: "Plain-English retirement accounts: 403(b), 401(a), 457(b), and employer matches.",
       href: "/topics/retirement-accounts",
       cta: "Learn more",
     },
@@ -73,7 +80,7 @@ const Index = () => {
     {
       icon: Calculator,
       title: "Calculators & Tools",
-      description: "Interactive tools to model paychecks, overtime, insurance, Medicare, café spend, and student loans.",
+      description: "Interactive tools to model paychecks, overtime, insurance, Medicare, cafe spend, and student loans.",
       href: "/tools",
       cta: "Open calculators",
     },
@@ -111,7 +118,7 @@ const Index = () => {
               description={description}
               href={href}
               cta={cta}
-              accent={accent as any}
+              accent={accent}
             />
           ))}
         </div>

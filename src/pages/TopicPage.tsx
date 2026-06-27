@@ -30,6 +30,11 @@ const TopicPage = () => {
             <a href="#calculator">Try the calculator <ArrowRight className="h-4 w-4" /></a>
           </Button>
         )}
+        {isMedicareHub && (
+          <Button asChild variant="accent" size="lg">
+            <Link to="/insurance/medicare-advantage">Compare Medicare Advantage plans <ArrowRight className="h-4 w-4" /></Link>
+          </Button>
+        )}
         <Button asChild variant="outline" size="lg">
           <a href="#sources">View sources</a>
         </Button>

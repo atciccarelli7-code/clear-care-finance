@@ -18,6 +18,7 @@ import Glossary from "./pages/Glossary.tsx";
 import About from "./pages/About.tsx";
 import Contact from "./pages/Contact.tsx";
 import OpenEnrollmentGuide from "./pages/OpenEnrollmentGuide.tsx";
+import MedicareAdvantageComparisonPage from "./pages/MedicareAdvantageComparisonPage.tsx";
 import Methodology from "./pages/Methodology.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import TermsOfUse from "./pages/TermsOfUse.tsx";
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/topics" element={<Topics />} />
             <Route path="/topics/:slug" element={<TopicPage />} />
             <Route path="/open-enrollment" element={<OpenEnrollmentGuide />} />
+            <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
             <Route path="/medicare-medicaid" element={<Navigate to="/topics/medicare-medicaid" replace />} />
             <Route path="/glossary" element={<Glossary />} />
             <Route path="/about" element={<About />} />

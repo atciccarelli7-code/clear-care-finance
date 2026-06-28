@@ -1,4 +1,4 @@
-import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck } from "lucide-react";
+import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck, Scale } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { NextStepCards } from "@/components/shared/NextStepCards";
@@ -8,6 +8,7 @@ import OutOfPocketMaxEstimator from "@/components/calculators/OutOfPocketMaxEsti
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
 import CalcOvertimeDeduction from "@/components/calculators/OvertimeDeduction";
 import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
+import RothTraditionalDecisionCalculator from "@/components/calculators/RothTraditionalDecisionCalculator";
 import {
   OpenEnrollmentPaycheckImpactCalculator,
   OpenEnrollmentTrueCostCalculator,
@@ -47,6 +48,7 @@ const calculatorGroups = [
     label: "Healthcare worker money",
     items: [
       { id: "403b", label: "403(b) Paycheck Contribution Calculator" },
+      { id: "roth-traditional", label: "Roth vs Traditional Decision Tool" },
       { id: "overtime", label: "OBBB Overtime Deduction Estimator" },
       { id: "cafe", label: "Hospital Cafe Savings Rate Calculator" },
     ],
@@ -70,7 +72,7 @@ const jumpToCalculator = (id: string) => {
 const Tools = () => {
   useSeo({
     title: "Calculators and Checklists",
-    description: "Plain-English calculators and checklists for healthcare workers, patients, open enrollment, medical bills, Medicare, savings, and workplace benefits.",
+    description: "Plain-English calculators and checklists for healthcare workers, patients, open enrollment, medical bills, Medicare, savings, retirement tax tradeoffs, and workplace benefits.",
     canonicalPath: "/tools",
   });
 
@@ -79,7 +81,7 @@ const Tools = () => {
       <PageHero
         eyebrow="Calculators"
         title="Run the numbers in plain English."
-        description="Practical calculators and checklists for paychecks, benefits, insurance choices, open enrollment, medical bills, Medicare, cafe spend, and student loans."
+        description="Practical calculators and checklists for paychecks, benefits, insurance choices, open enrollment, medical bills, Medicare, retirement tax tradeoffs, cafe spend, and student loans."
       />
 
       <section className="container min-w-0 pt-10 md:pt-12">
@@ -178,6 +180,12 @@ const Tools = () => {
         <div id="403b" className="scroll-mt-28 min-w-0">
           <CalculatorCard icon={Wallet} eyebrow="For healthcare workers" title="403(b) Paycheck Contribution Calculator" description="See per-paycheck contributions, annual contribution, and a rough employer match estimate." relatedArticle={{ label: "How to Pick Retirement Investments at Work", href: "/articles/how-to-pick-retirement-investments-at-work" }}>
             <Calc403b />
+          </CalculatorCard>
+        </div>
+
+        <div id="roth-traditional" className="scroll-mt-28 min-w-0">
+          <CalculatorCard icon={Scale} eyebrow="Healthcare worker money" title="Roth vs Traditional Decision Tool" description="Compare Traditional tax savings, Roth tax cost, future after-tax value, and employer-match treatment using plain-English assumptions." relatedArticle={{ label: "How to Pick Retirement Investments at Work", href: "/articles/how-to-pick-retirement-investments-at-work" }}>
+            <RothTraditionalDecisionCalculator />
           </CalculatorCard>
         </div>
 

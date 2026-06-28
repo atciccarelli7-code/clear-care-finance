@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { TopicCard } from "@/components/shared/TopicCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PageHero } from "@/components/shared/PageHero";
+import { NextStepCards } from "@/components/shared/NextStepCards";
 import { OBBB_OVERTIME_ARTICLE } from "@/data/healthcareWorkerArticles";
-import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock } from "lucide-react";
+import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock, TrendingUp } from "lucide-react";
 
 const HealthcareWorkers = () => {
   return (
@@ -12,15 +13,46 @@ const HealthcareWorkers = () => {
       <PageHero
         eyebrow="For nurses & bedside clinicians"
         title="Money education built for healthcare workers."
-        description="You take care of patients. We'll help you make sense of the paycheck, benefits, and long-term decisions that come with the job."
+        description="You take care of patients. We'll help you make sense of the paycheck, benefits, investing, and long-term decisions that come with the job."
       >
         <Button asChild variant="hero" size="lg">
-          <Link to="/tools#403b">Try the 403(b) calculator <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/build-wealth">Build wealth <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/topics">Browse topics</Link>
+          <Link to="/tools#403b">Try the 403(b) calculator</Link>
         </Button>
       </PageHero>
+
+      <section className="container py-10 md:py-14">
+        <NextStepCards
+          eyebrow="Money path"
+          title="Start with the worker money system"
+          description="Healthcare-worker finance is more than benefits. Start with the paycheck, then build toward investing and flexibility."
+          cards={[
+            {
+              eyebrow: "Foundation",
+              title: "The Healthcare Worker Money Map",
+              description: "A simple order of operations for bills, cash, employer match, debt, retirement, and investing.",
+              href: "/articles/healthcare-worker-money-map",
+              cta: "Read the map",
+            },
+            {
+              eyebrow: "Investing",
+              title: "Invest Without Picking Stocks",
+              description: "Use broad, repeatable investing without turning your retirement plan into a second job.",
+              href: "/articles/how-healthcare-workers-can-invest-without-picking-stocks",
+              cta: "Learn investing",
+            },
+            {
+              eyebrow: "Freedom",
+              title: "Savings Rate That Changes Your Life",
+              description: "See how savings rate and intentional overtime can buy back future flexibility.",
+              href: "/articles/savings-rate-that-actually-changes-your-life",
+              cta: "Build flexibility",
+            },
+          ]}
+        />
+      </section>
 
       <section className="container py-10 md:py-14">
         <Link
@@ -54,6 +86,7 @@ const HealthcareWorkers = () => {
           title="The money stuff your hospital orientation skipped"
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <TopicCard icon={TrendingUp} title="Build Wealth" description="Money maps, investing basics, savings rate, and financial independence for healthcare workers." href="/build-wealth" cta="Open hub" />
           <TopicCard icon={Wallet} title="Workplace Benefits" description="Decode open enrollment paperwork without calling HR." href="/topics/workplace-benefits" cta="Open guide" />
           <TopicCard icon={PiggyBank} title="Retirement Accounts" description="403(b), 401(a), 457(b), Roth vs Traditional — explained simply." href="/topics/retirement-accounts" cta="Open guide" />
           <TopicCard icon={Shield} title="Health Insurance" description="PPO vs HMO vs HDHP, HSA vs FSA, and how to compare plans." href="/topics/health-insurance" cta="Open guide" />

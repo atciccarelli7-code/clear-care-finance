@@ -325,6 +325,8 @@ const ArticlePage = () => {
       </PageHero>
 
       <article className="container max-w-3xl py-8 md:py-16 space-y-8 md:space-y-12">
+        <DisclaimerBox short className="border-primary/20 bg-primary-soft/30" />
+
         <Section icon={Users} title="Who this is for">
           <p>{article.audience}</p>
         </Section>

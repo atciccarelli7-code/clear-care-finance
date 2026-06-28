@@ -33,10 +33,11 @@ export const Header = () => {
           to="/"
           className="flex min-w-0 items-center gap-2.5 font-display font-bold tracking-tight text-foreground"
           onClick={() => setOpen(false)}
+          aria-label="Community Acquired Finance home"
         >
           <LogoMark />
           <span className="hidden min-w-0 break-words text-base sm:inline">Community Acquired Finance</span>
-          <span className="text-base sm:hidden">CAF</span>
+          <span className="text-base sm:hidden">Finance</span>
         </Link>
 
         <nav className="hidden xl:flex items-center gap-1">

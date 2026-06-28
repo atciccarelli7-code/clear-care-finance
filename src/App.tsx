@@ -18,11 +18,11 @@ import Glossary from "./pages/Glossary.tsx";
 import About from "./pages/About.tsx";
 import Contact from "./pages/Contact.tsx";
 import OpenEnrollmentGuide from "./pages/OpenEnrollmentGuide.tsx";
+import InsuranceBenefitsHub from "./pages/InsuranceBenefitsHub.tsx";
 import MedicareAdvantageComparisonPage from "./pages/MedicareAdvantageComparisonPage.tsx";
 import {
   HealthcareWorkerPaycheckTools,
   HospitalDischargeCoverageGuide,
-  InsuranceDecisionToolsIndex,
   InsuranceMarketingRealityPage,
   MedicalBillReviewToolkit,
   MedicareAdvantagePlanHelper,
@@ -59,7 +59,7 @@ const App = () => (
             <Route path="/topics" element={<Topics />} />
             <Route path="/topics/:slug" element={<TopicPage />} />
             <Route path="/open-enrollment" element={<OpenEnrollmentGuide />} />
-            <Route path="/insurance" element={<InsuranceDecisionToolsIndex />} />
+            <Route path="/insurance" element={<InsuranceBenefitsHub />} />
             <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
             <Route path="/insurance/prior-authorization-guide" element={<PriorAuthorizationGuide />} />
             <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoverageGuide />} />

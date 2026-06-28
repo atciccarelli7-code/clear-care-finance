@@ -204,6 +204,18 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.federalreserve.gov/publications/report-economic-well-being-us-households.htm",
     note: "Household financial well-being and savings benchmarks.",
   },
+  investorGovCompoundInterest: {
+    name: "Investor.gov",
+    pageTitle: "Compound Interest Calculator",
+    url: "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator",
+    note: "Investor education resource for understanding how recurring contributions and time can compound.",
+  },
+  investorGovAssetAllocation: {
+    name: "Investor.gov",
+    pageTitle: "Asset Allocation",
+    url: "https://www.investor.gov/introduction-investing/investing-basics/glossary/asset-allocation",
+    note: "Investor education resource for diversification and investment mix concepts.",
+  },
   healthcareGov: {
     name: "Healthcare.gov",
     pageTitle: "Marketplace insurance basics",

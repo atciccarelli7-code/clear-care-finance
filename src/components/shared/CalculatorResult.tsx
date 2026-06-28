@@ -9,22 +9,24 @@ interface CalculatorResultProps {
 
 export const CalculatorResult = ({ label, value, emphasis = "muted", helper }: CalculatorResultProps) => {
   const styles = {
-    primary: "bg-gradient-primary text-primary-foreground border-transparent",
-    accent: "bg-gradient-accent text-primary-foreground border-transparent",
-    muted: "bg-muted/30 border-border text-foreground",
+    primary: "border-primary/20 bg-primary-soft/80 text-foreground ring-1 ring-primary/10",
+    accent: "border-secondary/20 bg-secondary-soft/80 text-foreground ring-1 ring-secondary/10",
+    muted: "border-border bg-background/70 text-foreground",
   }[emphasis];
 
-  const labelColor = emphasis === "muted" ? "text-muted-foreground" : "opacity-90";
+  const valueColor = {
+    primary: "text-primary",
+    accent: "text-secondary",
+    muted: "text-foreground",
+  }[emphasis];
 
   return (
-    <div className={cn("min-w-0 break-words rounded-2xl border p-5 shadow-card", styles)}>
-      <div className={cn("break-words text-xs font-semibold uppercase tracking-wider", labelColor)}>{label}</div>
-      <div className="mt-1 break-words font-display text-2xl font-bold tabular-nums md:text-3xl">{value}</div>
-      {helper && (
-        <div className={cn("mt-1 break-words text-xs", emphasis === "muted" ? "text-muted-foreground" : "opacity-80")}>
-          {helper}
-        </div>
-      )}
+    <div className={cn("min-w-0 break-words rounded-2xl border p-4 shadow-sm transition-smooth md:p-5", styles)}>
+      <div className="break-words text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
+      <div className={cn("mt-1 break-words font-display text-2xl font-bold tabular-nums leading-tight md:text-3xl", valueColor)}>
+        {value}
+      </div>
+      {helper && <div className="mt-1.5 break-words text-xs leading-relaxed text-muted-foreground">{helper}</div>}
     </div>
   );
 };

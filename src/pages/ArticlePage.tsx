@@ -35,6 +35,7 @@ const ArticlePage = () => {
   if (!article) return <Navigate to="/articles" replace />;
 
   const voiceNote = ARTICLE_VOICE_NOTES[article.slug];
+  const showOutOfPocketMaxTool = ["how-to-read-an-eob", "deductible-copay-coinsurance-out-of-pocket-max"].includes(article.slug);
 
   if (isArticleDraft(article)) {
     return (
@@ -153,6 +154,21 @@ const ArticlePage = () => {
             </div>
             <Button asChild variant="hero">
               <Link to={article.relatedCalculator.href}>Open calculator <ArrowRight className="h-4 w-4" /></Link>
+            </Button>
+          </div>
+        )}
+
+        {showOutOfPocketMaxTool && (
+          <div className="rounded-2xl border border-primary/30 bg-primary-soft/40 p-6 md:p-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-primary mb-1">Estimate the cap</div>
+              <h3 className="font-display text-lg font-bold">Out-of-Pocket Max Estimate Calculator</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Use this after you know the allowed amount, deductible remaining, copays, coinsurance, and what has already counted toward the plan maximum.
+              </p>
+            </div>
+            <Button asChild variant="hero">
+              <Link to="/tools/out-of-pocket-max-estimator">Open estimator <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </div>
         )}

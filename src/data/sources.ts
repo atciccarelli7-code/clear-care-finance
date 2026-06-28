@@ -216,6 +216,24 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.investor.gov/introduction-investing/investing-basics/glossary/asset-allocation",
     note: "Investor education resource for diversification and investment mix concepts.",
   },
+  investorGovMutualFunds: {
+    name: "Investor.gov",
+    pageTitle: "Mutual Funds and ETFs",
+    url: "https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs",
+    note: "Investor education resource for fund structure, diversification, fees, and investment product basics.",
+  },
+  secTargetDateFunds: {
+    name: "SEC Investor.gov",
+    pageTitle: "Target Date Retirement Funds",
+    url: "https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/target-date-retirement-funds",
+    note: "Investor education resource explaining target-date funds and how their asset mix changes over time.",
+  },
+  sp500Methodology: {
+    name: "S&P Dow Jones Indices",
+    pageTitle: "S&P U.S. Indices Methodology",
+    url: "https://www.spglobal.com/spdji/en/documents/methodologies/methodology-sp-us-indices.pdf",
+    note: "Primary methodology document for S&P U.S. indices, including S&P 500 construction and governance.",
+  },
   healthcareGov: {
     name: "Healthcare.gov",
     pageTitle: "Marketplace insurance basics",

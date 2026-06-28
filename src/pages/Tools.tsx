@@ -2,6 +2,7 @@ import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, Cli
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { Calc403b, CalcInsurance, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
+import OutOfPocketMaxEstimator from "@/components/calculators/OutOfPocketMaxEstimator";
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
 import CalcOvertimeDeduction from "@/components/calculators/OvertimeDeduction";
 import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
@@ -24,6 +25,7 @@ const calculatorGroups = [
     items: [
       { id: "open-enrollment-checklist", label: "Open Enrollment Final Checklist" },
       { id: "open-enrollment", label: "Open Enrollment True Cost Calculator" },
+      { id: "out-of-pocket-max", label: "Out-of-Pocket Max Estimator" },
       { id: "paycheck-impact", label: "Open Enrollment Paycheck Impact Calculator" },
       { id: "supplemental-benefits", label: "Supplemental Benefits Decision Helper" },
       { id: "hsa-fsa", label: "HSA vs FSA Decision Helper" },
@@ -34,6 +36,7 @@ const calculatorGroups = [
     items: [
       { id: "hospital-bill-checklist", label: "Hospital Bill Review Checklist" },
       { id: "eob-bill-match", label: "EOB-to-Bill Match Checker" },
+      { id: "out-of-pocket-max", label: "Out-of-Pocket Max Estimator" },
       { id: "financial-assistance-checklist", label: "Financial Assistance Checklist" },
       { id: "insurance", label: "Health Insurance Visit Cost Calculator" },
     ],
@@ -98,7 +101,7 @@ const Tools = () => {
                 {calculatorGroups.map((group) => (
                   <optgroup key={group.label} label={group.label}>
                     {group.items.map((item) => (
-                      <option key={item.id} value={item.id}>{item.label}</option>
+                      <option key={`${group.label}-${item.id}`} value={item.id}>{item.label}</option>
                     ))}
                   </optgroup>
                 ))}
@@ -124,6 +127,12 @@ const Tools = () => {
         <div id="eob-bill-match" className="scroll-mt-28 min-w-0">
           <CalculatorCard icon={Receipt} eyebrow="Hospital bills" title="EOB-to-Bill Match Checker" description="Compare an insurer explanation with a provider bill and identify mismatches to ask about." relatedArticle={{ label: "How to Read an EOB", href: "/articles/how-to-read-an-eob" }}>
             <EobBillMatchChecker />
+          </CalculatorCard>
+        </div>
+
+        <div id="out-of-pocket-max" className="scroll-mt-28 min-w-0">
+          <CalculatorCard icon={Shield} eyebrow="Benefits and insurance" title="Out-of-Pocket Max Estimator" description="Estimate how close covered in-network care could bring someone to the plan's yearly out-of-pocket maximum." relatedArticle={{ label: "Full Out-of-Pocket Max Calculator Page", href: "/tools/out-of-pocket-max-estimator" }}>
+            <OutOfPocketMaxEstimator />
           </CalculatorCard>
         </div>
 

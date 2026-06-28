@@ -1,21 +1,14 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle2, Receipt, Shield } from "lucide-react";
+import { CheckCircle2, Shield } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
-import { SectionHeading } from "@/components/shared/SectionHeading";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { SourceList } from "@/components/shared/SourceList";
+import { NextStepCards } from "@/components/shared/NextStepCards";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import OutOfPocketMaxEstimator from "@/components/calculators/OutOfPocketMaxEstimator";
 import { SOURCE_PRESETS } from "@/data/sources";
 import { useSeo } from "@/lib/seo";
-
-const relatedLinks = [
-  ["How to Read an Explanation of Benefits", "Use the EOB to find allowed amount, insurance payment, and what the insurer says may be owed.", "/articles/how-to-read-an-eob"],
-  ["Deductible, Copay, Coinsurance, and Out-of-Pocket Max", "Review the core terms behind the calculator before comparing plans or bills.", "/articles/deductible-copay-coinsurance-out-of-pocket-max"],
-  ["Open Enrollment Guide", "Use the out-of-pocket maximum as the bad-year number when comparing benefit choices.", "/open-enrollment"],
-  ["Benefits and Insurance Hub", "Return to the insurance decision cluster for EOBs, bills, prescriptions, spouse coverage, and Medicare choices.", "/insurance"],
-];
 
 const reminders = [
   "The out-of-pocket maximum usually applies to covered in-network services under the plan's rules.",
@@ -74,19 +67,42 @@ const OutOfPocketMaxEstimatorPage = () => {
           </div>
         </section>
 
-        <section>
-          <SectionHeading centered eyebrow="Use with these pages" title="Internal links for the benefits and insurance cluster" description="This calculator sits between the educational articles and the practical bill-review tools." />
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {relatedLinks.map(([title, body, href]) => (
-              <Link key={href} to={href} className="group rounded-3xl border border-border bg-card p-5 shadow-card transition-smooth hover:-translate-y-0.5 hover:shadow-hover">
-                <Receipt className="mb-4 h-6 w-6 text-primary" />
-                <h3 className="font-display text-lg font-bold leading-tight">{title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
-                <div className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-primary">Open <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        <NextStepCards
+          eyebrow="After the estimate"
+          title="What should you check next?"
+          description="The useful next step depends on whether you are looking at a bill, reading an EOB, or choosing a plan."
+          columns="four"
+          cards={[
+            {
+              eyebrow: "EOB first",
+              title: "How to Read an EOB",
+              description: "Find allowed amount, plan payment, adjustments, and patient responsibility before paying.",
+              href: "/articles/how-to-read-an-eob",
+              cta: "Read guide",
+            },
+            {
+              eyebrow: "Bill review",
+              title: "EOB-to-Bill Match Checker",
+              description: "Compare the insurer explanation with the provider bill and identify mismatches.",
+              href: "/tools#eob-bill-match",
+              cta: "Check bill",
+            },
+            {
+              eyebrow: "Plan choice",
+              title: "Open Enrollment Guide",
+              description: "Use OOP max as the bad-year number when comparing health plan choices.",
+              href: "/open-enrollment",
+              cta: "Compare plans",
+            },
+            {
+              eyebrow: "More help",
+              title: "Benefits and Insurance Hub",
+              description: "Return to the main decision hub for EOBs, bills, prescriptions, prior auth, and Medicare choices.",
+              href: "/insurance",
+              cta: "Open hub",
+            },
+          ]}
+        />
 
         <Card className="rounded-3xl shadow-card">
           <CardHeader>

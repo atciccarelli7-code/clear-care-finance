@@ -58,10 +58,10 @@ const Index = () => {
     },
     {
       icon: Receipt,
-      title: "Hospital Bills & Insurance",
-      description: "Estimate visit costs, understand EOBs, bills, and health insurance terms.",
-      href: "/topics/patient-medical-costs",
-      cta: "Learn more",
+      title: "Benefits & Insurance Help",
+      description: "EOBs, hospital bills, open enrollment, out-of-pocket costs, prescriptions, and prior authorization.",
+      href: "/insurance",
+      cta: "Start with your question",
     },
     {
       icon: PiggyBank,
@@ -94,10 +94,10 @@ const Index = () => {
         description="Pay, benefits, insurance, retirement, Medicare, and Medicaid — explained without jargon, scare tactics, or sales pitches."
       >
         <Button asChild variant="hero" size="lg">
-          <Link to="/tools">Open a calculator <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/insurance">Start with insurance help <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/topics">Browse topics</Link>
+          <Link to="/tools">Open a calculator</Link>
         </Button>
       </PageHero>
 

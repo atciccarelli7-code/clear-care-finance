@@ -26,28 +26,31 @@ const HsaFsaDecisionHelper = () => {
   const [fsaCarryover, setFsaCarryover] = useState("680");
   const [cashCushion, setCashCushion] = useState("5000");
 
-  const tax = num(taxRate) / 100;
+  const tax = Math.min(num(taxRate), 100) / 100;
+  const predictableExpenses = num(expenses);
   const hsaTaxSavings = eligible ? num(hsaContribution) * tax : 0;
-  const hsaValue = eligible ? num(employerHsa) + num(premiumSavings) + hsaTaxSavings : 0;
+  const hsaGrossValue = eligible ? num(employerHsa) + num(premiumSavings) + hsaTaxSavings : 0;
   const uncoveredDeductibleRisk = eligible ? Math.max(num(extraDeductibleRisk) - num(cashCushion), 0) : 0;
-  const riskAdjustedHsaValue = hsaValue - uncoveredDeductibleRisk;
+  const riskAdjustedHsaValue = hsaGrossValue - uncoveredDeductibleRisk;
   const fsaTaxSavings = num(fsaContribution) * tax;
-  const possibleFsaForfeit = Math.max(num(fsaContribution) - num(expenses) - num(fsaCarryover), 0);
+  const fsaProtectedByUseOrCarryover = predictableExpenses + num(fsaCarryover);
+  const possibleFsaForfeit = Math.max(num(fsaContribution) - fsaProtectedByUseOrCarryover, 0);
   const fsaNetValue = fsaTaxSavings - possibleFsaForfeit;
+  const cashCushionAfterRisk = Math.max(num(cashCushion) - num(extraDeductibleRisk), 0);
 
   const verdict = !eligible
-    ? "FSA is the usable option based on what you entered."
+    ? "HSA contributions usually require HSA-eligible HDHP coverage, so the FSA path is the usable tax-account option based on what you entered."
     : riskAdjustedHsaValue > fsaNetValue + 500 && num(cashCushion) >= num(extraDeductibleRisk) * 0.75
-      ? "The HSA path looks stronger on these assumptions."
+      ? "The HSA path looks stronger on these assumptions, mainly because of employer money, premium savings, tax savings, and enough cash cushion."
       : fsaNetValue > riskAdjustedHsaValue + 250 || num(cashCushion) < num(extraDeductibleRisk) * 0.5
-        ? "The FSA or lower-risk plan may be safer."
-        : "The math is close. Compare plan documents carefully.";
+        ? "The FSA or lower-risk plan may be safer if the HDHP creates too much cash-flow risk."
+        : "The math is close. Compare plan documents, medication costs, provider network, and your cash cushion before choosing.";
 
   return (
     <div className="space-y-8">
       <div className="grid gap-8 lg:grid-cols-5">
-        <div className="lg:col-span-3 space-y-5">
-          <div className="grid sm:grid-cols-2 gap-5">
+        <div className="space-y-5 lg:col-span-3">
+          <div className="grid gap-5 sm:grid-cols-2">
             <div className="space-y-2">
               <label className="text-sm font-semibold text-foreground">HSA-eligible HDHP?</label>
               <div className="grid grid-cols-2 gap-2 rounded-xl border border-border bg-background p-1">
@@ -64,28 +67,39 @@ const HsaFsaDecisionHelper = () => {
             <CalculatorInput label="Extra deductible risk" prefix="$" value={extraDeductibleRisk} onChange={setExtraDeductibleRisk} helper="Added deductible exposure versus the safer plan." />
             <CalculatorInput label="Cash cushion" prefix="$" value={cashCushion} onChange={setCashCushion} helper="Cash available for a higher-cost medical year." />
             <CalculatorInput label="Estimated tax rate" suffix="%" value={taxRate} onChange={setTaxRate} helper="Combined federal, state, and payroll estimate." />
-            <CalculatorInput label="FSA carryover allowed" prefix="$" value={fsaCarryover} onChange={setFsaCarryover} helper="Use $0 if no carryover is allowed." />
+            <CalculatorInput label="FSA carryover or grace room" prefix="$" value={fsaCarryover} onChange={setFsaCarryover} helper="Use $0 if no carryover or grace-period protection is available." />
+          </div>
+
+          <div className="rounded-2xl border border-border bg-muted/30 p-5 text-sm leading-relaxed">
+            <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">How this is calculated</div>
+            <ul className="space-y-1.5 text-muted-foreground">
+              <li>HSA value = employer HSA money + HDHP premium savings + estimated tax savings.</li>
+              <li>Risk-adjusted HSA value subtracts deductible exposure not covered by your cash cushion.</li>
+              <li>FSA net value = estimated tax savings - possible forfeited dollars.</li>
+              <li>FSA forfeiture risk falls when predictable expenses and carryover/grace-period protection are high.</li>
+            </ul>
           </div>
         </div>
 
-        <div className="lg:col-span-2 space-y-3">
+        <div className="space-y-3 lg:col-span-2">
           <CalculatorResult label="HSA tax savings" value={formatUSD(hsaTaxSavings)} />
-          <CalculatorResult label="HSA value before risk" value={formatUSD(hsaValue)} emphasis="primary" />
+          <CalculatorResult label="HSA value before risk" value={formatUSD(hsaGrossValue)} emphasis="primary" />
           <CalculatorResult label="Uncovered deductible risk" value={formatUSD(uncoveredDeductibleRisk)} />
           <CalculatorResult label="Risk-adjusted HSA value" value={formatUSD(riskAdjustedHsaValue)} emphasis="accent" />
           <CalculatorResult label="FSA tax savings" value={formatUSD(fsaTaxSavings)} />
           <CalculatorResult label="Possible FSA forfeiture" value={formatUSD(possibleFsaForfeit)} />
           <CalculatorResult label="Estimated FSA net value" value={formatUSD(fsaNetValue)} emphasis="primary" />
+          <CalculatorResult label="Cash left after deductible shock" value={formatUSD(cashCushionAfterRisk)} helper="Cash cushion minus extra deductible risk." />
           <CalculatorMeaning>{verdict}</CalculatorMeaning>
           <DisclaimerBox short />
         </div>
       </div>
 
-      <div className="rounded-2xl border border-border bg-card p-5 md:p-6 shadow-card">
-        <div className="text-xs font-semibold uppercase tracking-wider text-secondary mb-2">Provider comparison</div>
-        <h3 className="font-display text-xl font-bold mb-2">HSA providers are easier to shop than FSA providers.</h3>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          For HSAs, compare fees, investment options, cash yield, debit-card access, transfers, and employer payroll integration. Fidelity and Lively are common individual HSA options. HealthEquity and Optum are common employer benefit platforms. For FSAs, the employer usually chooses the administrator, so compare plan rules: carryover, grace period, claims workflow, receipt requirements, debit card, app quality, and runout deadline.
+      <div className="rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">What to verify</div>
+        <h3 className="mb-2 font-display text-xl font-bold">The account type is only one part of the decision.</h3>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          For HSAs, compare fees, cash yield, investment access, debit-card access, transfer rules, and employer payroll integration. For FSAs, compare carryover, grace period, runout deadline, receipt rules, claims workflow, debit-card limits, and whether predictable expenses justify the election.
         </p>
       </div>
     </div>

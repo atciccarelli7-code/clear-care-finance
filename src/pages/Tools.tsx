@@ -1,7 +1,8 @@
 import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
-import { Calc403b, CalcInsurance, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
+import { Calc403b, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
+import HealthInsuranceVisitCostCalculator from "@/components/calculators/HealthInsuranceVisitCostCalculator";
 import OutOfPocketMaxEstimator from "@/components/calculators/OutOfPocketMaxEstimator";
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
 import CalcOvertimeDeduction from "@/components/calculators/OvertimeDeduction";
@@ -155,8 +156,8 @@ const Tools = () => {
         </div>
 
         <div id="insurance" className="scroll-mt-28 min-w-0">
-          <CalculatorCard icon={Shield} eyebrow="For everyone" title="Health Insurance Visit Cost Calculator" description="Estimate yearly out-of-pocket cost across premium, deductible, copays, coinsurance, and visits." relatedArticle={{ label: "Plain-English Healthcare Finance Glossary", href: "/articles/plain-english-glossary" }}>
-            <CalcInsurance />
+          <CalculatorCard icon={Shield} eyebrow="For everyone" title="Health Insurance Visit Cost Calculator" description="Estimate yearly out-of-pocket cost across premium, deductible, copays, coinsurance, visits, and remaining out-of-pocket max room." relatedArticle={{ label: "Plain-English Healthcare Finance Glossary", href: "/articles/plain-english-glossary" }}>
+            <HealthInsuranceVisitCostCalculator />
           </CalculatorCard>
         </div>
 

@@ -5,23 +5,8 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { Button } from "@/components/ui/button";
 import { ALL_ARTICLES } from "@/data/allArticles";
+import { OPEN_ENROLLMENT_ARTICLE_SLUGS } from "@/data/openEnrollmentPath";
 import { useSeo } from "@/lib/seo";
-
-const articleSlugs = [
-  "open-enrollment-mistakes-healthcare-workers",
-  "premium-deductible-out-of-pocket-open-enrollment",
-  "prescription-coverage-open-enrollment-checklist",
-  "network-checklist-open-enrollment",
-  "spouse-family-health-insurance-open-enrollment",
-  "hsa-vs-fsa-healthcare-workers",
-  "health-fsa-vs-dependent-care-fsa",
-  "disability-insurance-healthcare-workers-open-enrollment",
-  "employer-life-insurance-open-enrollment",
-  "accident-critical-illness-hospital-indemnity-open-enrollment",
-  "dental-vision-insurance-open-enrollment",
-  "open-enrollment-paycheck-impact",
-  "beneficiaries-open-enrollment-checklist",
-];
 
 const checklist = [
   "Compare total yearly premium, not just the per-paycheck deduction.",
@@ -44,7 +29,7 @@ const OpenEnrollmentGuide = () => {
     canonicalPath: "/open-enrollment",
   });
 
-  const articles = articleSlugs
+  const articles = OPEN_ENROLLMENT_ARTICLE_SLUGS
     .map((slug) => ALL_ARTICLES.find((article) => article.slug === slug))
     .filter(Boolean);
 

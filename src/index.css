@@ -9,11 +9,14 @@
   :root {
     color-scheme: light;
 
-    /* Surfaces: neutral warm-white canvas with a consistent sage cast */
-    --background: 150 24% 93%;
+    /* Surfaces: intentional sage canvas with white/warm-white cards for readability */
+    --background: 105 26% 90%;
+    --background-soft: 105 32% 94%;
+    --section-bg: 105 26% 88%;
     --foreground: 158 32% 10%;
 
     --card: 0 0% 100%;
+    --card-warm: 80 20% 98%;
     --card-foreground: 158 32% 10%;
 
     --popover: 0 0% 100%;
@@ -22,15 +25,15 @@
     /* Brand sage: one dominant family across links, buttons, badges, and active states */
     --primary: 154 46% 24%;
     --primary-foreground: 0 0% 100%;
-    --primary-soft: 154 28% 86%;
+    --primary-soft: 128 28% 86%;
 
     /* Brass accent is intentionally separate and limited to small finance accents */
     --secondary: 38 48% 42%;
     --secondary-foreground: 158 32% 10%;
     --secondary-soft: 40 42% 90%;
 
-    --muted: 150 18% 88%;
-    --muted-foreground: 158 14% 31%;
+    --muted: 105 24% 86%;
+    --muted-foreground: 150 12% 30%;
 
     --accent: 154 46% 24%;
     --accent-foreground: 0 0% 100%;
@@ -38,8 +41,8 @@
     --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 150 16% 76%;
-    --input: 150 16% 76%;
+    --border: 105 18% 76%;
+    --input: 105 18% 76%;
     --ring: 154 46% 24%;
 
     --radius: 1rem;
@@ -48,14 +51,13 @@
     --shadow-card: 0 2px 16px -8px hsl(158 32% 18% / 0.18);
     --shadow-hover: 0 18px 44px -20px hsl(154 46% 18% / 0.34);
 
-    --gradient-hero: radial-gradient(ellipse at top, hsl(154 28% 86% / 0.86) 0%, hsl(150 24% 93%) 64%);
+    --gradient-hero: radial-gradient(ellipse at top, hsl(var(--background-soft) / 0.98) 0%, hsl(var(--background)) 68%);
     --gradient-primary: linear-gradient(135deg, hsl(154 46% 25%), hsl(154 46% 21%));
     --gradient-accent: linear-gradient(135deg, hsl(154 38% 30%), hsl(154 38% 24%));
 
     --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Dark theme kept as opt-in only */
   .dark {
     color-scheme: dark;
     --background: 160 12% 7%;
@@ -74,8 +76,6 @@
     --muted-foreground: 100 8% 65%;
     --accent: 145 28% 58%;
     --accent-foreground: 160 20% 8%;
-    --destructive: 12 70% 58%;
-    --destructive-foreground: 0 0% 100%;
     --border: 160 10% 18%;
     --input: 160 10% 18%;
     --ring: 145 28% 58%;
@@ -96,8 +96,8 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv11", "ss01";
     background-image:
-      radial-gradient(ellipse 70% 42% at 50% -10%, hsl(154 28% 86% / 0.72), transparent 72%),
-      linear-gradient(180deg, hsl(150 24% 93%), hsl(150 24% 95%));
+      radial-gradient(ellipse 72% 44% at 50% -12%, hsl(var(--primary-soft) / 0.78), transparent 72%),
+      linear-gradient(180deg, hsl(var(--background-soft)), hsl(var(--background)) 58%, hsl(var(--section-bg)));
     background-attachment: fixed;
   }
   #root { width: 100%; max-width: 100%; min-width: 0; }

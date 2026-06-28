@@ -16,7 +16,7 @@ const items: MobileNavItem[] = [
 
 export const MobileBottomNav = () => (
   <nav
-    className="fixed inset-x-0 bottom-0 z-50 border-t border-border/80 bg-card/95 px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-soft backdrop-blur-xl md:hidden"
+    className="fixed inset-x-0 bottom-0 z-50 border-t border-border/80 bg-card/95 px-2 pt-2 pb-[calc(0.5rem_+_env(safe-area-inset-bottom))] shadow-soft backdrop-blur-xl md:hidden"
     aria-label="Primary mobile navigation"
   >
     <div className="mx-auto grid max-w-md grid-cols-4 gap-1">

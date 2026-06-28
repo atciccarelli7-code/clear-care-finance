@@ -29,11 +29,11 @@ const checklist = [
   "Check every recurring medication by dose, tier, pharmacy, and prior authorization rule.",
   "Verify primary care, specialists, hospitals, labs, imaging, urgent care, mental health, and pharmacies.",
   "Compare spouse surcharge rules and both employers' family premiums.",
-  "Decide whether HSA, FSA, HRA, or dependent care FSA elections fit predictable expenses.",
+  "Decide whether HSA, FSA, HRA, or dependent care FSA choices fit predictable expenses.",
   "Review short-term and long-term disability coverage before assuming PTO is enough.",
   "Review life insurance amount, guaranteed issue, portability, and beneficiaries.",
   "Add the annual cost of accident, critical illness, and hospital indemnity policies before buying.",
-  "Run the paycheck impact before submitting elections.",
+  "Run the paycheck impact before submitting benefits.",
   "Save confirmation screenshots and update beneficiaries.",
 ];
 
@@ -53,10 +53,13 @@ const OpenEnrollmentGuide = () => {
       <PageHero
         eyebrow="Open Enrollment"
         title="Open Enrollment Guide for Healthcare Workers"
-        description="A practical sequence for comparing health plans, tax accounts, family coverage, disability insurance, supplemental benefits, and paycheck impact before you submit elections."
+        description="A practical sequence for comparing health plans, tax accounts, family coverage, disability insurance, supplemental benefits, and paycheck impact before you submit benefits."
       >
         <Button asChild variant="hero" size="lg">
           <Link to="/tools#open-enrollment">Compare two health plans</Link>
+        </Button>
+        <Button asChild variant="outline" size="lg">
+          <Link to="/tools/out-of-pocket-max-estimator">Estimate OOP max</Link>
         </Button>
         <Button asChild variant="outline" size="lg">
           <a href="#final-checklist">Final checklist</a>
@@ -67,7 +70,7 @@ const OpenEnrollmentGuide = () => {
         <section className="grid gap-5 md:grid-cols-3">
           {[
             { icon: Shield, title: "Health plan risk", body: "Compare premiums, deductibles, networks, prescriptions, and out-of-pocket exposure." },
-            { icon: WalletCards, title: "Paycheck impact", body: "Stack every benefit election before the first paycheck of the plan year surprises you." },
+            { icon: WalletCards, title: "Paycheck impact", body: "Stack every benefit choice before the first paycheck of the plan year surprises you." },
             { icon: CalendarCheck, title: "One-year decision", body: "Open enrollment choices often lock in until the next plan year unless a qualifying life event applies." },
           ].map((item) => (
             <div key={item.title} className="rounded-2xl border border-border bg-card p-6 shadow-card space-y-3">
@@ -94,20 +97,25 @@ const OpenEnrollmentGuide = () => {
         <section className="rounded-3xl border border-primary/20 bg-primary-soft/30 p-6 md:p-8 shadow-card">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Main tool</div>
-              <h2 className="font-display text-2xl font-bold mt-2">Open Enrollment True Cost Calculator</h2>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Main tools</div>
+              <h2 className="font-display text-2xl font-bold mt-2">Compare total cost and bad-year exposure</h2>
               <p className="mt-2 max-w-2xl text-muted-foreground leading-relaxed">
-                Compare two plans by annual premiums, expected medical costs, employer HSA/HRA money, and bad-year exposure.
+                Use the true-cost calculator to compare plans, then use the out-of-pocket max estimator when you need to understand how close expected care may bring you to the plan cap.
               </p>
             </div>
-            <Button asChild variant="hero" size="lg">
-              <Link to="/tools#open-enrollment">Open calculator</Link>
-            </Button>
+            <div className="flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
+              <Button asChild variant="hero" size="lg">
+                <Link to="/tools#open-enrollment">Open true-cost calculator</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link to="/tools/out-of-pocket-max-estimator">Open OOP max estimator</Link>
+              </Button>
+            </div>
           </div>
         </section>
 
         <section id="final-checklist" className="scroll-mt-24">
-          <SectionHeading eyebrow="Printable checklist" title="Before you submit elections" description="Use this as the final pass before clicking submit. Print from your browser if you want a paper copy." />
+          <SectionHeading eyebrow="Printable checklist" title="Before you submit benefits" description="Use this as the final pass before finishing your benefits choices. Print from your browser if you want a paper copy." />
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
             <div className="space-y-3">
               {checklist.map((item, index) => (

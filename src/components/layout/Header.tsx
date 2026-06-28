@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 const nav = [
+  { to: "/build-wealth", label: "Build Wealth" },
   { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patients & Caregivers" },
   { to: "/open-enrollment", label: "Open Enrollment" },
   { to: "/insurance", label: "Insurance" },
   { to: "/tools", label: "Calculators" },
   { to: "/articles", label: "Articles" },
-  { to: "/glossary", label: "Glossary" },
   { to: "/about", label: "About" },
 ];
 
@@ -57,7 +57,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex">
-            <Link to="/insurance">Insurance tools</Link>
+            <Link to="/build-wealth">Build wealth</Link>
           </Button>
           <button
             className="xl:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
@@ -87,7 +87,7 @@ export const Header = () => {
               </NavLink>
             ))}
             <Button asChild variant="hero" className="mt-2 sm:hidden">
-              <Link to="/insurance" onClick={() => setOpen(false)}>Insurance tools</Link>
+              <Link to="/build-wealth" onClick={() => setOpen(false)}>Build wealth</Link>
             </Button>
           </nav>
         </div>

@@ -5,6 +5,7 @@ import { JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE } from "./policyChangeAr
 import { HSA_FSA_ARTICLE } from "./hsaFsaArticle";
 import { HEALTHCARE_CONFUSION_ARTICLES } from "./healthcareConfusionArticles";
 import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
+import { WEALTH_ARTICLES } from "./wealthArticles";
 import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
 
@@ -18,6 +19,7 @@ const OPEN_ENROLLMENT_ARTICLES_READY = OPEN_ENROLLMENT_ARTICLES.map((article) =>
 );
 
 export const ALL_ARTICLES = publishedArticles([
+  ...WEALTH_ARTICLES,
   ...OPEN_ENROLLMENT_ARTICLES_READY,
   ...HEALTHCARE_CONFUSION_ARTICLES,
   HSA_FSA_ARTICLE,

@@ -9,6 +9,7 @@ import {
   Receipt,
   PiggyBank,
   Tag,
+  TrendingUp,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,12 +35,27 @@ const Index = () => {
 
   const pathCards: PathCard[] = [
     {
+      icon: TrendingUp,
+      title: "Build Wealth",
+      description: "Money maps, simple investing, savings rate, retirement contributions, and financial independence.",
+      href: "/build-wealth",
+      cta: "Build the plan",
+      accent: "blue",
+    },
+    {
       icon: TOPICS[1].icon,
       title: "Healthcare Workers",
       description: "Paychecks, benefits, retirement plans, and quiet spending patterns on shift.",
       href: "/healthcare-workers",
       cta: "Start here",
       accent: "blue",
+    },
+    {
+      icon: Receipt,
+      title: "Benefits & Insurance Help",
+      description: "EOBs, hospital bills, open enrollment, out-of-pocket costs, prescriptions, and prior authorization.",
+      href: "/insurance",
+      cta: "Start with your question",
     },
     {
       icon: TOPICS[0].icon,
@@ -57,13 +73,6 @@ const Index = () => {
       cta: "Learn more",
     },
     {
-      icon: Receipt,
-      title: "Benefits & Insurance Help",
-      description: "EOBs, hospital bills, open enrollment, out-of-pocket costs, prescriptions, and prior authorization.",
-      href: "/insurance",
-      cta: "Start with your question",
-    },
-    {
       icon: PiggyBank,
       title: "Retirement & 403(b)",
       description: "Plain-English retirement accounts: 403(b), 401(a), 457(b), and employer matches.",
@@ -74,7 +83,7 @@ const Index = () => {
       icon: Tag,
       title: "Budgeting & Savings",
       description: "Tips for building an emergency fund and spotting small spending habits that add up.",
-      href: "/tools",
+      href: "/tools#cafe",
       cta: "Explore",
     },
     {
@@ -91,13 +100,13 @@ const Index = () => {
       <PageHero
         eyebrow="Plain-English financial education"
         title="Financial clarity for healthcare workers — and the patients they care for."
-        description="Pay, benefits, insurance, retirement, Medicare, and Medicaid — explained without jargon, scare tactics, or sales pitches."
+        description="Build wealth, understand benefits, manage healthcare costs, and make better money decisions without jargon, scare tactics, or sales pitches."
       >
         <Button asChild variant="hero" size="lg">
-          <Link to="/insurance">Start with insurance help <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/build-wealth">Build wealth <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/tools">Open a calculator</Link>
+          <Link to="/insurance">Insurance help</Link>
         </Button>
       </PageHero>
 
@@ -106,8 +115,8 @@ const Index = () => {
         <SectionHeading
           centered
           eyebrow="Choose your path"
-          title="Where do you fit?"
-          description="The same financial vocabulary affects everyone in a hospital — just from different sides of the bed."
+          title="Start with the money question in front of you"
+          description="The site connects healthcare knowledge with the bigger financial goal: managing money, investing simply, and avoiding expensive confusion."
         />
         <div className="grid min-w-0 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-6xl mx-auto">
           {pathCards.map(({ icon, title, description, href, cta, accent }) => (
@@ -208,11 +217,11 @@ const Index = () => {
           <BookOpen className="h-10 w-10 mx-auto mb-4 opacity-90" />
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-balance break-words">Start with one small win</h2>
           <p className="text-lg opacity-90 max-w-xl mx-auto mb-7 break-words">
-            Pick a calculator or read one article. Clarity adds up over time.
+            Pick a money map, a calculator, or one article. Clarity adds up over time.
           </p>
           <div className="flex min-w-0 flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" variant="secondary">
-              <Link to="/tools"><Calculator className="h-4 w-4" /> Try a calculator</Link>
+              <Link to="/build-wealth"><TrendingUp className="h-4 w-4" /> Build wealth</Link>
             </Button>
             <Button
               asChild

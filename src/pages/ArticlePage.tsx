@@ -5,6 +5,7 @@ import { ARTICLE_VOICE_NOTES } from "@/data/articleVoiceNotes";
 import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
+import { NextStepCards, type NextStepCard } from "@/components/shared/NextStepCards";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
@@ -21,6 +22,155 @@ const Section = ({ icon: Icon, title, children }: { icon: any; title: string; ch
   </div>
 );
 
+const getArticleNextSteps = (slug: string, category: string, relatedCalculator?: { label: string; href: string }): NextStepCard[] => {
+  if (slug === "how-to-read-an-eob") {
+    return [
+      {
+        eyebrow: "Check the bill",
+        title: "Use the EOB-to-Bill Match Checker",
+        description: "Compare the provider bill against the allowed amount, insurance payment, and patient responsibility.",
+        href: "/tools#eob-bill-match",
+        cta: "Check bill vs EOB",
+      },
+      {
+        eyebrow: "Estimate exposure",
+        title: "Estimate out-of-pocket max impact",
+        description: "See whether the claim may bring you closer to the plan's yearly cost-sharing cap.",
+        href: "/tools/out-of-pocket-max-estimator",
+        cta: "Estimate the cap",
+      },
+      {
+        eyebrow: "Still confused",
+        title: "Open the insurance hub",
+        description: "Use the benefits and insurance hub to find the next article, checklist, or calculator.",
+        href: "/insurance",
+        cta: "Go to hub",
+      },
+    ];
+  }
+
+  if (slug === "deductible-copay-coinsurance-out-of-pocket-max") {
+    return [
+      {
+        eyebrow: "Run the math",
+        title: "Health Insurance Visit Cost Calculator",
+        description: "Estimate visit cost using premium, deductible, copay, coinsurance, allowed amount, and OOP max details.",
+        href: "/tools#insurance",
+        cta: "Estimate visit cost",
+      },
+      {
+        eyebrow: "Cost ceiling",
+        title: "Out-of-Pocket Max Estimator",
+        description: "Estimate how much covered in-network cost-sharing room may remain this year.",
+        href: "/tools/out-of-pocket-max-estimator",
+        cta: "Estimate cap room",
+      },
+      {
+        eyebrow: "Choosing a plan",
+        title: "Open Enrollment Guide",
+        description: "Compare premiums, bad-year exposure, HSA/FSA choices, and paycheck impact before choosing benefits.",
+        href: "/open-enrollment",
+        cta: "Compare plans",
+      },
+    ];
+  }
+
+  if (category === "Hospital Bills") {
+    return [
+      {
+        eyebrow: "Bill review",
+        title: "Medical Bill Review Toolkit",
+        description: "Walk through the practical steps before paying a large or confusing medical balance.",
+        href: "/insurance/medical-bill-review-toolkit",
+        cta: "Review bill",
+      },
+      {
+        eyebrow: "EOB basics",
+        title: "How to Read an EOB",
+        description: "Use the insurer's explanation to understand allowed amount, adjustments, and patient responsibility.",
+        href: "/articles/how-to-read-an-eob",
+        cta: "Read EOB guide",
+      },
+      {
+        eyebrow: "Calculator",
+        title: relatedCalculator?.label ?? "Health Insurance Visit Cost Calculator",
+        description: "Turn the insurance terms into a rough dollar estimate before deciding what to question next.",
+        href: relatedCalculator?.href ?? "/tools#insurance",
+        cta: "Open calculator",
+      },
+    ];
+  }
+
+  if (category === "Insurance" || category === "Workplace Benefits") {
+    return [
+      {
+        eyebrow: "Decision hub",
+        title: "Benefits and Insurance Tools",
+        description: "Pick the situation first: EOB, bill, open enrollment, spouse coverage, prescriptions, or prior authorization.",
+        href: "/insurance",
+        cta: "Open hub",
+      },
+      {
+        eyebrow: "Calculator library",
+        title: "Open the relevant calculator",
+        description: "Jump directly to plan comparison, OOP max, HSA/FSA, paycheck impact, or supplemental benefits tools.",
+        href: relatedCalculator?.href ?? "/tools",
+        cta: "Open tool",
+      },
+      {
+        eyebrow: "Open enrollment",
+        title: "Open Enrollment Guide",
+        description: "Use this when the question affects next year's benefit elections or payroll deductions.",
+        href: "/open-enrollment",
+        cta: "Open guide",
+      },
+    ];
+  }
+
+  if (relatedCalculator) {
+    return [
+      {
+        eyebrow: "Try the tool",
+        title: relatedCalculator.label,
+        description: "Use the related calculator to turn the article into a practical estimate.",
+        href: relatedCalculator.href,
+        cta: "Open calculator",
+      },
+      {
+        eyebrow: "More tools",
+        title: "Calculator Library",
+        description: "Browse the full calculator and checklist library for related decisions.",
+        href: "/tools",
+        cta: "Browse tools",
+      },
+      {
+        eyebrow: "More reading",
+        title: "Article Library",
+        description: "Find the next plain-English guide by topic or search.",
+        href: "/articles",
+        cta: "Browse articles",
+      },
+    ];
+  }
+
+  return [
+    {
+      eyebrow: "More tools",
+      title: "Calculator Library",
+      description: "Use a calculator or checklist to turn the explanation into a practical next step.",
+      href: "/tools",
+      cta: "Browse tools",
+    },
+    {
+      eyebrow: "More articles",
+      title: "Article Library",
+      description: "Keep learning with plain-English guides organized by topic.",
+      href: "/articles",
+      cta: "Browse articles",
+    },
+  ];
+};
+
 const ArticlePage = () => {
   const { slug = "" } = useParams();
   const article = ALL_ARTICLES.find((a) => a.slug === slug);
@@ -36,6 +186,7 @@ const ArticlePage = () => {
 
   const voiceNote = ARTICLE_VOICE_NOTES[article.slug];
   const showOutOfPocketMaxTool = ["how-to-read-an-eob", "deductible-copay-coinsurance-out-of-pocket-max"].includes(article.slug);
+  const nextSteps = getArticleNextSteps(article.slug, article.category, article.relatedCalculator);
 
   if (isArticleDraft(article)) {
     return (
@@ -189,6 +340,13 @@ const ArticlePage = () => {
         <Section icon={CheckCircle2} title="Key takeaway">
           <p className="text-foreground font-medium">{article.takeaway}</p>
         </Section>
+
+        <NextStepCards
+          eyebrow="Keep going"
+          title="Next useful step"
+          description="Move from reading to action with the related checklist, calculator, or decision hub."
+          cards={nextSteps}
+        />
 
         {article.sources.length > 0 && (
           <div className="space-y-4">

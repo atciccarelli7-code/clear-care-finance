@@ -7,6 +7,7 @@ const nav = [
   { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patients & Caregivers" },
   { to: "/open-enrollment", label: "Open Enrollment" },
+  { to: "/insurance", label: "Insurance" },
   { to: "/tools", label: "Calculators" },
   { to: "/articles", label: "Articles" },
   { to: "/glossary", label: "Glossary" },
@@ -56,7 +57,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex">
-            <Link to="/open-enrollment">Launch guide</Link>
+            <Link to="/insurance">Insurance tools</Link>
           </Button>
           <button
             className="xl:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
@@ -86,7 +87,7 @@ export const Header = () => {
               </NavLink>
             ))}
             <Button asChild variant="hero" className="mt-2 sm:hidden">
-              <Link to="/open-enrollment" onClick={() => setOpen(false)}>Launch guide</Link>
+              <Link to="/insurance" onClick={() => setOpen(false)}>Insurance tools</Link>
             </Button>
           </nav>
         </div>

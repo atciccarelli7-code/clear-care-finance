@@ -2,43 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Community Acquired Finance theme: calm healthcare sage with a restrained finance accent. */
+/* Community Acquired Finance theme
+   Calm healthcare sage with a restrained finance accent. The green palette stays on one hue family so the brand color does not drift while scrolling. */
 
 @layer base {
   :root {
     color-scheme: light;
+
+    /* Surfaces: intentional sage canvas with white/warm-white cards for readability */
     --background: 105 26% 90%;
     --background-soft: 105 32% 94%;
     --section-bg: 105 26% 88%;
     --foreground: 158 32% 10%;
+
     --card: 0 0% 100%;
     --card-warm: 80 20% 98%;
     --card-foreground: 158 32% 10%;
+
     --popover: 0 0% 100%;
     --popover-foreground: 158 32% 10%;
+
+    /* Brand sage: one dominant family across links, buttons, badges, and active states */
     --primary: 154 46% 24%;
     --primary-foreground: 0 0% 100%;
     --primary-soft: 128 28% 86%;
+
+    /* Brass accent is intentionally separate and limited to small finance accents */
     --secondary: 38 48% 42%;
     --secondary-foreground: 158 32% 10%;
     --secondary-soft: 40 42% 90%;
+
     --muted: 105 24% 86%;
     --muted-foreground: 150 12% 30%;
+
     --accent: 154 46% 24%;
     --accent-foreground: 0 0% 100%;
+
     --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
+
     --border: 105 18% 76%;
     --input: 105 18% 76%;
     --ring: 154 46% 24%;
+
     --radius: 1rem;
+
     --shadow-soft: 0 4px 24px -10px hsl(158 32% 18% / 0.18);
     --shadow-card: 0 2px 16px -8px hsl(158 32% 18% / 0.18);
     --shadow-hover: 0 18px 44px -20px hsl(154 46% 18% / 0.34);
+
     --gradient-hero: radial-gradient(ellipse at top, hsl(var(--background-soft) / 0.98) 0%, hsl(var(--background)) 68%);
     --gradient-primary: linear-gradient(135deg, hsl(154 46% 25%), hsl(154 46% 21%));
     --gradient-accent: linear-gradient(135deg, hsl(154 38% 30%), hsl(154 38% 24%));
+
     --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    color-scheme: dark;
+    --background: 160 12% 7%;
+    --foreground: 90 12% 94%;
+    --card: 160 12% 10%;
+    --card-foreground: 90 12% 94%;
+    --popover: 160 14% 9%;
+    --popover-foreground: 90 12% 94%;
+    --primary: 145 28% 58%;
+    --primary-foreground: 160 20% 8%;
+    --primary-soft: 145 25% 16%;
+    --secondary: 40 30% 78%;
+    --secondary-foreground: 160 20% 8%;
+    --secondary-soft: 40 18% 14%;
+    --muted: 160 10% 14%;
+    --muted-foreground: 100 8% 65%;
+    --accent: 145 28% 58%;
+    --accent-foreground: 160 20% 8%;
+    --border: 160 10% 18%;
+    --input: 160 10% 18%;
+    --ring: 145 28% 58%;
+    --shadow-soft: 0 4px 24px -8px hsl(160 30% 2% / 0.6);
+    --shadow-card: 0 2px 12px -4px hsl(160 30% 2% / 0.5);
+    --shadow-hover: 0 16px 40px -16px hsl(145 50% 30% / 0.45);
+    --gradient-hero: radial-gradient(ellipse at top, hsl(145 30% 14% / 0.6) 0%, hsl(160 12% 7%) 60%);
+    --gradient-primary: linear-gradient(135deg, hsl(145 30% 52%), hsl(145 30% 46%));
+    --gradient-accent: linear-gradient(135deg, hsl(145 28% 38%), hsl(145 28% 32%));
   }
 }
 

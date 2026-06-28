@@ -56,6 +56,14 @@ const situationCards: HubCard[] = [
 
 const toolCards: HubCard[] = [
   {
+    eyebrow: "Cost cap",
+    title: "Out-of-Pocket Max Estimator",
+    body: "Estimate how close covered in-network care could bring someone to the plan's yearly out-of-pocket maximum.",
+    href: "/tools/out-of-pocket-max-estimator",
+    cta: "Estimate the cap",
+    icon: Shield,
+  },
+  {
     eyebrow: "Bill review",
     title: "EOB-to-Bill Match Checker",
     body: "A quick checklist for spotting mismatches between an insurer explanation and a provider payment request.",
@@ -194,6 +202,9 @@ export const InsuranceBenefitsHub = () => {
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero">
+            <Link to="/tools/out-of-pocket-max-estimator">Estimate out-of-pocket max</Link>
+          </Button>
+          <Button asChild variant="outline">
             <Link to="/tools#eob-bill-match">Check an EOB vs bill</Link>
           </Button>
           <Button asChild variant="outline">

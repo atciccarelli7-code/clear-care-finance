@@ -19,7 +19,7 @@ const HealthcareWorkers = () => {
           <Link to="/build-wealth">Build wealth <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/tools#403b">Try the 403(b) calculator</Link>
+          <Link to="/articles/how-to-pick-retirement-investments-at-work">Pick retirement funds</Link>
         </Button>
       </PageHero>
 
@@ -37,18 +37,18 @@ const HealthcareWorkers = () => {
               cta: "Read the map",
             },
             {
+              eyebrow: "Fund choice",
+              title: "Pick Retirement Investments at Work",
+              description: "Decode target-date funds, S&P 500 index funds, fees, and risk inside your workplace plan.",
+              href: "/articles/how-to-pick-retirement-investments-at-work",
+              cta: "Pick funds",
+            },
+            {
               eyebrow: "Investing",
               title: "Invest Without Picking Stocks",
               description: "Use broad, repeatable investing without turning your retirement plan into a second job.",
               href: "/articles/how-healthcare-workers-can-invest-without-picking-stocks",
               cta: "Learn investing",
-            },
-            {
-              eyebrow: "Freedom",
-              title: "Savings Rate That Changes Your Life",
-              description: "See how savings rate and intentional overtime can buy back future flexibility.",
-              href: "/articles/savings-rate-that-actually-changes-your-life",
-              cta: "Build flexibility",
             },
           ]}
         />
@@ -86,9 +86,9 @@ const HealthcareWorkers = () => {
           title="The money stuff your hospital orientation skipped"
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <TopicCard icon={TrendingUp} title="Build Wealth" description="Money maps, investing basics, savings rate, and financial independence for healthcare workers." href="/build-wealth" cta="Open hub" />
+          <TopicCard icon={TrendingUp} title="Build Wealth" description="Money maps, fund choices, investing basics, savings rate, and financial independence for healthcare workers." href="/build-wealth" cta="Open hub" />
           <TopicCard icon={Wallet} title="Workplace Benefits" description="Decode open enrollment paperwork without calling HR." href="/topics/workplace-benefits" cta="Open guide" />
-          <TopicCard icon={PiggyBank} title="Retirement Accounts" description="403(b), 401(a), 457(b), Roth vs Traditional — explained simply." href="/topics/retirement-accounts" cta="Open guide" />
+          <TopicCard icon={PiggyBank} title="Retirement Accounts" description="403(b), 401(a), 457(b), Roth vs Traditional, and fund choices — explained simply." href="/topics/retirement-accounts" cta="Open guide" />
           <TopicCard icon={Shield} title="Health Insurance" description="PPO vs HMO vs HDHP, HSA vs FSA, and how to compare plans." href="/topics/health-insurance" cta="Open guide" />
           <TopicCard icon={Brain} title="Behavior & Burnout" description="Decision fatigue and the money side of long shifts." href="/topics/behavior-burnout" cta="Open guide" />
           <TopicCard icon={Tag} title="Healthcare Worker Discounts & Perks" description="Legitimate discounts without letting them become shopping traps." href="/topics/discounts-perks" cta="Open guide" />

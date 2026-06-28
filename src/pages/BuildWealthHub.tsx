@@ -47,6 +47,14 @@ const moneyMapCards: HubCard[] = [
     icon: TrendingUp,
   },
   {
+    eyebrow: "Fund selection",
+    title: "Pick Retirement Investments at Work",
+    body: "Decode target-date funds, S&P 500 index funds, expense ratios, and how to choose intentionally inside your plan.",
+    href: "/articles/how-to-pick-retirement-investments-at-work",
+    cta: "Pick funds",
+    icon: BarChart3,
+  },
+  {
     eyebrow: "Financial independence",
     title: "The Savings Rate That Changes Your Life",
     body: "Understand why savings rate buys future flexibility and why overtime needs a job before it disappears.",
@@ -183,7 +191,7 @@ const BuildWealthHub = () => {
             <Link to="/articles/healthcare-worker-money-map">Start with the money map</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/tools#403b">Run the 403(b) calculator</Link>
+            <Link to="/articles/how-to-pick-retirement-investments-at-work">Pick retirement funds</Link>
           </Button>
         </div>
       </PageHero>
@@ -202,11 +210,11 @@ const BuildWealthHub = () => {
               cta: "Start here",
             },
             {
-              eyebrow: "Investing",
-              title: "How do I invest without overcomplicating it?",
-              description: "Learn the account-versus-investment difference and why broad, automated investing can be enough.",
-              href: "/articles/how-healthcare-workers-can-invest-without-picking-stocks",
-              cta: "Learn investing",
+              eyebrow: "Fund choice",
+              title: "What should I pick inside my 403(b)?",
+              description: "Learn how to compare target-date funds, S&P 500 index funds, fees, risk, and workplace plan menus.",
+              href: "/articles/how-to-pick-retirement-investments-at-work",
+              cta: "Pick funds",
             },
             {
               eyebrow: "Freedom",
@@ -225,7 +233,7 @@ const BuildWealthHub = () => {
             title="The wealth-building spine of the site"
             description="These guides rebalance the website toward money management, investing, and financial independence while keeping the healthcare-worker lens."
           />
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {moneyMapCards.map((card) => (
               <CardLink key={card.href} card={card} />
             ))}

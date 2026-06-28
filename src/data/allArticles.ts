@@ -6,6 +6,7 @@ import { HSA_FSA_ARTICLE } from "./hsaFsaArticle";
 import { HEALTHCARE_CONFUSION_ARTICLES } from "./healthcareConfusionArticles";
 import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
 import { WEALTH_ARTICLES } from "./wealthArticles";
+import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
 import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
 
@@ -19,6 +20,7 @@ const OPEN_ENROLLMENT_ARTICLES_READY = OPEN_ENROLLMENT_ARTICLES.map((article) =>
 );
 
 export const ALL_ARTICLES = publishedArticles([
+  ...RETIREMENT_INVESTMENT_ARTICLES,
   ...WEALTH_ARTICLES,
   ...OPEN_ENROLLMENT_ARTICLES_READY,
   ...HEALTHCARE_CONFUSION_ARTICLES,

@@ -1,0 +1,15 @@
+export const OPEN_ENROLLMENT_ARTICLE_SLUGS = [
+  "open-enrollment-mistakes-healthcare-workers",
+  "premium-deductible-out-of-pocket-open-enrollment",
+  "prescription-coverage-open-enrollment-checklist",
+  "network-checklist-open-enrollment",
+  "spouse-family-health-insurance-open-enrollment",
+  "hsa-vs-fsa-healthcare-workers",
+  "health-fsa-vs-dependent-care-fsa",
+  "disability-insurance-healthcare-workers-open-enrollment",
+  "employer-life-insurance-open-enrollment",
+  "accident-critical-illness-hospital-indemnity-open-enrollment",
+  "dental-vision-insurance-open-enrollment",
+  "open-enrollment-paycheck-impact",
+  "beneficiaries-open-enrollment-checklist",
+] as const;

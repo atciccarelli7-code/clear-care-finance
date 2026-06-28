@@ -2,6 +2,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, Quote } from "lucide-react";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { ARTICLE_VOICE_NOTES } from "@/data/articleVoiceNotes";
+import { OPEN_ENROLLMENT_ARTICLE_SLUGS } from "@/data/openEnrollmentPath";
 import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
@@ -71,6 +72,32 @@ const getArticleNextSteps = (slug: string, category: string, relatedCalculator?:
         description: "Compare premiums, bad-year exposure, HSA/FSA choices, and paycheck impact before choosing benefits.",
         href: "/open-enrollment",
         cta: "Compare plans",
+      },
+    ];
+  }
+
+  if (category === "Open Enrollment") {
+    return [
+      {
+        eyebrow: "Calculator",
+        title: relatedCalculator?.label ?? "Open Enrollment True Cost Calculator",
+        description: "Compare premiums, expected care, employer account money, and bad-year exposure before choosing a plan.",
+        href: relatedCalculator?.href ?? "/tools#open-enrollment",
+        cta: "Open calculator",
+      },
+      {
+        eyebrow: "Estimate exposure",
+        title: "Out-of-Pocket Max Estimator",
+        description: "Use this when you want to understand how much covered in-network cost-sharing room may remain.",
+        href: "/tools/out-of-pocket-max-estimator",
+        cta: "Estimate OOP max",
+      },
+      {
+        eyebrow: "Related reading",
+        title: "Open Enrollment Guide",
+        description: "Go back to the full ordered article path, tools, and final checklist.",
+        href: "/open-enrollment",
+        cta: "Open guide",
       },
     ];
   }
@@ -275,6 +302,40 @@ const getArticleNextSteps = (slug: string, category: string, relatedCalculator?:
   ];
 };
 
+type OrderedArticleStep = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  href: string;
+  cta: string;
+};
+
+const getOpenEnrollmentOrderedStep = (slug: string): OrderedArticleStep | null => {
+  const index = OPEN_ENROLLMENT_ARTICLE_SLUGS.indexOf(slug as typeof OPEN_ENROLLMENT_ARTICLE_SLUGS[number]);
+  if (index === -1) return null;
+
+  const nextSlug = OPEN_ENROLLMENT_ARTICLE_SLUGS[index + 1];
+  const nextArticle = nextSlug ? ALL_ARTICLES.find((article) => article.slug === nextSlug) : null;
+
+  if (nextArticle) {
+    return {
+      eyebrow: `Next in the open enrollment path · ${index + 2} of ${OPEN_ENROLLMENT_ARTICLE_SLUGS.length}`,
+      title: nextArticle.title,
+      description: nextArticle.promise,
+      href: `/articles/${nextArticle.slug}`,
+      cta: "Next article",
+    };
+  }
+
+  return {
+    eyebrow: "Final step in the open enrollment path",
+    title: "Finish with the open enrollment checklist",
+    description: "You reached the end of the article sequence. Use the checklist to review your benefits before submitting elections.",
+    href: "/open-enrollment#final-checklist",
+    cta: "Open final checklist",
+  };
+};
+
 const ArticlePage = () => {
   const { slug = "" } = useParams();
   const article = ALL_ARTICLES.find((a) => a.slug === slug);
@@ -291,6 +352,7 @@ const ArticlePage = () => {
   const voiceNote = ARTICLE_VOICE_NOTES[article.slug];
   const showOutOfPocketMaxTool = ["how-to-read-an-eob", "deductible-copay-coinsurance-out-of-pocket-max"].includes(article.slug);
   const nextSteps = getArticleNextSteps(article.slug, article.category, article.relatedCalculator);
+  const orderedOpenEnrollmentStep = getOpenEnrollmentOrderedStep(article.slug);
 
   if (isArticleDraft(article)) {
     return (
@@ -445,10 +507,25 @@ const ArticlePage = () => {
           <p className="text-foreground font-medium">{article.takeaway}</p>
         </Section>
 
+        {orderedOpenEnrollmentStep && (
+          <section className="rounded-[1.75rem] border border-primary/20 bg-primary-soft/35 p-5 shadow-card md:p-7">
+            <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+              <div className="min-w-0">
+                <div className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-primary">{orderedOpenEnrollmentStep.eyebrow}</div>
+                <h2 className="mt-2 font-display text-xl font-bold leading-tight md:text-2xl">{orderedOpenEnrollmentStep.title}</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{orderedOpenEnrollmentStep.description}</p>
+              </div>
+              <Button asChild variant="hero" className="shrink-0">
+                <Link to={orderedOpenEnrollmentStep.href}>{orderedOpenEnrollmentStep.cta} <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
+            </div>
+          </section>
+        )}
+
         <NextStepCards
-          eyebrow="Keep going"
-          title="Next useful step"
-          description="Move from reading to action with the related checklist, calculator, or decision hub."
+          eyebrow={orderedOpenEnrollmentStep ? "Tools and related reading" : "Keep going"}
+          title={orderedOpenEnrollmentStep ? "Want to run the numbers instead?" : "Next useful step"}
+          description={orderedOpenEnrollmentStep ? "After the next article, you can also jump into a calculator or return to the full open enrollment path." : "Move from reading to action with the related checklist, calculator, or decision hub."}
           cards={nextSteps}
         />
 

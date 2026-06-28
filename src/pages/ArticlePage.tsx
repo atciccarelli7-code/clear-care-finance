@@ -75,6 +75,110 @@ const getArticleNextSteps = (slug: string, category: string, relatedCalculator?:
     ];
   }
 
+  if (category === "Build Wealth") {
+    if (slug === "cash-vs-investing-when-you-feel-behind") {
+      return [
+        {
+          eyebrow: "Next decision",
+          title: "The Healthcare Worker Money Map",
+          description: "Put cash, debt, retirement, and investing into one order of operations.",
+          href: "/articles/healthcare-worker-money-map",
+          cta: "Read the map",
+        },
+        {
+          eyebrow: "Investing",
+          title: "Invest Without Picking Stocks",
+          description: "Use broad, automated investing for dollars that do not need to stay liquid.",
+          href: "/articles/how-healthcare-workers-can-invest-without-picking-stocks",
+          cta: "Learn investing",
+        },
+        {
+          eyebrow: "Hub",
+          title: "Build Wealth Hub",
+          description: "Return to the full worker money, investing, savings rate, and FI path.",
+          href: "/build-wealth",
+          cta: "Open hub",
+        },
+      ];
+    }
+
+    if (slug === "can-you-live-off-dividends-passive-income-guide") {
+      return [
+        {
+          eyebrow: "FI math",
+          title: "Can Healthcare Workers Reach FI?",
+          description: "Translate the passive-income dream into savings rate, asset base, and timeline decisions.",
+          href: "/articles/can-healthcare-workers-reach-financial-independence",
+          cta: "Read FI guide",
+        },
+        {
+          eyebrow: "Investing basics",
+          title: "Invest Without Picking Stocks",
+          description: "Focus on total return and diversification before chasing income yield.",
+          href: "/articles/how-healthcare-workers-can-invest-without-picking-stocks",
+          cta: "Learn investing",
+        },
+        {
+          eyebrow: "Tool",
+          title: relatedCalculator?.label ?? "403(b) Calculator",
+          description: "Run the contribution math that builds the asset base passive income eventually requires.",
+          href: relatedCalculator?.href ?? "/tools#403b",
+          cta: "Open calculator",
+        },
+      ];
+    }
+
+    if (slug === "money-stress-after-hard-shift") {
+      return [
+        {
+          eyebrow: "System",
+          title: "The Healthcare Worker Money Map",
+          description: "Replace panic money decisions with a repeatable order of operations.",
+          href: "/articles/healthcare-worker-money-map",
+          cta: "Read the map",
+        },
+        {
+          eyebrow: "Spending pattern",
+          title: "Savings Rate That Changes Your Life",
+          description: "Separate relief purchases that help from leakage that keeps you stuck.",
+          href: "/articles/savings-rate-that-actually-changes-your-life",
+          cta: "Build flexibility",
+        },
+        {
+          eyebrow: "Career pressure",
+          title: "Earn More Without Burning Out",
+          description: "Use income growth as leverage, not just another source of exhaustion.",
+          href: "/articles/earn-more-without-burning-out-bedside",
+          cta: "Build income",
+        },
+      ];
+    }
+
+    return [
+      {
+        eyebrow: "Hub",
+        title: "Build Wealth Hub",
+        description: "Return to the full worker money, investing, savings rate, and FI path.",
+        href: "/build-wealth",
+        cta: "Open hub",
+      },
+      {
+        eyebrow: "Tool",
+        title: relatedCalculator?.label ?? "Calculator Library",
+        description: "Turn the article into a number with a related paycheck, savings, or retirement tool.",
+        href: relatedCalculator?.href ?? "/tools",
+        cta: "Open tool",
+      },
+      {
+        eyebrow: "Next guide",
+        title: "Cash vs Investing When You Feel Behind",
+        description: "Balance liquidity, known expenses, and long-term compounding without becoming cash-poor.",
+        href: "/articles/cash-vs-investing-when-you-feel-behind",
+        cta: "Find balance",
+      },
+    ];
+  }
+
   if (category === "Hospital Bills") {
     return [
       {

@@ -91,30 +91,54 @@ const toolCards: HubCard[] = [
   },
 ];
 
-const futureBuildCards: HubCard[] = [
+const deeperBuildCards: HubCard[] = [
   {
-    eyebrow: "Next calculator",
-    title: "FI Timeline Calculator",
-    body: "Current investments, yearly contributions, expected return, and target spending translated into a rough independence timeline.",
-    href: "/contact",
-    cta: "Planned build",
+    eyebrow: "FI timeline",
+    title: "Can Healthcare Workers Reach FI?",
+    body: "A realistic guide for workers who feel trapped by bedside work, overtime, stress, and money pressure.",
+    href: "/articles/can-healthcare-workers-reach-financial-independence",
+    cta: "Read FI guide",
     icon: BarChart3,
   },
   {
-    eyebrow: "Next article",
+    eyebrow: "Tax choice",
     title: "Roth vs Traditional 403(b)",
-    body: "A practical tax and paycheck guide for healthcare workers choosing between current tax relief and future tax flexibility.",
-    href: "/articles",
-    cta: "Coming next",
+    body: "A practical tax and paycheck guide for choosing between current tax relief and future tax flexibility.",
+    href: "/articles/roth-vs-traditional-403b-healthcare-workers",
+    cta: "Compare options",
     icon: ShieldCheck,
   },
   {
     eyebrow: "Career lever",
     title: "Earn More Without Burning Out",
     body: "Career moves, role changes, certifications, and business skills that can raise income without relying only on extra shifts.",
-    href: "/healthcare-workers",
-    cta: "Explore worker hub",
+    href: "/articles/earn-more-without-burning-out-bedside",
+    cta: "Build income",
     icon: BriefcaseBusiness,
+  },
+  {
+    eyebrow: "Cash anxiety",
+    title: "Cash vs Investing When You Feel Behind",
+    body: "Balance emergency cash, known expenses, and long-term investing without becoming cash-poor or market-paralyzed.",
+    href: "/articles/cash-vs-investing-when-you-feel-behind",
+    cta: "Find balance",
+    icon: Wallet,
+  },
+  {
+    eyebrow: "Passive income",
+    title: "Can You Live Off Dividends?",
+    body: "A grounded guide to dividend income, total return, and why passive income still needs a large asset base.",
+    href: "/articles/can-you-live-off-dividends-passive-income-guide",
+    cta: "Read the math",
+    icon: PiggyBank,
+  },
+  {
+    eyebrow: "Money stress",
+    title: "Money Stress After a Hard Shift",
+    body: "Stop stress from turning into spending, avoidance, panic overtime, or random financial decisions.",
+    href: "/articles/money-stress-after-hard-shift",
+    cta: "Build a system",
+    icon: Coffee,
   },
 ];
 
@@ -249,12 +273,12 @@ const BuildWealthHub = () => {
         <section>
           <SectionHeading
             centered
-            eyebrow="Coming next"
-            title="The next finance pieces to build"
-            description="These are intentionally shown as the roadmap so visitors see the site is bigger than insurance without sending them to empty pages."
+            eyebrow="Deeper guides"
+            title="The questions people worry about after the basics"
+            description="These guides turn common money stress into practical decisions: tax choice, cash balance, passive income, career income, and FI timing."
           />
-          <div className="grid gap-5 lg:grid-cols-3">
-            {futureBuildCards.map((card) => (
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {deeperBuildCards.map((card) => (
               <CardLink key={card.title} card={card} />
             ))}
           </div>

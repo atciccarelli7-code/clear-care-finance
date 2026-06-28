@@ -1,6 +1,7 @@
 import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
+import { NextStepCards } from "@/components/shared/NextStepCards";
 import { Calc403b, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
 import HealthInsuranceVisitCostCalculator from "@/components/calculators/HealthInsuranceVisitCostCalculator";
 import OutOfPocketMaxEstimator from "@/components/calculators/OutOfPocketMaxEstimator";
@@ -110,6 +111,37 @@ const Tools = () => {
             </label>
           </div>
         </div>
+      </section>
+
+      <section className="container min-w-0 pt-8">
+        <NextStepCards
+          eyebrow="Not sure which tool to use?"
+          title="Start with the situation, not the calculator name"
+          description="Most visitors do not know which formula they need. Pick the real-world problem first."
+          cards={[
+            {
+              eyebrow: "Bill or EOB",
+              title: "I got a confusing medical bill",
+              description: "Start by matching the provider bill to the insurer's EOB before estimating what may be owed.",
+              href: "#eob-bill-match",
+              cta: "Check bill vs EOB",
+            },
+            {
+              eyebrow: "Cost cap",
+              title: "I want to know my worst-case exposure",
+              description: "Use the out-of-pocket max estimator when you know the allowed amount or remaining plan details.",
+              href: "#out-of-pocket-max",
+              cta: "Estimate cap room",
+            },
+            {
+              eyebrow: "Benefits choice",
+              title: "I am comparing health plans",
+              description: "Use the open enrollment tools to compare total yearly cost, paycheck impact, HSA/FSA choices, and add-on policies.",
+              href: "#open-enrollment",
+              cta: "Compare plans",
+            },
+          ]}
+        />
       </section>
 
       <section className="container min-w-0 py-12 md:py-16 space-y-12">

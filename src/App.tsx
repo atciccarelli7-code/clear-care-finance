@@ -65,6 +65,16 @@ const GoogleAnalyticsPageView = () => {
   return null;
 };
 
+const ScrollToTop = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [location.pathname, location.search]);
+
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -72,6 +82,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <GoogleAnalyticsPageView />
+        <ScrollToTop />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />

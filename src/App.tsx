@@ -13,6 +13,7 @@ import BuildWealthHub from "./pages/BuildWealthHub.tsx";
 import PatientsFamilies from "./pages/PatientsFamilies.tsx";
 import Tools from "./pages/Tools.tsx";
 import OutOfPocketMaxEstimatorPage from "./pages/OutOfPocketMaxEstimatorPage.tsx";
+import StudentLoans from "./pages/StudentLoans.tsx";
 import Articles from "./pages/Articles.tsx";
 import ArticlePage from "./pages/ArticlePage.tsx";
 import Topics from "./pages/Topics.tsx";
@@ -90,6 +91,7 @@ const App = () => (
             <Route path="/build-wealth" element={<BuildWealthHub />} />
             <Route path="/healthcare-workers/paycheck-tools" element={<HealthcareWorkerPaycheckTools />} />
             <Route path="/patients-families" element={<PatientsFamilies />} />
+            <Route path="/student-loans" element={<StudentLoans />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/out-of-pocket-max-estimator" element={<OutOfPocketMaxEstimatorPage />} />
             <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />

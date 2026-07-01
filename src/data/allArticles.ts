@@ -5,6 +5,7 @@ import { JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE } from "./policyChangeAr
 import { HSA_FSA_ARTICLE } from "./hsaFsaArticle";
 import { HEALTHCARE_CONFUSION_ARTICLES } from "./healthcareConfusionArticles";
 import { INSURANCE_FUTURE_PLANNING_ARTICLE } from "./insuranceFuturePlanningArticle";
+import { MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE } from "./medicareAdvantageOriginal2026Article";
 import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
 import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
@@ -26,6 +27,7 @@ export const ALL_ARTICLES = publishedArticles([
   ...OPEN_ENROLLMENT_ARTICLES_READY,
   ...HEALTHCARE_CONFUSION_ARTICLES,
   INSURANCE_FUTURE_PLANNING_ARTICLE,
+  MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE,
   HSA_FSA_ARTICLE,
   JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE,
   OBBB_OVERTIME_ARTICLE,

@@ -14,25 +14,33 @@ const programs = [
     icon: Landmark,
     title: "Public Service Loan Forgiveness",
     tag: "Federal loans + qualifying employer",
-    text: "For borrowers with eligible federal Direct Loans who work full-time for a qualifying government or nonprofit employer and make 120 qualifying payments.",
+    text: "For borrowers with eligible Direct Loans who work full-time for a qualifying government or nonprofit employer, use a qualifying repayment plan, and reach 120 qualifying monthly payments.",
+    sourceLabel: "34 CFR 685.219",
+    sourceHref: "https://www.law.cornell.edu/cfr/text/34/685.219",
   },
   {
     icon: FileSearch,
     title: "Income-driven repayment",
     tag: "Federal payment strategy",
-    text: "For federal borrowers who need a payment based on income and family size, especially when pursuing forgiveness or protecting monthly cash flow.",
+    text: "For federal borrowers who need a monthly payment based on income and family size. IDR can support PSLF planning, but it should be modeled against total time in debt.",
+    sourceLabel: "34 CFR 685.209",
+    sourceHref: "https://www.law.cornell.edu/cfr/text/34/685.209",
   },
   {
     icon: Stethoscope,
     title: "Nurse Corps Loan Repayment",
     tag: "Nursing-specific program",
-    text: "For eligible RNs, APRNs, and nurse faculty with qualifying nursing education debt at eligible shortage facilities or eligible nursing schools.",
+    text: "For eligible RNs, APRNs, and nurse faculty with qualifying nursing education debt who work full-time at eligible critical shortage facilities or eligible nursing schools.",
+    sourceLabel: "HRSA Nurse Corps",
+    sourceHref: "https://bhw.hrsa.gov/funding/apply-loan-repayment/nurse-corps",
   },
   {
     icon: ShieldCheck,
     title: "NHSC Loan Repayment",
     tag: "Site- and discipline-specific",
-    text: "For eligible clinicians at NHSC-approved shortage-area sites, especially certain primary care, maternity care, dental, and behavioral health roles.",
+    text: "For eligible clinicians at NHSC-approved shortage-area sites. This is most relevant to qualifying primary care, maternity care, dental, and behavioral health disciplines.",
+    sourceLabel: "HRSA NHSC",
+    sourceHref: "https://nhsc.hrsa.gov/loan-repayment/nhsc-loan-repayment-program",
   },
 ];
 
@@ -107,6 +115,14 @@ const StudentLoans = () => {
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-secondary">{program.tag}</div>
                 <h3 className="mt-2 font-display text-2xl font-bold tracking-tight">{program.title}</h3>
                 <p className="mt-3 leading-relaxed text-muted-foreground">{program.text}</p>
+                <a
+                  className="mt-4 inline-flex rounded-full bg-primary-soft px-3 py-2 text-sm font-bold text-primary transition-smooth hover:bg-primary-soft/80"
+                  href={program.sourceHref}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Verify source: {program.sourceLabel}
+                </a>
               </article>
             );
           })}
@@ -144,6 +160,8 @@ const StudentLoans = () => {
           <SectionHeading eyebrow="Sources" title="Official places to verify details" description="Program rules and application windows change. Use this page as a starting point, then verify with official sources." />
           <div className="grid gap-3 text-sm leading-relaxed text-muted-foreground md:grid-cols-2">
             <a className="rounded-2xl border border-border bg-card p-4 font-semibold text-primary transition-smooth hover:border-primary/50" href="https://studentaid.gov/manage-loans/forgiveness-cancellation/public-service" target="_blank" rel="noreferrer">Federal Student Aid: Public Service Loan Forgiveness</a>
+            <a className="rounded-2xl border border-border bg-card p-4 font-semibold text-primary transition-smooth hover:border-primary/50" href="https://www.law.cornell.edu/cfr/text/34/685.219" target="_blank" rel="noreferrer">Regulation: PSLF rules</a>
+            <a className="rounded-2xl border border-border bg-card p-4 font-semibold text-primary transition-smooth hover:border-primary/50" href="https://www.law.cornell.edu/cfr/text/34/685.209" target="_blank" rel="noreferrer">Regulation: IDR rules</a>
             <a className="rounded-2xl border border-border bg-card p-4 font-semibold text-primary transition-smooth hover:border-primary/50" href="https://bhw.hrsa.gov/funding/apply-loan-repayment/nurse-corps" target="_blank" rel="noreferrer">HRSA: Nurse Corps Loan Repayment Program</a>
             <a className="rounded-2xl border border-border bg-card p-4 font-semibold text-primary transition-smooth hover:border-primary/50" href="https://nhsc.hrsa.gov/loan-repayment/nhsc-loan-repayment-program" target="_blank" rel="noreferrer">HRSA: NHSC Loan Repayment Program</a>
             <a className="rounded-2xl border border-border bg-card p-4 font-semibold text-primary transition-smooth hover:border-primary/50" href="https://www.irs.gov/charities-non-profits/search-for-tax-exempt-organizations" target="_blank" rel="noreferrer">IRS: Tax Exempt Organization Search</a>

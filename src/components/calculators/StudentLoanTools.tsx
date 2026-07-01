@@ -43,6 +43,13 @@ const timeLabel = (months: number) => {
   return rest ? `${years} yr ${rest} mo` : `${years} yr`;
 };
 
+const dateLabel = (months: number) => {
+  if (!Number.isFinite(months)) return "Not available";
+  const date = new Date();
+  date.setMonth(date.getMonth() + months);
+  return new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(date);
+};
+
 const BulletList = ({ title, items }: { title: string; items: string[] }) => (
   <div className="rounded-2xl border border-border bg-muted/30 p-4">
     <div className="mb-3 text-sm font-bold text-foreground">{title}</div>
@@ -93,6 +100,13 @@ export const StudentLoanPathFinder = () => {
     privateLoan ? "Private loans generally do not use PSLF or federal income-driven repayment." : "Confirm whether every loan is federal Direct, older federal, or private.",
     !eligibleEmployer ? "For-profit healthcare employers usually do not qualify for PSLF based only on healthcare work." : "Use the employer EIN when checking PSLF eligibility.",
     !fullTimeWorker ? "Part-time status can create program eligibility problems." : "Keep employment certification records if pursuing PSLF.",
+  ];
+
+  const documents = [
+    "Loan list from StudentAid.gov and any private lender portals.",
+    "Current servicer statement showing balance, APR, payment, and repayment plan.",
+    "Employer EIN and nonprofit/government status check.",
+    "Certified PSLF payment count, if the borrower has already started the process.",
   ];
 
   return (
@@ -154,6 +168,7 @@ export const StudentLoanPathFinder = () => {
         <CalculatorResult label="APR risk level" value={rateN >= 8 ? "High" : rateN >= 5 ? "Moderate" : "Lower"} />
         <BulletList title="Paths to research" items={paths} />
         <BulletList title="Warnings" items={warnings} />
+        <BulletList title="Documents to gather" items={documents} />
         <DisclaimerBox short />
       </div>
     </div>
@@ -196,9 +211,9 @@ export const PrivateLoanPayoffCalculator = () => {
       <div className="lg:col-span-2 space-y-3">
         <CalculatorResult label="Planned monthly payment" value={usd(planned)} emphasis="primary" />
         <CalculatorResult label="Minimum-only payoff" value={timeLabel(base.months)} helper={base.works ? `${usd(base.interest)} estimated interest` : "Payment may not cover interest."} />
-        <CalculatorResult label="Accelerated payoff" value={timeLabel(accelerated.months)} emphasis="accent" helper={accelerated.works ? `${usd(accelerated.interest)} estimated interest` : "Payment may not cover interest."} />
+        <CalculatorResult label="Accelerated payoff" value={timeLabel(accelerated.months)} emphasis="accent" helper={accelerated.works ? `${usd(accelerated.interest)} estimated interest; around ${dateLabel(accelerated.months)}` : "Payment may not cover interest."} />
         <CalculatorResult label="Interest saved vs minimum" value={usd(saved)} />
-        <CalculatorResult label="Possible refi savings" value={usd(refiSaved)} helper="Assumes the same payment and no added fees." />
+        <CalculatorResult label="Possible refinance payoff" value={timeLabel(refi.months)} helper={refi.works ? `${usd(refiSaved)} extra interest saved; around ${dateLabel(refi.months)}` : "Check payment and APR inputs."} />
         <CalculatorMeaning>
           Private loans are usually a rate and cash-flow problem. Compare payoff speed, refinance APR, and emergency cash before overcommitting.
         </CalculatorMeaning>
@@ -220,7 +235,7 @@ export const PSLFProgressEstimator = () => {
   const monthlyN = Math.max(0, num(monthly));
   const balanceN = Math.max(0, num(balance));
   const paidBefore120 = remaining * monthlyN;
-  const simplifiedForgiveness = Math.max(balanceN - paidBefore120, 0);
+  const balanceNotCoveredByScheduledPayments = Math.max(balanceN - paidBefore120, 0);
   const looksAligned = loanType === "direct" && (employer === "nonprofit" || employer === "government");
 
   return (
@@ -257,9 +272,9 @@ export const PSLFProgressEstimator = () => {
         <CalculatorResult label="Input status" value={looksAligned ? "Looks PSLF-aligned" : "Verify before relying on PSLF"} emphasis={looksAligned ? "accent" : "primary"} />
         <CalculatorResult label="Payments remaining to 120" value={`${remaining}`} />
         <CalculatorResult label="Estimated time remaining" value={`${(remaining / 12).toFixed(1)} years`} />
-        <CalculatorResult label="Estimated payments before 120" value={usd(paidBefore120)} />
-        <CalculatorResult label="Simplified possible forgiveness" value={usd(simplifiedForgiveness)} helper="Does not model interest or IDR recalculation." />
-        <BulletList title="Before trusting this number" items={["Confirm loan type in StudentAid.gov.", "Certify employer eligibility and payment count.", "Verify that the repayment plan qualifies.", "Do not use this as a forgiveness guarantee."]} />
+        <CalculatorResult label="Estimated cash paid before 120" value={usd(paidBefore120)} />
+        <CalculatorResult label="Balance not covered by those payments" value={usd(balanceNotCoveredByScheduledPayments)} helper="Not a forgiveness estimate. Actual PSLF forgiveness is the remaining eligible principal and accrued interest after all rules are met." />
+        <BulletList title="Before trusting this number" items={["Confirm loan type in StudentAid.gov.", "Certify employer eligibility and payment count.", "Verify that the repayment plan qualifies.", "Do not treat this as a guaranteed forgiveness estimate."]} />
         <DisclaimerBox short />
       </div>
     </div>

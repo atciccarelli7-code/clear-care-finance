@@ -7,6 +7,7 @@ import { HEALTHCARE_CONFUSION_ARTICLES } from "./healthcareConfusionArticles";
 import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
 import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
+import { MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE } from "./medicareAdvantageOriginal2026Article";
 import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
 
@@ -24,6 +25,7 @@ export const ALL_ARTICLES = publishedArticles([
   ...WEALTH_ARTICLES,
   ...OPEN_ENROLLMENT_ARTICLES_READY,
   ...HEALTHCARE_CONFUSION_ARTICLES,
+  MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE,
   HSA_FSA_ARTICLE,
   JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE,
   OBBB_OVERTIME_ARTICLE,

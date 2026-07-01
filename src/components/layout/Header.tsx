@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 const nav = [
   { to: "/build-wealth", label: "Build Wealth" },
   { to: "/healthcare-workers", label: "Healthcare Workers" },
+  { to: "/student-loans", label: "Student Loans" },
   { to: "/patients-families", label: "Patients & Caregivers" },
   { to: "/open-enrollment", label: "Open Enrollment" },
   { to: "/insurance", label: "Insurance" },

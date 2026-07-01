@@ -1,6 +1,6 @@
 # Community Acquired Finance
 
-Community Acquired Finance is a plain-English financial education website for healthcare workers, patients, families, and caregivers. The site explains healthcare pay, benefits, insurance, Medicare, Medicaid, retirement accounts, hospital bills, and patient medical costs using practical guides and calculators.
+Community Acquired Finance is a plain-English financial education website for healthcare workers, patients, families, and caregivers. The site explains healthcare pay, benefits, insurance, Medicare, Medicaid, retirement accounts, student loans, hospital bills, and patient medical costs using practical guides and calculators.
 
 The content is educational only. It is not individualized financial, legal, insurance, tax, investment, or medical advice.
 
@@ -9,6 +9,7 @@ The content is educational only. It is not individualized financial, legal, insu
 - [Home](https://communityacquiredfinance.com/)
 - [Healthcare Workers](https://communityacquiredfinance.com/healthcare-workers)
 - [Patients & Families](https://communityacquiredfinance.com/patients-families)
+- [Student Loans](https://communityacquiredfinance.com/student-loans)
 - [Insurance Decision Tools](https://communityacquiredfinance.com/insurance)
 - [Calculators](https://communityacquiredfinance.com/tools)
 - [Articles](https://communityacquiredfinance.com/articles)
@@ -16,8 +17,9 @@ The content is educational only. It is not individualized financial, legal, insu
 - [Glossary](https://communityacquiredfinance.com/glossary)
 - [Methodology](https://communityacquiredfinance.com/methodology)
 
-## High-value insurance and Medicare pages
+## High-value pages
 
+- [Student Loans](https://communityacquiredfinance.com/student-loans)
 - [Insurance is future planning](https://communityacquiredfinance.com/articles/insurance-is-future-planning)
 - [Medicare Advantage vs Original Medicare in 2026](https://communityacquiredfinance.com/articles/medicare-advantage-vs-original-medicare-2026)
 - [Medicare Advantage educational comparison](https://communityacquiredfinance.com/insurance/medicare-advantage)

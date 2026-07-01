@@ -1,4 +1,4 @@
-import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck } from "lucide-react";
+import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck, GraduationCap, Landmark } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { NextStepCards } from "@/components/shared/NextStepCards";
@@ -6,6 +6,7 @@ import { Calc403b, CalcMedicare, CalcCafe } from "@/components/calculators/Calcu
 import HealthInsuranceVisitCostCalculator from "@/components/calculators/HealthInsuranceVisitCostCalculator";
 import OutOfPocketMaxEstimator from "@/components/calculators/OutOfPocketMaxEstimator";
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
+import { PSLFProgressEstimator, PrivateLoanPayoffCalculator, StudentLoanPathFinder } from "@/components/calculators/StudentLoanTools";
 import CalcOvertimeDeduction from "@/components/calculators/OvertimeDeduction";
 import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
 import {
@@ -52,10 +53,18 @@ const calculatorGroups = [
     ],
   },
   {
-    label: "Patients, caregivers, and loans",
+    label: "Student loans",
+    items: [
+      { id: "student-loan-path", label: "Student Loan Path Finder" },
+      { id: "private-loan-payoff", label: "Private Student Loan Payoff Calculator" },
+      { id: "pslf-progress", label: "PSLF Progress Estimator" },
+      { id: "loan", label: "Student Loan Payment Calculator" },
+    ],
+  },
+  {
+    label: "Patients and caregivers",
     items: [
       { id: "medicare", label: "Medicare Cost Exposure Tool" },
-      { id: "loan", label: "Student Loan Payment Calculator" },
     ],
   },
 ];
@@ -70,7 +79,7 @@ const jumpToCalculator = (id: string) => {
 const Tools = () => {
   useSeo({
     title: "Calculators and Checklists",
-    description: "Plain-English calculators and checklists for healthcare workers, patients, open enrollment, medical bills, Medicare, savings, and workplace benefits.",
+    description: "Plain-English calculators and checklists for healthcare workers, patients, open enrollment, medical bills, Medicare, savings, workplace benefits, and student loans.",
     canonicalPath: "/tools",
   });
 
@@ -127,11 +136,11 @@ const Tools = () => {
               cta: "Check bill vs EOB",
             },
             {
-              eyebrow: "Cost cap",
-              title: "I want to know my worst-case exposure",
-              description: "Use the out-of-pocket max estimator when you know the allowed amount or remaining plan details.",
-              href: "#out-of-pocket-max",
-              cta: "Estimate cap room",
+              eyebrow: "Student loans",
+              title: "I work for a nonprofit and have nursing-school loans",
+              description: "Start with loan type. Federal Direct Loans, older federal loans, and private loans need different strategies.",
+              href: "#student-loan-path",
+              cta: "Find loan path",
             },
             {
               eyebrow: "Benefits choice",
@@ -187,6 +196,24 @@ const Tools = () => {
           </CalculatorCard>
         </div>
 
+        <div id="student-loan-path" className="scroll-mt-28 min-w-0">
+          <CalculatorCard icon={GraduationCap} eyebrow="Student loans" title="Student Loan Path Finder" description="Separate federal forgiveness paths from private-loan payoff decisions before choosing a strategy." relatedArticle={{ label: "Full Student Loans Section", href: "/student-loans" }}>
+            <StudentLoanPathFinder />
+          </CalculatorCard>
+        </div>
+
+        <div id="private-loan-payoff" className="scroll-mt-28 min-w-0">
+          <CalculatorCard icon={CreditCard} eyebrow="Private loans" title="Private Student Loan Payoff Calculator" description="Compare minimum payments, extra payments, lump sums, and a possible refinance APR." relatedArticle={{ label: "Full Student Loans Section", href: "/student-loans" }}>
+            <PrivateLoanPayoffCalculator />
+          </CalculatorCard>
+        </div>
+
+        <div id="pslf-progress" className="scroll-mt-28 min-w-0">
+          <CalculatorCard icon={Landmark} eyebrow="Federal loans" title="PSLF Progress Estimator" description="Estimate payments remaining to 120 and see what must be verified before relying on forgiveness." relatedArticle={{ label: "Full Student Loans Section", href: "/student-loans" }}>
+            <PSLFProgressEstimator />
+          </CalculatorCard>
+        </div>
+
         <div id="insurance" className="scroll-mt-28 min-w-0">
           <CalculatorCard icon={Shield} eyebrow="For everyone" title="Health Insurance Visit Cost Calculator" description="Estimate yearly out-of-pocket cost across premium, deductible, copays, coinsurance, visits, and remaining out-of-pocket max room." relatedArticle={{ label: "Plain-English Healthcare Finance Glossary", href: "/articles/plain-english-glossary" }}>
             <HealthInsuranceVisitCostCalculator />
@@ -230,7 +257,7 @@ const Tools = () => {
         </div>
 
         <div id="loan" className="scroll-mt-28 min-w-0">
-          <CalculatorCard icon={CreditCard} eyebrow="For everyone" title="Student Loan Payment Calculator" description="Estimate monthly payment, total paid, and interest over time.">
+          <CalculatorCard icon={CreditCard} eyebrow="For everyone" title="Student Loan Payment Calculator" description="Estimate monthly payment, total paid, and interest over time." relatedArticle={{ label: "Full Student Loans Section", href: "/student-loans" }}>
             <CalcLoanPayment />
           </CalculatorCard>
         </div>

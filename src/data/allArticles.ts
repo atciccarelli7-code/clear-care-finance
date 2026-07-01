@@ -4,6 +4,7 @@ import { BACKUP_CARE_ARTICLE } from "./familyLogisticsArticles";
 import { JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE } from "./policyChangeArticles";
 import { HSA_FSA_ARTICLE } from "./hsaFsaArticle";
 import { HEALTHCARE_CONFUSION_ARTICLES } from "./healthcareConfusionArticles";
+import { INSURANCE_FUTURE_PLANNING_ARTICLE } from "./insuranceFuturePlanningArticle";
 import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
 import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
@@ -24,6 +25,7 @@ export const ALL_ARTICLES = publishedArticles([
   ...WEALTH_ARTICLES,
   ...OPEN_ENROLLMENT_ARTICLES_READY,
   ...HEALTHCARE_CONFUSION_ARTICLES,
+  INSURANCE_FUTURE_PLANNING_ARTICLE,
   HSA_FSA_ARTICLE,
   JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE,
   OBBB_OVERTIME_ARTICLE,

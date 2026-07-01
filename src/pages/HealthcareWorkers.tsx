@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PageHero } from "@/components/shared/PageHero";
 import { NextStepCards } from "@/components/shared/NextStepCards";
 import { OBBB_OVERTIME_ARTICLE } from "@/data/healthcareWorkerArticles";
-import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock, TrendingUp } from "lucide-react";
+import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock, TrendingUp, GraduationCap } from "lucide-react";
 
 const HealthcareWorkers = () => {
   return (
@@ -37,18 +37,18 @@ const HealthcareWorkers = () => {
               cta: "Read the map",
             },
             {
+              eyebrow: "Student loans",
+              title: "Nursing-school loans and nonprofit work",
+              description: "Figure out whether federal forgiveness, Nurse Corps, NHSC, refinance, or private-loan payoff is the right research path.",
+              href: "/student-loans",
+              cta: "Open student loans",
+            },
+            {
               eyebrow: "Fund choice",
               title: "Pick Retirement Investments at Work",
               description: "Decode target-date funds, S&P 500 index funds, fees, and risk inside your workplace plan.",
               href: "/articles/how-to-pick-retirement-investments-at-work",
               cta: "Pick funds",
-            },
-            {
-              eyebrow: "Investing",
-              title: "Invest Without Picking Stocks",
-              description: "Use broad, repeatable investing without turning your retirement plan into a second job.",
-              href: "/articles/how-healthcare-workers-can-invest-without-picking-stocks",
-              cta: "Learn investing",
             },
           ]}
         />
@@ -87,6 +87,7 @@ const HealthcareWorkers = () => {
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <TopicCard icon={TrendingUp} title="Build Wealth" description="Money maps, fund choices, investing basics, savings rate, and financial independence for healthcare workers." href="/build-wealth" cta="Open hub" />
+          <TopicCard icon={GraduationCap} title="Student Loans" description="PSLF, IDR, Nurse Corps, NHSC, private loan payoff, and refinance planning for healthcare workers." href="/student-loans" cta="Open guide" accent="green" />
           <TopicCard icon={Wallet} title="Workplace Benefits" description="Decode open enrollment paperwork without calling HR." href="/topics/workplace-benefits" cta="Open guide" />
           <TopicCard icon={PiggyBank} title="Retirement Accounts" description="403(b), 401(a), 457(b), Roth vs Traditional, and fund choices — explained simply." href="/topics/retirement-accounts" cta="Open guide" />
           <TopicCard icon={Shield} title="Health Insurance" description="PPO vs HMO vs HDHP, HSA vs FSA, and how to compare plans." href="/topics/health-insurance" cta="Open guide" />

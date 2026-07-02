@@ -110,33 +110,43 @@ function buildHealthcareWorkerMoneyMapEmail(firstName?: string) {
   const greeting = firstName?.trim() ? `Hi ${escapeHtml(firstName.trim())},` : "Hi,";
 
   return `
-    <div style="font-family: Arial, sans-serif; color: #183326; line-height: 1.55; max-width: 640px;">
-      <p>${greeting}</p>
-      <h1 style="color: #004022; font-size: 28px; line-height: 1.2;">Your Healthcare Worker Money Map</h1>
-      <p>
-        Thanks for signing up for Community Acquired Finance. This is a plain-English starting point for organizing the
-        money decisions that show up around healthcare work: paychecks, benefits, insurance, debt, cash flow, and investing.
-      </p>
-      <ol>
-        <li>Build a cash buffer before over-optimizing.</li>
-        <li>Get the employer retirement match when available.</li>
-        <li>Compare Roth vs Traditional contributions before assuming one is best.</li>
-        <li>Understand HSA and FSA tradeoffs during open enrollment.</li>
-        <li>Separate federal student loan strategies from private loan payoff decisions.</li>
-        <li>Compare health insurance by total risk, not only premium.</li>
-        <li>Keep investing simple enough to sustain during stressful work seasons.</li>
-        <li>Protect yourself from burnout-driven financial decisions.</li>
-      </ol>
-      <p>
-        Start here: <a href="https://communityacquiredfinance.com/healthcare-workers" style="color: #005c38; font-weight: 700;">Healthcare Worker Money Hub</a>
-      </p>
-      <p>
-        Useful tools: <a href="https://communityacquiredfinance.com/tools" style="color: #005c38; font-weight: 700;">Community Acquired Finance calculators</a>
-      </p>
-      <hr style="border: 0; border-top: 1px solid #d8ded3; margin: 24px 0;" />
-      <p style="color: #53645a; font-size: 13px;">
-        Educational only. This email is not individualized financial, legal, tax, insurance, investment, or medical advice.
-      </p>
+    <div style="display: none; max-height: 0; overflow: hidden; opacity: 0; color: transparent;">
+      A practical starting point for healthcare-worker money decisions.
+    </div>
+    <div style="margin: 0; padding: 24px 12px; background: #f6f8f5; font-family: Arial, sans-serif; color: #183326;">
+      <div style="max-width: 640px; margin: 0 auto; background: #ffffff; border: 1px solid #d8ded3; border-radius: 22px; overflow: hidden;">
+        <div style="background: #004022; color: #ffffff; padding: 28px 24px;">
+          <p style="margin: 0 0 10px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #c8f5dd; font-weight: 700;">Community Acquired Finance</p>
+          <h1 style="margin: 0; color: #ffffff; font-size: 30px; line-height: 1.15;">Your Healthcare Worker Money Map</h1>
+          <p style="margin: 16px 0 0; color: #e5f3ec; font-size: 16px; line-height: 1.55;">A plain-English starting point for paychecks, benefits, insurance, debt, cash flow, and investing.</p>
+        </div>
+        <div style="padding: 28px 24px; font-size: 16px; line-height: 1.65;">
+          <p style="margin: 0 0 18px;">${greeting}</p>
+          <p style="margin: 0 0 18px;">Thanks for signing up. This site is built for healthcare workers and patients who want clear financial explanations without spam, popups, or generic finance noise.</p>
+          <div style="background: #f6f8f5; border: 1px solid #d8ded3; border-radius: 18px; padding: 20px; margin: 24px 0;">
+            <p style="margin: 0 0 12px; color: #004022; font-weight: 700;">Use this as your first pass:</p>
+            <ol style="margin: 0; padding-left: 22px;">
+              <li style="margin: 0 0 10px;">Build a cash buffer before over-optimizing.</li>
+              <li style="margin: 0 0 10px;">Get the employer retirement match when available.</li>
+              <li style="margin: 0 0 10px;">Compare Roth vs. Traditional contributions before assuming one is best.</li>
+              <li style="margin: 0 0 10px;">Understand HSA and FSA tradeoffs during open enrollment.</li>
+              <li style="margin: 0 0 10px;">Separate federal student loan strategies from private loan payoff decisions.</li>
+              <li style="margin: 0 0 10px;">Compare health insurance by total risk, not only premium.</li>
+              <li style="margin: 0 0 10px;">Keep investing simple enough to sustain during stressful work seasons.</li>
+              <li style="margin: 0;">Protect yourself from burnout-driven financial decisions.</li>
+            </ol>
+          </div>
+          <p style="margin: 0 0 22px;">Start with the healthcare-worker hub. It groups the highest-impact topics first instead of making you search through scattered articles.</p>
+          <p style="margin: 0 0 26px;"><a href="https://communityacquiredfinance.com/healthcare-workers" style="display: inline-block; background: #005c38; color: #ffffff; text-decoration: none; font-weight: 700; padding: 14px 18px; border-radius: 999px;">Open the Healthcare Worker Money Hub</a></p>
+          <p style="margin: 0 0 22px;">When you want numbers instead of theory, use the <a href="https://communityacquiredfinance.com/tools" style="color: #005c38; font-weight: 700;">Community Acquired Finance calculators</a>.</p>
+          <div style="border-left: 4px solid #7ccca2; padding-left: 14px; margin: 24px 0; color: #314439;">
+            <p style="margin: 0;">What you will get: practical explainers, calculator updates, and healthcare-specific money notes. No individualized advice.</p>
+          </div>
+          <hr style="border: 0; border-top: 1px solid #d8ded3; margin: 26px 0;" />
+          <p style="margin: 0 0 10px; color: #53645a; font-size: 13px; line-height: 1.55;">Educational only. This email is not individualized financial, legal, tax, insurance, investment, or medical advice.</p>
+          <p style="margin: 0; color: #53645a; font-size: 13px; line-height: 1.55;">You can unsubscribe anytime by replying with “unsubscribe.”</p>
+        </div>
+      </div>
     </div>
   `;
 }
@@ -253,7 +263,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const sent = (await resend.emails.send({
       from: activeFromEmail,
       to: [email],
-      subject: is403bEstimate ? "Your 403(b) paycheck estimate" : "Your Healthcare Worker Money Map",
+      subject: is403bEstimate ? "Your 403(b) paycheck estimate" : "Welcome — your Healthcare Worker Money Map",
       html: is403bEstimate ? build403bEstimateEmail(firstName, body.estimate) : buildHealthcareWorkerMoneyMapEmail(firstName),
     })) as ResendActionResult;
 

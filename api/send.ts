@@ -37,6 +37,13 @@ type SendBody = {
   estimate?: Estimate403b;
 };
 
+type ResendActionResult = {
+  data?: { id?: string } | null;
+  error?: unknown;
+};
+
+type ResendClient = InstanceType<typeof Resend>;
+
 const fallbackFromEmail = "Community Acquired Finance <onboarding@resend.dev>";
 const notifyEmail = process.env.RESEND_NOTIFY_EMAIL;
 
@@ -83,6 +90,14 @@ function getResendErrorMessage(error: unknown) {
     return (error as { message: string }).message;
   }
   return JSON.stringify(error);
+}
+
+function isDuplicateContactError(message: string) {
+  return /already exists|duplicate|conflict/i.test(message);
+}
+
+function isResendTestingModeError(message: string) {
+  return /only send testing emails|verify a domain|verified domain|onboarding@resend\.dev/i.test(message);
 }
 
 function buildHealthcareWorkerMoneyMapEmail(firstName?: string) {
@@ -176,6 +191,34 @@ function build403bEstimateEmail(firstName: string | undefined, estimate: Estimat
   `;
 }
 
+async function saveNewsletterContact(resend: ResendClient, body: SendBody, email: string, firstName?: string) {
+  const contact = (await resend.contacts.create({
+    email,
+    firstName: firstName || undefined,
+    unsubscribed: false,
+    properties: {
+      source: body.source ?? "site",
+      signup_type: body.type ?? "newsletter",
+      consent: "true",
+      consented_at: new Date().toISOString(),
+    },
+  })) as ResendActionResult;
+
+  if (!contact.error) {
+    console.info("Newsletter contact saved", { id: contact.data?.id, source: body.source ?? "site" });
+    return { ok: true, id: contact.data?.id, duplicate: false };
+  }
+
+  const message = getResendErrorMessage(contact.error);
+  if (isDuplicateContactError(message)) {
+    console.info("Newsletter contact already exists", { source: body.source ?? "site" });
+    return { ok: true, duplicate: true };
+  }
+
+  console.error("Newsletter contact save error", { message, source: body.source ?? "site" });
+  return { ok: false, error: message, duplicate: false };
+}
+
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Allow", "POST");
 
@@ -193,6 +236,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const emailType = body.type ?? "newsletter";
   const activeFromEmail = getFromEmail();
 
+  if (body.website?.trim()) {
+    return res.status(200).json({ ok: true, saved: false, emailDelivered: false });
+  }
+
   if (!email || !emailPattern.test(email)) {
     return res.status(400).json({ error: "Enter a valid email address." });
   }
@@ -204,6 +251,13 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const is403bEstimate = emailType === "403b-estimate";
+    const isNewsletterSignup = emailType === "newsletter";
+    const contactResult = isNewsletterSignup ? await saveNewsletterContact(resend, body, email, firstName) : null;
+
+    if (isNewsletterSignup && contactResult && !contactResult.ok) {
+      return res.status(500).json({ error: "Newsletter signup could not be saved. Try again in a minute." });
+    }
+
     const sent = await resend.emails.send({
       from: activeFromEmail,
       to: [email],
@@ -214,6 +268,16 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     if (sent.error) {
       const message = getResendErrorMessage(sent.error);
       console.error("Resend primary send error", { type: emailType, message });
+
+      if (isNewsletterSignup && contactResult?.ok && isResendTestingModeError(message)) {
+        return res.status(200).json({
+          ok: true,
+          saved: true,
+          emailDelivered: false,
+          warning: "Subscribed, but welcome email delivery requires Resend domain verification.",
+        });
+      }
+
       return res.status(500).json({ error: message });
     }
 
@@ -221,8 +285,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       const notification = await resend.emails.send({
         from: activeFromEmail,
         to: [notifyEmail],
-        subject: is403bEstimate ? "New 403(b) estimate email signup" : "New Community Acquired Finance email signup",
-        text: `New signup: ${email}\nType: ${emailType}\nSource: ${body.source ?? "unknown"}`,
+        subject: is403bEstimate ? "New 403(b) estimate email signup" : "New Community Acquired Finance newsletter signup",
+        text: `New signup: ${email}\nType: ${emailType}\nSource: ${body.source ?? "unknown"}\nContact saved: ${contactResult?.ok ?? false}`,
       });
 
       if (notification.error) {
@@ -233,8 +297,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       }
     }
 
-    console.info("Resend primary send accepted", { type: emailType, id: sent.data?.id });
-    return res.status(200).json({ ok: true, id: sent.data?.id });
+    console.info("Resend primary send accepted", { type: emailType, id: sent.data?.id, contactSaved: contactResult?.ok ?? false });
+    return res.status(200).json({ ok: true, saved: contactResult?.ok ?? false, emailDelivered: true, id: sent.data?.id });
   } catch (error) {
     console.error("Resend email exception", error);
     return res.status(500).json({ error: "Email could not be sent." });

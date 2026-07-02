@@ -13,6 +13,14 @@ type NewsletterSignupProps = {
   description?: string;
 };
 
+type NewsletterSignupResult = {
+  ok?: boolean;
+  saved?: boolean;
+  emailDelivered?: boolean;
+  warning?: string;
+  error?: string;
+};
+
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function NewsletterSignup({
@@ -58,17 +66,22 @@ export function NewsletterSignup({
           consent,
           website,
           source,
+          type: "newsletter",
         }),
       });
 
-      const result = await response.json().catch(() => ({}));
+      const result = (await response.json().catch(() => ({}))) as NewsletterSignupResult;
 
       if (!response.ok) {
         throw new Error(result?.error ?? "Signup failed.");
       }
 
       setStatus("success");
-      setMessage("You’re in. Check your inbox for the Healthcare Worker Money Map.");
+      setMessage(
+        result.emailDelivered === false
+          ? "You’re on the list. The welcome email may arrive after email delivery setup is finished."
+          : "You’re in. Check your inbox for the Healthcare Worker Money Map.",
+      );
       setEmail("");
       setFirstName("");
       setConsent(false);

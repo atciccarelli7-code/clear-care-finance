@@ -5,6 +5,7 @@ import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { NextStepCards } from "@/components/shared/NextStepCards";
+import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { useSeo } from "@/lib/seo";
 import { PSLFProgressEstimator, PrivateLoanPayoffCalculator, StudentLoanPathFinder } from "@/components/calculators/StudentLoanTools";
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
@@ -95,6 +96,14 @@ const StudentLoans = () => {
               cta: "Review programs",
             },
           ]}
+        />
+      </section>
+
+      <section className="container pb-10 md:pb-14">
+        <NewsletterSignup
+          source="student-loans"
+          title="Get the Healthcare Worker Money Map"
+          description="A weekly plain-English email on paychecks, benefits, student loans, insurance choices, debt payoff, and investing for healthcare workers."
         />
       </section>
 

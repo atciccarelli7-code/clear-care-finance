@@ -15,6 +15,7 @@ import { TopicCard } from "@/components/shared/TopicCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { PageHero } from "@/components/shared/PageHero";
+import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { TOPICS } from "@/data/topics";
 
@@ -180,6 +181,16 @@ const Index = () => {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="container min-w-0 py-16 md:py-20">
+        <NewsletterSignup
+          source="home"
+          title="Get one healthcare-money email each month"
+          description="Join Community Acquired Finance Monthly for practical notes on paychecks, benefits, insurance, medical bills, and new calculators. First issue planned for August 1."
+          buttonLabel="Join the monthly list"
+        />
       </section>
 
       {/* CTA */}

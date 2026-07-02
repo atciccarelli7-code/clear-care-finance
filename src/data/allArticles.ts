@@ -7,6 +7,7 @@ import { HEALTHCARE_CONFUSION_ARTICLES } from "./healthcareConfusionArticles";
 import { INSURANCE_FUTURE_PLANNING_ARTICLE } from "./insuranceFuturePlanningArticle";
 import { MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE } from "./medicareAdvantageOriginal2026Article";
 import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
+import { FROM_BEDSIDE_ARTICLES } from "./fromBedsideArticles";
 import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
 import { SOURCE_PRESETS } from "./sources";
@@ -25,6 +26,7 @@ export const ALL_ARTICLES = publishedArticles([
   ...RETIREMENT_INVESTMENT_ARTICLES,
   ...WEALTH_ARTICLES,
   ...OPEN_ENROLLMENT_ARTICLES_READY,
+  ...FROM_BEDSIDE_ARTICLES,
   ...HEALTHCARE_CONFUSION_ARTICLES,
   INSURANCE_FUTURE_PLANNING_ARTICLE,
   MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE,

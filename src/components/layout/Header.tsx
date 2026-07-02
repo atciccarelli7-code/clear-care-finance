@@ -11,6 +11,7 @@ const nav = [
   { to: "/open-enrollment", label: "Open Enrollment" },
   { to: "/insurance", label: "Insurance" },
   { to: "/tools", label: "Calculators" },
+  { to: "/newsletter", label: "Newsletter" },
   { to: "/articles", label: "Articles" },
   { to: "/about", label: "About" },
 ];
@@ -59,7 +60,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex">
-            <Link to="/build-wealth">Build wealth</Link>
+            <Link to="/newsletter">Newsletter</Link>
           </Button>
           <button
             className="xl:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
@@ -89,7 +90,7 @@ export const Header = () => {
               </NavLink>
             ))}
             <Button asChild variant="hero" className="mt-2 sm:hidden">
-              <Link to="/build-wealth" onClick={() => setOpen(false)}>Build wealth</Link>
+              <Link to="/newsletter" onClick={() => setOpen(false)}>Join newsletter</Link>
             </Button>
           </nav>
         </div>

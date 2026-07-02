@@ -174,11 +174,6 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const firstName = body.firstName?.trim();
   const emailType = body.type ?? "newsletter";
 
-  // Honeypot field for simple bot filtering. Real users should never fill this.
-  if (body.website) {
-    return res.status(200).json({ ok: true });
-  }
-
   if (!email || !emailPattern.test(email)) {
     return res.status(400).json({ error: "Enter a valid email address." });
   }

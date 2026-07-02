@@ -11,7 +11,6 @@ const nav = [
   { to: "/open-enrollment", label: "Open Enrollment" },
   { to: "/insurance", label: "Insurance" },
   { to: "/tools", label: "Calculators" },
-  { to: "/newsletter", label: "Newsletter" },
   { to: "/articles", label: "Articles" },
   { to: "/about", label: "About" },
 ];
@@ -30,25 +29,25 @@ export const Header = () => {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/90 backdrop-blur-xl">
-      <div className="container flex h-16 items-center justify-between gap-4">
+      <div className="container flex h-16 items-center justify-between gap-3">
         <Link
           to="/"
-          className="flex min-w-0 items-center gap-2.5 font-display font-bold tracking-tight text-foreground"
+          className="flex min-w-0 shrink-0 items-center gap-2.5 font-display font-bold tracking-tight text-foreground"
           onClick={() => setOpen(false)}
           aria-label="Community Acquired Finance home"
         >
           <LogoMark />
-          <span className="hidden min-w-0 break-words text-base sm:inline">Community Acquired Finance</span>
-          <span className="text-base sm:hidden">Finance</span>
+          <span className="hidden whitespace-nowrap text-base sm:inline">Community Acquired Finance</span>
+          <span className="whitespace-nowrap text-base sm:hidden">Finance</span>
         </Link>
 
-        <nav className="hidden xl:flex items-center gap-1">
+        <nav className="hidden 2xl:flex min-w-0 flex-1 items-center justify-center gap-0.5">
           {nav.map((n) => (
             <NavLink
               key={n.to}
               to={n.to}
               className={({ isActive }) =>
-                `px-3 py-2 text-sm font-medium rounded-lg transition-smooth ${
+                `whitespace-nowrap rounded-lg px-2.5 py-2 text-[0.8rem] font-medium transition-smooth ${
                   isActive ? "text-primary bg-primary-soft" : "text-muted-foreground hover:text-foreground"
                 }`
               }
@@ -58,12 +57,12 @@ export const Header = () => {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex">
+        <div className="flex shrink-0 items-center gap-2">
+          <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex whitespace-nowrap">
             <Link to="/newsletter">Newsletter</Link>
           </Button>
           <button
-            className="xl:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
+            className="2xl:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
             onClick={() => setOpen(!open)}
             aria-label="Menu"
           >
@@ -73,7 +72,7 @@ export const Header = () => {
       </div>
 
       {open && (
-        <div className="xl:hidden border-t border-border bg-background animate-fade-in">
+        <div className="2xl:hidden border-t border-border bg-background animate-fade-in">
           <nav className="container py-4 flex flex-col gap-1">
             {nav.map((n) => (
               <NavLink

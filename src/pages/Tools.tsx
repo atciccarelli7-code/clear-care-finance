@@ -2,6 +2,7 @@ import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, Cli
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { NextStepCards } from "@/components/shared/NextStepCards";
+import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { Calc403b, CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
 import HealthInsuranceVisitCostCalculator from "@/components/calculators/HealthInsuranceVisitCostCalculator";
 import OutOfPocketMaxEstimator from "@/components/calculators/OutOfPocketMaxEstimator";
@@ -150,6 +151,14 @@ const Tools = () => {
               cta: "Compare plans",
             },
           ]}
+        />
+      </section>
+
+      <section className="container min-w-0 pt-8">
+        <NewsletterSignup
+          source="tools"
+          title="Want the Healthcare Worker Money Map in your inbox?"
+          description="Get the checklist and a short weekly email on paychecks, benefits, insurance, debt, and investing decisions healthcare workers actually face."
         />
       </section>
 

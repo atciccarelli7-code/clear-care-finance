@@ -4,6 +4,7 @@ import { TopicCard } from "@/components/shared/TopicCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PageHero } from "@/components/shared/PageHero";
 import { NextStepCards } from "@/components/shared/NextStepCards";
+import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { OBBB_OVERTIME_ARTICLE } from "@/data/healthcareWorkerArticles";
 import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock, TrendingUp, GraduationCap } from "lucide-react";
 
@@ -52,6 +53,10 @@ const HealthcareWorkers = () => {
             },
           ]}
         />
+      </section>
+
+      <section className="container pb-10 md:pb-14">
+        <NewsletterSignup source="healthcare-workers" />
       </section>
 
       <section className="container py-10 md:py-14">

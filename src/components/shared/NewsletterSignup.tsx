@@ -11,6 +11,7 @@ type NewsletterSignupProps = {
   source?: string;
   title?: string;
   description?: string;
+  buttonLabel?: string;
 };
 
 type NewsletterSignupResult = {
@@ -23,12 +24,22 @@ type NewsletterSignupResult = {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const trackNewsletterEvent = (eventName: string, source: string) => {
+  if (typeof window.gtag !== "function") return;
+
+  window.gtag("event", eventName, {
+    event_category: "newsletter",
+    signup_source: source,
+  });
+};
+
 export function NewsletterSignup({
   className,
   compact = false,
   source = "site",
-  title = "Get the Healthcare Worker Money Map",
-  description = "A simple weekly email for healthcare workers trying to make better decisions with paychecks, benefits, insurance, debt, and investing.",
+  title = "Get the Monthly Money Map",
+  description = "One practical monthly email for healthcare workers and patients trying to make better decisions about paychecks, benefits, insurance, debt, and healthcare costs.",
+  buttonLabel = "Join the monthly list",
 }: NewsletterSignupProps) {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -36,21 +47,25 @@ export function NewsletterSignup({
   const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const displayDescription = description.replace(/\bweekly\b/gi, "monthly");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMessage("");
+    trackNewsletterEvent("newsletter_signup_submit", source);
 
     const cleanEmail = email.trim().toLowerCase();
     if (!emailPattern.test(cleanEmail)) {
       setStatus("error");
       setMessage("Enter a valid email address.");
+      trackNewsletterEvent("newsletter_signup_error", source);
       return;
     }
 
     if (!consent) {
       setStatus("error");
       setMessage("Check the consent box before signing up.");
+      trackNewsletterEvent("newsletter_signup_error", source);
       return;
     }
 
@@ -82,12 +97,14 @@ export function NewsletterSignup({
           ? "You’re on the list. The welcome email may arrive after email delivery setup is finished."
           : "You’re in. Check your inbox for the Healthcare Worker Money Map.",
       );
+      trackNewsletterEvent("newsletter_signup_success", source);
       setEmail("");
       setFirstName("");
       setConsent(false);
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Signup failed. Try again in a minute.");
+      trackNewsletterEvent("newsletter_signup_error", source);
     }
   };
 
@@ -103,12 +120,12 @@ export function NewsletterSignup({
       <div className={cn("grid min-w-0 gap-6", compact ? "" : "lg:grid-cols-[1fr_420px] lg:items-center")}>
         <div className="min-w-0 space-y-3">
           <div className="inline-flex items-center gap-2 rounded-full bg-background/80 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-primary">
-            <Mail className="h-3.5 w-3.5" /> Weekly email
+            <Mail className="h-3.5 w-3.5" /> Monthly email
           </div>
           <h2 id={`newsletter-signup-${source}`} className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
             {title}
           </h2>
-          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">{description}</p>
+          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">{displayDescription}</p>
           <div className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
             <span>No spam, no popups, no individualized advice. Educational emails only. Unsubscribe anytime.</span>
@@ -157,7 +174,7 @@ export function NewsletterSignup({
           </label>
 
           <Button type="submit" variant="hero" className="w-full" disabled={status === "loading"}>
-            {status === "loading" ? "Sending..." : "Send me the Money Map"}
+            {status === "loading" ? "Sending..." : buttonLabel}
           </Button>
 
           {message && (

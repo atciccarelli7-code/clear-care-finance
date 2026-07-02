@@ -2,13 +2,19 @@ import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import Newsletter from "./Newsletter";
 
 const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
+    if (location.pathname === "/newsletter") return;
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
   }, [location.pathname]);
+
+  if (location.pathname === "/newsletter") {
+    return <Newsletter />;
+  }
 
   return (
     <section className="container flex min-h-[60vh] items-center justify-center py-16">

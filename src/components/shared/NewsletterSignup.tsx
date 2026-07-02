@@ -47,6 +47,7 @@ export function NewsletterSignup({
   const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const displayDescription = description.replace(/\bweekly\b/gi, "monthly");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -124,7 +125,7 @@ export function NewsletterSignup({
           <h2 id={`newsletter-signup-${source}`} className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
             {title}
           </h2>
-          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">{description}</p>
+          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">{displayDescription}</p>
           <div className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
             <span>No spam, no popups, no individualized advice. Educational emails only. Unsubscribe anytime.</span>

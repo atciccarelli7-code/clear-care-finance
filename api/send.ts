@@ -37,10 +37,19 @@ type SendBody = {
   estimate?: Estimate403b;
 };
 
-const fromEmail = process.env.RESEND_FROM_EMAIL ?? "Community Acquired Finance <onboarding@resend.dev>";
+const fallbackFromEmail = "Community Acquired Finance <onboarding@resend.dev>";
 const notifyEmail = process.env.RESEND_NOTIFY_EMAIL;
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const namedEmailPattern = /^[^<>]+<[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+>$/;
+
+function getFromEmail() {
+  const configured = process.env.RESEND_FROM_EMAIL?.trim();
+  if (!configured) return fallbackFromEmail;
+  if (emailPattern.test(configured) || namedEmailPattern.test(configured)) return configured;
+  console.warn("Invalid RESEND_FROM_EMAIL. Falling back to onboarding@resend.dev.");
+  return fallbackFromEmail;
+}
 
 function parseBody(body: unknown): SendBody {
   if (!body) return {};
@@ -182,6 +191,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const email = body.email?.trim().toLowerCase();
   const firstName = body.firstName?.trim();
   const emailType = body.type ?? "newsletter";
+  const activeFromEmail = getFromEmail();
 
   if (!email || !emailPattern.test(email)) {
     return res.status(400).json({ error: "Enter a valid email address." });
@@ -195,7 +205,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const is403bEstimate = emailType === "403b-estimate";
     const sent = await resend.emails.send({
-      from: fromEmail,
+      from: activeFromEmail,
       to: [email],
       subject: is403bEstimate ? "Your 403(b) paycheck estimate" : "Your Healthcare Worker Money Map",
       html: is403bEstimate ? build403bEstimateEmail(firstName, body.estimate) : buildHealthcareWorkerMoneyMapEmail(firstName),
@@ -209,7 +219,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     if (notifyEmail) {
       const notification = await resend.emails.send({
-        from: fromEmail,
+        from: activeFromEmail,
         to: [notifyEmail],
         subject: is403bEstimate ? "New 403(b) estimate email signup" : "New Community Acquired Finance email signup",
         text: `New signup: ${email}\nType: ${emailType}\nSource: ${body.source ?? "unknown"}`,

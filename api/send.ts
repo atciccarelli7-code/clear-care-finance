@@ -67,6 +67,15 @@ function safe(value?: string, fallback = "Not provided") {
   return escapeHtml(value?.trim() || fallback);
 }
 
+function getResendErrorMessage(error: unknown) {
+  if (!error) return "Unknown Resend error";
+  if (typeof error === "string") return error;
+  if (typeof error === "object" && "message" in error && typeof (error as { message?: unknown }).message === "string") {
+    return (error as { message: string }).message;
+  }
+  return JSON.stringify(error);
+}
+
 function buildHealthcareWorkerMoneyMapEmail(firstName?: string) {
   const greeting = firstName?.trim() ? `Hi ${escapeHtml(firstName.trim())},` : "Hi,";
 
@@ -192,18 +201,32 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       html: is403bEstimate ? build403bEstimateEmail(firstName, body.estimate) : buildHealthcareWorkerMoneyMapEmail(firstName),
     });
 
+    if (sent.error) {
+      const message = getResendErrorMessage(sent.error);
+      console.error("Resend primary send error", { type: emailType, message });
+      return res.status(500).json({ error: message });
+    }
+
     if (notifyEmail) {
-      await resend.emails.send({
+      const notification = await resend.emails.send({
         from: fromEmail,
         to: [notifyEmail],
         subject: is403bEstimate ? "New 403(b) estimate email signup" : "New Community Acquired Finance email signup",
         text: `New signup: ${email}\nType: ${emailType}\nSource: ${body.source ?? "unknown"}`,
       });
+
+      if (notification.error) {
+        console.error("Resend notification send error", {
+          type: emailType,
+          message: getResendErrorMessage(notification.error),
+        });
+      }
     }
 
+    console.info("Resend primary send accepted", { type: emailType, id: sent.data?.id });
     return res.status(200).json({ ok: true, id: sent.data?.id });
   } catch (error) {
-    console.error("Resend email error", error);
+    console.error("Resend email exception", error);
     return res.status(500).json({ error: "Email could not be sent." });
   }
 }

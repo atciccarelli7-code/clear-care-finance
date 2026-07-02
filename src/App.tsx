@@ -19,6 +19,7 @@ import ArticlePage from "./pages/ArticlePage.tsx";
 import Topics from "./pages/Topics.tsx";
 import TopicPage from "./pages/TopicPage.tsx";
 import Glossary from "./pages/Glossary.tsx";
+import Newsletter from "./pages/Newsletter.tsx";
 import About from "./pages/About.tsx";
 import Contact from "./pages/Contact.tsx";
 import OpenEnrollmentGuide from "./pages/OpenEnrollmentGuide.tsx";
@@ -110,6 +111,7 @@ const App = () => (
             <Route path="/insurance/what-medicare-advantage-marketing-may-not-emphasize" element={<InsuranceMarketingRealityPage />} />
             <Route path="/medicare-medicaid" element={<Navigate to="/topics/medicare-medicaid" replace />} />
             <Route path="/glossary" element={<Glossary />} />
+            <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/methodology" element={<Methodology />} />

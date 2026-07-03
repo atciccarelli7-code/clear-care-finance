@@ -99,14 +99,6 @@ const StudentLoans = () => {
         />
       </section>
 
-      <section className="container pb-10 md:pb-14">
-        <NewsletterSignup
-          source="student-loans"
-          title="Get the Healthcare Worker Money Map"
-          description="A weekly plain-English email on paychecks, benefits, student loans, insurance choices, debt payoff, and investing for healthcare workers."
-        />
-      </section>
-
       <section id="programs" className="container py-10 md:py-14">
         <SectionHeading
           eyebrow="Program map"
@@ -162,6 +154,14 @@ const StudentLoans = () => {
             <CalcLoanPayment />
           </CalculatorCard>
         </div>
+      </section>
+
+      <section className="container pb-10 md:pb-14">
+        <NewsletterSignup
+          source="student-loans"
+          title="Get the Healthcare Worker Money Map"
+          description="A weekly plain-English email on paychecks, benefits, student loans, insurance choices, debt payoff, and investing for healthcare workers."
+        />
       </section>
 
       <section className="container pb-16 md:pb-20">

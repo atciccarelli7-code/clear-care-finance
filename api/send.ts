@@ -42,6 +42,14 @@ type ResendActionResult = {
   error?: unknown;
 };
 
+type NewsletterContactResult = {
+  ok: boolean;
+  skipped: boolean;
+  duplicate: boolean;
+  id?: string;
+  error?: string;
+};
+
 const fallbackFromEmail = "Community Acquired Finance <onboarding@resend.dev>";
 const notifyEmail = process.env.RESEND_NOTIFY_EMAIL;
 const audienceId = process.env.RESEND_AUDIENCE_ID?.trim();
@@ -199,7 +207,7 @@ function build403bEstimateEmail(firstName: string | undefined, estimate: Estimat
   `;
 }
 
-async function saveNewsletterContact(resend: InstanceType<typeof Resend>, email: string, firstName?: string, source = "site") {
+async function saveNewsletterContact(resend: InstanceType<typeof Resend>, email: string, source = "site"): Promise<NewsletterContactResult> {
   if (!audienceId) {
     console.warn("RESEND_AUDIENCE_ID not configured; skipping newsletter contact save", { source });
     return { ok: false, skipped: true, duplicate: false, error: "Audience not configured" };
@@ -207,7 +215,6 @@ async function saveNewsletterContact(resend: InstanceType<typeof Resend>, email:
 
   const contact = (await resend.contacts.create({
     email,
-    firstName: firstName || undefined,
     unsubscribed: false,
     audienceId,
   })) as ResendActionResult;
@@ -223,7 +230,7 @@ async function saveNewsletterContact(resend: InstanceType<typeof Resend>, email:
     return { ok: true, skipped: false, duplicate: true };
   }
 
-  console.error("Newsletter contact save error", { message, source });
+  console.warn("Newsletter contact save skipped", { message, source });
   return { ok: false, skipped: false, error: message, duplicate: false };
 }
 
@@ -244,6 +251,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const emailType = body.type ?? "newsletter";
   const source = body.source ?? "site";
   const activeFromEmail = getFromEmail();
+  const usesFallbackSender = activeFromEmail === fallbackFromEmail;
 
   if (body.website?.trim()) {
     return res.status(200).json({ ok: true, saved: false, emailDelivered: false });
@@ -261,7 +269,27 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const is403bEstimate = emailType === "403b-estimate";
     const isNewsletterSignup = emailType === "newsletter";
-    const contactResult = isNewsletterSignup ? await saveNewsletterContact(resend, email, firstName, source) : null;
+    const contactResult = isNewsletterSignup ? await saveNewsletterContact(resend, email, source) : null;
+
+    if (usesFallbackSender) {
+      console.warn("Resend email delivery skipped until a verified sender is configured", {
+        type: emailType,
+        source,
+        contactSaved: contactResult?.ok ?? false,
+      });
+
+      if (isNewsletterSignup) {
+        return res.status(200).json({
+          ok: true,
+          saved: contactResult?.ok ?? false,
+          emailDelivered: false,
+          warning: "Subscribed, but welcome email delivery requires verified sender configuration.",
+          contactWarning: contactResult && !contactResult.ok ? "Contact sync skipped or failed." : undefined,
+        });
+      }
+
+      return res.status(503).json({ error: "Email delivery is not fully configured yet." });
+    }
 
     const sent = (await resend.emails.send({
       from: activeFromEmail,
@@ -272,17 +300,28 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     if (sent.error) {
       const message = getResendErrorMessage(sent.error);
-      console.error("Resend primary send error", { type: emailType, message, contactSaved: contactResult?.ok ?? false });
 
-      if (isNewsletterSignup && isDeliverySetupError(message)) {
-        return res.status(200).json({
-          ok: true,
-          saved: contactResult?.ok ?? false,
-          emailDelivered: false,
-          warning: "Subscribed, but welcome email delivery requires verified sender configuration.",
+      if (isDeliverySetupError(message)) {
+        console.warn("Resend primary send skipped until verified sender configuration is complete", {
+          type: emailType,
+          message,
+          contactSaved: contactResult?.ok ?? false,
         });
+
+        if (isNewsletterSignup) {
+          return res.status(200).json({
+            ok: true,
+            saved: contactResult?.ok ?? false,
+            emailDelivered: false,
+            warning: "Subscribed, but welcome email delivery requires verified sender configuration.",
+            contactWarning: contactResult && !contactResult.ok ? "Contact sync skipped or failed." : undefined,
+          });
+        }
+
+        return res.status(503).json({ error: "Email delivery is not fully configured yet." });
       }
 
+      console.error("Resend primary send error", { type: emailType, message, contactSaved: contactResult?.ok ?? false });
       return res.status(500).json({ error: "Email could not be sent. Try again in a minute." });
     }
 
@@ -295,9 +334,11 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       })) as ResendActionResult;
 
       if (notification.error) {
-        console.error("Resend notification send error", {
+        const message = getResendErrorMessage(notification.error);
+        const logNotificationIssue = isDeliverySetupError(message) ? console.warn : console.error;
+        logNotificationIssue("Resend notification send issue", {
           type: emailType,
-          message: getResendErrorMessage(notification.error),
+          message,
         });
       }
     }

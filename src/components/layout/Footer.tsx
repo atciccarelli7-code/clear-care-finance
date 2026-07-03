@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { TOPICS } from "@/data/topics";
 import { DISCLAIMER_TEXT } from "@/components/shared/DisclaimerBox";
 
 const LogoMark = () => (
@@ -12,63 +11,70 @@ const LogoMark = () => (
   </span>
 );
 
+const linkGroups = [
+  {
+    title: "Start",
+    links: [
+      { to: "/tools", label: "Tools" },
+      { to: "/articles", label: "Articles" },
+      { to: "/insurance", label: "Insurance" },
+      { to: "/healthcare-workers", label: "Healthcare Workers" },
+      { to: "/build-wealth", label: "Build Wealth" },
+    ],
+  },
+  {
+    title: "Guides",
+    links: [
+      { to: "/open-enrollment", label: "Open Enrollment" },
+      { to: "/student-loans", label: "Student Loans" },
+      { to: "/patients-families", label: "Patients & Caregivers" },
+      { to: "/topics", label: "All Topics" },
+      { to: "/glossary", label: "Glossary" },
+    ],
+  },
+  {
+    title: "Trust",
+    links: [
+      { to: "/about", label: "About" },
+      { to: "/contact", label: "Contact" },
+      { to: "/methodology", label: "Sources & Methodology" },
+      { to: "/editorial-policy", label: "Editorial Policy" },
+      { to: "/disclosures", label: "Disclosures" },
+      { to: "/privacy-policy", label: "Privacy Policy" },
+      { to: "/terms-of-use", label: "Terms of Use" },
+      { to: "/accessibility", label: "Accessibility" },
+    ],
+  },
+];
+
 export const Footer = () => {
   return (
     <footer className="border-t border-border bg-card/55 mt-24">
       <div className="container py-14 grid gap-10 md:grid-cols-12">
-        <div className="md:col-span-4 space-y-3">
+        <div className="md:col-span-5 space-y-3">
           <Link to="/" className="flex min-w-0 items-center gap-2.5 font-display font-bold text-lg text-foreground">
             <LogoMark />
             <span className="min-w-0 break-words">Community Acquired Finance</span>
           </Link>
           <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-            Plain-English financial education for healthcare workers and the patients they care for — calculators, guides, glossary, and source-backed explanations.
+            Plain-English financial education for healthcare workers, patients, families, and caregivers — tools, articles, glossary, and source-backed explanations.
           </p>
           <p className="text-xs text-muted-foreground">Written by Andrew Ciccarelli, RN, BSN.</p>
         </div>
 
-        <div className="md:col-span-2">
-          <h4 className="font-semibold text-sm mb-3 text-foreground">Start here</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/open-enrollment" className="hover:text-primary transition-smooth">Open Enrollment Guide</Link></li>
-            <li><Link to="/healthcare-workers" className="hover:text-primary transition-smooth">Healthcare Workers</Link></li>
-            <li><Link to="/patients-families" className="hover:text-primary transition-smooth">Patients & Caregivers</Link></li>
-            <li><Link to="/about" className="hover:text-primary transition-smooth">About</Link></li>
-            <li><Link to="/contact" className="hover:text-primary transition-smooth">Contact</Link></li>
-          </ul>
-        </div>
-
-        <div className="md:col-span-2">
-          <h4 className="font-semibold text-sm mb-3 text-foreground">Learn</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/tools" className="hover:text-primary transition-smooth">Calculators</Link></li>
-            <li><Link to="/articles" className="hover:text-primary transition-smooth">Articles</Link></li>
-            <li><Link to="/glossary" className="hover:text-primary transition-smooth">Glossary</Link></li>
-            <li><Link to="/topics" className="hover:text-primary transition-smooth">All topics</Link></li>
-            <li><Link to="/methodology" className="hover:text-primary transition-smooth">Sources & Methodology</Link></li>
-          </ul>
-        </div>
-
-        <div className="md:col-span-2">
-          <h4 className="font-semibold text-sm mb-3 text-foreground">Topics</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            {TOPICS.slice(0, 5).map((t) => (
-              <li key={t.slug}>
-                <Link to={`/topics/${t.slug}`} className="hover:text-primary transition-smooth">{t.title}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="md:col-span-2">
-          <h4 className="font-semibold text-sm mb-3 text-foreground">Policies</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/privacy-policy" className="hover:text-primary transition-smooth">Privacy Policy</Link></li>
-            <li><Link to="/terms-of-use" className="hover:text-primary transition-smooth">Terms of Use</Link></li>
-            <li><Link to="/editorial-policy" className="hover:text-primary transition-smooth">Editorial Policy</Link></li>
-            <li><Link to="/disclosures" className="hover:text-primary transition-smooth">Disclosures</Link></li>
-            <li><Link to="/accessibility" className="hover:text-primary transition-smooth">Accessibility</Link></li>
-          </ul>
+        <div className="md:col-span-7 grid gap-8 sm:grid-cols-3">
+          {linkGroups.map((group) => (
+            <div key={group.title}>
+              <h4 className="font-semibold text-sm mb-3 text-foreground">{group.title}</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                {group.links.map((link) => (
+                  <li key={link.to}>
+                    <Link to={link.to} className="hover:text-primary transition-smooth">{link.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
 

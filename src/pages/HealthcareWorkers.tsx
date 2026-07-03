@@ -14,19 +14,19 @@ const HealthcareWorkers = () => {
       <PageHero
         eyebrow="For nurses & bedside clinicians"
         title="Money education built for healthcare workers."
-        description="You take care of patients. We'll help you make sense of the paycheck, benefits, investing, and long-term decisions that come with the job."
+        description="Start with the paycheck, then move into benefits, student loans, investing, and the money decisions that come with healthcare work."
       >
         <Button asChild variant="hero" size="lg">
-          <Link to="/build-wealth">Build wealth <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/articles/healthcare-worker-money-map">Start with the money map <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/articles/how-to-pick-retirement-investments-at-work">Pick retirement funds</Link>
+          <Link to="/tools#403b">Open the 403(b) calculator</Link>
         </Button>
       </PageHero>
 
       <section className="container py-10 md:py-14">
         <NextStepCards
-          eyebrow="Money path"
+          eyebrow="Best first steps"
           title="Start with the worker money system"
           description="Healthcare-worker finance is more than benefits. Start with the paycheck, then build toward investing and flexibility."
           cards={[
@@ -38,25 +38,21 @@ const HealthcareWorkers = () => {
               cta: "Read the map",
             },
             {
+              eyebrow: "Paycheck tool",
+              title: "403(b) Paycheck Contribution Calculator",
+              description: "Turn contribution percentage, match, and annual savings into clear per-paycheck numbers.",
+              href: "/tools#403b",
+              cta: "Run 403(b) math",
+            },
+            {
               eyebrow: "Student loans",
               title: "Nursing-school loans and nonprofit work",
-              description: "Figure out whether federal forgiveness, Nurse Corps, NHSC, refinance, or private-loan payoff is the right research path.",
+              description: "Separate federal forgiveness paths from private-loan payoff and refinance math.",
               href: "/student-loans",
               cta: "Open student loans",
             },
-            {
-              eyebrow: "Fund choice",
-              title: "Pick Retirement Investments at Work",
-              description: "Decode target-date funds, S&P 500 index funds, fees, and risk inside your workplace plan.",
-              href: "/articles/how-to-pick-retirement-investments-at-work",
-              cta: "Pick funds",
-            },
           ]}
         />
-      </section>
-
-      <section className="container pb-10 md:pb-14">
-        <NewsletterSignup source="healthcare-workers" />
       </section>
 
       <section className="container py-10 md:py-14">
@@ -89,17 +85,22 @@ const HealthcareWorkers = () => {
           centered
           eyebrow="Topics for you"
           title="The money stuff your hospital orientation skipped"
+          description="Pick the lane that matches the decision in front of you. You do not need to read everything at once."
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <TopicCard icon={TrendingUp} title="Build Wealth" description="Money maps, fund choices, investing basics, savings rate, and financial independence for healthcare workers." href="/build-wealth" cta="Open hub" />
+          <TopicCard icon={Wallet} title="Paycheck & Benefits" description="403(b), open enrollment, paycheck deductions, insurance choices, and employer benefit paperwork." href="/topics/workplace-benefits" cta="Start benefits" />
           <TopicCard icon={GraduationCap} title="Student Loans" description="PSLF, IDR, Nurse Corps, NHSC, private loan payoff, and refinance planning for healthcare workers." href="/student-loans" cta="Open guide" accent="green" />
-          <TopicCard icon={Wallet} title="Workplace Benefits" description="Decode open enrollment paperwork without calling HR." href="/topics/workplace-benefits" cta="Open guide" />
+          <TopicCard icon={TrendingUp} title="Build Wealth" description="Money maps, fund choices, investing basics, savings rate, and financial independence for healthcare workers." href="/build-wealth" cta="Open hub" />
           <TopicCard icon={PiggyBank} title="Retirement Accounts" description="403(b), 401(a), 457(b), Roth vs Traditional, and fund choices — explained simply." href="/topics/retirement-accounts" cta="Open guide" />
           <TopicCard icon={Shield} title="Health Insurance" description="PPO vs HMO vs HDHP, HSA vs FSA, and how to compare plans." href="/topics/health-insurance" cta="Open guide" />
           <TopicCard icon={Brain} title="Behavior & Burnout" description="Decision fatigue and the money side of long shifts." href="/topics/behavior-burnout" cta="Open guide" />
           <TopicCard icon={Tag} title="Healthcare Worker Discounts & Perks" description="Legitimate discounts without letting them become shopping traps." href="/topics/discounts-perks" cta="Open guide" />
           <TopicCard icon={Receipt} title="Patient Medical Costs" description="Useful even when you're on the clinician side — patients ask." href="/topics/patient-medical-costs" cta="Open guide" accent="green" />
         </div>
+      </section>
+
+      <section className="container pb-10 md:pb-14">
+        <NewsletterSignup source="healthcare-workers" />
       </section>
 
       <section className="container pb-20">

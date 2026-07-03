@@ -30,49 +30,41 @@ type HubCard = {
 const situationCards: HubCard[] = [
   {
     eyebrow: "Medical bill or EOB",
-    title: "Check what you actually may owe before paying.",
-    body: "Compare the provider bill to the insurer's Explanation of Benefits, allowed amount, insurance payment, and patient responsibility.",
+    title: "Check the bill before paying.",
+    body: "Match the provider bill to the insurer explanation, allowed amount, insurance payment, and patient responsibility.",
     href: "/insurance/medical-bill-review-toolkit",
     cta: "Review a medical bill",
     icon: Receipt,
   },
   {
     eyebrow: "Open enrollment",
-    title: "Compare benefits by total cost, not paycheck deduction only.",
-    body: "Estimate premiums, deductible exposure, out-of-pocket maximum risk, employer HSA/HRA money, medications, and paycheck impact.",
+    title: "Compare benefits by total cost.",
+    body: "Look past the paycheck deduction and compare premium, deductible exposure, medication costs, tax accounts, and bad-year risk.",
     href: "/open-enrollment",
-    cta: "Open the benefits guide",
+    cta: "Open benefits guide",
     icon: ClipboardCheck,
   },
   {
     eyebrow: "Medicare decisions",
-    title: "Separate plan marketing from the details that matter in a bad year.",
-    body: "Check doctors, hospitals, drugs, network rules, prior authorization, maximum out-of-pocket exposure, and Medigap timing.",
+    title: "Separate marketing from risk.",
+    body: "Check doctors, hospitals, drugs, network rules, prior authorization, and out-of-pocket exposure before focusing on extras.",
     href: "/insurance/medicare-advantage",
     cta: "Compare Medicare options",
     icon: HeartPulse,
   },
 ];
 
-const toolCards: HubCard[] = [
+const primaryTools: HubCard[] = [
   {
-    eyebrow: "Cost cap",
-    title: "Out-of-Pocket Max Estimator",
-    body: "Estimate how close covered in-network care could bring someone to the plan's yearly out-of-pocket maximum.",
-    href: "/tools/out-of-pocket-max-estimator",
-    cta: "Estimate the cap",
-    icon: Shield,
-  },
-  {
-    eyebrow: "Bill review",
+    eyebrow: "Best first tool",
     title: "EOB-to-Bill Match Checker",
-    body: "A quick checklist for spotting mismatches between an insurer explanation and a provider payment request.",
+    body: "Use when the insurer explanation and provider bill do not obviously match.",
     href: "/tools#eob-bill-match",
     cta: "Open checker",
     icon: Receipt,
   },
   {
-    eyebrow: "Plan comparison",
+    eyebrow: "Best first tool",
     title: "Open Enrollment True Cost Calculator",
     body: "Compare two health plans by annual premium, expected care, employer account money, and bad-year exposure.",
     href: "/tools#open-enrollment",
@@ -80,86 +72,70 @@ const toolCards: HubCard[] = [
     icon: Shield,
   },
   {
-    eyebrow: "Payroll",
-    title: "Open Enrollment Paycheck Impact Calculator",
-    body: "Estimate how medical, dental, vision, HSA/FSA, disability, life, and supplemental benefits may affect take-home pay.",
-    href: "/tools#paycheck-impact",
-    cta: "Estimate paycheck impact",
-    icon: WalletCards,
-  },
-  {
-    eyebrow: "Add-on policies",
-    title: "Supplemental Benefits Decision Helper",
-    body: "Evaluate accident, critical illness, and hospital indemnity policies against premium, emergency fund, and likely payout.",
-    href: "/tools#supplemental-benefits",
-    cta: "Check add-ons",
-    icon: BadgeCheck,
-  },
-  {
-    eyebrow: "Tax accounts",
-    title: "HSA vs FSA Decision Helper",
-    body: "Compare tax savings, employer HSA money, HDHP risk, FSA forfeiture risk, and expected healthcare spending.",
-    href: "/tools#hsa-fsa",
-    cta: "Compare accounts",
-    icon: FileText,
-  },
-  {
-    eyebrow: "Medicare",
-    title: "Medicare Advantage Plan Type Helper",
-    body: "A plain-English helper for comparing HMO, PPO, HMO-POS, and Original Medicare plus Medigap tradeoffs.",
-    href: "/tools/medicare-advantage-plan-helper",
-    cta: "Use helper",
-    icon: HeartPulse,
-  },
-];
-
-const questionClusters: HubCard[] = [
-  {
-    eyebrow: "Insurance basics",
-    title: "Deductible, copay, coinsurance, and out-of-pocket max",
-    body: "The four numbers that decide what covered care may cost and why covered does not always mean free.",
-    href: "/articles/deductible-copay-coinsurance-out-of-pocket-max",
-    cta: "Read plain-English guide",
+    eyebrow: "Cost ceiling",
+    title: "Out-of-Pocket Max Estimator",
+    body: "Estimate how close covered in-network care could bring someone to the yearly cost-sharing cap.",
+    href: "/tools/out-of-pocket-max-estimator",
+    cta: "Estimate cap",
     icon: Shield,
   },
   {
-    eyebrow: "EOB confusion",
-    title: "How to read an Explanation of Benefits",
-    body: "Understand billed charges, allowed amount, adjustments, insurance payment, denial language, and patient responsibility.",
-    href: "/articles/how-to-read-an-eob",
-    cta: "Read EOB guide",
-    icon: Receipt,
+    eyebrow: "Payroll",
+    title: "Open Enrollment Paycheck Impact Calculator",
+    body: "Estimate how benefit elections may affect take-home pay before the first plan-year paycheck arrives.",
+    href: "/tools#paycheck-impact",
+    cta: "Estimate paycheck",
+    icon: WalletCards,
+  },
+];
+
+const deeperQuestions: HubCard[] = [
+  {
+    eyebrow: "Insurance basics",
+    title: "Deductible, copay, coinsurance, and out-of-pocket max",
+    body: "The four numbers that decide what covered care may cost.",
+    href: "/articles/deductible-copay-coinsurance-out-of-pocket-max",
+    cta: "Read basics",
+    icon: Shield,
   },
   {
     eyebrow: "Family coverage",
     title: "Should you use your spouse's health insurance?",
     body: "Compare spouse surcharge rules, family deductibles, child coverage, networks, medications, and two-employer plan choices.",
     href: "/articles/spouse-family-health-insurance-open-enrollment",
-    cta: "Compare household coverage",
+    cta: "Compare coverage",
     icon: Hospital,
-  },
-  {
-    eyebrow: "Supplemental policies",
-    title: "Accident, critical illness, and hospital indemnity",
-    body: "Decide whether these policies are real protection or just another paycheck leak.",
-    href: "/articles/accident-critical-illness-hospital-indemnity-open-enrollment",
-    cta: "Review supplemental coverage",
-    icon: BadgeCheck,
   },
   {
     eyebrow: "Medications",
     title: "Check prescriptions before picking a plan",
-    body: "Look for formularies, tiers, preferred pharmacies, prior authorization, step therapy, quantity limits, and specialty costs.",
+    body: "Look for formularies, tiers, preferred pharmacies, prior authorization, step therapy, and specialty costs.",
     href: "/insurance/medication-coverage-checklist",
-    cta: "Open medication checklist",
+    cta: "Open checklist",
     icon: Pill,
+  },
+  {
+    eyebrow: "Add-on policies",
+    title: "Accident, critical illness, and hospital indemnity",
+    body: "Decide whether supplemental policies are useful protection or another paycheck leak.",
+    href: "/articles/accident-critical-illness-hospital-indemnity-open-enrollment",
+    cta: "Review add-ons",
+    icon: BadgeCheck,
+  },
+  {
+    eyebrow: "Tax accounts",
+    title: "HSA vs FSA Decision Helper",
+    body: "Compare tax savings, employer HSA money, HDHP risk, and FSA forfeiture risk.",
+    href: "/tools#hsa-fsa",
+    cta: "Compare accounts",
+    icon: FileText,
   },
   {
     eyebrow: "Care delays",
     title: "Prior authorization survival guide",
-    body: "Use call scripts and checklists when imaging, procedures, medications, rehab, DME, or home health are delayed.",
+    body: "Use call scripts and checklists when a medication, imaging test, procedure, or equipment request is delayed.",
     href: "/insurance/prior-authorization-guide",
-    cta: "Open prior auth guide",
+    cta: "Open guide",
     icon: ClipboardCheck,
   },
 ];
@@ -197,29 +173,26 @@ export const InsuranceBenefitsHub = () => {
     <>
       <PageHero
         eyebrow="Benefits & Insurance"
-        title="Understand what the plan, bill, or benefits portal is really saying."
-        description="Start with the question in front of you: a confusing EOB, a hospital bill, open enrollment, spouse coverage, prescriptions, prior authorization, or Medicare plan choice."
+        title="Pick the situation first. Then use the right tool."
+        description="Use this hub when a bill, benefit choice, prescription, prior authorization, or Medicare decision needs a practical next step."
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero">
-            <Link to="/tools/out-of-pocket-max-estimator">Estimate out-of-pocket max</Link>
+            <Link to="/tools#eob-bill-match">Check a bill or EOB</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/tools#eob-bill-match">Check an EOB vs bill</Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link to="/tools#open-enrollment">Compare health plans</Link>
+            <Link to="/open-enrollment">Open enrollment guide</Link>
           </Button>
         </div>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:py-16">
+      <main className="container space-y-14 py-12 md:py-16">
         <section>
           <SectionHeading
             centered
             eyebrow="Start here"
-            title="Pick the situation, then use the tool"
-            description="Most people do not need a textbook. They need the next correct question to ask before money leaves the account or benefits are locked in for a year."
+            title="What decision are you facing?"
+            description="Most people do not need every insurance article. They need the correct first move for the problem in front of them."
           />
           <div className="grid gap-5 lg:grid-cols-3">
             {situationCards.map((card) => (
@@ -228,13 +201,27 @@ export const InsuranceBenefitsHub = () => {
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-primary/15 bg-primary-soft/30 p-5 shadow-card md:p-8">
-          <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+        <section>
+          <SectionHeading
+            centered
+            eyebrow="Primary tools"
+            title="Use these when you need numbers or a checklist"
+            description="These are the highest-friction decisions: bills, plan comparison, bad-year exposure, and paycheck impact."
+          />
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {primaryTools.map((card) => (
+              <CardLink key={card.href} card={card} />
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-[2rem] border border-primary/15 bg-primary-soft/25 p-5 shadow-card md:p-8">
+          <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Why this cluster matters</div>
-              <h2 className="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">Benefits and insurance are where healthcare finance gets confusing fastest.</h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
-                This section is built around practical decisions: what a covered service may cost, whether a bill matches the EOB, what a bad health year could cost, whether add-on policies are worth buying, and what questions patients should ask before care gets expensive.
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Plain-English reminders</div>
+              <h2 className="mt-2 font-display text-3xl font-bold tracking-tight">Four things to verify before acting</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                The site can help you organize the question. The final answer still comes from the insurer, plan document, employer portal, Medicare.gov, state Medicaid agency, or provider billing office.
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -255,36 +242,22 @@ export const InsuranceBenefitsHub = () => {
         <section>
           <SectionHeading
             centered
-            eyebrow="Fast tools"
-            title="Calculators and checklists for high-friction decisions"
-            description="These are the tools most aligned with benefits confusion, medical bill review, and insurance choice."
+            eyebrow="More specific questions"
+            title="Go deeper only when the question fits"
+            description="Use these after the first step, or when you already know the specific insurance issue you are dealing with."
           />
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {toolCards.map((card) => (
+            {deeperQuestions.map((card) => (
               <CardLink key={card.href} card={card} />
             ))}
           </div>
         </section>
 
-        <section>
-          <SectionHeading
-            centered
-            eyebrow="Question clusters"
-            title="Build understanding around the exact questions people search"
-            description="Each guide should answer one confusing benefits or insurance problem, then move the reader into the relevant calculator or checklist."
-          />
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {questionClusters.map((card) => (
-              <CardLink key={card.href} card={card} />
-            ))}
-          </div>
-        </section>
-
-        <Card className="rounded-3xl border-amber-200 bg-amber-50 shadow-card">
+        <Card className="rounded-3xl shadow-card">
           <CardHeader>
-            <CardTitle className="font-display text-2xl text-amber-950">Use this before making a benefits or insurance decision</CardTitle>
-            <CardDescription className="text-base leading-relaxed text-amber-950/80">
-              The site is educational and cannot verify a live plan, claim, network, formulary, or authorization status. Always confirm with the insurer, employer benefits portal, Medicare.gov, state Medicaid agency, provider billing office, or official plan documents before acting.
+            <CardTitle className="font-display text-2xl">Educational, not a live benefit verification</CardTitle>
+            <CardDescription className="text-base leading-relaxed">
+              Use these pages to understand the decision, organize questions, and spot what needs verification. Confirm live plan, claim, network, formulary, authorization, and billing details before acting.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 sm:flex-row">

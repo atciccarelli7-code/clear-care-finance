@@ -22,6 +22,7 @@ import {
   HospitalBillChecklistTool,
   OpenEnrollmentChecklistTool,
 } from "@/components/calculators/LaunchChecklistTools";
+import { trackToolEvent } from "@/lib/siteAnalytics";
 import { useSeo } from "@/lib/seo";
 
 const calculatorGroups = [
@@ -120,8 +121,11 @@ const intentCards = [
   },
 ];
 
+const getCalculatorLabel = (id: string) => calculatorGroups.flatMap((group) => group.items).find((item) => item.id === id)?.label;
+
 const jumpToCalculator = (id: string) => {
   if (!id) return;
+  trackToolEvent("tool_jump_select", id, getCalculatorLabel(id));
   const element = document.getElementById(id);
   element?.scrollIntoView({ behavior: "smooth", block: "start" });
   window.history.replaceState(null, "", `#${id}`);
@@ -175,6 +179,7 @@ const Tools = () => {
               <a
                 key={card.href}
                 href={card.href}
+                onClick={() => trackToolEvent("tool_intent_click", card.href.replace("#", ""), card.title)}
                 className="group rounded-2xl border border-border bg-background/70 p-4 shadow-sm transition-smooth hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-card md:p-5"
               >
                 <div className="text-[0.66rem] font-bold uppercase tracking-[0.16em] text-secondary">{card.eyebrow}</div>

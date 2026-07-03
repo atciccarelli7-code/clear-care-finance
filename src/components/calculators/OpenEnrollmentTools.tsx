@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CalculatorInput } from "@/components/shared/CalculatorInput";
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
-import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
+import { CalculatorMeaning, CalculatorNextSteps } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 
 const formatUSD = (n: number) =>
@@ -116,6 +116,13 @@ export const OpenEnrollmentTrueCostCalculator = () => {
           <CalculatorResult label="Bad-year gap" value={formatUSD(worstGap)} helper={`${worstWinner} is lower if covered in-network costs hit the cap.`} />
           <CalculatorResult label="Annual premium gap" value={formatUSD(premiumGap)} helper={`${lowerPremiumPlan} has the lower paycheck premium before care is used.`} />
           <CalculatorMeaning>{verdict}</CalculatorMeaning>
+          <CalculatorNextSteps
+            steps={[
+              { label: "Check the open enrollment guide", href: "/open-enrollment", helper: "Use the ordered guide before submitting elections." },
+              { label: "Estimate OOP max exposure", href: "/tools/out-of-pocket-max-estimator", helper: "Stress-test a bad covered in-network year." },
+              { label: "Review prescriptions and networks", href: "/insurance/medication-coverage-checklist", helper: "A cheaper plan can still fail if drugs or doctors are not covered well." },
+            ]}
+          />
           <DisclaimerBox short />
         </div>
       </div>

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calculator, LucideIcon } from "lucide-react";
+import { trackSiteEvent } from "@/lib/siteAnalytics";
 
 interface CalculatorCardProps {
   icon?: LucideIcon;
@@ -41,6 +42,7 @@ export const CalculatorCard = ({
         {relatedArticle && (
           <Link
             to={relatedArticle.href}
+            onClick={() => trackSiteEvent("related_article_click", { event_category: "calculator", link_text: relatedArticle.label, link_url: relatedArticle.href })}
             className="mt-4 inline-flex max-w-full min-w-0 items-center gap-1.5 rounded-full bg-background/80 px-3 py-2 text-sm font-bold text-primary shadow-sm ring-1 ring-border transition-smooth hover:-translate-y-0.5 hover:shadow-card"
           >
             <span className="truncate">Read: {relatedArticle.label}</span> <ArrowRight className="h-4 w-4 shrink-0" />
@@ -67,6 +69,7 @@ export const CalculatorNextSteps = ({ steps }: { steps: CalculatorNextStep[] }) 
         <Link
           key={`${step.href}-${step.label}`}
           to={step.href}
+          onClick={() => trackSiteEvent("calculator_next_step_click", { event_category: "calculator", link_text: step.label, link_url: step.href })}
           className="group rounded-xl border border-border bg-card px-3 py-3 transition-smooth hover:border-primary/30 hover:shadow-sm"
         >
           <div className="flex items-center justify-between gap-3 text-sm font-bold text-foreground">

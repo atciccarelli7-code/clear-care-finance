@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CalculatorInput, CalculatorSelectField } from "@/components/shared/CalculatorInput";
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
-import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
+import { CalculatorMeaning, CalculatorNextSteps } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 
 const fmt = (n: number) =>
@@ -154,6 +154,13 @@ export const Calc403bEmailEstimate = () => {
         <CalculatorMeaning>
           Contributing enough to get the full match is usually the single highest-return move available in a workplace plan.
         </CalculatorMeaning>
+        <CalculatorNextSteps
+          steps={[
+            { label: "Read the Healthcare Worker Money Map", href: "/articles/healthcare-worker-money-map", helper: "Put the contribution into a full paycheck order of operations." },
+            { label: "Compare Roth vs Traditional", href: "/articles/roth-vs-traditional-403b-healthcare-workers", helper: "Decide whether tax relief now or flexibility later fits better." },
+            { label: "Open the Build Wealth hub", href: "/build-wealth", helper: "Connect 403(b), savings rate, investing, and career income." },
+          ]}
+        />
 
         <form onSubmit={sendEstimate} className="space-y-3 rounded-2xl border border-primary/20 bg-primary-soft/35 p-4">
           <div>

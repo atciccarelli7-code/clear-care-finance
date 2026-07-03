@@ -11,6 +11,12 @@ interface CalculatorCardProps {
   children: ReactNode;
 }
 
+type CalculatorNextStep = {
+  label: string;
+  href: string;
+  helper?: string;
+};
+
 export const CalculatorCard = ({
   icon: Icon = Calculator,
   eyebrow,
@@ -50,5 +56,26 @@ export const CalculatorMeaning = ({ children }: { children: ReactNode }) => (
   <div className="mt-5 min-w-0 rounded-2xl border border-primary/15 bg-primary-soft/35 p-4 break-words md:p-5">
     <div className="mb-1.5 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-primary">What this means</div>
     <p className="text-sm leading-relaxed text-muted-foreground break-words">{children}</p>
+  </div>
+);
+
+export const CalculatorNextSteps = ({ steps }: { steps: CalculatorNextStep[] }) => (
+  <div className="mt-4 min-w-0 rounded-2xl border border-border bg-background/70 p-4 break-words md:p-5">
+    <div className="mb-3 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-secondary">What to do next</div>
+    <div className="grid gap-2">
+      {steps.map((step) => (
+        <Link
+          key={`${step.href}-${step.label}`}
+          to={step.href}
+          className="group rounded-xl border border-border bg-card px-3 py-3 transition-smooth hover:border-primary/30 hover:shadow-sm"
+        >
+          <div className="flex items-center justify-between gap-3 text-sm font-bold text-foreground">
+            <span>{step.label}</span>
+            <ArrowRight className="h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-0.5" />
+          </div>
+          {step.helper && <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{step.helper}</p>}
+        </Link>
+      ))}
+    </div>
   </div>
 );

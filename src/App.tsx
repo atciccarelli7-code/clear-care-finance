@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Layout } from "@/components/layout/Layout";
 import Index from "./pages/Index.tsx";
+import StartHere from "./pages/StartHere.tsx";
 import HealthcareWorkers from "./pages/HealthcareWorkers.tsx";
 import BuildWealthHub from "./pages/BuildWealthHub.tsx";
 import PatientsFamilies from "./pages/PatientsFamilies.tsx";
@@ -88,6 +89,7 @@ const App = () => (
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
+            <Route path="/start-here" element={<StartHere />} />
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
             <Route path="/build-wealth" element={<BuildWealthHub />} />
             <Route path="/healthcare-workers/paycheck-tools" element={<HealthcareWorkerPaycheckTools />} />

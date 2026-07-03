@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 const nav = [
-  { to: "/", label: "Start Here" },
+  { to: "/start-here", label: "Start Here" },
   { to: "/tools", label: "Tools" },
   { to: "/articles", label: "Articles" },
   { to: "/insurance", label: "Insurance" },

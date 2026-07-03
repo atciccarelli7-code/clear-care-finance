@@ -1,16 +1,24 @@
 import { useMemo, useState } from "react";
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
-import { CalculatorMeaning } from "@/components/shared/CalculatorCard";
+import { CalculatorMeaning, CalculatorNextSteps } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
+
+type NextStep = {
+  label: string;
+  href: string;
+  helper?: string;
+};
 
 const ChecklistTool = ({
   items,
   completeText,
   incompleteText,
+  nextSteps,
 }: {
   items: string[];
   completeText: string;
   incompleteText: string;
+  nextSteps?: NextStep[];
 }) => {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const done = useMemo(() => items.filter((item) => checked[item]).length, [checked, items]);
@@ -35,6 +43,7 @@ const ChecklistTool = ({
         <CalculatorResult label="Checklist completion" value={`${percent}%`} emphasis="primary" />
         <CalculatorResult label="Items completed" value={`${done} of ${items.length}`} />
         <CalculatorMeaning>{done === items.length ? completeText : incompleteText}</CalculatorMeaning>
+        {nextSteps && <CalculatorNextSteps steps={nextSteps} />}
         <button type="button" className="w-full rounded-xl border border-border px-4 py-3 text-sm font-semibold hover:bg-muted" onClick={() => window.print()}>
           Print this checklist
         </button>
@@ -57,6 +66,11 @@ export const HospitalBillChecklistTool = () => (
     ]}
     completeText="Good. This is the minimum paper trail before paying a confusing medical bill."
     incompleteText="Finish the checklist before treating the bill as final, especially if the balance is large or surprising."
+    nextSteps={[
+      { label: "Match the bill to the EOB", href: "/tools#eob-bill-match", helper: "Use the EOB checker before deciding the balance is final." },
+      { label: "Read the medical bill toolkit", href: "/insurance/medical-bill-review-toolkit", helper: "Use the full guide for billing calls and documentation." },
+      { label: "Check financial assistance", href: "/tools#financial-assistance-checklist", helper: "Large hospital bills should be screened before paying in full." },
+    ]}
   />
 );
 
@@ -74,6 +88,11 @@ export const EobBillMatchChecker = () => (
     ]}
     completeText="Good. The documents appear ready for a final payment decision or a focused billing call."
     incompleteText="Do not pay automatically yet. A mismatch is a reason to ask the provider billing office and insurer for clarification."
+    nextSteps={[
+      { label: "Read how to interpret an EOB", href: "/articles/how-to-read-an-eob", helper: "Use this when the insurer language is the confusing part." },
+      { label: "Estimate remaining OOP max", href: "/tools/out-of-pocket-max-estimator", helper: "Check whether this claim changes your yearly cost ceiling." },
+      { label: "Open the insurance hub", href: "/insurance", helper: "Find the next guide for bills, plans, prescriptions, or authorizations." },
+    ]}
   />
 );
 
@@ -90,6 +109,10 @@ export const FinancialAssistanceChecklist = () => (
     ]}
     completeText="Good. This gives the household a better chance of checking assistance before money leaves the account."
     incompleteText="Financial assistance should be checked before a large hospital bill is paid in full."
+    nextSteps={[
+      { label: "Review the full bill toolkit", href: "/insurance/medical-bill-review-toolkit", helper: "Pair assistance screening with itemized bill and EOB checks." },
+      { label: "Use the EOB-to-bill checker", href: "/tools#eob-bill-match", helper: "Confirm the billed amount lines up before payment planning." },
+    ]}
   />
 );
 
@@ -108,5 +131,10 @@ export const OpenEnrollmentChecklistTool = () => (
     ]}
     completeText="Good. This is a complete open enrollment submission check."
     incompleteText="Open enrollment choices often lock in for a year. Finish the remaining checks before submitting."
+    nextSteps={[
+      { label: "Compare two plans by total cost", href: "/tools#open-enrollment", helper: "Run the plan comparison before submitting elections." },
+      { label: "Estimate paycheck impact", href: "/tools#paycheck-impact", helper: "Check the take-home pay effect before the first paycheck surprise." },
+      { label: "Return to the open enrollment guide", href: "/open-enrollment", helper: "Use the full ordered path if anything is still unresolved." },
+    ]}
   />
 );

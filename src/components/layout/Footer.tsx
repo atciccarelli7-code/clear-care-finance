@@ -15,6 +15,7 @@ const linkGroups = [
   {
     title: "Start",
     links: [
+      { to: "/start-here", label: "Start Here" },
       { to: "/tools", label: "Tools" },
       { to: "/articles", label: "Articles" },
       { to: "/insurance", label: "Insurance" },

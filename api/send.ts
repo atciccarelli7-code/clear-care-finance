@@ -44,6 +44,7 @@ type ResendActionResult = {
 
 const fallbackFromEmail = "Community Acquired Finance <onboarding@resend.dev>";
 const notifyEmail = process.env.RESEND_NOTIFY_EMAIL;
+const audienceId = process.env.RESEND_AUDIENCE_ID?.trim();
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const namedEmailPattern = /^[^<>]+<[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+>$/;
@@ -199,25 +200,31 @@ function build403bEstimateEmail(firstName: string | undefined, estimate: Estimat
 }
 
 async function saveNewsletterContact(resend: InstanceType<typeof Resend>, email: string, firstName?: string, source = "site") {
+  if (!audienceId) {
+    console.warn("RESEND_AUDIENCE_ID not configured; skipping newsletter contact save", { source });
+    return { ok: false, skipped: true, duplicate: false, error: "Audience not configured" };
+  }
+
   const contact = (await resend.contacts.create({
     email,
     firstName: firstName || undefined,
     unsubscribed: false,
+    audienceId,
   })) as ResendActionResult;
 
   if (!contact.error) {
     console.info("Newsletter contact saved", { id: contact.data?.id, source });
-    return { ok: true, id: contact.data?.id, duplicate: false };
+    return { ok: true, skipped: false, id: contact.data?.id, duplicate: false };
   }
 
   const message = getResendErrorMessage(contact.error);
   if (isDuplicateContactError(message)) {
     console.info("Newsletter contact already exists", { source });
-    return { ok: true, duplicate: true };
+    return { ok: true, skipped: false, duplicate: true };
   }
 
   console.error("Newsletter contact save error", { message, source });
-  return { ok: false, error: message, duplicate: false };
+  return { ok: false, skipped: false, error: message, duplicate: false };
 }
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
@@ -256,10 +263,6 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const isNewsletterSignup = emailType === "newsletter";
     const contactResult = isNewsletterSignup ? await saveNewsletterContact(resend, email, firstName, source) : null;
 
-    if (isNewsletterSignup && contactResult && !contactResult.ok) {
-      return res.status(500).json({ error: "Newsletter signup could not be saved. Try again in a minute." });
-    }
-
     const sent = (await resend.emails.send({
       from: activeFromEmail,
       to: [email],
@@ -269,18 +272,18 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     if (sent.error) {
       const message = getResendErrorMessage(sent.error);
-      console.error("Resend primary send error", { type: emailType, message });
+      console.error("Resend primary send error", { type: emailType, message, contactSaved: contactResult?.ok ?? false });
 
-      if (isNewsletterSignup && contactResult?.ok && isDeliverySetupError(message)) {
+      if (isNewsletterSignup && isDeliverySetupError(message)) {
         return res.status(200).json({
           ok: true,
-          saved: true,
+          saved: contactResult?.ok ?? false,
           emailDelivered: false,
           warning: "Subscribed, but welcome email delivery requires verified sender configuration.",
         });
       }
 
-      return res.status(500).json({ error: message });
+      return res.status(500).json({ error: "Email could not be sent. Try again in a minute." });
     }
 
     if (notifyEmail) {
@@ -300,7 +303,13 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     }
 
     console.info("Resend primary send accepted", { type: emailType, id: sent.data?.id, contactSaved: contactResult?.ok ?? false });
-    return res.status(200).json({ ok: true, saved: contactResult?.ok ?? false, emailDelivered: true, id: sent.data?.id });
+    return res.status(200).json({
+      ok: true,
+      saved: contactResult?.ok ?? false,
+      emailDelivered: true,
+      id: sent.data?.id,
+      contactWarning: contactResult && !contactResult.ok ? "Contact sync skipped or failed." : undefined,
+    });
   } catch (error) {
     console.error("Resend email exception", error);
     return res.status(500).json({ error: "Email could not be sent." });

@@ -28,6 +28,42 @@ type HubCard = {
   icon: LucideIcon;
 };
 
+type Pathway = {
+  title: string;
+  body: string;
+  steps: { label: string; href: string }[];
+};
+
+const decisionPathways: Pathway[] = [
+  {
+    title: "Leaving the hospital",
+    body: "Use when the family is hearing no walker, no STR days, pending authorization, home health confusion, or unclear discharge coverage.",
+    steps: [
+      { label: "Discharge coverage guide", href: "/insurance/hospital-discharge-coverage" },
+      { label: "Prior authorization guide", href: "/insurance/prior-authorization-guide" },
+      { label: "Medicare cost hub", href: "/medicare-care-costs" },
+    ],
+  },
+  {
+    title: "Choosing a commercial plan",
+    body: "Use before open enrollment decisions, especially when someone is comparing employer plans, Marketplace plans, medications, or network tradeoffs.",
+    steps: [
+      { label: "Plan types guide", href: "/insurance/health-insurance-plan-types" },
+      { label: "Commercial comparison framework", href: "/insurance/commercial-insurance-comparison" },
+      { label: "Medication checklist", href: "/insurance/medication-coverage-checklist" },
+    ],
+  },
+  {
+    title: "Bill or claim confusion",
+    body: "Use after care when the patient receives an EOB, provider bill, deductible surprise, or out-of-pocket maximum question.",
+    steps: [
+      { label: "Medical bill review toolkit", href: "/insurance/medical-bill-review-toolkit" },
+      { label: "EOB-to-bill checker", href: "/tools#eob-bill-match" },
+      { label: "Out-of-pocket max estimator", href: "/tools/out-of-pocket-max-estimator" },
+    ],
+  },
+];
+
 const situationCards: HubCard[] = [
   {
     eyebrow: "Medical bill or EOB",
@@ -226,6 +262,29 @@ const CardLink = ({ card }: { card: HubCard }) => {
   );
 };
 
+const PathwayCard = ({ pathway }: { pathway: Pathway }) => (
+  <Card className="rounded-3xl border-border/80 shadow-card">
+    <CardHeader>
+      <BadgeCheck className="mb-2 h-5 w-5 text-primary" />
+      <CardTitle className="font-display text-2xl leading-tight">{pathway.title}</CardTitle>
+      <CardDescription className="text-sm leading-relaxed">{pathway.body}</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <ol className="space-y-3">
+        {pathway.steps.map((step, index) => (
+          <li key={step.href}>
+            <Link to={step.href} className="group flex items-center gap-3 rounded-2xl border border-border bg-background/60 p-3 text-sm font-semibold text-foreground transition-smooth hover:border-primary/40 hover:bg-primary-soft/30">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-extrabold text-primary">{index + 1}</span>
+              <span className="flex-1">{step.label}</span>
+              <ArrowRight className="h-4 w-4 text-primary transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </li>
+        ))}
+      </ol>
+    </CardContent>
+  </Card>
+);
+
 export const InsuranceBenefitsHub = () => {
   useSeo({
     title: "Benefits and Insurance Tools",
@@ -255,6 +314,20 @@ export const InsuranceBenefitsHub = () => {
       </PageHero>
 
       <main className="container space-y-14 py-12 md:py-16">
+        <section>
+          <SectionHeading
+            centered
+            eyebrow="Highest-value paths"
+            title="Use the site like a decision tree"
+            description="These paths connect the strongest pages so a visitor can move from a stressful situation to the right checklist, calculator, or verification step."
+          />
+          <div className="grid gap-5 lg:grid-cols-3">
+            {decisionPathways.map((pathway) => (
+              <PathwayCard key={pathway.title} pathway={pathway} />
+            ))}
+          </div>
+        </section>
+
         <section>
           <SectionHeading
             centered

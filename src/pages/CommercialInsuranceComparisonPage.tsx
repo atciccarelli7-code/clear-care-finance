@@ -74,6 +74,29 @@ const sourceLinks = [
   ["HealthCare.gov — Find local help", "https://localhelp.healthcare.gov/"],
 ];
 
+const quickStartScenarios = [
+  {
+    title: "Healthy year / low expected use",
+    useWhen: "Use when you mainly need preventive care and want to avoid overpaying every paycheck.",
+    enterFirst: "Premium, deductible, out-of-pocket max, employer HSA/HRA money, and doctor/hospital network checks.",
+  },
+  {
+    title: "Medication-heavy year",
+    useWhen: "Use when one medication could dominate the decision more than the deductible does.",
+    enterFirst: "Drug formulary tier, annual prescription cost, preferred pharmacy, prior authorization, step therapy, and specialty pharmacy rules.",
+  },
+  {
+    title: "Planned surgery, imaging, pregnancy, or therapy",
+    useWhen: "Use when care is predictable enough that the bad-year math matters before the premium does.",
+    enterFirst: "Out-of-pocket max, deductible, coinsurance, hospital network, prior authorization, and centers-of-excellence rules.",
+  },
+  {
+    title: "Family coverage decision",
+    useWhen: "Use when multiple people may hit different deductibles, networks, and medication rules.",
+    enterFirst: "Family premium, family deductible, embedded individual deductible, family out-of-pocket max, pediatric providers, and spouse surcharge rules.",
+  },
+];
+
 const makePlan = (id: string, name: string, overrides: Partial<PlanInputs> = {}): PlanInputs => ({
   id,
   name,
@@ -340,7 +363,8 @@ const CommercialInsuranceComparisonPage = () => {
   return (
     <>
       <PageHero eyebrow="Commercial insurance" title="Compare Health Insurance Plans Without Building a Stale Plan Database" description="A policy-resilient framework for employer and Marketplace plans: enter the plan facts, compare total cost and bad-year exposure, then verify networks, medications, and authorization rules.">
-        <Button asChild variant="hero" size="lg"><a href="#comparison-tool">Open comparison builder <ArrowRight className="h-4 w-4" /></a></Button>
+        <Button asChild variant="hero" size="lg"><a href="#quick-start">Start with a scenario <ArrowRight className="h-4 w-4" /></a></Button>
+        <Button asChild variant="outline" size="lg"><a href="#comparison-tool">Open comparison builder</a></Button>
         <Button asChild variant="outline" size="lg"><a href="#verification-checklist">Verification checklist</a></Button>
       </PageHero>
 
@@ -372,6 +396,27 @@ const CommercialInsuranceComparisonPage = () => {
               [Pill, "Medications", "Formulary tier, preferred pharmacy, prior authorization, step therapy, quantity limits, and specialty drug exposure."],
               [ClipboardCheck, "Administrative friction", "Referrals, prior authorization, centers of excellence, medical necessity rules, and appeal process."],
             ].map(([Icon, title, body]) => { const TypedIcon = Icon as typeof Calculator; return <Card key={title as string} className="rounded-3xl border-border/80 shadow-card"><CardHeader><div className="mb-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-soft text-primary"><TypedIcon className="h-5 w-5" /></div><div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Comparison pillar</div><CardTitle className="font-display text-xl leading-tight">{title as string}</CardTitle><CardDescription className="text-sm leading-relaxed">{body as string}</CardDescription></CardHeader></Card>; })}
+          </div>
+        </section>
+
+        <section id="quick-start" className="scroll-mt-24">
+          <SectionHeading centered eyebrow="Quick start" title="Do not fill every field first — start with your real-life scenario" description="This page is more useful when the user knows which inputs matter most. Start with the scenario, then use the full builder if the tradeoff is still unclear." />
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {quickStartScenarios.map((scenario) => (
+              <Card key={scenario.title} className="rounded-3xl border-border/80 shadow-card">
+                <CardHeader>
+                  <Badge tone="blue">Scenario</Badge>
+                  <CardTitle className="font-display text-xl leading-tight">{scenario.title}</CardTitle>
+                  <CardDescription className="text-sm leading-relaxed">{scenario.useWhen}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="rounded-2xl border border-primary/20 bg-primary-soft/25 p-4 text-sm leading-relaxed text-foreground">
+                    <div className="mb-1 font-bold">Enter first</div>
+                    {scenario.enterFirst}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </section>
 

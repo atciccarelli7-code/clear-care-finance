@@ -26,11 +26,11 @@ const linkGroups = [
   {
     title: "Guides",
     links: [
+      { to: "/insurance/health-insurance-plan-types", label: "Health Insurance Plan Types" },
+      { to: "/insurance/commercial-insurance-comparison", label: "Commercial Plan Comparison" },
       { to: "/medicare-care-costs", label: "Medicare Cost Hub" },
       { to: "/open-enrollment", label: "Open Enrollment" },
-      { to: "/student-loans", label: "Student Loans" },
       { to: "/patients-families", label: "Patients & Caregivers" },
-      { to: "/topics", label: "All Topics" },
       { to: "/glossary", label: "Glossary" },
     ],
   },

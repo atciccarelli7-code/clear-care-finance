@@ -6,6 +6,7 @@ import {
   FileText,
   HeartPulse,
   Hospital,
+  Network,
   Pill,
   Receipt,
   Shield,
@@ -45,6 +46,14 @@ const situationCards: HubCard[] = [
     icon: ClipboardCheck,
   },
   {
+    eyebrow: "Plan names",
+    title: "Understand HMO, PPO, EPO, POS, and HDHP first.",
+    body: "Use the plain-English guide before entering numbers into a calculator or judging a plan by the insurance company logo.",
+    href: "/insurance/health-insurance-plan-types",
+    cta: "Learn plan types",
+    icon: Network,
+  },
+  {
     eyebrow: "Commercial insurance",
     title: "Compare employer or Marketplace plans without stale rankings.",
     body: "Use a manual framework to compare total cost, bad-year exposure, network fit, medication coverage, and prior authorization risk.",
@@ -63,6 +72,14 @@ const situationCards: HubCard[] = [
 ];
 
 const primaryTools: HubCard[] = [
+  {
+    eyebrow: "Beginner-friendly",
+    title: "Health Insurance Plan Types Guide",
+    body: "Start with HMO, PPO, EPO, POS, HDHP, metal levels, and what actually differs between carrier logos.",
+    href: "/insurance/health-insurance-plan-types",
+    cta: "Start here",
+    icon: Network,
+  },
   {
     eyebrow: "Best first tool",
     title: "EOB-to-Bill Match Checker",
@@ -189,7 +206,7 @@ export const InsuranceBenefitsHub = () => {
   useSeo({
     title: "Benefits and Insurance Tools",
     description:
-      "Plain-English benefits and insurance tools for EOBs, medical bills, commercial insurance comparisons, open enrollment, out-of-pocket costs, spouse coverage, supplemental policies, prescriptions, prior authorization, Medicare, Medicaid, and long-term care decisions.",
+      "Plain-English benefits and insurance tools for EOBs, medical bills, plan types, commercial insurance comparisons, open enrollment, out-of-pocket costs, spouse coverage, supplemental policies, prescriptions, prior authorization, Medicare, Medicaid, and long-term care decisions.",
     canonicalPath: "/insurance",
   });
 
@@ -198,17 +215,17 @@ export const InsuranceBenefitsHub = () => {
       <PageHero
         eyebrow="Benefits & Insurance"
         title="Pick the situation first. Then use the right tool."
-        description="Use this hub when a bill, benefit choice, commercial plan comparison, prescription, prior authorization, Medicare decision, or long-term care cost question needs a practical next step."
+        description="Use this hub when a bill, benefit choice, plan type, commercial comparison, prescription, prior authorization, Medicare decision, or long-term care cost question needs a practical next step."
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero">
+            <Link to="/insurance/health-insurance-plan-types">Learn plan types</Link>
+          </Button>
+          <Button asChild variant="outline">
             <Link to="/insurance/commercial-insurance-comparison">Compare health plans</Link>
           </Button>
           <Button asChild variant="outline">
             <Link to="/tools#eob-bill-match">Check a bill or EOB</Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link to="/medicare-care-costs">Medicare cost hub</Link>
           </Button>
         </div>
       </PageHero>
@@ -221,7 +238,7 @@ export const InsuranceBenefitsHub = () => {
             title="What decision are you facing?"
             description="Most people do not need every insurance article. They need the correct first move for the problem in front of them."
           />
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
             {situationCards.map((card) => (
               <CardLink key={card.href} card={card} />
             ))}
@@ -233,9 +250,9 @@ export const InsuranceBenefitsHub = () => {
             centered
             eyebrow="Primary tools"
             title="Use these when you need numbers or a checklist"
-            description="These are the highest-friction decisions: bills, commercial plan comparison, Medicare cost risk, bad-year exposure, and paycheck impact."
+            description="Start with plan types if the calculator feels intimidating. Then move into bills, commercial plan comparison, Medicare risk, bad-year exposure, and paycheck impact."
           />
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-6">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-7">
             {primaryTools.map((card) => (
               <CardLink key={card.href} card={card} />
             ))}

@@ -45,6 +45,14 @@ const situationCards: HubCard[] = [
     icon: ClipboardCheck,
   },
   {
+    eyebrow: "Commercial insurance",
+    title: "Compare employer or Marketplace plans without stale rankings.",
+    body: "Use a manual framework to compare total cost, bad-year exposure, network fit, medication coverage, and prior authorization risk.",
+    href: "/insurance/commercial-insurance-comparison",
+    cta: "Compare plan options",
+    icon: Shield,
+  },
+  {
     eyebrow: "Medicare decisions",
     title: "Understand Medicare, Medicaid, and long-term care costs.",
     body: "Use the decision hub to estimate Medicare cost risk, separate program rules, and spot the long-term care gap before a crisis.",
@@ -62,6 +70,14 @@ const primaryTools: HubCard[] = [
     href: "/tools#eob-bill-match",
     cta: "Open checker",
     icon: Receipt,
+  },
+  {
+    eyebrow: "Best first tool",
+    title: "Commercial Insurance Comparison Framework",
+    body: "Compare employer or Marketplace plans by premium, deductible, out-of-pocket max, network fit, medications, and bad-year exposure.",
+    href: "/insurance/commercial-insurance-comparison#comparison-tool",
+    cta: "Compare plans",
+    icon: Shield,
   },
   {
     eyebrow: "Best first tool",
@@ -173,7 +189,7 @@ export const InsuranceBenefitsHub = () => {
   useSeo({
     title: "Benefits and Insurance Tools",
     description:
-      "Plain-English benefits and insurance tools for EOBs, medical bills, open enrollment, out-of-pocket costs, spouse coverage, supplemental policies, prescriptions, prior authorization, Medicare, Medicaid, and long-term care decisions.",
+      "Plain-English benefits and insurance tools for EOBs, medical bills, commercial insurance comparisons, open enrollment, out-of-pocket costs, spouse coverage, supplemental policies, prescriptions, prior authorization, Medicare, Medicaid, and long-term care decisions.",
     canonicalPath: "/insurance",
   });
 
@@ -182,10 +198,13 @@ export const InsuranceBenefitsHub = () => {
       <PageHero
         eyebrow="Benefits & Insurance"
         title="Pick the situation first. Then use the right tool."
-        description="Use this hub when a bill, benefit choice, prescription, prior authorization, Medicare decision, or long-term care cost question needs a practical next step."
+        description="Use this hub when a bill, benefit choice, commercial plan comparison, prescription, prior authorization, Medicare decision, or long-term care cost question needs a practical next step."
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero">
+            <Link to="/insurance/commercial-insurance-comparison">Compare health plans</Link>
+          </Button>
+          <Button asChild variant="outline">
             <Link to="/tools#eob-bill-match">Check a bill or EOB</Link>
           </Button>
           <Button asChild variant="outline">
@@ -202,7 +221,7 @@ export const InsuranceBenefitsHub = () => {
             title="What decision are you facing?"
             description="Most people do not need every insurance article. They need the correct first move for the problem in front of them."
           />
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {situationCards.map((card) => (
               <CardLink key={card.href} card={card} />
             ))}
@@ -214,9 +233,9 @@ export const InsuranceBenefitsHub = () => {
             centered
             eyebrow="Primary tools"
             title="Use these when you need numbers or a checklist"
-            description="These are the highest-friction decisions: bills, plan comparison, Medicare cost risk, bad-year exposure, and paycheck impact."
+            description="These are the highest-friction decisions: bills, commercial plan comparison, Medicare cost risk, bad-year exposure, and paycheck impact."
           />
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-6">
             {primaryTools.map((card) => (
               <CardLink key={card.href} card={card} />
             ))}
@@ -237,7 +256,7 @@ export const InsuranceBenefitsHub = () => {
                 "Covered does not always mean free.",
                 "An EOB is usually not a bill.",
                 "Lowest premium is not always lowest total cost.",
-                "Medicare usually does not cover most long-term custodial care.",
+                "Networks, formularies, and authorization rules can change by plan year.",
               ].map((item) => (
                 <div key={item} className="rounded-2xl border border-primary/15 bg-card p-4 text-sm font-semibold text-foreground shadow-sm">
                   {item}

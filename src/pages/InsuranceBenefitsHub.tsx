@@ -17,6 +17,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { trackSiteEvent } from "@/lib/analytics";
 import { useSeo } from "@/lib/seo";
 
 type HubCard = {
@@ -40,8 +41,8 @@ const decisionPathways: Pathway[] = [
     body: "Use when the family is hearing no walker, no STR days, pending authorization, home health confusion, or unclear discharge coverage.",
     steps: [
       { label: "Discharge coverage guide", href: "/insurance/hospital-discharge-coverage" },
+      { label: "Printable discharge checklist", href: "/insurance/hospital-discharge-coverage/printable" },
       { label: "Prior authorization guide", href: "/insurance/prior-authorization-guide" },
-      { label: "Medicare cost hub", href: "/medicare-care-costs" },
     ],
   },
   {
@@ -49,8 +50,8 @@ const decisionPathways: Pathway[] = [
     body: "Use before open enrollment decisions, especially when someone is comparing employer plans, Marketplace plans, medications, or network tradeoffs.",
     steps: [
       { label: "Plan types guide", href: "/insurance/health-insurance-plan-types" },
+      { label: "How to read an SBC", href: "/insurance/how-to-read-an-sbc" },
       { label: "Commercial comparison framework", href: "/insurance/commercial-insurance-comparison" },
-      { label: "Medication checklist", href: "/insurance/medication-coverage-checklist" },
     ],
   },
   {
@@ -98,6 +99,14 @@ const situationCards: HubCard[] = [
     icon: Network,
   },
   {
+    eyebrow: "SBC guide",
+    title: "Read the Summary of Benefits and Coverage before comparing plans.",
+    body: "Use the SBC guide to spot premium, deductible, out-of-pocket max, exclusions, prescriptions, network rules, and authorization traps.",
+    href: "/insurance/how-to-read-an-sbc",
+    cta: "Read an SBC",
+    icon: FileText,
+  },
+  {
     eyebrow: "Commercial insurance",
     title: "Compare employer or Marketplace plans without stale rankings.",
     body: "Use a manual framework to compare total cost, bad-year exposure, network fit, medication coverage, and prior authorization risk.",
@@ -123,6 +132,14 @@ const primaryTools: HubCard[] = [
     href: "/insurance/health-insurance-plan-types",
     cta: "Start here",
     icon: Network,
+  },
+  {
+    eyebrow: "Hospital discharge",
+    title: "Printable Discharge Checklist",
+    body: "Print or save a one-page family checklist for DME, STR/SNF, home health, authorization, network status, patient cost, and backup plans.",
+    href: "/insurance/hospital-discharge-coverage/printable",
+    cta: "Print checklist",
+    icon: Hospital,
   },
   {
     eyebrow: "Hospital discharge",
@@ -192,6 +209,14 @@ const deeperQuestions: HubCard[] = [
     icon: Shield,
   },
   {
+    eyebrow: "Plan documents",
+    title: "How to read a Summary of Benefits and Coverage",
+    body: "Learn which SBC rows matter before choosing a plan or using the commercial comparison builder.",
+    href: "/insurance/how-to-read-an-sbc",
+    cta: "Read SBC guide",
+    icon: FileText,
+  },
+  {
     eyebrow: "Family coverage",
     title: "Should you use your spouse's health insurance?",
     body: "Compare spouse surcharge rules, family deductibles, child coverage, networks, medications, and two-employer plan choices.",
@@ -241,12 +266,13 @@ const deeperQuestions: HubCard[] = [
   },
 ];
 
-const CardLink = ({ card }: { card: HubCard }) => {
+const CardLink = ({ card, section }: { card: HubCard; section: string }) => {
   const Icon = card.icon;
 
   return (
     <Link
       to={card.href}
+      onClick={() => trackSiteEvent("pathway_click", { page: "insurance_hub", section, destination: card.href, label: card.title })}
       className="group rounded-3xl border border-border bg-card p-5 shadow-card transition-smooth hover:-translate-y-0.5 hover:shadow-hover md:p-6"
     >
       <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-primary">
@@ -273,7 +299,11 @@ const PathwayCard = ({ pathway }: { pathway: Pathway }) => (
       <ol className="space-y-3">
         {pathway.steps.map((step, index) => (
           <li key={step.href}>
-            <Link to={step.href} className="group flex items-center gap-3 rounded-2xl border border-border bg-background/60 p-3 text-sm font-semibold text-foreground transition-smooth hover:border-primary/40 hover:bg-primary-soft/30">
+            <Link
+              to={step.href}
+              onClick={() => trackSiteEvent("pathway_click", { page: "insurance_hub", pathway: pathway.title, destination: step.href, label: step.label })}
+              className="group flex items-center gap-3 rounded-2xl border border-border bg-background/60 p-3 text-sm font-semibold text-foreground transition-smooth hover:border-primary/40 hover:bg-primary-soft/30"
+            >
               <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-extrabold text-primary">{index + 1}</span>
               <span className="flex-1">{step.label}</span>
               <ArrowRight className="h-4 w-4 text-primary transition-transform group-hover:translate-x-0.5" />
@@ -302,13 +332,13 @@ export const InsuranceBenefitsHub = () => {
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero">
-            <Link to="/insurance/hospital-discharge-coverage">Discharge coverage</Link>
+            <Link to="/insurance/hospital-discharge-coverage" onClick={() => trackSiteEvent("pathway_click", { page: "insurance_hub", section: "hero", destination: "discharge" })}>Discharge coverage</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/insurance/health-insurance-plan-types">Learn plan types</Link>
+            <Link to="/insurance/health-insurance-plan-types" onClick={() => trackSiteEvent("pathway_click", { page: "insurance_hub", section: "hero", destination: "plan_types" })}>Learn plan types</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/insurance/commercial-insurance-comparison">Compare health plans</Link>
+            <Link to="/insurance/commercial-insurance-comparison" onClick={() => trackSiteEvent("pathway_click", { page: "insurance_hub", section: "hero", destination: "commercial_comparison" })}>Compare health plans</Link>
           </Button>
         </div>
       </PageHero>
@@ -337,7 +367,7 @@ export const InsuranceBenefitsHub = () => {
           />
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {situationCards.map((card) => (
-              <CardLink key={card.href} card={card} />
+              <CardLink key={card.href} card={card} section="situation" />
             ))}
           </div>
         </section>
@@ -351,7 +381,7 @@ export const InsuranceBenefitsHub = () => {
           />
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {primaryTools.map((card) => (
-              <CardLink key={card.href} card={card} />
+              <CardLink key={card.href} card={card} section="primary_tools" />
             ))}
           </div>
         </section>
@@ -389,7 +419,7 @@ export const InsuranceBenefitsHub = () => {
           />
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {deeperQuestions.map((card) => (
-              <CardLink key={card.href} card={card} />
+              <CardLink key={card.href} card={card} section="deeper_questions" />
             ))}
           </div>
         </section>

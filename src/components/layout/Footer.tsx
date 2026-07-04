@@ -26,6 +26,7 @@ const linkGroups = [
   {
     title: "Guides",
     links: [
+      { to: "/medicare-care-costs", label: "Medicare Cost Hub" },
       { to: "/open-enrollment", label: "Open Enrollment" },
       { to: "/student-loans", label: "Student Loans" },
       { to: "/patients-families", label: "Patients & Caregivers" },

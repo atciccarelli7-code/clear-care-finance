@@ -10,7 +10,7 @@ type MobileNavItem = {
 const items: MobileNavItem[] = [
   { to: "/tools", label: "Tools", icon: Calculator },
   { to: "/articles", label: "Articles", icon: FileText },
-  { to: "/topics/medicare-medicaid", label: "Medicare", icon: HeartPulse },
+  { to: "/medicare-care-costs", label: "Medicare", icon: HeartPulse },
   { to: "/glossary", label: "Glossary", icon: BookOpen },
 ];
 

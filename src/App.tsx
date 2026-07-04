@@ -25,6 +25,7 @@ import About from "./pages/About.tsx";
 import Contact from "./pages/Contact.tsx";
 import OpenEnrollmentGuide from "./pages/OpenEnrollmentGuide.tsx";
 import InsuranceBenefitsHub from "./pages/InsuranceBenefitsHub.tsx";
+import MedicareCareCostHub from "./pages/MedicareCareCostHub.tsx";
 import MedicareAdvantageComparisonPage from "./pages/MedicareAdvantageComparisonPage.tsx";
 import {
   HealthcareWorkerPaycheckTools,
@@ -104,6 +105,8 @@ const App = () => (
             <Route path="/topics/:slug" element={<TopicPage />} />
             <Route path="/open-enrollment" element={<OpenEnrollmentGuide />} />
             <Route path="/insurance" element={<InsuranceBenefitsHub />} />
+            <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />
+            <Route path="/insurance/medicare-care-costs" element={<MedicareCareCostHub />} />
             <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
             <Route path="/insurance/prior-authorization-guide" element={<PriorAuthorizationGuide />} />
             <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoverageGuide />} />
@@ -111,7 +114,8 @@ const App = () => (
             <Route path="/insurance/medical-bill-review-toolkit" element={<MedicalBillReviewToolkit />} />
             <Route path="/insurance/medicare-advantage-vs-medigap" element={<MedicareAdvantageVsMedigap />} />
             <Route path="/insurance/what-medicare-advantage-marketing-may-not-emphasize" element={<InsuranceMarketingRealityPage />} />
-            <Route path="/medicare-medicaid" element={<Navigate to="/topics/medicare-medicaid" replace />} />
+            <Route path="/medicare-medicaid" element={<Navigate to="/medicare-care-costs" replace />} />
+            <Route path="/topics/medicare-care-costs" element={<Navigate to="/medicare-care-costs" replace />} />
             <Route path="/glossary" element={<Glossary />} />
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/about" element={<About />} />

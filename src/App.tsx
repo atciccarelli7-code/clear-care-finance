@@ -28,10 +28,10 @@ import InsuranceBenefitsHub from "./pages/InsuranceBenefitsHub.tsx";
 import HealthInsurancePlanTypesPage from "./pages/HealthInsurancePlanTypesPage.tsx";
 import MedicareCareCostHub from "./pages/MedicareCareCostHub.tsx";
 import CommercialInsuranceComparisonPage from "./pages/CommercialInsuranceComparisonPage.tsx";
+import HospitalDischargeCoveragePage from "./pages/HospitalDischargeCoveragePage.tsx";
 import MedicareAdvantageComparisonPage from "./pages/MedicareAdvantageComparisonPage.tsx";
 import {
   HealthcareWorkerPaycheckTools,
-  HospitalDischargeCoverageGuide,
   InsuranceMarketingRealityPage,
   MedicalBillReviewToolkit,
   MedicareAdvantagePlanHelper,
@@ -115,7 +115,8 @@ const App = () => (
             <Route path="/insurance/medicare-care-costs" element={<MedicareCareCostHub />} />
             <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
             <Route path="/insurance/prior-authorization-guide" element={<PriorAuthorizationGuide />} />
-            <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoverageGuide />} />
+            <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoveragePage />} />
+            <Route path="/insurance/discharge-coverage" element={<Navigate to="/insurance/hospital-discharge-coverage" replace />} />
             <Route path="/insurance/medication-coverage-checklist" element={<MedicationCoverageChecklist />} />
             <Route path="/insurance/medical-bill-review-toolkit" element={<MedicalBillReviewToolkit />} />
             <Route path="/insurance/medicare-advantage-vs-medigap" element={<MedicareAdvantageVsMedigap />} />

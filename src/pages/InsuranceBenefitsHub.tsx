@@ -46,10 +46,10 @@ const situationCards: HubCard[] = [
   },
   {
     eyebrow: "Medicare decisions",
-    title: "Separate marketing from risk.",
-    body: "Check doctors, hospitals, drugs, network rules, prior authorization, and out-of-pocket exposure before focusing on extras.",
-    href: "/insurance/medicare-advantage",
-    cta: "Compare Medicare options",
+    title: "Understand Medicare, Medicaid, and long-term care costs.",
+    body: "Use the decision hub to estimate Medicare cost risk, separate program rules, and spot the long-term care gap before a crisis.",
+    href: "/medicare-care-costs",
+    cta: "Open Medicare hub",
     icon: HeartPulse,
   },
 ];
@@ -70,6 +70,14 @@ const primaryTools: HubCard[] = [
     href: "/tools#open-enrollment",
     cta: "Run comparison",
     icon: Shield,
+  },
+  {
+    eyebrow: "Medicare",
+    title: "Medicare Out-of-Pocket Risk Estimator",
+    body: "Estimate Part B premiums, hospital exposure, skilled nursing coinsurance, drug costs, Medigap premiums, and Medicare Advantage copays.",
+    href: "/medicare-care-costs#cost-estimator",
+    cta: "Estimate Medicare risk",
+    icon: HeartPulse,
   },
   {
     eyebrow: "Cost ceiling",
@@ -165,7 +173,7 @@ export const InsuranceBenefitsHub = () => {
   useSeo({
     title: "Benefits and Insurance Tools",
     description:
-      "Plain-English benefits and insurance tools for EOBs, medical bills, open enrollment, out-of-pocket costs, spouse coverage, supplemental policies, prescriptions, prior authorization, and Medicare decisions.",
+      "Plain-English benefits and insurance tools for EOBs, medical bills, open enrollment, out-of-pocket costs, spouse coverage, supplemental policies, prescriptions, prior authorization, Medicare, Medicaid, and long-term care decisions.",
     canonicalPath: "/insurance",
   });
 
@@ -174,14 +182,14 @@ export const InsuranceBenefitsHub = () => {
       <PageHero
         eyebrow="Benefits & Insurance"
         title="Pick the situation first. Then use the right tool."
-        description="Use this hub when a bill, benefit choice, prescription, prior authorization, or Medicare decision needs a practical next step."
+        description="Use this hub when a bill, benefit choice, prescription, prior authorization, Medicare decision, or long-term care cost question needs a practical next step."
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero">
             <Link to="/tools#eob-bill-match">Check a bill or EOB</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/open-enrollment">Open enrollment guide</Link>
+            <Link to="/medicare-care-costs">Medicare cost hub</Link>
           </Button>
         </div>
       </PageHero>
@@ -206,9 +214,9 @@ export const InsuranceBenefitsHub = () => {
             centered
             eyebrow="Primary tools"
             title="Use these when you need numbers or a checklist"
-            description="These are the highest-friction decisions: bills, plan comparison, bad-year exposure, and paycheck impact."
+            description="These are the highest-friction decisions: bills, plan comparison, Medicare cost risk, bad-year exposure, and paycheck impact."
           />
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
             {primaryTools.map((card) => (
               <CardLink key={card.href} card={card} />
             ))}
@@ -229,7 +237,7 @@ export const InsuranceBenefitsHub = () => {
                 "Covered does not always mean free.",
                 "An EOB is usually not a bill.",
                 "Lowest premium is not always lowest total cost.",
-                "Supplemental policies are not major medical insurance.",
+                "Medicare usually does not cover most long-term custodial care.",
               ].map((item) => (
                 <div key={item} className="rounded-2xl border border-primary/15 bg-card p-4 text-sm font-semibold text-foreground shadow-sm">
                   {item}

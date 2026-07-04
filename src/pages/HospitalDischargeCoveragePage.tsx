@@ -86,11 +86,79 @@ const coverageReasons = [
   },
 ];
 
+const dischargeTranslations = [
+  {
+    phrase: "They do not have any STR days left.",
+    means: "The payer may be saying the patient has exhausted a covered benefit period, does not meet skilled criteria anymore, or has no approved days remaining under the plan's current authorization.",
+    ask: "Ask which benefit was exhausted, whether this is a Medicare benefit-period issue or plan authorization issue, and whether there is a written denial or appeal path.",
+  },
+  {
+    phrase: "Insurance will not cover a walker.",
+    means: "The issue may be the order, documentation, supplier network, medical necessity criteria, or whether the item qualifies as covered durable medical equipment.",
+    ask: "Ask what exact DME order is needed, which supplier is covered, and whether the item can be delivered before discharge or must be purchased privately.",
+  },
+  {
+    phrase: "They are not approved for SNF.",
+    means: "This may be a prior authorization denial, lack of skilled need, observation-status problem, network issue, or missing clinical documentation.",
+    ask: "Ask what clinical criteria were not met, whether therapy/nursing notes were sent, and whether peer-to-peer review or expedited appeal is available.",
+  },
+  {
+    phrase: "Home health will see them after discharge.",
+    means: "This usually means intermittent skilled visits, not daily help, 24-hour care, meal support, bathing support, or supervision unless separately covered.",
+    ask: "Ask which agency accepted, which services are ordered, when the first visit is expected, and what the family must provide privately.",
+  },
+  {
+    phrase: "They need long-term care, not skilled care.",
+    means: "The payer may be separating custodial support from skilled medical services. Health insurance often does not cover long-term daily living help by itself.",
+    ask: "Ask whether Medicaid, VA benefits, private-pay aides, assisted living, family caregiving, or community resources should be evaluated now.",
+  },
+];
+
+const snfDecisionPoints = [
+  {
+    title: "Was the hospital stay inpatient or observation?",
+    body: "For Original Medicare SNF coverage, observation time generally does not count toward the 3-day qualifying inpatient hospital stay. Medicare Advantage and some waiver situations can differ, so families should verify the live rule for the plan.",
+  },
+  {
+    title: "Is the need skilled, custodial, or both?",
+    body: "Skilled therapy or nursing can support coverage. Needing supervision, meals, bathing, dressing, or toileting help may be real and serious, but it may not create skilled coverage by itself.",
+  },
+  {
+    title: "Are there benefit days and approved days?",
+    body: "A patient can have a broad benefit structure and still need current authorization. Ask both: how many benefit days remain and how many days are approved right now.",
+  },
+  {
+    title: "What happens if progress stalls?",
+    body: "Coverage can change when the payer or facility says the patient no longer needs daily skilled care. Ask how reassessments work and what notice the family receives before a coverage change.",
+  },
+];
+
+const callerCards = [
+  {
+    title: "Case manager / social worker",
+    body: "Ask what level of care is recommended, what referrals were sent, what is pending, and what backup plan exists if insurance says no.",
+  },
+  {
+    title: "Insurance plan",
+    body: "Ask whether authorization is required, whether it was submitted, the reference number, decision status, denial reason, appeal deadline, and in-network options.",
+  },
+  {
+    title: "Receiving facility or agency",
+    body: "Ask whether they accepted clinically, accepted financially, are in network, have a bed or visit start date, and what family should bring or arrange.",
+  },
+  {
+    title: "DME supplier / pharmacy / transport",
+    body: "Ask whether the order is complete, whether they are in network, whether delivery or pickup happens before discharge, and what the private-pay price is if coverage fails.",
+  },
+];
+
 const futurePlanChecks = [
   "During open enrollment, compare post-acute rehab rules, DME coverage, home health coverage, prior authorization rules, and network access — not only the premium.",
   "For Medicare Advantage, check whether preferred hospitals, SNFs, home health agencies, DME suppliers, and specialists are in network before a crisis.",
   "For commercial plans, review the Summary of Benefits and Coverage for rehabilitation services, habilitation services, home health care, DME, ambulance, and out-of-network rules.",
   "For families with declining mobility or chronic illness, ask whether long-term care planning, Medicaid planning, caregiver support, or private-pay backup resources are needed before hospitalization.",
+  "If a discharge problem happened this year, save the denial letter, authorization details, EOBs, and bills so the next plan comparison is based on real friction, not guesses.",
+  "Do not assume the same insurance company will treat every plan the same way. Employer plan, Marketplace plan, Medicare Advantage plan, county, network, and plan year can all change the answer.",
 ];
 
 const sourceLinks = [
@@ -195,7 +263,7 @@ const HospitalDischargeCoveragePage = () => {
       `Confirm the expected discharge destination: ${destinationLabels[input.destination]}.`,
       `Confirm the payer being used for discharge services: ${payerLabels[input.payer]}.`,
       input.authStatus === "approved"
-        ? "Save the authorization number, approved service, approved dates, and approved provider/facility."
+        ? "Save the authorization number, approved service, approved dates, approved provider/facility, and what happens when the approved period ends."
         : "Ask whether prior authorization is required, submitted, pending, denied, or not started.",
       input.networkStatus === "confirmed"
         ? "Save the in-network facility, agency, supplier, pharmacy, and transportation names."
@@ -205,14 +273,40 @@ const HospitalDischargeCoveragePage = () => {
       "Ask for the backup plan if the first facility, agency, supplier, or authorization request fails.",
     ];
 
+    if (input.payer === "medicare" && (input.destination === "snf" || input.needs.snf)) {
+      items.push("For Original Medicare SNF coverage: ask whether there was a qualifying inpatient stay, whether the patient has days left in the benefit period, and what day of SNF coverage this would be.");
+    }
+
+    if ((input.payer === "ma" || input.payer === "commercial") && (input.destination === "snf" || input.needs.snf || input.needs.homeHealth || input.needs.walker)) {
+      items.push("For Medicare Advantage or commercial insurance: ask for the authorization reference number, clinical criteria used, approved dates, and appeal or peer-to-peer options if denied.");
+    }
+
+    if (input.networkStatus === "outOfNetwork") {
+      items.push("If the provider is out of network: ask for in-network alternatives, whether a single-case agreement is possible, and what the private-pay estimate would be.");
+    }
+
+    if (input.authStatus === "denied") {
+      items.push("If denied: ask for the denial reason in writing, the appeal deadline, whether expedited appeal is available, and what documentation could change the decision.");
+    }
+
     if (input.needs.walker) items.push("For DME: ask who is writing the order, which supplier will fill it, whether it is rent or purchase, and whether delivery can happen before discharge.");
     if (input.needs.snf) items.push("For STR/SNF: ask how many days are approved, what skilled need supports the stay, what the daily copay is, and what happens if progress stalls.");
-    if (input.needs.homeHealth) items.push("For home health: ask which agency accepted the referral, what visits are ordered, and whether the patient meets the plan's skilled/homebound requirements.");
+    if (input.needs.homeHealth) items.push("For home health: ask which agency accepted the referral, what visits are ordered, when the first visit is expected, and whether the patient meets the plan's skilled/homebound requirements.");
     if (input.needs.custodial) items.push("For personal care needs: ask directly whether insurance covers aide hours, supervision, meals, toileting, bathing, or dressing help — many plans do not cover this by itself.");
     if (input.needs.transport) items.push("For transport: ask what level of transportation is medically necessary, who documents it, and what happens if the payer denies it after the ride.");
     if (input.needs.meds) items.push("For medications: confirm pharmacy access, formulary status, prior authorization, dose limits, and whether the first fill is affordable today.");
 
     return items;
+  }, [input]);
+
+  const riskFlags = useMemo(() => {
+    const flags = [];
+    if (input.authStatus !== "approved") flags.push("Authorization is not clearly approved yet.");
+    if (input.networkStatus !== "confirmed") flags.push("Network status is not clearly confirmed yet.");
+    if (input.destination === "snf" || input.needs.snf) flags.push("SNF/STR coverage depends on skilled need, benefit structure, authorization, and facility acceptance.");
+    if (input.needs.custodial) flags.push("Custodial/personal care may require private pay, Medicaid, VA benefits, family support, or community resources.");
+    if (input.needs.walker || input.needs.oxygen) flags.push("DME usually needs the right order, documentation, supplier, and delivery timing.");
+    return flags;
   }, [input]);
 
   const callScript = `I am trying to understand discharge coverage, not argue with the discharge plan. Can you tell me what level of care is being recommended, what insurance has approved or denied, whether the provider or supplier is in network, what documentation is missing, what the patient cost could be, and what backup options we have if coverage does not come through before discharge?`;
@@ -228,7 +322,10 @@ const HospitalDischargeCoveragePage = () => {
           <a href="#coverage-checklist">Build checklist <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <a href="#why-denied">Why coverage gets denied</a>
+          <a href="#coverage-translator">Translate the denial</a>
+        </Button>
+        <Button asChild variant="outline" size="lg">
+          <a href="#snf-str">SNF / STR rules</a>
         </Button>
       </PageHero>
 
@@ -290,6 +387,35 @@ const HospitalDischargeCoveragePage = () => {
           </div>
         </section>
 
+        <section id="coverage-translator" className="scroll-mt-24">
+          <SectionHeading
+            centered
+            eyebrow="Coverage translator"
+            title="What common discharge phrases may actually mean"
+            description="Use this section when a family hears a short answer but needs to understand the coverage rule or missing step behind it."
+          />
+          <div className="grid gap-4 lg:grid-cols-5">
+            {dischargeTranslations.map((row) => (
+              <Card key={row.phrase} className="rounded-3xl border-border/80 shadow-card lg:col-span-1">
+                <CardHeader>
+                  <Badge tone="amber">Phrase</Badge>
+                  <CardTitle className="font-display text-xl leading-tight">{row.phrase}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
+                  <div>
+                    <div className="mb-1 font-bold text-foreground">May mean</div>
+                    {row.means}
+                  </div>
+                  <div className="rounded-2xl border border-primary/20 bg-primary-soft/25 p-3 text-foreground">
+                    <div className="mb-1 font-bold">Ask next</div>
+                    {row.ask}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
         <section id="why-denied" className="scroll-mt-24">
           <SectionHeading
             centered
@@ -299,6 +425,27 @@ const HospitalDischargeCoveragePage = () => {
           />
           <div className="space-y-5">
             {coverageReasons.map((item) => <ExplanationCard key={item.title} item={item} />)}
+          </div>
+        </section>
+
+        <section id="snf-str" className="scroll-mt-24 rounded-[2rem] border border-border bg-card p-5 shadow-card md:p-8">
+          <SectionHeading
+            eyebrow="SNF / STR rules"
+            title="The questions behind “no rehab days left”"
+            description="Short-term rehab coverage is rarely just one yes/no question. Families need to ask about status, skilled need, days left, approved days, daily cost, and reassessment."
+          />
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {snfDecisionPoints.map((point) => (
+              <div key={point.title} className="rounded-2xl border border-border bg-background/60 p-4 text-sm leading-relaxed text-muted-foreground">
+                <div className="mb-2 flex items-center gap-2 font-bold text-foreground">
+                  <Hospital className="h-4 w-4 text-primary" /> {point.title}
+                </div>
+                {point.body}
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950">
+            <strong>Original Medicare 2026 anchor:</strong> Medicare.gov lists SNF days 1-20 at $0 after the applicable Part A deductible, days 21-100 at $217 per day, and days 101+ as all costs. Medicare Advantage and commercial plans can use different copay and authorization structures, so verify the live plan.
           </div>
         </section>
 
@@ -366,6 +513,14 @@ const HospitalDischargeCoveragePage = () => {
                 <CardDescription>Save names, dates, times, reference numbers, authorization numbers, and copies of notices.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
+                {riskFlags.length > 0 && (
+                  <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+                    <div className="mb-2 flex items-center gap-2 font-bold text-amber-950"><AlertTriangle className="h-4 w-4" /> Risk flags to clarify</div>
+                    <ul className="space-y-2 text-sm leading-relaxed text-amber-950/85">
+                      {riskFlags.map((flag) => <li key={flag}>{flag}</li>)}
+                    </ul>
+                  </div>
+                )}
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   {checklist.map((item) => (
                     <li key={item} className="flex gap-2">
@@ -383,6 +538,26 @@ const HospitalDischargeCoveragePage = () => {
                 </Button>
               </CardContent>
             </Card>
+          </div>
+        </section>
+
+        <section>
+          <SectionHeading
+            centered
+            eyebrow="Who to call"
+            title="Separate the discharge problem into four conversations"
+            description="The answer often lives across multiple people. One person may know the clinical plan; another may know the authorization; another may know delivery timing."
+          />
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {callerCards.map((card) => (
+              <div key={card.title} className="rounded-3xl border border-border bg-card p-5 shadow-card">
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+                  <PhoneCall className="h-4 w-4" />
+                </div>
+                <h3 className="font-display text-lg font-bold leading-tight">{card.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{card.body}</p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -414,7 +589,10 @@ const HospitalDischargeCoveragePage = () => {
                 Ask for the denial reason in writing, the appeal process, whether expedited review is available, what documentation is missing, and whether the provider can request peer-to-peer review if medically appropriate.
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-3">
+              <div className="rounded-2xl border border-border bg-background/60 p-4 text-sm leading-relaxed text-muted-foreground">
+                Do not rely only on a verbal denial. Ask for the written notice, the exact service denied, the dates affected, the medical necessity reason, and the deadline to respond.
+              </div>
               <Button asChild variant="outline">
                 <Link to="/insurance/prior-authorization-guide">Open prior authorization guide</Link>
               </Button>

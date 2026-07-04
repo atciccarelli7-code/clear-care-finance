@@ -38,6 +38,14 @@ const situationCards: HubCard[] = [
     icon: Receipt,
   },
   {
+    eyebrow: "Hospital discharge",
+    title: "Coverage is unclear before leaving the hospital.",
+    body: "Understand DME, walkers, STR/SNF, home health, transport, custodial care gaps, authorizations, and backup questions.",
+    href: "/insurance/hospital-discharge-coverage",
+    cta: "Understand discharge coverage",
+    icon: Hospital,
+  },
+  {
     eyebrow: "Open enrollment",
     title: "Compare benefits by total cost.",
     body: "Look past the paycheck deduction and compare premium, deductible exposure, medication costs, tax accounts, and bad-year risk.",
@@ -79,6 +87,14 @@ const primaryTools: HubCard[] = [
     href: "/insurance/health-insurance-plan-types",
     cta: "Start here",
     icon: Network,
+  },
+  {
+    eyebrow: "Hospital discharge",
+    title: "Discharge Coverage Checklist",
+    body: "Build a family checklist for DME, short-term rehab, home health, oxygen, transport, authorizations, and noncovered care gaps.",
+    href: "/insurance/hospital-discharge-coverage#coverage-checklist",
+    cta: "Build checklist",
+    icon: Hospital,
   },
   {
     eyebrow: "Best first tool",
@@ -148,6 +164,14 @@ const deeperQuestions: HubCard[] = [
     icon: Hospital,
   },
   {
+    eyebrow: "Post-hospital care",
+    title: "Why discharge coverage gets denied",
+    body: "Use this when a family is told there are no STR days, no covered walker, no home aide coverage, or authorization is pending.",
+    href: "/insurance/hospital-discharge-coverage#why-denied",
+    cta: "See denial reasons",
+    icon: Hospital,
+  },
+  {
     eyebrow: "Medications",
     title: "Check prescriptions before picking a plan",
     body: "Look for formularies, tiers, preferred pharmacies, prior authorization, step therapy, and specialty costs.",
@@ -174,7 +198,7 @@ const deeperQuestions: HubCard[] = [
   {
     eyebrow: "Care delays",
     title: "Prior authorization survival guide",
-    body: "Use call scripts and checklists when a medication, imaging test, procedure, or equipment request is delayed.",
+    body: "Use call scripts and checklists when a medication, imaging test, procedure, rehab stay, DME, or equipment request is delayed.",
     href: "/insurance/prior-authorization-guide",
     cta: "Open guide",
     icon: ClipboardCheck,
@@ -206,7 +230,7 @@ export const InsuranceBenefitsHub = () => {
   useSeo({
     title: "Benefits and Insurance Tools",
     description:
-      "Plain-English benefits and insurance tools for EOBs, medical bills, plan types, commercial insurance comparisons, open enrollment, out-of-pocket costs, spouse coverage, supplemental policies, prescriptions, prior authorization, Medicare, Medicaid, and long-term care decisions.",
+      "Plain-English benefits and insurance tools for EOBs, medical bills, discharge coverage, plan types, commercial insurance comparisons, open enrollment, out-of-pocket costs, spouse coverage, supplemental policies, prescriptions, prior authorization, Medicare, Medicaid, and long-term care decisions.",
     canonicalPath: "/insurance",
   });
 
@@ -215,17 +239,17 @@ export const InsuranceBenefitsHub = () => {
       <PageHero
         eyebrow="Benefits & Insurance"
         title="Pick the situation first. Then use the right tool."
-        description="Use this hub when a bill, benefit choice, plan type, commercial comparison, prescription, prior authorization, Medicare decision, or long-term care cost question needs a practical next step."
+        description="Use this hub when a bill, discharge plan, benefit choice, plan type, commercial comparison, prescription, prior authorization, Medicare decision, or long-term care cost question needs a practical next step."
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero">
+            <Link to="/insurance/hospital-discharge-coverage">Discharge coverage</Link>
+          </Button>
+          <Button asChild variant="outline">
             <Link to="/insurance/health-insurance-plan-types">Learn plan types</Link>
           </Button>
           <Button asChild variant="outline">
             <Link to="/insurance/commercial-insurance-comparison">Compare health plans</Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link to="/tools#eob-bill-match">Check a bill or EOB</Link>
           </Button>
         </div>
       </PageHero>
@@ -238,7 +262,7 @@ export const InsuranceBenefitsHub = () => {
             title="What decision are you facing?"
             description="Most people do not need every insurance article. They need the correct first move for the problem in front of them."
           />
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {situationCards.map((card) => (
               <CardLink key={card.href} card={card} />
             ))}
@@ -250,9 +274,9 @@ export const InsuranceBenefitsHub = () => {
             centered
             eyebrow="Primary tools"
             title="Use these when you need numbers or a checklist"
-            description="Start with plan types if the calculator feels intimidating. Then move into bills, commercial plan comparison, Medicare risk, bad-year exposure, and paycheck impact."
+            description="Start with the situation. Then move into bills, discharge coverage, commercial plan comparison, Medicare risk, bad-year exposure, and paycheck impact."
           />
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-7">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {primaryTools.map((card) => (
               <CardLink key={card.href} card={card} />
             ))}
@@ -265,7 +289,7 @@ export const InsuranceBenefitsHub = () => {
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Plain-English reminders</div>
               <h2 className="mt-2 font-display text-3xl font-bold tracking-tight">Four things to verify before acting</h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
-                The site can help you organize the question. The final answer still comes from the insurer, plan document, employer portal, Medicare.gov, state Medicaid agency, or provider billing office.
+                The site can help you organize the question. The final answer still comes from the insurer, plan document, employer portal, Medicare.gov, state Medicaid agency, case management team, provider billing office, or receiving provider.
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -273,7 +297,7 @@ export const InsuranceBenefitsHub = () => {
                 "Covered does not always mean free.",
                 "An EOB is usually not a bill.",
                 "Lowest premium is not always lowest total cost.",
-                "Networks, formularies, and authorization rules can change by plan year.",
+                "Networks, formularies, discharge rules, and authorization rules can change by plan year.",
               ].map((item) => (
                 <div key={item} className="rounded-2xl border border-primary/15 bg-card p-4 text-sm font-semibold text-foreground shadow-sm">
                   {item}
@@ -301,7 +325,7 @@ export const InsuranceBenefitsHub = () => {
           <CardHeader>
             <CardTitle className="font-display text-2xl">Educational, not a live benefit verification</CardTitle>
             <CardDescription className="text-base leading-relaxed">
-              Use these pages to understand the decision, organize questions, and spot what needs verification. Confirm live plan, claim, network, formulary, authorization, and billing details before acting.
+              Use these pages to understand the decision, organize questions, and spot what needs verification. Confirm live plan, claim, network, formulary, authorization, discharge, and billing details before acting.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 sm:flex-row">

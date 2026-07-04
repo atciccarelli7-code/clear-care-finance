@@ -28,9 +28,18 @@ type PathCard = {
   accent?: "blue" | "green";
 };
 
+const featuredArticleSlugs = [
+  "how-to-read-an-eob",
+  "deductible-copay-coinsurance-out-of-pocket-max",
+  "spouse-family-health-insurance-open-enrollment",
+  "accident-critical-illness-hospital-indemnity-open-enrollment",
+];
+
 const Index = () => {
   const featuredTopics = TOPICS.slice(0, 6);
-  const featuredArticles = ALL_ARTICLES.slice(0, 4);
+  const featuredArticles = featuredArticleSlugs
+    .map((slug) => ALL_ARTICLES.find((article) => article.slug === slug))
+    .filter((article): article is (typeof ALL_ARTICLES)[number] => Boolean(article));
 
   const pathCards: PathCard[] = [
     {
@@ -139,7 +148,7 @@ const Index = () => {
           <SectionHeading
             eyebrow="Articles"
             title="Plain-English guides"
-            description="Short reads, written without scare tactics or sales pitches."
+            description="Start with the pages people are already searching for: EOBs, out-of-pocket costs, spouse coverage, and supplemental benefits."
             className="mb-0"
           />
           <Button asChild variant="soft">

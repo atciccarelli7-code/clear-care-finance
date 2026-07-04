@@ -56,8 +56,11 @@ const decisionPathways: Pathway[] = [
   },
   {
     title: "Bill or claim confusion",
-    body: "Use after care when the patient receives an EOB, provider bill, deductible surprise, or out-of-pocket maximum question.",
+    body: "Use after care when the patient receives an EOB, provider bill, deductible surprise, facility-fee question, or out-of-pocket maximum concern.",
     steps: [
+      { label: "How to read an EOB", href: "/articles/how-to-read-an-eob" },
+      { label: "Deductible and out-of-pocket max basics", href: "/articles/deductible-copay-coinsurance-out-of-pocket-max" },
+      { label: "Facility fee vs professional fee", href: "/articles/facility-fee-vs-professional-fee" },
       { label: "Medical bill review toolkit", href: "/insurance/medical-bill-review-toolkit" },
       { label: "EOB-to-bill checker", href: "/tools#eob-bill-match" },
       { label: "Out-of-pocket max estimator", href: "/tools/out-of-pocket-max-estimator" },
@@ -236,7 +239,7 @@ const deeperQuestions: HubCard[] = [
     eyebrow: "Medications",
     title: "Check prescriptions before picking a plan",
     body: "Look for formularies, tiers, preferred pharmacies, prior authorization, step therapy, and specialty costs.",
-    href: "/insurance/medication-coverage-checklist",
+    href: "/articles/prescription-coverage-open-enrollment-checklist",
     cta: "Open checklist",
     icon: Pill,
   },

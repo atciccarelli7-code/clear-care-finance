@@ -25,6 +25,7 @@ import About from "./pages/About.tsx";
 import Contact from "./pages/Contact.tsx";
 import OpenEnrollmentGuide from "./pages/OpenEnrollmentGuide.tsx";
 import InsuranceBenefitsHub from "./pages/InsuranceBenefitsHub.tsx";
+import HealthInsurancePlanTypesPage from "./pages/HealthInsurancePlanTypesPage.tsx";
 import MedicareCareCostHub from "./pages/MedicareCareCostHub.tsx";
 import CommercialInsuranceComparisonPage from "./pages/CommercialInsuranceComparisonPage.tsx";
 import MedicareAdvantageComparisonPage from "./pages/MedicareAdvantageComparisonPage.tsx";
@@ -106,6 +107,8 @@ const App = () => (
             <Route path="/topics/:slug" element={<TopicPage />} />
             <Route path="/open-enrollment" element={<OpenEnrollmentGuide />} />
             <Route path="/insurance" element={<InsuranceBenefitsHub />} />
+            <Route path="/insurance/health-insurance-plan-types" element={<HealthInsurancePlanTypesPage />} />
+            <Route path="/insurance/plan-types" element={<Navigate to="/insurance/health-insurance-plan-types" replace />} />
             <Route path="/insurance/commercial-insurance-comparison" element={<CommercialInsuranceComparisonPage />} />
             <Route path="/commercial-insurance-comparison" element={<Navigate to="/insurance/commercial-insurance-comparison" replace />} />
             <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />

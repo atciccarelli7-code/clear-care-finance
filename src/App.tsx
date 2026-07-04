@@ -26,9 +26,11 @@ import Contact from "./pages/Contact.tsx";
 import OpenEnrollmentGuide from "./pages/OpenEnrollmentGuide.tsx";
 import InsuranceBenefitsHub from "./pages/InsuranceBenefitsHub.tsx";
 import HealthInsurancePlanTypesPage from "./pages/HealthInsurancePlanTypesPage.tsx";
+import SbcGuidePage from "./pages/SbcGuidePage.tsx";
 import MedicareCareCostHub from "./pages/MedicareCareCostHub.tsx";
 import CommercialInsuranceComparisonPage from "./pages/CommercialInsuranceComparisonPage.tsx";
 import HospitalDischargeCoveragePage from "./pages/HospitalDischargeCoveragePage.tsx";
+import DischargePrintableChecklistPage from "./pages/DischargePrintableChecklistPage.tsx";
 import MedicareAdvantageComparisonPage from "./pages/MedicareAdvantageComparisonPage.tsx";
 import {
   HealthcareWorkerPaycheckTools,
@@ -109,6 +111,8 @@ const App = () => (
             <Route path="/insurance" element={<InsuranceBenefitsHub />} />
             <Route path="/insurance/health-insurance-plan-types" element={<HealthInsurancePlanTypesPage />} />
             <Route path="/insurance/plan-types" element={<Navigate to="/insurance/health-insurance-plan-types" replace />} />
+            <Route path="/insurance/how-to-read-an-sbc" element={<SbcGuidePage />} />
+            <Route path="/insurance/summary-of-benefits-and-coverage" element={<Navigate to="/insurance/how-to-read-an-sbc" replace />} />
             <Route path="/insurance/commercial-insurance-comparison" element={<CommercialInsuranceComparisonPage />} />
             <Route path="/commercial-insurance-comparison" element={<Navigate to="/insurance/commercial-insurance-comparison" replace />} />
             <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />
@@ -116,7 +120,9 @@ const App = () => (
             <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
             <Route path="/insurance/prior-authorization-guide" element={<PriorAuthorizationGuide />} />
             <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoveragePage />} />
+            <Route path="/insurance/hospital-discharge-coverage/printable" element={<DischargePrintableChecklistPage />} />
             <Route path="/insurance/discharge-coverage" element={<Navigate to="/insurance/hospital-discharge-coverage" replace />} />
+            <Route path="/insurance/discharge-checklist" element={<Navigate to="/insurance/hospital-discharge-coverage/printable" replace />} />
             <Route path="/insurance/medication-coverage-checklist" element={<MedicationCoverageChecklist />} />
             <Route path="/insurance/medical-bill-review-toolkit" element={<MedicalBillReviewToolkit />} />
             <Route path="/insurance/medicare-advantage-vs-medigap" element={<MedicareAdvantageVsMedigap />} />

@@ -26,6 +26,7 @@ import Contact from "./pages/Contact.tsx";
 import OpenEnrollmentGuide from "./pages/OpenEnrollmentGuide.tsx";
 import InsuranceBenefitsHub from "./pages/InsuranceBenefitsHub.tsx";
 import MedicareCareCostHub from "./pages/MedicareCareCostHub.tsx";
+import CommercialInsuranceComparisonPage from "./pages/CommercialInsuranceComparisonPage.tsx";
 import MedicareAdvantageComparisonPage from "./pages/MedicareAdvantageComparisonPage.tsx";
 import {
   HealthcareWorkerPaycheckTools,
@@ -105,6 +106,8 @@ const App = () => (
             <Route path="/topics/:slug" element={<TopicPage />} />
             <Route path="/open-enrollment" element={<OpenEnrollmentGuide />} />
             <Route path="/insurance" element={<InsuranceBenefitsHub />} />
+            <Route path="/insurance/commercial-insurance-comparison" element={<CommercialInsuranceComparisonPage />} />
+            <Route path="/commercial-insurance-comparison" element={<Navigate to="/insurance/commercial-insurance-comparison" replace />} />
             <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />
             <Route path="/insurance/medicare-care-costs" element={<MedicareCareCostHub />} />
             <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />

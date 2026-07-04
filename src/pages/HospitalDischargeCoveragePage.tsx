@@ -16,7 +16,6 @@ import {
   Stethoscope,
   Truck,
   WalletCards,
-  Walker,
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -55,7 +54,7 @@ const coverageReasons = [
     plain: "The equipment usually has to be medically necessary, ordered by a clinician, appropriate for home use, and supplied by a covered/in-network supplier.",
     whyDenied: "The order may be missing, the documentation may not support medical necessity, the supplier may be out of network, or the item may not meet the plan's DME definition.",
     ask: "Who ordered it? What diagnosis and documentation were sent? Which supplier is in network? Is this rental or purchase? What is the patient cost?",
-    icon: Walker,
+    icon: Shield,
   },
   {
     title: "STR / SNF after the hospital",
@@ -271,7 +270,7 @@ const HospitalDischargeCoveragePage = () => {
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {[
               [Stethoscope, "Skilled care", "PT, OT, speech therapy, skilled nursing, wound care, injections, monitoring, or other medically necessary skilled services."],
-              [Walker, "Equipment", "Walkers, wheelchairs, commodes, hospital beds, oxygen, and other DME usually need orders, documentation, and a covered supplier."],
+              [Shield, "Equipment", "Walkers, wheelchairs, commodes, hospital beds, oxygen, and other DME usually need orders, documentation, and a covered supplier."],
               [Home, "Home support", "Home health may cover skilled visits, but it usually does not mean 24-hour care, housekeeping, meals, or supervision."],
               [WalletCards, "Patient cost", "Approval does not always mean free. Copays, coinsurance, deductibles, daily SNF costs, and noncovered items may still apply."],
             ].map(([Icon, title, body]) => {

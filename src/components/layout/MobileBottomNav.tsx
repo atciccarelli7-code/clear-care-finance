@@ -24,14 +24,15 @@ export const MobileBottomNav = () => (
         <NavLink
           key={to}
           to={to}
+          aria-label={`Open ${label}`}
           className={({ isActive }) =>
-            `flex min-h-14 flex-col items-center justify-center rounded-2xl px-2 py-1.5 text-[0.72rem] font-semibold transition-smooth ${
-              isActive ? "bg-primary-soft text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+            `flex min-h-14 min-w-0 flex-col items-center justify-center rounded-2xl px-1.5 py-1.5 text-[0.7rem] font-semibold transition-smooth ${
+              isActive ? "bg-primary-soft text-primary ring-1 ring-primary/10" : "text-muted-foreground hover:bg-muted hover:text-foreground"
             }`
           }
         >
-          <Icon className="mb-1 h-4 w-4" aria-hidden="true" />
-          <span>{label}</span>
+          <Icon className="mb-1 h-4 w-4 shrink-0" aria-hidden="true" />
+          <span className="max-w-full truncate">{label}</span>
         </NavLink>
       ))}
     </div>

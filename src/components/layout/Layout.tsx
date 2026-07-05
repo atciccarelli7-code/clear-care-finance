@@ -6,8 +6,11 @@ import { MobileBottomNav } from "./MobileBottomNav";
 export const Layout = () => {
   return (
     <div className="min-h-screen flex w-full min-w-0 flex-col pb-[calc(5rem_+_env(safe-area-inset-bottom))] md:pb-0">
+      <a href="#main-content" className="fixed left-4 top-4 z-[60] -translate-y-24 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-hover transition-transform focus:translate-y-0">
+        Skip to main content
+      </a>
       <Header />
-      <main className="flex-1 w-full min-w-0">
+      <main id="main-content" className="flex-1 w-full min-w-0 outline-none" tabIndex={-1}>
         <Outlet />
       </main>
       <Footer />

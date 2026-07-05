@@ -80,8 +80,8 @@ const Index = () => {
     <>
       <PageHero
         eyebrow="RN-led financial clarity"
-        title="Healthcare money decisions, translated."
-        description="Plain-English calculators and guides for medical bills, benefits, Medicare, Medicaid, and healthcare-worker pay."
+        title="Financial clarity for healthcare workers, patients, and families."
+        description="Plain-English guides and calculators for medical bills, insurance benefits, Medicare, Medicaid, and healthcare-worker pay."
       >
         <Button asChild variant="hero" size="lg">
           <a href="#choose-path">Start here <ArrowRight className="h-4 w-4" /></a>

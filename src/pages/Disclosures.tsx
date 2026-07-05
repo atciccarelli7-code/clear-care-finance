@@ -20,7 +20,7 @@ const Disclosures = () => {
       />
 
       <main className="container max-w-3xl py-12 md:py-16 space-y-6">
-        <p className="text-sm text-muted-foreground">Effective date: June 19, 2026</p>
+        <p className="text-sm text-muted-foreground">Effective date: July 5, 2026</p>
 
         <Section title="Educational information only">
           <p>
@@ -67,6 +67,18 @@ const Disclosures = () => {
           </p>
           <p>
             Any future affiliate or sponsorship relationship should not control article conclusions, source selection, calculator logic, or whether a topic is covered.
+          </p>
+        </Section>
+
+        <Section title="Monetization standards">
+          <p>
+            Community Acquired Finance may earn revenue from advertising, sponsorships, affiliate links, referral relationships, downloadable resources, or other clearly labeled business relationships in the future.
+          </p>
+          <p>
+            Monetized content should remain separable from editorial content. Compensation should not change calculator formulas, source selection, educational conclusions, or whether a reader is told to verify details with official sources and plan documents.
+          </p>
+          <p>
+            If a page compares products, plans, vendors, or services and compensation may apply, that relationship should be disclosed on or near the page before a reader relies on the comparison.
           </p>
         </Section>
 

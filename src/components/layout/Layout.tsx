@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "./Header";
+import { SiteTrustBar } from "./SiteTrustBar";
 import { Footer } from "./Footer";
 import { MobileBottomNav } from "./MobileBottomNav";
 
@@ -10,6 +11,7 @@ export const Layout = () => {
         Skip to main content
       </a>
       <Header />
+      <SiteTrustBar />
       <main id="main-content" className="flex-1 w-full min-w-0 outline-none" tabIndex={-1}>
         <Outlet />
       </main>

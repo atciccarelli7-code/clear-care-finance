@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CalculatorResult } from "@/components/shared/CalculatorResult";
 import { CalculatorMeaning, CalculatorNextSteps } from "@/components/shared/CalculatorCard";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
+import { trackSiteEvent } from "@/lib/siteAnalytics";
 
 type NextStep = {
   label: string;
@@ -14,15 +15,53 @@ const ChecklistTool = ({
   completeText,
   incompleteText,
   nextSteps,
+  analyticsId,
+  analyticsLabel,
 }: {
   items: string[];
   completeText: string;
   incompleteText: string;
   nextSteps?: NextStep[];
+  analyticsId?: string;
+  analyticsLabel?: string;
 }) => {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const hasTrackedStart = useRef(false);
+  const hasTrackedComplete = useRef(false);
   const done = useMemo(() => items.filter((item) => checked[item]).length, [checked, items]);
   const percent = Math.round((done / items.length) * 100);
+
+  useEffect(() => {
+    if (!analyticsId || done === 0 || hasTrackedStart.current) return;
+    hasTrackedStart.current = true;
+    trackSiteEvent("checklist_start", {
+      event_category: "tools",
+      tool_id: analyticsId,
+      tool_label: analyticsLabel,
+    });
+  }, [analyticsId, analyticsLabel, done]);
+
+  useEffect(() => {
+    if (!analyticsId || done !== items.length || hasTrackedComplete.current) return;
+    hasTrackedComplete.current = true;
+    trackSiteEvent("checklist_complete", {
+      event_category: "tools",
+      tool_id: analyticsId,
+      tool_label: analyticsLabel,
+      item_count: items.length,
+    });
+  }, [analyticsId, analyticsLabel, done, items.length]);
+
+  const handlePrint = () => {
+    if (analyticsId) {
+      trackSiteEvent("checklist_print", {
+        event_category: "tools",
+        tool_id: analyticsId,
+        tool_label: analyticsLabel,
+      });
+    }
+    window.print();
+  };
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">
@@ -44,7 +83,7 @@ const ChecklistTool = ({
         <CalculatorResult label="Items completed" value={`${done} of ${items.length}`} />
         <CalculatorMeaning>{done === items.length ? completeText : incompleteText}</CalculatorMeaning>
         {nextSteps && <CalculatorNextSteps steps={nextSteps} />}
-        <button type="button" className="w-full rounded-xl border border-border px-4 py-3 text-sm font-semibold hover:bg-muted" onClick={() => window.print()}>
+        <button type="button" className="w-full rounded-xl border border-border px-4 py-3 text-sm font-semibold hover:bg-muted" onClick={handlePrint}>
           Print this checklist
         </button>
         <DisclaimerBox short />
@@ -55,6 +94,8 @@ const ChecklistTool = ({
 
 export const HospitalBillChecklistTool = () => (
   <ChecklistTool
+    analyticsId="hospital-bill-checklist"
+    analyticsLabel="Hospital Bill Review Checklist"
     items={[
       "Wait for the insurer explanation when possible before paying a large balance.",
       "Match the bill to the same date of service, person, provider, and account or claim reference.",
@@ -67,7 +108,7 @@ export const HospitalBillChecklistTool = () => (
     completeText="Good. This is the minimum paper trail before paying a confusing medical bill."
     incompleteText="Finish the checklist before treating the bill as final, especially if the balance is large or surprising."
     nextSteps={[
-      { label: "Match the bill to the EOB", href: "/tools#eob-bill-match", helper: "Use the EOB checker before deciding the balance is final." },
+      { label: "Match the bill to the EOB", href: "/tools/eob-to-bill-match-checker", helper: "Use the EOB checker before deciding the balance is final." },
       { label: "Read the medical bill toolkit", href: "/insurance/medical-bill-review-toolkit", helper: "Use the full guide for billing calls and documentation." },
       { label: "Check financial assistance", href: "/tools#financial-assistance-checklist", helper: "Large hospital bills should be screened before paying in full." },
     ]}
@@ -76,6 +117,8 @@ export const HospitalBillChecklistTool = () => (
 
 export const EobBillMatchChecker = () => (
   <ChecklistTool
+    analyticsId="eob-bill-match"
+    analyticsLabel="EOB-to-Bill Match Checker"
     items={[
       "The person listed on both documents matches.",
       "The date of service matches.",
@@ -98,6 +141,8 @@ export const EobBillMatchChecker = () => (
 
 export const FinancialAssistanceChecklist = () => (
   <ChecklistTool
+    analyticsId="financial-assistance-checklist"
+    analyticsLabel="Financial Assistance Checklist"
     items={[
       "Find the hospital financial assistance or charity care policy.",
       "Check whether the hospital has a written plain-language policy.",
@@ -111,13 +156,15 @@ export const FinancialAssistanceChecklist = () => (
     incompleteText="Financial assistance should be checked before a large hospital bill is paid in full."
     nextSteps={[
       { label: "Review the full bill toolkit", href: "/insurance/medical-bill-review-toolkit", helper: "Pair assistance screening with itemized bill and EOB checks." },
-      { label: "Use the EOB-to-bill checker", href: "/tools#eob-bill-match", helper: "Confirm the billed amount lines up before payment planning." },
+      { label: "Use the EOB-to-bill checker", href: "/tools/eob-to-bill-match-checker", helper: "Confirm the billed amount lines up before payment planning." },
     ]}
   />
 );
 
 export const OpenEnrollmentChecklistTool = () => (
   <ChecklistTool
+    analyticsId="open-enrollment-checklist"
+    analyticsLabel="Open Enrollment Final Checklist"
     items={[
       "Compare premiums over the full year, not only per paycheck.",
       "Compare expected-year cost and worst-case out-of-pocket exposure.",
@@ -132,7 +179,7 @@ export const OpenEnrollmentChecklistTool = () => (
     completeText="Good. This is a complete open enrollment submission check."
     incompleteText="Open enrollment choices often lock in for a year. Finish the remaining checks before submitting."
     nextSteps={[
-      { label: "Compare two plans by total cost", href: "/tools#open-enrollment", helper: "Run the plan comparison before submitting elections." },
+      { label: "Compare two plans by total cost", href: "/tools/open-enrollment-true-cost-calculator", helper: "Run the plan comparison before submitting elections." },
       { label: "Estimate paycheck impact", href: "/tools#paycheck-impact", helper: "Check the take-home pay effect before the first paycheck surprise." },
       { label: "Return to the open enrollment guide", href: "/open-enrollment", helper: "Use the full ordered path if anything is still unresolved." },
     ]}

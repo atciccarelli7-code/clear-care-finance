@@ -1,5 +1,5 @@
-import { Link, NavLink } from "react-router-dom";
-import { useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
@@ -33,29 +33,34 @@ const LogoMark = () => (
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname, location.search]);
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/90 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80">
       <div className="container flex h-16 items-center justify-between gap-3">
         <Link
           to="/"
-          className="flex min-w-0 shrink-0 items-center gap-2.5 font-display font-bold tracking-tight text-foreground"
-          onClick={() => setOpen(false)}
+          className="flex min-w-0 shrink-0 items-center gap-2.5 rounded-xl font-display font-bold tracking-tight text-foreground"
           aria-label="Community Acquired Finance home"
         >
           <LogoMark />
-          <span className="hidden whitespace-nowrap text-base sm:inline">Community Acquired Finance</span>
-          <span className="whitespace-nowrap text-base sm:hidden">Finance</span>
+          <span className="hidden whitespace-nowrap text-base md:inline">Community Acquired Finance</span>
+          <span className="whitespace-nowrap text-base md:hidden">Finance</span>
         </Link>
 
-        <nav className="hidden lg:flex min-w-0 flex-1 items-center justify-center gap-0.5" aria-label="Primary navigation">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex" aria-label="Primary navigation">
           {nav.map((n) => (
             <NavLink
               key={n.to}
               to={n.to}
               end={n.to === "/"}
               className={({ isActive }) =>
-                `whitespace-nowrap rounded-lg px-2.5 py-2 text-[0.8rem] font-medium transition-smooth ${
-                  isActive ? "text-primary bg-primary-soft" : "text-muted-foreground hover:text-foreground"
+                `whitespace-nowrap rounded-xl px-3 py-2 text-[0.82rem] font-semibold transition-smooth ${
+                  isActive ? "bg-primary-soft text-primary" : "text-muted-foreground hover:bg-muted/70 hover:text-foreground"
                 }`
               }
             >
@@ -65,13 +70,16 @@ export const Header = () => {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          <Button asChild variant="hero" size="sm" className="hidden sm:inline-flex whitespace-nowrap">
+          <Button asChild variant="hero" size="sm" className="hidden whitespace-nowrap md:inline-flex">
             <Link to="/newsletter">Newsletter</Link>
           </Button>
           <button
-            className="lg:hidden p-2 rounded-lg hover:bg-muted transition-smooth"
-            onClick={() => setOpen(!open)}
-            aria-label="Menu"
+            className="rounded-xl p-2 transition-smooth hover:bg-muted xl:hidden"
+            onClick={() => setOpen((current) => !current)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-controls="mobile-menu"
+            aria-expanded={open}
+            type="button"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -79,17 +87,16 @@ export const Header = () => {
       </div>
 
       {open && (
-        <div className="lg:hidden border-t border-border bg-background animate-fade-in">
-          <nav className="container py-4 flex flex-col gap-1" aria-label="Mobile navigation">
+        <div id="mobile-menu" className="border-t border-border bg-background shadow-card animate-fade-in xl:hidden">
+          <nav className="container flex max-h-[calc(100vh-4rem)] flex-col gap-1 overflow-y-auto py-4" aria-label="Mobile navigation">
             {nav.map((n) => (
               <NavLink
                 key={n.to}
                 to={n.to}
                 end={n.to === "/"}
-                onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `px-3 py-3 text-sm font-medium rounded-lg transition-smooth ${
-                    isActive ? "text-primary bg-primary-soft" : "text-foreground hover:bg-muted"
+                  `rounded-xl px-3 py-3 text-sm font-semibold transition-smooth ${
+                    isActive ? "bg-primary-soft text-primary" : "text-foreground hover:bg-muted"
                   }`
                 }
               >
@@ -103,15 +110,14 @@ export const Header = () => {
               <NavLink
                 key={n.to}
                 to={n.to}
-                onClick={() => setOpen(false)}
-                className="px-3 py-2.5 text-sm font-medium rounded-lg text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground"
+                className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground"
               >
                 {n.label}
               </NavLink>
             ))}
 
-            <Button asChild variant="hero" className="mt-2 sm:hidden">
-              <Link to="/newsletter" onClick={() => setOpen(false)}>Join newsletter</Link>
+            <Button asChild variant="hero" className="mt-2 md:hidden">
+              <Link to="/newsletter">Join newsletter</Link>
             </Button>
           </nav>
         </div>

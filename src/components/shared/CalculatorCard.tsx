@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calculator, LucideIcon } from "lucide-react";
+import { ToolEducationPanel } from "@/components/shared/ToolEducationPanel";
 import { trackSiteEvent } from "@/lib/siteAnalytics";
 
 interface CalculatorCardProps {
@@ -48,6 +49,7 @@ export const CalculatorCard = ({
             <span className="truncate">Read: {relatedArticle.label}</span> <ArrowRight className="h-4 w-4 shrink-0" />
           </Link>
         )}
+        <ToolEducationPanel title={title} />
       </div>
     </div>
     <div className="min-w-0 p-5 md:p-7">{children}</div>

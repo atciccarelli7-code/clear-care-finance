@@ -94,9 +94,11 @@
 @layer base {
   *, *::before, *::after { @apply border-border; box-sizing: border-box; }
   html, body { width: 100%; max-width: 100%; min-width: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
   body {
     @apply bg-background text-foreground antialiased;
+    min-height: 100vh;
+    text-rendering: optimizeLegibility;
     font-feature-settings: "cv11", "ss01";
     background-image:
       radial-gradient(ellipse 58% 34% at 50% -10%, hsl(var(--primary-soft) / 0.58), transparent 72%),
@@ -118,8 +120,10 @@
 @layer components {
   .container {
     width: 100%;
-    max-width: 100%;
+    max-width: 72rem;
     min-width: 0;
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 1rem;
     padding-right: 1rem;
   }
@@ -128,6 +132,12 @@
     .container {
       padding-left: 1.5rem;
       padding-right: 1.5rem;
+    }
+  }
+
+  @screen 2xl {
+    .container {
+      max-width: 76rem;
     }
   }
 }

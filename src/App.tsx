@@ -14,6 +14,8 @@ import BuildWealthHub from "./pages/BuildWealthHub.tsx";
 import PatientsFamilies from "./pages/PatientsFamilies.tsx";
 import Tools from "./pages/Tools.tsx";
 import OutOfPocketMaxEstimatorPage from "./pages/OutOfPocketMaxEstimatorPage.tsx";
+import OpenEnrollmentTrueCostCalculatorPage from "./pages/OpenEnrollmentTrueCostCalculatorPage.tsx";
+import EobBillMatchCheckerPage from "./pages/EobBillMatchCheckerPage.tsx";
 import StudentLoans from "./pages/StudentLoans.tsx";
 import Articles from "./pages/Articles.tsx";
 import ArticlePage from "./pages/ArticlePage.tsx";
@@ -102,6 +104,8 @@ const App = () => (
             <Route path="/student-loans" element={<StudentLoans />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/out-of-pocket-max-estimator" element={<OutOfPocketMaxEstimatorPage />} />
+            <Route path="/tools/open-enrollment-true-cost-calculator" element={<OpenEnrollmentTrueCostCalculatorPage />} />
+            <Route path="/tools/eob-to-bill-match-checker" element={<EobBillMatchCheckerPage />} />
             <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />

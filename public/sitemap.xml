@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://communityacquiredfinance.com/</loc><lastmod>2026-07-05</lastmod><priority>1.0</priority></url>
+  <url><loc>https://communityacquiredfinance.com/</loc><lastmod>2026-07-06</lastmod><priority>1.0</priority></url>
   <url><loc>https://communityacquiredfinance.com/start-here</loc><lastmod>2026-07-04</lastmod><priority>0.9</priority></url>
   <url><loc>https://communityacquiredfinance.com/healthcare-workers</loc><lastmod>2026-07-04</lastmod><priority>0.9</priority></url>
   <url><loc>https://communityacquiredfinance.com/healthcare-workers/paycheck-tools</loc><lastmod>2026-07-04</lastmod><priority>0.8</priority></url>
@@ -11,7 +11,7 @@
   <url><loc>https://communityacquiredfinance.com/insurance/health-insurance-plan-types</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>
   <url><loc>https://communityacquiredfinance.com/insurance/how-to-read-an-sbc</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>
   <url><loc>https://communityacquiredfinance.com/insurance/commercial-insurance-comparison</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>
-  <url><loc>https://communityacquiredfinance.com/medicare-care-costs</loc><lastmod>2026-07-04</lastmod><priority>0.9</priority></url>
+  <url><loc>https://communityacquiredfinance.com/medicare-care-costs</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
   <url><loc>https://communityacquiredfinance.com/insurance/medicare-advantage</loc><lastmod>2026-07-04</lastmod><priority>0.9</priority></url>
   <url><loc>https://communityacquiredfinance.com/insurance/prior-authorization-guide</loc><lastmod>2026-07-04</lastmod><priority>0.8</priority></url>
   <url><loc>https://communityacquiredfinance.com/insurance/hospital-discharge-coverage</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>
@@ -20,12 +20,13 @@
   <url><loc>https://communityacquiredfinance.com/insurance/medical-bill-review-toolkit</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>
   <url><loc>https://communityacquiredfinance.com/insurance/medicare-advantage-vs-medigap</loc><lastmod>2026-07-04</lastmod><priority>0.8</priority></url>
   <url><loc>https://communityacquiredfinance.com/insurance/what-medicare-advantage-marketing-may-not-emphasize</loc><lastmod>2026-07-04</lastmod><priority>0.8</priority></url>
-  <url><loc>https://communityacquiredfinance.com/tools</loc><lastmod>2026-07-05</lastmod><priority>0.95</priority></url>
+  <url><loc>https://communityacquiredfinance.com/tools</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
+  <url><loc>https://communityacquiredfinance.com/tools/403b-paycheck-calculator</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
   <url><loc>https://communityacquiredfinance.com/tools/open-enrollment-true-cost-calculator</loc><lastmod>2026-07-05</lastmod><priority>0.9</priority></url>
   <url><loc>https://communityacquiredfinance.com/tools/eob-to-bill-match-checker</loc><lastmod>2026-07-05</lastmod><priority>0.9</priority></url>
   <url><loc>https://communityacquiredfinance.com/tools/out-of-pocket-max-estimator</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>
   <url><loc>https://communityacquiredfinance.com/tools/medicare-advantage-plan-helper</loc><lastmod>2026-07-04</lastmod><priority>0.8</priority></url>
-  <url><loc>https://communityacquiredfinance.com/articles</loc><lastmod>2026-07-04</lastmod><priority>0.95</priority></url>
+  <url><loc>https://communityacquiredfinance.com/articles</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
   <url><loc>https://communityacquiredfinance.com/topics</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>
   <url><loc>https://communityacquiredfinance.com/topics/medicare-medicaid</loc><lastmod>2026-07-04</lastmod><priority>0.8</priority></url>
   <url><loc>https://communityacquiredfinance.com/topics/workplace-benefits</loc><lastmod>2026-07-04</lastmod><priority>0.8</priority></url>
@@ -45,6 +46,13 @@
   <url><loc>https://communityacquiredfinance.com/editorial-policy</loc><lastmod>2026-07-04</lastmod><priority>0.4</priority></url>
   <url><loc>https://communityacquiredfinance.com/disclosures</loc><lastmod>2026-07-04</lastmod><priority>0.4</priority></url>
   <url><loc>https://communityacquiredfinance.com/accessibility</loc><lastmod>2026-07-04</lastmod><priority>0.3</priority></url>
+  <url><loc>https://communityacquiredfinance.com/articles/does-medicare-cover-long-term-care</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
+  <url><loc>https://communityacquiredfinance.com/articles/does-medicare-cover-rehab-after-hospital-stay</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
+  <url><loc>https://communityacquiredfinance.com/articles/medicare-vs-medicaid-what-is-the-difference</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
+  <url><loc>https://communityacquiredfinance.com/articles/what-does-medicare-not-cover</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
+  <url><loc>https://communityacquiredfinance.com/articles/why-do-i-still-owe-money-with-medicare</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
+  <url><loc>https://communityacquiredfinance.com/articles/how-much-should-a-nurse-put-in-403b-per-paycheck</loc><lastmod>2026-07-06</lastmod><priority>0.95</priority></url>
+  <url><loc>https://communityacquiredfinance.com/articles/how-hospital-403b-matching-works</loc><lastmod>2026-07-06</lastmod><priority>0.9</priority></url>
   <url><loc>https://communityacquiredfinance.com/articles/from-the-bedside-medicare-prescription-cost</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>
   <url><loc>https://communityacquiredfinance.com/articles/from-the-bedside-long-term-care-medicaid-hospital-delay</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>
   <url><loc>https://communityacquiredfinance.com/articles/insurance-is-future-planning</loc><lastmod>2026-07-04</lastmod><priority>0.85</priority></url>

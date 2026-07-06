@@ -12,6 +12,17 @@ const learningPathGroups = [
     ],
   },
   {
+    title: "Exact questions families search",
+    description: "Use these when someone needs the plain-English answer before or after a confusing Medicare.gov, plan, or discharge-planning conversation.",
+    slugs: [
+      "does-medicare-cover-long-term-care",
+      "does-medicare-cover-rehab-after-hospital-stay",
+      "medicare-vs-medicaid-what-is-the-difference",
+      "what-does-medicare-not-cover",
+      "why-do-i-still-owe-money-with-medicare",
+    ],
+  },
+  {
     title: "Start here",
     description: "Use these first if you are trying to understand the big Medicare and Medicaid map.",
     slugs: [
@@ -43,7 +54,7 @@ export const MedicareLearningPath = () => (
     <SectionHeading
       eyebrow="Articles"
       title="Medicare learning path"
-      description="Start with the upcoming policy changes, then use the big-picture Medicare guides and discharge guides when a patient needs coverage clarity."
+      description="Start with the exact question, then use the big-picture Medicare guides and discharge guides when a patient needs coverage clarity."
       className="mb-8"
     />
 

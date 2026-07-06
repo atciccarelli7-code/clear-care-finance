@@ -10,6 +10,7 @@ import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
 import { FROM_BEDSIDE_ARTICLES } from "./fromBedsideArticles";
 import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
+import { SEARCH_MOAT_ARTICLES } from "./searchMoatArticles";
 import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
 
@@ -23,6 +24,7 @@ const OPEN_ENROLLMENT_ARTICLES_READY = OPEN_ENROLLMENT_ARTICLES.map((article) =>
 );
 
 export const ALL_ARTICLES = publishedArticles([
+  ...SEARCH_MOAT_ARTICLES,
   ...RETIREMENT_INVESTMENT_ARTICLES,
   ...WEALTH_ARTICLES,
   ...OPEN_ENROLLMENT_ARTICLES_READY,

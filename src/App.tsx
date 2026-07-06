@@ -31,6 +31,7 @@ import InsuranceBenefitsHub from "./pages/InsuranceBenefitsHub.tsx";
 import HealthInsurancePlanTypesPage from "./pages/HealthInsurancePlanTypesPage.tsx";
 import SbcGuidePage from "./pages/SbcGuidePage.tsx";
 import MedicareCareCostHub from "./pages/MedicareCareCostHub.tsx";
+import MedicareMedicaidGuideLandingPage from "./pages/MedicareMedicaidGuideLandingPage.tsx";
 import CommercialInsuranceComparisonPage from "./pages/CommercialInsuranceComparisonPage.tsx";
 import HospitalDischargeCoveragePage from "./pages/HospitalDischargeCoveragePage.tsx";
 import DischargePrintableChecklistPage from "./pages/DischargePrintableChecklistPage.tsx";
@@ -124,6 +125,8 @@ const App = () => (
             <Route path="/commercial-insurance-comparison" element={<Navigate to="/insurance/commercial-insurance-comparison" replace />} />
             <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />
             <Route path="/insurance/medicare-care-costs" element={<MedicareCareCostHub />} />
+            <Route path="/guides/medicare-medicaid-rehab-long-term-care" element={<MedicareMedicaidGuideLandingPage />} />
+            <Route path="/guides/medicare-medicaid-guide" element={<Navigate to="/guides/medicare-medicaid-rehab-long-term-care" replace />} />
             <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
             <Route path="/insurance/prior-authorization-guide" element={<PriorAuthorizationGuide />} />
             <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoveragePage />} />

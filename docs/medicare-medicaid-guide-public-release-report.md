@@ -1,7 +1,7 @@
 # Medicare and Medicaid Guide Public Release Report
 
 Community Acquired Finance  
-Draft PDF artifact QA pass  
+Final release-readiness verification pass  
 Last updated: 2026-07-07
 
 ## Release decision
@@ -39,21 +39,10 @@ Cleanup audit file:
 
 A fresh **Guide PDF Preflight Artifact** workflow was run from `main` after PR #103.
 
-Reviewed run:
-
-`28891566086`
-
-Reviewed job:
-
-`85705318587`
-
-Commit:
-
-`d413994c4fdc639ccde69b2cc095dc543885e658`
-
-Artifact:
-
-`medicare-medicaid-guide-preflight-draft`
+Reviewed run: `28891566086`  
+Reviewed job: `85705318587`  
+Commit: `d413994c4fdc639ccde69b2cc095dc543885e658`  
+Artifact: `medicare-medicaid-guide-preflight-draft`
 
 Draft artifact QA confirmed:
 
@@ -76,11 +65,34 @@ Detailed artifact QA file:
 
 - `/docs/medicare-medicaid-guide-pdf-preflight-report.md`
 
-## Release posture after draft artifact QA
+### Final release-readiness fact verification
 
-The guide is closer to public release, but the draft artifact QA pass is **not** final publication approval.
+A final release-readiness verification pass was completed for current-year Medicare amounts and outpatient observation notice timing.
 
-The guide can proceed to final release-readiness planning and current-year verification.
+Verification file:
+
+- `/docs/medicare-medicaid-guide-final-release-verification.md`
+
+Verified official facts:
+
+- 2026 Part A inpatient hospital deductible: `$1,736`.
+- 2026 Part A inpatient days 61-90: `$434` each day.
+- 2026 Part A lifetime reserve days 91-150: `$868` each day.
+- 2026 SNF days 1-20: `$0`.
+- 2026 SNF days 21-100: `$217` each day.
+- 2026 Part B premium: `$202.90` each month for most people.
+- 2026 Part B deductible: `$283`.
+- Covered home health services: `$0`.
+- DME: generally `20%` of the Medicare-approved amount after the Part B deductible if coverage and assignment rules are met.
+- Outpatient observation notice timing: notice is required for Medicare beneficiaries receiving outpatient observation services for more than 24 hours, no later than 36 hours after observation services begin, or sooner if the person is moved out of observation status.
+
+No manuscript, builder, route, sitemap, CTA, QR, or public PDF change was made in the verification pass.
+
+## Release posture after final fact verification
+
+The guide is closer to public release, but final fact verification is **not** final publication approval.
+
+The guide can proceed to device, print, QR, and public launch integration planning.
 
 ## Remaining release blockers
 
@@ -107,10 +119,10 @@ The guide can proceed to final release-readiness planning and current-year verif
 
 ### Current-year verification
 
-- [ ] Recheck all 2026 Medicare dollar amounts immediately before final PDF export.
-- [ ] Confirm Part A, Part B, SNF, home health, DME, and drug-cost assistance amounts remain current.
-- [ ] Confirm all year-specific claims have visible update discipline.
-- [ ] Confirm exact CMS MOON wording and timing before publication.
+- [x] Recheck all 2026 Medicare dollar amounts immediately before final PDF export.
+- [x] Confirm Part A, Part B, SNF, home health, and DME amounts/language remain current.
+- [x] Confirm all year-specific claims have visible update discipline.
+- [x] Confirm outpatient observation notice timing before publication.
 
 ### Visual, mobile, and print QA
 
@@ -170,4 +182,4 @@ This pass does not add:
 
 ## Next recommended PR
 
-After this draft PDF artifact QA documentation PR, the next step should be a final release-readiness PR focused on current-year Medicare dollar amount verification, exact CMS MOON wording/timing verification, device/print QA plan, final QR destination plan, and public launch integration sequencing.
+After this final release-readiness verification PR, the next step should be device, print, and launch integration preparation: define the final PDF public asset path, QR destination map, final CTA behavior, sitemap timing, and exact QA checks to complete immediately after the final PDF file is created.

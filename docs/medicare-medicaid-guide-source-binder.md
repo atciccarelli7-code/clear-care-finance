@@ -1,8 +1,8 @@
 # Medicare and Medicaid Guide Source Binder
 
 Community Acquired Finance  
-Phase 2 research binder  
-Last updated: 2026-07-06
+Phase 2 research binder + source-gap closure pass  
+Last updated: 2026-07-07
 
 ## Purpose
 
@@ -306,6 +306,162 @@ Use in every chapter where the reader needs human help comparing Medicare option
 
 ---
 
+## 16. Medicare.gov — Medicare Savings Programs
+
+Source URL: https://www.medicare.gov/basics/costs/help/medicare-savings-programs
+
+### Usable facts
+
+- Medicare Savings Programs are state-run programs that may help eligible people pay Medicare Part A and Part B premiums.
+- If a person qualifies, Medicare Savings Programs may also help pay Part A and Part B deductibles, coinsurance, and copayments.
+- The four Medicare Savings Programs described by Medicare.gov are QMB, SLMB, QI, and QDWI.
+- QMB may help pay Part A premiums, Part B premiums, deductibles, coinsurance, and copayments for Medicare-covered services and items.
+- SLMB and QI help pay Part B premiums for eligible people who have both Part A and Part B.
+- QDWI helps pay Part A premiums for certain disabled working individuals.
+- States determine which program a person qualifies for, and some states may use limits or counting rules that differ from the listed federal limits.
+- QMB has billing protections for Medicare-covered Part A and Part B cost-sharing, but the family should verify exact status and show applicable cards or documentation.
+
+### Best guide use
+
+Use in dual-eligibility, bill-review, and Medicare-cost chapters. This source supports the guide's warning that full Medicaid, limited Medicaid help, and Medicare Savings Programs are not interchangeable.
+
+---
+
+## 17. Medicare.gov — Medicare Summary Notice
+
+Source URL: https://www.medicare.gov/basics/forms-publications-mailings/mailings/costs-and-coverage/medicare-summary-notice
+
+### Usable facts
+
+- A Medicare Summary Notice is a claims statement for people with Original Medicare.
+- It is not a bill.
+- It can be used to review services and supplies billed to Medicare, what Medicare paid, and the maximum amount the person may owe.
+- Families should compare provider bills against the MSN before paying confusing balances.
+
+### Best guide use
+
+Use in the billing chapter, bill-review worksheet, EOB-to-bill tool references, and scripts for calling the billing office.
+
+---
+
+## 18. Medicare.gov — Appeals
+
+Source URL: https://www.medicare.gov/providers-services/claims-appeals-complaints/appeals
+
+### Usable facts
+
+- Medicare has an appeals process when a person disagrees with a coverage or payment decision.
+- Appeal rights and deadlines depend on the type of coverage and the decision being appealed.
+- Families should review the written notice, MSN, EOB, plan document, or denial letter for instructions and deadlines.
+- Fast appeals may be relevant when certain services are ending or delay could seriously affect health.
+
+### Best guide use
+
+Use in discharge, rehab, prior authorization, Medicare Advantage, and bill-review chapters. Avoid giving individualized appeal strategy; focus on finding the written notice and deadline.
+
+---
+
+## 19. CMS.gov — Medicare-Medicaid coordination and QMB
+
+Source URLs:
+
+- https://www.cms.gov/medicare/medicaid-coordination/about
+- https://www.cms.gov/medicare/coordination-benefits-recovery/overview/coordination-benefits
+- https://www.cms.gov/medicare/medicaid-coordination/about/qualified-medicare-beneficiary-program
+
+### Usable facts
+
+- CMS has a Medicare-Medicaid Coordination Office focused on people enrolled in both Medicare and Medicaid.
+- Coordination of benefits matters when more than one payer may be responsible.
+- QMB is a specific Medicare Savings Program with protections related to Medicare-covered cost-sharing.
+- Provider billing questions for QMB should be handled carefully and verified against CMS, Medicare, Medicaid, and plan-specific documentation.
+
+### Best guide use
+
+Use in Medicare-vs-Medicaid, dual-eligibility, and bill-review chapters. This source set supports careful language that Medicare generally pays first for Medicare-covered services, but Medicaid help depends on eligibility, state rules, provider participation, and program category.
+
+---
+
+## 20. CMS.gov — Medicare Managed Care Appeals and Grievances
+
+Source URL: https://www.cms.gov/medicare/appeals-grievances/managed-care
+
+### Usable facts
+
+- Medicare managed care appeal and grievance processes apply to Medicare Advantage and related plan decisions.
+- A Medicare Advantage plan decision, denial, or authorization issue should be handled through the plan's written process and applicable appeal rights.
+- The family should ask for the written decision, reason, missing documentation, appeal deadline, and where to send supporting information.
+
+### Best guide use
+
+Use in Medicare Advantage prior authorization and rehab chapters. Keep tone neutral: prior authorization is a plan process, not proof that care is unnecessary or that coverage is guaranteed.
+
+---
+
+## 21. CMS.gov — Medicare Outpatient Observation Notice / MOON
+
+Source URL: https://www.cms.gov/medicare/forms-notices/beneficiary-notices-initiative/moon
+
+### Usable facts
+
+- CMS maintains Medicare Outpatient Observation Notice materials for beneficiaries who are hospital outpatients receiving observation services.
+- Observation status is not the same as inpatient admission.
+- For the guide, observation discussion should stay tied to the specific coverage rules being discussed, especially the Original Medicare SNF qualifying-stay issue.
+
+### Best guide use
+
+Use in inpatient-vs-observation, discharge, and rehab chapters. Do not imply observation affects every Medicare service the same way.
+
+---
+
+## 22. Medicaid.gov — Seniors and Medicare-Medicaid enrollees
+
+Source URL: https://www.medicaid.gov/medicaid/eligibility-policy/seniors-medicare-and-medicaid-enrollees
+
+### Usable facts
+
+- Some people are enrolled in both Medicare and Medicaid.
+- Medicaid eligibility and help for seniors and Medicare-Medicaid enrollees depends on federal rules and state administration.
+- The guide should send users to state Medicaid agencies and SHIP for case-specific verification.
+
+### Best guide use
+
+Use in dual-eligibility and Medicare-vs-Medicaid chapters to avoid overgeneralizing what Medicaid will pay.
+
+---
+
+## 23. Medicaid.gov — Estate recovery
+
+Source URL: https://www.medicaid.gov/medicaid/eligibility-policy/estate-recovery
+
+### Usable facts
+
+- Estate recovery is a Medicaid topic that can apply after certain Medicaid payments.
+- Estate recovery rules are legally sensitive and state-specific.
+- The guide should not provide legal planning, transfer advice, or asset-protection strategies.
+
+### Best guide use
+
+Mention only as a question to ask a state Medicaid agency or qualified professional. Do not provide state-specific instructions in the national guide.
+
+---
+
+## 24. Medicaid.gov — Spousal impoverishment
+
+Source URL: https://www.medicaid.gov/medicaid/eligibility-policy/spousal-impoverishment
+
+### Usable facts
+
+- Spousal impoverishment rules are relevant when one spouse needs certain Medicaid long-term care services and the other spouse remains in the community.
+- These rules are complex and state-administered.
+- The guide should not give legal or eligibility planning advice.
+
+### Best guide use
+
+Use only as a question prompt for married couples facing long-term care decisions. Direct users to state Medicaid agencies and qualified professionals.
+
+---
+
 ## Required manuscript rules from this binder
 
 1. Do not copy official source wording.
@@ -317,14 +473,32 @@ Use in every chapter where the reader needs human help comparing Medicare option
 7. State that Medicaid rules vary by state.
 8. Push readers toward official verification: Medicare, Medicaid, the plan, the facility, SHIP, billing office, or qualified professionals.
 9. Avoid plan rankings, insurer recommendations, personalized eligibility determinations, legal advice, tax advice, and medical advice.
+10. Treat estate recovery and spousal impoverishment as questions to ask, not DIY planning topics.
+11. Treat Medicare Advantage prior authorization neutrally as a plan process with written decision and appeal rights.
+12. Treat the Medicare Summary Notice and EOB as comparison documents, not as automatic proof that a bill is correct or incorrect.
 
-## Source gaps for Phase 3
+## Source-gap closure status
 
-Before drafting the full manuscript, collect or verify official sources for:
+The main national-source gaps identified in the fact-check report now have official-source anchors in this binder:
 
-- Medicare Summary Notice details.
-- Medicare appeal steps.
-- Hospital observation notices and beneficiary rights.
-- State Medicaid agency pages for any state-specific appendix.
-- State long-term care ombudsman pages.
-- Official Medicaid estate recovery and spousal impoverishment pages if those topics are included.
+| Prior gap | Status after this pass |
+|---|---|
+| Dual eligibility and payment coordination | Added CMS Medicare-Medicaid coordination, CMS coordination of benefits, and Medicaid.gov seniors / Medicare-Medicaid enrollee source anchors. |
+| Full Medicaid vs limited Medicaid assistance | Added Medicare.gov Medicare Savings Programs and CMS QMB source anchors. |
+| Medicare Savings Programs / QMB / SLMB / QI / QDWI | Added Medicare.gov Medicare Savings Programs source anchor. |
+| Medicare Summary Notice | Added Medicare.gov Medicare Summary Notice source anchor. |
+| MOON / observation notice | Added CMS MOON source anchor. |
+| Medicare appeals | Added Medicare.gov appeals source anchor. |
+| Medicare Advantage appeals, denials, and prior authorization | Added CMS managed care appeals and grievances source anchor plus Medicare Advantage comparison source already in binder. |
+| EOB / provider billing wording | Added stronger MSN / appeal / allowed-amount source map and requires cautious wording for provider billing claims. |
+| Estate recovery and spousal impoverishment | Added Medicaid.gov source anchors as caution-only topics. |
+
+## Remaining release cautions
+
+Before public PDF release:
+
+- Recheck all 2026 dollar amounts.
+- Confirm exact CMS MOON wording and timing during final editorial review.
+- Do not include state-specific Medicaid eligibility, LTSS, estate recovery, or spousal impoverishment details without official state Medicaid sources.
+- Do not publish the PDF until visual, mobile, print, and QR review passes.
+- Do not add plan rankings, insurer recommendations, affiliate links, lead forms, or sales language.

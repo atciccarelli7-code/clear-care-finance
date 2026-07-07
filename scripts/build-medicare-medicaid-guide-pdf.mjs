@@ -98,11 +98,26 @@ const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
 };
 
 const getSection = (chapterBody, heading) => {
-  const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const body = normalizeNewlines(chapterBody);
-  const regex = new RegExp(`^##\\s+${escaped}\\s*\\n([\\s\\S]*?)(?=\\n##\\s+|\\n---\\s*\\n|$)`, "im");
-  return body.match(regex)?.[1]?.trim() ?? "";
+  const lines = normalizeNewlines(chapterBody).split("\n");
+  const target = `## ${heading}`.toLowerCase();
+  const startIndex = lines.findIndex((line) => line.trim().toLowerCase() === target);
+
+  if (startIndex === -1) return "";
+
+  const sectionLines = [];
+  for (let index = startIndex + 1; index < lines.length; index += 1) {
+    const trimmed = lines[index].trim();
+    if (/^##\s+/.test(trimmed) || /^---\s*$/.test(trimmed)) break;
+    sectionLines.push(lines[index]);
+  }
+
+  return sectionLines.join("\n").trim();
 };
+
+const countBullets = (markdown) =>
+  normalizeNewlines(markdown)
+    .split("\n")
+    .filter((line) => line.trim().startsWith("- ")).length;
 
 const parseChapter = (rawChapter) => {
   const chapterBody = normalizeNewlines(rawChapter);
@@ -247,10 +262,18 @@ for (const chapter of chapters) {
       missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) missing ${label}`);
     }
   }
+
+  if (countBullets(chapter.questions) < 2) {
+    missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) has fewer than 2 question bullets`);
+  }
+
+  if (countBullets(chapter.tools) < 1) {
+    missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) has no related tool bullets`);
+  }
 }
 
 if (missingChapterFields.length > 0) {
-  console.error("Manuscript parsing failed. Missing required chapter sections:");
+  console.error("Manuscript parsing failed. Missing or incomplete required chapter sections:");
   for (const issue of missingChapterFields) console.error(`- ${issue}`);
   process.exit(1);
 }

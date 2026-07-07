@@ -1,7 +1,7 @@
 # Medicare and Medicaid Guide Public Release Report
 
 Community Acquired Finance  
-Final release-readiness verification pass  
+Launch-integration planning pass  
 Last updated: 2026-07-07
 
 ## Release decision
@@ -88,11 +88,29 @@ Verified official facts:
 
 No manuscript, builder, route, sitemap, CTA, QR, or public PDF change was made in the verification pass.
 
-## Release posture after final fact verification
+### Launch integration planning
 
-The guide is closer to public release, but final fact verification is **not** final publication approval.
+The launch-integration planning pass defines the final public PDF path, CTA timing, sitemap timing, QR destination map, device QA, print QA, launch sequence, and rollback plan.
 
-The guide can proceed to device, print, QR, and public launch integration planning.
+Checklist file:
+
+- `/docs/medicare-medicaid-guide-launch-integration-checklist.md`
+
+Planned final public PDF path:
+
+`/public/guides/hospital-family-guide-medicare-medicaid-rehab-long-term-care.pdf`
+
+Planned final public PDF URL:
+
+`https://communityacquiredfinance.com/guides/hospital-family-guide-medicare-medicaid-rehab-long-term-care.pdf`
+
+The planning pass does not create the final PDF, unlock the CTA, add sitemap PDF URL, or generate QR codes.
+
+## Release posture after launch planning
+
+The guide is closer to public release, but launch planning is **not** final publication approval.
+
+The guide can proceed to final public PDF candidate creation and device/print QA only after the launch checklist is accepted.
 
 ## Remaining release blockers
 
@@ -124,12 +142,27 @@ The guide can proceed to device, print, QR, and public launch integration planni
 - [x] Confirm all year-specific claims have visible update discipline.
 - [x] Confirm outpatient observation notice timing before publication.
 
+### Launch integration planning
+
+- [x] Define final public PDF asset path and filename.
+- [x] Define landing page CTA behavior after launch.
+- [x] Define sitemap timing.
+- [x] Define QR destination map.
+- [x] Define device QA checklist.
+- [x] Define black-and-white print checklist.
+- [x] Define launch sequence.
+- [x] Define rollback plan.
+
 ### Visual, mobile, and print QA
 
-- [ ] Open PDF on desktop browser as final public-candidate file.
-- [ ] Open PDF on iPhone.
-- [ ] Open PDF on Android if available.
+- [ ] Open final public candidate PDF on desktop browser.
+- [ ] Open final public candidate PDF on iPhone.
+- [ ] Open final public candidate PDF on Android if available.
+- [ ] Open PDF from landing page CTA after the public file exists.
+- [ ] Open PDF from direct URL after the public file exists.
+- [ ] Confirm sharing/download behavior.
 - [ ] Print cover in black and white.
+- [ ] Print disclaimer page in black and white.
 - [ ] Print one short chapter in black and white.
 - [ ] Print one long chapter in black and white.
 - [ ] Print one worksheet in black and white.
@@ -143,6 +176,7 @@ The guide can proceed to device, print, QR, and public launch integration planni
 - [ ] Add PDF URL to sitemap only after the real file exists.
 - [ ] Generate QR codes only after final live URLs are tested.
 - [ ] Test QR codes from phone screen and printed paper.
+- [ ] Verify Search Console/sitemap submission readiness.
 
 ## Current landing page CTA status
 
@@ -182,4 +216,4 @@ This pass does not add:
 
 ## Next recommended PR
 
-After this final release-readiness verification PR, the next step should be device, print, and launch integration preparation: define the final PDF public asset path, QR destination map, final CTA behavior, sitemap timing, and exact QA checks to complete immediately after the final PDF file is created.
+After this launch-integration planning PR, the next controlled step should be preparing the final public PDF candidate and running the final device/print QA sequence. Do not unlock the CTA or add the sitemap PDF URL until the public PDF file exists and has passed direct URL testing.

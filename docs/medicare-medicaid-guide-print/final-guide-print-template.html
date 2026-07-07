@@ -9,23 +9,25 @@
     :root {
       --ink: #171717;
       --muted: #4f555c;
-      --line: #c9d1d9;
-      --soft: #f3f5f7;
+      --line: #aeb8c2;
+      --soft: #f2f4f6;
       --accent: #1f4d5a;
       --accent-soft: #edf6f8;
     }
     * { box-sizing: border-box; }
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     body {
       margin: 0;
       color: var(--ink);
       background: white;
-      font: 11pt/1.48 Georgia, "Times New Roman", serif;
+      font: 11pt/1.5 Georgia, "Times New Roman", serif;
       overflow-wrap: anywhere;
+      text-rendering: optimizeLegibility;
     }
     h1, h2, h3, h4, .sans, .label, .footer, .toc, .qr, .worksheet, .eyebrow {
       font-family: Arial, Helvetica, sans-serif;
     }
-    h1 { font-size: 28pt; line-height: 1.08; margin: 0 0 0.22in; }
+    h1 { font-size: 27pt; line-height: 1.1; margin: 0 0 0.22in; max-width: 7in; }
     h2 { font-size: 18pt; line-height: 1.2; margin: 0 0 0.16in; break-after: avoid; page-break-after: avoid; }
     h3 { font-size: 12.5pt; line-height: 1.25; margin: 0.18in 0 0.06in; break-after: avoid; page-break-after: avoid; }
     h4 { font-size: 10pt; line-height: 1.25; margin: 0.14in 0 0.05in; break-after: avoid; page-break-after: avoid; }
@@ -75,6 +77,8 @@
       border-top: 1px solid var(--line);
       padding-top: 0.12in;
       margin-top: 0.18in;
+      page-break-inside: avoid;
+      break-inside: avoid;
     }
     .qr {
       width: 1.25in;
@@ -89,7 +93,7 @@
       padding: 0.08in;
       overflow-wrap: normal;
     }
-    .source { font-size: 8.8pt; color: var(--muted); background: white; overflow-wrap: anywhere; }
+    .source { font-size: 8.8pt; color: var(--muted); background: white; overflow-wrap: anywhere; page-break-inside: auto; break-inside: auto; }
     .source p { margin-bottom: 0; }
     .footer {
       position: static;
@@ -108,18 +112,20 @@
     .worksheet-card { background: white; }
     .worksheet-row {
       border-bottom: 1px solid var(--line);
-      min-height: 0.52in;
+      min-height: 0.56in;
       padding: 0.1in 0;
       display: grid;
-      grid-template-columns: 2.1in 1fr;
+      grid-template-columns: minmax(1.9in, 2.2in) 1fr;
       gap: 0.14in;
       align-items: start;
     }
     .worksheet-row strong { font-family: Arial, Helvetica, sans-serif; font-size: 9.3pt; }
-    .worksheet-row span { min-height: 0.3in; display: block; }
+    .worksheet-row span { min-height: 0.34in; display: block; }
     .small { font-size: 9pt; color: var(--muted); }
     .page-break { page-break-before: always; break-before: page; }
-    .keep, .keep-soft { page-break-inside: avoid; break-inside: avoid; }
+    .keep { page-break-inside: avoid; break-inside: avoid; }
+    .keep-soft { page-break-inside: avoid; break-inside: avoid; }
+    .source.keep-soft { page-break-inside: auto; break-inside: auto; }
     @media print {
       a { text-decoration: none; }
       .page { break-after: page; }
@@ -131,7 +137,7 @@
   <section class="page cover">
     <div class="eyebrow">Community Acquired Finance</div>
     <h1>The Hospital Family Guide to Medicare, Medicaid, Rehab, and Long-Term Care</h1>
-    <p class="subtitle">A plain-English guide for patients, caregivers, and families trying to understand discharge planning, rehab coverage, long-term care, Medicaid, and medical bills.</p>
+    <p class="subtitle">A plain-English guide for adult children, spouses, caregivers, and families trying to help someone through discharge planning, rehab coverage, long-term care, Medicaid, and medical bills.</p>
     <p class="byline">Written from a healthcare-worker perspective by Andrew Ciccarelli, RN, BSN.</p>
     <div class="notice small">Draft print template. Do not publish as a final PDF until source review, QR testing, PDF preflight, and final approval are complete.</div>
     <div class="footer"><span>Educational only</span><span>Draft print template</span></div>
@@ -143,7 +149,7 @@
       <p>This guide is educational only. It is not medical, legal, tax, insurance, Medicaid planning, or individualized financial advice. It does not replace Medicare.gov, Medicaid.gov, CMS, state Medicaid agencies, plan documents, billing offices, SHIP counselors, clinicians, attorneys, licensed insurance professionals, or other qualified professionals. Rules can vary by state, plan, facility, timing, and personal circumstances. Verify before making decisions.</p>
     </div>
     <h2>How to use this guide</h2>
-    <p>Start with the situation in front of you: discharge, rehab, home health, long-term care, Medicaid, a denial, or a bill. Then ask which payer is involved, what rule applies, what documentation exists, what the patient may owe, and where the answer can be verified.</p>
+    <p>Start with the problem in front of you: discharge, rehab, home health, long-term care, Medicaid, a denial, or a bill. Write down the patient status, payer, facility, dates, reference numbers, and written notices before calling. Then verify the answer with the source that controls the decision.</p>
     <div class="notice small">Replace this draft text with the final approved manuscript before PDF export.</div>
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Last updated 2026-07-06</span></div>
   </section>

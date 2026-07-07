@@ -1,7 +1,7 @@
 # Medicare and Medicaid Guide Public Release Report
 
 Community Acquired Finance  
-Guide PDF manuscript content parser fix pass  
+Guide PDF full-section parser fix pass  
 Last updated: 2026-07-07
 
 ## Release decision
@@ -14,15 +14,15 @@ This is intentional. Do not publish a fake, empty, placeholder, draft, or uninsp
 
 ## Latest artifact run reviewed
 
-A manual run of **Guide PDF Preflight Artifact** succeeded after the workflow install fix.
+A manual run of **Guide PDF Preflight Artifact** succeeded after the first parser fix.
 
 Reviewed run:
 
-`28861296788`
+`28871797546`
 
 Reviewed job:
 
-`85600255768`
+`85636262114`
 
 Artifact created:
 
@@ -40,11 +40,18 @@ The artifact contained:
 - generated PDF,
 - artifact manifest.
 
-The PDF was not acceptable for public release because chapter pages rendered mostly as headings and labels without the manuscript body text.
+The PDF was improved because chapter body text appeared. However, the artifact was still not acceptable for public release because section extraction was incomplete.
 
-This means the PDF generator produced a technically successful artifact, but the artifact failed content-rendering QA.
+Observed issue:
 
-## Parser fix made
+- only the first paragraph or first bullet from a section rendered,
+- Chapter 1 showed only the first `Questions to ask` bullet,
+- Chapter 1 showed only the first related tool,
+- multi-paragraph explanation sections appeared shortened.
+
+This means the PDF generator produced a technically successful artifact, but the artifact failed full-section content-rendering QA.
+
+## Full-section parser fix made
 
 Updated:
 
@@ -52,14 +59,14 @@ Updated:
 
 Fixes:
 
-- Added newline normalization before parsing.
-- Made chapter title parsing more robust.
-- Made section heading parsing more robust.
-- Added required-section validation for every chapter.
-- Changed missing manuscript sections from silent blank PDF output into a failed build.
-- Added console output showing parsed chapter and worksheet counts.
+- Replaced regex section extraction with a line-by-line parser.
+- Extracts all lines from a matching section until the next `##` heading or chapter divider.
+- Preserves multi-paragraph sections.
+- Preserves full bullet lists.
+- Adds a validation guard for question-list truncation.
+- Keeps existing required-section validation.
 
-After this fix, the workflow should fail rather than upload a misleading PDF if chapter body text is not being extracted correctly.
+After this fix, the workflow should fail rather than upload a misleading PDF if question lists are truncated.
 
 ## Workflow/process improvements now in place
 
@@ -91,7 +98,6 @@ Improvements already made:
 - improved body line-height,
 - darker print borders,
 - print color adjustment hints,
-- safer source-note splitting,
 - preserved keep-together behavior for answer/tool blocks,
 - increased worksheet row and note space,
 - continued long URL/code wrapping,
@@ -109,8 +115,8 @@ Current status: **Not created**.
 
 Reason:
 
-- The prior artifact failed content-rendering QA.
-- The parser fix needs to be merged and rerun.
+- The prior artifact failed full-section content-rendering QA.
+- The full-section parser fix needs to be merged and rerun.
 - A final approved PDF has not been visually inspected.
 - Manual print and mobile PDF review are still pending.
 - QR codes have not been generated from tested live URLs.
@@ -163,7 +169,7 @@ Before public release, complete these checks:
 
 ### Artifact generation
 
-- [ ] Rerun **Guide PDF Preflight Artifact** from GitHub Actions after the parser fix is merged.
+- [ ] Rerun **Guide PDF Preflight Artifact** from GitHub Actions after the full-section parser fix is merged.
 - [ ] Confirm the workflow succeeds.
 - [ ] Download `medicare-medicaid-guide-preflight-draft`.
 - [ ] Confirm the artifact contains the generated HTML.
@@ -176,6 +182,8 @@ Before public release, complete these checks:
 ### Content-rendering QA
 
 - [ ] Confirm Chapter 1 has real body text under every expected section.
+- [ ] Confirm Chapter 1 has the full question list.
+- [ ] Confirm Chapter 1 has the full related tools list.
 - [ ] Confirm several later chapters have real body text under every expected section.
 - [ ] Confirm related tools and source notes render.
 - [ ] Confirm worksheets render.
@@ -230,9 +238,9 @@ Confirmed for this pass:
 
 The next pass may publish the final PDF only if all of the following are true:
 
-1. The parser-fixed GitHub Actions artifact workflow has run successfully.
+1. The full-section parser-fixed GitHub Actions artifact workflow has run successfully.
 2. The generated draft PDF artifact has been downloaded and inspected.
-3. The PDF passes content-rendering QA.
+3. The PDF passes full-section content-rendering QA.
 4. The PDF passes manual visual QA.
 5. The PDF passes black-and-white print QA.
 6. The PDF passes mobile viewing QA.
@@ -246,4 +254,4 @@ The next pass may publish the final PDF only if all of the following are true:
 
 ## Conclusion
 
-This pass fixes the parser issue that allowed an artifact to succeed while chapter body content was missing. The guide is still not ready for public PDF release. The correct next move is to merge this parser fix, rerun the manual GitHub Actions artifact workflow from `main`, download the new draft PDF artifact if it succeeds, and complete content-rendering, visual, mobile, and print QA.
+This pass fixes the parser issue that caused section content to truncate after the first paragraph or bullet. The guide is still not ready for public PDF release. The correct next move is to merge this full-section parser fix, rerun the manual GitHub Actions artifact workflow from `main`, download the new draft PDF artifact if it succeeds, and complete full-section content-rendering, visual, mobile, and print QA.

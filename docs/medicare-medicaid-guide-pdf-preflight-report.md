@@ -1,336 +1,167 @@
 # Medicare and Medicaid Guide PDF Preflight Report
 
 Community Acquired Finance  
-Draft PDF generation and visual QA pass  
-Last updated: 2026-07-06
+Guide PDF artifact review and layout fix pass  
+Last updated: 2026-07-07
 
 ## Status
 
-Draft/internal build process created and tightened. Public PDF release is not approved.
+Draft/internal PDF build process remains in controlled pre-release. Public PDF release is **not approved**.
 
-## Decision: do not commit `/public/drafts/*.pdf`
+## Artifact workflow review
 
-The requested preferred path was:
+Workflow reviewed:
 
-`/public/drafts/hospital-family-guide-medicare-medicaid-preflight.pdf`
+`/.github/workflows/guide-pdf-preflight.yml`
 
-That path is not appropriate for an internal draft in this repo because Vercel serves files under `/public`. A merged PDF at that path would be publicly reachable even if it was not linked from a page or added to the sitemap.
+Workflow name:
 
-Instead, the draft build process writes generated files under:
+`Guide PDF Preflight Artifact`
 
-`/docs/generated/medicare-medicaid-guide/`
+Available GitHub workflow metadata showed no verified successful run for the latest relevant main commits checked in this pass. Therefore, no generated draft PDF artifact was available for visual inspection from the connector review.
 
-Generated files are ignored by Git and are not committed by this workflow.
+This means the PDF is **not ready for public release**.
 
-## Files added or changed
+## Workflow improvements made in this pass
 
-- Added/updated: `/scripts/build-medicare-medicaid-guide-pdf.mjs`
-- Updated: `/package.json`
-- Updated: `.gitignore`
-- Updated: `/docs/medicare-medicaid-guide-pdf-preflight-report.md`
-- Updated: `/docs/medicare-medicaid-guide-print/final-guide-print-template.html`
+The GitHub Actions workflow now:
 
-## Local draft PDF generation command
+- runs manually through `workflow_dispatch`,
+- builds the draft HTML and PDF under `docs/generated/medicare-medicaid-guide/`,
+- confirms both generated files exist,
+- confirms both generated files are non-empty,
+- fails if the generated PDF is unexpectedly small,
+- fails if any PDF exists under `/public/drafts` or `/public/guides`,
+- creates a `guide-preflight-artifact-manifest.txt`,
+- records file sizes, SHA-256 hashes, commit SHA, run ID, and guardrail status,
+- uploads the draft HTML, draft PDF, and manifest as one temporary artifact.
 
-Run:
+Expected artifact name:
+
+`medicare-medicaid-guide-preflight-draft`
+
+Expected artifact contents:
+
+```text
+docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.html
+docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.pdf
+docs/generated/medicare-medicaid-guide/guide-preflight-artifact-manifest.txt
+```
+
+## Layout and readability fixes made in this pass
+
+Updated:
+
+- `/scripts/build-medicare-medicaid-guide-pdf.mjs`
+- `/docs/medicare-medicaid-guide-print/final-guide-print-template.html`
+
+Fixes:
+
+- Updated cover/subtitle language to match the family-first site positioning.
+- Slightly reduced the cover title size to reduce overflow risk.
+- Increased body line-height for readability.
+- Darkened border color for black-and-white print clarity.
+- Added print color adjustment hints for browser PDF export.
+- Added safer source-note splitting so long source blocks are less likely to create awkward whitespace.
+- Preserved keep-together behavior for tool blocks and key answer boxes.
+- Increased worksheet row height and notes area height.
+- Kept long URL and inline-code wrapping safeguards.
+- Kept flowing footers instead of absolute-positioned footers.
+
+## What this pass could not verify
+
+Because no successful artifact run was verified, this pass did **not** visually inspect a generated PDF.
+
+Still requires manual review:
+
+- cover title fit,
+- mobile PDF readability,
+- source-note readability,
+- endnote/source map density,
+- page breaks,
+- footer placement,
+- QR placeholder placement,
+- worksheet spacing,
+- black-and-white print quality.
+
+## Local or GitHub Actions generation
+
+Preferred review path:
+
+1. Go to GitHub Actions.
+2. Run **Guide PDF Preflight Artifact** from `main`.
+3. Download `medicare-medicaid-guide-preflight-draft`.
+4. Open the draft PDF on desktop.
+5. Open the draft PDF on phone.
+6. Print sample pages in black and white.
+7. Review the manifest file for file size and SHA-256 details.
+
+Local fallback:
 
 ```bash
 npm run guide:pdf:draft
 ```
 
-Expected generated outputs:
+Expected local outputs:
 
 ```text
 /docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.html
 /docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.pdf
 ```
 
-The script uses only Node built-ins plus a local Chrome, Chromium, or Microsoft Edge installation. If the browser cannot be found, set one of these environment variables:
+Generated files under `/docs/generated/` are ignored by Git and must not be committed.
 
-```bash
-CHROME_PATH=/path/to/chrome npm run guide:pdf:draft
-```
+## Manual QA checklist
 
-or
+### Visual QA
 
-```bash
-PUPPETEER_EXECUTABLE_PATH=/path/to/chrome npm run guide:pdf:draft
-```
+- [ ] Cover title fits without clipping.
+- [ ] Cover subtitle feels professional and family-first.
+- [ ] Direct answer boxes do not clip text.
+- [ ] Source notes do not overflow.
+- [ ] Endnote URLs wrap cleanly.
+- [ ] Footer does not overlap long content.
+- [ ] Chapter starts begin cleanly on new pages.
+- [ ] Callout/example blocks do not split badly.
+- [ ] QR placeholders do not collide with tool text.
+- [ ] Worksheets have enough writing space.
 
-## What the script does
+### Device QA
 
-- Reads `/docs/medicare-medicaid-guide-final-pre-pdf-manuscript.md`.
-- Parses the 19 chapter headings.
-- Converts each chapter into a print HTML structure.
-- Preserves the visual hierarchy:
-  - chapter title,
-  - direct answer box,
-  - plain-English explanation,
-  - common misunderstanding callout,
-  - hospital/caregiver example,
-  - questions checklist,
-  - related tools,
-  - QR placeholder,
-  - source note.
-- Adds front matter:
-  - cover,
-  - disclaimer,
-  - how to use this guide,
-  - table of contents.
-- Adds back matter:
-  - dedicated worksheet pages,
-  - endnotes/source map,
-  - QR/tool directory.
-- Keeps QR placeholders only.
-- Exports a local preflight PDF when Chrome/Chromium/Edge is available.
+- [ ] Open PDF on desktop browser.
+- [ ] Open PDF on iPhone.
+- [ ] Open PDF on Android if available.
+- [ ] Confirm the website guide hub remains the better mobile-first experience.
 
-## Fixes made in the preflight-fix pass
+### Print QA
 
-### 1. Long source-note handling
+- [ ] Print cover in black and white.
+- [ ] Print one short chapter in black and white.
+- [ ] Print one long chapter in black and white.
+- [ ] Print one worksheet in black and white.
+- [ ] Print the source/endnote page in black and white.
 
-Improved:
+### Content QA
 
-- Source notes now use smaller but still readable text.
-- Source blocks use `overflow-wrap: anywhere` so long source strings can wrap.
-- Source blocks are marked with soft keep-together behavior to reduce awkward splits.
-
-Remaining manual QA:
-
-- Inspect the final source/endnote pages after local PDF export.
-- If source pages feel too dense, convert raw URLs into named linked sources before public release.
-
-### 2. Raw URL wrapping
-
-Improved:
-
-- Inline code and URL-like strings now use `overflow-wrap: anywhere` and `word-break: break-word`.
-- Related-tool routes and source URLs should wrap instead of overflowing page width.
-
-Remaining manual QA:
-
-- Check long CMS/Medicaid URLs in the rendered endnote section.
-- Confirm browser/PDF export preserves readable wrapping.
-
-### 3. Footer overlap risk
-
-Improved:
-
-- The generator and final template no longer rely on absolutely positioned footers.
-- Footers now sit in document flow with margin above them.
-- This reduces the risk that long source notes or callout boxes overlap the footer.
-
-Remaining manual QA:
-
-- Confirm footers still look acceptable visually.
-- Confirm long chapters do not create lonely footer lines or odd page endings.
-
-### 4. Page-break control
-
-Improved:
-
-- Headings use `break-after: avoid` / `page-break-after: avoid`.
-- Chapter pages still begin on new pages.
-- Callout, example, tool, and source blocks use keep-together behavior where practical.
-- Paragraphs use basic widow/orphan controls.
-
-Remaining manual QA:
-
-- Inspect long chapters for awkward page breaks.
-- Some chapters may still need manual forced page breaks after actual PDF rendering.
-
-### 5. Worksheet spacing
-
-Improved:
-
-- Worksheets are parsed into dedicated pages instead of being compressed into one back-matter page.
-- Worksheet rows have larger minimum height.
-- Rows use a two-column label/notes layout.
-
-Remaining manual QA:
-
-- Confirm each worksheet has enough room for handwriting.
-- Consider expanding the most important worksheets into two pages if the public version feels cramped.
-
-### 6. Table of contents readability
-
-Improved:
-
-- The generated table of contents now uses one column instead of two.
-- TOC items have slightly more spacing.
-- The final static print template mirrors this one-column approach.
-
-Remaining manual QA:
-
-- Add final page numbers only after pagination is stable.
-
-### 7. Mobile PDF readability
-
-Improved:
-
-- Cover title size is slightly reduced.
-- Body line-height is slightly increased.
-- Source and code wrapping are safer on narrow/mobile PDF viewers.
-
-Remaining manual QA:
-
-- Open the generated PDF on iPhone and Android.
-- Confirm the landing page remains the better mobile-first version while the PDF remains print-first.
-
-### 8. Black-and-white print clarity
-
-Improved:
-
-- Border and muted text colors were made slightly darker.
-- Accent blocks remain light but clearer in grayscale.
-- Worksheet lines and callout borders are more likely to print visibly.
-
-Remaining manual QA:
-
-- Print the cover, one chapter, one worksheet, and one source page in black and white.
-- If light gray blocks are still too faint, darken `--line` and reduce `--soft` brightness.
+- [ ] Recheck current-year Medicare dollar amounts immediately before release.
+- [ ] Confirm no state-specific Medicaid claim appears without official state Medicaid sourcing.
+- [ ] Confirm estate recovery and spousal impoverishment remain caution topics only.
+- [ ] Confirm educational-only disclaimer appears near the front.
+- [ ] Confirm source notes and endnotes are readable.
 
 ## What this pass does not do
 
 - Does not commit a generated PDF.
 - Does not add a file under `/public/drafts`.
+- Does not add a file under `/public/guides`.
 - Does not publish or link a downloadable guide.
 - Does not change the public landing page CTA.
 - Does not add the PDF to the sitemap.
 - Does not generate final QR codes.
 - Does not add ads, affiliate links, insurer rankings, lead forms, or plan recommendations.
 
-## Preflight checklist to run after local export
+## Current release decision
 
-### 1. Clipped text
+The PDF remains **not public**.
 
-Status: Improved in CSS; still requires local PDF render review.
-
-Check:
-
-- Cover title fits.
-- Direct answer boxes do not clip text.
-- Source notes do not overflow.
-- Worksheet rows do not cut off labels.
-- Endnote URLs do not overflow page width.
-
-### 2. Overlapping boxes
-
-Status: Improved by removing absolute footer positioning; still requires local PDF render review.
-
-Check:
-
-- Direct answer boxes do not overlap body text.
-- Misunderstanding callouts do not collide with examples.
-- QR placeholders do not collide with related tool text.
-- Footer does not overlap long source notes.
-
-### 3. Bad page breaks
-
-Status: Improved with heading and block break controls; still requires local PDF render review.
-
-Check:
-
-- Chapter starts begin on new pages.
-- Callouts are not split awkwardly across pages.
-- Hospital/caregiver examples are not split awkwardly.
-- Questions checklists remain readable.
-- Worksheet sections mostly remain one page each.
-
-### 4. Source-note readability
-
-Status: Improved with wrapping and readable source-note sizing; still requires print review.
-
-Check:
-
-- Source notes stay readable.
-- Source notes are not too faint in grayscale.
-- Endnotes are readable when printed.
-- Source map does not become a wall of tiny URLs.
-
-### 5. Worksheet spacing
-
-Status: Improved with one worksheet per page and larger writing rows; still requires print review.
-
-Check:
-
-- Before-discharge checklist has enough room for notes.
-- Prior authorization tracker has enough writing space.
-- Bill review worksheet has enough writing space.
-- Medicaid/LTSS next-step worksheet has enough writing space.
-
-### 6. Mobile PDF viewing
-
-Status: Improved modestly; still requires device review.
-
-Check:
-
-- File opens on iPhone.
-- File opens on Android.
-- Text remains readable without excessive zooming.
-- QR placeholder boxes do not visually dominate.
-- Endnotes are not unusable on mobile.
-
-### 7. Black-and-white printing
-
-Status: Improved with darker borders and muted text; still requires print test.
-
-Check:
-
-- Accent color remains legible in grayscale.
-- Callout borders remain visible.
-- Direct answer boxes print clearly.
-- Worksheet lines print clearly.
-- QR placeholders scanability is not applicable yet because final QR codes are not generated.
-
-## Recommended local QA workflow
-
-1. Run:
-
-```bash
-npm run guide:pdf:draft
-```
-
-2. Open:
-
-```text
-docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.pdf
-```
-
-3. Print at least these pages in black and white:
-
-- cover,
-- one short chapter,
-- one long chapter,
-- one worksheet,
-- source/endnotes page.
-
-4. Inspect on mobile:
-
-- iPhone PDF viewer,
-- Android PDF viewer if available,
-- desktop browser PDF viewer.
-
-5. Fix remaining issues in the generator/template before any public release PR.
-
-## Release gate after this pass
-
-Do not move any PDF into `/public` until:
-
-- the draft PDF is visually inspected,
-- clipping and overlap issues are fixed,
-- QR codes are generated from final tested URLs,
-- all QR codes scan from printed paper,
-- the PDF is approved for public release,
-- the landing page CTA is updated in a separate PR,
-- sitemap changes are handled intentionally.
-
-## Next recommended phase
-
-After a local PDF is generated and visually inspected, the next build phase should be controlled release preparation:
-
-- address any remaining manual QA issues,
-- create final QR codes only after URL testing,
-- place the final approved PDF under a public asset path,
-- update the landing page download CTA,
-- update the sitemap if needed,
-- verify the live download.
+The next release decision can only happen after the GitHub Actions artifact workflow runs successfully, the artifact is downloaded, and the generated PDF passes manual visual, mobile, and print QA.

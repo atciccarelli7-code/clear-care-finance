@@ -1,7 +1,7 @@
 # Medicare and Medicaid Guide PDF Preflight Report
 
 Community Acquired Finance  
-Guide PDF manuscript content parser fix pass  
+Guide PDF full-section parser fix pass  
 Last updated: 2026-07-07
 
 ## Status
@@ -10,37 +10,37 @@ Draft/internal PDF build process remains in controlled pre-release. Public PDF r
 
 ## Latest artifact run reviewed
 
-A corrected manual workflow run succeeded and uploaded the expected artifact:
+A parser-fixed manual workflow run succeeded and uploaded the expected artifact:
 
 `medicare-medicaid-guide-preflight-draft`
 
 Run reviewed:
 
-`28861296788`
+`28871797546`
 
 Job reviewed:
 
-`85600255768`
+`85636262114`
 
 The run completed all expected steps, including build, file existence checks, public-path guardrail check, manifest creation, and artifact upload.
 
-## Critical issue found in the generated artifact
+## Issue found in the generated artifact
 
-The artifact generated a PDF, but manual inspection showed that chapter pages rendered mostly as headings and section labels without the manuscript body text.
+The artifact generated a PDF with real chapter body text, which was progress from the prior blank-section artifact.
 
-This means the prior artifact is **not usable for public release**.
+However, manual inspection showed another release-blocking parser issue: each manuscript section appeared to include only the first paragraph or first bullet.
 
-Root cause:
+Examples observed:
 
-The PDF generator parsed the 19 chapter titles, but the section parser failed to reliably extract manuscript sections such as:
+- Chapter 1 showed the first `Questions to ask` bullet, but not the full question list.
+- Chapter 1 showed the first related tool, but not the full tool list.
+- Multi-paragraph explanation sections appeared shortened.
 
-- Direct answer
-- Plain-English explanation
-- Common misunderstanding
-- Hospital/caregiver example
-- Questions to ask
-- Related site tools
-- Source note
+This means the artifact is **not usable for public release**.
+
+## Root cause
+
+The previous parser used a regular expression with multiline behavior that allowed section extraction to stop too early. The build succeeded because every section had at least some content, but the content was incomplete.
 
 ## Fix made in this pass
 
@@ -50,14 +50,14 @@ Updated:
 
 Fixes:
 
-- Added newline normalization before parsing.
-- Made chapter title parsing more robust.
-- Made section heading parsing more robust.
-- Added hard validation for all required chapter sections.
-- Changed missing chapter sections from silent empty output into a failed build.
-- Added console output showing parsed chapter and worksheet counts.
+- Replaced the regex-based section extraction with a line-by-line section parser.
+- Extracts all lines from a matching `##` section until the next `##` heading or chapter divider.
+- Preserves multi-paragraph sections.
+- Preserves full bullet lists.
+- Adds a question-list validation guard so chapters with fewer than two question bullets fail the build.
+- Keeps the required-section validation already added in the prior pass.
 
-The workflow should now fail rather than upload a visually misleading PDF if manuscript content is not being extracted correctly.
+The workflow should now fail rather than upload a misleading PDF if section extraction truncates chapter lists.
 
 ## Artifact workflow review
 
@@ -105,7 +105,6 @@ The generator and print template have already been tightened for likely layout r
 - improved body line-height,
 - darker print borders,
 - print color adjustment hints,
-- safer source-note splitting,
 - preserved keep-together behavior for answer/tool blocks,
 - increased worksheet row and note space,
 - long URL and inline-code wrapping safeguards,
@@ -113,11 +112,12 @@ The generator and print template have already been tightened for likely layout r
 
 ## What still requires manual review
 
-The prior successful artifact was rejected because the chapter body content did not render.
+After this full-section parser fix is merged, rerun the workflow and manually review the new artifact for:
 
-After this parser fix is merged, rerun the workflow and manually review the new artifact for:
-
-- chapter body text actually appears,
+- full chapter body text appears,
+- full question lists appear,
+- full related-tool lists appear,
+- multi-paragraph explanation sections appear,
 - cover title fit,
 - mobile PDF readability,
 - source-note readability,
@@ -139,19 +139,6 @@ After this parser fix is merged, rerun the workflow and manually review the new 
 7. Print sample pages in black and white.
 8. Review the manifest file for file size and SHA-256 details.
 
-Local fallback:
-
-```bash
-npm run guide:pdf:draft
-```
-
-Expected local outputs:
-
-```text
-/docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.html
-/docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.pdf
-```
-
 Generated files under `/docs/generated/` are ignored by Git and must not be committed.
 
 ## Manual QA checklist
@@ -159,10 +146,11 @@ Generated files under `/docs/generated/` are ignored by Git and must not be comm
 ### Content-rendering QA
 
 - [ ] Chapter 1 contains body text under Direct answer.
-- [ ] Chapter 1 contains body text under Plain-English explanation.
+- [ ] Chapter 1 contains the full Plain-English explanation.
 - [ ] Chapter 1 contains body text under Common misunderstanding.
 - [ ] Chapter 1 contains body text under Hospital/caregiver example.
-- [ ] Chapter 1 contains body text under Questions to ask.
+- [ ] Chapter 1 contains the full Questions to ask list.
+- [ ] Chapter 1 contains the full Related site tools list.
 - [ ] Chapter 1 contains source note text.
 - [ ] Randomly check several later chapters for the same pattern.
 
@@ -217,4 +205,4 @@ Generated files under `/docs/generated/` are ignored by Git and must not be comm
 
 The PDF remains **not public**.
 
-The next release decision can only happen after the parser fix is merged, the GitHub Actions artifact workflow runs again successfully, the artifact is downloaded, and the generated PDF passes manual visual, mobile, print, and content-rendering QA.
+The next release decision can only happen after this full-section parser fix is merged, the GitHub Actions artifact workflow runs again successfully, the artifact is downloaded, and the generated PDF passes manual visual, mobile, print, and content-rendering QA.

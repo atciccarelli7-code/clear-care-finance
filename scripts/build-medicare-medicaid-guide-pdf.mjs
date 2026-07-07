@@ -119,6 +119,52 @@ const countBullets = (markdown) =>
     .split("\n")
     .filter((line) => line.trim().startsWith("- ")).length;
 
+const requiredChapterFields = [
+  ["directAnswer", "Direct answer"],
+  ["explanation", "Plain-English explanation"],
+  ["misunderstanding", "Common misunderstanding"],
+  ["example", "Hospital/caregiver example"],
+  ["questions", "Questions to ask"],
+  ["tools", "Related site tools"],
+  ["source", "Source note"],
+];
+
+const normalizeHeading = (value) => value.trim().toLowerCase();
+const requiredHeadingLabels = new Map(requiredChapterFields.map(([, label]) => [normalizeHeading(label), label]));
+
+const normalizeSectionForComparison = (value) =>
+  normalizeNewlines(value ?? "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .join("\n");
+
+const collectExpectedChapterSections = (rawChapter) => {
+  const sections = Object.fromEntries(requiredChapterFields.map(([, label]) => [label, []]));
+  let activeSection = null;
+
+  for (const rawLine of normalizeNewlines(rawChapter).split("\n")) {
+    const trimmed = rawLine.trim();
+    const headingMatch = trimmed.match(/^##\s+(.*)$/);
+
+    if (headingMatch) {
+      activeSection = requiredHeadingLabels.get(normalizeHeading(headingMatch[1])) ?? null;
+      continue;
+    }
+
+    if (/^#\s+/.test(trimmed) || /^---\s*$/.test(trimmed)) {
+      activeSection = null;
+      continue;
+    }
+
+    if (activeSection) sections[activeSection].push(rawLine);
+  }
+
+  return Object.fromEntries(
+    Object.entries(sections).map(([label, lines]) => [label, lines.join("\n").trim()]),
+  );
+};
+
 const parseChapter = (rawChapter) => {
   const chapterBody = normalizeNewlines(rawChapter);
   const titleMatch = chapterBody.match(/^#\s+Chapter\s+(\d+)\s+[—-]\s+(.*)$/m);
@@ -128,6 +174,7 @@ const parseChapter = (rawChapter) => {
   return {
     number,
     title,
+    raw: chapterBody,
     directAnswer: getSection(chapterBody, "Direct answer"),
     explanation: getSection(chapterBody, "Plain-English explanation"),
     misunderstanding: getSection(chapterBody, "Common misunderstanding"),
@@ -245,21 +292,20 @@ if (chapters.length !== 19) {
   process.exit(1);
 }
 
-const requiredChapterFields = [
-  ["directAnswer", "Direct answer"],
-  ["explanation", "Plain-English explanation"],
-  ["misunderstanding", "Common misunderstanding"],
-  ["example", "Hospital/caregiver example"],
-  ["questions", "Questions to ask"],
-  ["tools", "Related site tools"],
-  ["source", "Source note"],
-];
-
 const missingChapterFields = [];
 for (const chapter of chapters) {
+  const expectedSections = collectExpectedChapterSections(chapter.raw);
+
   for (const [key, label] of requiredChapterFields) {
     if (!chapter[key]?.trim()) {
       missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) missing ${label}`);
+      continue;
+    }
+
+    const expectedSection = normalizeSectionForComparison(expectedSections[label]);
+    const parsedSection = normalizeSectionForComparison(chapter[key]);
+    if (expectedSection !== parsedSection) {
+      missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) parser did not preserve the full ${label} section`);
     }
   }
 
@@ -273,7 +319,7 @@ for (const chapter of chapters) {
 }
 
 if (missingChapterFields.length > 0) {
-  console.error("Manuscript parsing failed. Missing or incomplete required chapter sections:");
+  console.error("Manuscript parsing failed. Missing, incomplete, or truncated required chapter sections:");
   for (const issue of missingChapterFields) console.error(`- ${issue}`);
   process.exit(1);
 }
@@ -400,6 +446,7 @@ if (!chrome) {
       "--headless",
       "--disable-gpu",
       "--no-sandbox",
+      "--no-pdf-header-footer",
       "--print-to-pdf-no-header",
       `--print-to-pdf=${pdfPath}`,
       pathToFileURL(htmlPath).href,

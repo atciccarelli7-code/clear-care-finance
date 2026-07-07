@@ -1,7 +1,7 @@
 # Medicare and Medicaid Guide Public Release Report
 
 Community Acquired Finance  
-Source-gap closure pass  
+Final manuscript cleanup audit pass  
 Last updated: 2026-07-07
 
 ## Release decision
@@ -12,9 +12,11 @@ The final public downloadable PDF is still not being published because release g
 
 This is intentional. Do not publish a fake, empty, placeholder, draft, uninspected, or partially sourced PDF.
 
-## What changed in this pass
+## What changed in recent passes
 
-The national official-source gaps identified in the fact-check report have been materially improved.
+### Source-gap closure
+
+The national official-source gaps identified in the fact-check report were materially improved.
 
 Updated files:
 
@@ -35,11 +37,25 @@ The source binder now includes official-source anchors for:
 - Medicaid.gov estate recovery,
 - Medicaid.gov spousal impoverishment.
 
-## Release posture after source-gap closure
+### Final manuscript cleanup audit
 
-The guide is closer to public release, but the source-gap closure pass is **not** the same as final publication approval.
+The final pre-PDF manuscript cleanup audit confirmed:
 
-The guide can proceed to final manuscript/editorial cleanup after this pass.
+- `/docs/medicare-medicaid-guide-final-pre-pdf-manuscript.md` is the active manuscript path read by the PDF builder.
+- Source-note posture now reflects the source-gap closure work.
+- Risky language areas remain appropriately cautious for a final pre-PDF artifact pass.
+- Worksheet sections remain practical and printable.
+- Pre-release/draft warnings should stay in place until a final public PDF exists.
+
+Cleanup audit file:
+
+- `/docs/medicare-medicaid-guide-final-manuscript-cleanup-report.md`
+
+## Release posture after cleanup audit
+
+The guide is closer to public release, but the cleanup audit is **not** the same as final publication approval.
+
+The guide can proceed to a fresh draft PDF preflight artifact after this pass.
 
 The guide should not proceed directly to public PDF release until the remaining gates below are completed.
 
@@ -47,13 +63,13 @@ The guide should not proceed directly to public PDF release until the remaining 
 
 ### Editorial and source-note QA
 
-- [ ] Confirm the final pre-PDF manuscript is the active source for PDF generation.
-- [ ] Confirm every chapter source note points to the correct source/endnote.
-- [ ] Confirm the Medicare Summary Notice and EOB sections use cautious wording.
-- [ ] Confirm Medicare Advantage prior authorization language stays neutral and process-focused.
-- [ ] Confirm dual-eligibility language distinguishes full Medicaid, limited Medicaid help, QMB, SLMB, QI, and QDWI.
-- [ ] Confirm estate recovery and spousal impoverishment are framed only as questions to ask state Medicaid agencies or qualified professionals.
-- [ ] Confirm no state-specific Medicaid claim appears without official state Medicaid sourcing.
+- [x] Confirm the final pre-PDF manuscript is the active source for PDF generation.
+- [x] Confirm source-note posture reflects the source-gap closure work.
+- [x] Confirm the Medicare Summary Notice and EOB sections use cautious wording.
+- [x] Confirm Medicare Advantage prior authorization language stays neutral and process-focused.
+- [x] Confirm dual-eligibility language distinguishes full Medicaid, limited Medicaid help, QMB, SLMB, QI, and QDWI.
+- [x] Confirm estate recovery and spousal impoverishment are framed only as questions to ask state Medicaid agencies or qualified professionals.
+- [x] Confirm no state-specific Medicaid claim appears without official state Medicaid sourcing.
 
 ### Current-year verification
 
@@ -132,4 +148,4 @@ This pass does not add:
 
 ## Next recommended PR
 
-After this source-gap closure PR, the next PR should perform a final editorial/source-note cleanup pass on the active final pre-PDF manuscript before any PDF publication work continues.
+After this final manuscript cleanup audit PR, the next step should be a fresh draft PDF preflight artifact run from GitHub Actions. Do not publish the artifact. Inspect it for parser preservation, page breaks, source-note rendering, worksheet usability, mobile opening, and black-and-white print readiness before creating a final public PDF.

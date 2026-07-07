@@ -36,6 +36,10 @@ The artifact fails if any item below is true.
 - [ ] Any visual clips, overlaps, or becomes unreadable.
 - [ ] Any visual looks like clip art, marketing collateral, or a low-credibility infographic.
 - [ ] The guide implies coverage, eligibility, payment, plan choice, medical necessity, or legal outcome for a specific person.
+- [ ] Raw route-only bullets appear inside `Questions to ask` sections.
+- [ ] Any high-risk Medicare/Medicaid claim is not traceable to an official source.
+- [ ] Any sentence is directionally correct but likely to confuse a lay reader.
+- [ ] Any current-year dollar amount appears without a release-date verification note.
 - [ ] QR placeholders look like real scannable QR codes.
 - [ ] Any final QR code is added before QR destination testing.
 - [ ] Any public PDF is committed under `/public/guides/` in this PR.
@@ -43,6 +47,44 @@ The artifact fails if any item below is true.
 - [ ] Landing page CTA is unlocked in this PR.
 - [ ] Sitemap PDF URL is added in this PR.
 - [ ] Ads, affiliate links, insurer rankings, plan recommendations, lead forms, or sales language are added.
+
+## Content-accuracy checks
+
+Before approving any PDF artifact, complete a source-backed editorial pass for these chapters:
+
+- [ ] Chapter 4 — Medicare vs Medicaid.
+- [ ] Chapter 6 — Original Medicare vs Medicare Advantage.
+- [ ] Chapter 7 — What Medicare Does Not Cover.
+- [ ] Chapter 8 — Why Medicare Can Pay and You Still Owe.
+- [ ] Chapter 9 — Inpatient vs Observation.
+- [ ] Chapter 10 — What to Ask Before Discharge.
+- [ ] Chapter 11 — Rehab After a Hospital Stay.
+- [ ] Chapter 12 — Skilled Nursing Facility Care.
+- [ ] Chapter 13 — Home Health and Durable Medical Equipment.
+- [ ] Chapter 15 — Long-Term Care and Medicaid.
+- [ ] Chapter 16 — Dual Eligibility.
+- [ ] Chapter 17 — Medicare Advantage Prior Authorization.
+
+Pass criteria:
+
+- [ ] Every high-risk statement is supported by Medicare.gov, Medicaid.gov, CMS.gov, an official state Medicaid agency, plan documents, or another clearly authoritative source.
+- [ ] Medicare Advantage statements do not imply all services require prior authorization.
+- [ ] SNF statements distinguish Original Medicare requirements from possible Medicare Advantage plan rules.
+- [ ] Long-term care statements distinguish skilled care, custodial care, and Medicaid LTSS.
+- [ ] QMB/Medicare Savings Program statements do not imply every bill is prohibited.
+- [ ] Home health statements do not imply full-time home aide coverage.
+- [ ] Observation/inpatient statements do not generalize beyond the rule being discussed.
+- [ ] Current-year dollar amounts are either removed from body text or verified immediately before release.
+
+## Grammar and clarity checks
+
+- [ ] Sentences are short enough for a stressed caregiver to follow.
+- [ ] Each paragraph makes one core point.
+- [ ] Important terms are defined before being used heavily.
+- [ ] Professional shorthand is avoided unless it is necessary and defined.
+- [ ] Questions-to-ask sections contain questions only.
+- [ ] Related tools are visibly labeled as tools/resources, not mixed into question lists.
+- [ ] The copy sounds like a careful healthcare-finance guide, not an insurer brochure or legal memo.
 
 ## Page-flow checks
 
@@ -172,6 +214,12 @@ Blocking checks:
 - Sitemap PDF URL absent:
 - No public PDF committed:
 
+Content review:
+- Official-source pass complete:
+- Related-tool routes absent from question sections:
+- Grammar/clarity pass complete:
+- Current-year dollar amounts handled:
+
 Visual review:
 - Guide-use map:
 - Medicare vs Medicaid visual:
@@ -184,4 +232,4 @@ Decision:
 
 ## Next step after rubric completion
 
-If the artifact passes, PR #108 can be considered for merge. After merge, generate the final public PDF candidate from the improved builder and only then proceed to the binary PDF candidate PR.
+If the artifact passes both the content review and visual review, PR #108 can be considered for merge. After merge, generate the final public PDF candidate from the improved builder and only then proceed to the binary PDF candidate PR.

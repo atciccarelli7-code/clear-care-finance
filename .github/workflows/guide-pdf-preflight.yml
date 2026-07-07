@@ -1,0 +1,58 @@
+name: Guide PDF Preflight Artifact
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-guide-pdf-artifact:
+    name: Build draft guide PDF artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set up Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Build draft PDF locally in docs/generated
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: npm run guide:pdf:draft
+
+      - name: Confirm generated draft files exist
+        run: |
+          test -f docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.html
+          test -f docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.pdf
+
+      - name: Fail if any PDF was placed under public draft or guide paths
+        run: |
+          for dir in public/drafts public/guides; do
+            if [ -d "$dir" ] && find "$dir" -type f -iname "*.pdf" | grep -q .; then
+              echo "Generated or committed PDF found under $dir. Draft PDFs must not be placed in public paths."
+              find "$dir" -type f -iname "*.pdf"
+              exit 1
+            fi
+          done
+
+      - name: Upload draft guide PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: medicare-medicaid-guide-preflight-draft
+          path: |
+            docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.html
+            docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.pdf
+          if-no-files-found: error
+          retention-days: 14

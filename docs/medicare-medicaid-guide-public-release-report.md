@@ -1,209 +1,78 @@
 # Medicare and Medicaid Guide Public Release Report
 
 Community Acquired Finance  
-Guide PDF full-section parser fix pass  
+Source-gap closure pass  
 Last updated: 2026-07-07
 
 ## Release decision
 
 Status: **Not released**.
 
-The final public downloadable PDF is not being published because the release gates are not fully satisfied.
+The final public downloadable PDF is still not being published because release gates remain open.
 
-This is intentional. Do not publish a fake, empty, placeholder, draft, or uninspected PDF.
+This is intentional. Do not publish a fake, empty, placeholder, draft, uninspected, or partially sourced PDF.
 
-## Latest artifact run reviewed
+## What changed in this pass
 
-A manual run of **Guide PDF Preflight Artifact** succeeded after the first parser fix.
+The national official-source gaps identified in the fact-check report have been materially improved.
 
-Reviewed run:
+Updated files:
 
-`28871797546`
+- `/docs/medicare-medicaid-guide-source-binder.md`
+- `/docs/medicare-medicaid-guide-fact-check.md`
 
-Reviewed job:
+The source binder now includes official-source anchors for:
 
-`85636262114`
+- Medicare Savings Programs / QMB / SLMB / QI / QDWI,
+- Medicare Summary Notice,
+- Medicare appeals,
+- CMS Medicare-Medicaid coordination,
+- CMS coordination of benefits,
+- CMS QMB program guidance,
+- CMS managed-care appeals and grievances,
+- CMS Medicare Outpatient Observation Notice / MOON,
+- Medicaid.gov seniors and Medicare-Medicaid enrollees,
+- Medicaid.gov estate recovery,
+- Medicaid.gov spousal impoverishment.
 
-Artifact created:
+## Release posture after source-gap closure
 
-`medicare-medicaid-guide-preflight-draft`
+The guide is closer to public release, but the source-gap closure pass is **not** the same as final publication approval.
 
-The workflow completed the expected build, file existence checks, public-path guardrail check, manifest creation, and artifact upload.
+The guide can proceed to final manuscript/editorial cleanup after this pass.
 
-## Release-blocking issue found
+The guide should not proceed directly to public PDF release until the remaining gates below are completed.
 
-The generated artifact was downloaded and inspected.
+## Remaining release blockers
 
-The artifact contained:
+### Editorial and source-note QA
 
-- generated HTML,
-- generated PDF,
-- artifact manifest.
+- [ ] Confirm the final pre-PDF manuscript is the active source for PDF generation.
+- [ ] Confirm every chapter source note points to the correct source/endnote.
+- [ ] Confirm the Medicare Summary Notice and EOB sections use cautious wording.
+- [ ] Confirm Medicare Advantage prior authorization language stays neutral and process-focused.
+- [ ] Confirm dual-eligibility language distinguishes full Medicaid, limited Medicaid help, QMB, SLMB, QI, and QDWI.
+- [ ] Confirm estate recovery and spousal impoverishment are framed only as questions to ask state Medicaid agencies or qualified professionals.
+- [ ] Confirm no state-specific Medicaid claim appears without official state Medicaid sourcing.
 
-The PDF was improved because chapter body text appeared. However, the artifact was still not acceptable for public release because section extraction was incomplete.
+### Current-year verification
 
-Observed issue:
+- [ ] Recheck all 2026 Medicare dollar amounts immediately before PDF export.
+- [ ] Confirm Part A, Part B, SNF, home health, DME, and drug-cost assistance amounts remain current.
+- [ ] Confirm all year-specific claims have visible update discipline.
 
-- only the first paragraph or first bullet from a section rendered,
-- Chapter 1 showed only the first `Questions to ask` bullet,
-- Chapter 1 showed only the first related tool,
-- multi-paragraph explanation sections appeared shortened.
+### PDF artifact QA
 
-This means the PDF generator produced a technically successful artifact, but the artifact failed full-section content-rendering QA.
-
-## Full-section parser fix made
-
-Updated:
-
-`/scripts/build-medicare-medicaid-guide-pdf.mjs`
-
-Fixes:
-
-- Replaced regex section extraction with a line-by-line parser.
-- Extracts all lines from a matching section until the next `##` heading or chapter divider.
-- Preserves multi-paragraph sections.
-- Preserves full bullet lists.
-- Adds a validation guard for question-list truncation.
-- Keeps existing required-section validation.
-
-After this fix, the workflow should fail rather than upload a misleading PDF if question lists are truncated.
-
-## Workflow/process improvements now in place
-
-The corrected artifact workflow:
-
-- checks out the repository,
-- sets up Node 20,
-- sets up Chrome,
-- builds the draft HTML and PDF under `docs/generated/medicare-medicaid-guide/`,
-- verifies the generated HTML exists and is non-empty,
-- verifies the generated PDF exists and is non-empty,
-- fails if the generated PDF is unexpectedly small,
-- fails if any PDF exists under `/public/drafts` or `/public/guides`,
-- writes a manifest file with file sizes, SHA-256 hashes, commit SHA, run ID, and guardrail status,
-- uploads the draft HTML, draft PDF, and manifest together.
-
-Artifact name remains:
-
-`medicare-medicaid-guide-preflight-draft`
-
-## PDF layout status
-
-The generator and print template were tightened in prior passes for likely layout risks before artifact review.
-
-Improvements already made:
-
-- family-first cover/subtitle language,
-- slightly smaller cover title,
-- improved body line-height,
-- darker print borders,
-- print color adjustment hints,
-- preserved keep-together behavior for answer/tool blocks,
-- increased worksheet row and note space,
-- continued long URL/code wrapping,
-- continued flowing footers instead of absolute-positioned footers.
-
-These are preflight improvements only. They do **not** prove the final PDF is visually ready.
-
-## Final PDF asset path
-
-Preferred final public path:
-
-`/public/guides/hospital-family-guide-medicare-medicaid-rehab-long-term-care.pdf`
-
-Current status: **Not created**.
-
-Reason:
-
-- The prior artifact failed full-section content-rendering QA.
-- The full-section parser fix needs to be merged and rerun.
-- A final approved PDF has not been visually inspected.
-- Manual print and mobile PDF review are still pending.
-- QR codes have not been generated from tested live URLs.
-- It would be dishonest to publish a placeholder or draft file at the final public path.
-
-## Landing page CTA status
-
-Current landing page CTA status: **Unchanged**.
-
-The guide landing page still uses the cautious CTA:
-
-`Download guide — source review in progress`
-
-This should remain unchanged until the final approved PDF exists at the public asset path.
-
-The landing page keeps the Medicare cost exposure tool as the secondary CTA:
-
-`/medicare-care-costs#cost-estimator`
-
-## Sitemap status
-
-Sitemap status: **Unchanged**.
-
-No final PDF asset exists, so no PDF URL was added to `/public/sitemap.xml`.
-
-The guide landing page remains the public discoverable asset:
-
-`https://communityacquiredfinance.com/guides/medicare-medicaid-rehab-long-term-care`
-
-## QR status
-
-QR status: **Not final**.
-
-No QR codes were generated in this pass.
-
-Do not place QR codes in the public PDF until:
-
-1. The final guide PDF URL exists.
-2. The landing page works on mobile.
-3. The Medicare cost tool URL works on mobile.
-4. The EOB-to-bill checker URL works on mobile.
-5. The long-term care article URL works on mobile.
-6. The rehab article URL works on mobile.
-7. QR codes scan from a phone screen.
-8. QR codes scan from printed paper.
-
-## Remaining manual QA items
-
-Before public release, complete these checks:
-
-### Artifact generation
-
-- [ ] Rerun **Guide PDF Preflight Artifact** from GitHub Actions after the full-section parser fix is merged.
+- [ ] Run **Guide PDF Preflight Artifact** from GitHub Actions after final manuscript cleanup.
 - [ ] Confirm the workflow succeeds.
 - [ ] Download `medicare-medicaid-guide-preflight-draft`.
-- [ ] Confirm the artifact contains the generated HTML.
-- [ ] Confirm the artifact contains the generated PDF.
-- [ ] Confirm the artifact contains `guide-preflight-artifact-manifest.txt`.
-- [ ] Review artifact file sizes and SHA-256 hashes.
+- [ ] Confirm the artifact contains generated HTML, generated PDF, and manifest.
 - [ ] Confirm no generated PDF is committed to the repo.
 - [ ] Confirm no generated PDF exists under `/public/drafts` or `/public/guides`.
+- [ ] Confirm browser headers/footers do not appear in the generated PDF.
+- [ ] Confirm full chapter sections, bullets, worksheets, and source notes render.
 
-### Content-rendering QA
-
-- [ ] Confirm Chapter 1 has real body text under every expected section.
-- [ ] Confirm Chapter 1 has the full question list.
-- [ ] Confirm Chapter 1 has the full related tools list.
-- [ ] Confirm several later chapters have real body text under every expected section.
-- [ ] Confirm related tools and source notes render.
-- [ ] Confirm worksheets render.
-- [ ] Confirm endnotes/source map renders.
-
-### Visual QA
-
-- [ ] Check cover title fit.
-- [ ] Check cover subtitle tone.
-- [ ] Check direct answer boxes for clipping.
-- [ ] Check source notes for overflow.
-- [ ] Check raw URL wrapping.
-- [ ] Check footer overlap.
-- [ ] Check page breaks in short chapters.
-- [ ] Check page breaks in long chapters.
-- [ ] Check callout and example block splits.
-- [ ] Check source/endnote readability.
-- [ ] Check worksheet spacing.
-
-### Device and print QA
+### Visual, mobile, and print QA
 
 - [ ] Open PDF on desktop browser.
 - [ ] Open PDF on iPhone.
@@ -214,44 +83,53 @@ Before public release, complete these checks:
 - [ ] Print one worksheet in black and white.
 - [ ] Print source/endnote page in black and white.
 
-### Content QA
+### Public launch integration
 
-- [ ] Recheck current-year Medicare dollar amounts immediately before release.
-- [ ] Confirm no state-specific Medicaid claim appears without official state Medicaid sourcing.
-- [ ] Confirm estate recovery and spousal impoverishment remain caution topics only.
-- [ ] Confirm educational-only disclaimer appears near the front.
-- [ ] Confirm source notes and endnotes are readable.
+- [ ] Create final public PDF only after artifact QA passes.
+- [ ] Add final PDF to `/public/guides/` only after approval.
+- [ ] Unlock landing page download CTA only after the real file exists.
+- [ ] Add PDF URL to sitemap only after the real file exists.
+- [ ] Generate QR codes only after final live URLs are tested.
+- [ ] Test QR codes from phone screen and printed paper.
 
-## Monetization and trust guardrails
+## Current landing page CTA status
 
-Confirmed for this pass:
+Current landing page CTA status: **Unchanged**.
 
-- No ads added.
-- No affiliate links added.
-- No insurer rankings added.
-- No lead forms added.
-- No plan recommendations added.
-- No sales language added.
-- No hospital, employer, insurer, Medicare, Medicaid, CMS, state agency, or professional-organization endorsement implied.
+The guide landing page should continue to use the cautious CTA until the final approved PDF exists at the public asset path.
 
-## Release criteria for the next pass
+Do not unlock the public download CTA in this pass.
 
-The next pass may publish the final PDF only if all of the following are true:
+## Sitemap status
 
-1. The full-section parser-fixed GitHub Actions artifact workflow has run successfully.
-2. The generated draft PDF artifact has been downloaded and inspected.
-3. The PDF passes full-section content-rendering QA.
-4. The PDF passes manual visual QA.
-5. The PDF passes black-and-white print QA.
-6. The PDF passes mobile viewing QA.
-7. QR codes are generated from tested live URLs.
-8. QR codes scan from printed paper.
-9. A real final PDF is placed under:
-   `/public/guides/hospital-family-guide-medicare-medicaid-rehab-long-term-care.pdf`
-10. The landing page CTA is changed to link to the final PDF.
-11. The sitemap is updated intentionally only after the final PDF exists.
-12. A final public-release report confirms the asset path, CTA, sitemap, QR status, and trust guardrails.
+Sitemap status: **Unchanged for PDF URL**.
 
-## Conclusion
+The guide landing page remains discoverable, but no PDF URL should be added until the final PDF exists.
 
-This pass fixes the parser issue that caused section content to truncate after the first paragraph or bullet. The guide is still not ready for public PDF release. The correct next move is to merge this full-section parser fix, rerun the manual GitHub Actions artifact workflow from `main`, download the new draft PDF artifact if it succeeds, and complete full-section content-rendering, visual, mobile, and print QA.
+## Final PDF asset path
+
+Preferred final public path:
+
+`/public/guides/hospital-family-guide-medicare-medicaid-rehab-long-term-care.pdf`
+
+Current status: **Not created**.
+
+## Non-goals preserved
+
+This pass does not add:
+
+- public PDF,
+- public draft PDF,
+- sitemap PDF URL,
+- QR codes,
+- landing page download unlock,
+- ads,
+- affiliate links,
+- insurer rankings,
+- plan recommendations,
+- lead forms,
+- sales language.
+
+## Next recommended PR
+
+After this source-gap closure PR, the next PR should perform a final editorial/source-note cleanup pass on the active final pre-PDF manuscript before any PDF publication work continues.

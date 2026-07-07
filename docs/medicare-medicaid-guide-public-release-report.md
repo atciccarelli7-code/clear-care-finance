@@ -1,7 +1,7 @@
 # Medicare and Medicaid Guide Public Release Report
 
 Community Acquired Finance  
-Guide PDF workflow install fix pass  
+Guide PDF manuscript content parser fix pass  
 Last updated: 2026-07-07
 
 ## Release decision
@@ -12,50 +12,54 @@ The final public downloadable PDF is not being published because the release gat
 
 This is intentional. Do not publish a fake, empty, placeholder, draft, or uninspected PDF.
 
-## Latest workflow failure reviewed
+## Latest artifact run reviewed
 
-A manual run of **Guide PDF Preflight Artifact** failed before the PDF artifact was created.
+A manual run of **Guide PDF Preflight Artifact** succeeded after the workflow install fix.
 
-Failure step:
+Reviewed run:
 
-`Install dependencies`
+`28861296788`
 
-Root cause:
+Reviewed job:
 
-`npm ci` failed because `package.json` and `package-lock.json` are out of sync. The log showed missing package-lock entries for `@react-email/render`, `resend`, and related transitive dependencies.
+`85600255768`
 
-Result:
+Artifact created:
 
-- No PDF artifact was uploaded.
-- There was nothing to download from the failed run.
-- The failure was not caused by the user clicking the wrong place.
+`medicare-medicaid-guide-preflight-draft`
 
-## Workflow fix made
+The workflow completed the expected build, file existence checks, public-path guardrail check, manifest creation, and artifact upload.
 
-The guide PDF artifact workflow no longer installs project dependencies.
+## Release-blocking issue found
 
-Reason:
+The generated artifact was downloaded and inspected.
 
-- The PDF generator script uses Node built-in modules and Chrome/Chromium.
-- It does not import installed npm packages.
-- Dependency installation is unnecessary for this workflow.
-- Removing `npm ci` lets the workflow test the PDF generator directly.
+The artifact contained:
 
-This does **not** fix the broader app-level lockfile mismatch. That should be handled separately if other workflows or builds require `npm ci`.
+- generated HTML,
+- generated PDF,
+- artifact manifest.
 
-## Artifact workflow status
+The PDF was not acceptable for public release because chapter pages rendered mostly as headings and labels without the manuscript body text.
 
-Workflow reviewed:
+This means the PDF generator produced a technically successful artifact, but the artifact failed content-rendering QA.
 
-`/.github/workflows/guide-pdf-preflight.yml`
+## Parser fix made
 
-Workflow name:
+Updated:
 
-`Guide PDF Preflight Artifact`
+`/scripts/build-medicare-medicaid-guide-pdf.mjs`
 
-Current status: **Corrected workflow pending rerun**.
+Fixes:
 
-After this fix is merged, rerun the workflow from `main`.
+- Added newline normalization before parsing.
+- Made chapter title parsing more robust.
+- Made section heading parsing more robust.
+- Added required-section validation for every chapter.
+- Changed missing manuscript sections from silent blank PDF output into a failed build.
+- Added console output showing parsed chapter and worksheet counts.
+
+After this fix, the workflow should fail rather than upload a misleading PDF if chapter body text is not being extracted correctly.
 
 ## Workflow/process improvements now in place
 
@@ -78,7 +82,7 @@ Artifact name remains:
 
 ## PDF layout status
 
-The generator and print template were tightened in the prior pass for likely layout risks before artifact review.
+The generator and print template were tightened in prior passes for likely layout risks before artifact review.
 
 Improvements already made:
 
@@ -105,7 +109,8 @@ Current status: **Not created**.
 
 Reason:
 
-- The corrected workflow still needs to be rerun.
+- The prior artifact failed content-rendering QA.
+- The parser fix needs to be merged and rerun.
 - A final approved PDF has not been visually inspected.
 - Manual print and mobile PDF review are still pending.
 - QR codes have not been generated from tested live URLs.
@@ -158,7 +163,7 @@ Before public release, complete these checks:
 
 ### Artifact generation
 
-- [ ] Rerun **Guide PDF Preflight Artifact** from GitHub Actions after the workflow install fix is merged.
+- [ ] Rerun **Guide PDF Preflight Artifact** from GitHub Actions after the parser fix is merged.
 - [ ] Confirm the workflow succeeds.
 - [ ] Download `medicare-medicaid-guide-preflight-draft`.
 - [ ] Confirm the artifact contains the generated HTML.
@@ -167,6 +172,14 @@ Before public release, complete these checks:
 - [ ] Review artifact file sizes and SHA-256 hashes.
 - [ ] Confirm no generated PDF is committed to the repo.
 - [ ] Confirm no generated PDF exists under `/public/drafts` or `/public/guides`.
+
+### Content-rendering QA
+
+- [ ] Confirm Chapter 1 has real body text under every expected section.
+- [ ] Confirm several later chapters have real body text under every expected section.
+- [ ] Confirm related tools and source notes render.
+- [ ] Confirm worksheets render.
+- [ ] Confirm endnotes/source map renders.
 
 ### Visual QA
 
@@ -217,19 +230,20 @@ Confirmed for this pass:
 
 The next pass may publish the final PDF only if all of the following are true:
 
-1. The corrected GitHub Actions artifact workflow has run successfully.
+1. The parser-fixed GitHub Actions artifact workflow has run successfully.
 2. The generated draft PDF artifact has been downloaded and inspected.
-3. The PDF passes manual visual QA.
-4. The PDF passes black-and-white print QA.
-5. The PDF passes mobile viewing QA.
-6. QR codes are generated from tested live URLs.
-7. QR codes scan from printed paper.
-8. A real final PDF is placed under:
+3. The PDF passes content-rendering QA.
+4. The PDF passes manual visual QA.
+5. The PDF passes black-and-white print QA.
+6. The PDF passes mobile viewing QA.
+7. QR codes are generated from tested live URLs.
+8. QR codes scan from printed paper.
+9. A real final PDF is placed under:
    `/public/guides/hospital-family-guide-medicare-medicaid-rehab-long-term-care.pdf`
-9. The landing page CTA is changed to link to the final PDF.
-10. The sitemap is updated intentionally only after the final PDF exists.
-11. A final public-release report confirms the asset path, CTA, sitemap, QR status, and trust guardrails.
+10. The landing page CTA is changed to link to the final PDF.
+11. The sitemap is updated intentionally only after the final PDF exists.
+12. A final public-release report confirms the asset path, CTA, sitemap, QR status, and trust guardrails.
 
 ## Conclusion
 
-This pass fixes the workflow failure that blocked artifact creation. The guide is still not ready for public PDF release. The correct next move is to rerun the manual GitHub Actions artifact workflow from `main`, download the draft PDF artifact if it succeeds, and complete hands-on visual, mobile, and print QA.
+This pass fixes the parser issue that allowed an artifact to succeed while chapter body content was missing. The guide is still not ready for public PDF release. The correct next move is to merge this parser fix, rerun the manual GitHub Actions artifact workflow from `main`, download the new draft PDF artifact if it succeeds, and complete content-rendering, visual, mobile, and print QA.

@@ -9,6 +9,8 @@ const outputDir = path.join(repoRoot, "docs/generated/medicare-medicaid-guide");
 const htmlPath = path.join(outputDir, "hospital-family-guide-medicare-medicaid-preflight.html");
 const pdfPath = path.join(outputDir, "hospital-family-guide-medicare-medicaid-preflight.pdf");
 
+const normalizeNewlines = (value) => value.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
 const escapeHtml = (value) =>
   value
     .replace(/&/g, "&amp;")
@@ -22,7 +24,9 @@ const inline = (value) =>
     .replace(/`([^`]+)`/g, '<code class="breakable">$1</code>');
 
 const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
-  const lines = markdown.trim().split(/\r?\n/);
+  if (!markdown?.trim()) return "";
+
+  const lines = normalizeNewlines(markdown).trim().split(/\n/);
   const html = [];
   let listOpen = false;
   let orderedOpen = false;
@@ -95,37 +99,39 @@ const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
 
 const getSection = (chapterBody, heading) => {
   const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const regex = new RegExp(`## ${escaped}\\n([\\s\\S]*?)(?=\\n## |$)`, "m");
-  return chapterBody.match(regex)?.[1]?.trim() ?? "";
+  const body = normalizeNewlines(chapterBody);
+  const regex = new RegExp(`^##\\s+${escaped}\\s*\\n([\\s\\S]*?)(?=\\n##\\s+|\\n---\\s*\\n|$)`, "im");
+  return body.match(regex)?.[1]?.trim() ?? "";
 };
 
 const parseChapter = (rawChapter) => {
-  const titleMatch = rawChapter.match(/^# Chapter (\d+) — (.*)$/m);
+  const chapterBody = normalizeNewlines(rawChapter);
+  const titleMatch = chapterBody.match(/^#\s+Chapter\s+(\d+)\s+[—-]\s+(.*)$/m);
   if (!titleMatch) return null;
 
   const [, number, title] = titleMatch;
   return {
     number,
     title,
-    directAnswer: getSection(rawChapter, "Direct answer"),
-    explanation: getSection(rawChapter, "Plain-English explanation"),
-    misunderstanding: getSection(rawChapter, "Common misunderstanding"),
-    example: getSection(rawChapter, "Hospital/caregiver example"),
-    questions: getSection(rawChapter, "Questions to ask"),
-    tools: getSection(rawChapter, "Related site tools"),
-    source: getSection(rawChapter, "Source note"),
+    directAnswer: getSection(chapterBody, "Direct answer"),
+    explanation: getSection(chapterBody, "Plain-English explanation"),
+    misunderstanding: getSection(chapterBody, "Common misunderstanding"),
+    example: getSection(chapterBody, "Hospital/caregiver example"),
+    questions: getSection(chapterBody, "Questions to ask"),
+    tools: getSection(chapterBody, "Related site tools"),
+    source: getSection(chapterBody, "Source note"),
   };
 };
 
 const parseWorksheets = (worksheetMarkdown) => {
-  const blocks = worksheetMarkdown
+  const blocks = normalizeNewlines(worksheetMarkdown)
     .split(/\n(?=## )/)
     .map((block) => block.trim())
     .filter((block) => block.startsWith("## "));
 
   return blocks.map((block) => {
     const [, title = "Worksheet"] = block.match(/^## (.*)$/m) ?? [];
-    const lines = block.split(/\r?\n/).slice(1);
+    const lines = block.split(/\n/).slice(1);
     const rows = lines
       .map((line) => line.trim())
       .filter((line) => line.startsWith("- "))
@@ -211,20 +217,47 @@ const findChrome = () => {
   return null;
 };
 
-const markdown = readFileSync(manuscriptPath, "utf8");
-const [beforeWorksheets, afterWorksheets = ""] = markdown.split("\n# Worksheet Drafts for Final PDF");
-const chapterBlocks = beforeWorksheets.split(/\n(?=# Chapter \d+ — )/).filter((block) => block.startsWith("# Chapter"));
+const markdown = normalizeNewlines(readFileSync(manuscriptPath, "utf8"));
+const [beforeWorksheets, afterWorksheets = ""] = markdown.split(/\n# Worksheet Drafts for Final PDF/);
+const chapterBlocks = beforeWorksheets.split(/\n(?=#\s+Chapter\s+\d+\s+[—-]\s+)/).filter((block) => block.trim().startsWith("# Chapter"));
 const chapters = chapterBlocks.map(parseChapter).filter(Boolean);
-const [worksheetMarkdown = "", endnoteMarkdown = ""] = afterWorksheets.split("\n# Endnotes and Source Map");
+const [worksheetMarkdown = "", endnoteMarkdown = ""] = afterWorksheets.split(/\n# Endnotes and Source Map/);
 const worksheets = parseWorksheets(worksheetMarkdown);
 const endnotes = `# Endnotes and Source Map${endnoteMarkdown}`;
 
 if (chapters.length !== 19) {
-  console.warn(`Expected 19 chapters, found ${chapters.length}. Continue with caution.`);
+  console.error(`Expected 19 chapters, found ${chapters.length}.`);
+  process.exit(1);
+}
+
+const requiredChapterFields = [
+  ["directAnswer", "Direct answer"],
+  ["explanation", "Plain-English explanation"],
+  ["misunderstanding", "Common misunderstanding"],
+  ["example", "Hospital/caregiver example"],
+  ["questions", "Questions to ask"],
+  ["tools", "Related site tools"],
+  ["source", "Source note"],
+];
+
+const missingChapterFields = [];
+for (const chapter of chapters) {
+  for (const [key, label] of requiredChapterFields) {
+    if (!chapter[key]?.trim()) {
+      missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) missing ${label}`);
+    }
+  }
+}
+
+if (missingChapterFields.length > 0) {
+  console.error("Manuscript parsing failed. Missing required chapter sections:");
+  for (const issue of missingChapterFields) console.error(`- ${issue}`);
+  process.exit(1);
 }
 
 if (worksheets.length === 0) {
-  console.warn("No worksheets parsed. Continue with caution.");
+  console.error("No worksheets parsed.");
+  process.exit(1);
 }
 
 const html = `<!doctype html>
@@ -330,6 +363,7 @@ const html = `<!doctype html>
 
 mkdirSync(outputDir, { recursive: true });
 writeFileSync(htmlPath, html, "utf8");
+console.log(`Parsed ${chapters.length} chapters and ${worksheets.length} worksheets.`);
 console.log(`Wrote ${path.relative(repoRoot, htmlPath)}`);
 
 const chrome = findChrome();

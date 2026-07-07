@@ -1,35 +1,63 @@
 # Medicare and Medicaid Guide PDF Preflight Report
 
 Community Acquired Finance  
-Guide PDF artifact workflow install fix pass  
+Guide PDF manuscript content parser fix pass  
 Last updated: 2026-07-07
 
 ## Status
 
 Draft/internal PDF build process remains in controlled pre-release. Public PDF release is **not approved**.
 
-## Latest workflow failure reviewed
+## Latest artifact run reviewed
 
-A manual workflow run failed at the `Install dependencies` step before the PDF generator ran.
+A corrected manual workflow run succeeded and uploaded the expected artifact:
+
+`medicare-medicaid-guide-preflight-draft`
+
+Run reviewed:
+
+`28861296788`
+
+Job reviewed:
+
+`85600255768`
+
+The run completed all expected steps, including build, file existence checks, public-path guardrail check, manifest creation, and artifact upload.
+
+## Critical issue found in the generated artifact
+
+The artifact generated a PDF, but manual inspection showed that chapter pages rendered mostly as headings and section labels without the manuscript body text.
+
+This means the prior artifact is **not usable for public release**.
 
 Root cause:
 
-`npm ci` failed because `package.json` and `package-lock.json` are out of sync. The missing lockfile entries included `@react-email/render`, `resend`, and their transitive dependencies.
+The PDF generator parsed the 19 chapter titles, but the section parser failed to reliably extract manuscript sections such as:
 
-This means no PDF artifact was uploaded from that run.
+- Direct answer
+- Plain-English explanation
+- Common misunderstanding
+- Hospital/caregiver example
+- Questions to ask
+- Related site tools
+- Source note
 
 ## Fix made in this pass
 
-The PDF artifact workflow no longer runs `npm ci`.
+Updated:
 
-Reason:
+`/scripts/build-medicare-medicaid-guide-pdf.mjs`
 
-- `/scripts/build-medicare-medicaid-guide-pdf.mjs` uses Node built-in modules and Chrome/Chromium for PDF export.
-- It does not import installed npm packages.
-- Installing project dependencies is unnecessary for this artifact workflow.
-- Removing the install step lets the PDF workflow test the PDF generator directly instead of failing on an unrelated lockfile sync issue.
+Fixes:
 
-This does **not** solve the broader package-lock sync issue for the entire app. It only removes unnecessary dependency installation from the guide PDF artifact workflow.
+- Added newline normalization before parsing.
+- Made chapter title parsing more robust.
+- Made section heading parsing more robust.
+- Added hard validation for all required chapter sections.
+- Changed missing chapter sections from silent empty output into a failed build.
+- Added console output showing parsed chapter and worksheet counts.
+
+The workflow should now fail rather than upload a visually misleading PDF if manuscript content is not being extracted correctly.
 
 ## Artifact workflow review
 
@@ -85,10 +113,11 @@ The generator and print template have already been tightened for likely layout r
 
 ## What still requires manual review
 
-The failed workflow run did not produce an artifact, so the generated PDF still requires review.
+The prior successful artifact was rejected because the chapter body content did not render.
 
-Still requires manual review:
+After this parser fix is merged, rerun the workflow and manually review the new artifact for:
 
+- chapter body text actually appears,
 - cover title fit,
 - mobile PDF readability,
 - source-note readability,
@@ -126,6 +155,16 @@ Expected local outputs:
 Generated files under `/docs/generated/` are ignored by Git and must not be committed.
 
 ## Manual QA checklist
+
+### Content-rendering QA
+
+- [ ] Chapter 1 contains body text under Direct answer.
+- [ ] Chapter 1 contains body text under Plain-English explanation.
+- [ ] Chapter 1 contains body text under Common misunderstanding.
+- [ ] Chapter 1 contains body text under Hospital/caregiver example.
+- [ ] Chapter 1 contains body text under Questions to ask.
+- [ ] Chapter 1 contains source note text.
+- [ ] Randomly check several later chapters for the same pattern.
 
 ### Visual QA
 
@@ -178,4 +217,4 @@ Generated files under `/docs/generated/` are ignored by Git and must not be comm
 
 The PDF remains **not public**.
 
-The next release decision can only happen after the corrected GitHub Actions artifact workflow runs successfully, the artifact is downloaded, and the generated PDF passes manual visual, mobile, and print QA.
+The next release decision can only happen after the parser fix is merged, the GitHub Actions artifact workflow runs again successfully, the artifact is downloaded, and the generated PDF passes manual visual, mobile, print, and content-rendering QA.

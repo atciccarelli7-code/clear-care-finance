@@ -1,7 +1,7 @@
 # Medicare and Medicaid Guide Public Release Report
 
 Community Acquired Finance  
-Final manuscript cleanup audit pass  
+Draft PDF artifact QA pass  
 Last updated: 2026-07-07
 
 ## Release decision
@@ -9,8 +9,6 @@ Last updated: 2026-07-07
 Status: **Not released**.
 
 The final public downloadable PDF is still not being published because release gates remain open.
-
-This is intentional. Do not publish a fake, empty, placeholder, draft, uninspected, or partially sourced PDF.
 
 ## What changed in recent passes
 
@@ -22,20 +20,6 @@ Updated files:
 
 - `/docs/medicare-medicaid-guide-source-binder.md`
 - `/docs/medicare-medicaid-guide-fact-check.md`
-
-The source binder now includes official-source anchors for:
-
-- Medicare Savings Programs / QMB / SLMB / QI / QDWI,
-- Medicare Summary Notice,
-- Medicare appeals,
-- CMS Medicare-Medicaid coordination,
-- CMS coordination of benefits,
-- CMS QMB program guidance,
-- CMS managed-care appeals and grievances,
-- CMS Medicare Outpatient Observation Notice / MOON,
-- Medicaid.gov seniors and Medicare-Medicaid enrollees,
-- Medicaid.gov estate recovery,
-- Medicaid.gov spousal impoverishment.
 
 ### Final manuscript cleanup audit
 
@@ -51,13 +35,52 @@ Cleanup audit file:
 
 - `/docs/medicare-medicaid-guide-final-manuscript-cleanup-report.md`
 
-## Release posture after cleanup audit
+### Draft PDF artifact QA
 
-The guide is closer to public release, but the cleanup audit is **not** the same as final publication approval.
+A fresh **Guide PDF Preflight Artifact** workflow was run from `main` after PR #103.
 
-The guide can proceed to a fresh draft PDF preflight artifact after this pass.
+Reviewed run:
 
-The guide should not proceed directly to public PDF release until the remaining gates below are completed.
+`28891566086`
+
+Reviewed job:
+
+`85705318587`
+
+Commit:
+
+`d413994c4fdc639ccde69b2cc095dc543885e658`
+
+Artifact:
+
+`medicare-medicaid-guide-preflight-draft`
+
+Draft artifact QA confirmed:
+
+- workflow succeeded,
+- artifact contained generated HTML, generated PDF, and manifest,
+- generated PDF opened successfully,
+- generated PDF was 49 pages,
+- no Chrome/browser headers or footers were found,
+- no `file://` paths were found,
+- no `docs/generated` leakage was found,
+- 19 chapter headings were present,
+- worksheets were present,
+- endnotes/source map was present,
+- QR placeholders were present,
+- draft/preflight language remained visible,
+- no generated PDF was committed,
+- no PDF exists under `/public/drafts` or `/public/guides`.
+
+Detailed artifact QA file:
+
+- `/docs/medicare-medicaid-guide-pdf-preflight-report.md`
+
+## Release posture after draft artifact QA
+
+The guide is closer to public release, but the draft artifact QA pass is **not** final publication approval.
+
+The guide can proceed to final release-readiness planning and current-year verification.
 
 ## Remaining release blockers
 
@@ -71,26 +94,27 @@ The guide should not proceed directly to public PDF release until the remaining 
 - [x] Confirm estate recovery and spousal impoverishment are framed only as questions to ask state Medicaid agencies or qualified professionals.
 - [x] Confirm no state-specific Medicaid claim appears without official state Medicaid sourcing.
 
-### Current-year verification
-
-- [ ] Recheck all 2026 Medicare dollar amounts immediately before PDF export.
-- [ ] Confirm Part A, Part B, SNF, home health, DME, and drug-cost assistance amounts remain current.
-- [ ] Confirm all year-specific claims have visible update discipline.
-
 ### PDF artifact QA
 
-- [ ] Run **Guide PDF Preflight Artifact** from GitHub Actions after final manuscript cleanup.
-- [ ] Confirm the workflow succeeds.
-- [ ] Download `medicare-medicaid-guide-preflight-draft`.
-- [ ] Confirm the artifact contains generated HTML, generated PDF, and manifest.
-- [ ] Confirm no generated PDF is committed to the repo.
-- [ ] Confirm no generated PDF exists under `/public/drafts` or `/public/guides`.
-- [ ] Confirm browser headers/footers do not appear in the generated PDF.
-- [ ] Confirm full chapter sections, bullets, worksheets, and source notes render.
+- [x] Run **Guide PDF Preflight Artifact** from GitHub Actions after final manuscript cleanup.
+- [x] Confirm the workflow succeeds.
+- [x] Download `medicare-medicaid-guide-preflight-draft`.
+- [x] Confirm the artifact contains generated HTML, generated PDF, and manifest.
+- [x] Confirm no generated PDF is committed to the repo.
+- [x] Confirm no generated PDF exists under `/public/drafts` or `/public/guides`.
+- [x] Confirm browser headers/footers do not appear in the generated PDF.
+- [x] Confirm full chapter sections, bullets, worksheets, and source notes render.
+
+### Current-year verification
+
+- [ ] Recheck all 2026 Medicare dollar amounts immediately before final PDF export.
+- [ ] Confirm Part A, Part B, SNF, home health, DME, and drug-cost assistance amounts remain current.
+- [ ] Confirm all year-specific claims have visible update discipline.
+- [ ] Confirm exact CMS MOON wording and timing before publication.
 
 ### Visual, mobile, and print QA
 
-- [ ] Open PDF on desktop browser.
+- [ ] Open PDF on desktop browser as final public-candidate file.
 - [ ] Open PDF on iPhone.
 - [ ] Open PDF on Android if available.
 - [ ] Print cover in black and white.
@@ -101,7 +125,7 @@ The guide should not proceed directly to public PDF release until the remaining 
 
 ### Public launch integration
 
-- [ ] Create final public PDF only after artifact QA passes.
+- [ ] Create final public PDF only after artifact QA and final verification pass.
 - [ ] Add final PDF to `/public/guides/` only after approval.
 - [ ] Unlock landing page download CTA only after the real file exists.
 - [ ] Add PDF URL to sitemap only after the real file exists.
@@ -113,8 +137,6 @@ The guide should not proceed directly to public PDF release until the remaining 
 Current landing page CTA status: **Unchanged**.
 
 The guide landing page should continue to use the cautious CTA until the final approved PDF exists at the public asset path.
-
-Do not unlock the public download CTA in this pass.
 
 ## Sitemap status
 
@@ -148,4 +170,4 @@ This pass does not add:
 
 ## Next recommended PR
 
-After this final manuscript cleanup audit PR, the next step should be a fresh draft PDF preflight artifact run from GitHub Actions. Do not publish the artifact. Inspect it for parser preservation, page breaks, source-note rendering, worksheet usability, mobile opening, and black-and-white print readiness before creating a final public PDF.
+After this draft PDF artifact QA documentation PR, the next step should be a final release-readiness PR focused on current-year Medicare dollar amount verification, exact CMS MOON wording/timing verification, device/print QA plan, final QR destination plan, and public launch integration sequencing.

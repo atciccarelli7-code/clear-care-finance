@@ -1,12 +1,35 @@
 # Medicare and Medicaid Guide PDF Preflight Report
 
 Community Acquired Finance  
-Guide PDF artifact review and layout fix pass  
+Guide PDF artifact workflow install fix pass  
 Last updated: 2026-07-07
 
 ## Status
 
 Draft/internal PDF build process remains in controlled pre-release. Public PDF release is **not approved**.
+
+## Latest workflow failure reviewed
+
+A manual workflow run failed at the `Install dependencies` step before the PDF generator ran.
+
+Root cause:
+
+`npm ci` failed because `package.json` and `package-lock.json` are out of sync. The missing lockfile entries included `@react-email/render`, `resend`, and their transitive dependencies.
+
+This means no PDF artifact was uploaded from that run.
+
+## Fix made in this pass
+
+The PDF artifact workflow no longer runs `npm ci`.
+
+Reason:
+
+- `/scripts/build-medicare-medicaid-guide-pdf.mjs` uses Node built-in modules and Chrome/Chromium for PDF export.
+- It does not import installed npm packages.
+- Installing project dependencies is unnecessary for this artifact workflow.
+- Removing the install step lets the PDF workflow test the PDF generator directly instead of failing on an unrelated lockfile sync issue.
+
+This does **not** solve the broader package-lock sync issue for the entire app. It only removes unnecessary dependency installation from the guide PDF artifact workflow.
 
 ## Artifact workflow review
 
@@ -18,15 +41,12 @@ Workflow name:
 
 `Guide PDF Preflight Artifact`
 
-Available GitHub workflow metadata showed no verified successful run for the latest relevant main commits checked in this pass. Therefore, no generated draft PDF artifact was available for visual inspection from the connector review.
-
-This means the PDF is **not ready for public release**.
-
-## Workflow improvements made in this pass
-
-The GitHub Actions workflow now:
+The workflow now:
 
 - runs manually through `workflow_dispatch`,
+- checks out the repository,
+- sets up Node 20,
+- sets up Chrome,
 - builds the draft HTML and PDF under `docs/generated/medicare-medicaid-guide/`,
 - confirms both generated files exist,
 - confirms both generated files are non-empty,
@@ -48,29 +68,24 @@ docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-p
 docs/generated/medicare-medicaid-guide/guide-preflight-artifact-manifest.txt
 ```
 
-## Layout and readability fixes made in this pass
+## Layout and readability fixes already in place
 
-Updated:
+The generator and print template have already been tightened for likely layout risks:
 
-- `/scripts/build-medicare-medicaid-guide-pdf.mjs`
-- `/docs/medicare-medicaid-guide-print/final-guide-print-template.html`
+- family-first cover/subtitle language,
+- slightly smaller cover title,
+- improved body line-height,
+- darker print borders,
+- print color adjustment hints,
+- safer source-note splitting,
+- preserved keep-together behavior for answer/tool blocks,
+- increased worksheet row and note space,
+- long URL and inline-code wrapping safeguards,
+- flowing footers instead of absolute-positioned footers.
 
-Fixes:
+## What still requires manual review
 
-- Updated cover/subtitle language to match the family-first site positioning.
-- Slightly reduced the cover title size to reduce overflow risk.
-- Increased body line-height for readability.
-- Darkened border color for black-and-white print clarity.
-- Added print color adjustment hints for browser PDF export.
-- Added safer source-note splitting so long source blocks are less likely to create awkward whitespace.
-- Preserved keep-together behavior for tool blocks and key answer boxes.
-- Increased worksheet row height and notes area height.
-- Kept long URL and inline-code wrapping safeguards.
-- Kept flowing footers instead of absolute-positioned footers.
-
-## What this pass could not verify
-
-Because no successful artifact run was verified, this pass did **not** visually inspect a generated PDF.
+The failed workflow run did not produce an artifact, so the generated PDF still requires review.
 
 Still requires manual review:
 
@@ -84,17 +99,16 @@ Still requires manual review:
 - worksheet spacing,
 - black-and-white print quality.
 
-## Local or GitHub Actions generation
-
-Preferred review path:
+## How to run the corrected workflow
 
 1. Go to GitHub Actions.
 2. Run **Guide PDF Preflight Artifact** from `main`.
-3. Download `medicare-medicaid-guide-preflight-draft`.
-4. Open the draft PDF on desktop.
-5. Open the draft PDF on phone.
-6. Print sample pages in black and white.
-7. Review the manifest file for file size and SHA-256 details.
+3. Wait for the workflow to finish successfully.
+4. Download `medicare-medicaid-guide-preflight-draft`.
+5. Open the draft PDF on desktop.
+6. Open the draft PDF on phone.
+7. Print sample pages in black and white.
+8. Review the manifest file for file size and SHA-256 details.
 
 Local fallback:
 
@@ -164,4 +178,4 @@ Generated files under `/docs/generated/` are ignored by Git and must not be comm
 
 The PDF remains **not public**.
 
-The next release decision can only happen after the GitHub Actions artifact workflow runs successfully, the artifact is downloaded, and the generated PDF passes manual visual, mobile, and print QA.
+The next release decision can only happen after the corrected GitHub Actions artifact workflow runs successfully, the artifact is downloaded, and the generated PDF passes manual visual, mobile, and print QA.

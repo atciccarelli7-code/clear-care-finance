@@ -10,12 +10,14 @@ const htmlPath = path.join(outputDir, "hospital-family-guide-medicare-medicaid-p
 const pdfPath = path.join(outputDir, "hospital-family-guide-medicare-medicaid-preflight.pdf");
 
 const normalizeNewlines = (value) => value.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
 const escapeHtml = (value) =>
   value
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/\"/g, "&quot;");
+
 const inline = (value) =>
   escapeHtml(value)
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
@@ -23,6 +25,7 @@ const inline = (value) =>
 
 const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
   if (!markdown?.trim()) return "";
+
   const lines = normalizeNewlines(markdown).trim().split(/\n/);
   const html = [];
   let listOpen = false;
@@ -45,6 +48,7 @@ const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
       closeLists();
       continue;
     }
+
     if (line.startsWith("- ")) {
       if (orderedOpen) {
         html.push("</ol>");
@@ -57,6 +61,7 @@ const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
       html.push(`<li>${inline(line.slice(2))}</li>`);
       continue;
     }
+
     const orderedMatch = line.match(/^\d+\.\s+(.*)$/);
     if (orderedMatch) {
       if (listOpen) {
@@ -70,7 +75,9 @@ const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
       html.push(`<li>${inline(orderedMatch[1])}</li>`);
       continue;
     }
+
     closeLists();
+
     if (line.startsWith("> ")) html.push(`<blockquote>${inline(line.slice(2))}</blockquote>`);
     else if (line.startsWith("#### ")) html.push(`<h4>${inline(line.slice(5))}</h4>`);
     else if (line.startsWith("### ")) html.push(`<h3>${inline(line.slice(4))}</h3>`);
@@ -78,6 +85,7 @@ const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
     else if (line.startsWith("# ")) html.push(`<h2>${inline(line.slice(2))}</h2>`);
     else html.push(`<p${compact ? ' class="small"' : ""}>${inline(line)}</p>`);
   }
+
   closeLists();
   return html.join("\n");
 };
@@ -86,13 +94,16 @@ const getSection = (chapterBody, heading) => {
   const lines = normalizeNewlines(chapterBody).split("\n");
   const target = `## ${heading}`.toLowerCase();
   const startIndex = lines.findIndex((line) => line.trim().toLowerCase() === target);
+
   if (startIndex === -1) return "";
+
   const sectionLines = [];
   for (let index = startIndex + 1; index < lines.length; index += 1) {
     const trimmed = lines[index].trim();
     if (/^##\s+/.test(trimmed) || /^---\s*$/.test(trimmed)) break;
     sectionLines.push(lines[index]);
   }
+
   return sectionLines.join("\n").trim();
 };
 
@@ -110,8 +121,10 @@ const requiredChapterFields = [
   ["tools", "Related site tools"],
   ["source", "Source note"],
 ];
+
 const normalizeHeading = (value) => value.trim().toLowerCase();
 const requiredHeadingLabels = new Map(requiredChapterFields.map(([, label]) => [normalizeHeading(label), label]));
+
 const normalizeSectionForComparison = (value) =>
   normalizeNewlines(value ?? "")
     .split("\n")
@@ -122,26 +135,34 @@ const normalizeSectionForComparison = (value) =>
 const collectExpectedChapterSections = (rawChapter) => {
   const sections = Object.fromEntries(requiredChapterFields.map(([, label]) => [label, []]));
   let activeSection = null;
+
   for (const rawLine of normalizeNewlines(rawChapter).split("\n")) {
     const trimmed = rawLine.trim();
     const headingMatch = trimmed.match(/^##\s+(.*)$/);
+
     if (headingMatch) {
       activeSection = requiredHeadingLabels.get(normalizeHeading(headingMatch[1])) ?? null;
       continue;
     }
+
     if (/^#\s+/.test(trimmed) || /^---\s*$/.test(trimmed)) {
       activeSection = null;
       continue;
     }
+
     if (activeSection) sections[activeSection].push(rawLine);
   }
-  return Object.fromEntries(Object.entries(sections).map(([label, lines]) => [label, lines.join("\n").trim()]));
+
+  return Object.fromEntries(
+    Object.entries(sections).map(([label, lines]) => [label, lines.join("\n").trim()]),
+  );
 };
 
 const parseChapter = (rawChapter) => {
   const chapterBody = normalizeNewlines(rawChapter);
   const titleMatch = chapterBody.match(/^#\s+Chapter\s+(\d+)\s+[—-]\s+(.*)$/m);
   if (!titleMatch) return null;
+
   const [, number, title] = titleMatch;
   return {
     number,
@@ -157,21 +178,22 @@ const parseChapter = (rawChapter) => {
   };
 };
 
-const parseWorksheets = (worksheetMarkdown) =>
-  normalizeNewlines(worksheetMarkdown)
+const parseWorksheets = (worksheetMarkdown) => {
+  const blocks = normalizeNewlines(worksheetMarkdown)
     .split(/\n(?=## )/)
     .map((block) => block.trim())
-    .filter((block) => block.startsWith("## "))
-    .map((block) => {
-      const [, title = "Worksheet"] = block.match(/^## (.*)$/m) ?? [];
-      const rows = block
-        .split(/\n/)
-        .slice(1)
-        .map((line) => line.trim())
-        .filter((line) => line.startsWith("- "))
-        .map((line) => line.slice(2));
-      return { title, rows };
-    });
+    .filter((block) => block.startsWith("## "));
+
+  return blocks.map((block) => {
+    const [, title = "Worksheet"] = block.match(/^## (.*)$/m) ?? [];
+    const lines = block.split(/\n/).slice(1);
+    const rows = lines
+      .map((line) => line.trim())
+      .filter((line) => line.startsWith("- "))
+      .map((line) => line.slice(2));
+    return { title, rows };
+  });
+};
 
 const renderWorksheet = ({ title, rows }) => `
   <section class="page worksheet">
@@ -264,33 +286,33 @@ const renderChapterVisual = (chapter) => {
 };
 
 const renderChapter = (chapter) => `
-  <section class="page chapter">
+  <section class="chapter">
     <div class="chapter-title">
       <div class="chapter-number">Chapter ${chapter.number}</div>
       <h2>${escapeHtml(chapter.title)}</h2>
     </div>
+
     <div class="answer keep">
       <div class="label">Direct answer</div>
       ${renderLooseMarkdown(chapter.directAnswer)}
     </div>
+
     <h3>Plain-English explanation</h3>
     ${renderLooseMarkdown(chapter.explanation)}
     ${renderChapterVisual(chapter)}
+
     <div class="callout keep-soft">
       <div class="label">Common misunderstanding</div>
       ${renderLooseMarkdown(chapter.misunderstanding)}
     </div>
+
     <div class="example keep-soft">
       <div class="label">Hospital/caregiver example</div>
       ${renderLooseMarkdown(chapter.example)}
     </div>
+
     <h3>Questions to ask</h3>
     ${renderLooseMarkdown(chapter.questions)}
-    <div class="tools keep-soft">
-      <div class="label">Related site tools</div>
-      ${renderLooseMarkdown(chapter.tools, { compact: true })}
-    </div>
-    <div class="source keep-soft">${renderLooseMarkdown(chapter.source, { compact: true })}</div>
   </section>`;
 
 const findChrome = () => {
@@ -308,6 +330,7 @@ const findChrome = () => {
     "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
     "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
   ].filter(Boolean);
+
   for (const candidate of candidates) {
     if (candidate.includes(path.sep) && existsSync(candidate)) return candidate;
     if (!candidate.includes(path.sep)) {
@@ -315,6 +338,7 @@ const findChrome = () => {
       if (result.status === 0) return candidate;
     }
   }
+
   return null;
 };
 
@@ -330,26 +354,39 @@ if (chapters.length !== 19) {
   console.error(`Expected 19 chapters, found ${chapters.length}.`);
   process.exit(1);
 }
+
 const missingChapterFields = [];
 for (const chapter of chapters) {
   const expectedSections = collectExpectedChapterSections(chapter.raw);
+
   for (const [key, label] of requiredChapterFields) {
     if (!chapter[key]?.trim()) {
       missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) missing ${label}`);
       continue;
     }
-    if (normalizeSectionForComparison(expectedSections[label]) !== normalizeSectionForComparison(chapter[key])) {
+
+    const expectedSection = normalizeSectionForComparison(expectedSections[label]);
+    const parsedSection = normalizeSectionForComparison(chapter[key]);
+    if (expectedSection !== parsedSection) {
       missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) parser did not preserve the full ${label} section`);
     }
   }
-  if (countBullets(chapter.questions) < 2) missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) has fewer than 2 question bullets`);
-  if (countBullets(chapter.tools) < 1) missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) has no related tool bullets`);
+
+  if (countBullets(chapter.questions) < 2) {
+    missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) has fewer than 2 question bullets`);
+  }
+
+  if (countBullets(chapter.tools) < 1) {
+    missingChapterFields.push(`Chapter ${chapter.number} (${chapter.title}) has no related tool bullets`);
+  }
 }
+
 if (missingChapterFields.length > 0) {
   console.error("Manuscript parsing failed. Missing, incomplete, or truncated required chapter sections:");
   for (const issue of missingChapterFields) console.error(`- ${issue}`);
   process.exit(1);
 }
+
 if (worksheets.length === 0) {
   console.error("No worksheets parsed.");
   process.exit(1);
@@ -389,12 +426,9 @@ const html = `<!doctype html>
     .callout { border-left: 4px solid var(--accent); padding: 0.025in 0 0.025in 0.12in; margin: 0.105in 0; }
     .example { background: white; }
     .label { font-weight: 700; font-size: 8.3pt; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.035in; }
-    .chapter { page-break-before: always; break-before: page; }
-    .chapter-title { border-bottom: 1px solid var(--line); padding-bottom: 0.08in; margin-bottom: 0.105in; }
+    .chapter { margin: 0 0 0.18in; }
+    .chapter-title { border-top: 1.5px solid var(--accent); border-bottom: 1px solid var(--line); padding: 0.1in 0 0.08in; margin: 0.2in 0 0.105in; }
     .chapter-number { font: 700 8.8pt/1.2 Arial, Helvetica, sans-serif; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 0.04in; }
-    .tools { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.08in 0; margin-top: 0.1in; }
-    .qr-directory .tools { display: grid; grid-template-columns: minmax(0, 1fr) 1.18in; gap: 0.12in; align-items: start; border-bottom: 0; }
-    .qr { width: 1.18in; min-height: 1.18in; border: 2px dashed var(--muted); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 6.8pt; color: var(--muted); padding: 0.07in; overflow-wrap: normal; }
     .source { font-size: 8.4pt; color: var(--muted); background: white; border-top: 1px solid var(--line); padding-top: 0.06in; margin-top: 0.08in; overflow-wrap: anywhere; page-break-inside: auto; break-inside: auto; }
     .source p { margin-bottom: 0; }
     .footer { position: static; margin-top: 0.14in; font-size: 7.8pt; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.05in; display: flex; justify-content: space-between; gap: 0.18in; }
@@ -423,7 +457,9 @@ const html = `<!doctype html>
     .path-branches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.08in; }
     .path-node.start,.path-node.end { background: var(--accent-soft); border-color: var(--accent); }
     .timeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.08in; }
-    @media print { a { text-decoration: none; } .page { break-after: page; } .chapter { break-before: page; } }
+    .qr-directory .tools { display: grid; grid-template-columns: minmax(0, 1fr) 1.18in; gap: 0.12in; align-items: start; border-top: 1px solid var(--line); padding: 0.08in 0; }
+    .qr { width: 1.18in; min-height: 1.18in; border: 2px dashed var(--muted); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 6.8pt; color: var(--muted); padding: 0.07in; overflow-wrap: normal; }
+    @media print { a { text-decoration: none; } .page { break-after: page; } }
   </style>
 </head>
 <body>
@@ -435,6 +471,7 @@ const html = `<!doctype html>
     <div class="notice small">Draft preflight PDF. Do not publish until final source/dollar amount recheck, QR testing, PDF preflight, and approval are complete.</div>
     <div class="footer"><span>Educational only</span><span>Draft preflight</span></div>
   </section>
+
   <section class="page">
     <h2>Educational disclaimer</h2>
     <div class="notice"><p>This guide is educational only. It is not medical, legal, tax, insurance, Medicaid planning, or individualized financial advice. It does not replace Medicare.gov, Medicaid.gov, CMS, state Medicaid agencies, plan documents, billing offices, SHIP counselors, clinicians, attorneys, licensed insurance professionals, or other qualified professionals. Rules can vary by state, plan, facility, timing, and personal circumstances. Verify before making decisions.</p></div>
@@ -443,18 +480,23 @@ const html = `<!doctype html>
     ${renderGuideMapVisual()}
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Draft preflight</span></div>
   </section>
+
   <section class="page toc">
     <h2>Table of contents</h2>
     <ol>${chapters.map((chapter) => `<li>${escapeHtml(chapter.title)}</li>`).join("\n")}</ol>
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Table of contents</span></div>
   </section>
+
   ${chapters.map(renderChapter).join("\n")}
+
   ${worksheets.map(renderWorksheet).join("\n")}
+
   <section class="page">
     <h2>Endnotes and source map</h2>
     ${renderLooseMarkdown(endnotes, { compact: true })}
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Sources</span></div>
   </section>
+
   <section class="page">
     <h2>QR and tool directory</h2>
     <div class="qr-directory">
@@ -490,10 +532,12 @@ if (!chrome) {
     ],
     { encoding: "utf8" },
   );
+
   if (result.status !== 0) {
     console.error(result.stderr || result.stdout || "Chrome PDF export failed.");
     process.exit(result.status ?? 1);
   }
+
   console.log(`Wrote ${path.relative(repoRoot, pdfPath)}`);
   console.log("Do not move this PDF to /public or link it until preflight passes and release is approved.");
 }

@@ -64,6 +64,8 @@ jobs:
           done
 
       - name: Create artifact manifest
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         run: |
           set -euo pipefail
           out="docs/generated/medicare-medicaid-guide/guide-preflight-artifact-manifest.txt"

@@ -6,7 +6,7 @@ Last updated: 2026-07-06
 
 ## Status
 
-Draft/internal build process created. Public PDF release is not approved.
+Draft/internal build process created and tightened. Public PDF release is not approved.
 
 ## Decision: do not commit `/public/drafts/*.pdf`
 
@@ -16,17 +16,19 @@ The requested preferred path was:
 
 That path is not appropriate for an internal draft in this repo because Vercel serves files under `/public`. A merged PDF at that path would be publicly reachable even if it was not linked from a page or added to the sitemap.
 
-Instead, this pass adds a local draft build process that writes generated files under:
+Instead, the draft build process writes generated files under:
 
 `/docs/generated/medicare-medicaid-guide/`
 
-Generated files are not committed by this PR.
+Generated files are ignored by Git and are not committed by this workflow.
 
 ## Files added or changed
 
-- Added: `/scripts/build-medicare-medicaid-guide-pdf.mjs`
+- Added/updated: `/scripts/build-medicare-medicaid-guide-pdf.mjs`
 - Updated: `/package.json`
-- Added: `/docs/medicare-medicaid-guide-pdf-preflight-report.md`
+- Updated: `.gitignore`
+- Updated: `/docs/medicare-medicaid-guide-pdf-preflight-report.md`
+- Updated: `/docs/medicare-medicaid-guide-print/final-guide-print-template.html`
 
 ## Local draft PDF generation command
 
@@ -76,11 +78,116 @@ PUPPETEER_EXECUTABLE_PATH=/path/to/chrome npm run guide:pdf:draft
   - how to use this guide,
   - table of contents.
 - Adds back matter:
-  - worksheets,
+  - dedicated worksheet pages,
   - endnotes/source map,
   - QR/tool directory.
 - Keeps QR placeholders only.
 - Exports a local preflight PDF when Chrome/Chromium/Edge is available.
+
+## Fixes made in the preflight-fix pass
+
+### 1. Long source-note handling
+
+Improved:
+
+- Source notes now use smaller but still readable text.
+- Source blocks use `overflow-wrap: anywhere` so long source strings can wrap.
+- Source blocks are marked with soft keep-together behavior to reduce awkward splits.
+
+Remaining manual QA:
+
+- Inspect the final source/endnote pages after local PDF export.
+- If source pages feel too dense, convert raw URLs into named linked sources before public release.
+
+### 2. Raw URL wrapping
+
+Improved:
+
+- Inline code and URL-like strings now use `overflow-wrap: anywhere` and `word-break: break-word`.
+- Related-tool routes and source URLs should wrap instead of overflowing page width.
+
+Remaining manual QA:
+
+- Check long CMS/Medicaid URLs in the rendered endnote section.
+- Confirm browser/PDF export preserves readable wrapping.
+
+### 3. Footer overlap risk
+
+Improved:
+
+- The generator and final template no longer rely on absolutely positioned footers.
+- Footers now sit in document flow with margin above them.
+- This reduces the risk that long source notes or callout boxes overlap the footer.
+
+Remaining manual QA:
+
+- Confirm footers still look acceptable visually.
+- Confirm long chapters do not create lonely footer lines or odd page endings.
+
+### 4. Page-break control
+
+Improved:
+
+- Headings use `break-after: avoid` / `page-break-after: avoid`.
+- Chapter pages still begin on new pages.
+- Callout, example, tool, and source blocks use keep-together behavior where practical.
+- Paragraphs use basic widow/orphan controls.
+
+Remaining manual QA:
+
+- Inspect long chapters for awkward page breaks.
+- Some chapters may still need manual forced page breaks after actual PDF rendering.
+
+### 5. Worksheet spacing
+
+Improved:
+
+- Worksheets are parsed into dedicated pages instead of being compressed into one back-matter page.
+- Worksheet rows have larger minimum height.
+- Rows use a two-column label/notes layout.
+
+Remaining manual QA:
+
+- Confirm each worksheet has enough room for handwriting.
+- Consider expanding the most important worksheets into two pages if the public version feels cramped.
+
+### 6. Table of contents readability
+
+Improved:
+
+- The generated table of contents now uses one column instead of two.
+- TOC items have slightly more spacing.
+- The final static print template mirrors this one-column approach.
+
+Remaining manual QA:
+
+- Add final page numbers only after pagination is stable.
+
+### 7. Mobile PDF readability
+
+Improved:
+
+- Cover title size is slightly reduced.
+- Body line-height is slightly increased.
+- Source and code wrapping are safer on narrow/mobile PDF viewers.
+
+Remaining manual QA:
+
+- Open the generated PDF on iPhone and Android.
+- Confirm the landing page remains the better mobile-first version while the PDF remains print-first.
+
+### 8. Black-and-white print clarity
+
+Improved:
+
+- Border and muted text colors were made slightly darker.
+- Accent blocks remain light but clearer in grayscale.
+- Worksheet lines and callout borders are more likely to print visibly.
+
+Remaining manual QA:
+
+- Print the cover, one chapter, one worksheet, and one source page in black and white.
+- If light gray blocks are still too faint, darken `--line` and reduce `--soft` brightness.
 
 ## What this pass does not do
 
@@ -96,7 +203,7 @@ PUPPETEER_EXECUTABLE_PATH=/path/to/chrome npm run guide:pdf:draft
 
 ### 1. Clipped text
 
-Status: Documented, pending local PDF render review.
+Status: Improved in CSS; still requires local PDF render review.
 
 Check:
 
@@ -106,13 +213,9 @@ Check:
 - Worksheet rows do not cut off labels.
 - Endnote URLs do not overflow page width.
 
-Potential issue:
-
-Raw URLs in endnotes may wrap awkwardly. Final PDF may need shorter endnote labels or linked source names instead of visible raw URLs.
-
 ### 2. Overlapping boxes
 
-Status: Documented, pending local PDF render review.
+Status: Improved by removing absolute footer positioning; still requires local PDF render review.
 
 Check:
 
@@ -121,13 +224,9 @@ Check:
 - QR placeholders do not collide with related tool text.
 - Footer does not overlap long source notes.
 
-Potential issue:
-
-Long source-note blocks may collide with footers if a chapter runs close to the bottom of the page. Final QA should render pages to images and inspect the last quarter of each page.
-
 ### 3. Bad page breaks
 
-Status: Documented, pending local PDF render review.
+Status: Improved with heading and block break controls; still requires local PDF render review.
 
 Check:
 
@@ -137,28 +236,20 @@ Check:
 - Questions checklists remain readable.
 - Worksheet sections mostly remain one page each.
 
-Potential issue:
-
-Some longer chapters may need manual page-break adjustments after the first generated PDF.
-
 ### 4. Source-note readability
 
-Status: Documented, pending local PDF render review.
+Status: Improved with wrapping and readable source-note sizing; still requires print review.
 
 Check:
 
-- Source notes stay at or above 8.5 pt equivalent.
+- Source notes stay readable.
 - Source notes are not too faint in grayscale.
 - Endnotes are readable when printed.
 - Source map does not become a wall of tiny URLs.
 
-Potential issue:
-
-The final public PDF should probably use readable source names and linked URLs rather than exposing every raw URL in long form.
-
 ### 5. Worksheet spacing
 
-Status: Documented, pending local PDF render review.
+Status: Improved with one worksheet per page and larger writing rows; still requires print review.
 
 Check:
 
@@ -167,13 +258,9 @@ Check:
 - Bill review worksheet has enough writing space.
 - Medicaid/LTSS next-step worksheet has enough writing space.
 
-Potential issue:
-
-The generated back matter may need one worksheet per page, with larger blank fields, before public release.
-
 ### 6. Mobile PDF viewing
 
-Status: Documented, pending local PDF render review.
+Status: Improved modestly; still requires device review.
 
 Check:
 
@@ -183,13 +270,9 @@ Check:
 - QR placeholder boxes do not visually dominate.
 - Endnotes are not unusable on mobile.
 
-Potential issue:
-
-A print-first guide can be less comfortable on mobile. The landing page should remain the mobile-first entry point even after PDF release.
-
 ### 7. Black-and-white printing
 
-Status: Documented, pending local PDF print test.
+Status: Improved with darker borders and muted text; still requires print test.
 
 Check:
 
@@ -198,10 +281,6 @@ Check:
 - Direct answer boxes print clearly.
 - Worksheet lines print clearly.
 - QR placeholders scanability is not applicable yet because final QR codes are not generated.
-
-Potential issue:
-
-Light gray blocks may need slightly darker borders after test printing.
 
 ## Recommended local QA workflow
 
@@ -225,13 +304,13 @@ docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-p
 - one worksheet,
 - source/endnotes page.
 
-4. Render pages to images if available locally:
+4. Inspect on mobile:
 
-```bash
-python /home/oai/skills/pdfs/scripts/render_pdf.py docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.pdf --out_dir docs/generated/medicare-medicaid-guide/rendered-pages --dpi 200
-```
+- iPhone PDF viewer,
+- Android PDF viewer if available,
+- desktop browser PDF viewer.
 
-If the local environment does not have that script, use a browser PDF viewer, Preview, Acrobat, or another PDF renderer and inspect pages manually.
+5. Fix remaining issues in the generator/template before any public release PR.
 
 ## Release gate after this pass
 
@@ -247,11 +326,11 @@ Do not move any PDF into `/public` until:
 
 ## Next recommended phase
 
-After local PDF generation and visual inspection, the next build phase should be a controlled public-release prep pass:
+After a local PDF is generated and visually inspected, the next build phase should be controlled release preparation:
 
-- fix layout issues found in preflight,
+- address any remaining manual QA issues,
 - create final QR codes only after URL testing,
-- place final PDF under a public asset path,
+- place the final approved PDF under a public asset path,
 - update the landing page download CTA,
-- update sitemap if needed,
+- update the sitemap if needed,
 - verify the live download.

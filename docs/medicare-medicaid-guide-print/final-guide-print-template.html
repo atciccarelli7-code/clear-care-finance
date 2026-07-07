@@ -8,42 +8,41 @@
     @page { size: letter; margin: 0.65in 0.7in; }
     :root {
       --ink: #171717;
-      --muted: #5f6368;
-      --line: #d9dee3;
-      --soft: #f5f7f9;
+      --muted: #4f555c;
+      --line: #c9d1d9;
+      --soft: #f3f5f7;
       --accent: #1f4d5a;
-      --accent-soft: #f0f6f7;
+      --accent-soft: #edf6f8;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       color: var(--ink);
       background: white;
-      font: 11pt/1.45 Georgia, "Times New Roman", serif;
+      font: 11pt/1.48 Georgia, "Times New Roman", serif;
+      overflow-wrap: anywhere;
     }
     h1, h2, h3, h4, .sans, .label, .footer, .toc, .qr, .worksheet, .eyebrow {
       font-family: Arial, Helvetica, sans-serif;
     }
-    h1 { font-size: 30pt; line-height: 1.08; margin: 0 0 0.22in; }
-    h2 { font-size: 19pt; line-height: 1.2; margin: 0 0 0.16in; }
-    h3 { font-size: 13pt; line-height: 1.25; margin: 0.18in 0 0.06in; }
-    h4 { font-size: 10pt; line-height: 1.25; margin: 0.14in 0 0.05in; }
-    p { margin: 0 0 0.11in; }
+    h1 { font-size: 28pt; line-height: 1.08; margin: 0 0 0.22in; }
+    h2 { font-size: 18pt; line-height: 1.2; margin: 0 0 0.16in; break-after: avoid; page-break-after: avoid; }
+    h3 { font-size: 12.5pt; line-height: 1.25; margin: 0.18in 0 0.06in; break-after: avoid; page-break-after: avoid; }
+    h4 { font-size: 10pt; line-height: 1.25; margin: 0.14in 0 0.05in; break-after: avoid; page-break-after: avoid; }
+    p { margin: 0 0 0.11in; orphans: 3; widows: 3; }
     ul, ol { margin: 0.05in 0 0.14in 0.22in; padding: 0; }
-    li { margin: 0.035in 0; }
+    li { margin: 0.04in 0; orphans: 2; widows: 2; }
     a { color: inherit; }
+    code, .breakable { font-family: Arial, Helvetica, sans-serif; font-size: 8.6pt; overflow-wrap: anywhere; word-break: break-word; }
     .page {
       page-break-after: always;
       break-after: page;
       min-height: 9.35in;
       position: relative;
+      padding-bottom: 0.18in;
     }
     .page:last-child { page-break-after: auto; break-after: auto; }
-    .cover {
-      display: grid;
-      align-content: center;
-      min-height: 9.35in;
-    }
+    .cover { display: grid; align-content: center; min-height: 9.35in; }
     .eyebrow {
       font-weight: 700;
       font-size: 9pt;
@@ -53,97 +52,48 @@
       color: var(--accent);
       margin-bottom: 0.16in;
     }
-    .subtitle {
-      font: 14pt/1.35 Arial, Helvetica, sans-serif;
-      color: var(--muted);
-      max-width: 6.5in;
-    }
-    .byline {
-      margin-top: 0.45in;
-      font: 10pt/1.4 Arial, Helvetica, sans-serif;
-      color: var(--muted);
-    }
-    .notice, .answer, .example, .source, .qr-directory, .update-log {
+    .subtitle { font: 13.5pt/1.35 Arial, Helvetica, sans-serif; color: var(--muted); max-width: 6.5in; }
+    .byline { margin-top: 0.45in; font: 10pt/1.4 Arial, Helvetica, sans-serif; color: var(--muted); }
+    .notice, .answer, .example, .source, .qr-directory, .update-log, .worksheet-card {
       border: 1px solid var(--line);
       background: var(--soft);
-      padding: 0.15in;
+      padding: 0.14in;
       margin: 0.14in 0;
     }
-    .answer {
-      border: 1.5px solid var(--accent);
-      background: var(--accent-soft);
-    }
-    .callout {
-      border-left: 5px solid var(--accent);
-      padding: 0.02in 0 0.02in 0.14in;
-      margin: 0.16in 0;
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
-    .example {
-      background: white;
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
-    .label {
-      font-weight: 700;
-      font-size: 8.5pt;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.05in;
-    }
-    .chapter {
-      page-break-before: always;
-      break-before: page;
-    }
-    .chapter-title {
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 0.12in;
-      margin-bottom: 0.16in;
-    }
-    .chapter-number {
-      font: 700 9pt/1.2 Arial, Helvetica, sans-serif;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 0.06in;
-    }
+    .answer { border: 1.5px solid var(--accent); background: var(--accent-soft); }
+    .callout { border-left: 5px solid var(--accent); padding: 0.04in 0 0.04in 0.14in; margin: 0.16in 0; }
+    .example { background: white; }
+    .label { font-weight: 700; font-size: 8.5pt; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.05in; }
+    .chapter { page-break-before: always; break-before: page; }
+    .chapter-title { border-bottom: 1px solid var(--line); padding-bottom: 0.12in; margin-bottom: 0.16in; }
+    .chapter-number { font: 700 9pt/1.2 Arial, Helvetica, sans-serif; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 0.06in; }
     .tools {
       display: grid;
-      grid-template-columns: 1fr 1.35in;
+      grid-template-columns: minmax(0, 1fr) 1.25in;
       gap: 0.18in;
       align-items: start;
       border-top: 1px solid var(--line);
       padding-top: 0.12in;
       margin-top: 0.18in;
-      page-break-inside: avoid;
-      break-inside: avoid;
     }
     .qr {
-      width: 1.35in;
-      min-height: 1.35in;
+      width: 1.25in;
+      min-height: 1.25in;
       border: 2px dashed var(--muted);
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-size: 7.5pt;
+      font-size: 7.1pt;
       color: var(--muted);
       padding: 0.08in;
+      overflow-wrap: normal;
     }
-    .source {
-      font-size: 9pt;
-      color: var(--muted);
-      background: white;
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
+    .source { font-size: 8.8pt; color: var(--muted); background: white; overflow-wrap: anywhere; }
+    .source p { margin-bottom: 0; }
     .footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      position: static;
+      margin-top: 0.22in;
       font-size: 8pt;
       color: var(--muted);
       border-top: 1px solid var(--line);
@@ -152,29 +102,24 @@
       justify-content: space-between;
       gap: 0.2in;
     }
-    .toc ol {
-      columns: 2;
-      column-gap: 0.35in;
-      padding-left: 0.22in;
-    }
-    .toc li { break-inside: avoid; }
+    .toc ol { columns: 1; padding-left: 0.26in; }
+    .toc li { break-inside: avoid; page-break-inside: avoid; margin-bottom: 0.055in; }
+    .worksheet { page-break-before: always; break-before: page; }
+    .worksheet-card { background: white; }
     .worksheet-row {
       border-bottom: 1px solid var(--line);
-      min-height: 0.38in;
-      padding: 0.08in 0;
-    }
-    .worksheet {
-      page-break-before: always;
-      break-before: page;
-    }
-    .worksheet-grid {
+      min-height: 0.52in;
+      padding: 0.1in 0;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.18in;
+      grid-template-columns: 2.1in 1fr;
+      gap: 0.14in;
+      align-items: start;
     }
+    .worksheet-row strong { font-family: Arial, Helvetica, sans-serif; font-size: 9.3pt; }
+    .worksheet-row span { min-height: 0.3in; display: block; }
     .small { font-size: 9pt; color: var(--muted); }
     .page-break { page-break-before: always; break-before: page; }
-    .keep { page-break-inside: avoid; break-inside: avoid; }
+    .keep, .keep-soft { page-break-inside: avoid; break-inside: avoid; }
     @media print {
       a { text-decoration: none; }
       .page { break-after: page; }
@@ -188,9 +133,7 @@
     <h1>The Hospital Family Guide to Medicare, Medicaid, Rehab, and Long-Term Care</h1>
     <p class="subtitle">A plain-English guide for patients, caregivers, and families trying to understand discharge planning, rehab coverage, long-term care, Medicaid, and medical bills.</p>
     <p class="byline">Written from a healthcare-worker perspective by Andrew Ciccarelli, RN, BSN.</p>
-    <div class="notice small">
-      Draft print template. Do not publish as a final PDF until source review, QR testing, PDF preflight, and final approval are complete.
-    </div>
+    <div class="notice small">Draft print template. Do not publish as a final PDF until source review, QR testing, PDF preflight, and final approval are complete.</div>
     <div class="footer"><span>Educational only</span><span>Draft print template</span></div>
   </section>
 
@@ -201,9 +144,7 @@
     </div>
     <h2>How to use this guide</h2>
     <p>Start with the situation in front of you: discharge, rehab, home health, long-term care, Medicaid, a denial, or a bill. Then ask which payer is involved, what rule applies, what documentation exists, what the patient may owe, and where the answer can be verified.</p>
-    <div class="notice small">
-      Replace this draft text with the final approved manuscript before PDF export.
-    </div>
+    <div class="notice small">Replace this draft text with the final approved manuscript before PDF export.</div>
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Last updated 2026-07-06</span></div>
   </section>
 
@@ -233,24 +174,9 @@
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Table of contents</span></div>
   </section>
 
-  <section class="page">
-    <h2>The 5 biggest misunderstandings</h2>
-    <div class="notice">
-      <ol>
-        <li>Medicare and Medicaid are different.</li>
-        <li>Covered does not always mean free.</li>
-        <li>Skilled care is different from custodial care.</li>
-        <li>Sleeping in a hospital bed does not automatically mean inpatient status.</li>
-        <li>Medicare Advantage can involve networks and prior authorization.</li>
-      </ol>
-    </div>
-    <p class="small">Replace with final manuscript text before PDF export.</p>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Front matter</span></div>
-  </section>
-
   <section class="page chapter">
     <div class="chapter-title">
-      <div class="chapter-number">Chapter 1</div>
+      <div class="chapter-number">Chapter template</div>
       <h2>Chapter title placeholder</h2>
       <p class="small">Short chapter promise: what the reader will understand after this page.</p>
     </div>
@@ -261,14 +187,14 @@
     </div>
 
     <h3>Plain-English explanation</h3>
-    <p>Insert short, scannable paragraphs from the final manuscript. Avoid dense government-style text and avoid unsupported coverage promises.</p>
+    <p>Insert short, scannable paragraphs from the final manuscript. Avoid dense government-style text and unsupported coverage promises.</p>
 
-    <div class="callout">
+    <div class="callout keep-soft">
       <div class="label">Common misunderstanding</div>
       <p>Insert the chapter's misconception correction. Keep the tone calm and non-blaming.</p>
     </div>
 
-    <div class="example">
+    <div class="example keep-soft">
       <div class="label">Hospital/caregiver example</div>
       <p>Insert a realistic, non-identifying example. Do not include patient-specific medical advice.</p>
     </div>
@@ -280,105 +206,36 @@
       <li>Insert direct question from manuscript.</li>
     </ul>
 
-    <div class="tools">
+    <div class="tools keep-soft">
       <div>
         <div class="label">Related site tools</div>
-        <p>/guides/medicare-medicaid-rehab-long-term-care</p>
-        <p>/medicare-care-costs#cost-estimator</p>
-        <p>/tools/eob-to-bill-match-checker</p>
+        <p><code class="breakable">/guides/medicare-medicaid-rehab-long-term-care</code></p>
+        <p><code class="breakable">/medicare-care-costs#cost-estimator</code></p>
+        <p><code class="breakable">/tools/eob-to-bill-match-checker</code></p>
       </div>
       <div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL UNTIL URL IS LIVE AND TESTED</div>
     </div>
 
-    <div class="source">Source note: Insert chapter-specific source note and endnote references from the final manuscript.</div>
+    <div class="source keep-soft">Source note: Insert chapter-specific source note and endnote references from the final manuscript.</div>
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Last updated 2026-07-06</span></div>
   </section>
 
-  <!-- Duplicate the chapter section above for Chapters 2-19, replacing all placeholder text with approved manuscript copy. -->
-
   <section class="page worksheet">
-    <h2>Before-discharge checklist</h2>
-    <p class="small">Use during discharge conversations. This is educational only and does not replace the care team, Medicare, Medicaid, the plan, or a qualified professional.</p>
-    <div class="worksheet-row"><strong>Patient status:</strong> inpatient / outpatient / observation</div>
-    <div class="worksheet-row"><strong>Recommended discharge setting:</strong></div>
-    <div class="worksheet-row"><strong>Skilled need documented:</strong></div>
-    <div class="worksheet-row"><strong>Facility name and certification/network status:</strong></div>
-    <div class="worksheet-row"><strong>Prior authorization status:</strong></div>
-    <div class="worksheet-row"><strong>Estimated patient cost:</strong></div>
-    <div class="worksheet-row"><strong>Written notices received:</strong></div>
-    <div class="worksheet-row"><strong>Appeal deadline if denied or ending:</strong></div>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Worksheet</span></div>
-  </section>
-
-  <section class="page worksheet">
-    <h2>Rehab facility comparison worksheet</h2>
-    <div class="worksheet-row"><strong>Facility name:</strong></div>
-    <div class="worksheet-row"><strong>Medicare certification or plan network status:</strong></div>
-    <div class="worksheet-row"><strong>Therapy availability:</strong></div>
-    <div class="worksheet-row"><strong>Authorization status:</strong></div>
-    <div class="worksheet-row"><strong>Estimated patient cost:</strong></div>
-    <div class="worksheet-row"><strong>Transportation and family access:</strong></div>
-    <div class="worksheet-row"><strong>What happens if coverage stops:</strong></div>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Worksheet</span></div>
-  </section>
-
-  <section class="page worksheet">
-    <h2>Prior authorization tracker</h2>
-    <div class="worksheet-row"><strong>Service requested:</strong></div>
-    <div class="worksheet-row"><strong>Requesting provider:</strong></div>
-    <div class="worksheet-row"><strong>Date submitted:</strong></div>
-    <div class="worksheet-row"><strong>Reference number:</strong></div>
-    <div class="worksheet-row"><strong>Current status:</strong></div>
-    <div class="worksheet-row"><strong>Reason for denial, if any:</strong></div>
-    <div class="worksheet-row"><strong>Missing documentation, if any:</strong></div>
-    <div class="worksheet-row"><strong>Appeal deadline:</strong></div>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Worksheet</span></div>
-  </section>
-
-  <section class="page worksheet">
-    <h2>Bill review worksheet</h2>
-    <div class="worksheet-row"><strong>Date of service:</strong></div>
-    <div class="worksheet-row"><strong>Provider or facility:</strong></div>
-    <div class="worksheet-row"><strong>Amount billed:</strong></div>
-    <div class="worksheet-row"><strong>Allowed amount:</strong></div>
-    <div class="worksheet-row"><strong>Medicare or plan paid:</strong></div>
-    <div class="worksheet-row"><strong>Patient responsibility:</strong></div>
-    <div class="worksheet-row"><strong>MSN/EOB/plan document matched:</strong></div>
-    <div class="worksheet-row"><strong>Billing-office explanation:</strong></div>
-    <div class="worksheet-row"><strong>Financial assistance asked about:</strong></div>
-    <div class="worksheet-row"><strong>Appeal or rebill needed:</strong></div>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Worksheet</span></div>
-  </section>
-
-  <section class="page worksheet">
-    <h2>Medicaid/LTSS next-step worksheet</h2>
-    <div class="worksheet-row"><strong>State Medicaid agency:</strong></div>
-    <div class="worksheet-row"><strong>Local SHIP contact:</strong></div>
-    <div class="worksheet-row"><strong>Local aging-services contact:</strong></div>
-    <div class="worksheet-row"><strong>Documents requested:</strong></div>
-    <div class="worksheet-row"><strong>Long-term care setting being considered:</strong></div>
-    <div class="worksheet-row"><strong>Estate recovery question asked:</strong></div>
-    <div class="worksheet-row"><strong>Spousal impoverishment question asked, if married:</strong></div>
-    <div class="worksheet-row"><strong>Professional guidance needed:</strong></div>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Worksheet</span></div>
+    <h2>Worksheet template</h2>
+    <p class="small">Use one worksheet page per major task when possible. This gives families enough room to write and reduces cramped print output.</p>
+    <div class="worksheet-card">
+      <div class="worksheet-row"><strong>Date / reference number:</strong><span></span></div>
+      <div class="worksheet-row"><strong>Person or office contacted:</strong><span></span></div>
+      <div class="worksheet-row"><strong>What they said:</strong><span></span></div>
+      <div class="worksheet-row"><strong>What document confirms this:</strong><span></span></div>
+      <div class="worksheet-row"><strong>Next step:</strong><span></span></div>
+    </div>
+    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Worksheet placeholder</span></div>
   </section>
 
   <section class="page">
     <h2>Endnotes and source map</h2>
-    <p class="small">Insert endnotes from `/docs/medicare-medicaid-guide-final-pre-pdf-manuscript.md`. Keep source names readable. Avoid tiny raw URLs if the final PDF uses linked endnotes.</p>
-    <ol class="small">
-      <li>Medicare.gov — How Medicare works</li>
-      <li>Medicare.gov — Compare Original Medicare and Medicare Advantage</li>
-      <li>Medicare.gov — Medicare costs</li>
-      <li>Medicare.gov — Long-term care</li>
-      <li>Medicare.gov — Skilled nursing facility care</li>
-      <li>Medicare.gov — Home health services</li>
-      <li>Medicaid.gov — Long-Term Services and Supports</li>
-      <li>Medicaid.gov — Eligibility Policy</li>
-      <li>Medicare.gov — Medicare Summary Notice</li>
-      <li>Medicare.gov — Appeals</li>
-      <li>CMS.gov / Medicare.gov managed care and observation notice sources</li>
-    </ol>
+    <p class="small">Use readable source names and linked URLs when possible. Avoid a wall of tiny raw URLs in the final public PDF. Long URLs should wrap without overflowing the page.</p>
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Sources</span></div>
   </section>
 
@@ -388,38 +245,12 @@
       <div class="tools">
         <div>
           <div class="label">Guide landing page</div>
-          <p>/guides/medicare-medicaid-rehab-long-term-care</p>
-        </div>
-        <div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL</div>
-      </div>
-      <div class="tools">
-        <div>
-          <div class="label">Medicare cost exposure tool</div>
-          <p>/medicare-care-costs#cost-estimator</p>
-        </div>
-        <div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL</div>
-      </div>
-      <div class="tools">
-        <div>
-          <div class="label">EOB-to-bill checker</div>
-          <p>/tools/eob-to-bill-match-checker</p>
+          <p><code class="breakable">/guides/medicare-medicaid-rehab-long-term-care</code></p>
         </div>
         <div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL</div>
       </div>
     </div>
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>QR placeholders</span></div>
-  </section>
-
-  <section class="page">
-    <h2>Update log</h2>
-    <div class="update-log">
-      <p><strong>Draft print template created:</strong> 2026-07-06</p>
-      <p><strong>Final source/dollar amount recheck:</strong> Pending</p>
-      <p><strong>QR code testing:</strong> Pending</p>
-      <p><strong>PDF preflight:</strong> Pending</p>
-      <p><strong>Public release:</strong> Not approved</p>
-    </div>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Update log</span></div>
   </section>
 </body>
 </html>

@@ -19,9 +19,9 @@ const escapeHtml = (value) =>
 const inline = (value) =>
   escapeHtml(value)
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/`([^`]+)`/g, "<code>$1</code>");
+    .replace(/`([^`]+)`/g, '<code class="breakable">$1</code>');
 
-const renderLooseMarkdown = (markdown) => {
+const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
   const lines = markdown.trim().split(/\r?\n/);
   const html = [];
   let listOpen = false;
@@ -85,7 +85,7 @@ const renderLooseMarkdown = (markdown) => {
     } else if (line.startsWith("# ")) {
       html.push(`<h2>${inline(line.slice(2))}</h2>`);
     } else {
-      html.push(`<p>${inline(line)}</p>`);
+      html.push(`<p${compact ? ' class="small"' : ""}>${inline(line)}</p>`);
     }
   }
 
@@ -117,6 +117,33 @@ const parseChapter = (rawChapter) => {
   };
 };
 
+const parseWorksheets = (worksheetMarkdown) => {
+  const blocks = worksheetMarkdown
+    .split(/\n(?=## )/)
+    .map((block) => block.trim())
+    .filter((block) => block.startsWith("## "));
+
+  return blocks.map((block) => {
+    const [, title = "Worksheet"] = block.match(/^## (.*)$/m) ?? [];
+    const lines = block.split(/\r?\n/).slice(1);
+    const rows = lines
+      .map((line) => line.trim())
+      .filter((line) => line.startsWith("- "))
+      .map((line) => line.slice(2));
+    return { title, rows };
+  });
+};
+
+const renderWorksheet = ({ title, rows }) => `
+  <section class="page worksheet">
+    <h2>${escapeHtml(title)}</h2>
+    <p class="small">Use this page to organize questions and notes. Educational only; verify details with official sources, the plan, the facility, the billing office, SHIP, or a qualified professional.</p>
+    <div class="worksheet-card">
+      ${rows.map((row) => `<div class="worksheet-row"><strong>${inline(row)}:</strong><span></span></div>`).join("\n")}
+    </div>
+    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Worksheet</span></div>
+  </section>`;
+
 const renderChapter = (chapter) => `
   <section class="page chapter">
     <div class="chapter-title">
@@ -132,12 +159,12 @@ const renderChapter = (chapter) => `
     <h3>Plain-English explanation</h3>
     ${renderLooseMarkdown(chapter.explanation)}
 
-    <div class="callout">
+    <div class="callout keep-soft">
       <div class="label">Common misunderstanding</div>
       ${renderLooseMarkdown(chapter.misunderstanding)}
     </div>
 
-    <div class="example">
+    <div class="example keep-soft">
       <div class="label">Hospital/caregiver example</div>
       ${renderLooseMarkdown(chapter.example)}
     </div>
@@ -145,15 +172,15 @@ const renderChapter = (chapter) => `
     <h3>Questions to ask</h3>
     ${renderLooseMarkdown(chapter.questions)}
 
-    <div class="tools">
+    <div class="tools keep-soft">
       <div>
         <div class="label">Related site tools</div>
-        ${renderLooseMarkdown(chapter.tools)}
+        ${renderLooseMarkdown(chapter.tools, { compact: true })}
       </div>
       <div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL UNTIL URL IS LIVE AND TESTED</div>
     </div>
 
-    <div class="source">${renderLooseMarkdown(chapter.source)}</div>
+    <div class="source keep-soft">${renderLooseMarkdown(chapter.source, { compact: true })}</div>
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Draft preflight</span></div>
   </section>`;
 
@@ -188,10 +215,16 @@ const markdown = readFileSync(manuscriptPath, "utf8");
 const [beforeWorksheets, afterWorksheets = ""] = markdown.split("\n# Worksheet Drafts for Final PDF");
 const chapterBlocks = beforeWorksheets.split(/\n(?=# Chapter \d+ — )/).filter((block) => block.startsWith("# Chapter"));
 const chapters = chapterBlocks.map(parseChapter).filter(Boolean);
-const endnotes = markdown.slice(markdown.indexOf("# Endnotes and Source Map"));
+const [worksheetMarkdown = "", endnoteMarkdown = ""] = afterWorksheets.split("\n# Endnotes and Source Map");
+const worksheets = parseWorksheets(worksheetMarkdown);
+const endnotes = `# Endnotes and Source Map${endnoteMarkdown}`;
 
 if (chapters.length !== 19) {
   console.warn(`Expected 19 chapters, found ${chapters.length}. Continue with caution.`);
+}
+
+if (worksheets.length === 0) {
+  console.warn("No worksheets parsed. Continue with caution.");
 }
 
 const html = `<!doctype html>
@@ -202,43 +235,48 @@ const html = `<!doctype html>
   <title>The Hospital Family Guide to Medicare, Medicaid, Rehab, and Long-Term Care</title>
   <style>
     @page { size: letter; margin: 0.65in 0.7in; }
-    :root { --ink:#171717; --muted:#5f6368; --line:#d9dee3; --soft:#f5f7f9; --accent:#1f4d5a; --accent-soft:#f0f6f7; }
+    :root { --ink:#171717; --muted:#4f555c; --line:#c9d1d9; --soft:#f3f5f7; --accent:#1f4d5a; --accent-soft:#edf6f8; }
     * { box-sizing: border-box; }
-    body { margin: 0; color: var(--ink); background: white; font: 11pt/1.45 Georgia, "Times New Roman", serif; }
+    body { margin: 0; color: var(--ink); background: white; font: 11pt/1.48 Georgia, "Times New Roman", serif; overflow-wrap: anywhere; }
     h1,h2,h3,h4,.sans,.label,.footer,.toc,.qr,.worksheet,.eyebrow { font-family: Arial, Helvetica, sans-serif; }
-    h1 { font-size: 30pt; line-height: 1.08; margin: 0 0 0.22in; }
-    h2 { font-size: 19pt; line-height: 1.2; margin: 0 0 0.16in; }
-    h3 { font-size: 13pt; line-height: 1.25; margin: 0.18in 0 0.06in; }
-    h4 { font-size: 10pt; line-height: 1.25; margin: 0.14in 0 0.05in; }
-    p { margin: 0 0 0.11in; }
+    h1 { font-size: 28pt; line-height: 1.08; margin: 0 0 0.22in; }
+    h2 { font-size: 18pt; line-height: 1.2; margin: 0 0 0.16in; break-after: avoid; page-break-after: avoid; }
+    h3 { font-size: 12.5pt; line-height: 1.25; margin: 0.18in 0 0.06in; break-after: avoid; page-break-after: avoid; }
+    h4 { font-size: 10pt; line-height: 1.25; margin: 0.14in 0 0.05in; break-after: avoid; page-break-after: avoid; }
+    p { margin: 0 0 0.11in; orphans: 3; widows: 3; }
     ul,ol { margin: 0.05in 0 0.14in 0.22in; padding: 0; }
-    li { margin: 0.035in 0; }
+    li { margin: 0.04in 0; orphans: 2; widows: 2; }
     blockquote { border-left: 5px solid var(--accent); margin: 0.14in 0; padding: 0.02in 0 0.02in 0.14in; }
-    code { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; }
-    .page { page-break-after: always; break-after: page; min-height: 9.35in; position: relative; }
+    code,.breakable { font-family: Arial, Helvetica, sans-serif; font-size: 8.6pt; overflow-wrap: anywhere; word-break: break-word; }
+    .page { page-break-after: always; break-after: page; min-height: 9.35in; position: relative; padding-bottom: 0.18in; }
     .page:last-child { page-break-after: auto; break-after: auto; }
     .cover { display: grid; align-content: center; min-height: 9.35in; }
     .eyebrow { font-weight: 700; font-size: 9pt; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.16in; }
-    .subtitle { font: 14pt/1.35 Arial, Helvetica, sans-serif; color: var(--muted); max-width: 6.5in; }
+    .subtitle { font: 13.5pt/1.35 Arial, Helvetica, sans-serif; color: var(--muted); max-width: 6.5in; }
     .byline { margin-top: 0.45in; font: 10pt/1.4 Arial, Helvetica, sans-serif; color: var(--muted); }
-    .notice,.answer,.example,.source,.qr-directory,.update-log { border: 1px solid var(--line); background: var(--soft); padding: 0.15in; margin: 0.14in 0; }
+    .notice,.answer,.example,.source,.qr-directory,.update-log,.worksheet-card { border: 1px solid var(--line); background: var(--soft); padding: 0.14in; margin: 0.14in 0; }
     .answer { border: 1.5px solid var(--accent); background: var(--accent-soft); }
-    .callout { border-left: 5px solid var(--accent); padding: 0.02in 0 0.02in 0.14in; margin: 0.16in 0; page-break-inside: avoid; break-inside: avoid; }
-    .example { background: white; page-break-inside: avoid; break-inside: avoid; }
+    .callout { border-left: 5px solid var(--accent); padding: 0.04in 0 0.04in 0.14in; margin: 0.16in 0; }
+    .example { background: white; }
     .label { font-weight: 700; font-size: 8.5pt; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.05in; }
     .chapter { page-break-before: always; break-before: page; }
     .chapter-title { border-bottom: 1px solid var(--line); padding-bottom: 0.12in; margin-bottom: 0.16in; }
     .chapter-number { font: 700 9pt/1.2 Arial, Helvetica, sans-serif; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 0.06in; }
-    .tools { display: grid; grid-template-columns: 1fr 1.35in; gap: 0.18in; align-items: start; border-top: 1px solid var(--line); padding-top: 0.12in; margin-top: 0.18in; page-break-inside: avoid; break-inside: avoid; }
-    .qr { width: 1.35in; min-height: 1.35in; border: 2px dashed var(--muted); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 7.5pt; color: var(--muted); padding: 0.08in; }
-    .source { font-size: 9pt; color: var(--muted); background: white; page-break-inside: avoid; break-inside: avoid; }
-    .footer { position: absolute; bottom: 0; left: 0; right: 0; font-size: 8pt; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.06in; display: flex; justify-content: space-between; gap: 0.2in; }
-    .toc ol { columns: 2; column-gap: 0.35in; padding-left: 0.22in; }
-    .toc li { break-inside: avoid; }
-    .worksheet-row { border-bottom: 1px solid var(--line); min-height: 0.38in; padding: 0.08in 0; }
+    .tools { display: grid; grid-template-columns: minmax(0, 1fr) 1.25in; gap: 0.18in; align-items: start; border-top: 1px solid var(--line); padding-top: 0.12in; margin-top: 0.18in; }
+    .qr { width: 1.25in; min-height: 1.25in; border: 2px dashed var(--muted); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 7.1pt; color: var(--muted); padding: 0.08in; overflow-wrap: normal; }
+    .source { font-size: 8.8pt; color: var(--muted); background: white; overflow-wrap: anywhere; }
+    .source p { margin-bottom: 0; }
+    .footer { position: static; margin-top: 0.22in; font-size: 8pt; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.06in; display: flex; justify-content: space-between; gap: 0.2in; }
+    .toc ol { columns: 1; padding-left: 0.26in; }
+    .toc li { break-inside: avoid; page-break-inside: avoid; margin-bottom: 0.055in; }
     .worksheet { page-break-before: always; break-before: page; }
+    .worksheet-card { background: white; }
+    .worksheet-row { border-bottom: 1px solid var(--line); min-height: 0.52in; padding: 0.1in 0; display: grid; grid-template-columns: 2.1in 1fr; gap: 0.14in; align-items: start; }
+    .worksheet-row strong { font-family: Arial, Helvetica, sans-serif; font-size: 9.3pt; }
+    .worksheet-row span { min-height: 0.3in; display: block; }
     .small { font-size: 9pt; color: var(--muted); }
     .keep { page-break-inside: avoid; break-inside: avoid; }
+    .keep-soft { page-break-inside: avoid; break-inside: avoid; }
     @media print { a { text-decoration: none; } .page { break-after: page; } .chapter { break-before: page; } }
   </style>
 </head>
@@ -268,24 +306,20 @@ const html = `<!doctype html>
 
   ${chapters.map(renderChapter).join("\n")}
 
-  <section class="page worksheet">
-    <h2>Worksheet drafts and back matter</h2>
-    ${renderLooseMarkdown(`# Worksheet Drafts for Final PDF${afterWorksheets.split("# Endnotes and Source Map")[0] ?? ""}`)}
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Worksheets</span></div>
-  </section>
+  ${worksheets.map(renderWorksheet).join("\n")}
 
   <section class="page">
     <h2>Endnotes and source map</h2>
-    ${renderLooseMarkdown(endnotes)}
+    ${renderLooseMarkdown(endnotes, { compact: true })}
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Sources</span></div>
   </section>
 
   <section class="page">
     <h2>QR and tool directory</h2>
     <div class="qr-directory">
-      <div class="tools"><div><div class="label">Guide landing page</div><p>/guides/medicare-medicaid-rehab-long-term-care</p></div><div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL</div></div>
-      <div class="tools"><div><div class="label">Medicare cost exposure tool</div><p>/medicare-care-costs#cost-estimator</p></div><div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL</div></div>
-      <div class="tools"><div><div class="label">EOB-to-bill checker</div><p>/tools/eob-to-bill-match-checker</p></div><div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL</div></div>
+      <div class="tools"><div><div class="label">Guide landing page</div><p><code class="breakable">/guides/medicare-medicaid-rehab-long-term-care</code></p></div><div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL</div></div>
+      <div class="tools"><div><div class="label">Medicare cost exposure tool</div><p><code class="breakable">/medicare-care-costs#cost-estimator</code></p></div><div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL</div></div>
+      <div class="tools"><div><div class="label">EOB-to-bill checker</div><p><code class="breakable">/tools/eob-to-bill-match-checker</code></p></div><div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL</div></div>
     </div>
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>QR placeholders</span></div>
   </section>

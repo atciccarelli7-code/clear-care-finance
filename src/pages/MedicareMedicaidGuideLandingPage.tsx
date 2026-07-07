@@ -46,35 +46,43 @@ const calculators = [
   ["Medicare Advantage plan helper", "/tools/medicare-advantage-plan-helper"],
 ] as const;
 
+const whoThisIsFor = [
+  "You’re helping a parent after a hospital stay.",
+  "You’re the family member everyone expects to understand the insurance.",
+  "You’re younger, busy, and suddenly dealing with Medicare words.",
+  "You work in healthcare and want a plain-English way to explain the money side.",
+  "You got a bill, denial, or discharge plan and need to know what to ask next.",
+] as const;
+
 const commonQuestions = [
-  ["Does Medicare cover long-term care?", "/articles/does-medicare-cover-long-term-care"],
-  ["Does Medicare cover rehab after a hospital stay?", "/articles/does-medicare-cover-rehab-after-hospital-stay"],
-  ["Why do I still owe money if Medicare paid?", "/articles/why-do-i-still-owe-money-with-medicare"],
-  ["What is the difference between Medicare and Medicaid?", "/articles/medicare-vs-medicaid-what-is-the-difference"],
-  ["What is observation status?", "/articles/observation-vs-inpatient-status"],
-  ["What is prior authorization?", "/articles/prior-authorization-explained"],
-  ["What should I ask before discharge?", "/articles/discharge-coverage-guide"],
-  ["What should I compare before paying a bill?", "/articles/how-to-read-an-eob"],
+  ["My parent may need a nursing home. Does Medicare cover that?", "/articles/does-medicare-cover-long-term-care"],
+  ["My dad needs rehab after the hospital. Does Medicare pay?", "/articles/does-medicare-cover-rehab-after-hospital-stay"],
+  ["Medicare paid something, so why is there still a bill?", "/articles/why-do-i-still-owe-money-with-medicare"],
+  ["What is the difference between Medicare and Medicaid for parents?", "/articles/medicare-vs-medicaid-what-is-the-difference"],
+  ["The hospital said observation status. What does that mean?", "/articles/observation-vs-inpatient-status"],
+  ["The plan says prior authorization. What are we waiting for?", "/articles/prior-authorization-explained"],
+  ["What should I ask before my parent is discharged?", "/articles/discharge-coverage-guide"],
+  ["What should I compare before paying a Medicare bill?", "/articles/how-to-read-an-eob"],
 ] as const;
 
 const situationPaths: SituationPath[] = [
   {
     id: "discharge",
     number: "01",
-    shortLabel: "Hospital discharge",
+    shortLabel: "Parent discharge",
     icon: Hospital,
-    title: "I’m being discharged from the hospital",
+    title: "My parent is being discharged",
     description:
-      "Start with hospital status, destination, skilled need, payer, authorization, and written notices. Discharge planning is not just a location decision; it is also a coverage and documentation decision.",
+      "You may be hearing discharge, rehab, home health, observation, equipment, and insurance words all at once. Start by asking what status the patient is in, where they are going next, what care is being ordered, and who has actually approved payment.",
     thingsToKnow: [
-      "Inpatient, outpatient, and observation status can matter for the next step.",
-      "A recommended discharge plan is not the same as payer approval.",
-      "Written notices, reference numbers, and appeal deadlines matter.",
+      "A discharge plan is not the same as a coverage approval.",
+      "Inpatient, outpatient, and observation status can affect what comes next.",
+      "Written notices, reference numbers, and appeal deadlines matter more than verbal reassurance.",
     ],
     questionsToAsk: [
-      "Is the patient inpatient, outpatient, or observation?",
-      "What skilled care is being ordered and who documented it?",
-      "What happens if coverage is denied or ends?",
+      "Is the patient inpatient, outpatient, or observation right now?",
+      "What care is being ordered after discharge, and who is expected to pay?",
+      "What happens if coverage is denied, delayed, or ends too soon?",
     ],
     tools: [{ label: "Medicare cost tool", href: "/medicare-care-costs#cost-estimator" }],
     articles: [
@@ -86,20 +94,20 @@ const situationPaths: SituationPath[] = [
   {
     id: "rehab-coverage",
     number: "02",
-    shortLabel: "Rehab coverage",
+    shortLabel: "Rehab is next",
     icon: Stethoscope,
-    title: "I’m confused about rehab coverage",
+    title: "They say rehab is next",
     description:
-      "Rehab coverage depends on setting, skilled need, facility rules, plan rules, and cost-sharing. A doctor or therapist recommendation is important, but it does not automatically mean the payer has approved the stay.",
+      "A therapist or doctor may recommend rehab, but families still need to know the setting, payer rules, authorization status, and possible cost. The practical question is not just whether rehab sounds appropriate; it is whether the coverage path is approved and documented.",
     thingsToKnow: [
       "Short-term skilled rehab is different from long-term custodial care.",
-      "Original Medicare and Medicare Advantage can operate differently.",
-      "If coverage is denied or ending, appeal instructions and deadlines matter.",
+      "Original Medicare and Medicare Advantage can handle rehab differently.",
+      "A denial, partial approval, or coverage-ending notice should come with review or appeal instructions.",
     ],
     questionsToAsk: [
       "Is this SNF rehab, inpatient rehab, home health, or outpatient therapy?",
-      "Is prior authorization required and approved?",
-      "What daily cost or coinsurance could apply?",
+      "Has authorization been submitted, approved, denied, or left pending?",
+      "What could the patient owe per day or per service?",
     ],
     tools: [{ label: "Medicare cost tool", href: "/medicare-care-costs#cost-estimator" }],
     articles: [
@@ -111,20 +119,20 @@ const situationPaths: SituationPath[] = [
   {
     id: "long-term-care",
     number: "03",
-    shortLabel: "Long-term care",
+    shortLabel: "Nursing home came up",
     icon: HeartPulse,
-    title: "My parent may need long-term care",
+    title: "Long-term care or nursing home care came up",
     description:
-      "This is where families often confuse Medicare and Medicaid. Medicare generally does not pay for most long-term custodial care, while Medicaid may become relevant for eligible people under state rules.",
+      "This is the moment many families realize Medicare is not a complete nursing-home funding plan. If the main need is ongoing help with bathing, dressing, meals, supervision, or living safely, Medicaid and state long-term care rules may become the bigger question.",
     thingsToKnow: [
-      "Needing help with daily living is real, but it is not always Medicare-covered.",
+      "Medicare generally does not pay for most long-term custodial nursing home care.",
       "Medicaid long-term services and supports are state-specific.",
-      "Estate recovery and spousal impoverishment are caution topics, not DIY planning areas.",
+      "Estate recovery and spousal impoverishment are topics to ask about, not DIY planning areas.",
     ],
     questionsToAsk: [
-      "Is the main need skilled care or custodial care?",
-      "Which state Medicaid agency applies?",
-      "Should we ask SHIP, aging resources, or an elder-law attorney for guidance?",
+      "Is the main need skilled care, custodial care, or both?",
+      "Which state Medicaid agency or aging resource should the family contact?",
+      "Should we speak with SHIP or an elder-law attorney before making a major decision?",
     ],
     tools: [{ label: "Medicare cost tool", href: "/medicare-care-costs#cost-estimator" }],
     articles: [
@@ -136,19 +144,19 @@ const situationPaths: SituationPath[] = [
   {
     id: "medical-bill",
     number: "04",
-    shortLabel: "Medical bill",
+    shortLabel: "Bill showed up",
     icon: ReceiptText,
-    title: "I got a confusing medical bill",
+    title: "A bill showed up and I don’t know if it’s right",
     description:
-      "Do not assume the bill is right, and do not assume it is wrong. First match the provider bill against the Medicare Summary Notice, Explanation of Benefits, or plan paperwork.",
+      "A bill after Medicare pays can feel like a mistake, but sometimes it is normal cost-sharing and sometimes it needs correction. Match the bill against the Medicare Summary Notice, Explanation of Benefits, or plan paperwork before paying a confusing balance.",
     thingsToKnow: [
       "A Medicare Summary Notice is not a bill.",
-      "One episode of care can create multiple bills from different providers.",
-      "Covered does not always mean free; cost-sharing can still apply.",
+      "One hospital visit can create separate bills from different providers.",
+      "Covered does not always mean free; deductibles, copays, and coinsurance can still apply.",
     ],
     questionsToAsk: [
       "What date of service and provider is this bill for?",
-      "What did Medicare or the plan pay?",
+      "Does this match the Medicare Summary Notice, EOB, or plan paperwork?",
       "Why is this amount listed as patient responsibility?",
     ],
     tools: [
@@ -164,19 +172,19 @@ const situationPaths: SituationPath[] = [
   {
     id: "medicare-advantage",
     number: "05",
-    shortLabel: "Medicare Advantage",
+    shortLabel: "Plan is involved",
     icon: ShieldCheck,
-    title: "I have Medicare Advantage",
+    title: "The Medicare Advantage plan is involved",
     description:
-      "Medicare Advantage is still Medicare, but it can involve networks, plan rules, and prior authorization. This path helps families ask process questions without turning into anti-plan or sales language.",
+      "If a Medicare Advantage plan is involved, the family may need to ask about networks, authorizations, pending decisions, denials, and appeals. This is not about attacking the plan; it is about knowing the process and getting the answer in writing.",
     thingsToKnow: [
       "A clinician recommendation and plan approval are separate steps.",
       "Some services or supplies may require prior authorization.",
-      "A denial or payment decision should come with appeal information.",
+      "A denial or payment decision should come with review or appeal information.",
     ],
     questionsToAsk: [
       "Is this provider or facility in-network?",
-      "Was authorization submitted and approved?",
+      "Is the request covered, denied, pending, or waiting on authorization?",
       "What is the appeal deadline if denied?",
     ],
     tools: [{ label: "Medicare Advantage plan helper", href: "/tools/medicare-advantage-plan-helper" }],
@@ -191,9 +199,9 @@ const situationPaths: SituationPath[] = [
     number: "06",
     shortLabel: "Medicare vs Medicaid",
     icon: Scale,
-    title: "I’m trying to understand Medicare vs Medicaid",
+    title: "I don’t know the difference between Medicare and Medicaid",
     description:
-      "Start here when the words sound similar but the problem is different. Medicare is federal health insurance; Medicaid is state-administered assistance under federal rules.",
+      "This is a normal place to start. Medicare is usually the health insurance card families recognize, while Medicaid is often the program that becomes important when long-term care, limited income, or state assistance enters the conversation.",
     thingsToKnow: [
       "Medicare and Medicaid answer different questions.",
       "Some people have both programs and are called dually eligible.",
@@ -214,11 +222,11 @@ const situationPaths: SituationPath[] = [
   {
     id: "dual-eligibility",
     number: "07",
-    shortLabel: "Medicaid help",
+    shortLabel: "Medicaid mentioned",
     icon: HandCoins,
-    title: "I need help with Medicaid or dual eligibility",
+    title: "Someone mentioned Medicaid or dual eligibility",
     description:
-      "This path is for families trying to understand Medicaid help, Medicare Savings Programs, QMB, dual eligibility, and long-term services and supports. It points people to state verification, not eligibility promises.",
+      "When Medicaid, QMB, Medicare Savings Programs, or dual eligibility come up, families need to slow down and verify the exact status. Full Medicaid, limited help, and Medicare Savings Programs are not interchangeable.",
     thingsToKnow: [
       "Medicaid rules vary by state and eligibility category.",
       "Medicare Savings Programs may help eligible people with some Medicare costs.",
@@ -239,15 +247,15 @@ const situationPaths: SituationPath[] = [
   {
     id: "definitions",
     number: "08",
-    shortLabel: "Definitions",
+    shortLabel: "Words explained",
     icon: BookOpenCheck,
-    title: "I just want the plain-English definitions",
+    title: "I just need the words explained",
     description:
-      "Use this if you are overwhelmed and need the vocabulary first. Definitions should help you ask better questions, not make you feel like you need to become an insurance expert.",
+      "If you are younger and suddenly responsible for helping a parent, the vocabulary can be the first wall. Start with the words so you can ask better questions without pretending to be an insurance expert.",
     thingsToKnow: [
       "Deductible, copay, coinsurance, and out-of-pocket max are not the same thing.",
       "MSN, EOB, provider bill, and plan denial are different documents.",
-      "Definitions are a starting point; plan documents and official sources still control your situation.",
+      "Definitions are a starting point; plan documents and official sources still control the situation.",
     ],
     questionsToAsk: [
       "Which word or document is confusing me right now?",
@@ -264,10 +272,40 @@ const situationPaths: SituationPath[] = [
 ];
 
 const useSteps = [
-  ["Pick your situation", "Start with the card closest to what is happening right now."],
-  ["Read the 3 things to know", "Get the basic coverage frame before calling anyone."],
+  ["Pick the problem", "Start with what is happening right now, not with a Medicare textbook."],
+  ["Read the 3 things", "Get the basic frame before calling the hospital, plan, facility, or billing office."],
   ["Use the tool or article", "Estimate exposure, compare a bill, or read the linked plain-English explanation."],
-  ["Verify before deciding", "Confirm with Medicare, Medicaid, your plan, the facility, billing office, SHIP, or a qualified professional."],
+  ["Verify before deciding", "Confirm with Medicare, Medicaid, the plan, the facility, billing office, SHIP, or a qualified professional."],
+] as const;
+
+const notToAssume = [
+  "Do not assume Medicare pays for long-term nursing home care.",
+  "Do not assume rehab is approved just because a doctor recommends it.",
+  "Do not assume a hospital bed means inpatient status.",
+  "Do not assume Medicare paying means the bill is finished.",
+  "Do not assume Medicaid rules are the same in every state.",
+] as const;
+
+const callChecklist = [
+  "Patient’s Medicare type: Original Medicare or Medicare Advantage",
+  "Medicaid status, if any",
+  "Hospital status: inpatient, outpatient, or observation",
+  "Date of admission or date of service",
+  "Facility, agency, supplier, or provider name",
+  "Denial, authorization, claim, or reference number, if any",
+  "Bill date and date of service",
+  "What the family was told verbally",
+  "What written notice, bill, MSN, EOB, or plan document the family received",
+] as const;
+
+const familyScripts = [
+  "Can you tell me the patient’s current hospital status?",
+  "Is this service covered, denied, pending, or waiting on authorization?",
+  "Can you show me where that is written?",
+  "What happens if coverage ends before they are safe at home?",
+  "Who do I call to appeal or ask for review?",
+  "Is this bill based on the Medicare Summary Notice, EOB, or something else?",
+  "Should we contact SHIP or the state Medicaid office?",
 ] as const;
 
 const comparisonCards = [
@@ -307,18 +345,18 @@ const miniFlows = [
 
 const MedicareMedicaidGuideLandingPage = () => {
   useSeo({
-    title: "Free Medicare, Medicaid, Rehab, and Long-Term Care Family Guide",
+    title: "Help a Parent With Medicare, Medicaid, Rehab, or Long-Term Care",
     description:
-      "A visual Medicare and Medicaid guide hub for patients, caregivers, and families facing discharge, rehab, long-term care, Medicaid, Medicare Advantage, and medical bill questions.",
+      "A plain-English Medicare and Medicaid guide hub for adult children, younger caregivers, spouses, and families helping a parent with discharge, rehab, nursing home care, Medicare Advantage, Medicaid, and confusing medical bills.",
     canonicalPath: "/guides/medicare-medicaid-rehab-long-term-care",
   });
 
   return (
     <main>
       <PageHero
-        eyebrow="Free guide hub in source review"
-        title="Medicare, Medicaid, rehab, long-term care, and bills — organized by the situation you’re facing"
-        description="A visual, plain-English starting point for patients, caregivers, families, and healthcare workers trying to ask better questions during discharge planning, rehab decisions, long-term care conversations, Medicare Advantage issues, Medicaid questions, and medical bill confusion."
+        eyebrow="For the family member trying to figure this out"
+        title="Trying to help a parent through Medicare, Medicaid, rehab, long-term care, or a confusing hospital bill?"
+        description="This page is built for the adult child, spouse, caregiver, patient, nurse, or family member who suddenly has to understand Medicare words, discharge plans, rehab coverage, Medicaid, prior authorization, and medical bills for someone they love."
       >
         <Button size="lg" disabled title="The final downloadable PDF is not public yet.">
           <FileText className="h-4 w-4" />
@@ -332,7 +370,30 @@ const MedicareMedicaidGuideLandingPage = () => {
         </Button>
       </PageHero>
 
-      <section className="container mx-auto max-w-6xl px-4 py-10 md:py-14" aria-label="How to use this page">
+      <section className="container mx-auto max-w-6xl px-4 py-10 md:py-14" aria-label="Who this guide hub is for">
+        <Card className="rounded-3xl border-border/80 bg-card shadow-card">
+          <CardHeader>
+            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+              <Users className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <CardTitle className="font-display text-2xl">Who this is really for</CardTitle>
+            <CardDescription className="text-base leading-relaxed">
+              The person with Medicare may not be the person searching. A lot of the time, the viewer is the son, daughter, spouse, nurse, or friend trying to translate the system fast.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
+              {whoThisIsFor.map((item) => (
+                <div key={item} className="rounded-2xl border border-border bg-background/70 p-4 text-sm font-semibold leading-relaxed text-foreground">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="container mx-auto max-w-6xl px-4 pb-10 md:pb-14" aria-label="How to use this page">
         <div className="grid gap-4 md:grid-cols-4">
           {useSteps.map(([title, description], index) => (
             <Card key={title} className="rounded-3xl border-border/80 shadow-card">
@@ -351,9 +412,9 @@ const MedicareMedicaidGuideLandingPage = () => {
       <section className="container mx-auto max-w-6xl px-4 pb-10 md:pb-14" aria-label="Situation shortcuts">
         <Card className="rounded-3xl border-border/80 bg-card shadow-card">
           <CardHeader>
-            <CardTitle className="font-display text-xl">Jump to the section that matches your situation</CardTitle>
+            <CardTitle className="font-display text-xl">Jump to what your family is dealing with</CardTitle>
             <CardDescription>
-              The full guide hub is detailed. These shortcuts reduce scrolling on mobile and help families start with the right question.
+              The full guide hub is detailed. These shortcuts reduce scrolling on mobile and help you start with the problem in front of you.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -373,12 +434,12 @@ const MedicareMedicaidGuideLandingPage = () => {
         </Card>
       </section>
 
-      <section className="bg-muted/40 py-12 md:py-16" aria-label="Choose your situation">
+      <section className="bg-muted/40 py-12 md:py-16" aria-label="Choose your family situation">
         <div className="container mx-auto max-w-7xl px-4">
           <SectionHeading
-            eyebrow="Choose your situation"
-            title="Start where the family actually is"
-            description="Each path gives you the core concept, the first questions to ask, and the tool or article that fits the moment."
+            eyebrow="Start with the problem in front of you"
+            title="What are you dealing with right now?"
+            description="Pick the family situation closest to yours. Each path gives you the core idea, the first questions to ask, and the tool or article that fits the moment."
             centered
           />
 
@@ -472,28 +533,60 @@ const MedicareMedicaidGuideLandingPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto max-w-6xl px-4 py-12 md:py-16">
+      <section className="container mx-auto max-w-6xl px-4 py-12 md:py-16" aria-label="What not to assume">
         <SectionHeading
-          eyebrow="Visual shortcuts"
-          title="Two comparisons families usually need first"
-          description="These are not full rules. They are fast orientation cards that point you toward the right next question."
+          eyebrow="What not to assume"
+          title="Five mistakes that cause families the most confusion"
+          description="These are not scare tactics. They are the assumptions that usually make discharge, rehab, long-term care, and billing feel impossible to understand."
           centered
         />
-        <div className="grid gap-6 md:grid-cols-2">
-          {comparisonCards.map((card) => (
-            <Card key={card.title} className="rounded-3xl border-border/80 shadow-card">
+        <div className="grid gap-4 md:grid-cols-5">
+          {notToAssume.map((item) => (
+            <Card key={item} className="rounded-3xl border-border/80 shadow-card">
               <CardHeader>
-                <CardTitle className="font-display text-2xl">{card.title}</CardTitle>
+                <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-2xl bg-secondary-soft text-secondary">
+                  <HelpCircle className="h-4 w-4" aria-hidden="true" />
+                </div>
+                <CardTitle className="text-base leading-snug">{item}</CardTitle>
               </CardHeader>
-              <CardContent className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-border bg-primary-soft/60 p-4">
-                  <p className="mb-2 text-sm font-bold text-primary">{card.leftLabel}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{card.leftText}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-muted/40 py-12 md:py-16">
+        <div className="container mx-auto max-w-6xl px-4">
+          <SectionHeading
+            eyebrow="Before you call anyone"
+            title="Write these down first"
+            description="A better phone call starts with the right details in front of you. This is the information families usually get asked for."
+            centered
+          />
+          <Card className="rounded-3xl border-border/80 shadow-card">
+            <CardContent className="grid gap-3 p-6 md:grid-cols-3">
+              {callChecklist.map((item) => (
+                <div key={item} className="flex gap-3 rounded-2xl border border-border bg-background/70 p-4 text-sm leading-relaxed text-muted-foreground">
+                  <ClipboardCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                  <span>{item}</span>
                 </div>
-                <div className="rounded-2xl border border-border bg-secondary-soft/60 p-4">
-                  <p className="mb-2 text-sm font-bold text-secondary">{card.rightLabel}</p>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{card.rightText}</p>
-                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="container mx-auto max-w-6xl px-4 py-12 md:py-16" aria-label="Family scripts">
+        <SectionHeading
+          eyebrow="Family scripts"
+          title="What to say when you do not know what to ask"
+          description="Use these as starting sentences. Ask for the answer in writing when the decision affects coverage, discharge, rehab, a denial, or a bill."
+          centered
+        />
+        <div className="grid gap-4 md:grid-cols-2">
+          {familyScripts.map((script) => (
+            <Card key={script} className="rounded-3xl border-border/80 bg-card shadow-sm">
+              <CardContent className="p-5">
+                <p className="text-sm font-semibold leading-relaxed text-foreground">“{script}”</p>
               </CardContent>
             </Card>
           ))}
@@ -503,90 +596,118 @@ const MedicareMedicaidGuideLandingPage = () => {
       <section className="bg-muted/40 py-12 md:py-16">
         <div className="container mx-auto max-w-6xl px-4">
           <SectionHeading
-            eyebrow="Mini checklists"
-            title="Three quick flows for stressful moments"
-            description="These do not replace official answers. They help you structure the next phone call, discharge conversation, or billing review."
+            eyebrow="Visual shortcuts"
+            title="Two comparisons families usually need first"
+            description="These are not full rules. They are fast orientation cards that point you toward the right next question."
             centered
           />
-          <div className="grid gap-5 md:grid-cols-3">
-            {miniFlows.map((flow) => {
-              const Icon = flow.icon;
-              return (
-                <Card key={flow.title} className="rounded-3xl border-border/80 shadow-card">
-                  <CardHeader>
-                    <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-primary">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <CardTitle className="font-display text-xl">{flow.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ol className="space-y-3 text-sm leading-relaxed text-muted-foreground">
-                      {flow.steps.map((step, index) => (
-                        <li key={step} className="flex gap-3">
-                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-background text-xs font-bold text-primary ring-1 ring-border">
-                            {index + 1}
-                          </span>
-                          <span>{step}</span>
-                        </li>
-                      ))}
-                    </ol>
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <div className="grid gap-6 md:grid-cols-2">
+            {comparisonCards.map((card) => (
+              <Card key={card.title} className="rounded-3xl border-border/80 shadow-card">
+                <CardHeader>
+                  <CardTitle className="font-display text-2xl">{card.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-border bg-primary-soft/60 p-4">
+                    <p className="mb-2 text-sm font-bold text-primary">{card.leftLabel}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{card.leftText}</p>
+                  </div>
+                  <div className="rounded-2xl border border-border bg-secondary-soft/60 p-4">
+                    <p className="mb-2 text-sm font-bold text-secondary">{card.rightLabel}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{card.rightText}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
       <section className="container mx-auto max-w-6xl px-4 py-12 md:py-16">
         <SectionHeading
-          eyebrow="Common family questions"
-          title="The questions people search when they are already stressed"
-          description="Start with the question closest to yours, then use the linked article or tool to go one level deeper."
+          eyebrow="Mini checklists"
+          title="Three quick flows for stressful moments"
+          description="These do not replace official answers. They help you structure the next phone call, discharge conversation, or billing review."
           centered
         />
-        <div className="grid gap-4 md:grid-cols-2">
-          {commonQuestions.map(([title, href]) => (
-            <Link
-              key={href}
-              to={href}
-              className="group flex items-center justify-between rounded-2xl border border-border bg-card p-4 text-sm font-semibold shadow-sm transition-smooth hover:border-primary/40 hover:shadow-card"
-            >
-              <span>{title}</span>
-              <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-smooth group-hover:text-primary" aria-hidden="true" />
-            </Link>
-          ))}
+        <div className="grid gap-5 md:grid-cols-3">
+          {miniFlows.map((flow) => {
+            const Icon = flow.icon;
+            return (
+              <Card key={flow.title} className="rounded-3xl border-border/80 shadow-card">
+                <CardHeader>
+                  <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </div>
+                  <CardTitle className="font-display text-xl">{flow.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ol className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+                    {flow.steps.map((step, index) => (
+                      <li key={step} className="flex gap-3">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-background text-xs font-bold text-primary ring-1 ring-border">
+                          {index + 1}
+                        </span>
+                        <span>{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </section>
 
       <section className="bg-muted/40 py-12 md:py-16">
         <div className="container mx-auto max-w-6xl px-4">
           <SectionHeading
-            eyebrow="Use now"
-            title="Calculators connected to the guide"
-            description="The final PDF will point back to these tools so families can move from explanation to a practical next question."
+            eyebrow="Common family questions"
+            title="The things people search when they are suddenly responsible for helping"
+            description="Start with the question closest to yours, then use the linked article or tool to go one level deeper."
             centered
           />
           <div className="grid gap-4 md:grid-cols-2">
-            {calculators.map(([title, href]) => (
-              <Card key={href} className="rounded-3xl border-border/80 shadow-card">
-                <CardHeader>
-                  <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-2xl bg-primary-soft text-primary">
-                    <Calculator className="h-4 w-4" aria-hidden="true" />
-                  </div>
-                  <CardTitle className="font-display text-xl">{title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild variant="soft">
-                    <Link to={href}>
-                      Open tool
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
+            {commonQuestions.map(([title, href]) => (
+              <Link
+                key={href}
+                to={href}
+                className="group flex items-center justify-between rounded-2xl border border-border bg-card p-4 text-sm font-semibold shadow-sm transition-smooth hover:border-primary/40 hover:shadow-card"
+              >
+                <span>{title}</span>
+                <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-smooth group-hover:text-primary" aria-hidden="true" />
+              </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <SectionHeading
+          eyebrow="Use now"
+          title="Calculators connected to the guide"
+          description="The final PDF will point back to these tools so families can move from explanation to a practical next question."
+          centered
+        />
+        <div className="grid gap-4 md:grid-cols-2">
+          {calculators.map(([title, href]) => (
+            <Card key={href} className="rounded-3xl border-border/80 shadow-card">
+              <CardHeader>
+                <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+                  <Calculator className="h-4 w-4" aria-hidden="true" />
+                </div>
+                <CardTitle className="font-display text-xl">{title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Button asChild variant="soft">
+                  <Link to={href}>
+                    Open tool
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
@@ -606,7 +727,7 @@ const MedicareMedicaidGuideLandingPage = () => {
               <div className="rounded-2xl border border-border bg-background/70 p-4">
                 <p className="mb-2 text-sm font-bold text-foreground">What is ready now</p>
                 <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
-                  <li>Guide landing hub</li>
+                  <li>Family-first guide hub</li>
                   <li>Connected tools and articles</li>
                   <li>Source-reviewed manuscript workflow</li>
                   <li>Internal PDF artifact workflow</li>
@@ -650,9 +771,9 @@ const MedicareMedicaidGuideLandingPage = () => {
             <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-background text-primary">
               <Users className="h-5 w-5" aria-hidden="true" />
             </div>
-            <CardTitle className="font-display text-2xl">Built to help families ask better questions</CardTitle>
+            <CardTitle className="font-display text-2xl">Built for the person who has to figure it out</CardTitle>
             <CardDescription className="text-base leading-relaxed">
-              This page is designed as a calm first stop, not a sales funnel. Use it to organize the problem, identify the right document or payer, and verify the answer with the official source or professional who actually controls the decision.
+              This page is designed as a calm first stop for the family member translating the system. Use it to organize the problem, identify the right document or payer, and verify the answer with the official source or professional who actually controls the decision.
             </CardDescription>
           </CardHeader>
         </Card>

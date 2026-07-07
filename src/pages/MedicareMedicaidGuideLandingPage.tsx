@@ -26,7 +26,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useSeo } from "@/lib/seo";
 
 type SituationPath = {
+  id: string;
   number: string;
+  shortLabel: string;
   icon: LucideIcon;
   title: string;
   description: string;
@@ -57,7 +59,9 @@ const commonQuestions = [
 
 const situationPaths: SituationPath[] = [
   {
+    id: "discharge",
     number: "01",
+    shortLabel: "Hospital discharge",
     icon: Hospital,
     title: "I’m being discharged from the hospital",
     description:
@@ -80,7 +84,9 @@ const situationPaths: SituationPath[] = [
     sourceNote: "Built from the discharge, SNF, home health, DME, MOON, and appeals source notes in the guide manuscript.",
   },
   {
+    id: "rehab-coverage",
     number: "02",
+    shortLabel: "Rehab coverage",
     icon: Stethoscope,
     title: "I’m confused about rehab coverage",
     description:
@@ -103,7 +109,9 @@ const situationPaths: SituationPath[] = [
     sourceNote: "Grounded in Medicare.gov skilled nursing facility, cost, Medicare Advantage, and appeals sources.",
   },
   {
+    id: "long-term-care",
     number: "03",
+    shortLabel: "Long-term care",
     icon: HeartPulse,
     title: "My parent may need long-term care",
     description:
@@ -126,7 +134,9 @@ const situationPaths: SituationPath[] = [
     sourceNote: "Grounded in Medicare.gov long-term care and Medicaid.gov LTSS, eligibility, estate recovery, and spousal impoverishment sources.",
   },
   {
+    id: "medical-bill",
     number: "04",
+    shortLabel: "Medical bill",
     icon: ReceiptText,
     title: "I got a confusing medical bill",
     description:
@@ -152,11 +162,13 @@ const situationPaths: SituationPath[] = [
     sourceNote: "Built from Medicare Summary Notice, appeals, Medicare costs, and health insurance glossary source notes.",
   },
   {
+    id: "medicare-advantage",
     number: "05",
+    shortLabel: "Medicare Advantage",
     icon: ShieldCheck,
     title: "I have Medicare Advantage",
     description:
-      "Medicare Advantage is still Medicare, but it can involve networks, plan rules, and prior authorization. The page should help families ask process questions without turning into anti-plan sales language.",
+      "Medicare Advantage is still Medicare, but it can involve networks, plan rules, and prior authorization. This path helps families ask process questions without turning into anti-plan or sales language.",
     thingsToKnow: [
       "A clinician recommendation and plan approval are separate steps.",
       "Some services or supplies may require prior authorization.",
@@ -175,7 +187,9 @@ const situationPaths: SituationPath[] = [
     sourceNote: "Grounded in Medicare.gov Medicare Advantage comparison, plan options, appeals, and CMS managed care appeals guidance.",
   },
   {
+    id: "medicare-vs-medicaid",
     number: "06",
+    shortLabel: "Medicare vs Medicaid",
     icon: Scale,
     title: "I’m trying to understand Medicare vs Medicaid",
     description:
@@ -198,11 +212,13 @@ const situationPaths: SituationPath[] = [
     sourceNote: "Grounded in Medicare.gov basics, Medicaid.gov eligibility policy, Medicaid.gov LTSS, and CMS coordination sources.",
   },
   {
+    id: "dual-eligibility",
     number: "07",
+    shortLabel: "Medicaid help",
     icon: HandCoins,
     title: "I need help with Medicaid or dual eligibility",
     description:
-      "This path is for families trying to understand Medicaid help, Medicare Savings Programs, QMB, dual eligibility, and long-term services and supports. It should point people to state verification, not pretend to determine eligibility.",
+      "This path is for families trying to understand Medicaid help, Medicare Savings Programs, QMB, dual eligibility, and long-term services and supports. It points people to state verification, not eligibility promises.",
     thingsToKnow: [
       "Medicaid rules vary by state and eligibility category.",
       "Medicare Savings Programs may help eligible people with some Medicare costs.",
@@ -221,7 +237,9 @@ const situationPaths: SituationPath[] = [
     sourceNote: "Built from CMS Medicare-Medicaid coordination, Medicare Savings Program, QMB, and Medicaid.gov eligibility sources.",
   },
   {
+    id: "definitions",
     number: "08",
+    shortLabel: "Definitions",
     icon: BookOpenCheck,
     title: "I just want the plain-English definitions",
     description:
@@ -314,7 +332,7 @@ const MedicareMedicaidGuideLandingPage = () => {
         </Button>
       </PageHero>
 
-      <section className="container mx-auto max-w-6xl px-4 py-10 md:py-14">
+      <section className="container mx-auto max-w-6xl px-4 py-10 md:py-14" aria-label="How to use this page">
         <div className="grid gap-4 md:grid-cols-4">
           {useSteps.map(([title, description], index) => (
             <Card key={title} className="rounded-3xl border-border/80 shadow-card">
@@ -330,7 +348,32 @@ const MedicareMedicaidGuideLandingPage = () => {
         </div>
       </section>
 
-      <section className="bg-muted/40 py-12 md:py-16" aria-labelledby="choose-your-situation">
+      <section className="container mx-auto max-w-6xl px-4 pb-10 md:pb-14" aria-label="Situation shortcuts">
+        <Card className="rounded-3xl border-border/80 bg-card shadow-card">
+          <CardHeader>
+            <CardTitle className="font-display text-xl">Jump to the section that matches your situation</CardTitle>
+            <CardDescription>
+              The full guide hub is detailed. These shortcuts reduce scrolling on mobile and help families start with the right question.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+              {situationPaths.map((path) => (
+                <a
+                  key={path.id}
+                  href={`#${path.id}`}
+                  className="rounded-2xl border border-border bg-background px-4 py-3 text-sm font-semibold transition-smooth hover:border-primary/40 hover:bg-primary-soft/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                >
+                  <span className="mr-2 text-xs font-bold text-primary">{path.number}</span>
+                  {path.shortLabel}
+                </a>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="bg-muted/40 py-12 md:py-16" aria-label="Choose your situation">
         <div className="container mx-auto max-w-7xl px-4">
           <SectionHeading
             eyebrow="Choose your situation"
@@ -343,7 +386,7 @@ const MedicareMedicaidGuideLandingPage = () => {
             {situationPaths.map((path) => {
               const Icon = path.icon;
               return (
-                <Card key={path.title} className="rounded-3xl border-border/80 bg-card shadow-card">
+                <Card key={path.title} id={path.id} className="scroll-mt-24 rounded-3xl border-border/80 bg-card shadow-card">
                   <CardHeader>
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
                       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary">
@@ -365,7 +408,7 @@ const MedicareMedicaidGuideLandingPage = () => {
                         <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
                           {path.thingsToKnow.map((item) => (
                             <li key={item} className="flex gap-2">
-                              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
                               <span>{item}</span>
                             </li>
                           ))}
@@ -379,7 +422,7 @@ const MedicareMedicaidGuideLandingPage = () => {
                         <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
                           {path.questionsToAsk.map((item) => (
                             <li key={item} className="flex gap-2">
-                              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
+                              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" aria-hidden="true" />
                               <span>{item}</span>
                             </li>
                           ))}

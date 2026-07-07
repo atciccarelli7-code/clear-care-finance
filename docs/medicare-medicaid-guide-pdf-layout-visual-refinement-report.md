@@ -12,6 +12,14 @@ The goal is to reduce awkward open space, preserve readability, and add a small 
 
 This pass does not publish the final public PDF. It does not add any PDF under `/public/guides/` or `/public/drafts/`. It does not unlock the landing page CTA, add the PDF URL to the sitemap, generate QR codes, add ads, add affiliate links, add insurer rankings, add plan recommendations, add lead forms, or add sales language.
 
+## Current decision
+
+**This PR should remain unmerged until the content fact-check audit is resolved.**
+
+The latest local preview improved page flow, but content quality is now the highest-risk blocker. See:
+
+`docs/medicare-medicaid-guide-content-factcheck-audit.md`
+
 ## Files changed
 
 Expected changed files:
@@ -19,6 +27,7 @@ Expected changed files:
 - `/scripts/build-medicare-medicaid-guide-pdf.mjs`
 - `/docs/medicare-medicaid-guide-pdf-layout-visual-refinement-report.md`
 - `/docs/medicare-medicaid-guide-pdf-artifact-review-rubric.md`
+- `/docs/medicare-medicaid-guide-content-factcheck-audit.md`
 
 ## Layout and spacing changes
 
@@ -44,6 +53,17 @@ Changes made:
 The earlier source-level refinement still produced sparse pages because every chapter was forced into its own page-like section. Short chapter endings, source notes, related-tool blocks, and small continuation fragments could create pages that were only one-eighth full.
 
 The revised design treats chapters like a handbook/article flow rather than a slide deck. Chapter titles remain visually prominent with a top rule and chapter number, but chapters no longer force a new page every time. This should reduce blank pages without making the guide feel cramped.
+
+## Content blocker discovered after preview review
+
+The layout pass surfaced a separate content issue: some guide copy is grammatically awkward, overly caveated, or only directionally clear. The latest local preview also showed route-only related-tool bullets appearing in the question flow, which weakens readability and trust.
+
+Before another final PDF candidate is generated, the guide needs:
+
+- a parser/build fix so raw route bullets do not appear inside `Questions to ask`,
+- a chapter-by-chapter grammar and clarity rewrite,
+- a source-backed fact-check pass for high-risk chapters,
+- a source certification note for each high-risk chapter.
 
 ## Visuals added
 
@@ -129,6 +149,7 @@ Official review still requires a GitHub Actions/preflight artifact or local bran
 - All five visuals render clearly.
 - Visuals remain readable in black and white.
 - The document still feels trustworthy and not overdesigned.
+- Content fact-check blockers are resolved.
 
 ## Expected page-count impact
 
@@ -145,7 +166,7 @@ The final page count should be determined from the regenerated artifact, not est
 
 This PR is a pre-public PDF design refinement. It is not a final PDF launch.
 
-The next controlled step after merge should be a fresh draft/preflight PDF artifact run from the refined builder. Only after that artifact passes visual, mobile, and print QA should the final public PDF candidate binary be committed.
+The next controlled step is not final PDF export. The next controlled step is content fact-check and grammar repair. Only after that should a fresh draft/preflight PDF artifact be generated from the refined builder.
 
 ## Explicit exclusions
 

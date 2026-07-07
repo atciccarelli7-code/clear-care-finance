@@ -1,7 +1,7 @@
 # Medicare and Medicaid Guide Public Release Report
 
 Community Acquired Finance  
-Guide PDF artifact review and layout fix pass  
+Guide PDF workflow install fix pass  
 Last updated: 2026-07-07
 
 ## Release decision
@@ -11,6 +11,37 @@ Status: **Not released**.
 The final public downloadable PDF is not being published because the release gates are not fully satisfied.
 
 This is intentional. Do not publish a fake, empty, placeholder, draft, or uninspected PDF.
+
+## Latest workflow failure reviewed
+
+A manual run of **Guide PDF Preflight Artifact** failed before the PDF artifact was created.
+
+Failure step:
+
+`Install dependencies`
+
+Root cause:
+
+`npm ci` failed because `package.json` and `package-lock.json` are out of sync. The log showed missing package-lock entries for `@react-email/render`, `resend`, and related transitive dependencies.
+
+Result:
+
+- No PDF artifact was uploaded.
+- There was nothing to download from the failed run.
+- The failure was not caused by the user clicking the wrong place.
+
+## Workflow fix made
+
+The guide PDF artifact workflow no longer installs project dependencies.
+
+Reason:
+
+- The PDF generator script uses Node built-in modules and Chrome/Chromium.
+- It does not import installed npm packages.
+- Dependency installation is unnecessary for this workflow.
+- Removing `npm ci` lets the workflow test the PDF generator directly.
+
+This does **not** fix the broader app-level lockfile mismatch. That should be handled separately if other workflows or builds require `npm ci`.
 
 ## Artifact workflow status
 
@@ -22,21 +53,18 @@ Workflow name:
 
 `Guide PDF Preflight Artifact`
 
-Current status from available GitHub metadata: **No successful artifact run verified**.
+Current status: **Corrected workflow pending rerun**.
 
-Checks performed in this pass:
+After this fix is merged, rerun the workflow from `main`.
 
-- Latest main commit checked: `8c0963728ba1fa37702b020574b98db4bb1e16e7`.
-- Artifact workflow merge commit checked: `9fee5b12269f799f1c79b3213ff3e53706ca369b`.
-- No associated successful workflow runs were returned from the available commit workflow-run metadata.
-- Artifact lookup could not proceed because no valid successful run ID was available.
+## Workflow/process improvements now in place
 
-## Workflow/process improvements made
+The corrected artifact workflow:
 
-The artifact workflow was tightened so the next manual run provides more useful review evidence.
-
-It now:
-
+- checks out the repository,
+- sets up Node 20,
+- sets up Chrome,
+- builds the draft HTML and PDF under `docs/generated/medicare-medicaid-guide/`,
 - verifies the generated HTML exists and is non-empty,
 - verifies the generated PDF exists and is non-empty,
 - fails if the generated PDF is unexpectedly small,
@@ -50,9 +78,9 @@ Artifact name remains:
 
 ## PDF layout status
 
-The generator and print template were tightened for likely layout risks before artifact review.
+The generator and print template were tightened in the prior pass for likely layout risks before artifact review.
 
-Improvements made:
+Improvements already made:
 
 - family-first cover/subtitle language,
 - slightly smaller cover title,
@@ -77,7 +105,7 @@ Current status: **Not created**.
 
 Reason:
 
-- No successful draft artifact has been verified.
+- The corrected workflow still needs to be rerun.
 - A final approved PDF has not been visually inspected.
 - Manual print and mobile PDF review are still pending.
 - QR codes have not been generated from tested live URLs.
@@ -130,7 +158,7 @@ Before public release, complete these checks:
 
 ### Artifact generation
 
-- [ ] Run **Guide PDF Preflight Artifact** from GitHub Actions.
+- [ ] Rerun **Guide PDF Preflight Artifact** from GitHub Actions after the workflow install fix is merged.
 - [ ] Confirm the workflow succeeds.
 - [ ] Download `medicare-medicaid-guide-preflight-draft`.
 - [ ] Confirm the artifact contains the generated HTML.
@@ -189,7 +217,7 @@ Confirmed for this pass:
 
 The next pass may publish the final PDF only if all of the following are true:
 
-1. The GitHub Actions artifact workflow has run successfully.
+1. The corrected GitHub Actions artifact workflow has run successfully.
 2. The generated draft PDF artifact has been downloaded and inspected.
 3. The PDF passes manual visual QA.
 4. The PDF passes black-and-white print QA.
@@ -204,4 +232,4 @@ The next pass may publish the final PDF only if all of the following are true:
 
 ## Conclusion
 
-This pass improves the artifact workflow and likely PDF layout issues, but the guide is still not ready for public PDF release. The correct next move is to run the manual GitHub Actions artifact workflow, download the draft PDF artifact, and complete hands-on visual, mobile, and print QA.
+This pass fixes the workflow failure that blocked artifact creation. The guide is still not ready for public PDF release. The correct next move is to rerun the manual GitHub Actions artifact workflow from `main`, download the draft PDF artifact if it succeeds, and complete hands-on visual, mobile, and print QA.

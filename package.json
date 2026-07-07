@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "guide:pdf:draft": "node scripts/build-medicare-medicaid-guide-pdf.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

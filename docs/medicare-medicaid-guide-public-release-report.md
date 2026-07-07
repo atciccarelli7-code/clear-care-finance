@@ -1,14 +1,14 @@
 # Medicare and Medicaid Guide Public Release Report
 
 Community Acquired Finance  
-Guide PDF artifact QA and final-release decision pass  
-Last updated: 2026-07-06
+Guide PDF artifact review and layout fix pass  
+Last updated: 2026-07-07
 
 ## Release decision
 
 Status: **Not released**.
 
-The final public downloadable PDF is not being published in this pass because the release gates are not fully satisfied.
+The final public downloadable PDF is not being published because the release gates are not fully satisfied.
 
 This is intentional. Do not publish a fake, empty, placeholder, draft, or uninspected PDF.
 
@@ -24,52 +24,48 @@ Workflow name:
 
 Current status from available GitHub metadata: **No successful artifact run verified**.
 
-The merge commit for the artifact workflow did not show associated workflow runs through the available workflow-run metadata check. That means the draft PDF artifact has not been verified from this review pass.
+Checks performed in this pass:
 
-Required next action:
+- Latest main commit checked: `8c0963728ba1fa37702b020574b98db4bb1e16e7`.
+- Artifact workflow merge commit checked: `9fee5b12269f799f1c79b3213ff3e53706ca369b`.
+- No associated successful workflow runs were returned from the available commit workflow-run metadata.
+- Artifact lookup could not proceed because no valid successful run ID was available.
 
-1. Go to GitHub Actions.
-2. Open **Guide PDF Preflight Artifact**.
-3. Click **Run workflow**.
-4. Run it from `main`.
-5. Wait for the workflow to complete.
-6. Download the artifact named:
+## Workflow/process improvements made
+
+The artifact workflow was tightened so the next manual run provides more useful review evidence.
+
+It now:
+
+- verifies the generated HTML exists and is non-empty,
+- verifies the generated PDF exists and is non-empty,
+- fails if the generated PDF is unexpectedly small,
+- fails if any PDF exists under `/public/drafts` or `/public/guides`,
+- writes a manifest file with file sizes, SHA-256 hashes, commit SHA, run ID, and guardrail status,
+- uploads the draft HTML, draft PDF, and manifest together.
+
+Artifact name remains:
 
 `medicare-medicaid-guide-preflight-draft`
 
-7. Inspect the PDF manually before any public release PR.
+## PDF layout status
 
-## Files reviewed
+The generator and print template were tightened for likely layout risks before artifact review.
 
-- `/.github/workflows/guide-pdf-preflight.yml`
-- `/docs/medicare-medicaid-guide-pdf-artifact-workflow.md`
-- `/docs/medicare-medicaid-guide-public-release-report.md`
-- `/docs/medicare-medicaid-guide-pdf-preflight-report.md`
-- `/src/pages/MedicareMedicaidGuideLandingPage.tsx`
-- `/public/sitemap.xml`
+Improvements made:
 
-## Generator status
+- family-first cover/subtitle language,
+- slightly smaller cover title,
+- improved body line-height,
+- darker print borders,
+- print color adjustment hints,
+- safer source-note splitting,
+- preserved keep-together behavior for answer/tool blocks,
+- increased worksheet row and note space,
+- continued long URL/code wrapping,
+- continued flowing footers instead of absolute-positioned footers.
 
-The PDF generator remains internal.
-
-It writes generated draft files under:
-
-`/docs/generated/medicare-medicaid-guide/`
-
-Expected local/artifact outputs are:
-
-`/docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.html`
-
-`/docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.pdf`
-
-The generator does not place files under `/public` by default.
-
-Generated files under `/docs/generated/` are ignored by Git and should not be committed.
-
-The GitHub Actions workflow also fails if any PDF is found under:
-
-- `/public/drafts`
-- `/public/guides`
+These are preflight improvements only. They do **not** prove the final PDF is visually ready.
 
 ## Final PDF asset path
 
@@ -81,7 +77,7 @@ Current status: **Not created**.
 
 Reason:
 
-- No successful draft artifact has been verified in this pass.
+- No successful draft artifact has been verified.
 - A final approved PDF has not been visually inspected.
 - Manual print and mobile PDF review are still pending.
 - QR codes have not been generated from tested live URLs.
@@ -97,11 +93,9 @@ The guide landing page still uses the cautious CTA:
 
 This should remain unchanged until the final approved PDF exists at the public asset path.
 
-The landing page already includes a secondary CTA to the Medicare cost exposure tool:
+The landing page keeps the Medicare cost exposure tool as the secondary CTA:
 
 `/medicare-care-costs#cost-estimator`
-
-No CTA was changed in this pass.
 
 ## Sitemap status
 
@@ -130,8 +124,6 @@ Do not place QR codes in the public PDF until:
 7. QR codes scan from a phone screen.
 8. QR codes scan from printed paper.
 
-Until then, QR placeholders should stay out of the final public PDF.
-
 ## Remaining manual QA items
 
 Before public release, complete these checks:
@@ -143,12 +135,15 @@ Before public release, complete these checks:
 - [ ] Download `medicare-medicaid-guide-preflight-draft`.
 - [ ] Confirm the artifact contains the generated HTML.
 - [ ] Confirm the artifact contains the generated PDF.
+- [ ] Confirm the artifact contains `guide-preflight-artifact-manifest.txt`.
+- [ ] Review artifact file sizes and SHA-256 hashes.
 - [ ] Confirm no generated PDF is committed to the repo.
 - [ ] Confirm no generated PDF exists under `/public/drafts` or `/public/guides`.
 
 ### Visual QA
 
 - [ ] Check cover title fit.
+- [ ] Check cover subtitle tone.
 - [ ] Check direct answer boxes for clipping.
 - [ ] Check source notes for overflow.
 - [ ] Check raw URL wrapping.
@@ -169,17 +164,6 @@ Before public release, complete these checks:
 - [ ] Print one long chapter in black and white.
 - [ ] Print one worksheet in black and white.
 - [ ] Print source/endnote page in black and white.
-
-### QR and link QA
-
-- [ ] Test final guide landing page on mobile.
-- [ ] Test Medicare cost exposure tool on mobile.
-- [ ] Test EOB-to-bill checker on mobile.
-- [ ] Test long-term care article on mobile.
-- [ ] Test rehab article on mobile.
-- [ ] Generate final QR codes only after URL testing.
-- [ ] Scan final QR codes from screen.
-- [ ] Scan final QR codes from printed paper.
 
 ### Content QA
 
@@ -220,4 +204,4 @@ The next pass may publish the final PDF only if all of the following are true:
 
 ## Conclusion
 
-This pass reviews the release decision and confirms the guide is still not ready for public PDF release. The correct next move is to run the manual GitHub Actions artifact workflow, download the draft PDF artifact, and complete hands-on visual, mobile, and print QA. After that, a separate final release PR can add the real approved PDF asset, update the landing page CTA, and update the sitemap.
+This pass improves the artifact workflow and likely PDF layout issues, but the guide is still not ready for public PDF release. The correct next move is to run the manual GitHub Actions artifact workflow, download the draft PDF artifact, and complete hands-on visual, mobile, and print QA.

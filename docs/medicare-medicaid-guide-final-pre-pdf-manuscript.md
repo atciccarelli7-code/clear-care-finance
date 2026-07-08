@@ -2,21 +2,21 @@
 
 Community Acquired Finance  
 Final pre-PDF manuscript draft  
-Last updated: 2026-07-06
+Last updated: 2026-07-08
 
-> Educational only. This guide is not medical, legal, tax, insurance, Medicaid planning, or individualized financial advice. It does not replace Medicare.gov, Medicaid.gov, CMS, state Medicaid agencies, plan documents, billing offices, SHIP counselors, clinicians, attorneys, licensed insurance professionals, or other qualified professionals. Rules can vary by state, plan, facility, timing, and personal circumstances. Verify before making decisions.
+> Educational only. This guide is not medical, legal, tax, insurance, Medicaid planning, or individualized financial advice. It does not replace Medicare.gov, Medicaid.gov, CMS, state Medicaid agencies, plan documents, billing offices, SHIP counselors, clinicians, attorneys, licensed insurance professionals, or other qualified professionals. Rules can vary by state, plan, facility, timing, documentation, medical necessity, provider participation, and personal circumstances. Verify before making decisions.
 
 Written from a healthcare-worker perspective by Andrew Ciccarelli, RN, BSN.
 
 ## Pre-release status
 
-This is the final pre-PDF manuscript draft. It is ready for editorial review, print-layout mapping, and endnote cleanup. It is not the final designed PDF and should not be distributed as a finished public download yet.
+This is a revised pre-PDF manuscript draft for editorial and source review. It is not the final designed PDF and should not be distributed as a finished public download.
 
 Do not use this manuscript to add ads, affiliate links, lead forms, insurer rankings, plan recommendations, or sales language.
 
 ## How to use this guide
 
-Start with the situation in front of you: discharge, rehab, home health, long-term care, Medicaid, a denial, or a bill. Then ask which payer is involved, what rule applies, what documentation exists, what the patient may owe, and where the answer can be verified.
+Start with the problem in front of you: discharge, rehab, home health, long-term care, Medicaid, a denial, or a bill. Then identify the payer, the rule, the document, the person who can verify the answer, and the cost question.
 
 Each chapter follows the same structure:
 
@@ -38,9 +38,9 @@ This guide is for patients, caregivers, adult children, spouses, and families tr
 
 ## Plain-English explanation
 
-Families often meet Medicare and Medicaid rules during stressful moments: someone is hospitalized, being discharged, choosing rehab, receiving home health, considering long-term care, or staring at a bill that does not make sense.
+Families often meet Medicare and Medicaid rules during stressful moments. Someone is hospitalized. Someone is being discharged. A family is choosing rehab, arranging home health, considering long-term care, or staring at a bill that does not make sense.
 
-The goal of this guide is not to decide your case. The goal is to help you slow the situation down, identify the right payer question, and know who can verify the answer.
+The goal is not to decide your case. The goal is to slow the situation down, name the right payer question, and help you know who can verify the answer.
 
 ## Common misunderstanding
 
@@ -48,7 +48,7 @@ The biggest misunderstanding is: "The patient needs care, so Medicare must pay f
 
 ## Hospital/caregiver example
 
-A parent falls, goes to the hospital, and the family hears the word "rehab." The family assumes Medicare will automatically cover the stay. The better first question is: what skilled care is being ordered, what hospital status applies, what facility is being used, and what payer rules must be met?
+A parent falls, goes to the hospital, and the family hears the word "rehab." The family assumes the stay is covered because the patient clearly needs help. The better first question is: what skilled care is being ordered, what hospital status applies, what facility is being used, and what payer rules must be met?
 
 ## Questions to ask
 
@@ -104,7 +104,7 @@ A caregiver reads that Medicare generally does not pay for most long-term custod
 
 ## Source note
 
-Use Medicare.gov, Medicaid.gov, CMS.gov, official state Medicaid agencies where state-specific facts are discussed, SHIP resources, and plan documents for plan-specific facts. See endnotes [1]-[20].
+Use Medicare.gov, Medicaid.gov, CMS.gov, official state Medicaid agencies where state-specific facts are discussed, SHIP resources, and plan documents for plan-specific facts. See endnotes [1]-[22].
 
 ---
 
@@ -112,7 +112,7 @@ Use Medicare.gov, Medicaid.gov, CMS.gov, official state Medicaid agencies where 
 
 ## Direct answer
 
-The five biggest misunderstandings are: Medicare and Medicaid are different; covered does not always mean free; skilled care is different from custodial care; sleeping in a hospital bed does not automatically mean inpatient status; and Medicare Advantage can involve networks and prior authorization.
+The five biggest misunderstandings are: Medicare and Medicaid are different; covered does not always mean free; skilled care is different from custodial care; sleeping in a hospital bed does not necessarily mean inpatient status; and Medicare Advantage can involve networks, referrals, and prior authorization.
 
 ## Plain-English explanation
 
@@ -126,7 +126,7 @@ Families often think one insurance card answers every question. In reality, Medi
 
 ## Hospital/caregiver example
 
-A patient leaves the hospital, enters rehab, improves slowly, and still cannot bathe or dress alone. Medicare may have covered part of the skilled rehab stay. That does not mean Medicare will pay indefinitely for daily custodial help.
+A patient leaves the hospital, enters rehab, improves slowly, and still cannot bathe or dress alone. Medicare may have covered part of the skilled rehab stay. That does not mean Medicare pays indefinitely for daily custodial help.
 
 ## Questions to ask
 
@@ -154,25 +154,25 @@ Supported by Medicare.gov coverage structure, Medicare.gov costs, Medicare.gov S
 
 ## Direct answer
 
-Medicare is federal health insurance mainly tied to age, disability, or certain conditions. Medicaid is a state-administered assistance program under federal rules that can help eligible people with healthcare and, in many cases, long-term services and supports.
+Medicare is federal health insurance mainly tied to age, disability, or certain conditions. Medicaid is a joint federal-state program, run by states within federal rules, that helps eligible people with health coverage and may help with long-term services and supports.
 
 ## Plain-English explanation
 
 Medicare and Medicaid sound similar, but they answer different questions.
 
-Medicare asks: does the person qualify for federal health insurance through age, disability, or a qualifying condition?
+Medicare asks whether the person qualifies for federal health insurance through age, disability, or a qualifying condition.
 
-Medicaid asks: does the person meet state rules for assistance based on income, resources, disability category, age, medical need, family status, or other eligibility factors?
+Medicaid asks whether the person meets state rules for assistance. Those rules can involve income, resources, age, disability, family status, medical need, pregnancy, children, or other eligibility categories.
 
-Some people have both Medicare and Medicaid. They are often called dually eligible or Medicare-Medicaid enrollees. For services covered by both programs, Medicare generally pays first, and Medicaid may help with remaining covered amounts up to state limits. That does not mean everything is free or automatically covered.
+Some people have both Medicare and Medicaid. They are often called dually eligible or Medicare-Medicaid enrollees. When a service is covered by both programs, Medicare usually pays first. Medicaid may help with remaining covered amounts, but the protection depends on the person's Medicaid category, state rules, provider participation, and the type of service. Having both programs does not mean every bill or service is covered.
 
 ## Common misunderstanding
 
-Many families believe Medicare will pay for long-term nursing home care because the patient is older. Medicare is health insurance. Medicaid is often the program that becomes relevant when long-term services and supports are the central issue.
+Many families believe Medicare pays for long-term nursing home care because the patient is older. Medicare is health insurance. Medicaid is often the program that becomes relevant when long-term services and supports are the central issue, but the person still has to meet state eligibility rules.
 
 ## Hospital/caregiver example
 
-A 79-year-old patient has Medicare and needs short-term skilled therapy after a hospital stay. Medicare may be the first coverage question. Months later, the patient mainly needs help with bathing, dressing, meals, and supervision. Medicaid eligibility and state LTSS rules may become the larger questions.
+A 79-year-old patient has Medicare and needs short-term skilled therapy after a hospital stay. Medicare may be the first coverage question. Months later, the patient mainly needs help with bathing, dressing, meals, and supervision. At that point, Medicaid eligibility and state LTSS rules may become the larger questions.
 
 ## Questions to ask
 
@@ -181,6 +181,7 @@ A 79-year-old patient has Medicare and needs short-term skilled therapy after a 
 - Which state Medicaid agency applies?
 - Is SHIP available to help explain Medicare options?
 - Does the provider accept the relevant coverage?
+- Is the patient receiving full Medicaid or limited help with Medicare costs?
 
 ## Related site tools
 
@@ -238,27 +239,29 @@ Supported by Medicare.gov How Medicare Works and Medicare.gov Compare Original M
 
 ## Direct answer
 
-Original Medicare and Medicare Advantage are two different ways to receive Medicare coverage. Original Medicare generally allows broad access to providers that accept Medicare, while Medicare Advantage plans may use networks, plan-specific rules, and prior authorization for some services or supplies.
+Original Medicare and Medicare Advantage are two different ways to receive Medicare coverage. Original Medicare generally lets a person use any doctor or hospital that takes Medicare. Medicare Advantage plans may require in-network providers for non-emergency care and may require referrals or prior authorization for certain services or supplies.
 
 ## Plain-English explanation
 
-Original Medicare is run through the federal Medicare program. Medicare Advantage is offered by Medicare-approved private companies that must follow Medicare rules. Medicare Advantage plans must cover almost all medically necessary services Original Medicare covers, but they can operate with plan rules such as networks and prior authorization.
+Original Medicare is run through the federal Medicare program. Medicare Advantage is offered by Medicare-approved private companies that must follow Medicare rules.
 
-Original Medicare usually does not have a built-in yearly out-of-pocket limit unless the person has other coverage, such as Medigap, Medicaid, employer, retiree, or union coverage. Medicare Advantage plans have yearly limits for covered Medicare services, but costs, networks, drugs, and authorization rules vary by plan.
+Medicare Advantage plans must cover all medically necessary services Original Medicare covers. They may also offer extra benefits Original Medicare does not. But they can use plan rules, such as provider networks, service areas, referrals, and prior authorization for certain services or supplies.
+
+Cost structure is different too. Original Medicare usually does not have a built-in yearly out-of-pocket limit unless the person has other coverage, such as Medigap, Medicaid, employer, retiree, or union coverage. Medicare Advantage plans have yearly limits for covered Medicare services, but costs, network rules, drug coverage, and authorization requirements vary by plan.
 
 ## Common misunderstanding
 
-A low or zero premium does not mean a plan has zero medical cost risk. Premium is only one part of the total cost.
+A low or zero premium does not mean a plan has zero medical cost risk. Premium is only one part of the total cost. Networks, copays, coinsurance, drugs, prior authorization, and out-of-pocket limits also matter.
 
 ## Hospital/caregiver example
 
-A patient with Original Medicare may be able to use a doctor or hospital that accepts Medicare. A patient with Medicare Advantage may need an in-network facility for non-emergency care and may need authorization before rehab or certain services.
+A patient with Original Medicare may be able to use a doctor or hospital that accepts Medicare. A patient with Medicare Advantage may need an in-network facility for non-emergency care and may need plan approval before rehab, equipment, or certain services.
 
 ## Questions to ask
 
 - Is this Original Medicare or Medicare Advantage?
 - Is the provider or facility in-network?
-- Is prior authorization required?
+- Is prior authorization required for this service or supply?
 - What is the maximum out-of-pocket limit for covered Medicare services?
 - Are drugs included, or is there a separate Part D plan?
 - Can the patient use Medigap with this coverage arrangement?
@@ -284,17 +287,19 @@ Medicare covers many important services, but it does not cover everything. One o
 
 ## Plain-English explanation
 
-A service can be important and still not be covered. Medicare is primarily health insurance, not a complete long-term care funding system. Medicare.gov explains that Medicare and most health insurance, including Medigap, do not pay for long-term care services.
+A service can be important and still not be covered. Medicare is primarily health insurance. It is not a complete long-term care funding system.
 
-Some Medicare Advantage plans may offer extra benefits, but those vary by plan and must be verified directly with the plan.
+Medicare.gov distinguishes long-term care from skilled nursing facility care. Most long-term care is non-medical support with activities of daily living. Medicare and most health insurance, including Medigap, generally do not pay for long-term care services when that is the primary need.
+
+Some Medicare Advantage plans may offer extra benefits, but those benefits vary by plan. Families should verify the specific benefit, provider rules, frequency limits, authorization requirements, and patient cost with the plan.
 
 ## Common misunderstanding
 
-Families often think that if a clinician says a patient is unsafe at home, Medicare must pay for daily help or long-term placement. Unsafe at home is serious, but it does not automatically create Medicare coverage for custodial care.
+Families often think that if a clinician says a patient is unsafe at home, Medicare must pay for daily help or long-term placement. Unsafe at home is serious, but it does not create Medicare coverage for custodial care by itself.
 
 ## Hospital/caregiver example
 
-A patient finishes covered skilled rehab but still needs help bathing and dressing every day. That need is real. The family still has to ask whether the next need is skilled care, custodial care, Medicaid/LTSS, private pay, family caregiving, or community support.
+A patient finishes a covered skilled rehab stay but still needs help bathing and dressing every day. That need is real. The family still has to ask whether the next need is skilled care, custodial care, Medicaid/LTSS, private pay, family caregiving, or community support.
 
 ## Questions to ask
 
@@ -326,11 +331,11 @@ Medicare payment does not always mean the patient's bill is zero. Premiums, dedu
 
 Insurance payment and full payment are not the same. Medicare or a plan may approve a service and pay its share. The patient may still owe a deductible, coinsurance, a fixed copay, a daily facility amount, or the cost of services that were not covered.
 
-For Original Medicare, a Medicare Summary Notice is one key comparison document. It is not a bill. It shows services and supplies billed to Medicare, what Medicare paid, and the maximum amount the person may owe the provider. A family should compare provider bills, receipts, and other insurance paperwork against the MSN before paying a confusing balance.
+For Original Medicare, the Medicare Summary Notice is a key comparison document. It is not a bill. It shows services and supplies billed to Medicare, what Medicare paid, and the maximum amount the person may owe the provider. A family should compare provider bills, receipts, and other insurance paperwork against the MSN before paying a confusing balance.
 
-For Medicare Advantage, Part D, or other plans, the Explanation of Benefits or plan paperwork is also important. These documents are comparison tools. They are not automatic proof that a provider bill is right or wrong.
+For Medicare Advantage, Part D, or other plans, the Explanation of Benefits or plan paperwork is also important. These documents are comparison tools. They are not proof by themselves that a provider bill is right or wrong.
 
-Medicare Savings Programs may help eligible people with certain Medicare costs. A state Medicaid program decides whether a person qualifies. QMB has specific billing protections for Medicare-covered Part A and Part B cost-sharing, but families should verify the person's exact status before assuming a bill is prohibited.
+Medicare Savings Programs may help eligible people with certain Medicare costs. A state decides whether a person qualifies. QMB has specific billing protections for Medicare-covered Part A and Part B services and items, including related deductibles, coinsurance, and copayments. Families should verify the person's exact program status before assuming a bill is prohibited.
 
 ## Common misunderstanding
 
@@ -338,7 +343,7 @@ Patients sometimes assume a bill is wrong simply because Medicare already paid s
 
 ## Hospital/caregiver example
 
-A patient receives an outpatient service covered under Part B. Medicare approves the claim and pays its share. The patient still owes coinsurance after the deductible because covered does not always mean free. If the patient has QMB or another assistance program, the family should verify that status and ask the billing office to review the bill against the applicable rules.
+A patient receives an outpatient service covered under Part B. Medicare approves the claim and pays its share. The patient may still owe coinsurance after the deductible because covered does not always mean free. If the patient has QMB or another assistance program, the family should verify that status and ask the billing office to review the bill against the applicable rules.
 
 ## Questions to ask
 
@@ -374,7 +379,7 @@ A patient can stay overnight in a hospital and still not be formally admitted as
 
 Hospital status is not just about where the patient sleeps. It is a billing and coverage classification. For some Medicare rules, especially skilled nursing facility coverage under Original Medicare, inpatient status and timing can matter.
 
-Families should ask the hospital directly: is the patient inpatient, outpatient, or observation? CMS maintains the Medicare Outpatient Observation Notice source for standardized observation notice materials. Final public wording should use the exact CMS MOON language and timing requirements after final editorial verification.
+Families should ask the hospital directly: is the patient inpatient, outpatient, or observation? If the patient is receiving outpatient observation services, ask whether any required observation notice applies and when it must be provided. Final public wording should still verify exact CMS MOON timing and notice language before PDF release.
 
 ## Common misunderstanding
 
@@ -414,7 +419,7 @@ Before discharge, families should ask where the patient is going, what care is n
 
 Discharge can move quickly. Families may hear terms like rehab, home health, walker, oxygen, therapy, skilled nursing, or facility placement without understanding the coverage path.
 
-If Medicare-covered hospital, skilled nursing facility, home health, comprehensive outpatient rehabilitation facility, or hospice services are ending and the patient believes services are ending too soon, Medicare.gov describes fast appeal rights. Families should ask for the written notice, deadlines, and appeal instructions when a service is denied or ending.
+Separate the care plan from the payment plan. The care team may recommend a setting or service. The payer may still require documentation, authorization, provider participation, or a written notice. If covered services are being denied or ending and the patient disagrees, ask for the written notice, deadline, and appeal instructions.
 
 ## Common misunderstanding
 
@@ -457,7 +462,7 @@ Medicare may cover short-term skilled rehab after a hospital stay when rules are
 
 ## Plain-English explanation
 
-Rehab is often where families first discover the difference between needing help and meeting coverage rules. Original Medicare has specific requirements for skilled nursing facility coverage. Medicare Advantage plans can apply network and prior authorization rules and may operate differently from Original Medicare.
+Rehab is often where families first discover the difference between needing help and meeting coverage rules. Original Medicare has specific requirements for skilled nursing facility coverage, including a qualifying inpatient hospital stay unless an allowed exception or waiver applies. Medicare Advantage plans can apply network and prior authorization rules and may handle the 3-day stay requirement differently.
 
 A clinician recommendation and plan approval are separate steps. Ask whether prior authorization is required, whether it has been submitted, whether it is approved or denied, and what the appeal deadline is if denied.
 
@@ -467,7 +472,7 @@ A doctor, therapist, or hospital recommending rehab does not guarantee payment. 
 
 ## Hospital/caregiver example
 
-A patient leaves the hospital weak after pneumonia. Therapy recommends skilled nursing facility rehab. The family should ask about hospital status, skilled need, facility certification, authorization, network status, daily cost, coverage-ending criteria, and appeal instructions if coverage is denied or ends.
+A patient leaves the hospital weak after pneumonia. Therapy recommends skilled nursing facility rehab. The family should ask about hospital status, skilled need, facility certification, authorization, network status, expected cost-sharing, coverage-ending criteria, and appeal instructions if coverage is denied or ends.
 
 ## Questions to ask
 
@@ -503,7 +508,9 @@ Skilled nursing facility care is short-term care that may be covered by Medicare
 
 A skilled nursing facility can provide nursing care, therapy, medications, medical social services, meals, and other covered services during a qualifying stay. The key word is skilled. The care must require professional nursing or therapy skills and meet coverage rules.
 
-Under Original Medicare, SNF coverage is limited within a benefit period and can involve daily coinsurance after the early covered days. Medicare Advantage plans may apply different operational rules, including authorization and network requirements.
+Under Original Medicare, the patient generally needs Part A days available, a qualifying inpatient hospital stay, entry into the SNF within the required time frame, a Medicare-certified SNF, and a need for daily skilled care related to the qualifying stay. Observation or emergency room time before inpatient admission does not count toward the 3-day qualifying inpatient stay. Medicare Advantage plans may apply different operational rules, including authorization and network requirements, and some may waive the 3-day stay requirement.
+
+SNF coverage is limited within a benefit period and can involve daily coinsurance after the early covered days. Recheck current-year dollar amounts immediately before final PDF export.
 
 ## Common misunderstanding
 
@@ -516,6 +523,7 @@ A patient needs daily physical therapy and skilled nursing after surgery. A SNF 
 ## Questions to ask
 
 - Is the patient receiving daily skilled care?
+- Is there a qualifying inpatient hospital stay, waiver, or plan-specific rule?
 - Is the facility Medicare-certified or in-network?
 - How many days are expected to be covered?
 - What is the daily cost-sharing after the early covered days?
@@ -539,11 +547,13 @@ Supported by Medicare.gov Skilled Nursing Facility Care and Medicare.gov Costs. 
 
 ## Direct answer
 
-Medicare may cover certain home health services and durable medical equipment when rules are met, but it does not pay for 24-hour-a-day home care, home meal delivery, unrelated homemaker services, or custodial care when that is the only care needed.
+Medicare may cover certain home health services and durable medical equipment when rules are met. It does not pay for 24-hour-a-day home care, home meal delivery, unrelated homemaker services, or custodial care when that is the only care needed.
 
 ## Plain-English explanation
 
-Home health is not the same as having a full-time aide at home. Medicare-covered home health generally involves skilled nursing or therapy needs, a provider order, homebound status, and a Medicare-certified home health agency.
+Home health is not the same as having a full-time aide at home. Medicare-covered home health generally requires part-time or intermittent skilled services, a provider order, homebound status, and a Medicare-certified home health agency.
+
+Covered home health can include skilled nursing, therapy, medical social services, certain aide services when the person is also receiving qualifying skilled care, medical supplies, and some durable medical equipment. It is not intended to replace long-term daily supervision or full-time personal care.
 
 Durable medical equipment also has rules. The equipment usually needs to be medically necessary, ordered for home use, and supplied by an enrolled supplier. Whether the supplier accepts assignment can affect what the patient owes.
 
@@ -560,6 +570,7 @@ A patient is discharged with a walker and home physical therapy. Medicare may co
 - What home health services are ordered?
 - Is the agency Medicare-certified or plan-approved?
 - Does the patient meet the homebound requirement?
+- Is the service part-time or intermittent?
 - Is the equipment supplier enrolled in Medicare or approved by the plan?
 - Does the supplier accept assignment?
 - What could the patient owe for DME?
@@ -619,15 +630,15 @@ Supported by Medicare.gov Long-Term Care, Medicare.gov Skilled Nursing Facility 
 
 ## Direct answer
 
-Medicare generally does not pay for most long-term custodial care. Medicaid is the primary payer across the country for long-term care services, but eligibility and services depend on state rules.
+Medicare generally does not pay for most long-term custodial care. Medicaid is a major payer for long-term services and supports, but eligibility, covered settings, services, and cost rules depend on the state and the person's eligibility category.
 
 ## Plain-English explanation
 
 Long-term care may happen in a nursing home, assisted living setting, home, adult day program, or community-based setting. It often involves ongoing support for chronic illness, disability, frailty, or daily living needs.
 
-Medicare may cover limited skilled care, but it does not solve most long-term custodial care costs. Medicaid may help people who qualify. Because Medicaid is state-administered, families must verify state-specific rules.
+Medicare may cover limited skilled care, but it does not solve most long-term custodial care costs. Medicaid may help people who qualify. Because Medicaid is state-administered, families must verify state-specific rules before assuming a service, setting, or provider is covered.
 
-Medicaid estate recovery and spousal impoverishment are important but legally sensitive. This guide should mention them only as topics to ask about. It should not provide asset-protection strategies, eligibility calculations, transfer advice, or legal planning.
+Medicaid estate recovery and spousal impoverishment are important but legally sensitive. This guide mentions them only as topics to ask about. It does not provide asset-protection strategies, eligibility calculations, transfer advice, or legal planning.
 
 ## Common misunderstanding
 
@@ -663,13 +674,13 @@ Supported by Medicare.gov Long-Term Care, Medicaid.gov LTSS, Medicaid.gov eligib
 
 ## Direct answer
 
-Dual eligibility means a person is enrolled in both Medicare and Medicaid. Medicaid may help with Medicare costs and may cover services Medicare does not cover, depending on eligibility and state rules.
+Dual eligibility means a person is enrolled in both Medicare and Medicaid. Medicaid may help with Medicare costs and may cover services Medicare does not cover, depending on the person's eligibility category, state rules, provider participation, and plan setup.
 
 ## Plain-English explanation
 
-Having both Medicare and Medicaid can reduce costs, but it can also create coordination questions. The person may have Medicare, Medicaid, a Medicare Advantage plan, a Part D plan, or a coordinated dual-eligible plan. The exact setup matters.
+Having both Medicare and Medicaid can reduce costs, but it can also create coordination questions. The person may have Original Medicare, Medicare Advantage, Part D, full Medicaid, limited Medicaid assistance, or a coordinated dual-eligible plan. The exact setup matters.
 
-For services covered by both Medicare and Medicaid, Medicare generally pays first, and Medicaid may help with remaining covered amounts up to state limits. That does not mean all costs disappear. Provider participation, state Medicaid rules, plan structure, coverage category, and service type still matter.
+For services covered by both Medicare and Medicaid, Medicare generally pays first. Medicaid may help with remaining covered amounts up to state limits. That does not mean all costs disappear. Provider participation, state Medicaid rules, plan structure, coverage category, and service type still matter.
 
 Medicare Savings Programs can help eligible people with certain Medicare costs. The main categories include QMB, SLMB, QI, and QDWI. QMB has specific protections related to billing for Medicare-covered Part A and Part B cost-sharing, but families should verify the person's exact program status before assuming a bill is prohibited.
 
@@ -706,13 +717,13 @@ Supported by CMS Medicare-Medicaid Coordination Office, Medicaid.gov seniors/Med
 
 ## Direct answer
 
-Prior authorization means a plan may require approval before it agrees to cover a service, facility stay, equipment, drug, or treatment. Medicare Advantage plans may require prior authorization for some services and supplies.
+Prior authorization means a plan may require approval before it agrees to cover a service, facility stay, equipment, drug, or treatment. Medicare Advantage plans may require prior authorization for some services and supplies, but not every service requires it.
 
 ## Plain-English explanation
 
-Prior authorization is not the same as a clinician's recommendation. A clinician may recommend care, but the plan may still require documentation and approval before payment. Delays, denials, and appeals can happen.
+Prior authorization is not the same as a clinician's recommendation. A clinician may recommend care, but the plan may still require documentation and approval before payment. Delays, denials, partial approvals, and appeals can happen.
 
-Use neutral process language. A clinician recommendation and plan approval are separate steps. Ask whether prior authorization is required, whether it has been submitted, whether it is approved or denied, and what the appeal deadline is if denied.
+A clinician recommendation and plan approval are separate steps. Ask whether prior authorization is required, whether it has been submitted, whether it is approved or denied, and what the appeal deadline is if denied.
 
 If a plan denies coverage or payment, ask for the written decision, the reason, any missing documentation, and the appeal instructions. Do not assume all Medicare Advantage plans handle authorization the same way.
 
@@ -722,7 +733,7 @@ Families often think, "The doctor ordered it, so the plan approved it." Those ar
 
 ## Hospital/caregiver example
 
-A patient needs rehab after hospitalization. The facility and care team recommend placement, but the Medicare Advantage plan must authorize the stay. The family should ask whether authorization has been submitted, approved, denied, partially approved, or is still pending.
+A patient needs rehab after hospitalization. The facility and care team recommend placement, but the Medicare Advantage plan may need to authorize the stay before payment. The family should ask whether authorization has been submitted, approved, denied, partially approved, or is still pending.
 
 ## Questions to ask
 
@@ -758,7 +769,7 @@ One hospital visit can create multiple bills. A facility may bill separately fro
 
 For Original Medicare, the Medicare Summary Notice is not a bill. It shows what was billed to Medicare, what Medicare paid, and the maximum amount the person may owe. For Medicare Advantage, Part D, and other plans, the EOB or plan paperwork may serve a similar comparison function.
 
-The goal is not to avoid legitimate bills. The goal is to understand what the bill represents before paying. If a denial or payment amount is disputed, follow Medicare or plan appeal directions.
+The goal is not to avoid legitimate bills. The goal is to understand what the bill represents before paying. If a denial or payment amount is disputed, follow Medicare or plan appeal directions and keep copies of every notice, bill, and reference number.
 
 ## Common misunderstanding
 

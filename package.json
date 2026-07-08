@@ -9,10 +9,12 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "npm run guide:content-check && vitest run",
+    "test": "npm run guide:content-check && npm run guide:quick-content-check && vitest run",
     "test:watch": "vitest",
     "guide:pdf:draft": "node scripts/build-medicare-medicaid-guide-pdf.mjs",
-    "guide:content-check": "node scripts/check-medicare-medicaid-guide-content.mjs"
+    "guide:quick-pdf:draft": "node scripts/build-medicare-medicaid-quick-guide-pdf.mjs",
+    "guide:content-check": "node scripts/check-medicare-medicaid-guide-content.mjs",
+    "guide:quick-content-check": "node scripts/check-medicare-medicaid-quick-guide-content.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

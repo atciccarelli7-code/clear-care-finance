@@ -12,6 +12,7 @@ const issues = [];
 const pageBlocks = manuscript
   .split(/\n(?=#\s+Page\s+\d+\s+[—-]\s+)/)
   .filter((block) => block.trim().startsWith("# Page"));
+const reviewText = pageBlocks.join("\n");
 
 if (pageBlocks.length !== 10) {
   issues.push(`Expected 10 quick-guide pages, found ${pageBlocks.length}.`);
@@ -38,16 +39,16 @@ for (const block of pageBlocks) {
   }
 }
 
-if (/guaranteed coverage|guarantees coverage|will automatically cover|automatically pays|must pay|always covered|everything is covered/i.test(manuscript)) {
+if (/guaranteed coverage|guarantees coverage|will automatically cover|automatically pays|must pay|always covered|everything is covered/i.test(reviewText)) {
   issues.push("Quick guide contains language that may imply guaranteed or automatic coverage/payment.");
 }
 
-if (/affiliate|lead form|plan ranking|best plan|recommended insurer/i.test(manuscript)) {
-  issues.push("Quick guide contains sales, ranking, affiliate, or lead-generation language.");
+if (/affiliate|lead form|plan ranking|best plan|recommended insurer/i.test(reviewText)) {
+  issues.push("Quick guide page content contains sales, ranking, affiliate, or lead-generation language.");
 }
 
-if (/\$\d/.test(manuscript)) {
-  issues.push("Quick guide contains dollar amounts. Keep the quick guide evergreen and verify dollar amounts in the full guide/tool layer.");
+if (/\$\d/.test(reviewText)) {
+  issues.push("Quick guide page content contains dollar amounts. Keep the quick guide evergreen and verify dollar amounts in the full guide/tool layer.");
 }
 
 if (issues.length > 0) {

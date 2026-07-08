@@ -9,7 +9,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest run",
+    "test": "npm run guide:content-check && vitest run",
     "test:watch": "vitest",
     "guide:pdf:draft": "node scripts/build-medicare-medicaid-guide-pdf.mjs",
     "guide:content-check": "node scripts/check-medicare-medicaid-guide-content.mjs"

@@ -6,7 +6,7 @@ Last updated: 2026-07-09 UTC
 
 ## Status
 
-**Current status: final pre-readiness visual PDF-candidate-ready for manual review; not public-release-ready.**
+**Current status: viewer-first final PDF-candidate-ready for manual review; not public-release-ready.**
 
 This report documents the safe next step for the 10-page Quick Guide. It does not publish the Quick Guide, unlock a CTA, add a sitemap URL, add QR codes, or place a PDF under a public route.
 
@@ -21,6 +21,7 @@ This report documents the safe next step for the 10-page Quick Guide. It does no
 - Comprehension enhancement commit: `cfba7e266b7ce7612686c31e7c84b9464e6f665e`
 - Higher-standard design commit: `c1c6313d3c892761c70281aa82b039e276532c98`
 - Final pre-readiness design layer commit: `3169b266834c37495acb9c2b219a732eb2bcee0b`
+- Viewer-first clarity commit: `15d32a38ff0658f9225c7a75400f774ca6747b1c`
 
 ## Visual redesign decision
 
@@ -100,6 +101,21 @@ Additional enhancements added:
 
 The final pre-readiness goal is not to add more decoration. It is to make the guide easier to inspect, print, and judge for release.
 
+## Viewer-first clarity pass
+
+A sixth pass focused on the last observed viewer friction points after rendered-PDF review.
+
+Additional refinements added:
+
+- simplified Page 1 by removing one repeated action layer from the cover page,
+- aligned the cover chips with the same five-step pathway language: status → payer → approval → documents → next call,
+- replaced cryptic single-letter card badges with clearer text tokens such as `STAT`, `REH`, `HOME`, `LTC`, `BILL`, `MCD`, `AUTH`, `MED`, `ASK`, `RISK`, and `DOC`,
+- widened badge columns and adjusted badge type so the tokens remain printable,
+- relabeled the source-map page as an optional trust layer rather than a required reader step,
+- made the source-map subtitle explicitly state that the page is optional during urgent decision-making.
+
+This pass is meant to move the PDF from strong to viewer-polished: less cognitive load on page 1, fewer insider abbreviations, and clearer separation between urgent reader content and trust/source review content.
+
 ## Builder issue fixed before visual redesign
 
 During the candidate review, the quick-guide builder had two release-blocking issues:
@@ -118,11 +134,11 @@ The builder was updated so that:
 The PDF builder now renders the short guide as:
 
 - a branded cover/hero panel,
-- topic chips on the first page,
+- five-step cover chips aligned to the decision pathway,
 - a cover decision pathway,
 - a top progress rail,
 - page-specific verification bars,
-- page-specific three-step cue strips,
+- page-specific three-step cue strips on pages 2 through 10,
 - page-specific "Remember" takeaway ribbons,
 - direct-answer / core-idea callout panels,
 - comparison grids,
@@ -131,8 +147,8 @@ The PDF builder now renders the short guide as:
 - step/flow cards,
 - cleaner page numbers and badge headers,
 - page-specific subtitles and theme palettes,
-- visual icon markers inside each card,
-- a compact source-map page.
+- plain-language token markers inside cards,
+- an optional source-map page.
 
 This should make the guide easier to scan, more visibly satisfying, and more distinct from the longer reference guide.
 
@@ -169,18 +185,19 @@ These files are candidate/preflight outputs and should **not** be moved to `/pub
 Expected candidate page count remains:
 
 - **10 content pages**
-- **1 source-map page**
+- **1 optional source-map page**
 
-The source-map page is intentional because the guide should remain trustworthy without crowding every visual page with long source language.
+The source-map page is intentional because the guide should remain trustworthy without crowding every visual page with long source language. It is not required for a stressed reader making an urgent decision.
 
 ## Content checklist
 
 | Check | Status | Note |
 |---|---:|---|
 | Less text | Pass | Manuscript copy was compressed into short decision-card language. |
+| Less cognitive load on Page 1 | Pass | Removed one repeated action layer from the cover page. |
 | More visual structure | Pass | Builder now uses branded panels, grids, badges, callouts, flow cards, progress cues, and verification bars. |
 | More appealing visuals | Pass | Enhanced cover treatment, icon badges, panel hierarchy, section coloring, card styling, and page themes. |
-| Easier to understand | Pass | Page subtitles, icon markers, progress rail, three-step cue strips, takeaway ribbons, and verification bars clarify each page's job. |
+| Easier to understand | Pass | Page subtitles, token markers, progress rail, three-step cue strips, takeaway ribbons, and verification bars clarify each page's job. |
 | Better scan order | Pass | Each page now follows a consistent visual sequence from purpose to verification, action, core idea, cards/questions, and source note. |
 | Better page differentiation | Pass | Page-specific theme palettes and takeaway language make topics visually and cognitively distinct. |
 | Better deployment review readiness | Pass | Verification bars and page-break controls make manual QA more concrete. |
@@ -190,7 +207,7 @@ The source-map page is intentional because the guide should remain trustworthy w
 | Disclaimer/review warning retained | Pass | Educational-only language remains in the guide system and cover treatment. |
 | All 10 planned sections present | Pass | Start Here, 5 Misunderstandings, Medicare vs Medicaid, Original Medicare vs Medicare Advantage, Inpatient vs Observation, Before Discharge, Rehab/SNF, Home Health/DME/LTC, Bills/EOBs/MSNs, and Scripts/Next Steps are present. |
 | Source notes present | Pass | Each manuscript page retains source-note content. |
-| Endnotes/source map present | Pass | Endnotes and Source Map render as an additional source-map page. |
+| Endnotes/source map present | Pass | Endnotes and Source Map render as an additional optional source-map page. |
 | No public PDF committed | Pass | No PDF was committed under `/public/guides/` or `/public/drafts/`. |
 | No CTA unlock | Pass | No CTA change made. |
 | No sitemap entry | Pass | No sitemap change made. |
@@ -203,13 +220,13 @@ The Quick Guide is **not public-release-ready** yet.
 
 Remaining blockers:
 
-1. GitHub/Vercel CI confirmation after the visual redesign commits.
-2. Official Chrome-generated artifact from `npm run guide:quick-pdf:draft` on a normal workstation or GitHub Actions environment.
+1. GitHub/Vercel CI confirmation after the viewer-first clarity commit.
+2. Official Chrome-generated artifact from `npm run guide:quick-pdf:draft` after the viewer-first clarity commit.
 3. Desktop PDF review.
 4. iPhone review.
 5. Android review if available.
 6. Black-and-white print review.
-7. Final decision on whether the source-map page remains page 11 or source notes are compressed into a strict 10-page version.
+7. Final decision on whether the optional source-map page remains page 11 or source notes are compressed into a strict 10-page version.
 8. CTA unlock only after a final public PDF exists and direct URL testing passes.
 9. Sitemap entry only after a real public PDF URL exists and returns 200.
 10. QR destination map and scan testing before adding QR codes.
@@ -217,12 +234,12 @@ Remaining blockers:
 ## Release gate state
 
 - Quick Guide manuscript: visually tightened.
-- Quick Guide builder: updated for enhanced card-based PDF layout, comprehension cues, page themes, takeaway ribbons, and verification bars.
+- Quick Guide builder: updated for enhanced card-based PDF layout, comprehension cues, page themes, takeaway ribbons, verification bars, and viewer-first clarity refinements.
 - Quick Guide PDF candidate: ready for manual artifact review once generated from the patched builder.
 - Public release: blocked.
 
 ## Classification
 
-**B. final pre-readiness visual PDF-candidate-ready** for manual review.
+**B. viewer-first final PDF-candidate-ready** for manual review.
 
 Not **C. public-release-ready** because the public PDF, CTA, sitemap, QR codes, device review, and print review are intentionally still blocked.

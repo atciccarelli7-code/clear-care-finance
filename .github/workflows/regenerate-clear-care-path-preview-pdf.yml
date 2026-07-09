@@ -77,3 +77,5 @@ jobs:
             git commit -m "Regenerate Clear Care Path preview PDF"
             git push origin HEAD:clear-care-path-visual
           fi
+
+# Triggered after the workflow existed on main.

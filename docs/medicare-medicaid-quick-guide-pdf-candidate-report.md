@@ -18,6 +18,7 @@ This report documents the safe next step for the 10-page Quick Guide. It does no
 - Visual manuscript tightening commit: `30a34e3c4df6c46f39736affea4acde4fd476a12`
 - Visual PDF renderer commit: `23d90723f2662a34f5991d6d328bde9f1d43023e`
 - Enhanced visual hierarchy commit: `df998a177d3af1cdc603821bd32b53498fc16d21`
+- Comprehension enhancement commit: `cfba7e266b7ce7612686c31e7c84b9464e6f665e`
 
 ## Visual redesign decision
 
@@ -48,7 +49,22 @@ Enhancements added:
 - print fallback that removes shadows for black-and-white testing,
 - tighter three-column source-map layout.
 
-The goal of this pass is to make the guide easier to scan, more visually satisfying, and clearly differentiated from the long reference guide.
+## Further comprehension enhancement pass
+
+A third pass focused on making the guide easier to understand at a glance, not just more attractive.
+
+Additional enhancements added:
+
+- a 10-step progress rail in the page header,
+- page-specific three-step cue strips,
+- clearer "Core idea" labeling instead of generic direct-answer framing,
+- less cramped auto-fitting warning and flow grids,
+- tighter typography and card spacing,
+- stronger scan order: progress rail → page purpose → three-step cue → core idea → cards/questions → source note,
+- corrected ask/warning section selectors so their icon styling applies directly and predictably,
+- continued print-aware design with shadows suppressed for black-and-white testing.
+
+The goal of this pass is to make each page answer the user’s implicit question: **what do I check next?**
 
 ## Builder issue fixed before visual redesign
 
@@ -69,7 +85,9 @@ The PDF builder now renders the short guide as:
 
 - a branded cover/hero panel,
 - topic chips on the first page,
-- direct-answer callout panels,
+- a top progress rail,
+- page-specific three-step cue strips,
+- direct-answer / core-idea callout panels,
 - comparison grids,
 - warning-card grids,
 - ask-card grids,
@@ -93,12 +111,12 @@ This should make the guide easier to scan, more visibly satisfying, and more dis
 
 - Replicated `npm run guide:quick-content-check` logic against the tightened quick-guide manuscript.
 - Confirmed the tightened manuscript still has 10 numbered pages.
-- Confirmed each page still has a `Direct answer` section.
+- Confirmed each page still has a `Direct answer` section in the manuscript, rendered visually as a `Core idea` panel.
 - Confirmed each page still has a source note with an official or bounded source.
 - Confirmed the page text avoids broad guaranteed/automatic coverage language.
 - Confirmed the page text avoids dollar amounts.
 - Confirmed the page text avoids sales, affiliate, ranking, and lead-generation language.
-- Validated the enhanced builder syntax with `node --check` before committing.
+- Preserved no-public-release guardrails.
 
 ## Generated candidate paths
 
@@ -123,9 +141,11 @@ The source-map page is intentional because the guide should remain trustworthy w
 | Check | Status | Note |
 |---|---:|---|
 | Less text | Pass | Manuscript copy was compressed into short decision-card language. |
-| More visual structure | Pass | Builder now uses branded panels, grids, badges, callouts, and flow cards. |
+| More visual structure | Pass | Builder now uses branded panels, grids, badges, callouts, flow cards, and progress cues. |
 | More appealing visuals | Pass | Enhanced cover treatment, icon badges, panel hierarchy, section coloring, and card styling. |
-| Easier to understand | Pass | Page subtitles, icon markers, and visual section types clarify each page's job. |
+| Easier to understand | Pass | Page subtitles, icon markers, progress rail, and three-step cue strips clarify each page's job. |
+| Better scan order | Pass | Each page now follows a consistent visual sequence from purpose to action. |
+| Less cramped cards | Pass | Warning and flow grids use auto-fitting minimum widths instead of forcing every item into narrow columns. |
 | Print-aware design | Pass | Print media fallback removes shadows for black-and-white testing. |
 | Title is clear | Pass | Title remains `The Hospital Discharge & Medicare Quick Guide`. |
 | Disclaimer/review warning retained | Pass | Educational-only language remains in the guide system and cover treatment. |
@@ -158,7 +178,7 @@ Remaining blockers:
 ## Release gate state
 
 - Quick Guide manuscript: visually tightened.
-- Quick Guide builder: updated for enhanced card-based PDF layout.
+- Quick Guide builder: updated for enhanced card-based PDF layout and comprehension cues.
 - Quick Guide PDF candidate: ready for manual artifact review once generated from the patched builder.
 - Public release: blocked.
 

@@ -57,21 +57,16 @@ Every quick guide should include:
 - `docs/medicare-sign-up-quick-guide-pre-pdf-manuscript.md`
 - `docs/medicaid-application-quick-guide-pre-pdf-manuscript.md`
 
-## Future technical work
+## Current technical system
 
-The current PDF builder is optimized around the hospital discharge quick guide. Before public release of the Medicare sign-up and Medicaid application guides, build a reusable quick-guide PDF generator that accepts a guide definition such as:
+Quick-guide PDF generation now uses a shared definition-driven system:
 
-- title,
-- subtitle,
-- slug,
-- source manuscript path,
-- output HTML path,
-- output PDF path,
-- public PDF path,
-- page theme map,
-- guide-specific source checks.
+- `scripts/quick-guide-definitions.mjs` owns guide ids, titles, slugs, source manuscripts, generated HTML/PDF paths, public-path eligibility, route metadata, page theme maps, and required source cues.
+- `scripts/check-quick-guide-content.mjs` checks one guide or `all` for 10 pages, direct answers, source notes, endnotes/source map, official-source cues, blocked sales/ranking language, dollar amounts, and unapproved destination-marker language.
+- `scripts/build-quick-guide-pdf.mjs` builds one guide or `all` into `docs/generated`.
+- `scripts/build-medicare-medicaid-quick-guide-pdf.mjs` and `scripts/check-medicare-medicaid-quick-guide-content.mjs` remain compatibility wrappers for the hospital discharge guide.
 
-Avoid cloning the hospital-discharge script into multiple nearly identical builders unless speed is more important than maintainability.
+Only `public/guides/hospital-discharge-medicare-quick-guide.pdf` is approved for public launch review. The Medicare sign-up and Medicaid application quick-guide PDFs remain preflight-only under `docs/generated` until they pass manual review and get a separate release decision.
 
 ## Release gates for each future guide
 
@@ -88,8 +83,8 @@ Do not publish a new quick guide PDF until:
 - iPhone review passes,
 - black-and-white print review passes,
 - final public PDF URL returns 200 after deployment,
-- sitemap entry is added only after the URL works,
-- QR codes are added only after destination testing.
+- public discovery changes are reviewed only after the URL works,
+- destination-marker work is handled separately after destination testing.
 
 ## SEO architecture
 

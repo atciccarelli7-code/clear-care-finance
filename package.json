@@ -13,8 +13,10 @@
     "test:watch": "vitest",
     "guide:pdf:draft": "node scripts/build-medicare-medicaid-guide-pdf.mjs",
     "guide:quick-pdf:draft": "node scripts/build-medicare-medicaid-quick-guide-pdf.mjs",
+    "guide:quick-pdf:draft:all": "node scripts/build-quick-guide-pdf.mjs all",
     "guide:content-check": "node scripts/check-medicare-medicaid-guide-content.mjs",
-    "guide:quick-content-check": "node scripts/check-medicare-medicaid-quick-guide-content.mjs"
+    "guide:quick-content-check": "node scripts/check-medicare-medicaid-quick-guide-content.mjs",
+    "guide:quick-content-check:all": "node scripts/check-quick-guide-content.mjs all"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

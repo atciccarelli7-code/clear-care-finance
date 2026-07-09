@@ -265,7 +265,7 @@ When overwhelmed, use short questions and write down the answer, name, date, ref
 
 ## Next step
 
-Use the guide hub at Community Acquired Finance for connected tools, deeper articles, and updated links. Final QR codes and public links should be added only after destination testing.
+Use the guide hub at Community Acquired Finance for connected tools, deeper articles, and updated links. Final public links should be added only after destination testing.
 
 ## Source note
 

@@ -1,7 +1,7 @@
 # The Hospital Discharge & Medicare Quick Guide
 
 Community Acquired Finance  
-Print-dense v2 candidate  
+Article-style PDF candidate  
 Last updated: 2026-07-09
 
 > Educational only. This quick guide is not medical, legal, tax, insurance, Medicaid planning, or individualized financial advice. It does not replace Medicare.gov, Medicaid.gov, CMS, state Medicaid agencies, plan documents, billing offices, SHIP counselors, clinicians, attorneys, licensed insurance professionals, or other qualified professionals. Rules can vary by state, plan, facility, timing, documentation, medical necessity, provider participation, and personal circumstances. Verify before making decisions.
@@ -10,38 +10,39 @@ Written from a healthcare-worker perspective by Andrew Ciccarelli, RN, BSN.
 
 ## Pre-release status
 
-This print-dense candidate is for PDF review, phone review, and black-and-white print review before promotion.
+This article-style candidate is for PDF review, phone review, and black-and-white print review before promotion.
 
 Do not add ads, affiliate links, lead forms, insurer rankings, plan recommendations, destination markers, or sales language to this quick guide.
 
 ---
 
-# Page 1 — Start Here
+# Page 1 — What should I do before discharge?
 
 ## Direct answer
 
-Use this guide to slow the decision down, identify the payer, ask for the written rule, and avoid signing, leaving, or paying before the discharge story is clear.
+Before discharge, slow the process down enough to identify the plan, the payer, the documents, and the next person to call. You do not need to understand every Medicare rule. You need to know what is being recommended, what is actually ordered, what is still pending, and what paper explains the answer.
 
-## Who this is for
+## Why this matters
 
-- **Family at discharge:** You are being told home, rehab, SNF, home health, equipment, or private pay may be next.
-- **Caregiver on the phone:** You need short questions, not a Medicare textbook.
-- **Patient with a bill:** You have a hospital, facility, doctor, agency, ambulance, or supplier bill that does not match what you expected.
-- **Healthcare worker helping family:** You know the care plan, but the payment and paperwork path still feels unclear.
+Hospital discharge moves quickly. Families often hear words like rehab, home health, observation, authorization, Medicare, Medicaid, or private pay before anyone has clearly explained how they connect. A safe plan is not just “where is the patient going?” It is also “who accepted the patient, what services are ordered, what might be denied or delayed, and what should we do if the plan falls apart?”
 
-## First four checks
+## What to ask
 
-- **Status:** Is the patient inpatient, observation, outpatient, discharged, or already transferred?
-- **Payer:** Is the issue Original Medicare, Medicare Advantage, Medicaid, employer insurance, supplemental coverage, or private pay?
-- **Document:** What notice, order, authorization, MSN, EOB, bill, or denial explains the answer?
-- **Deadline:** Is there an appeal, discharge, authorization, or payment deadline that needs action today?
+- **Plan:** “Where is the patient expected to go after discharge?”
+- **Services:** “What home health, rehab, equipment, medication, or follow-up is actually ordered?”
+- **Payer:** “Which coverage path is being used: Original Medicare, Medicare Advantage, Medicaid, employer insurance, supplemental coverage, or private pay?”
+- **Pending items:** “Is anything still waiting on authorization, delivery, acceptance, or review?”
+- **Deadline:** “Is there a notice, appeal, discharge, authorization, or payment deadline we need to act on today?”
 
-## What this means in real life
+## What to keep
 
-- **Do not rely on hallway answers:** Ask who can verify the answer in writing.
-- **Do not treat “medically needed” as the same as payer approval:** A care need and a payment rule are separate questions.
-- **Do not ignore notices:** Discharge, denial, and coverage-ending notices can start short response windows.
-- **Do not pay a confusing bill first:** Match it to the processed claim paperwork before paying.
+- **Discharge papers:** instructions, medication list, follow-up appointments, and service referrals.
+- **Names:** case manager, social worker, physician, therapy contact, plan representative, agency, facility, supplier, and billing office.
+- **Proof:** notices, orders, denial letters, authorization updates, itemized bills, MSN, EOB, and call reference numbers.
+
+## Short script
+
+“I am trying to make sure the discharge plan is safe and that we understand the payment path. Can you tell me what is ordered, what is still pending, what document explains it, and who we call if something does not happen?”
 
 ## Source note
 
@@ -49,268 +50,206 @@ Built from Medicare.gov, Medicaid.gov, CMS discharge/appeal resources, SHIP reso
 
 ---
 
-# Page 2 — The 5 Misunderstandings
+# Page 2 — Is the patient inpatient or observation?
 
 ## Direct answer
 
-Most discharge confusion comes from mixing up care need, hospital status, authorization, program rules, and the final bill. Treat each one as a separate checkpoint.
+Ask for the patient’s official hospital status and the date and time that status began. Do not assume a patient is inpatient just because they stayed overnight, had a hospital room, received tests, or was very sick.
 
-## Five things to separate
+## Why this matters
 
-- **Need vs payment:** A patient may need help, but the payer still applies rules, documents, networks, medical-necessity standards, and timing.
-- **Hospital bed vs hospital status:** Sleeping in the hospital does not by itself prove inpatient status.
-- **Recommendation vs authorization:** A doctor, therapist, or case manager recommendation is not the same as a plan authorization.
-- **Medicare vs Medicaid:** Medicare is usually the health-insurance question; Medicaid may become the long-term services/supports or low-income assistance question.
-- **Processed claim vs bill:** An MSN or EOB tells the claim story; a bill asks for payment. The numbers should be compared before you pay.
+Hospital status can affect billing and may affect some post-acute care questions. Observation is generally treated as outpatient hospital care, even when the patient sleeps in the hospital. Inpatient status usually depends on an inpatient admission order. The practical issue is simple: if a later decision depends on hospital status, you need the official answer in writing, not a guess.
 
-## Ask today
-
-- **Rule:** “What rule, notice, or plan document are you relying on?”
-- **Proof:** “Can you send or print the document that shows this?”
-- **Timing:** “What deadline applies if we disagree or need review?”
-- **Backup:** “What happens if authorization is delayed, denied, or ends before the patient is safe?”
-
-## What this means in real life
-
-- **Before transfer:** Ask whether the receiving facility, agency, or supplier is approved, participating, or in-network for the payer.
-- **Before agreeing to private pay:** Ask what changed, what was denied or not authorized, and what written appeal/review path exists.
-- **Before discharge home:** Ask what skilled services, equipment, medications, and follow-up appointments are actually ordered.
-
-## Source note
-
-Built from Medicare.gov coverage/cost materials, CMS observation-status materials, Medicaid.gov eligibility/LTSS materials, SHIP resources, and Medicare appeal resources.
-
----
-
-# Page 3 — Inpatient vs Observation
-
-## Direct answer
-
-Hospital status can affect billing and some downstream care rules. Ask for the official status and the date/time it started instead of relying on the room, length of stay, or whether the patient slept overnight.
-
-## Know the difference
-
-- **Inpatient:** A hospital admission under an inpatient order; ask when the inpatient order began.
-- **Observation:** An outpatient hospital service, even when the patient stays overnight in a hospital bed.
-- **Outpatient:** Services may happen inside the hospital without an inpatient admission.
-- **Notice:** Medicare rules include observation-status notice requirements for certain patients.
-- **SNF question:** Under Original Medicare, skilled nursing facility rules can depend on a qualifying inpatient hospital stay, with details and exceptions to verify.
-
-## Ask before discharge
+## What to ask
 
 - **Current status:** “Is the patient inpatient, outpatient, or observation right now?”
-- **Timing:** “What date and time did inpatient admission begin, if it did?”
-- **Notice:** “Was a MOON or other status notice issued, and can we have a copy?”
-- **Rehab impact:** “Could this status affect SNF, rehab, or post-acute coverage rules?”
-- **Who can verify:** “Can utilization review, case management, or billing confirm this in writing?”
+- **Start time:** “If inpatient, what date and time did the inpatient admission begin?”
+- **Notice:** “Was a Medicare Outpatient Observation Notice or other status notice given?”
+- **Impact:** “Could this status affect skilled nursing facility, rehab, or billing questions?”
+- **Verification:** “Can utilization review, case management, or billing confirm this in writing?”
 
-## What this means in real life
+## What to keep
 
-- **Example:** A patient can spend multiple nights in the hospital and still have outpatient/observation status for Medicare billing purposes.
-- **Practical step:** Save the status notice, admission order timing, discharge paperwork, and any plan authorization messages together.
-- **If confused:** Ask the hospital to explain the status in plain English and identify the appeal or review path if one exists.
+- **Status notice:** MOON or any other written status notice.
+- **Admission details:** inpatient order timing if available.
+- **Discharge packet:** final summary, orders, follow-up instructions, and facility or agency referrals.
+- **Plan messages:** authorization updates, denials, or coverage-ending notices.
+
+## Short script
+
+“I am not trying to argue. I am trying to understand the official hospital status because it may affect billing or the next care setting. Can someone print or send the notice or documentation that explains the status?”
 
 ## Source note
 
-Built from CMS and Medicare.gov materials on inpatient vs outpatient/observation status, MOON notice materials, and Medicare.gov skilled nursing facility materials.
+Built from CMS and Medicare.gov materials on inpatient versus outpatient/observation status, Medicare Outpatient Observation Notice materials, Medicare.gov skilled nursing facility materials, and SHIP resources.
 
 ---
 
-# Page 4 — Rehab and Skilled Nursing Facility Care
+# Page 3 — What should I ask before rehab or SNF transfer?
 
 ## Direct answer
 
-Rehab may be appropriate medically, but payment can depend on the setting, documented skilled need, hospital status, facility participation/network, timing, authorization, and written notices.
+Before agreeing to rehab or skilled nursing facility transfer, ask what skilled need is documented, whether the facility is approved or in-network for the payer, whether authorization is approved or pending, and what happens if coverage ends sooner than expected.
 
-## Sort the setting
+## Why this matters
 
-- **SNF:** Skilled nursing facility care is different from long-term custodial nursing-home care.
-- **Inpatient rehab:** A more intensive rehab setting with different criteria and documentation.
-- **Home health:** Skilled services at home under specific rules; not the same as round-the-clock home help.
-- **Outpatient therapy:** Therapy after discharge without facility admission.
-- **Custodial care:** Ongoing help with bathing, dressing, meals, toileting, supervision, or transportation may follow different rules.
+Rehab is not one single thing. A patient may be considered for a skilled nursing facility, inpatient rehab, outpatient therapy, home health, or private support at home. The medical recommendation and the payment decision are connected, but they are not the same. A therapist may recommend rehab while the plan, facility, or Medicare rules still require documentation, timing, participation, network status, authorization, or review.
 
-## Ask before transfer
+## What to ask
 
-- **Qualifying stay:** “Does the patient have the hospital status/timing needed for this pathway, if applicable?”
+- **Setting:** “Is this skilled nursing facility care, inpatient rehab, outpatient therapy, home health, or custodial support?”
 - **Skilled need:** “What skilled nursing or therapy need is documented today?”
-- **Facility fit:** “Is this facility participating, approved, or in-network for this payer?”
-- **Authorization:** “Is authorization approved, pending, denied, or ending?”
-- **Discharge plan:** “What is the expected goal, reassessment date, and backup plan if coverage ends?”
+- **Facility:** “Has the receiving facility accepted the patient?”
+- **Payer fit:** “Is the facility participating, approved, or in-network for this coverage?”
+- **Authorization:** “Is authorization approved, pending, denied, or likely to need renewal?”
+- **Backup plan:** “What happens if authorization is delayed, denied, or ends before the patient is safe?”
 
-## Call script
+## What to keep
 
-- **Start:** “I am trying to verify the rehab payment path before transfer.”
-- **Ask:** “What rule applies, what document proves it, and what can we do if the answer changes?”
-- **Record:** Write down the name, department, date, reference number, and next deadline.
+- **Therapy notes:** PT, OT, speech, nursing, wound care, mobility, oxygen, or safety documentation.
+- **Facility information:** facility name, contact, acceptance status, and network/participation status.
+- **Coverage papers:** authorization notice, denial notice, coverage-ending notice, or appeal instructions.
+
+## Short script
+
+“I am trying to verify the rehab plan before transfer. What skilled need supports this setting, has the facility accepted the patient, is payer approval complete, and what is the appeal or backup plan if the answer changes?”
 
 ## Source note
 
-Built from Medicare.gov skilled nursing facility materials, Medicare.gov care comparison materials, Medicare Advantage coverage/appeal materials, CMS appeal resources, and the official source map.
+Built from Medicare.gov skilled nursing facility materials, Medicare.gov care comparison resources, Medicare Advantage coverage and appeal materials, CMS appeal resources, and SHIP resources.
 
 ---
 
-# Page 5 — Home Health vs Daily Home Help
+# Page 4 — What does home health actually include?
 
 ## Direct answer
 
-Home health, private-duty help, family caregiving, and custodial support are not the same. Ask what service is ordered, who provides it, how often it comes, and who is expected to pay.
+Home health usually means specific skilled services ordered for the home. It does not automatically mean round-the-clock help, daily custodial care, transportation, meal help, or a private aide whenever the family needs one.
 
-## Know the difference
+## Why this matters
 
-- **Home health:** Usually part-time or intermittent skilled care under specific rules, such as nursing or therapy ordered after discharge.
-- **Private-duty aide:** Help arranged privately or through an agency may be outside Medicare home health rules.
-- **Custodial help:** Bathing, dressing, meals, toileting, supervision, and transportation are daily-living needs, not automatically skilled care.
-- **Family support:** A discharge plan may assume family availability; ask what happens if family cannot safely provide that level of help.
-- **Medicaid/aging resources:** Long-term home support may involve state Medicaid or local aging resources for eligible people.
+Families often hear “home health” and picture broad home support. In practice, home health may be intermittent skilled nursing, therapy, or other ordered services under specific rules. A discharge plan may still assume family members can handle the hours between visits. If the patient cannot safely be home without more help, that needs to be said clearly before discharge.
 
-## Ask before discharge home
+## What to ask
 
-- **Order:** “What home health, therapy, nursing, equipment, or medication support is actually ordered?”
+- **Order:** “What exact home health services are ordered?”
 - **Agency:** “Which agency accepted the referral, and when is the first visit?”
-- **Frequency:** “How often will visits occur, and what happens between visits?”
-- **Payment:** “Who is expected to pay for skilled visits, aides, equipment, supplies, and transportation?”
-- **Backup:** “Who do we call if the patient is not safe at home after discharge?”
+- **Frequency:** “How often will visits happen, and how long do they usually last?”
+- **Between visits:** “Who helps with bathing, meals, toileting, supervision, transportation, or medications between visits?”
+- **Unsafe at home:** “Who do we call if the patient is not safe after discharge?”
 
-## What this means in real life
+## What to keep
 
-- **A nurse visit is not 24-hour care:** Home health may be intermittent.
-- **An aide is not automatically included:** Ask what aide services are approved, ordered, or private pay.
-- **Equipment timing matters:** A walker, oxygen, bed, commode, or supplies may require documentation, supplier rules, delivery timing, or plan authorization.
+- **Agency details:** name, phone number, start date, and accepted services.
+- **Orders:** home health order, therapy order, nursing order, wound care order, medication list, and equipment order.
+- **Safety concerns:** falls, confusion, oxygen needs, mobility limits, wound care, medication risks, or lack of caregiver support.
+
+## Short script
+
+“When you say home health, what services are actually ordered, when will the first visit happen, and what support is expected between visits? If family cannot safely provide that help, what should we do before discharge?”
 
 ## Source note
 
-Built from Medicare.gov home health materials, Medicare.gov durable medical equipment materials, Medicare.gov long-term care materials, Medicaid.gov LTSS materials, and SHIP resources.
+Built from Medicare.gov home health materials, Medicare.gov durable medical equipment materials, Medicare.gov long-term care materials, Medicaid.gov long-term services and supports materials, and SHIP resources.
 
 ---
 
-# Page 6 — Equipment, Medications, and Plan Authorization
+# Page 5 — What equipment and medications need to be ready?
 
 ## Direct answer
 
-Equipment, medications, suppliers, and plan authorization can delay a safe discharge. Verify the exact item, supplier, payer rule, authorization status, delivery timing, and backup plan.
+Before discharge, confirm that essential equipment, supplies, and medications are ordered, approved if needed, assigned to a supplier or pharmacy, and available when the patient actually gets home.
 
-## Check the item
+## Why this matters
 
-- **DME:** Durable medical equipment can include items such as walkers, wheelchairs, oxygen-related equipment, hospital beds, commodes, or other ordered equipment depending on rules and documentation.
-- **Supplier:** The supplier may need to participate with Original Medicare or be in-network for a plan.
-- **Order:** Ask whether the prescription/order, diagnosis, face-to-face note, therapy note, or medical-necessity documentation is complete.
-- **Delivery:** Ask when and where the item will arrive, and whether discharge depends on it.
-- **Substitution:** Ask what safe alternative exists if the exact item is delayed or denied.
+A discharge can look fine on paper but fail at home because oxygen, a walker, wound supplies, a hospital bed, a commode, a medication, or a follow-up instruction was delayed. Equipment and medication problems are easier to fix before the patient leaves than after the family is already home and trying to solve them alone.
 
-## Ask the plan, supplier, or discharge team
+## What to ask
 
-- **Authorization:** “Is authorization required, submitted, approved, denied, or pending?”
-- **Network:** “Is this supplier or pharmacy in-network or participating?”
-- **Responsibility:** “What might the patient owe, and what document explains that?”
-- **Appeal/review:** “If this is denied or delayed, who starts the appeal or reconsideration?”
+- **Equipment:** “What equipment or supplies are needed before the patient is safe at home?”
+- **Supplier:** “Which supplier is providing the item, and is the supplier participating or in-network?”
+- **Order:** “Is the prescription, diagnosis, face-to-face note, therapy note, or medical-necessity documentation complete?”
+- **Timing:** “When and where will the equipment arrive?”
 - **Medication bridge:** “Will the patient have enough medication until follow-up?”
+- **Backup:** “What should we do if an item is denied, delayed, or substituted?”
 
-## What this means in real life
+## What to keep
 
-- **Do not leave without timing:** If oxygen, mobility equipment, wound supplies, or key medications are needed, ask for the exact handoff plan.
-- **Save proof:** Keep the order, delivery confirmation, authorization notice, denial notice, and supplier contact information.
-- **Call early:** Equipment and medication delays are easier to solve before discharge than after the patient is already home.
+- **Orders:** prescriptions, equipment orders, diagnosis notes, and delivery instructions.
+- **Supplier/pharmacy contacts:** name, phone number, delivery window, and reference number.
+- **Plan notices:** authorization approval, denial, or pending status.
 
-## Source note
+## Short script
 
-Built from Medicare.gov durable medical equipment materials, Medicare.gov home health materials, Medicare.gov prescription/plan materials, CMS appeal resources, and Medicare Advantage plan decision materials.
-
----
-
-# Page 7 — Long-Term Care, Custodial Care, and Medicaid
-
-## Direct answer
-
-Do not assume Medicare pays for ongoing custodial long-term care. Medicare and Medicaid answer different questions, and Medicaid long-term services/supports depend on state rules, eligibility, service type, and documentation.
-
-## Sort the need
-
-- **Short-term skilled care:** Rehab, therapy, skilled nursing, or post-acute care may be reviewed under Medicare or plan rules.
-- **Long-term custodial care:** Ongoing help with daily living may not fit Medicare’s medical-care pathway.
-- **Medicaid LTSS:** Medicaid may be the relevant program for eligible people who need long-term services and supports.
-- **State rules:** Income, assets, level-of-care rules, estate recovery, spousal protections, and covered settings can vary by state.
-- **Dual eligible:** A person can have both Medicare and Medicaid, but the exact help depends on program details.
-
-## Ask before agreeing to private pay
-
-- **Type of care:** “Is this skilled care, custodial care, assisted living, nursing home care, or home/community support?”
-- **Program:** “Is Medicare, Medicare Advantage, Medicaid, another payer, or private pay being discussed?”
-- **State help:** “Which state Medicaid agency, aging resource, or SHIP counselor should we contact?”
-- **Notice:** “Is there a denial, discharge notice, or coverage-ending notice we need to respond to?”
-- **Planning:** “Should we speak with an elder-law attorney or qualified Medicaid planning professional before major financial decisions?”
-
-## What this means in real life
-
-- **Medicare vs Medicaid:** Medicare is usually the medical insurance starting point. Medicaid may become the long-term support question for eligible people.
-- **Timing matters:** Medicaid applications and long-term care transitions can involve documentation requests and deadlines.
-- **Do not rely on one sentence:** Ask for the exact program name, agency, notice, and contact number.
+“I want to confirm the patient can safely function at home. What equipment, supplies, and medications are required before discharge, who is providing them, and what is the backup plan if something is delayed?”
 
 ## Source note
 
-Built from Medicare.gov long-term care materials, Medicaid.gov eligibility materials, Medicaid.gov LTSS materials, Medicaid.gov estate recovery/spousal impoverishment materials, CMS Medicare-Medicaid coordination resources, and SHIP resources.
+Built from Medicare.gov durable medical equipment materials, Medicare.gov home health materials, Medicare.gov plan and prescription resources, CMS appeal resources, and Medicare Advantage plan decision materials.
 
 ---
 
-# Page 8 — Bills, EOBs, and Medicare Summary Notices
+# Page 6 — When does Medicare stop and Medicaid or long-term care become the question?
 
 ## Direct answer
 
-Do not pay a confusing bill until you match it against the processed claim story: provider bill, MSN, EOB, denial/appeal notice, adjustment, and any financial-assistance option.
+Medicare is usually the medical insurance starting point. Medicaid may become relevant when the issue is long-term services and supports, income or asset eligibility, nursing home care, home and community-based support, or help for people with limited resources.
 
-## Match the documents
+## Why this matters
 
-- **Provider bill:** The amount a hospital, doctor, facility, agency, ambulance company, or supplier says is owed.
-- **MSN:** Medicare Summary Notice for Original Medicare claims. It explains processed claims and is not a bill.
-- **EOB:** Explanation of Benefits from a private insurer or Medicare Advantage plan. It usually explains processing and is not itself a bill.
-- **Patient responsibility:** The amount left after deductible, copay, coinsurance, noncovered service, denial, adjustment, or plan processing.
-- **Financial assistance:** Hospitals may have financial-assistance or charity-care processes; ask before paying if the bill is difficult.
+Medicare and Medicaid are often discussed together, but they do different jobs. Medicare does not automatically pay for ongoing custodial long-term care. Medicaid rules can vary by state and may involve eligibility, level-of-care rules, estate recovery, spousal protections, and specific application steps. If someone is about to agree to private pay for ongoing care, slow down and ask which program is actually being discussed.
 
-## Four-step bill check
+## What to ask
 
-- **Match:** Date of service, provider, location, account number, and service description.
-- **Compare:** Bill amount vs MSN/EOB patient responsibility.
-- **Question:** Ask why the patient owes the amount and whether coding, network, authorization, or coordination changed the result.
-- **Escalate:** Ask about correction, appeal, rebilling, payment hold, itemized bill, financial assistance, or supervisor review.
+- **Care type:** “Is this short-term skilled care, long-term custodial care, assisted living, nursing home care, or home/community support?”
+- **Program:** “Is the answer coming from Medicare, Medicare Advantage, Medicaid, another payer, or private pay?”
+- **State agency:** “Which state Medicaid office or aging resource should we contact?”
+- **Eligibility:** “What documents are needed to evaluate eligibility?”
+- **Advice:** “Should we speak with SHIP, an elder-law attorney, or a qualified Medicaid planning professional before major financial decisions?”
 
-## Call script
+## What to keep
 
-- **Billing office:** “I am not refusing to pay. I am trying to match this bill to the processed claim before payment.”
-- **Plan/Medicare question:** “Can you explain why this amount is patient responsibility and what document shows that?”
-- **Financial assistance:** “Can you screen this account for financial assistance or charity care before we set up payment?”
+- **Care description:** the level of care being recommended and why.
+- **Program names:** Medicare, Medicare Advantage, Medicaid, state waiver, facility private pay, or other payer.
+- **Notices and applications:** denial, coverage-ending notice, Medicaid request, application checklist, or document request.
+
+## Short script
+
+“I need to understand whether this is a Medicare medical-care question, a Medicaid long-term support question, or a private-pay question. What program applies, what document explains the answer, and who can help us verify the state-specific rules?”
 
 ## Source note
 
-Built from Medicare.gov Medicare Summary Notice materials, Medicare.gov appeals materials, Medicare.gov cost materials, HealthCare.gov glossary definitions, and the official source map.
+Built from Medicare.gov long-term care materials, Medicaid.gov eligibility materials, Medicaid.gov long-term services and supports materials, Medicaid.gov estate recovery and spousal impoverishment materials, CMS Medicare-Medicaid coordination resources, and SHIP resources.
 
 ---
 
-# Page 9 — Medicare Advantage, Prior Authorization, and Appeals
+# Page 7 — What if a Medicare Advantage plan says no or authorization is pending?
 
 ## Direct answer
 
-Medicare Advantage is still Medicare, but plans can use networks, prior authorization, plan rules, notices, and appeal steps. Keep the tone neutral and ask for the written decision path.
+Ask whether the decision is approved, denied, pending, ending, out-of-network, or missing information. Then ask for the written notice, the reason, the deadline, and the appeal or expedited-review path.
 
-## Ask the plan or facility
+## Why this matters
 
-- **Network:** “Is this hospital, rehab facility, home health agency, supplier, or clinician in-network for this plan?”
-- **Authorization:** “Was prior authorization required, submitted, approved, denied, or still pending?”
-- **Notice:** “If the plan denied or ended something, what written notice explains the reason and deadline?”
-- **Alternative:** “If this setting or supplier is not approved, what in-network or approved alternative is being offered?”
-- **Appeal:** “Who files the appeal, what is the deadline, and can it be expedited if the patient may be unsafe?”
+Medicare Advantage is still Medicare, but plans can use networks, prior authorization, plan rules, medical-necessity review, and appeal steps. A neutral, specific question usually works better than arguing. The goal is to identify the exact decision and what can be done next.
 
-## What this means in real life
+## What to ask
 
-- **Not anti-plan:** The goal is not to assume the plan is wrong; the goal is to understand the plan rule, decision, deadline, and next step.
-- **Get specifics:** “Pending authorization” is different from “denied,” “not medically necessary,” “out-of-network,” or “not a plan benefit.”
-- **Write it down:** Record the representative name, call reference number, decision date, deadline, and fax/upload instructions.
+- **Status:** “Is this approved, denied, pending, ending, or missing information?”
+- **Reason:** “What is the reason listed for the decision?”
+- **Network:** “Is the hospital, rehab facility, home health agency, supplier, or clinician in-network?”
+- **Alternative:** “If this option is not approved, what approved or in-network alternative is being offered?”
+- **Deadline:** “What is the appeal deadline, and is expedited review available if the patient may be unsafe?”
 
-## Quick appeal/review checklist
+## What to keep
 
-- **Document:** denial, noncoverage, discharge, or coverage-ending notice.
-- **Clinical support:** therapy note, physician order, nursing note, wound/oxygen/mobility note, or unsafe-discharge concern.
-- **Deadline:** exact date/time and whether expedited review is available.
-- **Destination:** where to send the appeal and how to confirm receipt.
+- **Written notice:** denial, noncoverage, coverage-ending notice, or authorization update.
+- **Clinical support:** therapy note, physician order, nursing note, wound note, oxygen/mobility note, or unsafe-discharge concern.
+- **Call log:** representative name, date, reference number, fax/upload instructions, and deadline.
+
+## Short script
+
+“I am trying to understand the plan decision. Is this approved, denied, pending, or ending? What written notice explains the reason, what is the deadline, and what appeal or expedited-review option applies?”
 
 ## Source note
 
@@ -318,41 +257,107 @@ Built from Medicare.gov Medicare Advantage materials, Medicare.gov appeals mater
 
 ---
 
-# Page 10 — Scripts and Final Checklist
+# Page 8 — How do I check a medical bill before paying?
 
 ## Direct answer
 
-When overwhelmed, use short questions, ask for the written source, and write down the name, department, date, reference number, document, and deadline.
+Do not pay a confusing bill until you match it to the processed claim story. Compare the provider bill with the Medicare Summary Notice, Explanation of Benefits, denial notice, adjustment, and any financial-assistance option.
 
-## Call scripts
+## Why this matters
 
-- **Hospital status:** “Can you tell me the patient’s official hospital status today and when that status began?”
-- **Discharge plan:** “What services, equipment, medications, and follow-up are ordered before discharge?”
-- **Rehab/SNF:** “What skilled need is documented, and what rule or authorization supports the next setting?”
-- **Home health:** “Which agency accepted the referral, when is the first visit, and what happens between visits?”
-- **Equipment:** “Is the supplier participating or in-network, and when will the item be delivered?”
-- **Plan decision:** “Is this approved, denied, pending, or ending, and what written notice explains it?”
-- **Bill:** “Does this bill match the MSN, EOB, or processed claim record?”
-- **Medicaid/LTSS:** “Which state agency or local aging resource should we contact for long-term support questions?”
+A bill is a request for payment. An MSN or EOB explains how a claim was processed. Those documents should tell a coherent story: who provided the service, what date it happened, how the payer processed it, what was adjusted or denied, and what the patient may owe. If the documents do not match, ask questions before paying.
 
-## Print-and-carry checklist
+## What to ask
 
-- **Patient identifiers:** name, date of birth, Medicare/plan/member ID, Medicaid case number if applicable.
-- **Contacts:** case manager, social worker, plan number, billing office, facility, agency, supplier, SHIP/state resource.
-- **Documents:** discharge paperwork, orders, medication list, authorization notice, denial notice, MSN, EOB, itemized bill.
-- **Dates:** admission/status date, discharge date, service date, appeal deadline, authorization deadline, first home visit.
-- **Open questions:** what is approved, what is pending, what might be owed, who verifies, and what happens if the plan fails.
+- **Match:** “Does this bill match the date, provider, service, and account on the MSN or EOB?”
+- **Reason:** “Why is this amount patient responsibility?”
+- **Processing:** “Was there a denial, noncovered service, network issue, coding issue, authorization issue, deductible, copay, or coinsurance?”
+- **Hold:** “Can you place the account on hold while this is reviewed?”
+- **Assistance:** “Can this account be screened for financial assistance or charity care?”
 
-## Last rule before signing or paying
+## What to keep
 
-- **Pause:** “I need to verify the payer, document, and deadline before I agree.”
-- **Escalate:** Ask for a supervisor, case manager, billing review, plan appeal team, SHIP counselor, state Medicaid agency, or qualified professional.
-- **Record:** Keep a simple call log with name, department, date, reference number, and exact next step.
-- **Update:** If the answer changes, ask for the updated notice or document.
+- **Bill:** provider bill and itemized bill if requested.
+- **Claim document:** MSN for Original Medicare or EOB for a private insurer or Medicare Advantage plan.
+- **Review notes:** billing office name, plan representative, reference number, correction request, appeal, or financial-assistance application.
+
+## Short script
+
+“I am not refusing to pay. I am trying to match this bill to the processed claim before payment. Can you explain why this amount is patient responsibility and whether the account can be reviewed or placed on hold?”
 
 ## Source note
 
-Built from the official source map below, Medicare.gov appeals materials, CMS plan decision resources, SHIP locator resources, Medicaid.gov resources, and guide-hub tool references.
+Built from Medicare.gov Medicare Summary Notice materials, Medicare.gov appeals materials, Medicare.gov cost materials, HealthCare.gov glossary definitions, and the official source map.
+
+---
+
+# Page 9 — What documents should I keep?
+
+## Direct answer
+
+Keep the documents that prove what was ordered, what was decided, what was denied or approved, what deadline applies, and who said what. A simple folder can prevent weeks of confusion later.
+
+## Why this matters
+
+Families often lose the paper trail because the discharge felt urgent. Later, a bill arrives, home health never starts, a facility says authorization ended, or a plan says a deadline passed. The person who has the documents and call notes is in a much better position to ask for review, correction, appeal, or explanation.
+
+## What to ask
+
+- **Before leaving:** “Can we have copies of the discharge summary, orders, medication list, and follow-up plan?”
+- **For coverage:** “Can we have the authorization, denial, noncoverage, or coverage-ending notice?”
+- **For bills:** “Can we have the itemized bill, MSN, EOB, and account notes?”
+- **For calls:** “Can you give me a reference number or document ID for this conversation?”
+
+## What to keep
+
+- **Discharge:** discharge packet, medication list, orders, follow-up appointments, and safety instructions.
+- **Coverage:** status notice, authorization, denial, appeal notice, noncoverage notice, and plan letters.
+- **Care:** facility acceptance, home health agency information, equipment supplier details, and therapy/nursing notes if available.
+- **Bills:** itemized bills, MSN, EOB, payment plans, financial-assistance applications, and correction requests.
+- **Call log:** date, time, name, department, phone number, reference number, and next step.
+
+## Short script
+
+“I am keeping a folder so we do not miss anything. Can you tell me which document explains this decision, whether there is a deadline, and who we should call if the document does not match what we were told?”
+
+## Source note
+
+Built from Medicare.gov appeals and Medicare Summary Notice materials, CMS beneficiary notice resources, Medicaid.gov eligibility and LTSS resources, SHIP resources, and the official source map.
+
+---
+
+# Page 10 — Who should I call, and what should I say?
+
+## Direct answer
+
+When you are overwhelmed, use one short question at a time. Ask for the rule, the document, the deadline, and the next person responsible. Write down the answer before moving to the next call.
+
+## Why this matters
+
+Families often call the wrong place with a broad question and get bounced around. A better call starts with the exact problem: hospital status, rehab transfer, home health start date, equipment delivery, plan authorization, Medicaid application, or a bill that does not match the processed claim.
+
+## What to ask
+
+- **Hospital/case management:** “What is the discharge plan, what is ordered, and what is still pending?”
+- **Plan or Medicare question:** “What decision was made, what document explains it, and what is the appeal deadline?”
+- **Facility or agency:** “Have you accepted the patient, and what services are actually scheduled?”
+- **Supplier/pharmacy:** “When will the item or medication be ready, and what happens if it is delayed?”
+- **Billing office:** “Can this bill be reviewed against the processed claim and financial-assistance options?”
+- **SHIP/state agency:** “Can you help me understand the Medicare or Medicaid question before we make a decision?”
+
+## What to keep
+
+- **Call log:** who you called, who answered, department, date, time, reference number, and exact next step.
+- **Deadlines:** appeal deadline, discharge review deadline, authorization deadline, payment due date, and document request date.
+- **Proof:** notices, emails, portal screenshots, fax confirmations, mailings, and uploaded documents.
+
+## Short script
+
+“I need help with one specific question: [status / rehab / home health / equipment / authorization / Medicaid / bill]. What rule applies, what document explains the answer, what deadline matters, and who is responsible for the next step?”
+
+## Source note
+
+Built from Medicare.gov appeals materials, CMS beneficiary notice resources, SHIP locator resources, Medicaid.gov resources, Medicare.gov MSN materials, and the official source map.
 
 ---
 

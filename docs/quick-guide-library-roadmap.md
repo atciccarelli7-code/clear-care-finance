@@ -39,8 +39,8 @@ Every quick guide should include:
 | Priority | Guide | Status | Why it matters |
 |---:|---|---|---|
 | 1 | The Hospital Discharge & Medicare Quick Guide | Public launch-review PDF committed | First flagship quick guide; connects discharge, rehab, Medicaid, long-term care, and bills. |
-| 2 | The Turning 65 Medicare Sign-Up Quick Guide | Pre-PDF manuscript drafted | High-intent search topic; natural next step for Medicare library. |
-| 3 | The Medicaid Application Quick Guide | Pre-PDF manuscript drafted | High-need family/caregiver topic; must be state-cautious and source-grounded. |
+| 2 | The Turning 65 Medicare Sign-Up Quick Guide | Preflight-only manuscript drafted | High-intent search topic; natural next step for Medicare library. |
+| 3 | The Medicaid Application Quick Guide | Preflight-only manuscript drafted | High-need family/caregiver topic; must be state-cautious and source-grounded. |
 | 4 | Medicare or Medicaid? Start Here Quick Guide | Planned | Prevents users from starting with the wrong program assumption. |
 | 5 | Still Working at 65? Medicare Questions to Ask | Planned | Valuable employer-benefits topic with high confusion and high financial stakes. |
 | 6 | Denied Medicaid or Lost Medicaid Quick Guide | Planned | Helps users preserve options after a denial, renewal issue, or coverage loss. |
@@ -65,8 +65,46 @@ Quick-guide PDF generation now uses a shared definition-driven system:
 - `scripts/check-quick-guide-content.mjs` checks one guide or `all` for 10 pages, direct answers, source notes, endnotes/source map, official-source cues, blocked sales/ranking language, dollar amounts, and unapproved destination-marker language.
 - `scripts/build-quick-guide-pdf.mjs` builds one guide or `all` into `docs/generated`.
 - `scripts/build-medicare-medicaid-quick-guide-pdf.mjs` and `scripts/check-medicare-medicaid-quick-guide-content.mjs` remain compatibility wrappers for the hospital discharge guide.
+- `.github/workflows/ci.yml` runs the standard guide checks plus `npm run guide:quick-content-check:all`.
+- `.github/workflows/guide-pdf-preflight.yml` builds and uploads separate quick-guide preflight artifacts for the hospital discharge, Medicare sign-up, and Medicaid application guides.
 
 Only `public/guides/hospital-discharge-medicare-quick-guide.pdf` is approved for public launch review. The Medicare sign-up and Medicaid application quick-guide PDFs remain preflight-only under `docs/generated` until they pass manual review and get a separate release decision.
+
+## Useful commands
+
+Run the original hospital discharge quick-guide content check:
+
+```bash
+npm run guide:quick-content-check
+```
+
+Run all quick-guide content checks:
+
+```bash
+npm run guide:quick-content-check:all
+```
+
+Build the original hospital discharge quick-guide draft PDF:
+
+```bash
+npm run guide:quick-pdf:draft
+```
+
+Build all quick-guide preflight PDFs:
+
+```bash
+npm run guide:quick-pdf:draft:all
+```
+
+Run the full standard validation path:
+
+```bash
+npm run guide:content-check
+npm run guide:quick-content-check
+npm run guide:quick-content-check:all
+npm test
+npm run build
+```
 
 ## Release gates for each future guide
 

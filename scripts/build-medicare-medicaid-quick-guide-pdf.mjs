@@ -41,18 +41,18 @@ const splitLabel = (value) => {
 
 const iconFor = (value = "") => {
   const key = value.toLowerCase();
-  if (key.includes("hospital") || key.includes("inpatient") || key.includes("status")) return "H";
-  if (key.includes("rehab") || key.includes("skilled") || key.includes("snf")) return "R";
-  if (key.includes("home") || key.includes("equipment") || key.includes("supplier")) return "D";
-  if (key.includes("long-term") || key.includes("custodial") || key.includes("daily")) return "L";
-  if (key.includes("bill") || key.includes("pay") || key.includes("owe") || key.includes("cost")) return "$";
-  if (key.includes("medicaid")) return "M";
-  if (key.includes("medicare advantage") || key.includes("plan") || key.includes("authorization")) return "A";
-  if (key.includes("original medicare") || key.includes("medicare")) return "M";
-  if (key.includes("ask") || key.includes("question") || key.includes("call")) return "?";
-  if (key.includes("warning") || key.includes("watch") || key.includes("risk") || key.includes("denied")) return "!";
-  if (key.includes("document") || key.includes("notice") || key.includes("paperwork") || key.includes("eob") || key.includes("msn")) return "P";
-  return "✓";
+  if (key.includes("hospital") || key.includes("inpatient") || key.includes("status")) return "STAT";
+  if (key.includes("rehab") || key.includes("skilled") || key.includes("snf")) return "REH";
+  if (key.includes("home") || key.includes("equipment") || key.includes("supplier")) return "HOME";
+  if (key.includes("long-term") || key.includes("custodial") || key.includes("daily")) return "LTC";
+  if (key.includes("bill") || key.includes("pay") || key.includes("owe") || key.includes("cost")) return "BILL";
+  if (key.includes("medicaid")) return "MCD";
+  if (key.includes("medicare advantage") || key.includes("plan") || key.includes("authorization")) return "AUTH";
+  if (key.includes("original medicare") || key.includes("medicare")) return "MED";
+  if (key.includes("ask") || key.includes("question") || key.includes("call")) return "ASK";
+  if (key.includes("warning") || key.includes("watch") || key.includes("risk") || key.includes("denied")) return "RISK";
+  if (key.includes("document") || key.includes("notice") || key.includes("paperwork") || key.includes("eob") || key.includes("msn")) return "DOC";
+  return "OK";
 };
 
 const pageMeta = {
@@ -232,7 +232,7 @@ const renderCoverPathway = () => {
     ["5", "Next call", "Who can verify in writing?"],
   ];
 
-  return `<div class="cover-pathway">${steps
+  return `<div class="cover-pathway" aria-label="First five checks">${steps
     .map(
       ([number, label, text]) => `<div class="cover-step"><span>${number}</span><strong>${label}</strong><p>${text}</p></div>`,
     )
@@ -336,7 +336,13 @@ const renderSection = (section, pageNumber) => {
 
 const renderPageBody = (page) => {
   const sections = parseSections(page.body);
-  return `${renderVerificationBar(page.number)}\n${renderDecisionStrip(page.number)}\n${renderTakeaway(page.number)}\n${sections.map((section) => renderSection(section, page.number)).join("\n")}`;
+  const renderedSections = sections.map((section) => renderSection(section, page.number)).join("\n");
+
+  if (page.number === 1) {
+    return `${renderTakeaway(page.number)}\n${renderedSections}`;
+  }
+
+  return `${renderVerificationBar(page.number)}\n${renderDecisionStrip(page.number)}\n${renderTakeaway(page.number)}\n${renderedSections}`;
 };
 
 const renderEndnotes = (markdown) => {
@@ -498,7 +504,7 @@ const html = `<!doctype html>
     .visual-section { border:1px solid var(--line); border-radius:19px; padding:.084in .094in .094in; background:var(--panel); box-shadow:var(--micro-shadow); position:relative; overflow:hidden; break-inside: avoid; page-break-inside: avoid; }
     .visual-section::before { content:""; position:absolute; inset:0 auto 0 0; width:.052in; background:var(--page-accent); }
     .visual-section h2 { color: var(--ink); display:flex; align-items:center; gap:.052in; padding-left:.028in; }
-    .visual-section h2 span { width:.22in; height:.22in; border-radius:9px; background:var(--page-soft); color:var(--page-accent); display:grid; place-items:center; font-size:7.75pt; font-weight:900; flex:0 0 auto; }
+    .visual-section h2 span { width:.28in; height:.22in; border-radius:9px; background:var(--page-soft); color:var(--page-accent); display:grid; place-items:center; font-size:6.05pt; letter-spacing:.02em; font-weight:900; flex:0 0 auto; }
     .section-prose { color:var(--muted); font-size:8pt; }
     .mini-card-grid,.compare-grid,.ask-grid,.warning-grid,.flow-grid { display:grid; gap:.048in; }
     .mini-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -506,8 +512,8 @@ const html = `<!doctype html>
     .ask-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .warning-grid { grid-template-columns: repeat(auto-fit, minmax(1.55in, 1fr)); }
     .flow-grid { grid-template-columns: repeat(auto-fit, minmax(1.15in, 1fr)); align-items:stretch; }
-    .mini-card { display:grid; grid-template-columns:.265in 1fr; gap:.046in; align-items:start; border:1px solid var(--line); background:var(--soft); border-radius:14px; padding:.058in; min-height:.44in; box-shadow: inset 0 1px 0 rgba(255,255,255,.75); break-inside: avoid; page-break-inside: avoid; }
-    .mini-icon { width:.21in; height:.21in; border-radius:999px; background:white; border:1px solid var(--line-dark); color:var(--page-accent); display:grid; place-items:center; font-weight:900; font-size:7.2pt; line-height:1; }
+    .mini-card { display:grid; grid-template-columns:.335in 1fr; gap:.046in; align-items:start; border:1px solid var(--line); background:var(--soft); border-radius:14px; padding:.058in; min-height:.44in; box-shadow: inset 0 1px 0 rgba(255,255,255,.75); break-inside: avoid; page-break-inside: avoid; }
+    .mini-icon { width:.29in; height:.21in; border-radius:999px; background:white; border:1px solid var(--line-dark); color:var(--page-accent); display:grid; place-items:center; font-weight:900; font-size:5.75pt; letter-spacing:.015em; line-height:1; }
     .compare-section { background:linear-gradient(135deg, #fff, var(--compare)); }
     .compare-section .mini-card { background:#ffffff; }
     .compare-section .mini-icon { background:var(--page-soft); }
@@ -530,6 +536,7 @@ const html = `<!doctype html>
     .source-note { margin-top:auto; border:1px solid var(--line); border-radius:14px; background:#fbfcfc; padding:.052in .066in; color:var(--muted); font-size:6.45pt; line-height:1.12; break-inside: avoid; page-break-inside: avoid; }
     .source-note p { margin:0; }
     .footer { margin-top:auto; font-size:6.45pt; color:var(--muted); border-top:1px solid var(--line); padding-top:.034in; display:flex; justify-content:space-between; gap:.16in; }
+    .source-map .subtitle::after { content:" This page is optional during urgent decision-making."; font-weight:700; color:var(--accent); }
     .source-list { display:grid; grid-template-columns: repeat(3, 1fr); gap:.038in; }
     .source-item { border:1px solid var(--line); border-radius:12px; padding:.042in; display:grid; grid-template-columns:.17in 1fr; gap:.036in; background:white; break-inside: avoid; page-break-inside: avoid; }
     .source-item span { width:.16in; height:.16in; border-radius:50%; background:var(--accent-soft); color:var(--accent); display:grid; place-items:center; font-weight:850; font-size:6.1pt; }
@@ -551,11 +558,11 @@ const html = `<!doctype html>
         <p class="byline">Written from a healthcare-worker perspective by Andrew Ciccarelli, RN, BSN. Educational only. Verify with official sources, the plan, facility, billing office, SHIP, or a qualified professional.</p>
       </div>
       <div class="cover-strip">
-        <div class="cover-chip"><span class="chip-icon">H</span>Hospital status</div>
-        <div class="cover-chip"><span class="chip-icon">R</span>Rehab approval</div>
-        <div class="cover-chip"><span class="chip-icon">D</span>Home support</div>
-        <div class="cover-chip"><span class="chip-icon">L</span>Long-term care</div>
-        <div class="cover-chip"><span class="chip-icon">$</span>Medical bills</div>
+        <div class="cover-chip"><span class="chip-icon">1</span>Status</div>
+        <div class="cover-chip"><span class="chip-icon">2</span>Payer</div>
+        <div class="cover-chip"><span class="chip-icon">3</span>Approval</div>
+        <div class="cover-chip"><span class="chip-icon">4</span>Documents</div>
+        <div class="cover-chip"><span class="chip-icon">5</span>Next call</div>
       </div>
     </div>
     ${renderCoverPathway()}
@@ -580,10 +587,10 @@ const html = `<!doctype html>
     ${renderTopbar(null, "Source map")}
     <div class="page-title">
       <div class="badge">S</div>
-      <div><div class="eyebrow">Trust layer</div><h1>Endnotes and Source Map</h1><p class="subtitle">Official sources used to keep the short guide grounded without turning it into a textbook.</p></div>
+      <div><div class="eyebrow">Optional trust layer</div><h1>Endnotes and Source Map</h1><p class="subtitle">Official sources used to keep the short guide grounded without turning it into a textbook.</p></div>
     </div>
     ${renderEndnotes(endnotesMarkdown)}
-    <div class="footer"><span>Educational only | Source map for review</span><span>Do not publish until final QA passes</span></div>
+    <div class="footer"><span>Educational only | Optional source trail for review</span><span>Do not publish until final QA passes</span></div>
   </section>
 </body>
 </html>`;

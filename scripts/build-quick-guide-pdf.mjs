@@ -93,6 +93,30 @@ const renderCoverPathway = (guide) => `<div class="cover-pathway" aria-label="Fi
   .map(([number, label, text]) => `<div class="cover-step"><strong>Step ${escapeHtml(number)}: ${inline(label)}</strong><p>${inline(text)}</p></div>`)
   .join("\n")}</div>`;
 
+const renderClearCarePath = (guide, pageNumber) => {
+  const steps = guide.pageThemeMap?.[pageNumber]?.clearCarePath;
+  if (!steps?.length) return "";
+
+  return `<aside class="clear-care-path" aria-label="Clear Care Path">
+    <div class="clear-care-path-head">
+      <strong>Clear Care Path</strong>
+      <span>Work the question in this order.</span>
+    </div>
+    <div class="clear-care-path-grid">
+      ${steps
+        .map(
+          ([label, text], index) => `
+        <div class="clear-care-path-step">
+          <div class="step-count">${index + 1}</div>
+          <strong>${inline(label)}</strong>
+          <p>${inline(text)}</p>
+        </div>`,
+        )
+        .join("\n")}
+    </div>
+  </aside>`;
+};
+
 const renderBullet = (item) => {
   const { label, text } = splitLabel(item);
   if (label) return `<li><strong>${inline(label)}:</strong> ${inline(text)}</li>`;
@@ -158,9 +182,18 @@ const renderSection = (section) => {
   return `<section class="${klass}"><h2>${heading}</h2>${renderPlainBlocks(lines)}</section>`;
 };
 
-const renderPageBody = (page) => {
+const renderPageBody = (guide, page) => {
   const sections = parseSections(page.body);
-  return sections.map((section) => renderSection(section, page.number)).join("\n");
+  const html = [];
+
+  for (const section of sections) {
+    html.push(renderSection(section));
+    if (section.heading.toLowerCase() === "direct answer") {
+      html.push(renderClearCarePath(guide, page.number));
+    }
+  }
+
+  return html.join("\n");
 };
 
 const renderEndnotes = (markdown) => {
@@ -225,6 +258,16 @@ const renderHtml = (guide, pages, endnotesMarkdown) => `<!doctype html>
     .direct-answer { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 0.065in 0.075in; }
     .direct-answer p { font-size: 9.2pt; line-height: 1.16; font-weight: 750; margin: 0; }
     .section-label { font-size: 6.2pt; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 900; margin-bottom: 0.02in; }
+    .clear-care-path { border: 1px solid var(--line); border-left: 4px solid var(--accent); background: var(--soft); padding: 0.055in 0.065in; break-inside: avoid; page-break-inside: avoid; }
+    .clear-care-path-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.12in; border-bottom: 1px solid var(--line); padding-bottom: 0.032in; margin-bottom: 0.045in; }
+    .clear-care-path-head strong { color: var(--accent); font-size: 8pt; text-transform: uppercase; letter-spacing: 0.07em; }
+    .clear-care-path-head span { color: var(--muted); font-size: 6.6pt; }
+    .clear-care-path-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.045in; }
+    .clear-care-path-step { background: white; border: 1px solid var(--line); padding: 0.045in; min-height: 0.52in; position: relative; }
+    .clear-care-path-step:not(:last-child)::after { content: "→"; position: absolute; right: -0.038in; top: 50%; transform: translateY(-50%); color: var(--accent); font-weight: 850; font-size: 8pt; }
+    .step-count { color: var(--muted); font-size: 5.7pt; font-weight: 850; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.012in; }
+    .clear-care-path-step strong { display: block; color: var(--ink); font-size: 7.15pt; line-height: 1.08; margin-bottom: 0.012in; }
+    .clear-care-path-step p { color: var(--muted); font-size: 6.45pt; line-height: 1.1; margin: 0; }
     .section { border-top: 1px solid var(--line); padding-top: 0.047in; break-inside: avoid; page-break-inside: avoid; }
     .action-section { background: var(--ask); border: 1px solid var(--line); padding: 0.055in 0.065in; }
     .caution-section { background: var(--warn); border: 1px solid var(--line); padding: 0.055in 0.065in; }
@@ -239,7 +282,7 @@ const renderHtml = (guide, pages, endnotesMarkdown) => `<!doctype html>
     .source-map .source-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.04in 0.18in; padding-left: 0.18in; }
     .source-map .source-list li { font-size: 5.8pt; line-height: 1.11; }
     @media print {
-      .cover-hero,.cover-chip,.cover-step,.direct-answer,.section,.action-section,.caution-section { box-shadow: none; }
+      .cover-hero,.cover-chip,.cover-step,.direct-answer,.section,.action-section,.caution-section,.clear-care-path,.clear-care-path-step { box-shadow: none; }
     }
   </style>
 </head>
@@ -259,7 +302,7 @@ const renderHtml = (guide, pages, endnotesMarkdown) => `<!doctype html>
     </div>
     ${renderCoverPathway(guide)}
     <div class="content">
-      ${renderPageBody(pages[0])}
+      ${renderPageBody(guide, pages[0])}
     </div>
     <div class="footer"><span>Educational only | Printable reference</span><span>Page 1 of 10</span></div>
   </section>
@@ -274,7 +317,7 @@ const renderHtml = (guide, pages, endnotesMarkdown) => `<!doctype html>
       <p class="subtitle">Use this page to ask better questions before signing, paying, enrolling, or appealing.</p>
     </div>
     <div class="content">
-      ${renderPageBody(page)}
+      ${renderPageBody(guide, page)}
     </div>
     <div class="footer"><span>Educational only | Verify before deciding</span><span>${escapeHtml(guide.title)}</span></div>
   </section>`;

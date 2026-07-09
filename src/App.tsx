@@ -32,6 +32,7 @@ import HealthInsurancePlanTypesPage from "./pages/HealthInsurancePlanTypesPage.t
 import SbcGuidePage from "./pages/SbcGuidePage.tsx";
 import MedicareCareCostHub from "./pages/MedicareCareCostHub.tsx";
 import MedicareMedicaidGuideLandingPage from "./pages/MedicareMedicaidGuideLandingPage.tsx";
+import QuickGuidesLibraryPage from "./pages/QuickGuidesLibraryPage.tsx";
 import CommercialInsuranceComparisonPage from "./pages/CommercialInsuranceComparisonPage.tsx";
 import HospitalDischargeCoveragePage from "./pages/HospitalDischargeCoveragePage.tsx";
 import DischargePrintableChecklistPage from "./pages/DischargePrintableChecklistPage.tsx";
@@ -82,7 +83,7 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-  }, [location.pathname, location.search]);
+  }, [location.pathname]);
 
   return null;
 };
@@ -125,6 +126,8 @@ const App = () => (
             <Route path="/commercial-insurance-comparison" element={<Navigate to="/insurance/commercial-insurance-comparison" replace />} />
             <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />
             <Route path="/insurance/medicare-care-costs" element={<MedicareCareCostHub />} />
+            <Route path="/guides" element={<QuickGuidesLibraryPage />} />
+            <Route path="/quick-guides" element={<Navigate to="/guides" replace />} />
             <Route path="/guides/medicare-medicaid-rehab-long-term-care" element={<MedicareMedicaidGuideLandingPage />} />
             <Route path="/guides/medicare-medicaid-guide" element={<Navigate to="/guides/medicare-medicaid-rehab-long-term-care" replace />} />
             <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />

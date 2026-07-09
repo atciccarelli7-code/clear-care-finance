@@ -95,16 +95,25 @@ jobs:
             exit 1
           fi
 
-      - name: Fail if any PDF was placed under public draft or guide paths before publish step
+      - name: Fail if unexpected public PDFs are present before publish step
         run: |
           set -euo pipefail
-          for dir in public/drafts public/guides; do
-            if [ -d "$dir" ] && find "$dir" -type f -iname "*.pdf" | grep -q .; then
-              echo "PDF found under $dir before the controlled publish step."
-              find "$dir" -type f -iname "*.pdf"
+          allowed="public/guides/hospital-discharge-medicare-quick-guide.pdf"
+
+          if [ -d public/drafts ] && find public/drafts -type f -iname "*.pdf" | grep -q .; then
+            echo "Draft PDF found under public/drafts. This is not allowed."
+            find public/drafts -type f -iname "*.pdf"
+            exit 1
+          fi
+
+          if [ -d public/guides ]; then
+            unexpected=$(find public/guides -type f -iname "*.pdf" ! -path "$allowed" -print)
+            if [ -n "$unexpected" ]; then
+              echo "Unexpected public guide PDF found before controlled publish step."
+              echo "$unexpected"
               exit 1
             fi
-          done
+          fi
 
       - name: Create full guide artifact manifest
         env:
@@ -195,5 +204,55 @@ jobs:
             echo "Public quick guide PDF already matches generated artifact."
           else
             git commit -m "Publish quick guide PDF for launch review"
+            git push origin "HEAD:${GITHUB_HEAD_REF}"
+          fi
+
+      - name: Unlock quick guide download CTA for launch review
+        if: github.event_name == 'pull_request' && github.head_ref == 'guide-final-pdf-candidate'
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs';
+
+          const path = 'src/pages/MedicareMedicaidGuideLandingPage.tsx';
+          let source = readFileSync(path, 'utf8');
+
+          const lockedButton = `<Button size="lg" disabled title="The final downloadable PDF is not public yet.">
+          <FileText className="h-4 w-4" />
+          Download guide — source review in progress
+        </Button>`;
+
+          const liveButton = `<Button asChild size="lg">
+          <a href="/guides/hospital-discharge-medicare-quick-guide.pdf" download>
+            <FileText className="h-4 w-4" />
+            Download the Quick Guide
+          </a>
+        </Button>`;
+
+          source = source.replaceAll(lockedButton, liveButton);
+          source = source.replace(
+            'description="The final PDF will point back to these tools so families can move from explanation to a practical next question."',
+            'description="The downloadable Quick Guide points back to these tools so families can move from explanation to a practical next question."',
+          );
+          source = source.replace('Why the download is not live yet', 'Download the Quick Guide');
+          source = source.replace(
+            'The manuscript, source review, print workflow, and artifact workflow are built, but the final public PDF is intentionally held until the generated artifact passes manual visual, mobile, print, and QR review.',
+            'The public Quick Guide PDF is now available for launch review. Use it as a fast, printable starting point before discharge, rehab, long-term care, Medicaid, or medical-bill conversations.',
+          );
+          source = source.replace('What must happen before release', 'What still gets reviewed');
+          source = source.replace('<li>Run the GitHub Actions PDF artifact workflow</li>', '<li>Review the PDF on desktop and phone</li>');
+          source = source.replace('<li>Inspect the PDF on desktop and mobile</li>', '<li>Print sample pages in black and white</li>');
+          source = source.replace('<li>Print sample pages in black and white</li>', '<li>Confirm the direct PDF URL after production deployment</li>');
+          source = source.replace('<li>Generate and test final QR codes later</li>', '<li>Add sitemap and QR destinations only after URL testing</li>');
+
+          writeFileSync(path, source);
+          NODE
+
+          git add src/pages/MedicareMedicaidGuideLandingPage.tsx
+
+          if git diff --cached --quiet; then
+            echo "Quick guide CTA already unlocked."
+          else
+            git commit -m "Unlock quick guide download CTA for launch review"
             git push origin "HEAD:${GITHUB_HEAD_REF}"
           fi

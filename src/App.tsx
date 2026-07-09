@@ -128,8 +128,9 @@ const App = () => (
             <Route path="/insurance/medicare-care-costs" element={<MedicareCareCostHub />} />
             <Route path="/guides" element={<QuickGuidesLibraryPage />} />
             <Route path="/quick-guides" element={<Navigate to="/guides" replace />} />
-            <Route path="/guides/medicare-medicaid-rehab-long-term-care" element={<MedicareMedicaidGuideLandingPage />} />
-            <Route path="/guides/medicare-medicaid-guide" element={<Navigate to="/guides/medicare-medicaid-rehab-long-term-care" replace />} />
+            <Route path="/guides/hospital-discharge-medicare" element={<MedicareMedicaidGuideLandingPage />} />
+            <Route path="/guides/medicare-medicaid-rehab-long-term-care" element={<Navigate to="/guides/hospital-discharge-medicare" replace />} />
+            <Route path="/guides/medicare-medicaid-guide" element={<Navigate to="/guides/hospital-discharge-medicare" replace />} />
             <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
             <Route path="/insurance/prior-authorization-guide" element={<PriorAuthorizationGuide />} />
             <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoveragePage />} />

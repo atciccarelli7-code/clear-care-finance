@@ -9,11 +9,11 @@ import { useSeo } from "@/lib/seo";
 const liveGuides = [
   {
     title: "The Hospital Discharge & Medicare Quick Guide",
-    status: "Live launch-review PDF",
+    status: "Live guide landing page and PDF",
     description:
-      "A printable first-stop guide for discharge, observation status, rehab, home support, long-term care, Medicaid questions, and confusing medical bills.",
-    href: "/guides/medicare-medicaid-rehab-long-term-care",
-    cta: "Open guide hub",
+      "A printable first-stop guide for discharge, observation status, rehab, home health, equipment, long-term care, Medicaid questions, Medicare Advantage plan decisions, and confusing medical bills.",
+    href: "/guides/hospital-discharge-medicare",
+    cta: "Open guide page",
   },
 ] as const;
 
@@ -74,7 +74,7 @@ const QuickGuidesLibraryPage = () => {
         description="Short, calm, source-grounded guides for families, patients, caregivers, and healthcare workers. Each guide is built to answer one practical question: what should I check next?"
       >
         <Button asChild size="lg">
-          <Link to="/guides/medicare-medicaid-rehab-long-term-care">
+          <Link to="/guides/hospital-discharge-medicare">
             Start with discharge guide
             <ArrowRight className="h-4 w-4" />
           </Link>

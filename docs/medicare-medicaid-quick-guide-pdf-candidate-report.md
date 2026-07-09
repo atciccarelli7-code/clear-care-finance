@@ -6,7 +6,7 @@ Last updated: 2026-07-09 UTC
 
 ## Status
 
-**Current status: higher-standard visual PDF-candidate-ready for manual review; not public-release-ready.**
+**Current status: final pre-readiness visual PDF-candidate-ready for manual review; not public-release-ready.**
 
 This report documents the safe next step for the 10-page Quick Guide. It does not publish the Quick Guide, unlock a CTA, add a sitemap URL, add QR codes, or place a PDF under a public route.
 
@@ -20,6 +20,7 @@ This report documents the safe next step for the 10-page Quick Guide. It does no
 - Enhanced visual hierarchy commit: `df998a177d3af1cdc603821bd32b53498fc16d21`
 - Comprehension enhancement commit: `cfba7e266b7ce7612686c31e7c84b9464e6f665e`
 - Higher-standard design commit: `c1c6313d3c892761c70281aa82b039e276532c98`
+- Final pre-readiness design layer commit: `3169b266834c37495acb9c2b219a732eb2bcee0b`
 
 ## Visual redesign decision
 
@@ -83,6 +84,22 @@ Additional enhancements added:
 
 This pass intentionally avoids decorative charts that do not improve comprehension. The design goal is a calm, high-trust, hospital-family handoff sheet.
 
+## Final pre-readiness design layer
+
+A fifth pass raised the candidate from "polished" toward "reviewable for deployment readiness."
+
+Additional enhancements added:
+
+- page-level verification metadata for every topic,
+- compact `Verify` / `Risk if missed` bars on pages 2 through 10,
+- stronger non-color cues so meaning is not dependent on color alone,
+- tighter vertical rhythm after adding the new verification layer,
+- page-break controls on major panels, cards, ribbons, source notes, and pathway blocks,
+- more conservative typography to reduce overflow risk in the final artifact,
+- print fallback extended to the new verification blocks.
+
+The final pre-readiness goal is not to add more decoration. It is to make the guide easier to inspect, print, and judge for release.
+
 ## Builder issue fixed before visual redesign
 
 During the candidate review, the quick-guide builder had two release-blocking issues:
@@ -104,6 +121,7 @@ The PDF builder now renders the short guide as:
 - topic chips on the first page,
 - a cover decision pathway,
 - a top progress rail,
+- page-specific verification bars,
 - page-specific three-step cue strips,
 - page-specific "Remember" takeaway ribbons,
 - direct-answer / core-idea callout panels,
@@ -160,13 +178,14 @@ The source-map page is intentional because the guide should remain trustworthy w
 | Check | Status | Note |
 |---|---:|---|
 | Less text | Pass | Manuscript copy was compressed into short decision-card language. |
-| More visual structure | Pass | Builder now uses branded panels, grids, badges, callouts, flow cards, and progress cues. |
+| More visual structure | Pass | Builder now uses branded panels, grids, badges, callouts, flow cards, progress cues, and verification bars. |
 | More appealing visuals | Pass | Enhanced cover treatment, icon badges, panel hierarchy, section coloring, card styling, and page themes. |
-| Easier to understand | Pass | Page subtitles, icon markers, progress rail, three-step cue strips, and takeaway ribbons clarify each page's job. |
-| Better scan order | Pass | Each page now follows a consistent visual sequence from purpose to action. |
+| Easier to understand | Pass | Page subtitles, icon markers, progress rail, three-step cue strips, takeaway ribbons, and verification bars clarify each page's job. |
+| Better scan order | Pass | Each page now follows a consistent visual sequence from purpose to verification, action, core idea, cards/questions, and source note. |
 | Better page differentiation | Pass | Page-specific theme palettes and takeaway language make topics visually and cognitively distinct. |
+| Better deployment review readiness | Pass | Verification bars and page-break controls make manual QA more concrete. |
 | Less cramped cards | Pass | Warning and flow grids use auto-fitting minimum widths instead of forcing every item into narrow columns. |
-| Print-aware design | Pass | Print media fallback removes shadows for black-and-white testing. |
+| Print-aware design | Pass | Print media fallback removes shadows for black-and-white testing, including the new verification blocks. |
 | Title is clear | Pass | Title remains `The Hospital Discharge & Medicare Quick Guide`. |
 | Disclaimer/review warning retained | Pass | Educational-only language remains in the guide system and cover treatment. |
 | All 10 planned sections present | Pass | Start Here, 5 Misunderstandings, Medicare vs Medicaid, Original Medicare vs Medicare Advantage, Inpatient vs Observation, Before Discharge, Rehab/SNF, Home Health/DME/LTC, Bills/EOBs/MSNs, and Scripts/Next Steps are present. |
@@ -198,12 +217,12 @@ Remaining blockers:
 ## Release gate state
 
 - Quick Guide manuscript: visually tightened.
-- Quick Guide builder: updated for enhanced card-based PDF layout, comprehension cues, page themes, and takeaway ribbons.
+- Quick Guide builder: updated for enhanced card-based PDF layout, comprehension cues, page themes, takeaway ribbons, and verification bars.
 - Quick Guide PDF candidate: ready for manual artifact review once generated from the patched builder.
 - Public release: blocked.
 
 ## Classification
 
-**B. higher-standard visual PDF-candidate-ready** for manual review.
+**B. final pre-readiness visual PDF-candidate-ready** for manual review.
 
 Not **C. public-release-ready** because the public PDF, CTA, sitemap, QR codes, device review, and print review are intentionally still blocked.

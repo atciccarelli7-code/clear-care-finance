@@ -260,7 +260,7 @@ jobs:
           retention-days: 14
 
       - name: Publish quick guide PDF to public path for launch review
-        if: github.event_name == 'pull_request' && github.head_ref == 'guide-final-pdf-candidate'
+        if: github.event_name == 'pull_request' && (github.head_ref == 'guide-final-pdf-candidate' || github.head_ref == 'quick-guide-print-dense-v2')
         run: |
           set -euo pipefail
           mkdir -p public/guides
@@ -278,7 +278,7 @@ jobs:
           fi
 
       - name: Unlock quick guide download CTA for launch review
-        if: github.event_name == 'pull_request' && github.head_ref == 'guide-final-pdf-candidate'
+        if: github.event_name == 'pull_request' && (github.head_ref == 'guide-final-pdf-candidate' || github.head_ref == 'quick-guide-print-dense-v2')
         run: |
           set -euo pipefail
           node <<'NODE'
@@ -313,7 +313,7 @@ jobs:
           source = source.replace('<li>Run the GitHub Actions PDF artifact workflow</li>', '<li>Review the PDF on desktop and phone</li>');
           source = source.replace('<li>Inspect the PDF on desktop and mobile</li>', '<li>Print sample pages in black and white</li>');
           source = source.replace('<li>Print sample pages in black and white</li>', '<li>Confirm the direct PDF URL after production deployment</li>');
-          source = source.replace('<li>Generate and test final QR codes later</li>', '<li>Add sitemap and QR destinations only after URL testing</li>');
+          source = source.replace('<li>Generate and test final QR codes later</li>', '<li>Add sitemap and destination markers only after URL testing</li>');
 
           writeFileSync(path, source);
           NODE

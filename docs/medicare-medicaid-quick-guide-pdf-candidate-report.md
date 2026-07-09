@@ -6,7 +6,7 @@ Last updated: 2026-07-09 UTC
 
 ## Status
 
-**Current status: PDF-candidate-ready for manual review; not public-release-ready.**
+**Current status: visual PDF-candidate-ready for manual review; not public-release-ready.**
 
 This report documents the safe next step for the 10-page Quick Guide. It does not publish the Quick Guide, unlock a CTA, add a sitemap URL, add QR codes, or place a PDF under a public route.
 
@@ -14,10 +14,23 @@ This report documents the safe next step for the 10-page Quick Guide. It does no
 
 - Branch: `guide-final-pdf-candidate`
 - PR: #108
-- Builder fix commit: `11ad6bd280577f6c51eff20ba11e7c1a36704f02`
-- Report commit: created after the builder fix
+- Earlier builder fix commit: `11ad6bd280577f6c51eff20ba11e7c1a36704f02`
+- Visual manuscript tightening commit: `30a34e3c4df6c46f39736affea4acde4fd476a12`
+- Visual PDF renderer commit: `23d90723f2662a34f5991d6d328bde9f1d43023e`
 
-## Important builder issue found and fixed
+## Visual redesign decision
+
+The prior candidate still read too much like a condensed manuscript. The new direction is a **visual handout**, not a mini-book.
+
+Changes made:
+
+- Reduced paragraph density across the 10 guide pages.
+- Rewrote core explanations into shorter decision-card language.
+- Added more visible page differentiation through cards, panels, grids, badges, and flow steps.
+- Kept source notes, cautious wording, and official-source grounding.
+- Kept the Quick Guide as a review candidate only.
+
+## Builder issue fixed before visual redesign
 
 During the candidate review, the quick-guide builder had two release-blocking issues:
 
@@ -29,12 +42,24 @@ The builder was updated so that:
 - Page 1 now includes the title/cover treatment and the `Start Here` manuscript content.
 - Pages 2 through 10 are rendered from the manuscript.
 - The Endnotes and Source Map are rendered as an additional source-map page.
-- The PDF body avoids `draft`, `preflight`, `file://`, and `docs/generated` text leakage.
-- The Chrome call includes `--disable-dev-shm-usage` and a timeout guard.
 
-## Commands/checks performed
+## Visual rendering updates
 
-Repository-side commands intended for CI/local workstation:
+The PDF builder now renders the short guide as:
+
+- a branded cover/hero panel,
+- topic chips on the first page,
+- direct-answer callout panels,
+- comparison grids,
+- warning-card grids,
+- ask-card grids,
+- step/flow cards,
+- cleaner page numbers and badge headers,
+- a compact source-map page.
+
+This should make the guide easier to scan, more visibly satisfying, and more distinct from the longer reference guide.
+
+## Commands/checks to run in CI/local workstation
 
 - `npm run guide:quick-content-check`
 - `npm run guide:quick-pdf:draft`
@@ -42,14 +67,16 @@ Repository-side commands intended for CI/local workstation:
 - `npm run build`
 - `npm run lint` or existing advisory lint behavior
 
-Connector/local verification performed in this review pass:
+## Connector/local verification performed in this review pass
 
-- Replicated `npm run guide:quick-content-check` logic against the quick-guide manuscript.
-- Generated the quick-guide HTML candidate from the patched builder logic.
-- Rendered an inspection PDF from the generated HTML for visual QA.
-- Rendered all PDF pages to PNG for page-level inspection.
-- Inspected the cover/start page and source-map page.
-- Extracted PDF text and searched for blocked leakage terms.
+- Replicated `npm run guide:quick-content-check` logic against the tightened quick-guide manuscript.
+- Confirmed the tightened manuscript still has 10 numbered pages.
+- Confirmed each page still has a `Direct answer` section.
+- Confirmed each page still has a source note with an official or bounded source.
+- Confirmed the page text avoids broad guaranteed/automatic coverage language.
+- Confirmed the page text avoids dollar amounts.
+- Confirmed the page text avoids sales, affiliate, ranking, and lead-generation language.
+- Generated the revised HTML candidate from the visual builder logic for syntax/path review.
 
 ## Generated candidate paths
 
@@ -60,39 +87,39 @@ Expected builder output path:
 
 These files are candidate/preflight outputs and should **not** be moved to `/public/guides/` until manual review and release approval pass.
 
-## Page count
+## Expected page count
 
-- Candidate inspection PDF page count: **11 pages**
+Expected candidate page count remains:
 
-Reason: the guide keeps the 10 planned content pages and adds an intentional Endnotes and Source Map page. This is acceptable for review because the source map is required for trust and should not be silently dropped.
+- **10 content pages**
+- **1 source-map page**
+
+The source-map page is intentional because the guide should remain trustworthy without crowding every visual page with long source language.
 
 ## Content checklist
 
 | Check | Status | Note |
 |---|---:|---|
-| PDF opens | Pass | Candidate inspection PDF opened and rendered. |
-| Title is clear | Pass | Title renders as `The Hospital Discharge & Medicare Quick Guide`. |
-| Disclaimer/review warning visible | Pass | Front page includes educational-only verification language and review-candidate warning. |
+| Less text | Pass | Manuscript copy was compressed into short decision-card language. |
+| More visual structure | Pass | Builder now uses branded panels, grids, badges, callouts, and flow cards. |
+| Title is clear | Pass | Title remains `The Hospital Discharge & Medicare Quick Guide`. |
+| Disclaimer/review warning retained | Pass | Educational-only language remains in the guide system and cover treatment. |
 | All 10 planned sections present | Pass | Start Here, 5 Misunderstandings, Medicare vs Medicaid, Original Medicare vs Medicare Advantage, Inpatient vs Observation, Before Discharge, Rehab/SNF, Home Health/DME/LTC, Bills/EOBs/MSNs, and Scripts/Next Steps are present. |
 | Source notes present | Pass | Each manuscript page retains source-note content. |
 | Endnotes/source map present | Pass | Endnotes and Source Map render as an additional source-map page. |
-| No `draft` text in rendered PDF body | Pass | Search returned 0 matches in extracted candidate text. |
-| No `preflight` text in rendered PDF body | Pass | Search returned 0 matches in extracted candidate text. |
-| No `file://` leakage | Pass | Search returned 0 matches in extracted candidate text. |
-| No `docs/generated` leakage | Pass | Search returned 0 matches in extracted candidate text. |
-| No ads/affiliate/lead-form/ranking/recommendation language | Pass | Search returned 0 matches for blocked sales/ranking terms. |
-| No QR images/codes added | Pass | No actual QR code images were added. The guide still warns that final QR/public links should only be added after testing. |
-| CTA remains locked | Pass | No CTA change made in this report/fix. |
-| Sitemap remains unchanged | Pass | No sitemap change made in this report/fix. |
-| Public PDF not committed | Pass | No PDF was committed under `/public/guides/` or `/public/drafts/`. |
+| No public PDF committed | Pass | No PDF was committed under `/public/guides/` or `/public/drafts/`. |
+| No CTA unlock | Pass | No CTA change made. |
+| No sitemap entry | Pass | No sitemap change made. |
+| No QR images/codes added | Pass | No QR code images were added. |
+| No ads/affiliate/lead-form/ranking/recommendation language | Pass | Guardrails preserved. |
 
-## Issues / remaining blockers
+## Remaining blockers
 
 The Quick Guide is **not public-release-ready** yet.
 
 Remaining blockers:
 
-1. GitHub/Vercel CI confirmation after this builder fix.
+1. GitHub/Vercel CI confirmation after the visual redesign commits.
 2. Official Chrome-generated artifact from `npm run guide:quick-pdf:draft` on a normal workstation or GitHub Actions environment.
 3. Desktop PDF review.
 4. iPhone review.
@@ -105,13 +132,13 @@ Remaining blockers:
 
 ## Release gate state
 
-- Quick Guide manuscript: ready.
-- Quick Guide builder: fixed for candidate generation.
+- Quick Guide manuscript: visually tightened.
+- Quick Guide builder: updated for card-based PDF layout.
 - Quick Guide PDF candidate: ready for manual artifact review once generated from the patched builder.
 - Public release: blocked.
 
 ## Classification
 
-**B. PDF-candidate-ready** for manual review.
+**B. visual PDF-candidate-ready** for manual review.
 
 Not **C. public-release-ready** because the public PDF, CTA, sitemap, QR codes, device review, and print review are intentionally still blocked.

@@ -166,7 +166,7 @@ A safe care plan and a verified payment path are different. Families should ask 
 
 ## Source note
 
-Built from Medicare discharge planning, home health, DME, SNF, appeal, and plan decision materials.
+Built from Medicare.gov discharge planning, Medicare.gov home health, Medicare.gov DME, Medicare.gov SNF, CMS appeal, and plan decision materials.
 
 ---
 

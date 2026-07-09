@@ -104,7 +104,6 @@ const findChrome = () => {
 
 const markdown = normalizeNewlines(readFileSync(manuscriptPath, "utf8"));
 const [beforeEndnotes, endnotesMarkdown = ""] = markdown.split(/\n# Endnotes and Source Map/);
-const preface = beforeEndnotes.split(/\n(?=#\s+Page\s+1\s+[—-]\s+)/)[0]?.trim() ?? "";
 const pageBlocks = beforeEndnotes
   .split(/\n(?=#\s+Page\s+\d+\s+[—-]\s+)/)
   .filter((block) => block.trim().startsWith("# Page"));
@@ -120,6 +119,8 @@ if (pageNumbers !== "1,2,3,4,5,6,7,8,9,10") {
   console.error(`Expected pages 1 through 10 in order. Found: ${pageNumbers}`);
   process.exit(1);
 }
+
+const endnotesHtml = renderLooseMarkdown(`## Endnotes and Source Map\n${endnotesMarkdown.trim()}`);
 
 const html = `<!doctype html>
 <html lang="en">
@@ -144,10 +145,10 @@ const html = `<!doctype html>
     code,.breakable { font-family: Arial, Helvetica, sans-serif; font-size: 8.2pt; overflow-wrap: anywhere; word-break: break-word; }
     .page { page-break-after: always; break-after: page; min-height: 9.15in; position: relative; display: flex; flex-direction: column; }
     .page:last-child { page-break-after: auto; break-after: auto; }
-    .cover { display: grid; align-content: center; }
+    .cover-title { border-bottom: 1.5px solid var(--accent); padding-bottom: 0.12in; margin-bottom: 0.11in; }
     .eyebrow { font-weight: 700; font-size: 8.5pt; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.13in; }
     .subtitle { font: 12.4pt/1.32 Arial, Helvetica, sans-serif; color: var(--muted); max-width: 6.7in; }
-    .byline { margin-top: 0.3in; font: 9.4pt/1.35 Arial, Helvetica, sans-serif; color: var(--muted); }
+    .byline { margin-top: 0.1in; font: 9.4pt/1.35 Arial, Helvetica, sans-serif; color: var(--muted); }
     .notice,.answer { border: 1px solid var(--line); background: var(--soft); padding: 0.105in; margin: 0.09in 0; }
     .answer { border: 1.5px solid var(--accent); background: var(--accent-soft); }
     .label { font-weight: 700; font-size: 8.1pt; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.035in; }
@@ -163,12 +164,19 @@ const html = `<!doctype html>
 </head>
 <body>
   <section class="page cover">
-    <div class="eyebrow">Community Acquired Finance | Quick Guide</div>
-    <h1>The Hospital Discharge & Medicare Quick Guide</h1>
-    <p class="subtitle">A 10-page plain-English starting point for families before discharge, rehab, home health, long-term care, or a confusing bill.</p>
-    <div class="byline">Written from a healthcare-worker perspective by Andrew Ciccarelli, RN, BSN.<br />Educational only. Verify your situation with official sources, your plan, the facility, the billing office, SHIP, or a qualified professional.</div>
-    <div class="notice small">Pre-release draft. Do not distribute as a final public download until source review, PDF review, mobile review, and print review are complete.</div>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Pre-release quick guide</span></div>
+    <div class="cover-title">
+      <div class="eyebrow">Community Acquired Finance | Quick Guide</div>
+      <h1>The Hospital Discharge & Medicare Quick Guide</h1>
+      <p class="subtitle">A 10-page plain-English starting point for families before discharge, rehab, home health, long-term care, or a confusing bill.</p>
+      <div class="byline">Written from a healthcare-worker perspective by Andrew Ciccarelli, RN, BSN.<br />Educational only. Verify your situation with official sources, your plan, the facility, the billing office, SHIP, or a qualified professional.</div>
+      <div class="notice small">Review candidate. Do not distribute as a public download until source review, PDF review, mobile review, and print review are complete.</div>
+    </div>
+    <div class="content">
+      <div class="page-number">Page ${pages[0].number}</div>
+      <h2>${escapeHtml(pages[0].title)}</h2>
+      ${renderLooseMarkdown(pages[0].body)}
+    </div>
+    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Page 1 of 10</span></div>
   </section>
   ${pages.slice(1).map((page) => `
   <section class="page">
@@ -181,6 +189,16 @@ const html = `<!doctype html>
     </div>
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Page ${page.number} of 10</span></div>
   </section>`).join("\n")}
+  <section class="page">
+    <div class="page-title">
+      <div class="page-number">Source map</div>
+      <h1>Endnotes and Source Map</h1>
+    </div>
+    <div class="content small">
+      ${endnotesHtml}
+    </div>
+    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Source map</span></div>
+  </section>
 </body>
 </html>`;
 
@@ -200,13 +218,18 @@ if (!chrome) {
       "--headless",
       "--disable-gpu",
       "--no-sandbox",
+      "--disable-dev-shm-usage",
       "--no-pdf-header-footer",
       "--print-to-pdf-no-header",
       `--print-to-pdf=${pdfPath}`,
       pathToFileURL(htmlPath).href,
     ],
-    { encoding: "utf8" },
+    { encoding: "utf8", timeout: 120000 },
   );
+
+  if (result.error) {
+    throw result.error;
+  }
 
   if (result.status !== 0) {
     console.error(result.stderr || result.stdout || "Chrome PDF export failed.");

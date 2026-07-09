@@ -20,6 +20,69 @@ const defaultPageThemeMap = {
   10: { eyebrow: "Call scripts", icon: "?", theme: "scripts", cues: ["Call the right place", "Use the script", "Document the answer"] },
 };
 
+const hospitalDischargePathMap = {
+  1: [
+    ["Situation", "What happened?"],
+    ["Payer", "Who might pay?"],
+    ["Document", "What explains it?"],
+    ["Next step", "Who verifies it?"],
+  ],
+  2: [
+    ["Need", "What care is needed?"],
+    ["Rule", "What rule applies?"],
+    ["Proof", "What shows it?"],
+    ["Deadline", "What changes today?"],
+  ],
+  3: [
+    ["Status", "Inpatient or observation?"],
+    ["Timing", "When did it start?"],
+    ["Notice", "Was one given?"],
+    ["Impact", "Could it affect rehab?"],
+  ],
+  4: [
+    ["Skilled need", "What is documented?"],
+    ["Facility", "Is it approved?"],
+    ["Authorization", "Approved or pending?"],
+    ["Backup", "What if it ends?"],
+  ],
+  5: [
+    ["Service", "What is ordered?"],
+    ["Agency", "Who accepted it?"],
+    ["Frequency", "How often?"],
+    ["Safety", "What if home fails?"],
+  ],
+  6: [
+    ["Item", "What is needed?"],
+    ["Supplier", "Who provides it?"],
+    ["Authorization", "What is required?"],
+    ["Delivery", "When will it arrive?"],
+  ],
+  7: [
+    ["Care type", "Skilled or custodial?"],
+    ["Program", "Medicare or Medicaid?"],
+    ["State rules", "What varies locally?"],
+    ["Before paying", "Who should advise?"],
+  ],
+  8: [
+    ["Bill", "Who is charging?"],
+    ["MSN/EOB", "What processed?"],
+    ["Difference", "Why is it owed?"],
+    ["Before paying", "Who can review?"],
+  ],
+  9: [
+    ["Network", "Is it in-network?"],
+    ["Authorization", "Approved or denied?"],
+    ["Notice", "What reason is listed?"],
+    ["Appeal", "What deadline applies?"],
+  ],
+  10: [
+    ["Call", "Use one clear question."],
+    ["Record", "Write names and dates."],
+    ["Escalate", "Ask for the next level."],
+    ["Save", "Keep every notice."],
+  ],
+};
+
 export const quickGuideDefinitions = {
   "hospital-discharge-medicare-quick-guide": {
     id: "hospital-discharge-medicare-quick-guide",
@@ -48,15 +111,16 @@ export const quickGuideDefinitions = {
     ],
     pageThemeMap: {
       ...defaultPageThemeMap,
-      2: { eyebrow: "Avoid costly assumptions", icon: "!", theme: "warning", cues: ["Separate the issues", "Ask for proof", "Confirm deadlines"] },
-      3: { eyebrow: "Status check", icon: "H", theme: "status", cues: ["Ask current status", "Confirm start time", "Save notices"] },
-      4: { eyebrow: "Rehab review", icon: "R", theme: "rehab", cues: ["Document skill", "Confirm facility", "Track appeal deadline"] },
-      5: { eyebrow: "Home support", icon: "H", theme: "home", cues: ["Name the service", "Confirm agency", "Ask payment path"] },
-      6: { eyebrow: "Equipment and authorization", icon: "D", theme: "coverage", cues: ["Check order", "Confirm supplier", "Track authorization"] },
-      7: { eyebrow: "Medicare vs Medicaid", icon: "M", theme: "program", cues: ["Sort care type", "Check state rules", "Ask before private pay"] },
-      8: { eyebrow: "Bill check", icon: "B", theme: "billing", cues: ["Match documents", "Ask why owed", "Correct or appeal"] },
-      9: { eyebrow: "Plan decisions", icon: "A", theme: "warning", cues: ["Check network", "Track authorization", "Get appeal path"] },
-      10: { eyebrow: "Call scripts", icon: "?", theme: "scripts", cues: ["Use short questions", "Write it down", "Escalate carefully"] },
+      1: { eyebrow: "Start here", icon: "1", theme: "start", cues: ["Identify the question", "Check the rule", "Save the source"], clearCarePath: hospitalDischargePathMap[1] },
+      2: { eyebrow: "Avoid costly assumptions", icon: "!", theme: "warning", cues: ["Separate the issues", "Ask for proof", "Confirm deadlines"], clearCarePath: hospitalDischargePathMap[2] },
+      3: { eyebrow: "Status check", icon: "H", theme: "status", cues: ["Ask current status", "Confirm start time", "Save notices"], clearCarePath: hospitalDischargePathMap[3] },
+      4: { eyebrow: "Rehab review", icon: "R", theme: "rehab", cues: ["Document skill", "Confirm facility", "Track appeal deadline"], clearCarePath: hospitalDischargePathMap[4] },
+      5: { eyebrow: "Home support", icon: "H", theme: "home", cues: ["Name the service", "Confirm agency", "Ask payment path"], clearCarePath: hospitalDischargePathMap[5] },
+      6: { eyebrow: "Equipment and authorization", icon: "D", theme: "coverage", cues: ["Check order", "Confirm supplier", "Track authorization"], clearCarePath: hospitalDischargePathMap[6] },
+      7: { eyebrow: "Medicare vs Medicaid", icon: "M", theme: "program", cues: ["Sort care type", "Check state rules", "Ask before private pay"], clearCarePath: hospitalDischargePathMap[7] },
+      8: { eyebrow: "Bill check", icon: "B", theme: "billing", cues: ["Match documents", "Ask why owed", "Correct or appeal"], clearCarePath: hospitalDischargePathMap[8] },
+      9: { eyebrow: "Plan decisions", icon: "A", theme: "warning", cues: ["Check network", "Track authorization", "Get appeal path"], clearCarePath: hospitalDischargePathMap[9] },
+      10: { eyebrow: "Call scripts", icon: "?", theme: "scripts", cues: ["Use short questions", "Write it down", "Escalate carefully"], clearCarePath: hospitalDischargePathMap[10] },
     },
     requiredSourceCues: ["Medicare.gov", "Medicaid.gov", "CMS", "HealthCare.gov", "SHIP", "official source map", "full guide"],
   },

@@ -1,7 +1,7 @@
 # The Hospital Discharge & Medicare Quick Guide
 
 Community Acquired Finance  
-Visual pre-PDF quick guide candidate  
+Visual quick guide launch-review candidate  
 Last updated: 2026-07-09
 
 > Educational only. This quick guide is not medical, legal, tax, insurance, Medicaid planning, or individualized financial advice. It does not replace Medicare.gov, Medicaid.gov, CMS, state Medicaid agencies, plan documents, billing offices, SHIP counselors, clinicians, attorneys, licensed insurance professionals, or other qualified professionals. Rules can vary by state, plan, facility, timing, documentation, medical necessity, provider participation, and personal circumstances. Verify before making decisions.
@@ -39,7 +39,7 @@ Use this guide to ask the first right questions before discharge, rehab, home su
 
 ## Source note
 
-Orientation page. Use Medicare.gov, Medicaid.gov, CMS.gov, official state Medicaid agencies, SHIP, plan documents, and facility or billing-office documents for situation-specific verification.
+Built from Medicare.gov, Medicaid.gov, CMS discharge/appeal resources, and the official source map at the end of this guide.
 
 ---
 
@@ -47,26 +47,23 @@ Orientation page. Use Medicare.gov, Medicaid.gov, CMS.gov, official state Medica
 
 ## Direct answer
 
-Most confusion comes from five expensive assumptions. Slow down when any of these show up.
+Most family confusion comes from assuming care need, coverage, approval, payment, and billing all mean the same thing. They do not.
 
 ## Watch out
 
-- **Need care:** Need does not equal payment.
-- **Covered:** Covered does not always mean free.
-- **Rehab:** Short-term skilled care is not long-term custodial care.
-- **Hospital bed:** Overnight does not always mean inpatient.
-- **Doctor order:** A recommendation is not the same as payer approval.
+- **Need:** A patient may need care, but the payer still applies rules.
+- **Recommendation:** A clinician recommendation is not the same as payer approval.
+- **Hospital status:** Sleeping in the hospital does not automatically mean inpatient.
+- **Medicare paid:** Medicare paying something does not always mean the patient owes nothing.
+- **Medicaid:** Medicaid rules vary by state and eligibility category.
 
 ## Better question
 
-- What rule applies?
-- What document proves it?
-- Who can verify it?
-- What could the patient owe?
+Ask: “Who is the payer, what rule applies, what document proves the answer, and what is the appeal or review path?”
 
 ## Source note
 
-Supported by Medicare.gov coverage, cost, skilled nursing facility, long-term care, and Medicare Advantage comparison guidance.
+Built from Medicare.gov coverage/cost materials, CMS observation-status materials, Medicaid.gov eligibility/LTSS materials, and Medicare appeal resources.
 
 ---
 
@@ -74,25 +71,24 @@ Supported by Medicare.gov coverage, cost, skilled nursing facility, long-term ca
 
 ## Direct answer
 
-Medicare and Medicaid answer different questions. Some people have both, but the exact category still matters.
+Medicare is usually health insurance. Medicaid is state-administered help under federal rules. Some people have both.
 
 ## Compare
 
-- **Medicare:** Federal health insurance tied to age, disability, or certain conditions.
-- **Medicaid:** State-run assistance under federal rules for eligible people.
-- **Dual eligibility:** The person has Medicare and some form of Medicaid help.
-- **Key warning:** Having both does not mean every provider, service, facility, or bill is covered.
+- **Medicare:** Federal health insurance, usually tied to age, disability, or certain conditions.
+- **Medicaid:** State-administered assistance under federal rules, often important for eligible people who need long-term services and supports.
+- **Dual eligible:** A person can have Medicare and Medicaid, but the help depends on the exact program, state, provider, and service.
+- **State rules:** Medicaid eligibility, benefits, long-term care rules, estate recovery, and spousal protections vary by state.
 
 ## Ask
 
 - Does the person have Medicare, Medicaid, both, or neither?
-- Is this medical care, skilled care, custodial care, or long-term support?
-- Which state Medicaid agency applies?
-- Is the help full Medicaid or limited Medicare-cost assistance?
+- Is the issue medical care, skilled care, daily living support, or a bill?
+- Which agency, plan, or program can verify the answer in writing?
 
 ## Source note
 
-Supported by Medicare.gov, Medicaid.gov eligibility policy, Medicaid.gov long-term services and supports, CMS Medicare-Medicaid coordination resources, and Medicaid.gov Medicare-Medicaid enrollee resources.
+Built from Medicare.gov basics, Medicaid.gov eligibility materials, Medicaid.gov LTSS materials, and CMS Medicare-Medicaid coordination materials.
 
 ---
 
@@ -100,26 +96,25 @@ Supported by Medicare.gov, Medicaid.gov eligibility policy, Medicaid.gov long-te
 
 ## Direct answer
 
-Original Medicare and Medicare Advantage are two ways to receive Medicare. The process can feel very different.
+Original Medicare and Medicare Advantage are both Medicare paths, but they can use different networks, authorization rules, cost structures, and appeal processes.
 
 ## Compare
 
-- **Original Medicare:** Usually broader provider access if the provider takes Medicare.
-- **Medicare Advantage:** Private Medicare-approved plans may use networks, service areas, referrals, and prior authorization.
-- **Extra coverage:** Part D, Medigap, Medicaid, retiree coverage, or other help may change costs.
-- **Key warning:** Neither path means every cost disappears.
+- **Original Medicare:** Federal program; families often review Medicare Summary Notices and Part A/Part B rules.
+- **Medicare Advantage:** Private plan approved by Medicare; families often need to ask about network, authorization, plan rules, and appeals.
+- **Medigap:** Medigap can work with Original Medicare. It cannot be used to pay Medicare Advantage cost sharing.
+- **Emergency care:** Emergency rules can differ from normal network rules.
 
 ## Ask before services
 
-- Is this Original Medicare or Medicare Advantage?
-- Is the provider, facility, pharmacy, or supplier approved?
-- Is prior authorization required?
-- What is the covered-service out-of-pocket limit?
-- What could the patient owe?
+- Which Medicare path does the patient have?
+- Is this provider or facility in-network?
+- Is authorization required, submitted, approved, denied, or pending?
+- What might the patient owe?
 
 ## Source note
 
-Supported by Medicare.gov How Medicare Works, Medicare.gov Compare Original Medicare and Medicare Advantage, Medicare.gov Costs, and CMS Medicare managed care appeals guidance.
+Built from Medicare.gov Medicare Advantage comparison materials, Medicare.gov Medigap materials, Medicare.gov plan/appeals materials, and CMS managed-care appeal resources.
 
 ---
 
@@ -127,26 +122,25 @@ Supported by Medicare.gov How Medicare Works, Medicare.gov Compare Original Medi
 
 ## Direct answer
 
-A patient can sleep in the hospital and still not be formally admitted as inpatient.
+Hospital status can affect billing and some downstream coverage rules. Ask for the official status instead of relying on where the patient slept.
 
 ## Why it matters
 
-- **Inpatient:** May affect downstream Original Medicare skilled nursing facility rules.
-- **Outpatient:** Hospital care without formal inpatient admission.
-- **Observation:** Outpatient hospital status used while the hospital evaluates care needs.
-- **SNF risk:** Observation or emergency room time before inpatient admission does not count toward the Original Medicare qualifying inpatient stay.
+- **Inpatient:** Admitted under an inpatient order.
+- **Observation:** Outpatient hospital service, even if the patient stays overnight.
+- **SNF rule:** Under Original Medicare, skilled nursing facility coverage is tied to a qualifying inpatient hospital stay, with important exceptions and plan-specific issues to verify.
+- **Notice:** Medicare rules include observation-status notice requirements for certain patients.
 
 ## Ask now
 
-- What is the official hospital status right now?
-- When did inpatient admission begin, if it began?
-- Does this affect rehab or skilled nursing facility coverage?
-- Has any required observation notice been provided?
-- How does the Medicare Advantage plan handle this?
+- Is the patient inpatient, outpatient, or observation right now?
+- When did inpatient admission begin, if it did?
+- Was a notice given, and can we have a copy?
+- Could this affect rehab or skilled nursing facility coverage?
 
 ## Source note
 
-Supported by Medicare.gov Skilled Nursing Facility Care and CMS Medicare Outpatient Observation Notice / Beneficiary Notices Initiative. Exact CMS MOON wording and timing should be rechecked before final public release.
+Built from CMS/Medicare.gov materials on inpatient vs outpatient/observation status, MOON notice materials, and Medicare.gov skilled nursing facility materials.
 
 ---
 
@@ -154,27 +148,25 @@ Supported by Medicare.gov Skilled Nursing Facility Care and CMS Medicare Outpati
 
 ## Direct answer
 
-Before discharge, separate the care plan from the payment plan.
+A safe care plan and a verified payment path are different. Families should ask both before leaving.
 
 ## Discharge path
 
-- **Status:** Inpatient, outpatient, or observation?
-- **Destination:** Home, home health, rehab, SNF, long-term care, or other?
-- **Payer:** Original Medicare, Medicare Advantage, Medicaid, or another plan?
-- **Approval:** Covered, denied, pending, or waiting on authorization?
-- **Backup:** What happens if coverage ends or home is unsafe?
+- **Destination:** Home, home health, outpatient therapy, SNF, inpatient rehab, assisted living, nursing home, or another setting.
+- **Care ordered:** Skilled nursing, therapy, equipment, medications, follow-up, supervision, or daily living support.
+- **Payer status:** Covered, pending, denied, ending, private pay, or Medicaid-related.
+- **Backup plan:** What happens if coverage is delayed, denied, or ends too soon?
 
 ## Ask before agreeing
 
-- What skilled need is documented?
-- What services, equipment, medications, and follow-up are ordered?
-- Which payer is expected to pay?
-- What could the patient owe?
-- What written notice or appeal instructions should we review?
+- Who is arranging the service?
+- Who is expected to pay?
+- What document proves that?
+- What number do we call if the plan changes?
 
 ## Source note
 
-Supported by Medicare.gov skilled nursing facility, home health, durable medical equipment, costs, appeals, Medicare Advantage comparison, and CMS observation-notice resources.
+Built from Medicare discharge planning, home health, DME, SNF, appeal, and plan decision materials.
 
 ---
 
@@ -182,26 +174,25 @@ Supported by Medicare.gov skilled nursing facility, home health, durable medical
 
 ## Direct answer
 
-Medicare may cover short-term skilled rehab or skilled nursing facility care when rules are met. It is not automatic.
+Rehab may be appropriate medically, but coverage depends on the setting, documentation, payer, facility, timing, and plan rules.
 
 ## Timeline
 
-- **Hospital:** Confirm status and skilled need.
-- **Transfer:** Confirm facility and payer rules.
-- **Review:** Ask whether coverage is approved, denied, pending, or ending.
-- **After skilled care:** Plan for home support, outpatient therapy, private pay, Medicaid/LTSS, or other help.
+- **Hospital:** Confirm status, diagnosis, skilled need, and discharge recommendation.
+- **Facility:** Confirm SNF, inpatient rehab, home health, outpatient therapy, or another setting.
+- **Payer:** Ask if Original Medicare, Medicare Advantage, Medicaid, or another payer applies.
+- **Approval:** Ask if authorization is approved, pending, denied, or ending.
+- **Appeal:** Ask for deadlines and written notices if coverage is denied or ending.
 
 ## Ask
 
-- What skilled service is being ordered?
-- Is this SNF, inpatient rehab, home health, or outpatient therapy?
-- Is the facility Medicare-certified or in-network?
-- Is prior authorization required and approved?
-- What is the appeal deadline if denied or ending?
+- What skilled service is documented?
+- Is this short-term skilled care or long-term custodial care?
+- What could the patient owe per day or per service?
 
 ## Source note
 
-Supported by Medicare.gov Skilled Nursing Facility Care, Medicare.gov Costs, Medicare.gov Compare Original Medicare and Medicare Advantage, and Medicare.gov appeals guidance. Current-year dollar amounts are intentionally not listed in this quick guide; verify them before release and use the full guide or site calculator for updated figures.
+Built from Medicare.gov skilled nursing facility materials, Medicare.gov care comparison materials, Medicare Advantage coverage/appeal materials, and CMS appeal resources.
 
 ---
 
@@ -209,26 +200,24 @@ Supported by Medicare.gov Skilled Nursing Facility Care, Medicare.gov Costs, Med
 
 ## Direct answer
 
-Home health, equipment, and long-term daily help are different coverage questions.
+Home health, durable medical equipment, and long-term custodial care are different coverage questions.
 
 ## Sort the need
 
-- **Home health:** Usually part-time or intermittent skilled services when rules are met.
-- **Equipment:** The supplier and item must meet Medicare or plan rules.
-- **Custodial care:** Help with bathing, dressing, toileting, meals, supervision, or daily living.
-- **Long-term support:** Medicaid, state programs, community resources, or private pay may become the bigger question.
+- **Home health:** Usually part-time or intermittent skilled care under specific rules.
+- **Equipment:** Durable medical equipment must meet coverage, supplier, and documentation rules.
+- **Custodial care:** Ongoing help with bathing, dressing, meals, toileting, transportation, and supervision is often not covered by Medicare as long-term care.
+- **Long-term support:** Medicaid may be the relevant question for eligible people, depending on state rules.
 
 ## Ask
 
-- Is this skilled care, equipment, custodial care, or long-term support?
-- Is the agency Medicare-certified or plan-approved?
-- Is the supplier enrolled in Medicare or approved by the plan?
-- Does the supplier accept assignment?
-- Should Medicaid/LTSS or professional guidance be explored?
+- Is the ordered help skilled care, equipment, or daily living support?
+- Is the agency, supplier, facility, or provider approved or in-network?
+- If this is long-term help, which state Medicaid or aging resource should we contact?
 
 ## Source note
 
-Supported by Medicare.gov Home Health Services, Medicare.gov Durable Medical Equipment Coverage, Medicare.gov Long-Term Care, Medicaid.gov LTSS, and Medicaid.gov eligibility policy.
+Built from Medicare.gov home health, durable medical equipment, and long-term care materials, plus Medicaid.gov LTSS materials.
 
 ---
 
@@ -236,26 +225,25 @@ Supported by Medicare.gov Home Health Services, Medicare.gov Durable Medical Equ
 
 ## Direct answer
 
-Before paying a confusing bill, match the bill to the Medicare Summary Notice, EOB, or plan paperwork.
+Do not pay a confusing bill until you match it against the processed claim story.
 
 ## Compare the documents
 
-- **Provider bill:** What someone is asking the patient to pay.
-- **MSN or EOB:** What Medicare or the plan processed.
-- **Patient responsibility:** The amount listed as owed after processing.
-- **Next call:** Billing office, plan, Medicare, SHIP, or financial assistance office.
+- **Provider bill:** The amount a hospital, doctor, facility, agency, or supplier says is owed.
+- **MSN:** Medicare Summary Notice for Original Medicare claims. It is not a bill.
+- **EOB:** Explanation of Benefits from a private insurer or Medicare Advantage plan. It is usually not a bill.
+- **Patient responsibility:** The amount listed after deductible, copay, coinsurance, noncovered services, denial, adjustment, or plan processing.
 
 ## Ask before paying
 
-- What date of service is this?
-- Which provider or facility is billing me?
-- Has Medicare or the plan processed the claim?
+- What date of service and provider is this bill for?
+- Does it match the MSN, EOB, or plan paperwork?
 - Why is this patient responsibility?
-- Should this be appealed, corrected, rebilled, or screened for financial assistance?
+- Can this be corrected, appealed, rebilled, or reviewed for financial assistance?
 
 ## Source note
 
-Supported by Medicare.gov Medicare Summary Notice, Medicare.gov appeals, Medicare.gov Costs, and HealthCare.gov glossary sources for deductible, copayment, coinsurance, allowed amount, and out-of-pocket maximum.
+Built from Medicare.gov Medicare Summary Notice, appeals, Medicare cost materials, and common insurance-document definitions.
 
 ---
 
@@ -263,56 +251,47 @@ Supported by Medicare.gov Medicare Summary Notice, Medicare.gov appeals, Medicar
 
 ## Direct answer
 
-Use the scripts to slow the conversation down and get the answer in writing.
+When overwhelmed, use short questions and write down the answer, name, date, reference number, and deadline.
 
 ## Phone scripts
 
-- **Hospital:** What is the patient’s status, discharge destination, skilled need, and payer rule?
-- **Facility:** Are you Medicare-certified, in-network, or plan-approved?
-- **Plan:** Is authorization required, approved, denied, pending, or partial?
-- **Billing:** Can you compare this bill against the MSN, EOB, or plan paperwork?
+- “Can you tell me the patient’s current hospital status?”
+- “Is this covered, denied, pending, or waiting on authorization?”
+- “Can you show me where that is written?”
+- “What happens if coverage ends before they are safe at home?”
+- “Who do I call to appeal or ask for review?”
+- “Is this bill based on the MSN, EOB, or something else?”
+- “Should we contact SHIP or the state Medicaid office?”
 
 ## Next step
 
-- Use the full guide for deeper chapters and worksheets.
-- Use the Medicare care cost tool for updated cost estimates.
-- Use the EOB-to-bill checker before paying confusing medical bills.
-- Contact SHIP, Medicare, Medicaid, the plan, the facility, the billing office, or a qualified professional for person-specific decisions.
+Use the guide hub at Community Acquired Finance for connected tools, deeper articles, and updated links. Final QR codes and public links should be added only after destination testing.
 
 ## Source note
 
-This page summarizes the verification workflow from the full guide. Final QR codes and public download links should only be added after destination testing and public-release review.
+Built from the official source map below, Medicare.gov appeals materials, CMS plan decision resources, SHIP locator resources, Medicaid.gov resources, and guide-hub tool references.
 
 ---
 
 # Endnotes and Source Map
 
-[1] Medicare.gov — How Medicare Works: `https://www.medicare.gov/basics/get-started-with-medicare/medicare-basics/how-does-medicare-work`
-
-[2] Medicare.gov — Compare Original Medicare and Medicare Advantage: `https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/your-coverage-options/compare-original-medicare-medicare-advantage`
-
-[3] Medicare.gov — Costs: `https://www.medicare.gov/basics/costs/medicare-costs`
-
-[4] Medicare.gov — Long-Term Care: `https://www.medicare.gov/coverage/long-term-care`
-
-[5] Medicare.gov — Skilled Nursing Facility Care: `https://www.medicare.gov/coverage/skilled-nursing-facility-care`
-
-[6] Medicare.gov — Home Health Services: `https://www.medicare.gov/coverage/home-health-services`
-
-[7] Medicaid.gov — Long-Term Services and Supports: `https://www.medicaid.gov/medicaid/long-term-services-supports/index.html`
-
-[8] Medicaid.gov — Eligibility Policy: `https://www.medicaid.gov/medicaid/eligibility-policy/index.html`
-
-[9] Medicare.gov — Medicare Summary Notice: `https://www.medicare.gov/basics/forms-publications-mailings/mailings/claims-and-appeals/medicare-summary-notice`
-
-[10] Medicare.gov — Appeals: `https://www.medicare.gov/providers-services/claims-appeals-complaints/appeals`
-
-[11] CMS.gov — Medicare Managed Care Appeals and Grievances: `https://www.cms.gov/medicare/appeals-grievances/managed-care`
-
-[12] CMS.gov — Medicare Outpatient Observation Notice / Beneficiary Notices Initiative: `https://www.cms.gov/medicare/forms-notices/beneficiary-notices-initiative/moon`
-
-[13] Medicare.gov — Durable Medical Equipment Coverage: `https://www.medicare.gov/coverage/durable-medical-equipment-dme-coverage`
-
-[14] HealthCare.gov glossary sources: deductible, copayment, coinsurance, out-of-pocket maximum, and allowed amount.
-
-[15] Medicaid.gov — Seniors & Medicare and Medicaid Enrollees: `https://www.medicaid.gov/medicaid/eligibility-policy/seniors-medicare-and-medicaid-enrollees/index.html`
+[1] Medicare.gov — Skilled nursing facility care: https://www.medicare.gov/coverage/skilled-nursing-facility-care  
+[2] Medicare.gov — Inpatient or outpatient hospital status: https://www.medicare.gov/basics/your-medicare-rights/your-protections/your-rights-in-the-hospital  
+[3] CMS — Medicare Outpatient Observation Notice: https://www.cms.gov/medicare/forms-notices/beneficiary-notices-initiative/moon  
+[4] Medicare.gov — Home health services: https://www.medicare.gov/coverage/home-health-services  
+[5] Medicare.gov — Durable medical equipment: https://www.medicare.gov/coverage/durable-medical-equipment-dme-coverage  
+[6] Medicare.gov — Long-term care: https://www.medicare.gov/coverage/long-term-care  
+[7] Medicare.gov — Medicare Advantage Plans: https://www.medicare.gov/health-drug-plans/health-plans/your-health-plan-options  
+[8] Medicare.gov — Original Medicare: https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/your-coverage-options/compare-original-medicare-medicare-advantage  
+[9] Medicare.gov — Medigap: https://www.medicare.gov/health-drug-plans/medigap/basics/how-medigap-works  
+[10] Medicare.gov — Appeals: https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal  
+[11] Medicare.gov — Medicare Summary Notices: https://www.medicare.gov/basics/forms-publications-mailings/mailings/claims-and-appeals/medicare-summary-notice  
+[12] Medicare.gov — Medicare costs: https://www.medicare.gov/basics/costs/medicare-costs  
+[13] Medicaid.gov — Eligibility: https://www.medicaid.gov/medicaid/eligibility/index.html  
+[14] Medicaid.gov — Long-term services and supports: https://www.medicaid.gov/medicaid/long-term-services-supports/index.html  
+[15] Medicaid.gov — Estate recovery: https://www.medicaid.gov/medicaid/eligibility/estate-recovery/index.html  
+[16] Medicaid.gov — Spousal impoverishment: https://www.medicaid.gov/medicaid/eligibility/spousal-impoverishment/index.html  
+[17] CMS — Coordination between Medicare and Medicaid: https://www.cms.gov/medicare/coordination-benefits-recovery/medicare-medicaid-coordination  
+[18] Medicare.gov — Medicare Savings Programs: https://www.medicare.gov/basics/costs/help/medicare-savings-programs  
+[19] Medicare.gov — SHIP help: https://www.shiphelp.org/  
+[20] HealthCare.gov — Health insurance glossary: https://www.healthcare.gov/glossary/

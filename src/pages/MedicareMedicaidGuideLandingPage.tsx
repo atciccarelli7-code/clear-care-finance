@@ -41,6 +41,7 @@ const pageTopics = [
 ] as const;
 
 const internalLinks = [
+  ["Interactive hospital discharge checklist", "/tools/hospital-discharge-medicare-checklist"],
   ["Hospital discharge coverage guide", "/articles/discharge-coverage-guide"],
   ["Observation vs. inpatient status", "/articles/observation-vs-inpatient-status"],
   ["Medicare rehab after a hospital stay", "/articles/does-medicare-cover-rehab-after-hospital-stay"],
@@ -85,16 +86,16 @@ const MedicareMedicaidGuideLandingPage = () => {
         description="A calm, printable guide for families who need to ask better questions before discharge, rehab or SNF transfer, home health, equipment and medication setup, Medicare Advantage denials, Medicaid or long-term care decisions, and confusing medical bills."
       >
         <Button asChild size="lg">
+          <Link to="/tools/hospital-discharge-medicare-checklist">
+            <ClipboardCheck className="h-4 w-4" />
+            Use the interactive checklist
+          </Link>
+        </Button>
+        <Button asChild variant="outline" size="lg">
           <a href={quickGuideHref} target="_blank" rel="noopener noreferrer">
             <FileText className="h-4 w-4" />
             Open the PDF guide
           </a>
-        </Button>
-        <Button asChild variant="outline" size="lg">
-          <Link to="/guides">
-            View all quick guides
-            <ArrowRight className="h-4 w-4" />
-          </Link>
         </Button>
       </PageHero>
 
@@ -143,6 +144,28 @@ const MedicareMedicaidGuideLandingPage = () => {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="container mx-auto max-w-6xl px-4 py-12 md:py-16" aria-label="Interactive checklist callout">
+        <Card className="rounded-3xl border-border/80 bg-primary-soft/30 shadow-card">
+          <CardHeader>
+            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-background text-primary">
+              <ClipboardCheck className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <CardTitle className="font-display text-2xl">Want a checklist based on your situation?</CardTitle>
+            <CardDescription className="text-base leading-relaxed">
+              The interactive tool asks where the patient is going, what coverage is involved, what the biggest concern is, and whether there is a written notice or bill. Then it gives a copy-friendly list of questions, documents, and calls.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild size="lg">
+              <Link to="/tools/hospital-discharge-medicare-checklist">
+                Open the checklist tool
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
       </section>
 
       <section className="container mx-auto max-w-6xl px-4 py-12 md:py-16" aria-label="Guide page topics">
@@ -240,10 +263,10 @@ const MedicareMedicaidGuideLandingPage = () => {
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg">
-                  <a href={quickGuideHref} target="_blank" rel="noopener noreferrer">
-                    <FileText className="h-4 w-4" />
-                    Open the PDF guide
-                  </a>
+                  <Link to="/tools/hospital-discharge-medicare-checklist">
+                    <ClipboardCheck className="h-4 w-4" />
+                    Use checklist tool
+                  </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
                   <Link to="/disclosures">

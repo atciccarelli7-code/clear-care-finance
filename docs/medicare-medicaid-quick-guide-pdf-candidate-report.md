@@ -6,7 +6,7 @@ Last updated: 2026-07-09 UTC
 
 ## Status
 
-**Current status: enhanced visual PDF-candidate-ready for manual review; not public-release-ready.**
+**Current status: higher-standard visual PDF-candidate-ready for manual review; not public-release-ready.**
 
 This report documents the safe next step for the 10-page Quick Guide. It does not publish the Quick Guide, unlock a CTA, add a sitemap URL, add QR codes, or place a PDF under a public route.
 
@@ -19,6 +19,7 @@ This report documents the safe next step for the 10-page Quick Guide. It does no
 - Visual PDF renderer commit: `23d90723f2662a34f5991d6d328bde9f1d43023e`
 - Enhanced visual hierarchy commit: `df998a177d3af1cdc603821bd32b53498fc16d21`
 - Comprehension enhancement commit: `cfba7e266b7ce7612686c31e7c84b9464e6f665e`
+- Higher-standard design commit: `c1c6313d3c892761c70281aa82b039e276532c98`
 
 ## Visual redesign decision
 
@@ -66,6 +67,22 @@ Additional enhancements added:
 
 The goal of this pass is to make each page answer the user’s implicit question: **what do I check next?**
 
+## Higher-standard design pass
+
+A fourth pass raised the PDF standard from a simple visual handout toward a more deliberate **clinical-family decision aid**.
+
+Additional enhancements added:
+
+- page-specific theme palettes so each topic has stronger visual identity,
+- "Remember" takeaway ribbons on each page,
+- a cover pathway that mirrors a real decision sequence: status → payer → approval → documents → next call,
+- stronger themed accents across headers, badges, progress dots, direct-answer panels, and card icons,
+- better page-to-page differentiation without adding decorative clutter,
+- tighter typography and spacing to preserve printability after adding the new comprehension layer,
+- print-safe fallback for added ribbons and pathway cards.
+
+This pass intentionally avoids decorative charts that do not improve comprehension. The design goal is a calm, high-trust, hospital-family handoff sheet.
+
 ## Builder issue fixed before visual redesign
 
 During the candidate review, the quick-guide builder had two release-blocking issues:
@@ -85,15 +102,17 @@ The PDF builder now renders the short guide as:
 
 - a branded cover/hero panel,
 - topic chips on the first page,
+- a cover decision pathway,
 - a top progress rail,
 - page-specific three-step cue strips,
+- page-specific "Remember" takeaway ribbons,
 - direct-answer / core-idea callout panels,
 - comparison grids,
 - warning-card grids,
 - ask-card grids,
 - step/flow cards,
 - cleaner page numbers and badge headers,
-- page-specific subtitles,
+- page-specific subtitles and theme palettes,
 - visual icon markers inside each card,
 - a compact source-map page.
 
@@ -142,9 +161,10 @@ The source-map page is intentional because the guide should remain trustworthy w
 |---|---:|---|
 | Less text | Pass | Manuscript copy was compressed into short decision-card language. |
 | More visual structure | Pass | Builder now uses branded panels, grids, badges, callouts, flow cards, and progress cues. |
-| More appealing visuals | Pass | Enhanced cover treatment, icon badges, panel hierarchy, section coloring, and card styling. |
-| Easier to understand | Pass | Page subtitles, icon markers, progress rail, and three-step cue strips clarify each page's job. |
+| More appealing visuals | Pass | Enhanced cover treatment, icon badges, panel hierarchy, section coloring, card styling, and page themes. |
+| Easier to understand | Pass | Page subtitles, icon markers, progress rail, three-step cue strips, and takeaway ribbons clarify each page's job. |
 | Better scan order | Pass | Each page now follows a consistent visual sequence from purpose to action. |
+| Better page differentiation | Pass | Page-specific theme palettes and takeaway language make topics visually and cognitively distinct. |
 | Less cramped cards | Pass | Warning and flow grids use auto-fitting minimum widths instead of forcing every item into narrow columns. |
 | Print-aware design | Pass | Print media fallback removes shadows for black-and-white testing. |
 | Title is clear | Pass | Title remains `The Hospital Discharge & Medicare Quick Guide`. |
@@ -178,12 +198,12 @@ Remaining blockers:
 ## Release gate state
 
 - Quick Guide manuscript: visually tightened.
-- Quick Guide builder: updated for enhanced card-based PDF layout and comprehension cues.
+- Quick Guide builder: updated for enhanced card-based PDF layout, comprehension cues, page themes, and takeaway ribbons.
 - Quick Guide PDF candidate: ready for manual artifact review once generated from the patched builder.
 - Public release: blocked.
 
 ## Classification
 
-**B. enhanced visual PDF-candidate-ready** for manual review.
+**B. higher-standard visual PDF-candidate-ready** for manual review.
 
 Not **C. public-release-ready** because the public PDF, CTA, sitemap, QR codes, device review, and print review are intentionally still blocked.

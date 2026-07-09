@@ -85,12 +85,12 @@ export const parseQuickGuideManuscript = (guide) => {
 const renderTopbar = (current, label = `Page ${current} of 10`) => `
   <div class="topbar">
     <div class="brand">Community Acquired Finance</div>
-    <div class="guide-label">Hospital-family quick guide</div>
+    <div class="guide-label">Plain-English hospital finance guide</div>
     <div class="page-num">${escapeHtml(label)}</div>
   </div>`;
 
 const renderCoverPathway = (guide) => `<div class="cover-pathway" aria-label="First five checks">${guide.coverPathway
-  .map(([number, label, text]) => `<div class="cover-step"><strong>Step ${escapeHtml(number)}: ${inline(label)}</strong><p>${inline(text)}</p></div>`)
+  .map(([number, label, text]) => `<div class="cover-step"><strong>${escapeHtml(number)}. ${inline(label)}</strong><p>${inline(text)}</p></div>`)
   .join("\n")}</div>`;
 
 const renderBullet = (item) => {
@@ -137,8 +137,7 @@ const sectionClass = (heading) => {
   const key = heading.toLowerCase();
   if (key.includes("source")) return "source-note";
   if (key.includes("direct answer")) return "direct-answer";
-  if (key.includes("script") || key.includes("ask") || key.includes("call")) return "section action-section";
-  if (key.includes("watch") || key.includes("avoid") || key.includes("risk")) return "section caution-section";
+  if (key.includes("script")) return "section script-section";
   return "section";
 };
 
@@ -180,56 +179,53 @@ const renderHtml = (guide, pages, endnotesMarkdown) => `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${escapeHtml(guide.title)}</title>
   <style>
-    @page { size: letter; margin: 0.36in 0.42in; }
+    @page { size: letter; margin: 0.42in 0.48in; }
     :root {
       --ink:#14211f;
       --muted:#52615d;
       --line:#c7d2ce;
-      --line-dark:#6d7f79;
-      --soft:#f5faf8;
+      --soft:#f7faf9;
       --accent:#0b5d4e;
       --accent-soft:#eaf5f2;
-      --warn:#fff7e8;
-      --ask:#edf5fa;
     }
     * { box-sizing: border-box; }
     html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    body { margin: 0; color: var(--ink); background: white; font: 8.8pt/1.24 Arial, Helvetica, sans-serif; text-rendering: optimizeLegibility; }
+    body { margin: 0; color: var(--ink); background: white; font: 8.95pt/1.27 Arial, Helvetica, sans-serif; text-rendering: optimizeLegibility; }
     h1,h2,h3,p { margin-top: 0; }
-    h1 { font-size: 18pt; line-height: 1.05; margin: 0 0 0.035in; }
-    h2 { font-size: 9.1pt; line-height: 1.1; margin: 0 0 0.035in; color: var(--accent); }
+    h1 { font-size: 18.5pt; line-height: 1.06; margin: 0 0 0.045in; }
+    h2 { font-size: 9.4pt; line-height: 1.12; margin: 0 0 0.036in; color: var(--accent); }
     h3 { font-size: 8.2pt; line-height: 1.12; margin: 0.04in 0 0.02in; color: var(--accent); }
-    p { margin: 0 0 0.035in; }
+    p { margin: 0 0 0.045in; }
     strong { font-weight: 800; }
     code,.breakable { font-family: Arial, Helvetica, sans-serif; font-size: 6.2pt; overflow-wrap: anywhere; word-break: break-word; }
-    .page { page-break-after: always; break-after: page; min-height: 9.95in; display: flex; flex-direction: column; gap: 0.06in; }
+    .page { page-break-after: always; break-after: page; min-height: 9.75in; display: flex; flex-direction: column; gap: 0.07in; }
     .page:last-child { page-break-after: auto; break-after: auto; }
     .topbar { display: grid; grid-template-columns: 2.25in 1fr 1in; gap: 0.1in; align-items: center; border-bottom: 2px solid var(--accent); padding-bottom: 0.035in; }
     .brand { font-size: 6.8pt; font-weight: 850; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
-    .guide-label { font-size: 6.5pt; color: var(--muted); text-align: center; text-transform: uppercase; letter-spacing: 0.06em; }
-    .page-num { font-size: 6.5pt; font-weight: 800; color: var(--muted); text-align: right; text-transform: uppercase; letter-spacing: 0.05em; }
-    .cover-hero { border: 1px solid var(--line); border-top: 5px solid var(--accent); background: var(--soft); padding: 0.12in 0.14in; }
-    .cover-title h1 { font-size: 24pt; line-height: 1.02; margin-bottom: 0.045in; }
-    .eyebrow { font-size: 6.6pt; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 850; margin-bottom: 0.025in; }
-    .subtitle,.byline { color: var(--muted); font-size: 7.4pt; line-height: 1.18; max-width: 7.1in; margin-bottom: 0.035in; }
-    .cover-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.04in; margin-top: 0.06in; }
-    .cover-chip { border-top: 2px solid var(--accent); background: white; padding: 0.045in; font-size: 6.8pt; font-weight: 800; text-align: center; }
-    .cover-pathway { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.04in; }
-    .cover-step { border: 1px solid var(--line); background: white; padding: 0.055in; min-height: 0.46in; }
-    .cover-step strong { display: block; color: var(--accent); font-size: 6.8pt; margin-bottom: 0.018in; }
-    .cover-step p { color: var(--muted); font-size: 6.5pt; line-height: 1.1; margin: 0; }
-    .page-title { border-bottom: 1px solid var(--line-dark); padding-bottom: 0.04in; }
+    .guide-label { font-size: 6.45pt; color: var(--muted); text-align: center; text-transform: uppercase; letter-spacing: 0.06em; }
+    .page-num { font-size: 6.45pt; font-weight: 800; color: var(--muted); text-align: right; text-transform: uppercase; letter-spacing: 0.05em; }
+    .cover-hero { border-top: 5px solid var(--accent); background: var(--soft); padding: 0.13in 0.15in; }
+    .cover-title h1 { font-size: 24pt; line-height: 1.03; margin-bottom: 0.055in; }
+    .eyebrow { font-size: 6.55pt; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 850; margin-bottom: 0.03in; }
+    .subtitle,.byline { color: var(--muted); font-size: 7.45pt; line-height: 1.2; max-width: 7.1in; margin-bottom: 0.045in; }
+    .cover-strip { display: none; }
+    .cover-pathway { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.045in; }
+    .cover-step { border-top: 2px solid var(--accent); background: var(--soft); padding: 0.055in; min-height: 0.46in; }
+    .cover-step strong { display: block; color: var(--accent); font-size: 6.75pt; margin-bottom: 0.018in; }
+    .cover-step p { color: var(--muted); font-size: 6.45pt; line-height: 1.1; margin: 0; }
+    .page-title { border-bottom: 1px solid var(--line); padding-bottom: 0.055in; }
     .page-title .eyebrow { margin-bottom: 0.018in; }
-    .page-title .subtitle { margin: 0; font-size: 7.1pt; }
-    .content { display: grid; gap: 0.052in; }
-    .direct-answer { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 0.065in 0.075in; }
-    .direct-answer p { font-size: 9.2pt; line-height: 1.16; font-weight: 750; margin: 0; }
-    .section-label { font-size: 6.2pt; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 900; margin-bottom: 0.02in; }
-    .section { border-top: 1px solid var(--line); padding-top: 0.047in; break-inside: avoid; page-break-inside: avoid; }
-    .action-section { background: var(--ask); border: 1px solid var(--line); padding: 0.055in 0.065in; }
-    .caution-section { background: var(--warn); border: 1px solid var(--line); padding: 0.055in 0.065in; }
-    ul { margin: 0; padding-left: 0.15in; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 0.16in; row-gap: 0.028in; }
-    li { margin: 0; padding-left: 0.01in; line-height: 1.17; break-inside: avoid; page-break-inside: avoid; }
+    .page-title .subtitle { margin: 0; font-size: 7.15pt; }
+    .content { display: grid; gap: 0.06in; }
+    .direct-answer { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 0.075in 0.085in; }
+    .direct-answer p { font-size: 9.5pt; line-height: 1.18; font-weight: 750; margin: 0; }
+    .section-label { font-size: 6.2pt; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 900; margin-bottom: 0.022in; }
+    .section { border-top: 1px solid var(--line); padding-top: 0.055in; break-inside: avoid; page-break-inside: avoid; }
+    .section p { font-size: 8.45pt; line-height: 1.27; }
+    .script-section { border: 1px solid var(--line); border-left: 4px solid var(--accent); background: var(--soft); padding: 0.065in 0.075in; }
+    .script-section p, .script-section li { font-weight: 700; }
+    ul { margin: 0; padding-left: 0.16in; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 0.17in; row-gap: 0.032in; }
+    li { margin: 0; padding-left: 0.01in; line-height: 1.18; break-inside: avoid; page-break-inside: avoid; }
     li::marker { color: var(--accent); }
     li strong { color: var(--accent); }
     blockquote { margin: 0.035in 0; border-left: 3px solid var(--accent); padding-left: 0.06in; font-weight: 750; }
@@ -239,7 +235,7 @@ const renderHtml = (guide, pages, endnotesMarkdown) => `<!doctype html>
     .source-map .source-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.04in 0.18in; padding-left: 0.18in; }
     .source-map .source-list li { font-size: 5.8pt; line-height: 1.11; }
     @media print {
-      .cover-hero,.cover-chip,.cover-step,.direct-answer,.section,.action-section,.caution-section { box-shadow: none; }
+      .cover-hero,.cover-step,.direct-answer,.section,.script-section { box-shadow: none; }
     }
   </style>
 </head>
@@ -253,15 +249,12 @@ const renderHtml = (guide, pages, endnotesMarkdown) => `<!doctype html>
         <p class="subtitle">${escapeHtml(guide.subtitle)}</p>
         <p class="byline">Written from a healthcare-worker perspective by Andrew Ciccarelli, RN, BSN. Educational only. Verify with official sources, plan documents, agency notices, SHIP, or a qualified professional.</p>
       </div>
-      <div class="cover-strip">
-        ${guide.coverChips.map((chip) => `<div class="cover-chip">${escapeHtml(chip)}</div>`).join("\n")}
-      </div>
     </div>
     ${renderCoverPathway(guide)}
     <div class="content">
       ${renderPageBody(pages[0])}
     </div>
-    <div class="footer"><span>Educational only | Printable reference</span><span>Page 1 of 10</span></div>
+    <div class="footer"><span>Educational only | Printable article-style guide</span><span>Page 1 of 10</span></div>
   </section>
   ${pages.slice(1).map((page) => {
     const meta = guide.pageThemeMap[page.number] || {};
@@ -271,7 +264,7 @@ const renderHtml = (guide, pages, endnotesMarkdown) => `<!doctype html>
     <div class="page-title">
       <div class="eyebrow">${escapeHtml(meta.eyebrow || "Quick guide")}</div>
       <h1>${escapeHtml(page.title)}</h1>
-      <p class="subtitle">Use this page to ask better questions before signing, paying, enrolling, or appealing.</p>
+      <p class="subtitle">A plain-English page for families trying to ask the right next question.</p>
     </div>
     <div class="content">
       ${renderPageBody(page)}

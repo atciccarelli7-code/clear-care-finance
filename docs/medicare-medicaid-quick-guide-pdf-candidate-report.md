@@ -6,7 +6,7 @@ Last updated: 2026-07-09 UTC
 
 ## Status
 
-**Current status: visual PDF-candidate-ready for manual review; not public-release-ready.**
+**Current status: enhanced visual PDF-candidate-ready for manual review; not public-release-ready.**
 
 This report documents the safe next step for the 10-page Quick Guide. It does not publish the Quick Guide, unlock a CTA, add a sitemap URL, add QR codes, or place a PDF under a public route.
 
@@ -17,6 +17,7 @@ This report documents the safe next step for the 10-page Quick Guide. It does no
 - Earlier builder fix commit: `11ad6bd280577f6c51eff20ba11e7c1a36704f02`
 - Visual manuscript tightening commit: `30a34e3c4df6c46f39736affea4acde4fd476a12`
 - Visual PDF renderer commit: `23d90723f2662a34f5991d6d328bde9f1d43023e`
+- Enhanced visual hierarchy commit: `df998a177d3af1cdc603821bd32b53498fc16d21`
 
 ## Visual redesign decision
 
@@ -29,6 +30,25 @@ Changes made:
 - Added more visible page differentiation through cards, panels, grids, badges, and flow steps.
 - Kept source notes, cautious wording, and official-source grounding.
 - Kept the Quick Guide as a review candidate only.
+
+## Enhanced visual quality pass
+
+A second visual pass upgraded the builder from a basic card grid into a more polished handout system.
+
+Enhancements added:
+
+- page-specific eyebrow labels and plain-English subtitles,
+- stronger cover hero treatment,
+- circular topic chips on the cover,
+- icon badges for hospital status, rehab, home support, long-term care, billing, authorization, and document checks,
+- larger direct-answer panels,
+- clearer visual separation between compare, warning, ask, and flow sections,
+- improved flow arrows using CSS instead of loose text arrows,
+- better card shadows and rounded-panel hierarchy for screen review,
+- print fallback that removes shadows for black-and-white testing,
+- tighter three-column source-map layout.
+
+The goal of this pass is to make the guide easier to scan, more visually satisfying, and clearly differentiated from the long reference guide.
 
 ## Builder issue fixed before visual redesign
 
@@ -55,6 +75,8 @@ The PDF builder now renders the short guide as:
 - ask-card grids,
 - step/flow cards,
 - cleaner page numbers and badge headers,
+- page-specific subtitles,
+- visual icon markers inside each card,
 - a compact source-map page.
 
 This should make the guide easier to scan, more visibly satisfying, and more distinct from the longer reference guide.
@@ -76,7 +98,7 @@ This should make the guide easier to scan, more visibly satisfying, and more dis
 - Confirmed the page text avoids broad guaranteed/automatic coverage language.
 - Confirmed the page text avoids dollar amounts.
 - Confirmed the page text avoids sales, affiliate, ranking, and lead-generation language.
-- Generated the revised HTML candidate from the visual builder logic for syntax/path review.
+- Validated the enhanced builder syntax with `node --check` before committing.
 
 ## Generated candidate paths
 
@@ -102,6 +124,9 @@ The source-map page is intentional because the guide should remain trustworthy w
 |---|---:|---|
 | Less text | Pass | Manuscript copy was compressed into short decision-card language. |
 | More visual structure | Pass | Builder now uses branded panels, grids, badges, callouts, and flow cards. |
+| More appealing visuals | Pass | Enhanced cover treatment, icon badges, panel hierarchy, section coloring, and card styling. |
+| Easier to understand | Pass | Page subtitles, icon markers, and visual section types clarify each page's job. |
+| Print-aware design | Pass | Print media fallback removes shadows for black-and-white testing. |
 | Title is clear | Pass | Title remains `The Hospital Discharge & Medicare Quick Guide`. |
 | Disclaimer/review warning retained | Pass | Educational-only language remains in the guide system and cover treatment. |
 | All 10 planned sections present | Pass | Start Here, 5 Misunderstandings, Medicare vs Medicaid, Original Medicare vs Medicare Advantage, Inpatient vs Observation, Before Discharge, Rehab/SNF, Home Health/DME/LTC, Bills/EOBs/MSNs, and Scripts/Next Steps are present. |
@@ -133,12 +158,12 @@ Remaining blockers:
 ## Release gate state
 
 - Quick Guide manuscript: visually tightened.
-- Quick Guide builder: updated for card-based PDF layout.
+- Quick Guide builder: updated for enhanced card-based PDF layout.
 - Quick Guide PDF candidate: ready for manual artifact review once generated from the patched builder.
 - Public release: blocked.
 
 ## Classification
 
-**B. visual PDF-candidate-ready** for manual review.
+**B. enhanced visual PDF-candidate-ready** for manual review.
 
 Not **C. public-release-ready** because the public PDF, CTA, sitemap, QR codes, device review, and print review are intentionally still blocked.

@@ -78,19 +78,12 @@ const renderLooseMarkdown = (markdown, { compact = false } = {}) => {
 
     closeLists();
 
-    if (line.startsWith("> ")) {
-      html.push(`<blockquote>${inline(line.slice(2))}</blockquote>`);
-    } else if (line.startsWith("#### ")) {
-      html.push(`<h4>${inline(line.slice(5))}</h4>`);
-    } else if (line.startsWith("### ")) {
-      html.push(`<h3>${inline(line.slice(4))}</h3>`);
-    } else if (line.startsWith("## ")) {
-      html.push(`<h3>${inline(line.slice(3))}</h3>`);
-    } else if (line.startsWith("# ")) {
-      html.push(`<h2>${inline(line.slice(2))}</h2>`);
-    } else {
-      html.push(`<p${compact ? ' class="small"' : ""}>${inline(line)}</p>`);
-    }
+    if (line.startsWith("> ")) html.push(`<blockquote>${inline(line.slice(2))}</blockquote>`);
+    else if (line.startsWith("#### ")) html.push(`<h4>${inline(line.slice(5))}</h4>`);
+    else if (line.startsWith("### ")) html.push(`<h3>${inline(line.slice(4))}</h3>`);
+    else if (line.startsWith("## ")) html.push(`<h3>${inline(line.slice(3))}</h3>`);
+    else if (line.startsWith("# ")) html.push(`<h2>${inline(line.slice(2))}</h2>`);
+    else html.push(`<p${compact ? ' class="small"' : ""}>${inline(line)}</p>`);
   }
 
   closeLists();
@@ -209,11 +202,91 @@ const renderWorksheet = ({ title, rows }) => `
     <div class="worksheet-card">
       ${rows.map((row) => `<div class="worksheet-row"><strong>${inline(row)}:</strong><span></span></div>`).join("\n")}
     </div>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Worksheet</span></div>
   </section>`;
 
+const renderGuideMapVisual = () => `
+  <div class="visual visual-overview">
+    <div class="visual-title">Use the guide by matching the problem to the next verification step</div>
+    <div class="flow five">
+      <div class="flow-step"><span class="step-label">1</span><strong>Discharge</strong><small>Where is the patient going?</small></div>
+      <div class="flow-step"><span class="step-label">2</span><strong>Coverage</strong><small>Which payer and rule applies?</small></div>
+      <div class="flow-step"><span class="step-label">3</span><strong>Documents</strong><small>What notice, EOB, MSN, or bill exists?</small></div>
+      <div class="flow-step"><span class="step-label">4</span><strong>Cost</strong><small>What could the patient owe?</small></div>
+      <div class="flow-step"><span class="step-label">5</span><strong>Verify</strong><small>Who can confirm it in writing?</small></div>
+    </div>
+  </div>`;
+
+const renderMedicareMedicaidVisual = () => `
+  <div class="visual">
+    <div class="visual-title">Medicare and Medicaid answer different questions</div>
+    <div class="visual-grid two">
+      <div class="visual-card">
+        <div class="visual-kicker">Medicare</div>
+        <strong>Federal health insurance</strong>
+        <p>Usually tied to age, disability, or certain serious conditions. It asks whether a service fits a Medicare benefit and coverage rule.</p>
+        <ul><li>Hospital, doctor, drug, rehab, and plan questions</li><li>Can still leave deductibles, copays, or coinsurance</li></ul>
+      </div>
+      <div class="visual-card">
+        <div class="visual-kicker">Medicaid</div>
+        <strong>State-administered assistance</strong>
+        <p>Uses federal rules and state rules. It asks whether the person qualifies under state eligibility and service rules.</p>
+        <ul><li>May matter for long-term services and supports</li><li>State agency verification is essential</li></ul>
+      </div>
+    </div>
+  </div>`;
+
+const renderBillComparisonVisual = () => `
+  <div class="visual">
+    <div class="visual-title">Do not review a confusing bill by itself</div>
+    <div class="bill-grid">
+      <div class="visual-card"><div class="visual-kicker">Provider bill</div><strong>What the provider says is owed</strong><p>Shows the charge, payment posted, and patient balance.</p></div>
+      <div class="visual-card"><div class="visual-kicker">MSN or EOB</div><strong>What Medicare or the plan processed</strong><p>Shows allowed amount, payment, denial, and possible patient responsibility.</p></div>
+      <div class="visual-card"><div class="visual-kicker">Next call</div><strong>What needs verification</strong><p>Ask the billing office or plan to explain mismatches before paying blindly.</p></div>
+    </div>
+  </div>`;
+
+const renderDischargePathwayVisual = () => `
+  <div class="visual">
+    <div class="visual-title">Discharge planning usually has two tracks: care need and payer rule</div>
+    <div class="pathway">
+      <div class="path-node start"><strong>Hospital stay</strong><small>Confirm inpatient, outpatient, or observation status.</small></div>
+      <div class="path-branches">
+        <div class="path-node"><strong>Home health</strong><small>Ordered services, homebound status, equipment, plan rules.</small></div>
+        <div class="path-node"><strong>SNF / rehab</strong><small>Skilled need, facility status, authorization, cost-sharing.</small></div>
+        <div class="path-node"><strong>Long-term care</strong><small>Custodial needs, Medicaid/LTSS, private pay, state rules.</small></div>
+      </div>
+      <div class="path-node end"><strong>Before agreeing</strong><small>Ask who pays, what is approved, what can be owed, and what happens if coverage ends.</small></div>
+    </div>
+  </div>`;
+
+const renderSnfTimelineVisual = () => `
+  <div class="visual">
+    <div class="visual-title">SNF coverage is short-term and rule-based</div>
+    <div class="timeline">
+      <div class="timeline-step"><span>Before SNF</span><strong>Qualifying rule</strong><small>Hospital status, skilled need, facility, and payer rules matter.</small></div>
+      <div class="timeline-step"><span>Early stay</span><strong>Covered days may begin</strong><small>Cost-sharing can differ by day range and payer arrangement.</small></div>
+      <div class="timeline-step"><span>Ongoing stay</span><strong>Review continues</strong><small>Coverage can depend on skilled need, documentation, and authorization.</small></div>
+      <div class="timeline-step"><span>After skilled care</span><strong>Question changes</strong><small>Daily custodial help is a different payer and planning problem.</small></div>
+    </div>
+  </div>`;
+
+const renderChapterVisual = (chapter) => {
+  switch (Number(chapter.number)) {
+    case 4:
+      return renderMedicareMedicaidVisual();
+    case 8:
+      return renderBillComparisonVisual();
+    case 10:
+      return renderDischargePathwayVisual();
+    case 12:
+      return renderSnfTimelineVisual();
+    default:
+      return "";
+  }
+};
+
 const renderChapter = (chapter) => `
-  <section class="page chapter">
+  <section class="chapter">
     <div class="chapter-title">
       <div class="chapter-number">Chapter ${chapter.number}</div>
       <h2>${escapeHtml(chapter.title)}</h2>
@@ -226,6 +299,7 @@ const renderChapter = (chapter) => `
 
     <h3>Plain-English explanation</h3>
     ${renderLooseMarkdown(chapter.explanation)}
+    ${renderChapterVisual(chapter)}
 
     <div class="callout keep-soft">
       <div class="label">Common misunderstanding</div>
@@ -239,17 +313,6 @@ const renderChapter = (chapter) => `
 
     <h3>Questions to ask</h3>
     ${renderLooseMarkdown(chapter.questions)}
-
-    <div class="tools keep-soft">
-      <div>
-        <div class="label">Related site tools</div>
-        ${renderLooseMarkdown(chapter.tools, { compact: true })}
-      </div>
-      <div class="qr">QR PLACEHOLDER<br />DO NOT PRINT FINAL UNTIL URL IS LIVE AND TESTED</div>
-    </div>
-
-    <div class="source keep-soft">${renderLooseMarkdown(chapter.source, { compact: true })}</div>
-    <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Draft preflight</span></div>
   </section>`;
 
 const findChrome = () => {
@@ -336,52 +399,67 @@ const html = `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>The Hospital Family Guide to Medicare, Medicaid, Rehab, and Long-Term Care</title>
   <style>
-    @page { size: letter; margin: 0.65in 0.7in; }
-    :root { --ink:#171717; --muted:#4f555c; --line:#aeb8c2; --soft:#f2f4f6; --accent:#1f4d5a; --accent-soft:#edf6f8; }
+    @page { size: letter; margin: 0.6in 0.66in; }
+    :root { --ink:#171717; --muted:#4f555c; --line:#aeb8c2; --soft:#f2f4f6; --accent:#1f4d5a; --accent-soft:#edf6f8; --paper:#fbfcfd; }
     * { box-sizing: border-box; }
     html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    body { margin: 0; color: var(--ink); background: white; font: 11pt/1.5 Georgia, "Times New Roman", serif; overflow-wrap: anywhere; text-rendering: optimizeLegibility; }
-    h1,h2,h3,h4,.sans,.label,.footer,.toc,.qr,.worksheet,.eyebrow { font-family: Arial, Helvetica, sans-serif; }
-    h1 { font-size: 27pt; line-height: 1.1; margin: 0 0 0.22in; max-width: 7in; }
-    h2 { font-size: 18pt; line-height: 1.2; margin: 0 0 0.16in; break-after: avoid; page-break-after: avoid; }
-    h3 { font-size: 12.5pt; line-height: 1.25; margin: 0.18in 0 0.06in; break-after: avoid; page-break-after: avoid; }
-    h4 { font-size: 10pt; line-height: 1.25; margin: 0.14in 0 0.05in; break-after: avoid; page-break-after: avoid; }
-    p { margin: 0 0 0.11in; orphans: 3; widows: 3; }
-    ul,ol { margin: 0.05in 0 0.14in 0.22in; padding: 0; }
-    li { margin: 0.04in 0; orphans: 2; widows: 2; }
-    blockquote { border-left: 5px solid var(--accent); margin: 0.14in 0; padding: 0.02in 0 0.02in 0.14in; }
-    code,.breakable { font-family: Arial, Helvetica, sans-serif; font-size: 8.6pt; overflow-wrap: anywhere; word-break: break-word; }
-    .page { page-break-after: always; break-after: page; min-height: 9.35in; position: relative; padding-bottom: 0.18in; }
+    body { margin: 0; color: var(--ink); background: white; font: 10.8pt/1.46 Georgia, "Times New Roman", serif; overflow-wrap: anywhere; text-rendering: optimizeLegibility; }
+    h1,h2,h3,h4,.sans,.label,.footer,.toc,.qr,.worksheet,.eyebrow,.visual { font-family: Arial, Helvetica, sans-serif; }
+    h1 { font-size: 26pt; line-height: 1.08; margin: 0 0 0.18in; max-width: 7in; }
+    h2 { font-size: 17pt; line-height: 1.18; margin: 0 0 0.12in; break-after: avoid; page-break-after: avoid; }
+    h3 { font-size: 12pt; line-height: 1.25; margin: 0.13in 0 0.045in; break-after: avoid; page-break-after: avoid; }
+    h4 { font-size: 9.8pt; line-height: 1.25; margin: 0.1in 0 0.035in; break-after: avoid; page-break-after: avoid; }
+    p { margin: 0 0 0.085in; orphans: 3; widows: 3; }
+    ul,ol { margin: 0.035in 0 0.1in 0.2in; padding: 0; }
+    li { margin: 0.025in 0; orphans: 2; widows: 2; }
+    blockquote { border-left: 4px solid var(--accent); margin: 0.1in 0; padding: 0.01in 0 0.01in 0.12in; }
+    code,.breakable { font-family: Arial, Helvetica, sans-serif; font-size: 8.4pt; overflow-wrap: anywhere; word-break: break-word; }
+    .page { page-break-after: always; break-after: page; position: relative; padding-bottom: 0.08in; }
     .page:last-child { page-break-after: auto; break-after: auto; }
-    .cover { display: grid; align-content: center; min-height: 9.35in; }
-    .eyebrow { font-weight: 700; font-size: 9pt; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.16in; }
-    .subtitle { font: 13.5pt/1.35 Arial, Helvetica, sans-serif; color: var(--muted); max-width: 6.5in; }
-    .byline { margin-top: 0.45in; font: 10pt/1.4 Arial, Helvetica, sans-serif; color: var(--muted); }
-    .notice,.answer,.example,.source,.qr-directory,.update-log,.worksheet-card { border: 1px solid var(--line); background: var(--soft); padding: 0.14in; margin: 0.14in 0; }
+    .cover { display: grid; align-content: center; min-height: 9.1in; }
+    .eyebrow { font-weight: 700; font-size: 8.8pt; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.13in; }
+    .subtitle { font: 13pt/1.32 Arial, Helvetica, sans-serif; color: var(--muted); max-width: 6.5in; }
+    .byline { margin-top: 0.34in; font: 9.7pt/1.35 Arial, Helvetica, sans-serif; color: var(--muted); }
+    .notice,.answer,.example,.qr-directory,.worksheet-card { border: 1px solid var(--line); background: var(--soft); padding: 0.11in; margin: 0.1in 0; }
     .answer { border: 1.5px solid var(--accent); background: var(--accent-soft); }
-    .callout { border-left: 5px solid var(--accent); padding: 0.04in 0 0.04in 0.14in; margin: 0.16in 0; }
+    .answer p:last-child,.notice p:last-child,.example p:last-child,.source p:last-child,.visual p:last-child { margin-bottom: 0; }
+    .callout { border-left: 4px solid var(--accent); padding: 0.025in 0 0.025in 0.12in; margin: 0.105in 0; }
     .example { background: white; }
-    .label { font-weight: 700; font-size: 8.5pt; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.05in; }
-    .chapter { page-break-before: always; break-before: page; }
-    .chapter-title { border-bottom: 1px solid var(--line); padding-bottom: 0.12in; margin-bottom: 0.16in; }
-    .chapter-number { font: 700 9pt/1.2 Arial, Helvetica, sans-serif; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 0.06in; }
-    .tools { display: grid; grid-template-columns: minmax(0, 1fr) 1.25in; gap: 0.18in; align-items: start; border-top: 1px solid var(--line); padding-top: 0.12in; margin-top: 0.18in; page-break-inside: avoid; break-inside: avoid; }
-    .qr { width: 1.25in; min-height: 1.25in; border: 2px dashed var(--muted); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 7.1pt; color: var(--muted); padding: 0.08in; overflow-wrap: normal; }
-    .source { font-size: 8.8pt; color: var(--muted); background: white; overflow-wrap: anywhere; page-break-inside: auto; break-inside: auto; }
+    .label { font-weight: 700; font-size: 8.3pt; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.035in; }
+    .chapter { margin: 0 0 0.18in; }
+    .chapter-title { border-top: 1.5px solid var(--accent); border-bottom: 1px solid var(--line); padding: 0.1in 0 0.08in; margin: 0.2in 0 0.105in; }
+    .chapter-number { font: 700 8.8pt/1.2 Arial, Helvetica, sans-serif; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 0.04in; }
+    .source { font-size: 8.4pt; color: var(--muted); background: white; border-top: 1px solid var(--line); padding-top: 0.06in; margin-top: 0.08in; overflow-wrap: anywhere; page-break-inside: auto; break-inside: auto; }
     .source p { margin-bottom: 0; }
-    .footer { position: static; margin-top: 0.22in; font-size: 8pt; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.06in; display: flex; justify-content: space-between; gap: 0.2in; }
-    .toc ol { columns: 1; padding-left: 0.26in; }
-    .toc li { break-inside: avoid; page-break-inside: avoid; margin-bottom: 0.055in; }
+    .footer { position: static; margin-top: 0.14in; font-size: 7.8pt; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.05in; display: flex; justify-content: space-between; gap: 0.18in; }
+    .toc ol { columns: 1; padding-left: 0.24in; }
+    .toc li { break-inside: avoid; page-break-inside: avoid; margin-bottom: 0.04in; }
     .worksheet { page-break-before: always; break-before: page; }
     .worksheet-card { background: white; }
-    .worksheet-row { border-bottom: 1px solid var(--line); min-height: 0.56in; padding: 0.1in 0; display: grid; grid-template-columns: minmax(1.9in, 2.2in) 1fr; gap: 0.14in; align-items: start; }
-    .worksheet-row strong { font-family: Arial, Helvetica, sans-serif; font-size: 9.3pt; }
-    .worksheet-row span { min-height: 0.34in; display: block; }
-    .small { font-size: 9pt; color: var(--muted); }
+    .worksheet-row { border-bottom: 1px solid var(--line); min-height: 0.5in; padding: 0.08in 0; display: grid; grid-template-columns: minmax(1.9in, 2.15in) 1fr; gap: 0.12in; align-items: start; }
+    .worksheet-row strong { font-family: Arial, Helvetica, sans-serif; font-size: 9.1pt; }
+    .worksheet-row span { min-height: 0.3in; display: block; }
+    .small { font-size: 8.8pt; color: var(--muted); }
     .keep { page-break-inside: avoid; break-inside: avoid; }
-    .keep-soft { page-break-inside: avoid; break-inside: avoid; }
-    .source.keep-soft { page-break-inside: auto; break-inside: auto; }
-    @media print { a { text-decoration: none; } .page { break-after: page; } .chapter { break-before: page; } }
+    .keep-soft { page-break-inside: auto; break-inside: auto; }
+    .visual { border: 1px solid var(--line); background: var(--paper); padding: 0.11in; margin: 0.115in 0 0.13in; page-break-inside: avoid; break-inside: avoid; }
+    .visual-title { font-weight: 700; color: var(--accent); font-size: 9.4pt; line-height: 1.25; margin-bottom: 0.08in; }
+    .visual-grid.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.1in; }
+    .visual-card,.flow-step,.path-node,.timeline-step { border: 1px solid #cbd3da; background: white; padding: 0.085in; }
+    .visual-card strong,.flow-step strong,.path-node strong,.timeline-step strong { display: block; font-size: 9pt; line-height: 1.2; margin-bottom: 0.035in; }
+    .visual-card p,.visual-card li,.flow-step small,.path-node small,.timeline-step small { font-size: 8.15pt; line-height: 1.3; color: var(--muted); }
+    .visual-card ul { margin-bottom: 0; }
+    .visual-kicker,.timeline-step span,.step-label { display: inline-block; font-size: 7.5pt; line-height: 1; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 0.04in; }
+    .flow { display: grid; gap: 0.08in; }
+    .flow.five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .bill-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.09in; }
+    .pathway { display: grid; gap: 0.08in; }
+    .path-branches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.08in; }
+    .path-node.start,.path-node.end { background: var(--accent-soft); border-color: var(--accent); }
+    .timeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.08in; }
+    .qr-directory .tools { display: grid; grid-template-columns: minmax(0, 1fr) 1.18in; gap: 0.12in; align-items: start; border-top: 1px solid var(--line); padding: 0.08in 0; }
+    .qr { width: 1.18in; min-height: 1.18in; border: 2px dashed var(--muted); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 6.8pt; color: var(--muted); padding: 0.07in; overflow-wrap: normal; }
+    @media print { a { text-decoration: none; } .page { break-after: page; } }
   </style>
 </head>
 <body>
@@ -399,6 +477,7 @@ const html = `<!doctype html>
     <div class="notice"><p>This guide is educational only. It is not medical, legal, tax, insurance, Medicaid planning, or individualized financial advice. It does not replace Medicare.gov, Medicaid.gov, CMS, state Medicaid agencies, plan documents, billing offices, SHIP counselors, clinicians, attorneys, licensed insurance professionals, or other qualified professionals. Rules can vary by state, plan, facility, timing, and personal circumstances. Verify before making decisions.</p></div>
     <h2>How to use this guide</h2>
     <p>Start with the problem in front of you: discharge, rehab, home health, long-term care, Medicaid, a denial, or a bill. Write down the patient status, payer, facility, dates, reference numbers, and written notices before calling. Then verify the answer with the source that controls the decision.</p>
+    ${renderGuideMapVisual()}
     <div class="footer"><span>Community Acquired Finance | Educational only</span><span>Draft preflight</span></div>
   </section>
 

@@ -29,8 +29,17 @@ jobs:
         run: npm run lint
         continue-on-error: true
 
-      - name: Test
-        run: npm test
+      - name: Full guide content check
+        run: npm run guide:content-check
+
+      - name: Quick guide content check
+        run: npm run guide:quick-content-check
+
+      - name: All quick guide content checks
+        run: npm run guide:quick-content-check:all
+
+      - name: Unit tests
+        run: npx vitest run
 
       - name: Build
         run: npm run build

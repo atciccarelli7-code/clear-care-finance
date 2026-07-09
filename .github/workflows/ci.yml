@@ -35,6 +35,9 @@ jobs:
       - name: Quick guide content check
         run: npm run guide:quick-content-check
 
+      - name: All quick guide content checks
+        run: npm run guide:quick-content-check:all
+
       - name: Unit tests
         run: npx vitest run
 

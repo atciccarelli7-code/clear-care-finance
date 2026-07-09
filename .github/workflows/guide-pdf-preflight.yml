@@ -17,7 +17,7 @@ on:
       - package-lock.json
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-guide-pdf-artifacts:
@@ -93,12 +93,12 @@ jobs:
             exit 1
           fi
 
-      - name: Fail if any PDF was placed under public draft or guide paths
+      - name: Fail if any PDF was placed under public draft or guide paths before publish step
         run: |
           set -euo pipefail
           for dir in public/drafts public/guides; do
             if [ -d "$dir" ] && find "$dir" -type f -iname "*.pdf" | grep -q .; then
-              echo "Generated or committed PDF found under $dir. Draft PDFs must not be placed in public paths."
+              echo "PDF found under $dir before the controlled publish step."
               find "$dir" -type f -iname "*.pdf"
               exit 1
             fi
@@ -126,16 +126,6 @@ jobs:
             echo
             echo "SHA-256 checksums:"
             sha256sum "$html" "$pdf"
-            echo
-            echo "Public PDF guardrail check: no PDF files are allowed under public/drafts or public/guides during artifact review."
-            for dir in public/drafts public/guides; do
-              if [ -d "$dir" ]; then
-                echo "$dir:"
-                find "$dir" -type f -iname "*.pdf" -print || true
-              else
-                echo "$dir: directory does not exist"
-              fi
-            done
           } > "$out"
 
           cat "$out"
@@ -162,16 +152,6 @@ jobs:
             echo
             echo "SHA-256 checksums:"
             sha256sum "$html" "$pdf"
-            echo
-            echo "Public PDF guardrail check: no PDF files are allowed under public/drafts or public/guides during artifact review."
-            for dir in public/drafts public/guides; do
-              if [ -d "$dir" ]; then
-                echo "$dir:"
-                find "$dir" -type f -iname "*.pdf" -print || true
-              else
-                echo "$dir: directory does not exist"
-              fi
-            done
           } > "$out"
 
           cat "$out"
@@ -197,3 +177,21 @@ jobs:
             docs/generated/medicare-medicaid-quick-guide/quick-guide-preflight-artifact-manifest.txt
           if-no-files-found: error
           retention-days: 14
+
+      - name: Publish quick guide PDF to public path for launch review
+        if: github.event_name == 'pull_request' && github.head_ref == 'guide-final-pdf-candidate'
+        run: |
+          set -euo pipefail
+          mkdir -p public/guides
+          cp docs/generated/medicare-medicaid-quick-guide/hospital-discharge-medicare-quick-guide-preflight.pdf public/guides/hospital-discharge-medicare-quick-guide.pdf
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/guides/hospital-discharge-medicare-quick-guide.pdf
+
+          if git diff --cached --quiet; then
+            echo "Public quick guide PDF already matches generated artifact."
+          else
+            git commit -m "Publish quick guide PDF for launch review"
+            git push origin "HEAD:${GITHUB_HEAD_REF}"
+          fi

@@ -2,13 +2,26 @@ name: Guide PDF Preflight Artifact
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/guide-pdf-preflight.yml
+      - docs/medicare-medicaid-guide-final-pre-pdf-manuscript.md
+      - docs/medicare-medicaid-quick-guide-pre-pdf-manuscript.md
+      - scripts/build-medicare-medicaid-guide-pdf.mjs
+      - scripts/build-medicare-medicaid-quick-guide-pdf.mjs
+      - scripts/check-medicare-medicaid-guide-content.mjs
+      - scripts/check-medicare-medicaid-quick-guide-content.mjs
+      - package.json
+      - package-lock.json
 
 permissions:
   contents: read
 
 jobs:
-  build-guide-pdf-artifact:
-    name: Build draft guide PDF artifact
+  build-guide-pdf-artifacts:
+    name: Build draft guide PDF artifacts
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -18,17 +31,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Set up Chrome
         id: setup-chrome
         uses: browser-actions/setup-chrome@v1
 
-      - name: Build draft PDF locally in docs/generated
+      - name: Run guide content checks
+        run: |
+          set -euo pipefail
+          npm run guide:content-check
+          npm run guide:quick-content-check
+
+      - name: Build draft PDFs locally in docs/generated
         env:
           CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-        run: npm run guide:pdf:draft
+        run: |
+          set -euo pipefail
+          npm run guide:pdf:draft
+          npm run guide:quick-pdf:draft
 
-      - name: Confirm generated draft files exist and are non-empty
+      - name: Confirm generated full guide files exist and are non-empty
         run: |
           set -euo pipefail
           html="docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.html"
@@ -40,11 +66,31 @@ jobs:
           html_bytes=$(stat -c%s "$html")
           pdf_bytes=$(stat -c%s "$pdf")
 
-          echo "Generated HTML bytes: $html_bytes"
-          echo "Generated PDF bytes: $pdf_bytes"
+          echo "Generated full guide HTML bytes: $html_bytes"
+          echo "Generated full guide PDF bytes: $pdf_bytes"
 
           if [ "$pdf_bytes" -lt 50000 ]; then
-            echo "Generated PDF is unexpectedly small. Treating this as a failed preflight artifact."
+            echo "Generated full guide PDF is unexpectedly small. Treating this as a failed preflight artifact."
+            exit 1
+          fi
+
+      - name: Confirm generated quick guide files exist and are non-empty
+        run: |
+          set -euo pipefail
+          html="docs/generated/medicare-medicaid-quick-guide/hospital-discharge-medicare-quick-guide-preflight.html"
+          pdf="docs/generated/medicare-medicaid-quick-guide/hospital-discharge-medicare-quick-guide-preflight.pdf"
+
+          test -s "$html"
+          test -s "$pdf"
+
+          html_bytes=$(stat -c%s "$html")
+          pdf_bytes=$(stat -c%s "$pdf")
+
+          echo "Generated quick guide HTML bytes: $html_bytes"
+          echo "Generated quick guide PDF bytes: $pdf_bytes"
+
+          if [ "$pdf_bytes" -lt 20000 ]; then
+            echo "Generated quick guide PDF is unexpectedly small. Treating this as a failed preflight artifact."
             exit 1
           fi
 
@@ -59,7 +105,7 @@ jobs:
             fi
           done
 
-      - name: Create artifact manifest
+      - name: Create full guide artifact manifest
         env:
           CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         run: |
@@ -95,7 +141,43 @@ jobs:
 
           cat "$out"
 
-      - name: Upload draft guide PDF artifact
+      - name: Create quick guide artifact manifest
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: |
+          set -euo pipefail
+          out="docs/generated/medicare-medicaid-quick-guide/quick-guide-preflight-artifact-manifest.txt"
+          html="docs/generated/medicare-medicaid-quick-guide/hospital-discharge-medicare-quick-guide-preflight.html"
+          pdf="docs/generated/medicare-medicaid-quick-guide/hospital-discharge-medicare-quick-guide-preflight.pdf"
+
+          {
+            echo "Quick Guide PDF Preflight Artifact Manifest"
+            echo "Generated at: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "Commit: ${GITHUB_SHA}"
+            echo "Run ID: ${GITHUB_RUN_ID}"
+            echo "Run number: ${GITHUB_RUN_NUMBER}"
+            echo "Chrome path: ${CHROME_PATH:-not set}"
+            echo
+            echo "Generated files:"
+            ls -lh "$html" "$pdf"
+            echo
+            echo "SHA-256 checksums:"
+            sha256sum "$html" "$pdf"
+            echo
+            echo "Public PDF guardrail check: no PDF files are allowed under public/drafts or public/guides during artifact review."
+            for dir in public/drafts public/guides; do
+              if [ -d "$dir" ]; then
+                echo "$dir:"
+                find "$dir" -type f -iname "*.pdf" -print || true
+              else
+                echo "$dir: directory does not exist"
+              fi
+            done
+          } > "$out"
+
+          cat "$out"
+
+      - name: Upload full guide draft PDF artifact
         uses: actions/upload-artifact@v4
         with:
           name: medicare-medicaid-guide-preflight-draft
@@ -103,5 +185,16 @@ jobs:
             docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.html
             docs/generated/medicare-medicaid-guide/hospital-family-guide-medicare-medicaid-preflight.pdf
             docs/generated/medicare-medicaid-guide/guide-preflight-artifact-manifest.txt
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload quick guide draft PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: medicare-medicaid-quick-guide-preflight-draft
+          path: |
+            docs/generated/medicare-medicaid-quick-guide/hospital-discharge-medicare-quick-guide-preflight.html
+            docs/generated/medicare-medicaid-quick-guide/hospital-discharge-medicare-quick-guide-preflight.pdf
+            docs/generated/medicare-medicaid-quick-guide/quick-guide-preflight-artifact-manifest.txt
           if-no-files-found: error
           retention-days: 14

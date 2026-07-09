@@ -1,7 +1,7 @@
 # The Hospital Discharge & Medicare Quick Guide
 
 Community Acquired Finance  
-Visual quick guide launch-review candidate  
+Visual pre-PDF quick guide candidate  
 Last updated: 2026-07-09
 
 > Educational only. This quick guide is not medical, legal, tax, insurance, Medicaid planning, or individualized financial advice. It does not replace Medicare.gov, Medicaid.gov, CMS, state Medicaid agencies, plan documents, billing offices, SHIP counselors, clinicians, attorneys, licensed insurance professionals, or other qualified professionals. Rules can vary by state, plan, facility, timing, documentation, medical necessity, provider participation, and personal circumstances. Verify before making decisions.

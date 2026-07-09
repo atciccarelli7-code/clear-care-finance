@@ -77,3 +77,5 @@ jobs:
             git commit -m "Regenerate simplified hospital discharge quick guide PDF"
             git push origin HEAD:main
           fi
+
+# Triggered intentionally after workflow was present on main.

@@ -65,6 +65,7 @@ const calculatorGroups = [
   {
     label: "Patients and caregivers",
     items: [
+      { id: "hospital-discharge-medicare-checklist", label: "Hospital Discharge Medicare Checklist Tool" },
       { id: "medicare", label: "Medicare Cost Exposure Tool" },
     ],
   },
@@ -77,6 +78,13 @@ const calculatorGroups = [
 ];
 
 const intentCards = [
+  {
+    eyebrow: "Hospital discharge",
+    title: "I need to know what to ask before discharge",
+    description: "Use the guided checklist for rehab/SNF, home health, equipment, medication, denial, Medicaid, or bill questions.",
+    href: "#hospital-discharge-medicare-checklist",
+    cta: "Build discharge checklist",
+  },
   {
     eyebrow: "Medical bill",
     title: "I got a confusing bill or EOB",
@@ -332,11 +340,28 @@ const Tools = () => {
 
         <section className="space-y-6">
           <SectionIntro eyebrow="Medicare & caregiver planning" title="Estimate exposure before comparing plan marketing" description="Use this as a rough planning snapshot, then verify plan details with official sources and plan documents." />
-          <ToolAnchor id="medicare" bestFirst>
-            <CalculatorCard icon={HeartPulse} eyebrow="For patients & caregivers" title="Medicare Cost Exposure Tool" description="Rough estimate for premiums, deductibles, prescriptions, and coinsurance over a year." relatedArticle={{ label: "Medicare Options Explained", href: "/articles/medicare-options-explained" }}>
-              <CalcMedicare />
-            </CalculatorCard>
-          </ToolAnchor>
+          <div className="space-y-8">
+            <ToolAnchor id="hospital-discharge-medicare-checklist" bestFirst>
+              <CalculatorCard icon={ClipboardCheck} eyebrow="Patients and caregivers" title="Hospital Discharge Medicare Checklist Tool" description="Build a focused checklist for discharge, rehab/SNF, home health, equipment, medication, Medicare Advantage authorization, Medicaid, long-term care, or medical bill questions." relatedArticle={{ label: "Hospital Discharge & Medicare Guide", href: "/guides/hospital-discharge-medicare" }}>
+                <div className="space-y-4">
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    Use the dedicated tool page to answer a few questions and generate a copy-friendly or print-friendly call checklist.
+                  </p>
+                  <a
+                    href="/tools/hospital-discharge-medicare-checklist"
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-sm transition-smooth hover:-translate-y-0.5 hover:shadow-card"
+                  >
+                    Open checklist tool <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </CalculatorCard>
+            </ToolAnchor>
+            <ToolAnchor id="medicare">
+              <CalculatorCard icon={HeartPulse} eyebrow="For patients & caregivers" title="Medicare Cost Exposure Tool" description="Rough estimate for premiums, deductibles, prescriptions, and coinsurance over a year." relatedArticle={{ label: "Medicare Options Explained", href: "/articles/medicare-options-explained" }}>
+                <CalcMedicare />
+              </CalculatorCard>
+            </ToolAnchor>
+          </div>
         </section>
 
         <section className="space-y-6">

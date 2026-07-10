@@ -45,6 +45,7 @@ describe("buildBenefitsBlueprint", () => {
 
     expect(result.contributionRange).toEqual({ minimum: 13, maximum: 18 });
     expect(result.planArchetypes[0].id).toBe("hdhp-hsa");
+    expect(result.planArchetypes[0].fitLabel).toBe("First archetype to inspect");
     expect(result.hsaGuidance).toContain(BENEFITS_LIMITS_2026.hsaSelfOnly.toLocaleString());
     expect(result.hsaGuidance).not.toContain("catch-up");
   });
@@ -65,7 +66,7 @@ describe("buildBenefitsBlueprint", () => {
     expect(result.hsaGuidance).toContain("$1,000 HSA catch-up");
   });
 
-  it("prioritizes flexibility signals for high-use regular care", () => {
+  it("labels equal leading plan scores as a tie instead of manufacturing a winner", () => {
     const result = buildBenefitsBlueprint({
       ...baseAnswers,
       healthcareUse: "high",
@@ -76,6 +77,9 @@ describe("buildBenefitsBlueprint", () => {
     });
 
     expect(result.planArchetypes[0].id).toBe("ppo");
+    expect(result.planArchetypes[1].id).toBe("hmo");
+    expect(result.planArchetypes[0].fitLabel).toBe("Top fit signal (tie)");
+    expect(result.planArchetypes[1].fitLabel).toBe("Top fit signal (tie)");
     expect(result.planArchetypes[0].reason).toContain("broad provider");
     expect(result.hsaGuidance).toContain("Compare the HSA option carefully");
   });
@@ -100,6 +104,7 @@ describe("buildBenefitsBlueprint", () => {
     expect(result.coverageTier).toContain("confirmed");
     expect(result.hsaGuidance).toContain("uncertain");
     expect(result.planArchetypes.every((plan) => plan.reason.includes("do not strongly favor"))).toBe(true);
+    expect(result.planArchetypes.every((plan) => plan.fitLabel === "No clear fit signal")).toBe(true);
   });
 
   it("creates copy-friendly text with the educational guardrail", () => {

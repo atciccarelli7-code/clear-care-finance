@@ -5,6 +5,7 @@ export const ADSENSE_SCRIPT_SRC = `https://pagead2.googlesyndication.com/pagead/
 
 const AD_FREE_PATHS = new Set([
   "/tools/healthcare-worker-benefits-blueprint",
+  "/tools/employer-benefits-action-plan",
   "/tools/medicare-medicaid-eligibility-check",
 ]);
 

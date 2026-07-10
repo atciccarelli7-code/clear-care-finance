@@ -195,6 +195,12 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
       "Build a goal-first workplace benefits blueprint for retirement contributions, health-plan fit, HSA questions, coverage tier, and open enrollment.",
     kind: "tool",
   },
+  "/tools/employer-benefits-action-plan": {
+    title: "Employer Benefits Action Plan",
+    description:
+      "Combine employer retirement, health insurance, and HSA details into a prioritized, plain-English benefits action plan without connecting an HR portal.",
+    kind: "tool",
+  },
   "/tools/medicare-medicaid-eligibility-check": {
     title: "Medicare and Medicaid Eligibility Check",
     description:

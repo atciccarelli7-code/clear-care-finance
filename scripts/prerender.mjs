@@ -80,7 +80,7 @@ try {
 
   const routes = getIndexableRoutes();
   for (const route of routes) {
-    const { html: appHtml, meta } = render(route);
+    const { html: appHtml, meta } = await render(route);
     const output = injectMeta(template.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`), meta);
     const outputPath = outputPathForRoute(route);
     await mkdir(path.dirname(outputPath), { recursive: true });
@@ -88,7 +88,7 @@ try {
   }
 
   const notFoundMeta = resolveSeoMeta("/__not-found__");
-  const { html: notFoundApp } = render("/__not-found__");
+  const { html: notFoundApp } = await render("/__not-found__");
   const notFoundHtml = injectMeta(
     template.replace('<div id="root"></div>', `<div id="root">${notFoundApp}</div>`),
     notFoundMeta,

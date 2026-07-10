@@ -275,9 +275,8 @@ export const buildBenefitsBlueprint = (answers: BenefitsBlueprintAnswers): Benef
 
   const hrQuestions = [
     answers.employerMatch === "not-sure"
-      ? "What is the exact retirement match formula, when is it deposited, and what is the vesting schedule?"
-      : "Can you confirm the retirement match formula, deposit timing, and vesting schedule in writing?",
-    "Does this plan permit age-based catch-up contributions, and could the special 403(b) 15-year service catch-up apply?",
+      ? "What is the exact retirement match formula, deposit timing, and vesting schedule, and does the plan permit age-based or 403(b) 15-year service catch-up contributions?"
+      : "Can you confirm the retirement match formula, deposit timing, vesting schedule, and any plan-permitted age-based or 403(b) 15-year service catch-up contributions in writing?",
     "Where can I download the Summary of Benefits and Coverage for every health-plan option?",
     answers.flexibility === "essential"
       ? "Which plans cover my current doctors and hospitals, and what happens when I use out-of-network care?"

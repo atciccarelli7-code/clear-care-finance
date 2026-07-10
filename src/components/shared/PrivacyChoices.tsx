@@ -10,9 +10,11 @@ import {
 } from "@/lib/privacyConsent";
 
 export const PrivacyChoices = () => {
-  const [open, setOpen] = useState(() => readPrivacyConsent() === null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    setOpen(readPrivacyConsent() === null);
+
     const reopen = () => setOpen(true);
     window.addEventListener(OPEN_PRIVACY_CHOICES_EVENT, reopen);
     return () => window.removeEventListener(OPEN_PRIVACY_CHOICES_EVENT, reopen);
@@ -27,9 +29,8 @@ export const PrivacyChoices = () => {
 
   return (
     <section
-      role="dialog"
-      aria-modal="false"
-      aria-labelledby="privacy-choices-title"
+      role="region"
+      aria-label="Privacy choices"
       className="fixed inset-x-3 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-[80] mx-auto max-w-3xl rounded-2xl border border-border bg-card p-4 shadow-hover md:bottom-4 md:p-5"
     >
       <div className="flex items-start gap-3">
@@ -37,7 +38,7 @@ export const PrivacyChoices = () => {
           <ShieldCheck className="h-5 w-5" aria-hidden="true" />
         </div>
         <div className="min-w-0 flex-1">
-          <h2 id="privacy-choices-title" className="font-display text-base font-bold text-foreground md:text-lg">
+          <h2 className="font-display text-base font-bold text-foreground md:text-lg">
             Privacy choices
           </h2>
           <p className="mt-1 text-sm leading-relaxed text-muted-foreground">

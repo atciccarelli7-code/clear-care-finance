@@ -189,6 +189,12 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
       "Work through a confusing medical bill step by step using the EOB, itemized charges, network status, insurer processing, and financial assistance.",
     kind: "tool",
   },
+  "/tools/employer-benefits-action-plan": {
+    title: "Employer Benefits Action Plan",
+    description:
+      "Combine employer retirement, health insurance, and HSA details into a prioritized, plain-English benefits action plan without connecting an HR portal.",
+    kind: "tool",
+  },
   "/tools/403b-paycheck-calculator": {
     title: "403(b) Paycheck Contribution Calculator",
     description:

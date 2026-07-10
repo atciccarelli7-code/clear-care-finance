@@ -189,6 +189,12 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
       "Work through a confusing medical bill step by step using the EOB, itemized charges, network status, insurer processing, and financial assistance.",
     kind: "tool",
   },
+  "/tools/medicare-medicaid-eligibility-check": {
+    title: "Medicare and Medicaid Eligibility Check",
+    description:
+      "Check possible Medicare, Medicaid, Medicare Savings Program, dual-eligibility, disability, pregnancy, child, and long-term-care pathways, then verify with official agencies.",
+    kind: "tool",
+  },
   "/tools/403b-paycheck-calculator": {
     title: "403(b) Paycheck Contribution Calculator",
     description:

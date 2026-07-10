@@ -213,16 +213,35 @@ const getPlanArchetypes = (answers: BenefitsBlueprintAnswers): PlanArchetype[] =
     },
   };
 
-  return (Object.keys(scores) as Array<keyof typeof scores>)
-    .sort((left, right) => scores[right] - scores[left])
-    .map((id, index) => ({
+  const rankedIds = (Object.keys(scores) as Array<keyof typeof scores>)
+    .sort((left, right) => scores[right] - scores[left]);
+  const topScore = scores[rankedIds[0]];
+  const topIds = rankedIds.filter((id) => scores[id] === topScore);
+  const hasPositiveLeader = topScore > 0;
+
+  return rankedIds.map((id, index) => {
+    const isTop = scores[id] === topScore;
+    const fitLabel = !hasPositiveLeader
+      ? isTop
+        ? "No clear fit signal"
+        : "Lower fit signal"
+      : isTop && topIds.length > 1
+        ? "Top fit signal (tie)"
+        : index === 0
+          ? "First archetype to inspect"
+          : index === 1
+            ? "Also compare"
+            : "Keep as a reference";
+
+    return {
       ...definitions[id],
-      fitLabel: index === 0 ? "First archetype to inspect" : index === 1 ? "Also compare" : "Keep as a reference",
+      fitLabel,
       reason:
         reasons[id].length > 0
           ? `This deserves comparison because ${reasons[id].slice(0, 2).join(" and ")}.`
           : "Your answers do not strongly favor or rule out this structure, so use the actual plan documents to compare it.",
-    }));
+    };
+  });
 };
 
 const getHsaGuidance = (answers: BenefitsBlueprintAnswers) => {

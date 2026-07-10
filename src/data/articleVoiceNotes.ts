@@ -20,6 +20,11 @@ export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
     title: "The hard part is not becoming an investing expert. It is avoiding the obvious mistakes.",
     body: "I learned this while trying to make sense of my own hospital retirement plan. Most healthcare workers are not handed a clean investing lesson after orientation. We get a fund menu, a match formula, and a lot of jargon. The practical goal is simple: capture the match when possible, make sure the money is actually invested, keep fees reasonable, and choose something you can stick with when the market is ugly.",
   },
+  "use-credit-cards-without-credit-card-debt": {
+    eyebrow: "From a simple credit-card rule",
+    title: "There is no ego in personal finance.",
+    body: "A rewards card is not impressive if the balance creates stress or interest. A low-limit secured card, a bank-linked credit-builder product, or even staying with debit can be the smarter choice while the routine is being built. The objective is not to prove that you can manage the largest limit. It is to build credit without creating a new monthly problem.",
+  },
   "hospital-cafe-habit": {
     eyebrow: "From 12-hour shifts",
     title: "The coffee is not the enemy. Invisible autopilot spending is.",

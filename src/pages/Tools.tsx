@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck, GraduationCap, Landmark, ArrowRight, Sparkles } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
@@ -50,6 +51,7 @@ const calculatorGroups = [
   {
     label: "Healthcare worker money",
     items: [
+      { id: "employer-benefits-action-plan", label: "Employer Benefits Action Plan" },
       { id: "403b", label: "403(b) Paycheck Contribution Calculator" },
       { id: "overtime", label: "OBBB Overtime Deduction Estimator" },
     ],
@@ -102,10 +104,10 @@ const intentCards = [
   },
   {
     eyebrow: "Healthcare worker money",
-    title: "I want paycheck and benefit clarity",
-    description: "Use the 403(b), overtime, and benefits tools to turn confusing deductions into numbers.",
-    href: "#403b",
-    cta: "Start with 403(b)",
+    title: "I need to organize my employer benefits",
+    description: "Combine the retirement match, health-plan costs, and HSA details you enter into one prioritized action plan.",
+    href: "#employer-benefits-action-plan",
+    cta: "Build my action plan",
   },
   {
     eyebrow: "Student loans",
@@ -315,7 +317,22 @@ const Tools = () => {
         <section className="space-y-6">
           <SectionIntro eyebrow="Healthcare worker money" title="Make paycheck and benefit choices easier to see" description="Use these when work benefits, overtime, and retirement deductions feel abstract." />
           <div className="space-y-8">
-            <ToolAnchor id="403b" bestFirst>
+            <ToolAnchor id="employer-benefits-action-plan" bestFirst>
+              <Link
+                to="/tools/employer-benefits-action-plan"
+                className="group block rounded-3xl border border-primary/20 bg-gradient-to-br from-primary-soft via-card to-card p-6 shadow-card transition-smooth hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-hover md:p-8"
+              >
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="max-w-2xl">
+                    <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground"><ClipboardCheck className="h-6 w-6" aria-hidden="true" /></div>
+                    <h3 className="font-display text-2xl font-bold">Employer Benefits Action Plan</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">Enter the 403(b) or 401(k), health insurance, and HSA details your employer provides. Get one prioritized plan plus questions for HR.</p>
+                  </div>
+                  <span className="inline-flex shrink-0 items-center gap-2 font-bold text-primary">Open guided tool <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
+                </div>
+              </Link>
+            </ToolAnchor>
+            <ToolAnchor id="403b">
               <CalculatorCard icon={Wallet} eyebrow="For healthcare workers" title="403(b) Paycheck Contribution Calculator" description="See per-paycheck contributions, annual contribution, and a rough employer match estimate." relatedArticle={{ label: "How to Pick Retirement Investments at Work", href: "/articles/how-to-pick-retirement-investments-at-work" }}>
                 <Calc403b />
               </CalculatorCard>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
@@ -55,6 +55,8 @@ import EditorialPolicy from "./pages/EditorialPolicy.tsx";
 import Disclosures from "./pages/Disclosures.tsx";
 import Accessibility from "./pages/Accessibility.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import { resolveSeoMeta } from "@/lib/seoRegistry";
+import { useSeo } from "@/lib/seo";
 
 declare global {
   interface Window {
@@ -63,6 +65,13 @@ declare global {
 }
 
 const queryClient = new QueryClient();
+
+const RouteSeo = () => {
+  const location = useLocation();
+  const meta = useMemo(() => resolveSeoMeta(location.pathname), [location.pathname]);
+  useSeo(meta);
+  return null;
+};
 
 const GoogleAnalyticsPageView = () => {
   const location = useLocation();
@@ -90,90 +99,99 @@ const ScrollToTop = () => {
   return null;
 };
 
-const App = () => (
+export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeTelemetry?: boolean }) => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <GoogleAnalyticsPageView />
-        <ScrollToTop />
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/start-here" element={<StartHere />} />
-            <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
-            <Route path="/build-wealth" element={<BuildWealthHub />} />
-            <Route path="/healthcare-workers/paycheck-tools" element={<HealthcareWorkerPaycheckTools />} />
-            <Route path="/patients-families" element={<PatientsFamilies />} />
-            <Route path="/student-loans" element={<StudentLoans />} />
-            <Route path="/tools" element={<Tools />} />
-            <Route path="/tools/403b-paycheck-calculator" element={<Calc403bPaycheckCalculatorPage />} />
-            <Route path="/tools/403b-contribution" element={<Navigate to="/tools/403b-paycheck-calculator" replace />} />
-            <Route path="/tools/out-of-pocket-max-estimator" element={<OutOfPocketMaxEstimatorPage />} />
-            <Route path="/tools/open-enrollment-true-cost-calculator" element={<OpenEnrollmentTrueCostCalculatorPage />} />
-            <Route path="/tools/eob-to-bill-match-checker" element={<EobBillMatchCheckerPage />} />
-            <Route path="/tools/hospital-discharge-medicare-checklist" element={<HospitalDischargeMedicareChecklistPage />} />
-            <Route path="/tools/medical-bill-review-flow" element={<MedicalBillReviewFlowPage />} />
-            <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
-            <Route path="/articles" element={<Articles />} />
-            <Route path="/articles/:slug" element={<ArticlePage />} />
-            <Route path="/topics" element={<Topics />} />
-            <Route path="/topics/:slug" element={<TopicPage />} />
-            <Route path="/open-enrollment" element={<OpenEnrollmentGuide />} />
-            <Route path="/insurance" element={<InsuranceBenefitsHub />} />
-            <Route path="/insurance/health-insurance-plan-types" element={<HealthInsurancePlanTypesPage />} />
-            <Route path="/insurance/plan-types" element={<Navigate to="/insurance/health-insurance-plan-types" replace />} />
-            <Route path="/insurance/how-to-read-an-sbc" element={<SbcGuidePage />} />
-            <Route path="/insurance/summary-of-benefits-and-coverage" element={<Navigate to="/insurance/how-to-read-an-sbc" replace />} />
-            <Route path="/insurance/commercial-insurance-comparison" element={<CommercialInsuranceComparisonPage />} />
-            <Route path="/commercial-insurance-comparison" element={<Navigate to="/insurance/commercial-insurance-comparison" replace />} />
-            <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />
-            <Route path="/insurance/medicare-care-costs" element={<MedicareCareCostHub />} />
-            <Route path="/guides" element={<QuickGuidesLibraryPage />} />
-            <Route path="/quick-guides" element={<Navigate to="/guides" replace />} />
-            <Route path="/guides/hospital-discharge-medicare" element={<MedicareMedicaidGuideLandingPage />} />
-            <Route path="/guides/medicare-medicaid-rehab-long-term-care" element={<Navigate to="/guides/hospital-discharge-medicare" replace />} />
-            <Route path="/guides/medicare-medicaid-guide" element={<Navigate to="/guides/hospital-discharge-medicare" replace />} />
-            <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
-            <Route path="/insurance/prior-authorization-guide" element={<PriorAuthorizationGuide />} />
-            <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoveragePage />} />
-            <Route path="/insurance/hospital-discharge-coverage/printable" element={<DischargePrintableChecklistPage />} />
-            <Route path="/insurance/discharge-coverage" element={<Navigate to="/insurance/hospital-discharge-coverage" replace />} />
-            <Route path="/insurance/discharge-checklist" element={<Navigate to="/insurance/hospital-discharge-coverage/printable" replace />} />
-            <Route path="/insurance/medication-coverage-checklist" element={<MedicationCoverageChecklist />} />
-            <Route path="/insurance/medical-bill-review-toolkit" element={<MedicalBillReviewToolkit />} />
-            <Route path="/insurance/medicare-advantage-vs-medigap" element={<MedicareAdvantageVsMedigap />} />
-            <Route path="/insurance/what-medicare-advantage-marketing-may-not-emphasize" element={<InsuranceMarketingRealityPage />} />
-            <Route path="/medicare-medicaid" element={<Navigate to="/medicare-care-costs" replace />} />
-            <Route path="/topics/medicare-care-costs" element={<Navigate to="/medicare-care-costs" replace />} />
-            <Route path="/glossary" element={<Glossary />} />
-            <Route path="/newsletter" element={<Newsletter />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/methodology" element={<Methodology />} />
-            <Route path="/sources" element={<Navigate to="/methodology" replace />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-use" element={<TermsOfUse />} />
-            <Route path="/editorial-policy" element={<EditorialPolicy />} />
-            <Route path="/disclosures" element={<Disclosures />} />
-            <Route path="/disclaimer" element={<Navigate to="/disclosures" replace />} />
-            <Route path="/accessibility" element={<Accessibility />} />
-            <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
-            <Route path="/terms" element={<Navigate to="/terms-of-use" replace />} />
-            <Route path="/terms-of-service" element={<Navigate to="/terms-of-use" replace />} />
-            <Route path="/editorial" element={<Navigate to="/editorial-policy" replace />} />
-            <Route path="/policy" element={<Navigate to="/privacy-policy" replace />} />
-            <Route path="/policies" element={<Navigate to="/privacy-policy" replace />} />
-            <Route path="/legal" element={<Navigate to="/privacy-policy" replace />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-      <Analytics />
-      <SpeedInsights />
+      <RouteSeo />
+      <GoogleAnalyticsPageView />
+      <ScrollToTop />
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Index />} />
+          <Route path="/start-here" element={<StartHere />} />
+          <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
+          <Route path="/build-wealth" element={<BuildWealthHub />} />
+          <Route path="/healthcare-workers/paycheck-tools" element={<HealthcareWorkerPaycheckTools />} />
+          <Route path="/patients-families" element={<PatientsFamilies />} />
+          <Route path="/student-loans" element={<StudentLoans />} />
+          <Route path="/tools" element={<Tools />} />
+          <Route path="/tools/403b-paycheck-calculator" element={<Calc403bPaycheckCalculatorPage />} />
+          <Route path="/tools/403b-contribution" element={<Navigate to="/tools/403b-paycheck-calculator" replace />} />
+          <Route path="/tools/out-of-pocket-max-estimator" element={<OutOfPocketMaxEstimatorPage />} />
+          <Route path="/tools/open-enrollment-true-cost-calculator" element={<OpenEnrollmentTrueCostCalculatorPage />} />
+          <Route path="/tools/eob-to-bill-match-checker" element={<EobBillMatchCheckerPage />} />
+          <Route path="/tools/hospital-discharge-medicare-checklist" element={<HospitalDischargeMedicareChecklistPage />} />
+          <Route path="/tools/medical-bill-review-flow" element={<MedicalBillReviewFlowPage />} />
+          <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
+          <Route path="/articles" element={<Articles />} />
+          <Route path="/articles/:slug" element={<ArticlePage />} />
+          <Route path="/topics" element={<Topics />} />
+          <Route path="/topics/:slug" element={<TopicPage />} />
+          <Route path="/open-enrollment" element={<OpenEnrollmentGuide />} />
+          <Route path="/insurance" element={<InsuranceBenefitsHub />} />
+          <Route path="/insurance/health-insurance-plan-types" element={<HealthInsurancePlanTypesPage />} />
+          <Route path="/insurance/plan-types" element={<Navigate to="/insurance/health-insurance-plan-types" replace />} />
+          <Route path="/insurance/how-to-read-an-sbc" element={<SbcGuidePage />} />
+          <Route path="/insurance/summary-of-benefits-and-coverage" element={<Navigate to="/insurance/how-to-read-an-sbc" replace />} />
+          <Route path="/insurance/commercial-insurance-comparison" element={<CommercialInsuranceComparisonPage />} />
+          <Route path="/commercial-insurance-comparison" element={<Navigate to="/insurance/commercial-insurance-comparison" replace />} />
+          <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />
+          <Route path="/insurance/medicare-care-costs" element={<Navigate to="/medicare-care-costs" replace />} />
+          <Route path="/guides" element={<QuickGuidesLibraryPage />} />
+          <Route path="/quick-guides" element={<Navigate to="/guides" replace />} />
+          <Route path="/guides/hospital-discharge-medicare" element={<MedicareMedicaidGuideLandingPage />} />
+          <Route path="/guides/medicare-medicaid-rehab-long-term-care" element={<Navigate to="/guides/hospital-discharge-medicare" replace />} />
+          <Route path="/guides/medicare-medicaid-guide" element={<Navigate to="/guides/hospital-discharge-medicare" replace />} />
+          <Route path="/insurance/medicare-advantage" element={<MedicareAdvantageComparisonPage />} />
+          <Route path="/insurance/prior-authorization-guide" element={<PriorAuthorizationGuide />} />
+          <Route path="/insurance/hospital-discharge-coverage" element={<HospitalDischargeCoveragePage />} />
+          <Route path="/insurance/hospital-discharge-coverage/printable" element={<DischargePrintableChecklistPage />} />
+          <Route path="/insurance/discharge-coverage" element={<Navigate to="/insurance/hospital-discharge-coverage" replace />} />
+          <Route path="/insurance/discharge-checklist" element={<Navigate to="/insurance/hospital-discharge-coverage/printable" replace />} />
+          <Route path="/insurance/medication-coverage-checklist" element={<MedicationCoverageChecklist />} />
+          <Route path="/insurance/medical-bill-review-toolkit" element={<MedicalBillReviewToolkit />} />
+          <Route path="/insurance/medicare-advantage-vs-medigap" element={<MedicareAdvantageVsMedigap />} />
+          <Route path="/insurance/what-medicare-advantage-marketing-may-not-emphasize" element={<InsuranceMarketingRealityPage />} />
+          <Route path="/medicare-medicaid" element={<Navigate to="/medicare-care-costs" replace />} />
+          <Route path="/topics/medicare-care-costs" element={<Navigate to="/medicare-care-costs" replace />} />
+          <Route path="/glossary" element={<Glossary />} />
+          <Route path="/newsletter" element={<Newsletter />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/methodology" element={<Methodology />} />
+          <Route path="/sources" element={<Navigate to="/methodology" replace />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-use" element={<TermsOfUse />} />
+          <Route path="/editorial-policy" element={<EditorialPolicy />} />
+          <Route path="/disclosures" element={<Disclosures />} />
+          <Route path="/disclaimer" element={<Navigate to="/disclosures" replace />} />
+          <Route path="/accessibility" element={<Accessibility />} />
+          <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+          <Route path="/terms" element={<Navigate to="/terms-of-use" replace />} />
+          <Route path="/terms-of-service" element={<Navigate to="/terms-of-use" replace />} />
+          <Route path="/editorial" element={<Navigate to="/editorial-policy" replace />} />
+          <Route path="/policy" element={<Navigate to="/privacy-policy" replace />} />
+          <Route path="/policies" element={<Navigate to="/privacy-policy" replace />} />
+          <Route path="/legal" element={<Navigate to="/privacy-policy" replace />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+      {includeRuntimeTelemetry && (
+        <>
+          <Analytics />
+          <SpeedInsights />
+        </>
+      )}
     </TooltipProvider>
   </QueryClientProvider>
+);
+
+const App = () => (
+  <BrowserRouter>
+    <AppContent />
+  </BrowserRouter>
 );
 
 export default App;

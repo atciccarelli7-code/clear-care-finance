@@ -195,6 +195,12 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
       "Build a goal-first workplace benefits blueprint for retirement contributions, health-plan fit, HSA questions, coverage tier, and open enrollment.",
     kind: "tool",
   },
+  "/tools/medicare-medicaid-eligibility-check": {
+    title: "Medicare and Medicaid Eligibility Check",
+    description:
+      "Check possible Medicare, Medicaid, Medicare Savings Program, dual-eligibility, disability, pregnancy, child, and long-term-care pathways, then verify with official agencies.",
+    kind: "tool",
+  },
   "/tools/403b-paycheck-calculator": {
     title: "403(b) Paycheck Contribution Calculator",
     description:

@@ -71,7 +71,7 @@ describe("buildBenefitsBlueprint", () => {
       ...baseAnswers,
       healthcareUse: "high",
       regularCare: "yes",
-      flexibility: "essential",
+      flexibility: "not-sure",
       hsaComfort: "no",
       costPreference: "predictable-costs",
     });
@@ -80,7 +80,7 @@ describe("buildBenefitsBlueprint", () => {
     expect(result.planArchetypes[1].id).toBe("hmo");
     expect(result.planArchetypes[0].fitLabel).toBe("Top fit signal (tie)");
     expect(result.planArchetypes[1].fitLabel).toBe("Top fit signal (tie)");
-    expect(result.planArchetypes[0].reason).toContain("broad provider");
+    expect(result.planArchetypes[0].reason).toContain("higher healthcare use");
     expect(result.hsaGuidance).toContain("Compare the HSA option carefully");
   });
 

@@ -189,6 +189,12 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
       "Work through a confusing medical bill step by step using the EOB, itemized charges, network status, insurer processing, and financial assistance.",
     kind: "tool",
   },
+  "/tools/healthcare-worker-benefits-blueprint": {
+    title: "Healthcare Worker Benefits Blueprint",
+    description:
+      "Build a goal-first workplace benefits blueprint for retirement contributions, health-plan fit, HSA questions, coverage tier, and open enrollment.",
+    kind: "tool",
+  },
   "/tools/403b-paycheck-calculator": {
     title: "403(b) Paycheck Contribution Calculator",
     description:

@@ -1,14 +1,35 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MR6ZCDJ1W"></script>
+    <!-- Google Consent Mode v2 defaults. Optional analytics is enabled only after a saved user choice. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+
+      var cafAnalyticsConsent = 'denied';
+      try {
+        cafAnalyticsConsent = window.localStorage.getItem('caf-privacy-consent-v1') === 'analytics'
+          ? 'granted'
+          : 'denied';
+      } catch (error) {
+        cafAnalyticsConsent = 'denied';
+      }
+
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: cafAnalyticsConsent
+      });
+      gtag('set', 'ads_data_redaction', true);
       gtag('js', new Date());
-      gtag('config', 'G-2MR6ZCDJ1W', { send_page_view: false });
+      gtag('config', 'G-2MR6ZCDJ1W', {
+        send_page_view: false,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false
+      });
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MR6ZCDJ1W"></script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

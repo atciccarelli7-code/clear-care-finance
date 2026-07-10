@@ -20,15 +20,15 @@ const HealthcareWorkers = () => {
           <Link to="/articles/healthcare-worker-money-map">Start with the money map <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/tools#403b">Open the 403(b) calculator</Link>
+          <Link to="/tools/healthcare-worker-benefits-blueprint">Build a benefits blueprint</Link>
         </Button>
       </PageHero>
 
       <section className="container py-10 md:py-14">
         <NextStepCards
           eyebrow="Best first steps"
-          title="Start with the worker money system"
-          description="Healthcare-worker finance is more than benefits. Start with the paycheck, then build toward investing and flexibility."
+          title="Use one connected worker-money system"
+          description="Start with the overall order of operations, decide what matters before opening the HR portal, then run the employer's actual numbers."
           cards={[
             {
               eyebrow: "Foundation",
@@ -38,18 +38,18 @@ const HealthcareWorkers = () => {
               cta: "Read the map",
             },
             {
-              eyebrow: "Paycheck tool",
-              title: "403(b) Paycheck Contribution Calculator",
-              description: "Turn contribution percentage, match, and annual savings into clear per-paycheck numbers.",
-              href: "/tools#403b",
-              cta: "Run 403(b) math",
+              eyebrow: "Stage one · before HR",
+              title: "Healthcare Worker Benefits Blueprint",
+              description: "Answer goal-first questions and leave with the retirement, health-plan, HSA, and coverage details to find.",
+              href: "/tools/healthcare-worker-benefits-blueprint",
+              cta: "Build the blueprint",
             },
             {
-              eyebrow: "Student loans",
-              title: "Nursing-school loans and nonprofit work",
-              description: "Separate federal forgiveness paths from private-loan payoff and refinance math.",
-              href: "/student-loans",
-              cta: "Open student loans",
+              eyebrow: "Stage two · actual numbers",
+              title: "Employer Benefits Action Plan",
+              description: "Enter the employer match, premium, deductible, out-of-pocket maximum, and HSA contributions to build a prioritized action list.",
+              href: "/tools/employer-benefits-action-plan",
+              cta: "Build the action plan",
             },
           ]}
         />
@@ -108,7 +108,7 @@ const HealthcareWorkers = () => {
           <h2 className="font-display text-3xl font-bold mb-3 text-balance">See what a small bump in your 403(b) does</h2>
           <p className="opacity-90 mb-6 max-w-xl mx-auto">Adjust contribution % and employer match and watch the per-paycheck and yearly totals update.</p>
           <Button asChild size="lg" variant="secondary">
-            <Link to="/tools#403b">Open the 403(b) calculator</Link>
+            <Link to="/tools/403b-paycheck-calculator">Open the 403(b) calculator</Link>
           </Button>
         </div>
       </section>

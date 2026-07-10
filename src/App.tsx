@@ -22,6 +22,7 @@ const loadOpenEnrollmentTrueCostCalculatorPage = () => import("./pages/OpenEnrol
 const loadEobBillMatchCheckerPage = () => import("./pages/EobBillMatchCheckerPage.tsx");
 const loadHospitalDischargeMedicareChecklistPage = () => import("./pages/HospitalDischargeMedicareChecklistPage.tsx");
 const loadMedicalBillReviewFlowPage = () => import("./pages/MedicalBillReviewFlowPage.tsx");
+const loadEmployerBenefitsActionPlanPage = () => import("./pages/EmployerBenefitsActionPlanPage.tsx");
 const loadStudentLoans = () => import("./pages/StudentLoans.tsx");
 const loadArticles = () => import("./pages/Articles.tsx");
 const loadArticlePage = () => import("./pages/ArticlePage.tsx");
@@ -63,6 +64,7 @@ const OpenEnrollmentTrueCostCalculatorPage = lazy(loadOpenEnrollmentTrueCostCalc
 const EobBillMatchCheckerPage = lazy(loadEobBillMatchCheckerPage);
 const HospitalDischargeMedicareChecklistPage = lazy(loadHospitalDischargeMedicareChecklistPage);
 const MedicalBillReviewFlowPage = lazy(loadMedicalBillReviewFlowPage);
+const EmployerBenefitsActionPlanPage = lazy(loadEmployerBenefitsActionPlanPage);
 const StudentLoans = lazy(loadStudentLoans);
 const Articles = lazy(loadArticles);
 const ArticlePage = lazy(loadArticlePage);
@@ -127,6 +129,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/tools/eob-to-bill-match-checker") return loadEobBillMatchCheckerPage;
   if (pathname === "/tools/hospital-discharge-medicare-checklist") return loadHospitalDischargeMedicareChecklistPage;
   if (pathname === "/tools/medical-bill-review-flow") return loadMedicalBillReviewFlowPage;
+  if (pathname === "/tools/employer-benefits-action-plan") return loadEmployerBenefitsActionPlanPage;
   if (pathname === "/tools/medicare-advantage-plan-helper") return loadInsuranceDecisionToolsBundle;
   if (pathname === "/articles") return loadArticles;
   if (pathname.startsWith("/articles/")) return loadArticlePage;
@@ -243,6 +246,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/tools/eob-to-bill-match-checker" element={<EobBillMatchCheckerPage />} />
             <Route path="/tools/hospital-discharge-medicare-checklist" element={<HospitalDischargeMedicareChecklistPage />} />
             <Route path="/tools/medical-bill-review-flow" element={<MedicalBillReviewFlowPage />} />
+            <Route path="/tools/employer-benefits-action-plan" element={<EmployerBenefitsActionPlanPage />} />
             <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />

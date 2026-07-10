@@ -16,33 +16,42 @@ const TermsOfUse = () => {
       <PageHero
         eyebrow="Terms"
         title="Terms of Use"
-        description="Plain-English boundaries for using Community Acquired Finance."
+        description="Plain-English boundaries for using Community Acquired Finance, its articles, calculators, and guided tools."
       />
 
       <main className="container max-w-3xl py-12 md:py-16 space-y-6">
-        <p className="text-sm text-muted-foreground">Effective date: June 19, 2026</p>
+        <p className="text-sm text-muted-foreground">Effective date: July 10, 2026</p>
 
         <Section title="Acceptance of these terms">
           <p>
             By using Community Acquired Finance, you agree to these Terms of Use. If you do not agree, do not use the site.
           </p>
           <p>
-            These terms are intended to set boundaries for an educational website. They do not replace advice from a qualified professional or official plan, government, employer, insurer, or billing source.
+            These terms set boundaries for an educational website. They do not replace current official guidance, controlling plan documents, contracts, laws, regulations, or advice from a qualified professional.
           </p>
         </Section>
 
         <Section title="Educational use only">
           <p>
-            Community Acquired Finance provides general educational information about healthcare finance, insurance, Medicare, Medicaid, workplace benefits, retirement accounts, hospital bills, and related money topics.
+            Community Acquired Finance provides general educational information about healthcare finance, insurance, Medicare, Medicaid, workplace benefits, retirement accounts, investing basics, hospital bills, and related money topics.
           </p>
           <p>
-            The site does not provide individualized financial, investment, tax, legal, insurance, medical, billing, employment, or benefits advice. You are responsible for verifying details with official sources, plan documents, benefits departments, insurers, billing offices, government agencies, and qualified professionals.
+            The site does not provide individualized financial, investment, tax, legal, insurance, medical, billing, employment, or benefits advice.
+          </p>
+        </Section>
+
+        <Section title="No official determination">
+          <p>
+            Site tools do not enroll users, approve coverage, authorize care, decide claims, establish eligibility, determine medical necessity, calculate an official tax liability, or make a binding decision for Medicare, Medicaid, an insurer, employer, retirement plan, HSA, provider, billing office, or government agency.
+          </p>
+          <p>
+            A result is a planning aid based on the information entered. The applicable agency, insurer, employer, plan administrator, provider, law, contract, and current documents control.
           </p>
         </Section>
 
         <Section title="No professional relationship">
           <p>
-            Using this site does not create a financial advisor-client relationship, attorney-client relationship, clinician-patient relationship, insurance broker relationship, tax professional relationship, fiduciary relationship, or any other professional relationship.
+            Using this site does not create a financial advisor-client, investment adviser-client, fiduciary, attorney-client, clinician-patient, insurance producer, tax professional, billing advocate, benefits administrator, or other professional relationship.
           </p>
         </Section>
 
@@ -52,63 +61,69 @@ const TermsOfUse = () => {
           </p>
         </Section>
 
-        <Section title="Calculator estimates">
+        <Section title="Calculator and guided-tool estimates">
           <p>
-            Calculators are simplified educational tools. They may use assumptions, rounded numbers, and user-entered values. Actual results can differ because of plan rules, taxes, employer policies, insurance contracts, billing practices, interest rates, investment performance, benefit limits, and other facts not captured by a calculator.
+            Tools may use assumptions, rounded values, broad categories, incomplete inputs, and general rules. Actual results can differ because of plan language, laws, state rules, taxes, employer policies, insurance contracts, billing practices, interest rates, market performance, benefit limits, and facts not captured by the tool.
           </p>
           <p>
-            Do not rely on a calculator result as the sole basis for a financial, medical, insurance, employment, tax, legal, or benefits decision.
+            Do not rely on a site result as the sole basis for a financial, medical, insurance, employment, tax, legal, billing, eligibility, authorization, or benefits decision.
+          </p>
+        </Section>
+
+        <Section title="User inputs and privacy">
+          <p>
+            Do not enter protected health information, Social Security numbers, insurance member IDs, account credentials, payment card numbers, private medical records, tax records, or confidential employment documents into the site.
+          </p>
+          <p>
+            Some guided tools are designed to keep answers in local browser state, but technical logs and general analytics or performance information may still be processed as described in the Privacy Policy.
           </p>
         </Section>
 
         <Section title="Sources, accuracy, and updates">
           <p>
-            We try to use official or reputable sources and explain uncertainty plainly. Healthcare finance rules can change, and plan-specific details matter. Content may become outdated, incomplete, or may not apply to your situation.
+            We aim to use current official or reputable sources, identify uncertainty, and correct material errors. Information can still be incomplete, outdated, or inapplicable to a particular person, plan, state, provider, employer, or claim.
           </p>
           <p>
-            You should verify important decisions with current official sources, your own plan documents, your employer, your insurer, Medicare, Medicaid, billing offices, and qualified professionals.
+            Verify important decisions with current official sources, plan documents, agencies, insurers, benefits departments, billing entities, providers, and qualified professionals.
           </p>
         </Section>
 
         <Section title="Third-party links">
           <p>
-            The site links to external websites for source material and further reading. We do not control third-party websites and are not responsible for their content, policies, security, availability, accuracy, or changes after you leave this site.
+            External links are provided for verification and further reading. Community Acquired Finance does not control and is not responsible for third-party content, policies, security, accessibility, accuracy, availability, or later changes.
           </p>
         </Section>
 
         <Section title="Advertising, sponsorships, and conflicts">
           <p>
-            If advertising, sponsorships, affiliate links, or paid partnerships are added later, they should be clearly disclosed. Advertising should not control educational conclusions, calculator logic, source selection, or article recommendations.
+            Advertising may appear on ordinary pages and should remain clearly separate from educational content and navigation. Sensitive guided tools may be intentionally ad-free.
           </p>
           <p>
-            Users should never be asked to click ads to support the site. Ads should be labeled clearly and should not be disguised as navigation, downloads, recommendations, or source links.
+            Any future sponsorship, affiliate, referral, or paid relationship should be disclosed and should not control calculator logic, source selection, rankings, or editorial conclusions.
           </p>
         </Section>
 
         <Section title="Intellectual property">
           <p>
-            Unless otherwise noted, the site's original writing, structure, design, and educational materials are owned by Community Acquired Finance or its owner. You may link to pages for personal, educational, or noncommercial reference, but you may not copy, scrape, republish, or sell substantial portions of the site without permission.
+            Unless otherwise noted, the site&apos;s original writing, structure, design, code, and educational materials are owned by Community Acquired Finance or its owner. You may link to pages for personal, educational, or noncommercial reference, but may not copy, scrape, republish, or sell substantial portions without permission.
           </p>
         </Section>
 
         <Section title="Responsible use">
           <p>
-            Do not use this site to submit sensitive personal information, protected health information, account numbers, Social Security numbers, payment card numbers, confidential employment information, or private plan documents.
-          </p>
-          <p>
-            Do not use the site to violate laws, interfere with the site's operation, scrape content at scale, attempt unauthorized access, introduce malware, or misrepresent the site's content as personalized professional advice.
+            Do not use the site to violate law, interfere with operation, attempt unauthorized access, introduce malware, scrape at scale, impersonate the site, or present its educational content as an official or individualized professional determination.
           </p>
         </Section>
 
         <Section title="No guarantee">
           <p>
-            The site is provided as-is for educational purposes. We do not guarantee that the site will be error-free, uninterrupted, complete, current, secure, or appropriate for any specific use.
+            The site is provided as-is for educational purposes. We do not guarantee that it will be error-free, uninterrupted, complete, current, secure, indexed by a search engine, or appropriate for a specific use.
           </p>
         </Section>
 
         <Section title="Limitation of liability">
           <p>
-            To the fullest extent permitted by law, Community Acquired Finance and its owner are not liable for losses or damages arising from use of the site, reliance on educational content, calculator estimates, third-party links, outdated information, technical errors, or decisions made after reading the site.
+            To the fullest extent permitted by law, Community Acquired Finance and its owner are not liable for losses or damages arising from use of the site, reliance on educational content or estimates, third-party links, outdated information, technical errors, or decisions made after using the site.
           </p>
         </Section>
 

@@ -3,6 +3,7 @@ import { Header } from "./Header";
 import { SiteTrustBar } from "./SiteTrustBar";
 import { Footer } from "./Footer";
 import { MobileBottomNav } from "./MobileBottomNav";
+import { PrivacyChoices } from "@/components/shared/PrivacyChoices";
 
 export const Layout = () => {
   return (
@@ -17,6 +18,7 @@ export const Layout = () => {
       </main>
       <Footer />
       <MobileBottomNav />
+      <PrivacyChoices />
     </div>
   );
 };

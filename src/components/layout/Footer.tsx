@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { DISCLAIMER_TEXT } from "@/components/shared/DisclaimerBox";
+import { openPrivacyChoices } from "@/lib/privacyConsent";
 
 const LogoMark = () => (
   <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-primary/25 bg-gradient-primary text-[0.62rem] font-extrabold tracking-tight text-primary-foreground shadow-card">
@@ -81,11 +82,20 @@ export const Footer = () => {
       </div>
 
       <div className="border-t border-border">
-        <div className="container py-6 text-xs text-muted-foreground space-y-2">
+        <div className="container py-6 text-xs text-muted-foreground space-y-3">
           <p>
             <strong className="text-foreground">Disclaimer:</strong> {DISCLAIMER_TEXT}
           </p>
-          <p>© {new Date().getFullYear()} Community Acquired Finance. All rights reserved.</p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} Community Acquired Finance. All rights reserved.</p>
+            <button
+              type="button"
+              onClick={openPrivacyChoices}
+              className="w-fit font-semibold text-primary underline-offset-4 hover:underline"
+            >
+              Privacy choices
+            </button>
+          </div>
         </div>
       </div>
     </footer>

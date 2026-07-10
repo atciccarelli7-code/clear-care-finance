@@ -66,6 +66,7 @@ const calculatorGroups = [
   {
     label: "Patients and caregivers",
     items: [
+      { id: "medicare-medicaid-eligibility-check", label: "Medicare and Medicaid Eligibility Check" },
       { id: "hospital-discharge-medicare-checklist", label: "Hospital Discharge Medicare Checklist Tool" },
       { id: "medicare", label: "Medicare Cost Exposure Tool" },
     ],
@@ -92,6 +93,13 @@ const intentCards = [
     description: "Use the guided checklist for rehab/SNF, home health, equipment, medication, denial, Medicaid, or bill questions.",
     href: "#hospital-discharge-medicare-checklist",
     cta: "Build discharge checklist",
+  },
+  {
+    eyebrow: "Medicare and Medicaid",
+    title: "I need to know whether Medicare or Medicaid may apply",
+    description: "Check age, disability, ALS, ESRD, household, income, pregnancy, children, long-term care, and possible cost-assistance paths.",
+    href: "#medicare-medicaid-eligibility-check",
+    cta: "Check possible eligibility paths",
   },
   {
     eyebrow: "Benefits choice",
@@ -355,9 +363,24 @@ const Tools = () => {
         </section>
 
         <section className="space-y-6">
-          <SectionIntro eyebrow="Medicare & caregiver planning" title="Estimate exposure before comparing plan marketing" description="Use this as a rough planning snapshot, then verify plan details with official sources and plan documents." />
+          <SectionIntro eyebrow="Medicare & caregiver planning" title="Check eligibility paths and estimate exposure" description="Start with possible eligibility paths, then use cost and discharge tools for the specific decision." />
           <div className="space-y-8">
-            <ToolAnchor id="hospital-discharge-medicare-checklist" bestFirst>
+            <ToolAnchor id="medicare-medicaid-eligibility-check" bestFirst>
+              <CalculatorCard icon={Landmark} eyebrow="Patients and caregivers" title="Medicare and Medicaid Eligibility Check" description="Identify possible age, disability, ALS, ESRD, Medicaid category, long-term-care, dual-eligibility, and Medicare Savings Program paths without claiming an official determination." relatedArticle={{ label: "Medicare vs. Medicaid", href: "/articles/medicare-vs-medicaid-what-is-the-difference" }}>
+                <div className="space-y-4">
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    Answer a mobile-friendly sequence of questions and get qualified guidance, documents to gather, and direct official state and federal next steps.
+                  </p>
+                  <a
+                    href="/tools/medicare-medicaid-eligibility-check"
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-sm transition-smooth hover:-translate-y-0.5 hover:shadow-card"
+                  >
+                    Open eligibility check <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </CalculatorCard>
+            </ToolAnchor>
+            <ToolAnchor id="hospital-discharge-medicare-checklist">
               <CalculatorCard icon={ClipboardCheck} eyebrow="Patients and caregivers" title="Hospital Discharge Medicare Checklist Tool" description="Build a focused checklist for discharge, rehab/SNF, home health, equipment, medication, Medicare Advantage authorization, Medicaid, long-term care, or medical bill questions." relatedArticle={{ label: "Hospital Discharge & Medicare Guide", href: "/guides/hospital-discharge-medicare" }}>
                 <div className="space-y-4">
                   <p className="text-sm leading-relaxed text-muted-foreground">

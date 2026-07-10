@@ -28,7 +28,9 @@ describe("buildBenefitsBlueprint", () => {
     expect(result.contributionRange).toEqual({ minimum: 6, maximum: 10 });
     expect(result.approximateAnnualRange).toEqual({ minimum: 5_250, maximum: 8_750 });
     expect(result.matchReminder).toContain("full available match");
+    expect(result.matchReminder).toContain("catch-up contributions apply only");
     expect(result.hrQuestions).toHaveLength(5);
+    expect(result.hrQuestions[0]).toContain("15-year service catch-up");
   });
 
   it("moves an accelerated, shorter-horizon scenario higher without exceeding the guardrail", () => {
@@ -47,7 +49,7 @@ describe("buildBenefitsBlueprint", () => {
     expect(result.planArchetypes[0].id).toBe("hdhp-hsa");
     expect(result.planArchetypes[0].fitLabel).toBe("First archetype to inspect");
     expect(result.hsaGuidance).toContain(BENEFITS_LIMITS_2026.hsaSelfOnly.toLocaleString());
-    expect(result.hsaGuidance).not.toContain("catch-up");
+    expect(result.hsaGuidance).not.toContain("Medicare enrollment");
   });
 
   it("applies age-based 2026 catch-up limits without letting the annual estimate exceed them", () => {
@@ -63,7 +65,8 @@ describe("buildBenefitsBlueprint", () => {
 
     expect(result.applicableRetirementLimit).toBe(35_750);
     expect(result.approximateAnnualRange?.maximum).toBeLessThanOrEqual(35_750);
-    expect(result.hsaGuidance).toContain("$1,000 HSA catch-up");
+    expect(result.hsaGuidance).toContain("additional $1,000");
+    expect(result.hsaGuidance).toContain("Medicare enrollment generally ends HSA contribution eligibility");
   });
 
   it("labels equal leading plan scores as a tie instead of manufacturing a winner", () => {
@@ -111,6 +114,7 @@ describe("buildBenefitsBlueprint", () => {
     const text = blueprintToText(buildBenefitsBlueprint(baseAnswers));
 
     expect(text).toContain("Healthcare Worker Benefits Blueprint");
+    expect(text).toContain("Potential 2026 employee elective-deferral limit");
     expect(text).toContain("Health-plan archetypes to compare");
     expect(text).toContain("Educational planning only");
   });

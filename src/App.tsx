@@ -23,6 +23,7 @@ const loadEobBillMatchCheckerPage = () => import("./pages/EobBillMatchCheckerPag
 const loadHospitalDischargeMedicareChecklistPage = () => import("./pages/HospitalDischargeMedicareChecklistPage.tsx");
 const loadMedicalBillReviewFlowPage = () => import("./pages/MedicalBillReviewFlowPage.tsx");
 const loadHealthcareWorkerBenefitsBlueprintPage = () => import("./pages/HealthcareWorkerBenefitsBlueprintPage.tsx");
+const loadMedicareMedicaidEligibilityCheckPage = () => import("./pages/MedicareMedicaidEligibilityCheckPage.tsx");
 const loadStudentLoans = () => import("./pages/StudentLoans.tsx");
 const loadArticles = () => import("./pages/Articles.tsx");
 const loadArticlePage = () => import("./pages/ArticlePage.tsx");
@@ -65,6 +66,7 @@ const EobBillMatchCheckerPage = lazy(loadEobBillMatchCheckerPage);
 const HospitalDischargeMedicareChecklistPage = lazy(loadHospitalDischargeMedicareChecklistPage);
 const MedicalBillReviewFlowPage = lazy(loadMedicalBillReviewFlowPage);
 const HealthcareWorkerBenefitsBlueprintPage = lazy(loadHealthcareWorkerBenefitsBlueprintPage);
+const MedicareMedicaidEligibilityCheckPage = lazy(loadMedicareMedicaidEligibilityCheckPage);
 const StudentLoans = lazy(loadStudentLoans);
 const Articles = lazy(loadArticles);
 const ArticlePage = lazy(loadArticlePage);
@@ -130,6 +132,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/tools/hospital-discharge-medicare-checklist") return loadHospitalDischargeMedicareChecklistPage;
   if (pathname === "/tools/medical-bill-review-flow") return loadMedicalBillReviewFlowPage;
   if (pathname === "/tools/healthcare-worker-benefits-blueprint") return loadHealthcareWorkerBenefitsBlueprintPage;
+  if (pathname === "/tools/medicare-medicaid-eligibility-check") return loadMedicareMedicaidEligibilityCheckPage;
   if (pathname === "/tools/medicare-advantage-plan-helper") return loadInsuranceDecisionToolsBundle;
   if (pathname === "/articles") return loadArticles;
   if (pathname.startsWith("/articles/")) return loadArticlePage;
@@ -247,6 +250,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/tools/hospital-discharge-medicare-checklist" element={<HospitalDischargeMedicareChecklistPage />} />
             <Route path="/tools/medical-bill-review-flow" element={<MedicalBillReviewFlowPage />} />
             <Route path="/tools/healthcare-worker-benefits-blueprint" element={<HealthcareWorkerBenefitsBlueprintPage />} />
+            <Route path="/tools/medicare-medicaid-eligibility-check" element={<MedicareMedicaidEligibilityCheckPage />} />
             <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />

@@ -1,47 +1,46 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
     {
       "source": "/:path*",
-      "has": [
-        {
-          "type": "header",
-          "key": "host",
-          "value": "communityaqcuiredfinance.com"
-        }
-      ],
+      "has": [{ "type": "header", "key": "host", "value": "communityaqcuiredfinance.com" }],
       "destination": "https://communityacquiredfinance.com/:path*",
       "permanent": true
     },
     {
       "source": "/:path*",
-      "has": [
-        {
-          "type": "header",
-          "key": "host",
-          "value": "www.communityaqcuiredfinance.com"
-        }
-      ],
+      "has": [{ "type": "header", "key": "host", "value": "www.communityaqcuiredfinance.com" }],
       "destination": "https://communityacquiredfinance.com/:path*",
       "permanent": true
     },
     {
       "source": "/:path*",
-      "has": [
-        {
-          "type": "header",
-          "key": "host",
-          "value": "www.communityacquiredfinance.com"
-        }
-      ],
+      "has": [{ "type": "header", "key": "host", "value": "www.communityacquiredfinance.com" }],
       "destination": "https://communityacquiredfinance.com/:path*",
       "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    },
+    { "source": "/tools/403b-contribution", "destination": "/tools/403b-paycheck-calculator", "permanent": true },
+    { "source": "/insurance/plan-types", "destination": "/insurance/health-insurance-plan-types", "permanent": true },
+    { "source": "/insurance/summary-of-benefits-and-coverage", "destination": "/insurance/how-to-read-an-sbc", "permanent": true },
+    { "source": "/commercial-insurance-comparison", "destination": "/insurance/commercial-insurance-comparison", "permanent": true },
+    { "source": "/insurance/medicare-care-costs", "destination": "/medicare-care-costs", "permanent": true },
+    { "source": "/quick-guides", "destination": "/guides", "permanent": true },
+    { "source": "/guides/medicare-medicaid-rehab-long-term-care", "destination": "/guides/hospital-discharge-medicare", "permanent": true },
+    { "source": "/guides/medicare-medicaid-guide", "destination": "/guides/hospital-discharge-medicare", "permanent": true },
+    { "source": "/insurance/discharge-coverage", "destination": "/insurance/hospital-discharge-coverage", "permanent": true },
+    { "source": "/insurance/discharge-checklist", "destination": "/insurance/hospital-discharge-coverage/printable", "permanent": true },
+    { "source": "/medicare-medicaid", "destination": "/medicare-care-costs", "permanent": true },
+    { "source": "/topics/medicare-care-costs", "destination": "/medicare-care-costs", "permanent": true },
+    { "source": "/sources", "destination": "/methodology", "permanent": true },
+    { "source": "/disclaimer", "destination": "/disclosures", "permanent": true },
+    { "source": "/privacy", "destination": "/privacy-policy", "permanent": true },
+    { "source": "/terms", "destination": "/terms-of-use", "permanent": true },
+    { "source": "/terms-of-service", "destination": "/terms-of-use", "permanent": true },
+    { "source": "/editorial", "destination": "/editorial-policy", "permanent": true },
+    { "source": "/policy", "destination": "/privacy-policy", "permanent": true },
+    { "source": "/policies", "destination": "/privacy-policy", "permanent": true },
+    { "source": "/legal", "destination": "/privacy-policy", "permanent": true }
   ]
 }

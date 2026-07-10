@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck, GraduationCap, Landmark, ArrowRight, Sparkles } from "lucide-react";
+import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck, GraduationCap, Landmark, ArrowRight, Sparkles, Compass } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
@@ -50,6 +50,7 @@ const calculatorGroups = [
   {
     label: "Healthcare worker money",
     items: [
+      { id: "healthcare-worker-benefits-blueprint", label: "Healthcare Worker Benefits Blueprint" },
       { id: "403b", label: "403(b) Paycheck Contribution Calculator" },
       { id: "overtime", label: "OBBB Overtime Deduction Estimator" },
     ],
@@ -80,6 +81,13 @@ const calculatorGroups = [
 ];
 
 const intentCards = [
+  {
+    eyebrow: "Workplace benefits",
+    title: "I need help choosing workplace benefits",
+    description: "Build a goal-first blueprint before opening the HR portal, then verify the match, plan costs, network, and HSA details.",
+    href: "#healthcare-worker-benefits-blueprint",
+    cta: "Build benefits blueprint",
+  },
   {
     eyebrow: "Medical bill",
     title: "I got a confusing bill, EOB, MSN, or collection notice",
@@ -323,7 +331,22 @@ const Tools = () => {
         <section className="space-y-6">
           <SectionIntro eyebrow="Healthcare worker money" title="Make paycheck and benefit choices easier to see" description="Use these when work benefits, overtime, and retirement deductions feel abstract." />
           <div className="space-y-8">
-            <ToolAnchor id="403b" bestFirst>
+            <ToolAnchor id="healthcare-worker-benefits-blueprint" bestFirst>
+              <CalculatorCard icon={Compass} eyebrow="Workplace benefits" title="Healthcare Worker Benefits Blueprint" description="Answer 12 goal-first questions and leave with retirement, health-plan, HSA, coverage-tier, and HR-portal comparison priorities." relatedArticle={{ label: "Open Enrollment Guide", href: "/open-enrollment" }}>
+                <div className="space-y-4">
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    Use the dedicated tool before opening the HR portal. It creates fit signals and a verification list without ranking insurers, plans, funds, or products.
+                  </p>
+                  <a
+                    href="/tools/healthcare-worker-benefits-blueprint"
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-sm transition-smooth hover:-translate-y-0.5 hover:shadow-card"
+                  >
+                    Build my blueprint <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </CalculatorCard>
+            </ToolAnchor>
+            <ToolAnchor id="403b">
               <CalculatorCard icon={Wallet} eyebrow="For healthcare workers" title="403(b) Paycheck Contribution Calculator" description="See per-paycheck contributions, annual contribution, and a rough employer match estimate." relatedArticle={{ label: "How to Pick Retirement Investments at Work", href: "/articles/how-to-pick-retirement-investments-at-work" }}>
                 <Calc403b />
               </CalculatorCard>

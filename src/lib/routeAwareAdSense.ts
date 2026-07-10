@@ -4,6 +4,7 @@ export const ADSENSE_SCRIPT_ID = "caf-route-aware-adsense";
 export const ADSENSE_SCRIPT_SRC = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
 
 const AD_FREE_PATHS = new Set([
+  "/tools/healthcare-worker-benefits-blueprint",
   "/tools/medicare-medicaid-eligibility-check",
 ]);
 

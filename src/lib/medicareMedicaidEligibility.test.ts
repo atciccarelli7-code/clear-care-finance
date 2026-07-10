@@ -108,7 +108,7 @@ describe("Medicare and Medicaid eligibility decision table", () => {
     });
     expect(ids(result.medicare)).toContain("medicare-uncertain");
     expect(result.medicaid.length).toBeGreaterThan(0);
-    expect(result.dual.length).toBeGreaterThan(0);
+    expect(result.whatCouldChange.length).toBeGreaterThan(0);
   });
 
   it("uses inclusive 2026 MSP boundary values", () => {

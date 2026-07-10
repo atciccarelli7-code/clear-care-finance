@@ -1,5 +1,6 @@
 import { BookOpen, ArrowUpRight } from "lucide-react";
 import type { Source } from "@/data/sources";
+import { trackSiteEvent } from "@/lib/analytics";
 
 interface SourceListProps {
   sources: Source[];
@@ -18,6 +19,12 @@ export const SourceList = ({ sources, title }: SourceListProps) => {
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackSiteEvent("official_source_click", {
+                event_category: "sources",
+                source_name: s.name,
+                link_url: s.url,
+                source_path: window.location.pathname,
+              })}
               className="group flex min-w-0 max-w-full items-start gap-3 break-words rounded-xl border border-border bg-card p-4 transition-smooth hover:border-primary/40 hover:shadow-hover sm:gap-4"
             >
               <BookOpen className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-smooth shrink-0 mt-0.5" />

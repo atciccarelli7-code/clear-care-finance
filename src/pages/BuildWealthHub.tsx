@@ -7,6 +7,7 @@ import {
   Calculator,
   ClipboardList,
   Coffee,
+  CreditCard,
   PiggyBank,
   ShieldCheck,
   TrendingUp,
@@ -59,6 +60,14 @@ const stages: Stage[] = [
         href: "/articles/cash-vs-investing-when-you-feel-behind",
         cta: "Find balance",
         icon: Wallet,
+      },
+      {
+        eyebrow: "Credit without debt",
+        title: "Use Credit Cards Without Carrying Debt",
+        body: "Build credit, set up full-statement-balance autopay, and use low-limit guardrails without treating the credit line as income.",
+        href: "/articles/use-credit-cards-without-credit-card-debt",
+        cta: "Build the system",
+        icon: CreditCard,
       },
       {
         eyebrow: "Small leak",

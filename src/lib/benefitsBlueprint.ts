@@ -245,36 +245,39 @@ const getPlanArchetypes = (answers: BenefitsBlueprintAnswers): PlanArchetype[] =
 };
 
 const getHsaGuidance = (answers: BenefitsBlueprintAnswers) => {
-  const catchUpNote =
+  const ageEligibilityNote =
     answers.age >= 55
-      ? ` Because you entered age ${answers.age}, an additional $${BENEFITS_LIMITS_2026.hsaCatchUp55.toLocaleString()} HSA catch-up contribution may apply if you remain eligible.`
+      ? ` At age 55 or older, an additional $${BENEFITS_LIMITS_2026.hsaCatchUp55.toLocaleString()} may apply only while you remain HSA-eligible. Medicare enrollment generally ends HSA contribution eligibility and can include retroactive coverage, so verify timing before contributing.`
       : "";
   if (answers.hsaComfort === "yes" && answers.healthcareUse !== "high") {
-    return `An HSA deserves closer consideration if the offered plan is HSA-eligible and the deductible fits your cash flow. For 2026, the contribution limit is $${BENEFITS_LIMITS_2026.hsaSelfOnly.toLocaleString()} for self-only coverage and $${BENEFITS_LIMITS_2026.hsaFamily.toLocaleString()} for family coverage; employer contributions count toward that limit.${catchUpNote}`;
+    return `An HSA deserves closer consideration if the offered plan is HSA-eligible and the deductible fits your cash flow. For 2026, the contribution limit is $${BENEFITS_LIMITS_2026.hsaSelfOnly.toLocaleString()} for self-only coverage and $${BENEFITS_LIMITS_2026.hsaFamily.toLocaleString()} for family coverage; employer contributions count toward that limit.${ageEligibilityNote}`;
   }
   if (answers.hsaComfort === "maybe" || answers.healthcareUse === "high") {
-    return "Compare the HSA option carefully, but do not choose it for the tax advantage alone. Put the premium savings, employer HSA contribution, deductible, prescriptions, expected care, and bad-year exposure on one page first.";
+    return `Compare the HSA option carefully, but do not choose it for the tax advantage alone. Put the premium savings, employer HSA contribution, deductible, prescriptions, expected care, and bad-year exposure on one page first.${ageEligibilityNote}`;
   }
   if (answers.hsaComfort === "no") {
-    return "An HSA-eligible option is not your leading fit signal right now. Still compare the actual total annual cost if the employer contribution or premium difference is substantial.";
+    return `An HSA-eligible option is not your leading fit signal right now. Still compare the actual total annual cost if the employer contribution or premium difference is substantial.${ageEligibilityNote}`;
   }
-  return "HSA fit is still uncertain. Find the plan's HSA-eligibility statement, employer contribution, deductible, and out-of-pocket maximum before deciding.";
+  return `HSA fit is still uncertain. Find the plan's HSA-eligibility statement, employer contribution, deductible, and out-of-pocket maximum before deciding.${ageEligibilityNote}`;
 };
 
 export const buildBenefitsBlueprint = (answers: BenefitsBlueprintAnswers): BenefitsBlueprint => {
   const contributionRange = getContributionRange(answers);
   const applicableRetirementLimit = getApplicableRetirementLimit(answers.age);
+  const retirementCatchUpReminder =
+    " The displayed 2026 limit reflects age-based federal rules, but catch-up contributions apply only when permitted by the plan. Some 403(b) participants with at least 15 years of service for the same eligible employer may have a separate plan-permitted catch-up; verify eligibility with the plan administrator.";
   const matchReminder =
-    answers.employerMatch === "yes"
+    (answers.employerMatch === "yes"
       ? "Start by finding the exact match formula and contributing enough to capture the full available match, if your budget allows. Then decide whether moving toward the planning range is sustainable."
       : answers.employerMatch === "not-sure"
         ? "The employer match is unresolved. Locate the match formula and vesting schedule before submitting the retirement election; missing that information can change the first contribution target."
-        : "No employer match is expected based on your answer. The planning range still provides a starting point, but there is no match threshold to capture first.";
+        : "No employer match is expected based on your answer. The planning range still provides a starting point, but there is no match threshold to capture first.") + retirementCatchUpReminder;
 
   const hrQuestions = [
     answers.employerMatch === "not-sure"
       ? "What is the exact retirement match formula, when is it deposited, and what is the vesting schedule?"
       : "Can you confirm the retirement match formula, deposit timing, and vesting schedule in writing?",
+    "Does this plan permit age-based catch-up contributions, and could the special 403(b) 15-year service catch-up apply?",
     "Where can I download the Summary of Benefits and Coverage for every health-plan option?",
     answers.flexibility === "essential"
       ? "Which plans cover my current doctors and hospitals, and what happens when I use out-of-network care?"
@@ -296,6 +299,7 @@ export const buildBenefitsBlueprint = (answers: BenefitsBlueprintAnswers): Benef
     hsaGuidance: getHsaGuidance(answers),
     portalNumbers: [
       "Employer match formula and vesting rules",
+      "Plan-permitted age and 15-year-service catch-up rules",
       "Employee premium per paycheck",
       "Individual and family deductible",
       "Individual and family out-of-pocket maximum",
@@ -305,7 +309,7 @@ export const buildBenefitsBlueprint = (answers: BenefitsBlueprintAnswers): Benef
     ],
     hrQuestions,
     changeFactors: [
-      "The actual employer match, vesting schedule, and retirement-plan fees",
+      "The actual employer match, vesting schedule, catch-up eligibility, and retirement-plan fees",
       "Premiums, deductible, out-of-pocket maximum, and employer HSA money",
       "Whether current doctors, hospitals, prescriptions, and specialists are covered",
       "A major change in expected care, household coverage, cash flow, or retirement timeline",
@@ -324,7 +328,7 @@ export const blueprintToText = (blueprint: BenefitsBlueprint) => {
     "",
     `Retirement contribution planning range: ${blueprint.contributionRange.minimum}%-${blueprint.contributionRange.maximum}% of pay.`,
     annualRange,
-    `2026 employee elective-deferral limit used for this age: $${blueprint.applicableRetirementLimit.toLocaleString()}. Employer contributions follow separate plan and overall-limit rules.`,
+    `Potential 2026 employee elective-deferral limit used for this age: $${blueprint.applicableRetirementLimit.toLocaleString()}. Employer contributions follow separate plan and overall-limit rules. Confirm that the plan permits any applicable catch-up contribution.`,
     blueprint.matchReminder,
     "",
     "Retirement account characteristics to compare:",

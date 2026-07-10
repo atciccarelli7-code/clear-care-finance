@@ -43,6 +43,7 @@ const EobBillMatchCheckerPage = () => {
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero"><a href="#checker">Start the checklist</a></Button>
+          <Button asChild variant="outline"><Link to="/tools/medical-bill-review-flow">Use full bill review flow</Link></Button>
           <Button asChild variant="outline"><Link to="/articles/how-to-read-an-eob">Read the EOB guide</Link></Button>
         </div>
       </PageHero>
@@ -85,12 +86,12 @@ const EobBillMatchCheckerPage = () => {
         <NextStepCards
           eyebrow="After the match check"
           title="Choose the next practical step"
-          description="The right next step depends on whether the problem is the insurer explanation, the provider bill, or the household's ability to pay."
+          description="The right next step depends on whether the problem is the insurer explanation, the provider bill, affordability, or pressure to pay."
           columns="four"
           cards={[
+            { eyebrow: "Flow", title: "Medical Bill Review Flow", description: "Use the broader workflow if you are not sure what document you have, what to request, or whether to pause before paying.", href: "/tools/medical-bill-review-flow", cta: "Review bill" },
             { eyebrow: "EOB", title: "How to Read an EOB", description: "Find allowed amount, adjustment, plan payment, denial language, and patient responsibility.", href: "/articles/how-to-read-an-eob", cta: "Read guide" },
             { eyebrow: "Bill", title: "Medical Bill Review Toolkit", description: "Use the full bill review workflow for itemized bills, billing calls, and documentation.", href: "/insurance/medical-bill-review-toolkit", cta: "Open toolkit" },
-            { eyebrow: "Cost ceiling", title: "Out-of-Pocket Max Estimator", description: "Estimate whether this claim changes how close you are to the plan's yearly covered in-network cap.", href: "/tools/out-of-pocket-max-estimator", cta: "Estimate" },
             { eyebrow: "Assistance", title: "Financial Assistance Checklist", description: "Screen large hospital balances for charity care or financial assistance before paying in full.", href: "/tools#financial-assistance-checklist", cta: "Check assistance" },
           ]}
         />

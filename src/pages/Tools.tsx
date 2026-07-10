@@ -40,6 +40,7 @@ const calculatorGroups = [
   {
     label: "Hospital bills",
     items: [
+      { id: "medical-bill-review-flow", label: "Medical Bill Review Flow" },
       { id: "hospital-bill-checklist", label: "Hospital Bill Review Checklist" },
       { id: "eob-bill-match", label: "EOB-to-Bill Match Checker" },
       { id: "financial-assistance-checklist", label: "Financial Assistance Checklist" },
@@ -79,18 +80,18 @@ const calculatorGroups = [
 
 const intentCards = [
   {
+    eyebrow: "Medical bill",
+    title: "I got a confusing bill, EOB, MSN, or collection notice",
+    description: "Use the review flow to decide what to check, what to request, who to call, and whether to pause before paying.",
+    href: "#medical-bill-review-flow",
+    cta: "Review bill before paying",
+  },
+  {
     eyebrow: "Hospital discharge",
     title: "I need to know what to ask before discharge",
     description: "Use the guided checklist for rehab/SNF, home health, equipment, medication, denial, Medicaid, or bill questions.",
     href: "#hospital-discharge-medicare-checklist",
     cta: "Build discharge checklist",
-  },
-  {
-    eyebrow: "Medical bill",
-    title: "I got a confusing bill or EOB",
-    description: "Start by matching the provider bill to the insurer explanation before paying or panicking.",
-    href: "#eob-bill-match",
-    cta: "Check bill vs EOB",
   },
   {
     eyebrow: "Benefits choice",
@@ -271,14 +272,29 @@ const Tools = () => {
         </section>
 
         <section className="space-y-6">
-          <SectionIntro eyebrow="Hospital bills" title="Review the bill before money leaves the account" description="Start with the EOB-to-bill match, then use checklists to organize questions for billing, insurance, or financial assistance." />
+          <SectionIntro eyebrow="Hospital bills" title="Review the bill before money leaves the account" description="Start with the medical bill review flow, then match documents, check assistance, and organize questions for billing or insurance." />
           <div className="space-y-8">
+            <ToolAnchor id="medical-bill-review-flow" bestFirst>
+              <CalculatorCard icon={Receipt} eyebrow="Hospital bills" title="Medical Bill Review Flow" description="A guided workflow for provider bills, EOBs, Medicare Summary Notices, collection notices, affordability concerns, and pressure to pay." relatedArticle={{ label: "Medical Bill Review Toolkit", href: "/insurance/medical-bill-review-toolkit" }}>
+                <div className="space-y-4">
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    Use the dedicated tool page to decide what to check before paying, what document to request, what to ask billing, and when to check financial assistance.
+                  </p>
+                  <a
+                    href="/tools/medical-bill-review-flow"
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-sm transition-smooth hover:-translate-y-0.5 hover:shadow-card"
+                  >
+                    Open review flow <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </CalculatorCard>
+            </ToolAnchor>
             <ToolAnchor id="hospital-bill-checklist">
               <CalculatorCard icon={ClipboardCheck} eyebrow="Hospital bills" title="Hospital Bill Review Checklist" description="A practical checklist for reviewing a large, confusing, or surprising healthcare balance." relatedArticle={{ label: "Financial Assistance Guide", href: "/articles/check-hospital-financial-assistance-before-paying" }}>
                 <HospitalBillChecklistTool />
               </CalculatorCard>
             </ToolAnchor>
-            <ToolAnchor id="eob-bill-match" bestFirst>
+            <ToolAnchor id="eob-bill-match">
               <CalculatorCard icon={Receipt} eyebrow="Hospital bills" title="EOB-to-Bill Match Checker" description="Compare an insurer explanation with a provider bill and identify mismatches to ask about." relatedArticle={{ label: "How to Read an EOB", href: "/articles/how-to-read-an-eob" }}>
                 <EobBillMatchChecker />
               </CalculatorCard>

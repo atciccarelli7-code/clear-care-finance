@@ -18,6 +18,7 @@ import OutOfPocketMaxEstimatorPage from "./pages/OutOfPocketMaxEstimatorPage.tsx
 import OpenEnrollmentTrueCostCalculatorPage from "./pages/OpenEnrollmentTrueCostCalculatorPage.tsx";
 import EobBillMatchCheckerPage from "./pages/EobBillMatchCheckerPage.tsx";
 import HospitalDischargeMedicareChecklistPage from "./pages/HospitalDischargeMedicareChecklistPage.tsx";
+import MedicalBillReviewFlowPage from "./pages/MedicalBillReviewFlowPage.tsx";
 import StudentLoans from "./pages/StudentLoans.tsx";
 import Articles from "./pages/Articles.tsx";
 import ArticlePage from "./pages/ArticlePage.tsx";
@@ -113,6 +114,7 @@ const App = () => (
             <Route path="/tools/open-enrollment-true-cost-calculator" element={<OpenEnrollmentTrueCostCalculatorPage />} />
             <Route path="/tools/eob-to-bill-match-checker" element={<EobBillMatchCheckerPage />} />
             <Route path="/tools/hospital-discharge-medicare-checklist" element={<HospitalDischargeMedicareChecklistPage />} />
+            <Route path="/tools/medical-bill-review-flow" element={<MedicalBillReviewFlowPage />} />
             <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />

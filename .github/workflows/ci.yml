@@ -9,10 +9,15 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-test:
     name: Build and test
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -20,26 +25,21 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+          cache: npm
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install locked dependencies
+        run: npm ci
 
       - name: Lint advisory
         run: npm run lint
         continue-on-error: true
 
-      - name: Full guide content check
-        run: npm run guide:content-check
-
-      - name: Quick guide content check
-        run: npm run guide:quick-content-check
+      - name: Publication, content, and unit tests
+        run: npm test
 
       - name: All quick guide content checks
         run: npm run guide:quick-content-check:all
 
-      - name: Unit tests
-        run: npx vitest run
-
-      - name: Build
+      - name: Production build, bundle budget, and prerender
         run: npm run build

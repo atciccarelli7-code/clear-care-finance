@@ -7,6 +7,8 @@ export type PrivacyConsentChoice = "necessary" | "analytics";
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
+    __cafAnalyticsAllowed?: boolean;
+    __cafLoadGoogleAnalytics?: () => void;
   }
 }
 
@@ -30,12 +32,19 @@ export const applyPrivacyConsent = (choice: PrivacyConsentChoice) => {
     // The consent signal still applies for the current page when storage is unavailable.
   }
 
+  const analyticsAllowed = choice === "analytics";
+  window.__cafAnalyticsAllowed = analyticsAllowed;
+
   window.gtag?.("consent", "update", {
-    analytics_storage: choice === "analytics" ? "granted" : "denied",
+    analytics_storage: analyticsAllowed ? "granted" : "denied",
     ad_storage: "denied",
     ad_user_data: "denied",
     ad_personalization: "denied",
   });
+
+  if (analyticsAllowed) {
+    window.__cafLoadGoogleAnalytics?.();
+  }
 
   window.dispatchEvent(
     new CustomEvent<PrivacyConsentChoice>(PRIVACY_CONSENT_CHANGED_EVENT, { detail: choice }),

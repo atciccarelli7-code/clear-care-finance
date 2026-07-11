@@ -29,6 +29,7 @@ const PatientsFamilies = () => {
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <TopicCard icon={HeartPulse} title="Medicare & Medicaid" description="Two programs, one letter apart, very different jobs." href="/topics/medicare-medicaid" cta="Open guide" accent="green" />
+          <TopicCard icon={Shield} title="What Medicare Advantage marketing may not emphasize" description="Review networks, prior authorization, post-acute care, drug coverage, and out-of-pocket exposure before relying on extra-benefit advertising." href="/insurance/what-medicare-advantage-marketing-may-not-emphasize" cta="Read the reality check" />
           <TopicCard icon={Shield} title="Health Insurance" description="Premiums, deductibles, copays, coinsurance — translated." href="/topics/health-insurance" cta="Open guide" />
           <TopicCard icon={Receipt} title="Patient Medical Costs" description="EOBs, itemized bills, and what to ask before paying." href="/topics/patient-medical-costs" cta="Open guide" accent="green" />
           <TopicCard icon={Building2} title="Hospital Economics" description="Why hospital prices are confusing — facility fees, contracts, and price lists." href="/topics/hospital-economics" cta="Open guide" />

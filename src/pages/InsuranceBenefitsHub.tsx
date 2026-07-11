@@ -42,7 +42,7 @@ const decisionPathways: Pathway[] = [
     steps: [
       { label: "Discharge coverage guide", href: "/insurance/hospital-discharge-coverage" },
       { label: "Printable discharge checklist", href: "/insurance/hospital-discharge-coverage/printable" },
-      { label: "Prior authorization guide", href: "/insurance/prior-authorization-guide" },
+      { label: "Prior authorization guide", href: "/tools/prior-authorization-next-step-guide" },
     ],
   },
   {
@@ -263,7 +263,7 @@ const deeperQuestions: HubCard[] = [
     eyebrow: "Care delays",
     title: "Prior authorization survival guide",
     body: "Use call scripts and checklists when a medication, imaging test, procedure, rehab stay, DME, or equipment request is delayed.",
-    href: "/insurance/prior-authorization-guide",
+    href: "/tools/prior-authorization-next-step-guide",
     cta: "Open guide",
     icon: ClipboardCheck,
   },

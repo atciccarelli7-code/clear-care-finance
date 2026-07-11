@@ -38,6 +38,13 @@ const HealthcareWorkers = () => {
               cta: "Compare jobs",
             },
             {
+              eyebrow: "Paycheck decisions",
+              title: "Healthcare Worker Paycheck Tools",
+              description: "Use worker-specific calculators for 403(b) contributions, overtime tradeoffs, paycheck changes, and other decisions tied to clinical work.",
+              href: "/healthcare-workers/paycheck-tools",
+              cta: "Open paycheck tools",
+            },
+            {
               eyebrow: "Foundation",
               title: "The Healthcare Worker Money Map",
               description: "A simple order of operations for bills, cash, employer match, debt, retirement, and investing.",

@@ -594,7 +594,7 @@ const HospitalDischargeCoveragePage = () => {
                 Do not rely only on a verbal denial. Ask for the written notice, the exact service denied, the dates affected, the medical necessity reason, and the deadline to respond.
               </div>
               <Button asChild variant="outline">
-                <Link to="/insurance/prior-authorization-guide">Open prior authorization guide</Link>
+                <Link to="/tools/prior-authorization-next-step-guide">Open prior authorization guide</Link>
               </Button>
             </CardContent>
           </Card>

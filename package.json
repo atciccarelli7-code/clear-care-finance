@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "seo:generate": "node scripts/generate-sitemap.mjs",
+    "seo:check": "node scripts/check-search-readiness.mjs",
     "trust:check": "node scripts/check-publication-readiness.mjs",
-    "build": "node scripts/generate-sitemap.mjs && node scripts/check-publication-readiness.mjs && vite build && node scripts/check-bundle-budget.mjs && node scripts/prerender.mjs",
+    "build": "node scripts/generate-sitemap.mjs && node scripts/check-publication-readiness.mjs && vite build && node scripts/check-bundle-budget.mjs && node scripts/prerender.mjs && node scripts/check-search-readiness.mjs",
     "build:dev": "vite build --mode development",
     "bundle:check": "node scripts/check-bundle-budget.mjs",
     "lint": "eslint .",

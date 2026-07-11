@@ -1,11 +1,10 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
+import { getCanonicalRoutes, repositoryRoot } from "./seo-route-utils.mjs";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const root = repositoryRoot;
 const siteUrl = (process.env.VITE_SITE_URL || "https://communityacquiredfinance.com").replace(/\/$/, "");
-const redirectedRoutes = new Set(["/insurance/prior-authorization-guide"]);
 
 const escapeXml = (value) =>
   value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
@@ -20,7 +19,7 @@ const vite = await createServer({
 
 try {
   const { getIndexableRoutes } = await vite.ssrLoadModule("/src/lib/seoRegistry.ts");
-  const routes = getIndexableRoutes().filter((route) => !redirectedRoutes.has(route));
+  const { canonicalRoutes: routes } = await getCanonicalRoutes(getIndexableRoutes);
 
   if (!Array.isArray(routes) || routes.length === 0) {
     throw new Error("No indexable routes were returned by the SEO registry.");

@@ -14,24 +14,24 @@ const LogoMark = () => (
 
 const linkGroups = [
   {
-    title: "Start",
+    title: "Explore",
     links: [
       { to: "/start-here", label: "Start Here" },
-      { to: "/tools", label: "Tools" },
+      { to: "/tools", label: "Financial Tools" },
+      { to: "/build-wealth", label: "Money & Retirement" },
+      { to: "/insurance", label: "Benefits & Insurance" },
+      { to: "/medicare-care-costs", label: "Medicare & Medicaid" },
       { to: "/articles", label: "Articles" },
-      { to: "/insurance", label: "Insurance" },
-      { to: "/healthcare-workers", label: "Healthcare Workers" },
-      { to: "/build-wealth", label: "Build Wealth" },
     ],
   },
   {
-    title: "Guides",
+    title: "Specialized guides",
     links: [
-      { to: "/insurance/health-insurance-plan-types", label: "Health Insurance Plan Types" },
-      { to: "/insurance/commercial-insurance-comparison", label: "Commercial Plan Comparison" },
-      { to: "/medicare-care-costs", label: "Medicare Cost Hub" },
-      { to: "/open-enrollment", label: "Open Enrollment" },
+      { to: "/healthcare-workers", label: "Healthcare Workers" },
       { to: "/patients-families", label: "Patients & Caregivers" },
+      { to: "/guides", label: "Quick Guides" },
+      { to: "/open-enrollment", label: "Open Enrollment" },
+      { to: "/student-loans", label: "Student Loans" },
       { to: "/glossary", label: "Glossary" },
     ],
   },
@@ -60,7 +60,7 @@ export const Footer = () => {
             <span className="min-w-0 break-words">Community Acquired Finance</span>
           </Link>
           <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-            Plain-English financial education for healthcare workers, patients, families, and caregivers — tools, articles, glossary, and source-backed explanations.
+            Plain-English financial education for everyone, with specialized clarity around healthcare costs, insurance, Medicare, and Medicaid.
           </p>
           <p className="text-xs text-muted-foreground">Written by Andrew Ciccarelli, RN, BSN.</p>
         </div>

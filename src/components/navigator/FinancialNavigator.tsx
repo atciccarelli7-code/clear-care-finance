@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { trackSiteEvent } from "@/lib/analytics";
 import {
   NAVIGATOR_PATHS,
@@ -451,28 +450,35 @@ export const FinancialNavigator = () => {
                   {currentQuestion.help}
                 </p>
               )}
-              <RadioGroup
-                name={currentQuestion.id}
-                value={selectedAnswer}
-                onValueChange={(value) => setAnswers((current) => ({ ...current, [currentQuestion.id]: value }))}
-                className="mt-6 grid gap-3 sm:grid-cols-2"
-                aria-labelledby="navigator-question-heading"
-                aria-describedby={currentQuestion.help ? `navigator-help-${currentQuestion.id}` : undefined}
-              >
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {currentQuestion.options.map((option) => {
                   const selected = selectedAnswer === option.id;
-                  const optionId = `navigator-${currentQuestion.id}-${option.id}`;
                   return (
                     <label
                       key={option.id}
-                      htmlFor={optionId}
                       className={`flex min-h-16 cursor-pointer items-start gap-3 rounded-2xl border p-4 text-left transition-smooth focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 ${
                         selected
                           ? "border-primary bg-primary-soft text-foreground ring-1 ring-primary/20"
                           : "border-border bg-background hover:border-primary/35 hover:bg-muted/40"
                       }`}
                     >
-                      <RadioGroupItem id={optionId} value={option.id} className="mt-0.5 h-5 w-5 shrink-0" />
+                      <input
+                        type="radio"
+                        name={currentQuestion.id}
+                        value={option.id}
+                        checked={selected}
+                        onChange={() => setAnswers((current) => ({ ...current, [currentQuestion.id]: option.id }))}
+                        aria-describedby={currentQuestion.help ? `navigator-help-${currentQuestion.id}` : undefined}
+                        className="sr-only"
+                      />
+                      <span
+                        aria-hidden="true"
+                        className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
+                          selected ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/40 bg-background"
+                        }`}
+                      >
+                        {selected && <Check className="h-3 w-3" />}
+                      </span>
                       <span>
                         <span className="block text-sm font-bold leading-snug">{option.label}</span>
                         {option.description && <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">{option.description}</span>}
@@ -480,7 +486,7 @@ export const FinancialNavigator = () => {
                     </label>
                   );
                 })}
-              </RadioGroup>
+              </div>
             </fieldset>
 
             <div className="mt-8 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">

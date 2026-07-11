@@ -34,6 +34,33 @@ const sources = [
   },
 ];
 
+const relatedResources = [
+  {
+    eyebrow: "Before opening HR",
+    title: "Healthcare Worker Benefits Blueprint",
+    description: "Decide what matters for retirement, health coverage, HSA eligibility, and family needs before evaluating the employer's options.",
+    href: "/tools/healthcare-worker-benefits-blueprint",
+  },
+  {
+    eyebrow: "Use the actual plan numbers",
+    title: "Employer Benefits Action Plan",
+    description: "Turn the employer match, premiums, deductible, out-of-pocket maximum, and HSA contribution into a prioritized action list.",
+    href: "/tools/employer-benefits-action-plan",
+  },
+  {
+    eyebrow: "Retirement value",
+    title: "403(b) Paycheck Calculator",
+    description: "Estimate employee contributions and employer match per paycheck and per year after you verify the plan rules.",
+    href: "/tools/403b-paycheck-calculator",
+  },
+  {
+    eyebrow: "Health-plan tradeoffs",
+    title: "Open Enrollment Guide",
+    description: "Compare premiums, deductibles, networks, prescriptions, tax accounts, and bad-year exposure before choosing coverage.",
+    href: "/open-enrollment",
+  },
+];
+
 const HealthcareWorkerTotalCompensationPage = () => (
   <>
     <PageHero
@@ -80,7 +107,7 @@ const HealthcareWorkerTotalCompensationPage = () => (
       </Suspense>
     </section>
 
-    <section className="border-y border-border bg-card/35 py-14 md:py-18">
+    <section className="border-y border-border bg-card/35 py-14 md:py-20">
       <div className="container grid min-w-0 gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-5">
           <div>
@@ -109,8 +136,8 @@ const HealthcareWorkerTotalCompensationPage = () => (
       </div>
     </section>
 
-    <section className="container min-w-0 py-14 md:py-18">
-      <div className="mx-auto max-w-4xl space-y-8">
+    <section className="container min-w-0 py-14 md:py-20">
+      <div className="mx-auto max-w-4xl space-y-10">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Common questions</div>
           <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">What this tool can and cannot tell you</h2>
@@ -127,6 +154,21 @@ const HealthcareWorkerTotalCompensationPage = () => (
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{answer}</p>
             </details>
           ))}
+        </div>
+
+        <div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Keep working through the offer</div>
+          <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Turn the comparison into a benefits decision</h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {relatedResources.map((resource) => (
+              <Link key={resource.href} to={resource.href} className="group rounded-2xl border border-border bg-card p-5 shadow-card transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-hover">
+                <div className="text-[0.68rem] font-bold uppercase tracking-[0.15em] text-secondary">{resource.eyebrow}</div>
+                <h3 className="mt-2 font-display text-lg font-bold text-foreground">{resource.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{resource.description}</p>
+                <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary">Open resource <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></div>
+              </Link>
+            ))}
+          </div>
         </div>
 
         <div className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">

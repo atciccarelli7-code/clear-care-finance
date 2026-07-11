@@ -207,6 +207,12 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
       "Check possible Medicare, Medicaid, Medicare Savings Program, dual-eligibility, disability, pregnancy, child, and long-term-care pathways, then verify with official agencies.",
     kind: "tool",
   },
+  "/tools/prior-authorization-next-step-guide": {
+    title: "Prior Authorization Next-Step Guide",
+    description:
+      "Answer plain-English questions about a delayed, pending, or denied prior authorization and get a qualified action plan with provider questions, plan questions, documents, appeal checks, and official sources.",
+    kind: "tool",
+  },
   "/tools/403b-paycheck-calculator": {
     title: "403(b) Paycheck Contribution Calculator",
     description:

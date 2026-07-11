@@ -3,10 +3,14 @@ const ADSENSE_CLIENT = "ca-pub-3330626498830044";
 export const ADSENSE_SCRIPT_ID = "caf-route-aware-adsense";
 export const ADSENSE_SCRIPT_SRC = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
 
+const PRIOR_AUTHORIZATION_TOOL_PATH = "/tools/prior-authorization-next-step-guide";
+const LEGACY_PRIOR_AUTHORIZATION_PATH = "/insurance/prior-authorization-guide";
+
 const AD_FREE_PATHS = new Set([
   "/tools/healthcare-worker-benefits-blueprint",
   "/tools/employer-benefits-action-plan",
   "/tools/medicare-medicaid-eligibility-check",
+  PRIOR_AUTHORIZATION_TOOL_PATH,
 ]);
 
 type AdSenseSyncAction = "blocked" | "loaded" | "present" | "reload";
@@ -25,6 +29,14 @@ declare global {
 const normalizePathname = (pathname: string) => {
   const normalized = pathname.replace(/\/+$/, "");
   return normalized || "/";
+};
+
+const buildCanonicalPriorAuthorizationUrl = (href: string) => {
+  try {
+    return new URL(PRIOR_AUTHORIZATION_TOOL_PATH, href).toString();
+  } catch {
+    return PRIOR_AUTHORIZATION_TOOL_PATH;
+  }
 };
 
 export const isAdFreePath = (pathname: string) => AD_FREE_PATHS.has(normalizePathname(pathname));
@@ -50,11 +62,17 @@ export const syncAdSenseForPath = (
 ): AdSenseSyncAction => {
   const documentObject = options.documentObject ?? document;
   const existing = documentObject.getElementById(ADSENSE_SCRIPT_ID);
+  const replaceLocation = options.replaceLocation ?? ((url: string) => window.location.replace(url));
+  const normalizedPath = normalizePathname(pathname);
 
-  if (isAdFreePath(pathname)) {
+  if (normalizedPath === LEGACY_PRIOR_AUTHORIZATION_PATH) {
+    replaceLocation(buildCanonicalPriorAuthorizationUrl(href));
+    return "reload";
+  }
+
+  if (isAdFreePath(normalizedPath)) {
     if (!existing) return "blocked";
 
-    const replaceLocation = options.replaceLocation ?? ((url: string) => window.location.replace(url));
     replaceLocation(href);
     return "reload";
   }

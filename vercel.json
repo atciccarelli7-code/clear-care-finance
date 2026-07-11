@@ -26,6 +26,7 @@
     { "source": "/insurance/summary-of-benefits-and-coverage", "destination": "/insurance/how-to-read-an-sbc", "permanent": true },
     { "source": "/commercial-insurance-comparison", "destination": "/insurance/commercial-insurance-comparison", "permanent": true },
     { "source": "/insurance/medicare-care-costs", "destination": "/medicare-care-costs", "permanent": true },
+    { "source": "/insurance/prior-authorization-guide", "destination": "/tools/prior-authorization-next-step-guide", "permanent": true },
     { "source": "/quick-guides", "destination": "/guides", "permanent": true },
     { "source": "/guides/medicare-medicaid-rehab-long-term-care", "destination": "/guides/hospital-discharge-medicare", "permanent": true },
     { "source": "/guides/medicare-medicaid-guide", "destination": "/guides/hospital-discharge-medicare", "permanent": true },

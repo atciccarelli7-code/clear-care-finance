@@ -5,6 +5,7 @@ import { createServer } from "vite";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteUrl = (process.env.VITE_SITE_URL || "https://communityacquiredfinance.com").replace(/\/$/, "");
+const redirectedRoutes = new Set(["/insurance/prior-authorization-guide"]);
 
 const escapeXml = (value) =>
   value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
@@ -19,7 +20,7 @@ const vite = await createServer({
 
 try {
   const { getIndexableRoutes } = await vite.ssrLoadModule("/src/lib/seoRegistry.ts");
-  const routes = getIndexableRoutes();
+  const routes = getIndexableRoutes().filter((route) => !redirectedRoutes.has(route));
 
   if (!Array.isArray(routes) || routes.length === 0) {
     throw new Error("No indexable routes were returned by the SEO registry.");

@@ -9,6 +9,8 @@ import {
 const ELIGIBILITY_PATH = "/tools/medicare-medicaid-eligibility-check";
 const BLUEPRINT_PATH = "/tools/healthcare-worker-benefits-blueprint";
 const ACTION_PLAN_PATH = "/tools/employer-benefits-action-plan";
+const PRIOR_AUTH_PATH = "/tools/prior-authorization-next-step-guide";
+const LEGACY_PRIOR_AUTH_PATH = "/insurance/prior-authorization-guide";
 
 const removeManagedScript = () => {
   document.getElementById(ADSENSE_SCRIPT_ID)?.remove();
@@ -20,7 +22,7 @@ afterEach(() => {
 
 describe("route-aware AdSense guard", () => {
   it("recognizes sensitive tools with or without a trailing slash", () => {
-    for (const path of [ELIGIBILITY_PATH, BLUEPRINT_PATH, ACTION_PLAN_PATH]) {
+    for (const path of [ELIGIBILITY_PATH, BLUEPRINT_PATH, ACTION_PLAN_PATH, PRIOR_AUTH_PATH]) {
       expect(isAdFreePath(path)).toBe(true);
       expect(isAdFreePath(`${path}/`)).toBe(true);
     }
@@ -31,6 +33,7 @@ describe("route-aware AdSense guard", () => {
     ["eligibility checker", ELIGIBILITY_PATH],
     ["benefits blueprint", BLUEPRINT_PATH],
     ["employer benefits action plan", ACTION_PLAN_PATH],
+    ["prior authorization guide", PRIOR_AUTH_PATH],
   ])("does not load AdSense on a direct %s visit", (_label, path) => {
     const action = syncAdSenseForPath(path, `https://communityacquiredfinance.com${path}`);
 
@@ -53,6 +56,7 @@ describe("route-aware AdSense guard", () => {
     ["eligibility checker", ELIGIBILITY_PATH],
     ["benefits blueprint", BLUEPRINT_PATH],
     ["employer benefits action plan", ACTION_PLAN_PATH],
+    ["prior authorization guide", PRIOR_AUTH_PATH],
   ])("requests a clean reload when navigation enters the %s after AdSense loaded", (_label, path) => {
     syncAdSenseForPath("/", "https://communityacquiredfinance.com/");
     const replaceLocation = vi.fn();
@@ -63,5 +67,19 @@ describe("route-aware AdSense guard", () => {
     expect(action).toBe("reload");
     expect(replaceLocation).toHaveBeenCalledOnce();
     expect(replaceLocation).toHaveBeenCalledWith(target);
+  });
+
+  it("redirects legacy client navigation to the canonical prior authorization tool", () => {
+    const replaceLocation = vi.fn();
+
+    const action = syncAdSenseForPath(
+      LEGACY_PRIOR_AUTH_PATH,
+      `https://communityacquiredfinance.com${LEGACY_PRIOR_AUTH_PATH}?source=hub#start`,
+      { replaceLocation },
+    );
+
+    expect(action).toBe("reload");
+    expect(replaceLocation).toHaveBeenCalledWith(`https://communityacquiredfinance.com${PRIOR_AUTH_PATH}`);
+    expect(document.getElementById(ADSENSE_SCRIPT_ID)).toBeNull();
   });
 });

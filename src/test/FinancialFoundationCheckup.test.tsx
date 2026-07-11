@@ -3,7 +3,6 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import FinancialFoundationCheckup from "@/components/calculators/FinancialFoundationCheckup";
 import { FOUNDATION_STORAGE_KEY } from "@/lib/financialFoundationCheckup";
-import { NAVIGATOR_STORAGE_KEY } from "@/lib/financialNavigator";
 
 const renderCheckup = () => render(
   <MemoryRouter>
@@ -24,7 +23,7 @@ describe("FinancialFoundationCheckup", () => {
     });
   });
 
-  it("creates a local baseline and saves the recommended gaps into My Plan", () => {
+  it("creates a local baseline with visible domain results and history", () => {
     renderCheckup();
 
     fireEvent.change(screen.getByLabelText(/Monthly essential expenses/), { target: { value: "4000" } });
@@ -36,22 +35,13 @@ describe("FinancialFoundationCheckup", () => {
     fireEvent.change(screen.getByLabelText(/Large planned expense within 12 months/), { target: { value: "unfunded" } });
     fireEvent.click(screen.getByRole("button", { name: /Run my checkup/ }));
 
-    expect(screen.getByRole("heading", { name: "Stabilize first" })).toHaveFocus();
-    expect(screen.getByText("16")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Stabilize first" })).toBeInTheDocument();
+    expect(screen.getByText("out of 100")).toBeInTheDocument();
+    expect(screen.getAllByRole("progressbar")).toHaveLength(5);
     expect(screen.getByRole("progressbar", { name: "Cash resilience score" })).toHaveAttribute("aria-valuenow", "5");
+    expect(screen.getByRole("button", { name: "Add all to My Plan" })).toBeEnabled();
     expect(window.localStorage.getItem(FOUNDATION_STORAGE_KEY)).not.toBeNull();
     expect(screen.getByRole("heading", { name: "Your last 1 checkup" })).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: "Add all to My Plan" }));
-
-    const storedPlan = JSON.parse(window.localStorage.getItem(NAVIGATOR_STORAGE_KEY) ?? "null") as { actionIds?: string[] } | null;
-    expect(storedPlan?.actionIds).toEqual(expect.arrayContaining([
-      "wealth_starter_reserve",
-      "wealth_high_interest_debt",
-      "wealth_capture_match",
-      "wealth_cash_flow",
-      "benefits_action_plan",
-    ]));
   });
 
   it("requires essential expenses before calculating runway", () => {

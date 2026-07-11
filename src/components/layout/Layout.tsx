@@ -1,12 +1,20 @@
-import { Outlet } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import { Header } from "./Header";
 import { SiteTrustBar } from "./SiteTrustBar";
 import { Footer } from "./Footer";
 import { MobileBottomNav } from "./MobileBottomNav";
 import { PrivacyChoices } from "@/components/shared/PrivacyChoices";
-import { NavigatorContextAction } from "@/components/navigator/NavigatorContextAction";
+import { hasNavigatorContextAction } from "@/components/navigator/navigatorContextConfig";
+
+const NavigatorContextAction = lazy(() =>
+  import("@/components/navigator/NavigatorContextAction").then((module) => ({ default: module.NavigatorContextAction })),
+);
 
 export const Layout = () => {
+  const location = useLocation();
+  const showNavigatorContext = hasNavigatorContextAction(location.pathname);
+
   return (
     <div className="min-h-screen flex w-full min-w-0 flex-col pb-[calc(5rem_+_env(safe-area-inset-bottom))] md:pb-0">
       <a href="#main-content" className="fixed left-4 top-4 z-[60] -translate-y-24 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-hover transition-transform focus:translate-y-0">
@@ -16,7 +24,11 @@ export const Layout = () => {
       <SiteTrustBar />
       <main id="main-content" className="flex-1 w-full min-w-0 outline-none" tabIndex={-1}>
         <Outlet />
-        <NavigatorContextAction />
+        {showNavigatorContext && (
+          <Suspense fallback={null}>
+            <NavigatorContextAction />
+          </Suspense>
+        )}
       </main>
       <Footer />
       <MobileBottomNav />

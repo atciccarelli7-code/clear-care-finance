@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { track } from "@vercel/analytics";
-import { sanitizeEventProperties, trackSiteEvent } from "@/lib/analytics";
+import { sanitizeEventProperties, trackHomepageNavigation, trackSiteEvent } from "@/lib/analytics";
 import { PRIVACY_CONSENT_KEY } from "@/lib/privacyConsent";
 
 vi.mock("@vercel/analytics", () => ({
@@ -77,5 +77,27 @@ describe("privacy-safe analytics", () => {
       event_category: "tools",
       tool_id: "example",
     });
+  });
+
+  it("records fixed homepage navigation dimensions without URL query strings", () => {
+    const gtag = vi.fn();
+    window.gtag = gtag;
+    window.localStorage.setItem(PRIVACY_CONSENT_KEY, "analytics");
+
+    expect(trackHomepageNavigation(
+      "starting_path",
+      "retirement_financial_independence",
+      "/build-wealth?campaign=homepage#start",
+    )).toBe(true);
+
+    const expectedProperties = {
+      event_category: "homepage",
+      navigation_type: "starting_path",
+      item_id: "retirement_financial_independence",
+      destination_path: "/build-wealth",
+    };
+
+    expect(track).toHaveBeenCalledWith("homepage_navigation", expectedProperties);
+    expect(gtag).toHaveBeenCalledWith("event", "homepage_navigation", expectedProperties);
   });
 });

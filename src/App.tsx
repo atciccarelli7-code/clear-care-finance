@@ -7,7 +7,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Layout } from "@/components/layout/Layout";
-import { resolveSeoMeta } from "@/lib/seoRegistry";
+import { resolveSiteSeoMeta } from "@/lib/siteSeoMeta";
 import { useSeo } from "@/lib/seo";
 
 const loadIndex = () => import("./pages/Index.tsx");
@@ -179,7 +179,7 @@ const queryClient = new QueryClient();
 
 const RouteSeo = () => {
   const location = useLocation();
-  const meta = useMemo(() => resolveSeoMeta(location.pathname), [location.pathname]);
+  const meta = useMemo(() => resolveSiteSeoMeta(location.pathname), [location.pathname]);
   useSeo(meta);
   return null;
 };

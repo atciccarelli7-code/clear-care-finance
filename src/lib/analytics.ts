@@ -4,7 +4,7 @@ import { readPrivacyConsent } from "@/lib/privacyConsent";
 type EventValue = string | number | boolean | null | undefined;
 export type EventProperties = Record<string, EventValue>;
 
-const SENSITIVE_KEY_PATTERN = /(^|_)(email|first_name|last_name|full_name|phone|ssn|income|salary|wage|age|state|zip|zipcode|household|disability|diagnosis|condition|answer|answers|result|results|amount|balance|deductible|premium|oop|hsa|contribution)($|_)/i;
+const SENSITIVE_KEY_PATTERN = /(^|_)(email|first_name|last_name|full_name|phone|ssn|income|salary|wage|age|state|zip|zipcode|household|disability|diagnosis|condition|answer|answers|result|results|amount|balance|deductible|premium|oop|hsa|contribution|employer|role|job_title|offer_name|commute|schedule|overtime|bonus|benefit)($|_)/i;
 const EVENT_NAME_PATTERN = /^[a-z][a-z0-9_]{1,63}$/;
 const MAX_STRING_LENGTH = 160;
 

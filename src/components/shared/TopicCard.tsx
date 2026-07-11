@@ -1,3 +1,4 @@
+import type { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -10,9 +11,19 @@ interface TopicCardProps {
   cta?: string;
   accent?: "blue" | "green";
   className?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 }
 
-export const TopicCard = ({ icon: Icon, title, description, href, cta, accent = "blue", className }: TopicCardProps) => {
+export const TopicCard = ({
+  icon: Icon,
+  title,
+  description,
+  href,
+  cta,
+  accent = "blue",
+  className,
+  onClick,
+}: TopicCardProps) => {
   const iconBg = accent === "blue" ? "bg-primary-soft text-primary" : "bg-secondary-soft text-secondary";
 
   const content = (
@@ -37,7 +48,11 @@ export const TopicCard = ({ icon: Icon, title, description, href, cta, accent = 
   );
 
   return href ? (
-    <Link to={href} className="block h-full min-w-0 max-w-full rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background">
+    <Link
+      to={href}
+      onClick={onClick}
+      className="block h-full min-w-0 max-w-full rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+    >
       {content}
     </Link>
   ) : (

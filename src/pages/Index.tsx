@@ -18,8 +18,10 @@ import { PageHero } from "@/components/shared/PageHero";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { TOPICS } from "@/data/topics";
+import { trackHomepageNavigation } from "@/lib/analytics";
 
 type PathCard = {
+  id: string;
   icon: LucideIcon;
   title: string;
   description: string;
@@ -62,6 +64,7 @@ const Index = () => {
 
   const pathCards: PathCard[] = [
     {
+      id: "retirement_financial_independence",
       icon: PiggyBank,
       title: "I’m planning for retirement or financial independence",
       description: "Organize saving, retirement accounts, investing, debt, and the next step toward long-term financial flexibility.",
@@ -70,6 +73,7 @@ const Index = () => {
       accent: "blue",
     },
     {
+      id: "medical_bill",
       icon: Receipt,
       title: "I got a medical bill",
       description: "Review the bill, compare it with your EOB, and find the next practical step before paying.",
@@ -78,6 +82,7 @@ const Index = () => {
       accent: "green",
     },
     {
+      id: "medicare_medicaid",
       icon: BookOpen,
       title: "I’m trying to understand Medicare or Medicaid",
       description: "Learn what the programs cover, where costs appear, and why long-term care needs separate planning.",
@@ -86,6 +91,7 @@ const Index = () => {
       accent: "green",
     },
     {
+      id: "workplace_benefits_insurance",
       icon: HeartPulse,
       title: "I’m choosing workplace benefits or insurance",
       description: "Compare premiums, deductibles, retirement matches, FSAs, HSAs, and open-enrollment tradeoffs.",
@@ -103,10 +109,20 @@ const Index = () => {
         description="Use practical guides and calculators for retirement, investing, workplace benefits, insurance, medical bills, Medicare, and Medicaid—built with an RN’s healthcare perspective."
       >
         <Button asChild variant="hero" size="lg">
-          <a href="#choose-path">Choose a starting point <ArrowRight className="h-4 w-4" /></a>
+          <a
+            href="#choose-path"
+            onClick={() => trackHomepageNavigation("hero_action", "choose_starting_point")}
+          >
+            Choose a starting point <ArrowRight className="h-4 w-4" />
+          </a>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/tools">Use a calculator</Link>
+          <Link
+            to="/tools"
+            onClick={() => trackHomepageNavigation("hero_action", "use_calculator", "/tools")}
+          >
+            Use a calculator
+          </Link>
         </Button>
       </PageHero>
 
@@ -118,20 +134,29 @@ const Index = () => {
           description="Choose the situation closest to yours. Each path leads to a practical guide or calculator, not a sales funnel."
         />
         <div className="mx-auto grid max-w-5xl min-w-0 gap-5 md:grid-cols-2">
-          {pathCards.map(({ icon, title, description, href, cta, accent }) => (
+          {pathCards.map(({ id, icon, title, description, href, cta, accent }) => (
             <TopicCard
-              key={title}
+              key={id}
               icon={icon}
               title={title}
               description={description}
               href={href}
               cta={cta}
               accent={accent}
+              onClick={() => trackHomepageNavigation("starting_path", id, href)}
             />
           ))}
         </div>
         <p className="mx-auto mt-7 max-w-3xl text-center text-sm leading-relaxed text-muted-foreground">
-          Work in healthcare? The <Link className="font-semibold text-primary underline-offset-4 hover:underline" to="/healthcare-workers">healthcare-worker hub</Link> adds RN-focused pay, career, and benefit tools without limiting the rest of the site to healthcare employees.
+          Work in healthcare? The{" "}
+          <Link
+            className="font-semibold text-primary underline-offset-4 hover:underline"
+            to="/healthcare-workers"
+            onClick={() => trackHomepageNavigation("specialty_hub", "healthcare_workers", "/healthcare-workers")}
+          >
+            healthcare-worker hub
+          </Link>{" "}
+          adds RN-focused pay, career, and benefit tools without limiting the rest of the site to healthcare employees.
         </p>
       </section>
 
@@ -143,20 +168,29 @@ const Index = () => {
             description="Move from a plain-English explanation to a comparison, calculator, related articles, and trusted sources."
           />
           <div className="grid min-w-0 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {featuredTopics.map((topic) => (
-              <TopicCard
-                key={topic.slug}
-                icon={topic.icon}
-                title={topic.title}
-                description={topic.promise}
-                href={`/topics/${topic.slug}`}
-                cta="Open guide"
-              />
-            ))}
+            {featuredTopics.map((topic) => {
+              const href = `/topics/${topic.slug}`;
+              return (
+                <TopicCard
+                  key={topic.slug}
+                  icon={topic.icon}
+                  title={topic.title}
+                  description={topic.promise}
+                  href={href}
+                  cta="Open guide"
+                  onClick={() => trackHomepageNavigation("featured_topic", topic.slug, href)}
+                />
+              );
+            })}
           </div>
           <div className="mt-10 text-center min-w-0">
             <Button asChild variant="soft">
-              <Link to="/topics">See all topics <ArrowRight className="h-4 w-4" /></Link>
+              <Link
+                to="/topics"
+                onClick={() => trackHomepageNavigation("section_browse", "all_topics", "/topics")}
+              >
+                See all topics <ArrowRight className="h-4 w-4" />
+              </Link>
             </Button>
           </div>
         </div>
@@ -171,12 +205,23 @@ const Index = () => {
             className="mb-0"
           />
           <Button asChild variant="soft">
-            <Link to="/articles">Browse all <ArrowRight className="h-4 w-4" /></Link>
+            <Link
+              to="/articles"
+              onClick={() => trackHomepageNavigation("section_browse", "all_articles", "/articles")}
+            >
+              Browse all <ArrowRight className="h-4 w-4" />
+            </Link>
           </Button>
         </div>
         <div className="grid min-w-0 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {featuredArticles.map((article) => (
-            <ArticleCard key={article.slug} article={article} />
+            <ArticleCard
+              key={article.slug}
+              article={article}
+              onClick={() =>
+                trackHomepageNavigation("featured_article", article.slug, `/articles/${article.slug}`)
+              }
+            />
           ))}
         </div>
       </section>
@@ -228,7 +273,12 @@ const Index = () => {
           </p>
           <div className="flex min-w-0 flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" variant="secondary">
-              <Link to="/tools"><Calculator className="h-4 w-4" /> Browse tools</Link>
+              <Link
+                to="/tools"
+                onClick={() => trackHomepageNavigation("closing_cta", "browse_tools", "/tools")}
+              >
+                <Calculator className="h-4 w-4" /> Browse tools
+              </Link>
             </Button>
             <Button
               asChild
@@ -236,7 +286,12 @@ const Index = () => {
               variant="outline"
               className="bg-transparent text-primary-foreground border-primary-foreground/40 hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
-              <Link to="/articles"><FileText className="h-4 w-4" /> Read an article</Link>
+              <Link
+                to="/articles"
+                onClick={() => trackHomepageNavigation("closing_cta", "read_article", "/articles")}
+              >
+                <FileText className="h-4 w-4" /> Read an article
+              </Link>
             </Button>
           </div>
         </div>

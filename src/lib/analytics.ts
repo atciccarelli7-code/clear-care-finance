@@ -4,6 +4,15 @@ import { readPrivacyConsent } from "@/lib/privacyConsent";
 type EventValue = string | number | boolean | null | undefined;
 export type EventProperties = Record<string, EventValue>;
 
+export type HomepageNavigationType =
+  | "hero_action"
+  | "starting_path"
+  | "featured_topic"
+  | "featured_article"
+  | "specialty_hub"
+  | "section_browse"
+  | "closing_cta";
+
 const SENSITIVE_KEY_PATTERN = /(^|_)(email|first_name|last_name|full_name|phone|ssn|income|salary|wage|age|state|zip|zipcode|household|disability|diagnosis|condition|answer|answers|result|results|amount|balance|deductible|premium|oop|hsa|contribution|employer|role|job_title|offer_name|commute|schedule|overtime|bonus|benefit)($|_)/i;
 const EVENT_NAME_PATTERN = /^[a-z][a-z0-9_]{1,63}$/;
 const MAX_STRING_LENGTH = 160;
@@ -63,4 +72,16 @@ export const trackToolEvent = (name: string, toolId: string, toolLabel?: string)
     event_category: "tools",
     tool_id: toolId,
     tool_label: toolLabel,
+  });
+
+export const trackHomepageNavigation = (
+  navigationType: HomepageNavigationType,
+  itemId: string,
+  destinationPath?: string,
+) =>
+  trackSiteEvent("homepage_navigation", {
+    event_category: "homepage",
+    navigation_type: navigationType,
+    item_id: itemId,
+    destination_path: destinationPath,
   });

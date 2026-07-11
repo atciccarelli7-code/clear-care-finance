@@ -22,6 +22,7 @@ const loadOpenEnrollmentTrueCostCalculatorPage = () => import("./pages/OpenEnrol
 const loadEobBillMatchCheckerPage = () => import("./pages/EobBillMatchCheckerPage.tsx");
 const loadHospitalDischargeMedicareChecklistPage = () => import("./pages/HospitalDischargeMedicareChecklistPage.tsx");
 const loadMedicalBillReviewFlowPage = () => import("./pages/MedicalBillReviewFlowPage.tsx");
+const loadMedicalBillReviewToolkitPage = () => import("./pages/MedicalBillReviewToolkitPage.tsx");
 const loadHealthcareWorkerBenefitsBlueprintPage = () => import("./pages/HealthcareWorkerBenefitsBlueprintPage.tsx");
 const loadEmployerBenefitsActionPlanPage = () => import("./pages/EmployerBenefitsActionPlanPage.tsx");
 const loadMedicareMedicaidEligibilityCheckPage = () => import("./pages/MedicareMedicaidEligibilityCheckPage.tsx");
@@ -68,6 +69,7 @@ const OpenEnrollmentTrueCostCalculatorPage = lazy(loadOpenEnrollmentTrueCostCalc
 const EobBillMatchCheckerPage = lazy(loadEobBillMatchCheckerPage);
 const HospitalDischargeMedicareChecklistPage = lazy(loadHospitalDischargeMedicareChecklistPage);
 const MedicalBillReviewFlowPage = lazy(loadMedicalBillReviewFlowPage);
+const MedicalBillReviewToolkitPage = lazy(loadMedicalBillReviewToolkitPage);
 const HealthcareWorkerBenefitsBlueprintPage = lazy(loadHealthcareWorkerBenefitsBlueprintPage);
 const EmployerBenefitsActionPlanPage = lazy(loadEmployerBenefitsActionPlanPage);
 const MedicareMedicaidEligibilityCheckPage = lazy(loadMedicareMedicaidEligibilityCheckPage);
@@ -95,7 +97,6 @@ const DischargePrintableChecklistPage = lazy(loadDischargePrintableChecklistPage
 const MedicareAdvantageComparisonPage = lazy(loadMedicareAdvantageComparisonPage);
 const HealthcareWorkerPaycheckTools = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.HealthcareWorkerPaycheckTools })));
 const InsuranceMarketingRealityPage = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.InsuranceMarketingRealityPage })));
-const MedicalBillReviewToolkit = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicalBillReviewToolkit })));
 const MedicareAdvantagePlanHelper = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicareAdvantagePlanHelper })));
 const MedicareAdvantageVsMedigap = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicareAdvantageVsMedigap })));
 const MedicationCoverageChecklist = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicationCoverageChecklist })));
@@ -123,6 +124,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/tools/eob-to-bill-match-checker") return loadEobBillMatchCheckerPage;
   if (pathname === "/tools/hospital-discharge-medicare-checklist") return loadHospitalDischargeMedicareChecklistPage;
   if (pathname === "/tools/medical-bill-review-flow") return loadMedicalBillReviewFlowPage;
+  if (pathname === "/insurance/medical-bill-review-toolkit") return loadMedicalBillReviewToolkitPage;
   if (pathname === "/tools/healthcare-worker-benefits-blueprint") return loadHealthcareWorkerBenefitsBlueprintPage;
   if (pathname === "/tools/employer-benefits-action-plan") return loadEmployerBenefitsActionPlanPage;
   if (pathname === "/tools/medicare-medicaid-eligibility-check") return loadMedicareMedicaidEligibilityCheckPage;
@@ -147,7 +149,6 @@ const routeLoader = (pathname: string) => {
   if (
     pathname === "/insurance/prior-authorization-guide" ||
     pathname === "/insurance/medication-coverage-checklist" ||
-    pathname === "/insurance/medical-bill-review-toolkit" ||
     pathname === "/insurance/medicare-advantage-vs-medigap" ||
     pathname === "/insurance/what-medicare-advantage-marketing-may-not-emphasize"
   ) return loadInsuranceDecisionToolsBundle;
@@ -269,7 +270,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/insurance/discharge-coverage" element={<Navigate to="/insurance/hospital-discharge-coverage" replace />} />
             <Route path="/insurance/discharge-checklist" element={<Navigate to="/insurance/hospital-discharge-coverage/printable" replace />} />
             <Route path="/insurance/medication-coverage-checklist" element={<MedicationCoverageChecklist />} />
-            <Route path="/insurance/medical-bill-review-toolkit" element={<MedicalBillReviewToolkit />} />
+            <Route path="/insurance/medical-bill-review-toolkit" element={<MedicalBillReviewToolkitPage />} />
             <Route path="/insurance/medicare-advantage-vs-medigap" element={<MedicareAdvantageVsMedigap />} />
             <Route path="/insurance/what-medicare-advantage-marketing-may-not-emphasize" element={<InsuranceMarketingRealityPage />} />
             <Route path="/medicare-medicaid" element={<Navigate to="/medicare-care-costs" replace />} />

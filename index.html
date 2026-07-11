@@ -1,35 +1,53 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google Consent Mode v2 defaults. Optional analytics is enabled only after a saved user choice. -->
+    <!-- Google Consent Mode v2 defaults. Google Analytics code loads only after a saved opt-in. -->
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      window.__cafAnalyticsAllowed = false;
 
-      var cafAnalyticsConsent = 'denied';
+      window.gtag = function () {
+        var command = arguments[0];
+        if (command === 'event' && !window.__cafAnalyticsAllowed) return;
+        window.dataLayer.push(arguments);
+      };
+
+      window.__cafLoadGoogleAnalytics = function () {
+        if (!window.__cafAnalyticsAllowed) return;
+        if (document.querySelector('script[data-caf-google-analytics]')) return;
+
+        var script = document.createElement('script');
+        script.async = true;
+        script.dataset.cafGoogleAnalytics = 'true';
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-2MR6ZCDJ1W';
+        document.head.appendChild(script);
+
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-2MR6ZCDJ1W', {
+          send_page_view: false,
+          allow_google_signals: false,
+          allow_ad_personalization_signals: false
+        });
+      };
+
       try {
-        cafAnalyticsConsent = window.localStorage.getItem('caf-privacy-consent-v1') === 'analytics'
-          ? 'granted'
-          : 'denied';
+        window.__cafAnalyticsAllowed = window.localStorage.getItem('caf-privacy-consent-v1') === 'analytics';
       } catch (error) {
-        cafAnalyticsConsent = 'denied';
+        window.__cafAnalyticsAllowed = false;
       }
 
-      gtag('consent', 'default', {
+      window.gtag('consent', 'default', {
         ad_storage: 'denied',
         ad_user_data: 'denied',
         ad_personalization: 'denied',
-        analytics_storage: cafAnalyticsConsent
+        analytics_storage: window.__cafAnalyticsAllowed ? 'granted' : 'denied'
       });
-      gtag('set', 'ads_data_redaction', true);
-      gtag('js', new Date());
-      gtag('config', 'G-2MR6ZCDJ1W', {
-        send_page_view: false,
-        allow_google_signals: false,
-        allow_ad_personalization_signals: false
-      });
+      window.gtag('set', 'ads_data_redaction', true);
+
+      if (window.__cafAnalyticsAllowed) {
+        window.__cafLoadGoogleAnalytics();
+      }
     </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MR6ZCDJ1W"></script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -45,17 +63,6 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Community Acquired Finance",
-        "url": "https://communityacquiredfinance.com",
-        "logo": "https://communityacquiredfinance.com/logo.svg",
-        "sameAs": []
-      }
-    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -6,17 +6,18 @@ import { Menu, X } from "lucide-react";
 const nav = [
   { to: "/start-here", label: "Start Here" },
   { to: "/tools", label: "Tools" },
+  { to: "/build-wealth", label: "Money & Retirement" },
+  { to: "/insurance", label: "Benefits & Insurance" },
+  { to: "/medicare-care-costs", label: "Medicare & Medicaid" },
   { to: "/articles", label: "Articles" },
-  { to: "/insurance", label: "Insurance" },
-  { to: "/healthcare-workers", label: "Healthcare Workers" },
-  { to: "/build-wealth", label: "Build Wealth" },
 ];
 
 const secondaryNav = [
-  { to: "/medicare-care-costs", label: "Medicare Cost Hub" },
+  { to: "/healthcare-workers", label: "Healthcare Workers" },
+  { to: "/patients-families", label: "Patients & Caregivers" },
+  { to: "/guides", label: "Quick Guides" },
   { to: "/open-enrollment", label: "Open Enrollment" },
   { to: "/student-loans", label: "Student Loans" },
-  { to: "/patients-families", label: "Patients & Caregivers" },
   { to: "/glossary", label: "Glossary" },
   { to: "/about", label: "About" },
 ];

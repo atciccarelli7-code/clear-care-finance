@@ -1,0 +1,40 @@
+name: SEO Link Codemod
+
+on:
+  push:
+    branches:
+      - agent/google-indexing-readiness-audit
+    paths:
+      - .github/workflows/seo-link-codemod.yml
+
+permissions:
+  contents: write
+
+jobs:
+  replace-retired-aliases:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/google-indexing-readiness-audit
+          fetch-depth: 0
+
+      - name: Replace retired prior-authorization links
+        shell: bash
+        run: |
+          mapfile -t files < <(grep -RIl --include='*.ts' --include='*.tsx' '/insurance/prior-authorization-guide' src/pages || true)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No retired page links found."
+            exit 0
+          fi
+
+          for file in "${files[@]}"; do
+            sed -i 's#/insurance/prior-authorization-guide#/tools/prior-authorization-next-step-guide#g' "$file"
+          done
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/pages
+          git commit -m "Replace retired prior authorization links"
+          git push origin HEAD:agent/google-indexing-readiness-audit

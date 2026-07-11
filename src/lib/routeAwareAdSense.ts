@@ -7,6 +7,7 @@ const AD_FREE_PATHS = new Set([
   "/tools/healthcare-worker-benefits-blueprint",
   "/tools/employer-benefits-action-plan",
   "/tools/medicare-medicaid-eligibility-check",
+  "/tools/prior-authorization-next-step-guide",
 ]);
 
 type AdSenseSyncAction = "blocked" | "loaded" | "present" | "reload";

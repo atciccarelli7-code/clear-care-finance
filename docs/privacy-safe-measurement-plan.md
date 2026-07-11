@@ -28,6 +28,7 @@ The analytics sanitizer removes property keys associated with these categories a
 
 | Event | Purpose | Safe properties |
 |---|---|---|
+| `homepage_navigation` | Visitor selects a fixed homepage path, topic, article, specialty hub, or CTA | `navigation_type`, `item_id`, `destination_path` |
 | `tool_intent_click` | Visitor selects a problem from the tools directory | `tool_id`, `tool_label` |
 | `tool_jump_select` | Visitor uses the tools jump menu | `tool_id`, `tool_label` |
 | `tool_start` or legacy `calculator_start` | Visitor begins interacting with a tool | `tool_id`, `tool_label` |
@@ -39,6 +40,62 @@ The analytics sanitizer removes property keys associated with these categories a
 | `newsletter_signup_success` | Resend confirms durable audience capture | `source` |
 | `newsletter_signup_error` | Signup validation or backend persistence fails | `source` |
 
+## Homepage positioning baseline
+
+The broad-audience homepage was deployed on **July 11, 2026**. Use **July 12 through July 25, 2026** as the first complete 14-day measurement window.
+
+### Fixed homepage navigation dimensions
+
+The `homepage_navigation` event uses only predefined identifiers.
+
+| `navigation_type` | Meaning |
+|---|---|
+| `hero_action` | One of the two hero actions |
+| `starting_path` | One of the four primary visitor pathways |
+| `featured_topic` | A topic card selected from the homepage |
+| `featured_article` | A featured article selected from the homepage |
+| `specialty_hub` | The contextual healthcare-worker specialty link |
+| `section_browse` | Browse-all link for topics or articles |
+| `closing_cta` | One of the final homepage actions |
+
+The four starting-path `item_id` values are:
+
+1. `retirement_financial_independence`
+2. `medical_bill`
+3. `medicare_medicaid`
+4. `workplace_benefits_insurance`
+
+Do not replace these identifiers during the baseline window. Changing them would fragment reporting.
+
+### Primary reporting questions
+
+1. Which starting path receives the most consented clicks?
+2. What percentage of consented homepage views produce any `starting_path` event?
+3. Do general-finance paths generate engagement without reducing healthcare-specific pathway use?
+4. Which homepage paths are followed by destination-page engagement, `tool_intent_click`, `tool_start`, `next_step_click`, or newsletter signup events in the same session?
+5. Do featured general-finance articles receive meaningful selection relative to healthcare-cost content?
+
+### Calculation definitions
+
+Use Google Analytics consented `page_view` events for the homepage denominator so the denominator and custom-event numerator follow the same consent rule.
+
+- **Starting-path click-through rate:** sessions with at least one `homepage_navigation` event where `navigation_type = starting_path`, divided by consented sessions containing a homepage `page_view`.
+- **Path share:** events for one starting-path `item_id`, divided by all `starting_path` events.
+- **Downstream engagement rate:** sessions with a starting-path event followed by a destination-page view, `tool_intent_click`, `tool_start`, `next_step_click`, or `newsletter_signup_submit` during the same session.
+- **Tool start-to-completion rate:** `tool_complete` events divided by `tool_start` events for the same `tool_id`. Do not compare unlike tools without noting their question count and complexity.
+
+Use Vercel Analytics custom events as a cross-check for event volume and deployment health. Do not combine non-consented Vercel pageview totals with consent-gated custom events to calculate a conversion rate.
+
+### Fourteen-day decision rules
+
+The initial window is directional, not statistically conclusive. At the review point:
+
+- keep the subject-based navigation unless there is a clear functional or usability failure;
+- do not reverse the broad-audience positioning solely because healthcare paths remain the most popular;
+- investigate a starting path if it receives no events despite meaningful homepage traffic;
+- inspect destination clarity and internal links before changing homepage labels;
+- preserve event identifiers and compare another 14-day window after any material homepage change.
+
 ## Interpretation rules
 
 - A pageview is not a successful outcome by itself.
@@ -46,6 +103,7 @@ The analytics sanitizer removes property keys associated with these categories a
 - Newsletter success means the contact was durably saved, not merely that the endpoint returned HTTP 200.
 - Do not compare completion rates across tools without considering question count and complexity.
 - Do not add more tracking fields simply because a dashboard supports them.
+- Small early samples should be reported as counts and directional signals, not definitive conversion conclusions.
 
 ## Initial reporting questions
 
@@ -65,4 +123,5 @@ Before merging analytics changes:
 3. Confirm events fire after **Allow analytics**.
 4. Confirm no event contains answer-level or numeric user inputs.
 5. Confirm analytics failures do not interrupt navigation or form submission.
-6. Check Vercel preview and production runtime errors.
+6. Confirm destination paths lose query strings and fragments.
+7. Check Vercel preview and production runtime errors.

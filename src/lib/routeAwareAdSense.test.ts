@@ -11,6 +11,7 @@ const ELIGIBILITY_PATH = "/tools/medicare-medicaid-eligibility-check";
 const BLUEPRINT_PATH = "/tools/healthcare-worker-benefits-blueprint";
 const ACTION_PLAN_PATH = "/tools/employer-benefits-action-plan";
 const PRIOR_AUTH_PATH = "/tools/prior-authorization-next-step-guide";
+const TOTAL_COMPENSATION_PATH = "/tools/healthcare-worker-total-compensation-comparison";
 const LEGACY_PRIOR_AUTH_PATH = "/insurance/prior-authorization-guide";
 
 const removeManagedScript = () => {
@@ -23,7 +24,7 @@ afterEach(() => {
 
 describe("route-aware AdSense guard", () => {
   it("keeps every tool route ad-free, including future tool routes", () => {
-    for (const path of [ELIGIBILITY_PATH, BLUEPRINT_PATH, ACTION_PLAN_PATH, PRIOR_AUTH_PATH, "/tools", "/tools/future-tool"]) {
+    for (const path of [ELIGIBILITY_PATH, BLUEPRINT_PATH, ACTION_PLAN_PATH, PRIOR_AUTH_PATH, TOTAL_COMPENSATION_PATH, "/tools", "/tools/future-tool"]) {
       expect(isAdFreePath(path)).toBe(true);
       expect(isAdFreePath(`${path}/`)).toBe(true);
       expect(isAdEligiblePath(path)).toBe(false);
@@ -71,6 +72,7 @@ describe("route-aware AdSense guard", () => {
     ["benefits blueprint", BLUEPRINT_PATH],
     ["employer benefits action plan", ACTION_PLAN_PATH],
     ["prior authorization guide", PRIOR_AUTH_PATH],
+    ["total compensation comparison", TOTAL_COMPENSATION_PATH],
     ["tool library", "/tools"],
     ["privacy policy", "/privacy-policy"],
   ])("requests a clean reload when navigation enters the ad-free %s after AdSense loaded", (_label, path) => {

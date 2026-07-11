@@ -27,13 +27,13 @@ describe("FinancialFoundationCheckup", () => {
   it("creates a local baseline and saves the recommended gaps into My Plan", () => {
     renderCheckup();
 
-    fireEvent.change(screen.getByLabelText("Monthly essential expenses"), { target: { value: "4000" } });
-    fireEvent.change(screen.getByLabelText("Liquid savings available for emergencies"), { target: { value: "2000" } });
-    fireEvent.change(screen.getByLabelText("Highest non-mortgage interest-rate band"), { target: { value: "over_15" } });
-    fireEvent.change(screen.getByLabelText("Employer retirement match status"), { target: { value: "not_contributing" } });
-    fireEvent.change(screen.getByLabelText("Recurring savings and investing system"), { target: { value: "none" } });
-    fireEvent.change(screen.getByLabelText("Protection and beneficiary review"), { target: { value: "due" } });
-    fireEvent.change(screen.getByLabelText("Large planned expense within 12 months"), { target: { value: "unfunded" } });
+    fireEvent.change(screen.getByLabelText(/Monthly essential expenses/), { target: { value: "4000" } });
+    fireEvent.change(screen.getByLabelText(/Liquid savings available for emergencies/), { target: { value: "2000" } });
+    fireEvent.change(screen.getByLabelText(/Highest non-mortgage interest-rate band/), { target: { value: "over_15" } });
+    fireEvent.change(screen.getByLabelText(/Employer retirement match status/), { target: { value: "not_contributing" } });
+    fireEvent.change(screen.getByLabelText(/Recurring savings and investing system/), { target: { value: "none" } });
+    fireEvent.change(screen.getByLabelText(/Protection and beneficiary review/), { target: { value: "due" } });
+    fireEvent.change(screen.getByLabelText(/Large planned expense within 12 months/), { target: { value: "unfunded" } });
     fireEvent.click(screen.getByRole("button", { name: /Run my checkup/ }));
 
     expect(screen.getByRole("heading", { name: "Stabilize first" })).toHaveFocus();

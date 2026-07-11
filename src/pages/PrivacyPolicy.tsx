@@ -20,7 +20,7 @@ const PrivacyPolicy = () => {
       />
 
       <main className="container max-w-3xl py-12 md:py-16 space-y-6">
-        <p className="text-sm text-muted-foreground">Effective date: July 10, 2026</p>
+        <p className="text-sm text-muted-foreground">Effective date: July 11, 2026</p>
 
         <Section title="Overview">
           <p>
@@ -63,7 +63,7 @@ const PrivacyPolicy = () => {
             Hosting, security, analytics, and performance providers may automatically process technical information such as IP address, browser and device type, operating system, pages visited, referring page, approximate location derived from IP address, timestamps, response performance, and diagnostic or security logs.
           </p>
           <p>
-            Vercel hosts the site and provides Analytics and Speed Insights. Google Analytics is configured with advertising personalization signals disabled and with analytics storage denied unless the visitor chooses to allow analytics.
+            Vercel hosts the site and provides Analytics and Speed Insights. Google Analytics code is loaded only after a visitor chooses Allow analytics. Advertising personalization signals remain disabled through this site&apos;s Google Analytics configuration.
           </p>
         </Section>
 
@@ -72,10 +72,10 @@ const PrivacyPolicy = () => {
             The site provides a privacy-choice panel with two options: Necessary only and Allow analytics. The choice is stored in the browser so it can be applied on later visits. The panel can be reopened from the Privacy choices button in the footer.
           </p>
           <p>
-            Necessary only keeps Google analytics storage, advertising storage, advertising user data, and advertising personalization denied. Allow analytics grants Google Analytics storage but continues to keep advertising storage, advertising user data, and advertising personalization denied through this site&apos;s consent controls.
+            Necessary only keeps Google analytics storage, advertising storage, advertising user data, and advertising personalization denied, and the site does not download the Google Analytics library. Allow analytics grants Google Analytics storage and loads Google Analytics, while advertising storage, advertising user data, and advertising personalization remain denied through this site&apos;s consent controls.
           </p>
           <p>
-            Google tags may process consent-state or limited cookieless measurement signals when storage is denied, depending on Google&apos;s current product behavior. Necessary hosting, security, and diagnostic logs may also continue because they are required to operate and protect the site.
+            Necessary hosting, security, and diagnostic logs may continue because they are required to operate and protect the site. Vercel performance products may process limited technical data as described by Vercel. The site does not intentionally send guided-tool answer values, names, email addresses, income, health status, or other sensitive form entries as analytics event properties.
           </p>
         </Section>
 

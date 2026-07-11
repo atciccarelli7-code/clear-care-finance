@@ -12,6 +12,8 @@ afterEach(() => {
   window.localStorage.clear();
   vi.restoreAllMocks();
   delete window.gtag;
+  delete window.__cafAnalyticsAllowed;
+  delete window.__cafLoadGoogleAnalytics;
 });
 
 describe("privacy consent", () => {
@@ -22,23 +24,27 @@ describe("privacy consent", () => {
   });
 
   it.each([
-    ["necessary", "denied"],
-    ["analytics", "granted"],
-  ] as const)("persists %s and updates Google consent mode", (choice, analyticsStorage) => {
+    ["necessary", "denied", false],
+    ["analytics", "granted", true],
+  ] as const)("persists %s and updates Google consent mode", (choice, analyticsStorage, analyticsAllowed) => {
     const gtag = vi.fn();
+    const loadGoogleAnalytics = vi.fn();
     const changed = vi.fn();
     window.gtag = gtag;
+    window.__cafLoadGoogleAnalytics = loadGoogleAnalytics;
     window.addEventListener(PRIVACY_CONSENT_CHANGED_EVENT, changed);
 
     applyPrivacyConsent(choice);
 
     expect(readPrivacyConsent()).toBe(choice);
+    expect(window.__cafAnalyticsAllowed).toBe(analyticsAllowed);
     expect(gtag).toHaveBeenCalledWith("consent", "update", {
       analytics_storage: analyticsStorage,
       ad_storage: "denied",
       ad_user_data: "denied",
       ad_personalization: "denied",
     });
+    expect(loadGoogleAnalytics).toHaveBeenCalledTimes(analyticsAllowed ? 1 : 0);
     expect(changed).toHaveBeenCalledOnce();
 
     window.removeEventListener(PRIVACY_CONSENT_CHANGED_EVENT, changed);

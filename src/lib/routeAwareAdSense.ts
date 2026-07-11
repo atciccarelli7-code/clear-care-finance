@@ -6,12 +6,29 @@ export const ADSENSE_SCRIPT_SRC = `https://pagead2.googlesyndication.com/pagead/
 const PRIOR_AUTHORIZATION_TOOL_PATH = "/tools/prior-authorization-next-step-guide";
 const LEGACY_PRIOR_AUTHORIZATION_PATH = "/insurance/prior-authorization-guide";
 
-const AD_FREE_PATHS = new Set([
-  "/tools/healthcare-worker-benefits-blueprint",
-  "/tools/employer-benefits-action-plan",
-  "/tools/medicare-medicaid-eligibility-check",
-  PRIOR_AUTHORIZATION_TOOL_PATH,
+// Ad eligibility is intentionally allowlisted. New routes remain ad-free until they are
+// reviewed for publisher-content depth, interaction risk, and sensitive context.
+const AD_ELIGIBLE_EXACT_PATHS = new Set([
+  "/healthcare-workers",
+  "/build-wealth",
+  "/patients-families",
+  "/student-loans",
+  "/open-enrollment",
+  "/insurance",
+  "/insurance/health-insurance-plan-types",
+  "/insurance/how-to-read-an-sbc",
+  "/insurance/commercial-insurance-comparison",
+  "/insurance/medicare-advantage",
+  "/insurance/hospital-discharge-coverage",
+  "/insurance/medication-coverage-checklist",
+  "/insurance/medical-bill-review-toolkit",
+  "/insurance/medicare-advantage-vs-medigap",
+  "/insurance/what-medicare-advantage-marketing-may-not-emphasize",
+  "/medicare-care-costs",
+  "/guides/hospital-discharge-medicare",
 ]);
+
+const AD_ELIGIBLE_PATH_PREFIXES = ["/articles/", "/topics/"];
 
 type AdSenseSyncAction = "blocked" | "loaded" | "present" | "reload";
 
@@ -39,7 +56,15 @@ const buildCanonicalPriorAuthorizationUrl = (href: string) => {
   }
 };
 
-export const isAdFreePath = (pathname: string) => AD_FREE_PATHS.has(normalizePathname(pathname));
+export const isAdEligiblePath = (pathname: string) => {
+  const normalizedPath = normalizePathname(pathname);
+  return (
+    AD_ELIGIBLE_EXACT_PATHS.has(normalizedPath) ||
+    AD_ELIGIBLE_PATH_PREFIXES.some((prefix) => normalizedPath.startsWith(prefix))
+  );
+};
+
+export const isAdFreePath = (pathname: string) => !isAdEligiblePath(pathname);
 
 export const ensureAdSenseScript = (documentObject: Document = document) => {
   const existing = documentObject.getElementById(ADSENSE_SCRIPT_ID) as HTMLScriptElement | null;
@@ -73,6 +98,8 @@ export const syncAdSenseForPath = (
   if (isAdFreePath(normalizedPath)) {
     if (!existing) return "blocked";
 
+    // A loaded third-party advertising script cannot be fully unloaded from an SPA.
+    // Reload the destination so sensitive and interactive pages start without it.
     replaceLocation(href);
     return "reload";
   }

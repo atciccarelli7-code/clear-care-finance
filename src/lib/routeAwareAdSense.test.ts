@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   ADSENSE_SCRIPT_ID,
   ADSENSE_SCRIPT_SRC,
+  isAdEligiblePath,
   isAdFreePath,
   syncAdSenseForPath,
 } from "@/lib/routeAwareAdSense";
@@ -21,29 +22,42 @@ afterEach(() => {
 });
 
 describe("route-aware AdSense guard", () => {
-  it("recognizes sensitive tools with or without a trailing slash", () => {
-    for (const path of [ELIGIBILITY_PATH, BLUEPRINT_PATH, ACTION_PLAN_PATH, PRIOR_AUTH_PATH]) {
+  it("keeps every tool route ad-free, including future tool routes", () => {
+    for (const path of [ELIGIBILITY_PATH, BLUEPRINT_PATH, ACTION_PLAN_PATH, PRIOR_AUTH_PATH, "/tools", "/tools/future-tool"]) {
       expect(isAdFreePath(path)).toBe(true);
       expect(isAdFreePath(`${path}/`)).toBe(true);
+      expect(isAdEligiblePath(path)).toBe(false);
     }
-    expect(isAdFreePath("/tools")).toBe(false);
   });
 
   it.each([
-    ["eligibility checker", ELIGIBILITY_PATH],
-    ["benefits blueprint", BLUEPRINT_PATH],
-    ["employer benefits action plan", ACTION_PLAN_PATH],
-    ["prior authorization guide", PRIOR_AUTH_PATH],
-  ])("does not load AdSense on a direct %s visit", (_label, path) => {
-    const action = syncAdSenseForPath(path, `https://communityacquiredfinance.com${path}`);
-
-    expect(action).toBe("blocked");
+    ["home", "/"],
+    ["start page", "/start-here"],
+    ["article index", "/articles"],
+    ["topic index", "/topics"],
+    ["newsletter", "/newsletter"],
+    ["contact", "/contact"],
+    ["privacy policy", "/privacy-policy"],
+    ["printable checklist", "/insurance/hospital-discharge-coverage/printable"],
+  ])("keeps the %s screen ad-free", (_label, path) => {
+    expect(isAdFreePath(path)).toBe(true);
+    expect(syncAdSenseForPath(path, `https://communityacquiredfinance.com${path}`)).toBe("blocked");
     expect(document.getElementById(ADSENSE_SCRIPT_ID)).toBeNull();
   });
 
-  it("loads the managed script once on ordinary pages", () => {
-    expect(syncAdSenseForPath("/tools", "https://communityacquiredfinance.com/tools")).toBe("loaded");
-    expect(syncAdSenseForPath("/articles", "https://communityacquiredfinance.com/articles")).toBe("present");
+  it.each([
+    ["individual article", "/articles/how-to-read-an-eob"],
+    ["individual topic", "/topics/retirement-accounts"],
+    ["insurance guide", "/insurance/health-insurance-plan-types"],
+    ["Medicare hub", "/medicare-care-costs"],
+  ])("allows AdSense only on reviewed publisher-content: %s", (_label, path) => {
+    expect(isAdEligiblePath(path)).toBe(true);
+    expect(isAdFreePath(path)).toBe(false);
+  });
+
+  it("loads the managed script once on eligible publisher-content", () => {
+    expect(syncAdSenseForPath("/articles/how-to-read-an-eob", "https://communityacquiredfinance.com/articles/how-to-read-an-eob")).toBe("loaded");
+    expect(syncAdSenseForPath("/articles/medicare-options-explained", "https://communityacquiredfinance.com/articles/medicare-options-explained")).toBe("present");
 
     const script = document.getElementById(ADSENSE_SCRIPT_ID) as HTMLScriptElement | null;
     expect(script).not.toBeNull();
@@ -57,8 +71,10 @@ describe("route-aware AdSense guard", () => {
     ["benefits blueprint", BLUEPRINT_PATH],
     ["employer benefits action plan", ACTION_PLAN_PATH],
     ["prior authorization guide", PRIOR_AUTH_PATH],
-  ])("requests a clean reload when navigation enters the %s after AdSense loaded", (_label, path) => {
-    syncAdSenseForPath("/", "https://communityacquiredfinance.com/");
+    ["tool library", "/tools"],
+    ["privacy policy", "/privacy-policy"],
+  ])("requests a clean reload when navigation enters the ad-free %s after AdSense loaded", (_label, path) => {
+    syncAdSenseForPath("/articles/how-to-read-an-eob", "https://communityacquiredfinance.com/articles/how-to-read-an-eob");
     const replaceLocation = vi.fn();
     const target = `https://communityacquiredfinance.com${path}`;
 

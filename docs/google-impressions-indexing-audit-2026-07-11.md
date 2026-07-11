@@ -4,17 +4,19 @@
 
 Community Acquired Finance does not currently show a critical production crawlability or rendering blocker. The production site exposes a public robots file, a generated XML sitemap, canonical URLs, indexable robots directives, route-specific metadata, structured data, meaningful prerendered HTML, permanent redirects for retired aliases, and a real noindex 404 page.
 
-The material technical risk found in this review was maintainability rather than a currently broken page: the sitemap generator and prerenderer separately hardcoded redirect exclusions instead of deriving them from the production redirect configuration. A future redirect could therefore remain in the sitemap or prerender manifest unless multiple files were updated perfectly.
+The audit did identify preventable crawl-efficiency and discovery defects:
 
-This release centralizes redirect exclusions and adds an all-route search-readiness audit that fails the production build when route, sitemap, prerender, metadata, structured-data, or internal-link invariants diverge.
+- sitemap generation and prerendering maintained separate hardcoded redirect exclusions instead of deriving them from the production redirect configuration;
+- eight rendered internal links still pointed through the retired `/insurance/prior-authorization-guide` alias;
+- three canonical pages had no inbound link in prerendered HTML: the healthcare-worker paycheck-tools hub, the Medicare Advantage marketing reality guide, and the canonical prior-authorization next-step guide.
+
+This release corrects those defects and adds an all-route search-readiness audit that fails the production build when route, sitemap, prerender, metadata, structured-data, or internal-link invariants diverge.
 
 ## Data availability
 
 Google Search Console performance and Page Indexing data were not available through the connected tools in this session. Therefore this audit cannot confirm current Google-known URL counts, impressions, clicks, average position, query trends, zero-impression indexed pages, or Search Console exclusion categories.
 
 Public exact-brand, exact-title, and site-restricted search checks did not reliably surface the recently deployed broad-audience metadata. A public crawler result still exposed an older homepage title after production was already serving the new title. This is treated as recrawl/index-refresh lag, not proof of a production metadata failure.
-
-Historical first-party traffic data available from an earlier Vercel export covered June 2 through July 2, 2026: 181 visitors, 459 pageviews, 2.54 views per visitor, and 52.3% of views on the homepage. Tools, the healthcare-worker hub, and Medicare pages showed early engagement. This is traffic context, not Google Search Console evidence.
 
 ## Confirmed technical state before this release
 
@@ -35,9 +37,27 @@ Historical first-party traffic data available from an earlier Vercel export cove
 
 Added `scripts/seo-route-utils.mjs` to read literal permanent redirects from `vercel.json` and remove redirect sources from the canonical route set.
 
-Both sitemap generation and prerendering now use this shared canonical-route calculation. New permanent redirects no longer require a second and third manual exclusion list.
+Both sitemap generation and prerendering now use this shared canonical-route calculation. New permanent redirects no longer require separate manual exclusions in multiple build scripts.
 
-### 2. All-route search-readiness gate
+### 2. Direct canonical internal links
+
+Replaced source links to `/insurance/prior-authorization-guide` with direct links to `/tools/prior-authorization-next-step-guide` in:
+
+- `src/pages/InsuranceBenefitsHub.tsx`;
+- `src/pages/CommercialInsuranceComparisonPage.tsx`;
+- `src/pages/HospitalDischargeCoveragePage.tsx`;
+- `src/pages/DischargePrintableChecklistPage.tsx`;
+- `src/pages/InsuranceDecisionToolsBundle.tsx`.
+
+The old URL remains a permanent external-preservation redirect, but the site no longer spends an internal crawl hop reaching the canonical page.
+
+### 3. Orphan-page corrections
+
+- Added a healthcare-worker hub card linking to `/healthcare-workers/paycheck-tools`.
+- Added a patient-and-caregiver hub card linking to `/insurance/what-medicare-advantage-marketing-may-not-emphasize`.
+- Direct prior-authorization links now provide multiple inbound paths to `/tools/prior-authorization-next-step-guide`.
+
+### 4. All-route search-readiness gate
 
 Added `scripts/check-search-readiness.mjs` and integrated it into the production build.
 
@@ -56,6 +76,24 @@ For every canonical route, the check validates:
 - the 404 document remains noindex and contains an H1.
 
 The check writes `dist/search-readiness-report.json` for build-level reconciliation evidence and fails the build on blocking inconsistencies.
+
+## Validation result
+
+The exact-head release passed:
+
+- GitHub Actions lint advisory;
+- publication-readiness, content, and unit tests;
+- all quick-guide content checks;
+- production Vite build;
+- JavaScript bundle budget;
+- prerendering of 117 canonical routes plus a real 404;
+- search-readiness reconciliation of 117 canonical routes, 117 sitemap URLs, and 22 permanent redirects;
+- zero search-readiness warnings;
+- exact-head Vercel preview deployment;
+- preview homepage HTTP 200 and meaningful prerendered content;
+- preview noindex protection;
+- no error or fatal runtime logs;
+- no unresolved Vercel toolbar threads.
 
 ## URL reconciliation model
 
@@ -83,7 +121,7 @@ This is the build-time source of truth. Google Search Console should later be re
 ### Likely overlap requiring observation, not immediate consolidation
 
 - `/medicare-care-costs` and `/topics/medicare-medicaid` serve related but different roles: an action-oriented cost hub versus a topic collection.
-- `/insurance/medical-bill-review-toolkit` and `/tools/medical-bill-review-flow` should remain separate only while the toolkit clearly explains the process and the flow produces a tailored next step.
+- `/insurance/medical-bill-review-toolkit` and `/tools/medical-bill-review-flow` should remain separate while the toolkit explains the process and the flow produces a tailored next step.
 - `/insurance` and `/open-enrollment` overlap around benefits, but one is evergreen insurance/benefits architecture and the other is a selection-period workflow.
 - The Benefits Blueprint and Employer Benefits Action Plan intentionally represent sequential stages and should remain connected rather than merged.
 

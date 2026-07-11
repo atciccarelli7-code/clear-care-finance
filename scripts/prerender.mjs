@@ -1,12 +1,11 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
+import { getCanonicalRoutes, repositoryRoot } from "./seo-route-utils.mjs";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const root = repositoryRoot;
 const distDir = path.join(root, "dist");
 const template = await readFile(path.join(distDir, "index.html"), "utf8");
-const redirectedRoutes = new Set(["/insurance/prior-authorization-guide"]);
 
 const escapeHtml = (value) =>
   value
@@ -79,7 +78,7 @@ try {
     vite.ssrLoadModule("/src/lib/seoRegistry.ts"),
   ]);
 
-  const routes = getIndexableRoutes().filter((route) => !redirectedRoutes.has(route));
+  const { canonicalRoutes: routes } = await getCanonicalRoutes(getIndexableRoutes);
   for (const route of routes) {
     const { html: appHtml, meta } = await render(route);
     const output = injectMeta(template.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`), meta);

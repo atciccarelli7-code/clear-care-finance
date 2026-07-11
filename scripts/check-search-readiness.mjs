@@ -11,13 +11,16 @@ const warnings = [];
 const outputPathForRoute = (route) =>
   route === "/" ? path.join(distDir, "index.html") : path.join(distDir, `${route.replace(/^\//, "")}.html`);
 
-const decodeXml = (value) =>
+const decodeHtml = (value) =>
   value
     .replaceAll("&amp;", "&")
     .replaceAll("&lt;", "<")
     .replaceAll("&gt;", ">")
     .replaceAll("&quot;", '"')
-    .replaceAll("&apos;", "'");
+    .replaceAll("&apos;", "'")
+    .replaceAll("&#039;", "'")
+    .replaceAll("&#39;", "'")
+    .replaceAll("&nbsp;", " ");
 
 const extractAll = (html, pattern) => Array.from(html.matchAll(pattern), (match) => match[1]);
 const extractFirst = (html, pattern) => html.match(pattern)?.[1]?.trim();
@@ -70,7 +73,7 @@ try {
   if (!expectedRoutes.has("/")) errors.push("Canonical route list does not contain the homepage.");
 
   const sitemapXml = await readFile(path.join(repositoryRoot, "public", "sitemap.xml"), "utf8");
-  const sitemapUrls = extractAll(sitemapXml, /<loc>([\s\S]*?)<\/loc>/gi).map((value) => decodeXml(value.trim()));
+  const sitemapUrls = extractAll(sitemapXml, /<loc>([\s\S]*?)<\/loc>/gi).map((value) => decodeHtml(value.trim()));
   const sitemapRoutes = sitemapUrls.map((value) => {
     const parsed = new URL(value);
     if (parsed.origin !== siteUrl) errors.push(`Sitemap URL uses a noncanonical origin: ${value}`);
@@ -114,16 +117,16 @@ try {
     const expectedTitle = expectedFullTitle(meta.title);
     const expectedCanonical = `${siteUrl}${route === "/" ? "/" : route}`;
 
-    const titles = extractAll(html, /<title>([\s\S]*?)<\/title>/gi);
-    const descriptions = extractAll(html, /<meta\s+name=["']description["'][^>]*content=["']([^"']*)["'][^>]*>/gi);
-    const canonicals = extractAll(html, /<link\s+rel=["']canonical["'][^>]*href=["']([^"']*)["'][^>]*>/gi);
-    const robotsValues = extractAll(html, /<meta\s+name=["']robots["'][^>]*content=["']([^"']*)["'][^>]*>/gi);
-    const googlebotValues = extractAll(html, /<meta\s+name=["']googlebot["'][^>]*content=["']([^"']*)["'][^>]*>/gi);
+    const titles = extractAll(html, /<title>([\s\S]*?)<\/title>/gi).map((value) => decodeHtml(value.trim()));
+    const descriptions = extractAll(html, /<meta\s+name=["']description["'][^>]*content=["']([^"']*)["'][^>]*>/gi).map(decodeHtml);
+    const canonicals = extractAll(html, /<link\s+rel=["']canonical["'][^>]*href=["']([^"']*)["'][^>]*>/gi).map(decodeHtml);
+    const robotsValues = extractAll(html, /<meta\s+name=["']robots["'][^>]*content=["']([^"']*)["'][^>]*>/gi).map(decodeHtml);
+    const googlebotValues = extractAll(html, /<meta\s+name=["']googlebot["'][^>]*content=["']([^"']*)["'][^>]*>/gi).map(decodeHtml);
     const h1Values = extractAll(html, /<h1\b[^>]*>([\s\S]*?)<\/h1>/gi);
     const jsonLdValues = extractAll(html, /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
 
     if (titles.length !== 1) errors.push(`${route} has ${titles.length} title elements; expected 1.`);
-    if (titles[0]?.trim() !== expectedTitle) errors.push(`${route} title mismatch. Expected “${expectedTitle}”, found “${titles[0]?.trim() ?? "missing"}”.`);
+    if (titles[0] !== expectedTitle) errors.push(`${route} title mismatch. Expected “${expectedTitle}”, found “${titles[0] ?? "missing"}”.`);
     if (descriptions.length !== 1) errors.push(`${route} has ${descriptions.length} meta descriptions; expected 1.`);
     if (descriptions[0] !== meta.description) errors.push(`${route} meta description does not match the SEO registry.`);
     if (canonicals.length !== 1) errors.push(`${route} has ${canonicals.length} canonical links; expected 1.`);
@@ -143,7 +146,7 @@ try {
       }
     }
 
-    const title = titles[0]?.trim();
+    const title = titles[0];
     const description = descriptions[0];
     if (title) {
       const existing = titleOwners.get(title) ?? [];
@@ -157,7 +160,7 @@ try {
     }
 
     const internalTargets = new Set();
-    for (const href of extractAll(html, /<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)) {
+    for (const href of extractAll(html, /<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi).map(decodeHtml)) {
       const target = normalizeInternalHref(href);
       if (!target) continue;
       internalTargets.add(target);
@@ -196,8 +199,8 @@ try {
 
   const notFoundPath = path.join(distDir, "404.html");
   const notFoundHtml = await readFile(notFoundPath, "utf8");
-  const notFoundRobots = extractFirst(notFoundHtml, /<meta\s+name=["']robots["'][^>]*content=["']([^"']*)["'][^>]*>/i);
-  if (!/noindex/i.test(notFoundRobots ?? "")) errors.push("404.html is not marked noindex.");
+  const notFoundRobots = decodeHtml(extractFirst(notFoundHtml, /<meta\s+name=["']robots["'][^>]*content=["']([^"']*)["'][^>]*>/i) ?? "");
+  if (!/noindex/i.test(notFoundRobots)) errors.push("404.html is not marked noindex.");
   if (!/<h1\b/i.test(notFoundHtml)) errors.push("404.html is missing an H1.");
 
   const report = {

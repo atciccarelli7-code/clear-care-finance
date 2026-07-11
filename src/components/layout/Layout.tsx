@@ -4,6 +4,7 @@ import { SiteTrustBar } from "./SiteTrustBar";
 import { Footer } from "./Footer";
 import { MobileBottomNav } from "./MobileBottomNav";
 import { PrivacyChoices } from "@/components/shared/PrivacyChoices";
+import { NavigatorContextAction } from "@/components/navigator/NavigatorContextAction";
 
 export const Layout = () => {
   return (
@@ -15,6 +16,7 @@ export const Layout = () => {
       <SiteTrustBar />
       <main id="main-content" className="flex-1 w-full min-w-0 outline-none" tabIndex={-1}>
         <Outlet />
+        <NavigatorContextAction />
       </main>
       <Footer />
       <MobileBottomNav />

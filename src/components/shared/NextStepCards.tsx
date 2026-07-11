@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Compass } from "lucide-react";
+import { trackSiteEvent } from "@/lib/analytics";
 
 export type NextStepCard = {
   eyebrow?: string;
@@ -50,6 +51,12 @@ export const NextStepCards = ({
           <Link
             key={`${card.href}-${card.title}`}
             to={card.href}
+            onClick={() => trackSiteEvent("next_step_click", {
+              event_category: "navigation",
+              link_text: card.title,
+              link_url: card.href,
+              source_path: window.location.pathname,
+            })}
             className="group rounded-2xl border border-border bg-background/70 p-4 shadow-sm transition-smooth hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-card md:p-5"
           >
             {card.eyebrow && (

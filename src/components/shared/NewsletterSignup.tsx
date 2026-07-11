@@ -3,6 +3,7 @@ import { Mail, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { trackSiteEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 type NewsletterSignupProps = {
@@ -24,14 +25,11 @@ type NewsletterSignupResult = {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const trackNewsletterEvent = (eventName: string, source: string) => {
-  if (typeof window.gtag !== "function") return;
-
-  window.gtag("event", eventName, {
+const trackNewsletterEvent = (eventName: string, source: string) =>
+  trackSiteEvent(eventName, {
     event_category: "newsletter",
-    signup_source: source,
+    source,
   });
-};
 
 export function NewsletterSignup({
   className,
@@ -87,14 +85,14 @@ export function NewsletterSignup({
 
       const result = (await response.json().catch(() => ({}))) as NewsletterSignupResult;
 
-      if (!response.ok) {
-        throw new Error(result?.error ?? "Signup failed.");
+      if (!response.ok || result.ok !== true || result.saved !== true) {
+        throw new Error(result?.error ?? "Signup could not be completed. Try again in a minute.");
       }
 
       setStatus("success");
       setMessage(
         result.emailDelivered === false
-          ? "You’re on the list. The welcome email may arrive after email delivery setup is finished."
+          ? "You’re on the list. Welcome email delivery is still being finalized."
           : "You’re in. Check your inbox for the Healthcare Worker Money Map.",
       );
       trackNewsletterEvent("newsletter_signup_success", source);
@@ -178,7 +176,7 @@ export function NewsletterSignup({
           </Button>
 
           {message && (
-            <p className={cn("text-sm font-medium", status === "success" ? "text-primary" : "text-destructive")}>{message}</p>
+            <p role="status" aria-live="polite" className={cn("text-sm font-medium", status === "success" ? "text-primary" : "text-destructive")}>{message}</p>
           )}
         </form>
       </div>

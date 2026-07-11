@@ -12,6 +12,11 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
     description:
       "Plain-English guides and calculators for retirement, investing, workplace benefits, insurance, medical bills, Medicare, and Medicaid—with an RN's healthcare perspective.",
   },
+  "/start-here": {
+    title: "Financial Navigator: Build Your Next Money Action Plan",
+    description:
+      "Build a private, practical action plan for wealth, workplace benefits, healthcare costs, Medicare, Medicaid, or a healthcare-career decision.",
+  },
   "/build-wealth": {
     title: "Financial Independence, Retirement, and Investing",
     description:
@@ -55,7 +60,7 @@ const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, descriptio
       };
     }
 
-    if (type === "CollectionPage" || type === "WebPage") {
+    if (type === "CollectionPage" || type === "WebPage" || type === "WebApplication") {
       return { ...item, name: title, description };
     }
 

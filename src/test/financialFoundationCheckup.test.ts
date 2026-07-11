@@ -8,6 +8,7 @@ import {
   saveFinancialFoundationSnapshot,
   type FinancialFoundationInputs,
 } from "@/lib/financialFoundationCheckup";
+import { NAVIGATOR_STORAGE_KEY, addNavigatorAction } from "@/lib/financialNavigator";
 
 const strongInputs: FinancialFoundationInputs = {
   monthlyEssentialExpenses: 4000,
@@ -63,6 +64,14 @@ describe("Financial Foundation Checkup", () => {
     ]);
   });
 
+  it("adds every prioritized gap to the existing My Plan storage", () => {
+    const result = calculateFinancialFoundation(weakInputs);
+    result.recommendedActionIds.forEach((recommendationId) => addNavigatorAction(recommendationId));
+
+    const storedPlan = JSON.parse(window.localStorage.getItem(NAVIGATOR_STORAGE_KEY) ?? "null") as { actionIds?: string[] } | null;
+    expect(storedPlan?.actionIds).toEqual(result.recommendedActionIds);
+  });
+
   it("stores only the eight most recent valid local snapshots", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-07-01T12:00:00.000Z"));
@@ -77,7 +86,7 @@ describe("Financial Foundation Checkup", () => {
     const history = loadFinancialFoundationSnapshots();
     expect(history).toHaveLength(FOUNDATION_HISTORY_LIMIT);
     expect(history[0].inputs.liquidSavings).toBe(33000);
-    expect(history.at(-1)?.inputs.liquidSavings).toBe(26000);
+    expect(history[history.length - 1].inputs.liquidSavings).toBe(26000);
   });
 
   it("rejects malformed storage and clears local history", () => {

@@ -198,7 +198,7 @@ const DischargePrintableChecklistPage = () => {
             </CardHeader>
             <CardContent>
               <Button asChild variant="outline">
-                <Link to="/insurance/prior-authorization-guide" onClick={() => trackSiteEvent("pathway_click", { page: "discharge_printable", destination: "prior_authorization" })}>
+                <Link to="/tools/prior-authorization-next-step-guide" onClick={() => trackSiteEvent("pathway_click", { page: "discharge_printable", destination: "prior_authorization" })}>
                   Prior authorization guide
                 </Link>
               </Button>

@@ -81,7 +81,7 @@ const ToolLinkGrid = () => (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {[
         ["Medicare Advantage helper", "/tools/medicare-advantage-plan-helper"],
-        ["Prior authorization guide", "/insurance/prior-authorization-guide"],
+        ["Prior authorization guide", "/tools/prior-authorization-next-step-guide"],
         ["Hospital discharge coverage", "/insurance/hospital-discharge-coverage"],
         ["Medication coverage checklist", "/insurance/medication-coverage-checklist"],
         ["Medical bill review toolkit", "/insurance/medical-bill-review-toolkit"],
@@ -227,7 +227,7 @@ export const PriorAuthorizationGuide = () => {
   useSeo({
     title: "Prior Authorization Survival Guide",
     description: "Plain-English prior authorization guide with call scripts, checklists, and questions for patients dealing with insurance delays.",
-    canonicalPath: "/insurance/prior-authorization-guide",
+    canonicalPath: "/tools/prior-authorization-next-step-guide",
   });
 
   const script = `I am calling about prior authorization for ${service || "my service or medication"}. The request was submitted by ${provider || "my provider"}${date ? ` on ${date}` : ""}. Can you confirm whether ${insurance || "the insurance plan"} received the request, the reference number, what information is missing, the expected decision date, and whether this can be marked urgent if medically appropriate?`;

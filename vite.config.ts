@@ -1,7 +1,41 @@
+import { readFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+
+const permanentInternalRedirects = (() => {
+  const config = JSON.parse(readFileSync(path.resolve(__dirname, "vercel.json"), "utf8")) as {
+    redirects?: Array<{ source?: string; destination?: string; permanent?: boolean }>;
+  };
+
+  return (config.redirects ?? []).filter(
+    (entry): entry is { source: string; destination: string; permanent: true } =>
+      entry.permanent === true &&
+      typeof entry.source === "string" &&
+      entry.source.startsWith("/") &&
+      !entry.source.includes(":") &&
+      !entry.source.includes("*") &&
+      typeof entry.destination === "string" &&
+      entry.destination.startsWith("/"),
+  );
+})();
+
+const canonicalInternalLinks = () => ({
+  name: "canonical-internal-links",
+  enforce: "pre" as const,
+  transform(code: string, id: string) {
+    const normalized = id.replace(/\\/g, "/");
+    if (!normalized.includes("/src/pages/") || !/\.[jt]sx?$/.test(normalized)) return null;
+
+    let transformed = code;
+    for (const redirect of permanentInternalRedirects) {
+      transformed = transformed.replaceAll(redirect.source, redirect.destination);
+    }
+
+    return transformed === code ? null : { code: transformed, map: null };
+  },
+});
 
 const vendorChunk = (id: string) => {
   const normalized = id.replace(/\\/g, "/");
@@ -71,7 +105,7 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [canonicalInternalLinks(), react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

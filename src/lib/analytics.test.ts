@@ -29,6 +29,26 @@ describe("privacy-safe analytics", () => {
     });
   });
 
+  it("removes compensation, employer, commute, and schedule fields", () => {
+    expect(sanitizeEventProperties({
+      event_category: "tools",
+      tool_id: "healthcare_worker_total_compensation",
+      employer_name: "Example Hospital",
+      role_name: "Clinical Specialist",
+      salary: 95000,
+      hourly_wage: 42,
+      annual_bonus: 5000,
+      retirement_benefit: 6000,
+      commute_minutes: 45,
+      schedule_answer: "five days",
+      comparison_type: "hourly_vs_salary",
+    })).toEqual({
+      event_category: "tools",
+      tool_id: "healthcare_worker_total_compensation",
+      comparison_type: "hourly_vs_salary",
+    });
+  });
+
   it("does not emit events until analytics consent is granted", () => {
     const gtag = vi.fn();
     window.gtag = gtag;

@@ -6,6 +6,7 @@ import { createServer } from "vite";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(root, "dist");
 const template = await readFile(path.join(distDir, "index.html"), "utf8");
+const redirectedRoutes = new Set(["/insurance/prior-authorization-guide"]);
 
 const escapeHtml = (value) =>
   value
@@ -78,7 +79,7 @@ try {
     vite.ssrLoadModule("/src/lib/seoRegistry.ts"),
   ]);
 
-  const routes = getIndexableRoutes();
+  const routes = getIndexableRoutes().filter((route) => !redirectedRoutes.has(route));
   for (const route of routes) {
     const { html: appHtml, meta } = await render(route);
     const output = injectMeta(template.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`), meta);

@@ -29,19 +29,46 @@ type PathCard = {
 };
 
 const featuredArticleSlugs = [
-  "how-to-read-an-eob",
+  "use-credit-cards-without-credit-card-debt",
+  "managing-money-has-never-been-easier-or-harder",
+  "how-to-pick-retirement-investments-at-work",
   "deductible-copay-coinsurance-out-of-pocket-max",
-  "spouse-family-health-insurance-open-enrollment",
-  "accident-critical-illness-hospital-indemnity-open-enrollment",
 ];
 
+const featuredTopicSlugs = [
+  "retirement-accounts",
+  "workplace-benefits",
+  "health-insurance",
+  "patient-medical-costs",
+  "medicare-medicaid",
+  "hospital-economics",
+];
+
+const topicPromiseOverrides: Record<string, string> = {
+  "retirement-accounts":
+    "Understand workplace retirement accounts, employer matches, Roth versus Traditional contributions, and diversified investing.",
+  "workplace-benefits":
+    "Make sense of retirement matches, insurance, pre-tax accounts, and open enrollment—no matter where you work.",
+};
+
 const Index = () => {
-  const featuredTopics = TOPICS.slice(0, 6);
+  const featuredTopics = featuredTopicSlugs
+    .map((slug) => TOPICS.find((topic) => topic.slug === slug))
+    .filter((topic): topic is (typeof TOPICS)[number] => Boolean(topic))
+    .map((topic) => ({ ...topic, promise: topicPromiseOverrides[topic.slug] ?? topic.promise }));
   const featuredArticles = featuredArticleSlugs
     .map((slug) => ALL_ARTICLES.find((article) => article.slug === slug))
     .filter((article): article is (typeof ALL_ARTICLES)[number] => Boolean(article));
 
   const pathCards: PathCard[] = [
+    {
+      icon: PiggyBank,
+      title: "I’m planning for retirement or financial independence",
+      description: "Organize saving, retirement accounts, investing, debt, and the next step toward long-term financial flexibility.",
+      href: "/build-wealth",
+      cta: "Build my plan",
+      accent: "blue",
+    },
     {
       icon: Receipt,
       title: "I got a medical bill",
@@ -49,14 +76,6 @@ const Index = () => {
       href: "/insurance/medical-bill-review-toolkit",
       cta: "Review the bill",
       accent: "green",
-    },
-    {
-      icon: HeartPulse,
-      title: "I’m a healthcare worker",
-      description: "Understand pay, shift spending, retirement benefits, and financial choices tied to healthcare work.",
-      href: "/healthcare-workers",
-      cta: "Start here",
-      accent: "blue",
     },
     {
       icon: BookOpen,
@@ -67,9 +86,9 @@ const Index = () => {
       accent: "green",
     },
     {
-      icon: PiggyBank,
-      title: "I’m choosing benefits",
-      description: "Make sense of premiums, deductibles, FSAs, HSAs, open enrollment, and insurance tradeoffs.",
+      icon: HeartPulse,
+      title: "I’m choosing workplace benefits or insurance",
+      description: "Compare premiums, deductibles, retirement matches, FSAs, HSAs, and open-enrollment tradeoffs.",
       href: "/insurance",
       cta: "Compare options",
       accent: "blue",
@@ -79,24 +98,23 @@ const Index = () => {
   return (
     <>
       <PageHero
-        eyebrow="RN-led financial clarity"
-        title="Financial clarity for healthcare workers, patients, and families."
-        description="Plain-English guides and calculators for medical bills, insurance benefits, Medicare, Medicaid, and healthcare-worker pay."
+        eyebrow="Plain-English financial clarity"
+        title="Understand your money—from workplace benefits to healthcare costs."
+        description="Use practical guides and calculators for retirement, investing, workplace benefits, insurance, medical bills, Medicare, and Medicaid—built with an RN’s healthcare perspective."
       >
         <Button asChild variant="hero" size="lg">
-          <a href="#choose-path">Start here <ArrowRight className="h-4 w-4" /></a>
+          <a href="#choose-path">Choose a starting point <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/tools">Browse tools</Link>
+          <Link to="/tools">Use a calculator</Link>
         </Button>
       </PageHero>
 
-      {/* Choose your path */}
       <section id="choose-path" className="container min-w-0 scroll-mt-20 py-12 md:py-16">
         <SectionHeading
           centered
           eyebrow="Start here"
-          title="What are you trying to figure out?"
+          title="What would you like to understand today?"
           description="Choose the situation closest to yours. Each path leads to a practical guide or calculator, not a sales funnel."
         />
         <div className="mx-auto grid max-w-5xl min-w-0 gap-5 md:grid-cols-2">
@@ -112,24 +130,26 @@ const Index = () => {
             />
           ))}
         </div>
+        <p className="mx-auto mt-7 max-w-3xl text-center text-sm leading-relaxed text-muted-foreground">
+          Work in healthcare? The <Link className="font-semibold text-primary underline-offset-4 hover:underline" to="/healthcare-workers">healthcare-worker hub</Link> adds RN-focused pay, career, and benefit tools without limiting the rest of the site to healthcare employees.
+        </p>
       </section>
 
-      {/* Topic hubs */}
       <section className="border-y border-border bg-card/30 py-16 md:py-20">
         <div className="container min-w-0">
           <SectionHeading
-            eyebrow="Topic hubs"
-            title="Every topic, one consistent format"
-            description="Quick guide → definitions → comparison → calculator → related articles → trusted sources."
+            eyebrow="Explore by topic"
+            title="General financial guidance, with deeper healthcare expertise"
+            description="Move from a plain-English explanation to a comparison, calculator, related articles, and trusted sources."
           />
           <div className="grid min-w-0 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {featuredTopics.map((t) => (
+            {featuredTopics.map((topic) => (
               <TopicCard
-                key={t.slug}
-                icon={t.icon}
-                title={t.title}
-                description={t.promise}
-                href={`/topics/${t.slug}`}
+                key={topic.slug}
+                icon={topic.icon}
+                title={topic.title}
+                description={topic.promise}
+                href={`/topics/${topic.slug}`}
                 cta="Open guide"
               />
             ))}
@@ -142,13 +162,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Articles */}
       <section className="container min-w-0 py-16 md:py-20">
         <div className="flex min-w-0 flex-wrap items-end justify-between gap-4 mb-12">
           <SectionHeading
             eyebrow="Articles"
-            title="Plain-English guides"
-            description="Start with the pages people are already searching for: EOBs, out-of-pocket costs, spouse coverage, and supplemental benefits."
+            title="Start with a question you already have"
+            description="Read practical explanations about credit, retirement investing, everyday money decisions, and healthcare costs."
             className="mb-0"
           />
           <Button asChild variant="soft">
@@ -156,20 +175,19 @@ const Index = () => {
           </Button>
         </div>
         <div className="grid min-w-0 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {featuredArticles.map((a) => (
-            <ArticleCard key={a.slug} article={a} />
+          {featuredArticles.map((article) => (
+            <ArticleCard key={article.slug} article={article} />
           ))}
         </div>
       </section>
 
-      {/* Standards */}
       <section className="bg-gradient-hero border-y border-border py-16 md:py-20">
         <div className="container min-w-0">
           <SectionHeading
             centered
             eyebrow="Our standards"
             title="Built for clarity, not clicks."
-            description="Healthcare is complicated enough. The money side shouldn't add to the chaos."
+            description="Money and healthcare are complicated enough. The explanation should not add to the confusion."
           />
           <div className="grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
             {[
@@ -179,12 +197,12 @@ const Index = () => {
               { t: "No scare tactics", d: "Information, not fear." },
               { t: "No spammy monetization", d: "No popups, no sales funnels." },
               { t: "Educational only", d: "Never individualized advice." },
-            ].map((i) => (
-              <div key={i.t} className="flex min-w-0 gap-3 rounded-2xl bg-card border border-border p-5 shadow-card">
+            ].map((item) => (
+              <div key={item.t} className="flex min-w-0 gap-3 rounded-2xl bg-card border border-border p-5 shadow-card">
                 <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div className="min-w-0 break-words">
-                  <div className="font-semibold break-words">{i.t}</div>
-                  <div className="text-sm text-muted-foreground break-words">{i.d}</div>
+                  <div className="font-semibold break-words">{item.t}</div>
+                  <div className="text-sm text-muted-foreground break-words">{item.d}</div>
                 </div>
               </div>
             ))}
@@ -192,23 +210,21 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Newsletter */}
       <section className="container min-w-0 py-16 md:py-20">
         <NewsletterSignup
           source="home"
-          title="Get one healthcare-money email each month"
-          description="Join Community Acquired Finance Monthly for practical notes on paychecks, benefits, insurance, medical bills, and new calculators. First issue planned for August 1."
+          title="Get one clear financial email each month"
+          description="Join Community Acquired Finance Monthly for practical notes on retirement, workplace benefits, insurance, medical bills, Medicare, Medicaid, and new calculators. First issue planned for August 1."
           buttonLabel="Join the monthly list"
         />
       </section>
 
-      {/* CTA */}
       <section className="container min-w-0 py-20">
         <div className="min-w-0 break-words rounded-3xl bg-gradient-primary p-6 text-center text-primary-foreground shadow-hover sm:p-10 md:p-16">
           <BookOpen className="h-10 w-10 mx-auto mb-4 opacity-90" />
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-balance break-words">Start with one small win</h2>
           <p className="text-lg opacity-90 max-w-xl mx-auto mb-7 break-words">
-            Pick a money map, a calculator, or one article. Clarity adds up over time.
+            Pick a calculator, one guide, or one article. Financial clarity compounds over time.
           </p>
           <div className="flex min-w-0 flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" variant="secondary">

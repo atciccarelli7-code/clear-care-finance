@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
         description="How Community Acquired Finance handles guided-tool answers, analytics, advertising technology, cookies, and privacy choices."
       />
 
-      <main className="container max-w-3xl py-12 md:py-16 space-y-6">
+      <section className="container max-w-3xl py-12 md:py-16 space-y-6" aria-label="Privacy policy details">
         <p className="text-sm text-muted-foreground">Effective date: July 11, 2026</p>
 
         <Section title="Overview">
@@ -51,7 +51,7 @@ const PrivacyPolicy = () => {
 
         <Section title="Guided tools and calculator answers">
           <p>
-            The Medicare and Medicaid Eligibility Check, Healthcare Worker Benefits Blueprint, and Employer Benefits Action Plan are designed to keep answers in local browser state. Their answer values are not intentionally transmitted to or stored by Community Acquired Finance.
+            The Medicare and Medicaid Eligibility Check, Healthcare Worker Benefits Blueprint, Employer Benefits Action Plan, Healthcare Worker Total Compensation Comparison, and similar calculators are designed to keep answer values in local browser state. Their answer values are not intentionally transmitted to or stored by Community Acquired Finance.
           </p>
           <p>
             Copying, printing, downloading, sharing, or entering the same information into another website is controlled by the user and may create records outside this site. General page-view, device, performance, hosting, security, or consent-state information may still be processed as described below, but the site does not intentionally attach answer-level fields to analytics events.
@@ -75,7 +75,7 @@ const PrivacyPolicy = () => {
             Necessary only keeps Google analytics storage, advertising storage, advertising user data, and advertising personalization denied, and the site does not download the Google Analytics library. Allow analytics grants Google Analytics storage and loads Google Analytics, while advertising storage, advertising user data, and advertising personalization remain denied through this site&apos;s consent controls.
           </p>
           <p>
-            Necessary hosting, security, and diagnostic logs may continue because they are required to operate and protect the site. Vercel performance products may process limited technical data as described by Vercel. The site does not intentionally send guided-tool answer values, names, email addresses, income, health status, or other sensitive form entries as analytics event properties.
+            Necessary hosting, security, and diagnostic logs may continue because they are required to operate and protect the site. Vercel performance products may process limited technical data as described by Vercel. The site does not intentionally send guided-tool answer values, employer or role names, salary or wage amounts, benefit amounts, commute details, names, email addresses, income, health status, or other sensitive form entries as analytics event properties.
           </p>
         </Section>
 
@@ -162,7 +162,7 @@ const PrivacyPolicy = () => {
             <Link to="/about">Back to About / Sources</Link>
           </Button>
         </div>
-      </main>
+      </section>
     </>
   );
 };

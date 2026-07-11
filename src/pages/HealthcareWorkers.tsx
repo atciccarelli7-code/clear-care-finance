@@ -6,7 +6,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { NextStepCards } from "@/components/shared/NextStepCards";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { OBBB_OVERTIME_ARTICLE } from "@/data/healthcareWorkerArticles";
-import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock, TrendingUp, GraduationCap } from "lucide-react";
+import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock, TrendingUp, GraduationCap, BriefcaseBusiness } from "lucide-react";
 
 const HealthcareWorkers = () => {
   return (
@@ -14,10 +14,10 @@ const HealthcareWorkers = () => {
       <PageHero
         eyebrow="For nurses & bedside clinicians"
         title="Money education built for healthcare workers."
-        description="Start with the paycheck, then move into benefits, student loans, investing, and the money decisions that come with healthcare work."
+        description="Start with the paycheck, then move into benefits, student loans, investing, job offers, and the money decisions that come with healthcare work."
       >
         <Button asChild variant="hero" size="lg">
-          <Link to="/articles/healthcare-worker-money-map">Start with the money map <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/tools/healthcare-worker-total-compensation-comparison">Compare two job offers <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
           <Link to="/tools/healthcare-worker-benefits-blueprint">Build a benefits blueprint</Link>
@@ -28,8 +28,15 @@ const HealthcareWorkers = () => {
         <NextStepCards
           eyebrow="Best first steps"
           title="Use one connected worker-money system"
-          description="Start with the overall order of operations, decide what matters before opening the HR portal, then run the employer's actual numbers."
+          description="Start with the overall order of operations, compare compensation before changing roles, decide what matters before opening the HR portal, then run the employer's actual benefit numbers."
           cards={[
+            {
+              eyebrow: "Compare opportunities",
+              title: "Healthcare Worker Total Compensation Comparison",
+              description: "Compare hourly or salary pay, overtime, differentials, retirement contributions, insurance premiums, PTO, commuting costs, and quality-of-life tradeoffs.",
+              href: "/tools/healthcare-worker-total-compensation-comparison",
+              cta: "Compare jobs",
+            },
             {
               eyebrow: "Foundation",
               title: "The Healthcare Worker Money Map",
@@ -38,14 +45,14 @@ const HealthcareWorkers = () => {
               cta: "Read the map",
             },
             {
-              eyebrow: "Stage one · before HR",
+              eyebrow: "Before HR",
               title: "Healthcare Worker Benefits Blueprint",
               description: "Answer goal-first questions and leave with the retirement, health-plan, HSA, and coverage details to find.",
               href: "/tools/healthcare-worker-benefits-blueprint",
               cta: "Build the blueprint",
             },
             {
-              eyebrow: "Stage two · actual numbers",
+              eyebrow: "Actual benefit numbers",
               title: "Employer Benefits Action Plan",
               description: "Enter the employer match, premium, deductible, out-of-pocket maximum, and HSA contributions to build a prioritized action list.",
               href: "/tools/employer-benefits-action-plan",
@@ -88,6 +95,7 @@ const HealthcareWorkers = () => {
           description="Pick the lane that matches the decision in front of you. You do not need to read everything at once."
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <TopicCard icon={BriefcaseBusiness} title="Job Offers & Total Compensation" description="Compare salary, hourly pay, overtime, benefits, insurance premiums, PTO, commute, and schedule tradeoffs." href="/tools/healthcare-worker-total-compensation-comparison" cta="Compare jobs" accent="green" />
           <TopicCard icon={Wallet} title="Paycheck & Benefits" description="403(b), open enrollment, paycheck deductions, insurance choices, and employer benefit paperwork." href="/topics/workplace-benefits" cta="Start benefits" />
           <TopicCard icon={GraduationCap} title="Student Loans" description="PSLF, IDR, Nurse Corps, NHSC, private loan payoff, and refinance planning for healthcare workers." href="/student-loans" cta="Open guide" accent="green" />
           <TopicCard icon={TrendingUp} title="Build Wealth" description="Money maps, fund choices, investing basics, savings rate, and financial independence for healthcare workers." href="/build-wealth" cta="Open hub" />

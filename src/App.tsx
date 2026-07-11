@@ -26,6 +26,7 @@ const loadHealthcareWorkerBenefitsBlueprintPage = () => import("./pages/Healthca
 const loadEmployerBenefitsActionPlanPage = () => import("./pages/EmployerBenefitsActionPlanPage.tsx");
 const loadMedicareMedicaidEligibilityCheckPage = () => import("./pages/MedicareMedicaidEligibilityCheckPage.tsx");
 const loadPriorAuthorizationNextStepGuidePage = () => import("./pages/PriorAuthorizationNextStepGuidePage.tsx");
+const loadHealthcareWorkerTotalCompensationPage = () => import("./pages/HealthcareWorkerTotalCompensationPage.tsx");
 const loadStudentLoans = () => import("./pages/StudentLoans.tsx");
 const loadArticles = () => import("./pages/Articles.tsx");
 const loadArticlePage = () => import("./pages/ArticlePage.tsx");
@@ -71,6 +72,7 @@ const HealthcareWorkerBenefitsBlueprintPage = lazy(loadHealthcareWorkerBenefitsB
 const EmployerBenefitsActionPlanPage = lazy(loadEmployerBenefitsActionPlanPage);
 const MedicareMedicaidEligibilityCheckPage = lazy(loadMedicareMedicaidEligibilityCheckPage);
 const PriorAuthorizationNextStepGuidePage = lazy(loadPriorAuthorizationNextStepGuidePage);
+const HealthcareWorkerTotalCompensationPage = lazy(loadHealthcareWorkerTotalCompensationPage);
 const StudentLoans = lazy(loadStudentLoans);
 const Articles = lazy(loadArticles);
 const ArticlePage = lazy(loadArticlePage);
@@ -91,27 +93,13 @@ const CommercialInsuranceComparisonPage = lazy(loadCommercialInsuranceComparison
 const HospitalDischargeCoveragePage = lazy(loadHospitalDischargeCoveragePage);
 const DischargePrintableChecklistPage = lazy(loadDischargePrintableChecklistPage);
 const MedicareAdvantageComparisonPage = lazy(loadMedicareAdvantageComparisonPage);
-const HealthcareWorkerPaycheckTools = lazy(() =>
-  loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.HealthcareWorkerPaycheckTools })),
-);
-const InsuranceMarketingRealityPage = lazy(() =>
-  loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.InsuranceMarketingRealityPage })),
-);
-const MedicalBillReviewToolkit = lazy(() =>
-  loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicalBillReviewToolkit })),
-);
-const MedicareAdvantagePlanHelper = lazy(() =>
-  loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicareAdvantagePlanHelper })),
-);
-const MedicareAdvantageVsMedigap = lazy(() =>
-  loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicareAdvantageVsMedigap })),
-);
-const MedicationCoverageChecklist = lazy(() =>
-  loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicationCoverageChecklist })),
-);
-const PriorAuthorizationGuide = lazy(() =>
-  loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.PriorAuthorizationGuide })),
-);
+const HealthcareWorkerPaycheckTools = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.HealthcareWorkerPaycheckTools })));
+const InsuranceMarketingRealityPage = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.InsuranceMarketingRealityPage })));
+const MedicalBillReviewToolkit = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicalBillReviewToolkit })));
+const MedicareAdvantagePlanHelper = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicareAdvantagePlanHelper })));
+const MedicareAdvantageVsMedigap = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicareAdvantageVsMedigap })));
+const MedicationCoverageChecklist = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.MedicationCoverageChecklist })));
+const PriorAuthorizationGuide = lazy(() => loadInsuranceDecisionToolsBundle().then((module) => ({ default: module.PriorAuthorizationGuide })));
 const Methodology = lazy(loadMethodology);
 const PrivacyPolicy = lazy(loadPrivacyPolicy);
 const TermsOfUse = lazy(loadTermsOfUse);
@@ -139,6 +127,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/tools/employer-benefits-action-plan") return loadEmployerBenefitsActionPlanPage;
   if (pathname === "/tools/medicare-medicaid-eligibility-check") return loadMedicareMedicaidEligibilityCheckPage;
   if (pathname === "/tools/prior-authorization-next-step-guide") return loadPriorAuthorizationNextStepGuidePage;
+  if (pathname === "/tools/healthcare-worker-total-compensation-comparison") return loadHealthcareWorkerTotalCompensationPage;
   if (pathname === "/tools/medicare-advantage-plan-helper") return loadInsuranceDecisionToolsBundle;
   if (pathname === "/articles") return loadArticles;
   if (pathname.startsWith("/articles/")) return loadArticlePage;
@@ -161,9 +150,7 @@ const routeLoader = (pathname: string) => {
     pathname === "/insurance/medical-bill-review-toolkit" ||
     pathname === "/insurance/medicare-advantage-vs-medigap" ||
     pathname === "/insurance/what-medicare-advantage-marketing-may-not-emphasize"
-  ) {
-    return loadInsuranceDecisionToolsBundle;
-  }
+  ) return loadInsuranceDecisionToolsBundle;
   if (pathname === "/glossary") return loadGlossary;
   if (pathname === "/newsletter") return loadNewsletter;
   if (pathname === "/about") return loadAbout;
@@ -199,27 +186,22 @@ const RouteSeo = () => {
 
 const GoogleAnalyticsPageView = () => {
   const location = useLocation();
-
   useEffect(() => {
     if (typeof window.gtag !== "function") return;
-
     window.gtag("event", "page_view", {
       page_title: document.title,
       page_path: `${location.pathname}${location.search}`,
       page_location: window.location.href,
     });
   }, [location.pathname, location.search]);
-
   return null;
 };
 
 const ScrollToTop = () => {
   const location = useLocation();
-
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [location.pathname]);
-
   return null;
 };
 
@@ -259,6 +241,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/tools/employer-benefits-action-plan" element={<EmployerBenefitsActionPlanPage />} />
             <Route path="/tools/medicare-medicaid-eligibility-check" element={<MedicareMedicaidEligibilityCheckPage />} />
             <Route path="/tools/prior-authorization-next-step-guide" element={<PriorAuthorizationNextStepGuidePage />} />
+            <Route path="/tools/healthcare-worker-total-compensation-comparison" element={<HealthcareWorkerTotalCompensationPage />} />
             <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />

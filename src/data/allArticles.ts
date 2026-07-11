@@ -13,6 +13,7 @@ import { FROM_BEDSIDE_ARTICLES } from "./fromBedsideArticles";
 import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
 import { SEARCH_MOAT_ARTICLES } from "./searchMoatArticles";
+import { TOTAL_COMPENSATION_ARTICLE } from "./totalCompensationArticle";
 import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
 
@@ -33,6 +34,7 @@ export const ALL_ARTICLES = publishedArticles([
   CREDIT_CARD_DEBT_ARTICLE,
   ...OPEN_ENROLLMENT_ARTICLES_READY,
   ...FROM_BEDSIDE_ARTICLES,
+  TOTAL_COMPENSATION_ARTICLE,
   ...HEALTHCARE_CONFUSION_ARTICLES,
   INSURANCE_FUTURE_PLANNING_ARTICLE,
   MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE,

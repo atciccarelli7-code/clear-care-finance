@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "seo:generate": "node scripts/generate-sitemap.mjs",
-    "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/prerender.mjs",
+    "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/check-bundle-budget.mjs && node scripts/prerender.mjs",
     "build:dev": "vite build --mode development",
+    "bundle:check": "node scripts/check-bundle-budget.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "npm run guide:content-check && npm run guide:quick-content-check && vitest run",

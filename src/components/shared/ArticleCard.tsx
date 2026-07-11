@@ -1,17 +1,20 @@
+import type { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import type { Article } from "@/data/articles";
 
 interface ArticleCardProps {
   article: Article;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 }
 
-export const ArticleCard = ({ article }: ArticleCardProps) => {
+export const ArticleCard = ({ article, onClick }: ArticleCardProps) => {
   const specialTag = (article as Article & { specialTag?: string }).specialTag;
 
   return (
     <Link
       to={`/articles/${article.slug}`}
+      onClick={onClick}
       className="group relative flex min-w-0 max-w-full flex-col break-words rounded-2xl border border-border bg-card p-6 shadow-card transition-smooth hover:-translate-y-1 hover:shadow-hover hover:border-primary/40 md:p-7"
     >
       {specialTag && (

@@ -10,6 +10,7 @@ const ELIGIBILITY_PATH = "/tools/medicare-medicaid-eligibility-check";
 const BLUEPRINT_PATH = "/tools/healthcare-worker-benefits-blueprint";
 const ACTION_PLAN_PATH = "/tools/employer-benefits-action-plan";
 const PRIOR_AUTH_PATH = "/tools/prior-authorization-next-step-guide";
+const LEGACY_PRIOR_AUTH_PATH = "/insurance/prior-authorization-guide";
 
 const removeManagedScript = () => {
   document.getElementById(ADSENSE_SCRIPT_ID)?.remove();
@@ -66,5 +67,19 @@ describe("route-aware AdSense guard", () => {
     expect(action).toBe("reload");
     expect(replaceLocation).toHaveBeenCalledOnce();
     expect(replaceLocation).toHaveBeenCalledWith(target);
+  });
+
+  it("redirects legacy client navigation to the canonical prior authorization tool", () => {
+    const replaceLocation = vi.fn();
+
+    const action = syncAdSenseForPath(
+      LEGACY_PRIOR_AUTH_PATH,
+      `https://communityacquiredfinance.com${LEGACY_PRIOR_AUTH_PATH}?source=hub#start`,
+      { replaceLocation },
+    );
+
+    expect(action).toBe("reload");
+    expect(replaceLocation).toHaveBeenCalledWith(`https://communityacquiredfinance.com${PRIOR_AUTH_PATH}`);
+    expect(document.getElementById(ADSENSE_SCRIPT_ID)).toBeNull();
   });
 });

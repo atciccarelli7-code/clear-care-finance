@@ -2,7 +2,7 @@ import { PassThrough } from "node:stream";
 import { renderToPipeableStream } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { AppContent, preloadRoute } from "./App";
-import { resolveSeoMeta } from "@/lib/seoRegistry";
+import { resolveSiteSeoMeta } from "@/lib/siteSeoMeta";
 
 const renderAppToString = (url: string) =>
   new Promise<string>((resolve, reject) => {
@@ -42,6 +42,6 @@ export const render = async (url: string) => {
 
   return {
     html: await renderAppToString(url),
-    meta: resolveSeoMeta(url),
+    meta: resolveSiteSeoMeta(url),
   };
 };

@@ -21,6 +21,13 @@ describe("FinancialNavigator", () => {
       configurable: true,
       value: vi.fn().mockReturnValue({ matches: true }),
     });
+    Object.defineProperty(window, "requestAnimationFrame", {
+      configurable: true,
+      value: (callback: FrameRequestCallback) => {
+        callback(0);
+        return 1;
+      },
+    });
     Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
       configurable: true,
       value: vi.fn(),
@@ -57,7 +64,7 @@ describe("FinancialNavigator", () => {
     expect(screen.getByRole("heading", { name: "Do now" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Do next" })).toBeInTheDocument();
     expect(screen.getByRole("progressbar", { name: "My Plan completion" })).toHaveAttribute("aria-valuenow", "0");
-    expect(screen.getAllByText("Completed")).toHaveLength(0);
+    expect(screen.queryAllByText("Completed")).toHaveLength(0);
   });
 
   it("clears local plan data and returns to a clean pathway chooser", () => {

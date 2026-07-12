@@ -1,0 +1,53 @@
+name: Decision Journey Implementation
+
+on:
+  push:
+    branches:
+      - agent/decision-journey-foundation
+    paths:
+      - scripts/implement-decision-journeys.mjs
+      - .github/workflows/decision-journey-implementation.yml
+
+permissions:
+  contents: write
+
+jobs:
+  implement-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/decision-journey-foundation
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Apply decision journey implementation
+        run: node scripts/implement-decision-journeys.mjs
+
+      - name: Commit generated implementation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+          else
+            git commit -m "Implement decision journey foundation [skip ci]"
+            git push origin HEAD:agent/decision-journey-foundation
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit and trust tests
+        run: npm test
+
+      - name: Production build
+        run: npm run build

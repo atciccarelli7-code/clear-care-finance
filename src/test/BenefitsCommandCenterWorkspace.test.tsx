@@ -28,7 +28,7 @@ describe("BenefitsCommandCenterWorkspace", () => {
     fireEvent.click(screen.getByRole("button", { name: /add package/i }));
     expect(screen.getByRole("button", { name: "Offer B" })).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: /compare/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Compare" }));
     expect(screen.getByRole("heading", { name: /compare two packages without declaring a simplistic winner/i })).toBeInTheDocument();
     expect(screen.queryByText(/^winner$/i)).not.toBeInTheDocument();
 
@@ -38,15 +38,22 @@ describe("BenefitsCommandCenterWorkspace", () => {
     });
   });
 
-  it("renders the Benefits Receipt and clears all local Command Center data", async () => {
+  it("renders the Benefits Receipt and resets the workspace to one local package", async () => {
     render(<BenefitsCommandCenterWorkspace />);
 
-    fireEvent.click(screen.getByRole("button", { name: /^receipt$/i }));
-    expect(screen.getByRole("article", { name: /benefits receipt for current package/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /add package/i }));
+    expect(screen.getByRole("button", { name: "Offer B" })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Receipt" }));
+    expect(screen.getByRole("article", { name: /benefits receipt for offer b/i })).toBeInTheDocument();
     expect(screen.getByText(/guaranteed cash, expected variable pay/i)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /clear all local data/i }));
-    await waitFor(() => expect(screen.getByText(/all command center data was cleared/i)).toBeInTheDocument());
-    expect(window.localStorage.getItem(BENEFITS_COMMAND_CENTER_STORAGE_KEY)).not.toBeNull();
+    expect(screen.queryByRole("button", { name: "Offer B" })).not.toBeInTheDocument();
+
+    await waitFor(() => {
+      const stored = JSON.parse(window.localStorage.getItem(BENEFITS_COMMAND_CENTER_STORAGE_KEY) ?? "null") as { packages?: unknown[] } | null;
+      expect(stored?.packages).toHaveLength(1);
+    });
   });
 });

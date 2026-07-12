@@ -61,7 +61,11 @@ export const Header = () => {
       if (event.key !== "Tab") return;
       const focusable = Array.from(
         mobileMenuRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])') ?? [],
-      ).filter((element) => !element.hasAttribute("hidden"));
+      ).filter((element) => {
+        if (element.hasAttribute("hidden") || element.getAttribute("aria-hidden") === "true") return false;
+        const style = window.getComputedStyle(element);
+        return style.display !== "none" && style.visibility !== "hidden";
+      });
       if (!focusable.length) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];

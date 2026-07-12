@@ -19,10 +19,11 @@ const assertUnique = (items, label) => {
 };
 
 try {
-  const [{ ALL_ARTICLES }, { TOPICS }, { tools }] = await Promise.all([
+  const [{ ALL_ARTICLES }, { TOPICS }, { tools }, { roadmapTools }] = await Promise.all([
     vite.ssrLoadModule("/src/data/allArticles.ts"),
     vite.ssrLoadModule("/src/data/topics.ts"),
     vite.ssrLoadModule("/src/data/tools.ts"),
+    vite.ssrLoadModule("/src/data/roadmapTools.ts"),
   ]);
 
   const articles = ALL_ARTICLES.map((article) => ({
@@ -38,13 +39,12 @@ try {
     title: topic.title,
     description: topic.promise,
   }));
-  const genericTools = tools
-    .filter((tool) => tool.componentKey && !tool.href)
-    .map((tool) => ({
-      slug: tool.slug,
-      title: tool.title,
-      description: tool.description,
-    }));
+  const genericTools = [
+    ...tools
+      .filter((tool) => tool.componentKey && !tool.href)
+      .map((tool) => ({ slug: tool.slug, title: tool.title, description: tool.description })),
+    ...roadmapTools.map((tool) => ({ slug: tool.slug, title: tool.title, description: tool.description })),
+  ];
 
   assertUnique(articles, "article");
   assertUnique(topics, "topic");
@@ -60,7 +60,7 @@ try {
 
   await mkdir(path.dirname(outputPath), { recursive: true });
   await writeFile(outputPath, source, "utf8");
-  console.log(`Generated lightweight runtime SEO metadata for ${articles.length} articles and ${topics.length} topics.`);
+  console.log(`Generated lightweight runtime SEO metadata for ${articles.length} articles, ${topics.length} topics, and ${genericTools.length} focused tools.`);
 } finally {
   await vite.close();
 }

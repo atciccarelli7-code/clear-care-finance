@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
+import { roadmapTools } from "@/data/roadmapTools";
 import { TOOL_CATEGORIES, getToolByLegacyAnchor, getToolHref, tools, type ToolCategory, type ToolIconKey } from "@/data/tools";
 import { trackToolEvent } from "@/lib/siteAnalytics";
 import { useSeo } from "@/lib/seo";
@@ -36,6 +37,8 @@ const iconByKey: Record<ToolIconKey, typeof Calculator> = {
   shield: Shield,
   wallet: Wallet,
 };
+
+const allTools = [...tools, ...roadmapTools];
 
 const Tools = () => {
   const [query, setQuery] = useState("");
@@ -64,13 +67,13 @@ const Tools = () => {
   }, []);
 
   const normalizedQuery = query.trim().toLowerCase();
-  const filteredTools = tools.filter((tool) => {
+  const filteredTools = allTools.filter((tool) => {
     const matchesCategory = category === "All tools" || tool.category === category;
     const haystack = `${tool.title} ${tool.shortTitle} ${tool.description} ${tool.category} ${tool.audience}`.toLowerCase();
     return matchesCategory && (!normalizedQuery || haystack.includes(normalizedQuery));
   });
 
-  const featuredTools = tools.filter((tool) => tool.featured);
+  const featuredTools = allTools.filter((tool) => tool.featured);
 
   const trackOpen = (slug: string, title: string) => {
     trackToolEvent("tool_intent_click", slug, title);
@@ -97,7 +100,7 @@ const Tools = () => {
           </p>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {featuredTools.slice(0, 8).map((tool) => {
+          {featuredTools.slice(0, 12).map((tool) => {
             const Icon = iconByKey[tool.icon];
             return (
               <Link
@@ -168,7 +171,7 @@ const Tools = () => {
           </div>
 
           <p className="mt-4 text-sm text-muted-foreground" aria-live="polite">
-            Showing {filteredTools.length} of {tools.length} tools
+            Showing {filteredTools.length} of {allTools.length} tools
           </p>
 
           {filteredTools.length > 0 ? (

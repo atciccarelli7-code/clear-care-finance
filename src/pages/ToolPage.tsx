@@ -4,12 +4,16 @@ import { ToolRenderer } from "@/components/calculators/ToolRenderer";
 import { CalculatorCard, CalculatorNextSteps } from "@/components/shared/CalculatorCard";
 import { PageHero } from "@/components/shared/PageHero";
 import { Button } from "@/components/ui/button";
+import { roadmapTools } from "@/data/roadmapTools";
 import { getToolBySlug, getToolHref, tools } from "@/data/tools";
 import { useSeo } from "@/lib/seo";
+import { RoadmapToolRouter } from "@/pages/RoadmapToolRouter";
 
 const ToolPage = () => {
   const { slug = "" } = useParams();
-  const tool = getToolBySlug(slug);
+  const coreTool = getToolBySlug(slug);
+  const roadmapTool = roadmapTools.find((candidate) => candidate.slug === slug);
+  const tool = coreTool ?? roadmapTool;
 
   useSeo({
     title: tool?.title ?? "Tool Not Found",
@@ -19,6 +23,7 @@ const ToolPage = () => {
   });
 
   if (!tool) return <Navigate to="/tools" replace />;
+  if (roadmapTool) return <RoadmapToolRouter slug={roadmapTool.slug} />;
   if (tool.href && tool.href !== `/tools/${tool.slug}`) return <Navigate to={tool.href} replace />;
   if (!tool.componentKey) return <Navigate to="/tools" replace />;
 

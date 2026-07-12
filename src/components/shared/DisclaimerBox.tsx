@@ -6,7 +6,7 @@ interface DisclaimerBoxProps {
 }
 
 export const DISCLAIMER_TEXT =
-  "Community Acquired Finance provides general educational information only. It is not financial, investment, tax, legal, insurance, medical, billing, employment, or benefits advice, and its tools do not make official eligibility, coverage, authorization, or plan determinations. Verify important details with current official sources, plan documents, government agencies, insurers, employers, billing offices, and qualified professionals.";
+  "Community Acquired Finance provides general educational information only. It is not financial, investment, tax, legal, insurance, medical, billing, employment, or benefits advice, and its tools do not make official eligibility, coverage, authorization, tax, billing-liability, or plan determinations. Estimates may be incomplete, outdated, or inapplicable to a specific person, plan, state, employer, provider, or claim. Verify important details with current official sources, controlling documents, government agencies, insurers, employers, billing offices, and qualified professionals.";
 
 export const DisclaimerBox = ({ className, short }: DisclaimerBoxProps) => (
   <div
@@ -17,7 +17,7 @@ export const DisclaimerBox = ({ className, short }: DisclaimerBoxProps) => (
   >
     <strong className="text-foreground font-semibold">Educational only. </strong>
     {short
-      ? "Not individualized financial, legal, insurance, medical, billing, employment, or benefits advice."
+      ? "Not individualized financial, investment, tax, legal, insurance, medical, billing, employment, or benefits advice. Results are not official eligibility, coverage, authorization, tax, billing-liability, or plan determinations."
       : DISCLAIMER_TEXT}
   </div>
 );

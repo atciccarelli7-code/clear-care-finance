@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SaveNavigatorAction } from "@/components/navigator/SaveNavigatorAction";
@@ -90,7 +90,7 @@ export const ChildcareBenefitsDecisionGuidePage = () => {
   return (
     <>
       <PageHero eyebrow="2026 workplace-benefits decision" title="Dependent Care FSA and Childcare Benefits Decision Guide" description="Coordinate a Dependent Care FSA, employer childcare support, predictable care expenses, and federal tax-credit questions before open enrollment." />
-      <main className="container max-w-5xl space-y-8 py-10 md:py-16">
+      <div className="container max-w-5xl space-y-8 py-10 md:py-16">
         <DecisionToolIntro><strong className="text-foreground">Broad categories only.</strong> Do not enter dependent names, provider names, tax identifiers, exact income, or care records. The 2026 federal dependent-care assistance ceiling increased, but the employer plan may offer less and the final tax result depends on current IRS instructions.</DecisionToolIntro>
 
         <form className="grid gap-5" onSubmit={(event) => { event.preventDefault(); tool.generate(); }}>
@@ -128,7 +128,7 @@ export const ChildcareBenefitsDecisionGuidePage = () => {
           <SaveNavigatorAction recommendationId="benefits_action_plan" sourceRoute="/tools/childcare-benefits-decision-guide" title="Save the childcare-benefits review" description="Only the existing fixed benefits-review action is saved. Filing status, expense band, and answers remain outside My Plan." />
         </DecisionResultPanel></div>}
         <DisclaimerBox />
-      </main>
+      </div>
     </>
   );
 };
@@ -140,7 +140,7 @@ export const RothTraditionalDecisionHelperPage = () => {
   return (
     <>
       <PageHero eyebrow="Retirement tax decision" title="Roth vs Traditional Decision Helper" description="Compare current deduction value, possible future tax rates, cash flow, pension income, account mix, and retirement-access planning—without pretending one answer fits everyone." />
-      <main className="container max-w-5xl space-y-8 py-10 md:py-16">
+      <div className="container max-w-5xl space-y-8 py-10 md:py-16">
         <DecisionToolIntro><strong className="text-foreground">Use broad tax categories.</strong> This tool does not need exact income, balances, employer identity, or tax-return data. Contribution amount and contribution tax treatment are evaluated as separate decisions.</DecisionToolIntro>
         <form className="grid gap-5" onSubmit={(event) => { event.preventDefault(); tool.generate(); }}>
           <SelectQuestion id="roth-current" label="Current marginal tax-rate band" helper="Think about the next contribution dollar, not the average rate on the full return." value={tool.answers.currentRate} onChange={(value) => tool.update("currentRate", value as RothTraditionalAnswers["currentRate"])} options={[{ value: "not-sure", label: "Not sure" }, { value: "low", label: "Relatively low" }, { value: "middle", label: "Middle" }, { value: "high", label: "Relatively high" }]} />
@@ -162,7 +162,7 @@ export const RothTraditionalDecisionHelperPage = () => {
           <SaveNavigatorAction recommendationId="wealth_403b" sourceRoute="/tools/roth-vs-traditional-decision-helper" title="Save the retirement contribution review" description="Only the fixed contribution-review action is saved. Tax bands, pension expectations, and account mix are not stored in My Plan." />
         </DecisionResultPanel></div>}
         <DisclaimerBox />
-      </main>
+      </div>
     </>
   );
 };
@@ -174,7 +174,7 @@ export const DebtVsRetirementRouterPage = () => {
   return (
     <>
       <PageHero eyebrow="Financial foundation" title="Debt vs Retirement Decision Router" description="Order liquidity, required payments, employer match, debt protections, and retirement progress without using a universal interest-rate cutoff." />
-      <main className="container max-w-5xl space-y-8 py-10 md:py-16">
+      <div className="container max-w-5xl space-y-8 py-10 md:py-16">
         <DecisionToolIntro><strong className="text-foreground">This is sequencing support, not a payoff command.</strong> Use broad categories only. The tool does not need balances, rates, account numbers, lender names, or employer identity.</DecisionToolIntro>
         <form className="grid gap-5" onSubmit={(event) => { event.preventDefault(); tool.generate(); }}>
           <SelectQuestion id="debt-match" label="Employer retirement match status" helper="The plan document controls the formula, eligible pay, and vesting." value={tool.answers.match} onChange={(value) => tool.update("match", value as DebtRetirementAnswers["match"])} options={[{ value: "not-sure", label: "Not sure" }, { value: "below", label: "Below the full match" }, { value: "full", label: "Receiving the full match" }, { value: "none", label: "No match is offered" }]} />
@@ -194,7 +194,7 @@ export const DebtVsRetirementRouterPage = () => {
         </DecisionResultPanel></div>}
         <section className="rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground"><Link className="font-bold text-primary" to="/student-loans">Open the full student-loan section</Link> when federal or private student loans control the decision.</section>
         <DisclaimerBox />
-      </main>
+      </div>
     </>
   );
 };

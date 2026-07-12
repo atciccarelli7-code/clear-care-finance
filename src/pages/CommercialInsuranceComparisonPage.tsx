@@ -368,7 +368,7 @@ const CommercialInsuranceComparisonPage = () => {
         <Button asChild variant="outline" size="lg"><a href="#verification-checklist">Verification checklist</a></Button>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:space-y-20 md:py-16">
+      <div className="container space-y-16 py-12 md:space-y-20 md:py-16">
         <section className="grid gap-5 md:grid-cols-3" aria-label="Commercial insurance comparison principles">
           {[
             [FileText, "Why manual first", "Plan details change too often for a static ranking table.", "Employer benefits, Marketplace plans, provider networks, formularies, authorization rules, and cost-sharing can change by plan year, ZIP code, employer, county, and household details."],
@@ -443,7 +443,7 @@ const CommercialInsuranceComparisonPage = () => {
           <SectionHeading centered eyebrow="Sources" title="Where users should verify details" description="Use the framework to organize the decision. Use current plan documents and official sources to verify live benefits." />
           <Card className="mx-auto max-w-3xl rounded-3xl border-border/80 shadow-card"><CardContent className="p-5 md:p-6"><ol className="space-y-3 text-sm text-muted-foreground">{sourceLinks.map(([title, url]) => <li key={url} className="flex gap-3"><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary" /><a className="font-medium text-primary underline-offset-4 hover:underline" href={url} target="_blank" rel="noreferrer">{title} <ExternalLink className="inline h-3.5 w-3.5" /></a></li>)}</ol></CardContent></Card>
         </section>
-      </main>
+      </div>
     </>
   );
 };

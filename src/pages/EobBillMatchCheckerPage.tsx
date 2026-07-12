@@ -48,7 +48,7 @@ const EobBillMatchCheckerPage = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <section id="checker" className="scroll-mt-24">
           <CalculatorCard
             icon={Receipt}
@@ -116,7 +116,7 @@ const EobBillMatchCheckerPage = () => {
             <Button asChild variant="soft"><Link to="/tools"><FileText className="h-4 w-4" /> Browse tools</Link></Button>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 };

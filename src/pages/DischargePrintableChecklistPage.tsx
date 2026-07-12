@@ -91,7 +91,7 @@ const DischargePrintableChecklistPage = () => {
         </Button>
       </PageHero>
 
-      <main className="container space-y-12 py-12 md:py-16 print:space-y-6 print:py-4">
+      <div className="container space-y-12 py-12 md:py-16 print:space-y-6 print:py-4">
         <section className="rounded-[2rem] border border-primary/15 bg-primary-soft/25 p-5 shadow-card md:p-8 print:border print:bg-white print:p-4 print:shadow-none">
           <div className="grid gap-4 lg:grid-cols-[0.75fr_1.25fr]">
             <div>
@@ -205,7 +205,7 @@ const DischargePrintableChecklistPage = () => {
             </CardContent>
           </Card>
         </section>
-      </main>
+      </div>
     </>
   );
 };

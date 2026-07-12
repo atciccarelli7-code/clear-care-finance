@@ -29,12 +29,10 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        # TODO(#130): restore npm ci after package-lock.json is reconciled.
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
 
-      - name: Lint advisory
+      - name: Lint
         run: npm run lint
-        continue-on-error: true
 
       - name: Publication, content, and unit tests
         run: npm test

@@ -339,7 +339,7 @@ const MedicalBillReviewFlowPage = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-14 py-12 md:py-16">
+      <div className="container space-y-14 py-12 md:py-16">
         <section id="review-flow" className="scroll-mt-24 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
           <Card className="rounded-3xl shadow-card">
             <CardHeader>
@@ -460,7 +460,7 @@ const MedicalBillReviewFlowPage = () => {
             <Button asChild variant="soft"><Link to="/tools/eob-to-bill-match-checker">Open EOB checker</Link></Button>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 };

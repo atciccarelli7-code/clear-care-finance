@@ -336,7 +336,7 @@ const EmployerBenefitsActionPlanPage = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <section id="action-plan-tool" className="scroll-mt-24">
           <Card className="mx-auto max-w-5xl rounded-3xl shadow-card print:shadow-none">
             <CardHeader className="space-y-4 border-b border-border/70">
@@ -548,7 +548,7 @@ const EmployerBenefitsActionPlanPage = () => {
           </div>
           <SourceList sources={sources} title="Official sources" />
         </section>
-      </main>
+      </div>
     </>
   );
 };

@@ -418,7 +418,7 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <section id="blueprint" className="scroll-mt-24">
           {!showResults ? (
             <Card className="mx-auto max-w-4xl rounded-3xl shadow-card">
@@ -601,7 +601,7 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
           </div>
           <SourceList sources={sources} title="Official sources" />
         </section>
-      </main>
+      </div>
     </>
   );
 };

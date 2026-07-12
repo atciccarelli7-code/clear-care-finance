@@ -330,7 +330,7 @@ const MedicareAdvantageComparisonPage = () => {
         <Button asChild variant="outline" size="lg"><a href="#sources">Check official sources</a></Button>
       </PageHero>
 
-      <main className="container min-w-0 space-y-16 py-12 md:space-y-20 md:py-16">
+      <div className="container min-w-0 space-y-16 py-12 md:space-y-20 md:py-16">
         <section className="grid gap-5 md:grid-cols-3" aria-label="Key Medicare Advantage comparison reminders">
           {[
             { icon: ShieldCheck, title: "Educational only", body: "No Apply Now button, no universal best-plan ranking, no insurer logo placement, and no live plan quotes." },
@@ -439,7 +439,7 @@ const MedicareAdvantageComparisonPage = () => {
             </CardContent>
           </Card>
         </section>
-      </main>
+      </div>
     </>
   );
 };

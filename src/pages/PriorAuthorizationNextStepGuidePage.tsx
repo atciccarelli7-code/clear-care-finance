@@ -307,7 +307,7 @@ export default function PriorAuthorizationNextStepGuidePage() {
         description="Answer the questions your plan and provider will use to identify the process stage. The result explains who to call, what to ask, what to gather, and which official rules still need verification."
       />
 
-      <main className="container max-w-5xl space-y-8 py-8 md:py-14">
+      <div className="container max-w-5xl space-y-8 py-8 md:py-14">
         <section className="grid gap-4 md:grid-cols-3" aria-label="Tool safeguards">
           <Card><CardHeader><ShieldCheck className="h-6 w-6 text-primary" /><CardTitle className="text-lg">Private by design</CardTitle><CardDescription>Your answers stay in this browser session. They are not uploaded or included in analytics.</CardDescription></CardHeader></Card>
           <Card><CardHeader><Stethoscope className="h-6 w-6 text-primary" /><CardTitle className="text-lg">Clinical urgency comes from the clinician</CardTitle><CardDescription>The tool can raise an expedited-review question but cannot decide whether a case is medically urgent.</CardDescription></CardHeader></Card>
@@ -459,7 +459,7 @@ export default function PriorAuthorizationNextStepGuidePage() {
             <strong className="text-foreground">Educational only.</strong> This guide does not decide whether a service is medically necessary, covered, urgent, approved, appealable, or payable. Do not delay emergency care while using an insurance tool. For an immediate medical emergency, call 911 or seek emergency care.
           </section>
         )}
-      </main>
+      </div>
     </>
   );
 }

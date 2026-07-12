@@ -164,7 +164,7 @@ const HealthInsurancePlanTypesPage = () => {
         </Button>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:space-y-20 md:py-16">
+      <div className="container space-y-16 py-12 md:space-y-20 md:py-16">
         <section className="rounded-[2rem] border border-primary/15 bg-primary-soft/25 p-5 shadow-card md:p-8">
           <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
@@ -384,7 +384,7 @@ const HealthInsurancePlanTypesPage = () => {
             </CardContent>
           </Card>
         </section>
-      </main>
+      </div>
     </>
   );
 };

@@ -79,7 +79,7 @@ const MedicareMedicaidGuideLandingPage = () => {
   });
 
   return (
-    <main>
+    <div>
       <PageHero
         eyebrow="Plain-English hospital finance guide"
         title="Hospital Discharge & Medicare Quick Guide"
@@ -293,7 +293,7 @@ const MedicareMedicaidGuideLandingPage = () => {
           </CardHeader>
         </Card>
       </section>
-    </main>
+    </div>
   );
 };
 

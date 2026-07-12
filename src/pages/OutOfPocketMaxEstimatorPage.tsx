@@ -37,7 +37,7 @@ const OutOfPocketMaxEstimatorPage = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <CalculatorCard
           icon={Shield}
           eyebrow="Estimate, then verify"
@@ -113,7 +113,7 @@ const OutOfPocketMaxEstimatorPage = () => {
             <SourceList sources={[SOURCE_PRESETS.healthcareGovOutOfPocketMax, SOURCE_PRESETS.healthcareGovDeductible, SOURCE_PRESETS.healthcareGovCoinsurance]} />
           </CardContent>
         </Card>
-      </main>
+      </div>
     </>
   );
 };

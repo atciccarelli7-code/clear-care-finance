@@ -1,5 +1,4 @@
-import { ALL_ARTICLES } from "@/data/allArticles";
-import { TOPICS } from "@/data/topics";
+import { RUNTIME_ARTICLE_SEO_META, RUNTIME_TOPIC_SEO_META } from "@/data/runtimeSeoManifest";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export type SeoJsonLd = Record<string, unknown>;
@@ -331,8 +330,8 @@ const pageJsonLd = (path: string, meta: StaticPageMeta): SeoJsonLd => {
 export const getIndexableRoutes = () => {
   const routes = [
     ...STATIC_INDEXABLE_ROUTES,
-    ...TOPICS.map((topic) => `/topics/${topic.slug}`),
-    ...ALL_ARTICLES.map((article) => `/articles/${article.slug}`),
+    ...RUNTIME_TOPIC_SEO_META.map((topic) => `/topics/${topic.slug}`),
+    ...RUNTIME_ARTICLE_SEO_META.map((article) => `/articles/${article.slug}`),
   ];
 
   return Array.from(new Set(routes.map(normalizePath)));
@@ -343,10 +342,10 @@ export const resolveSeoMeta = (pathname: string): SeoRouteMeta => {
 
   if (path.startsWith("/articles/")) {
     const slug = path.slice("/articles/".length);
-    const article = ALL_ARTICLES.find((candidate) => candidate.slug === slug);
+    const article = RUNTIME_ARTICLE_SEO_META.find((candidate) => candidate.slug === slug);
 
     if (article) {
-      const description = article.description ?? article.promise;
+      const description = article.description;
       return {
         title: article.title,
         description,
@@ -368,6 +367,8 @@ export const resolveSeoMeta = (pathname: string): SeoRouteMeta => {
             mainEntityOfPage: absoluteUrl(path),
             url: absoluteUrl(path),
             articleSection: article.category,
+            ...(article.publishedAt ? { datePublished: article.publishedAt } : {}),
+            ...(article.lastReviewedAt ? { dateModified: article.lastReviewedAt } : {}),
             author: {
               "@type": "Person",
               name: AUTHOR_NAME,
@@ -391,12 +392,12 @@ export const resolveSeoMeta = (pathname: string): SeoRouteMeta => {
 
   if (path.startsWith("/topics/")) {
     const slug = path.slice("/topics/".length);
-    const topic = TOPICS.find((candidate) => candidate.slug === slug);
+    const topic = RUNTIME_TOPIC_SEO_META.find((candidate) => candidate.slug === slug);
 
     if (topic) {
       return {
         title: `${topic.title} Guide`,
-        description: topic.promise,
+        description: topic.description,
         canonicalPath: path,
         robots: "index, follow, max-image-preview:large",
         jsonLd: [
@@ -409,7 +410,7 @@ export const resolveSeoMeta = (pathname: string): SeoRouteMeta => {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             name: topic.title,
-            description: topic.promise,
+            description: topic.description,
             url: absoluteUrl(path),
             isPartOf: {
               "@type": "WebSite",

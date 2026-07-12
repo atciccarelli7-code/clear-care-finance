@@ -1,0 +1,44 @@
+import { Link, useLocation } from "react-router-dom";
+import { ArrowRight, ReceiptText, ShieldCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { trackSiteEvent } from "@/lib/analytics";
+import { BENEFITS_COMMAND_CENTER_ENTRY_ROUTES } from "@/components/benefits/benefitsCommandCenterEntryConfig";
+
+export const BenefitsCommandCenterEntry = () => {
+  const location = useLocation();
+  const config = BENEFITS_COMMAND_CENTER_ENTRY_ROUTES[location.pathname];
+  if (!config) return null;
+
+  return (
+    <section className="container mt-10 print:hidden" aria-label="Benefits Command Center next step">
+      <div className="overflow-hidden rounded-[2rem] border border-secondary/20 bg-gradient-to-br from-secondary-soft/60 via-card to-primary-soft/35 p-5 shadow-card md:p-7">
+        <div className="grid gap-5 lg:grid-cols-[auto_1fr_auto] lg:items-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-card text-secondary shadow-sm ring-1 ring-secondary/15">
+            <ReceiptText className="h-6 w-6" aria-hidden="true" />
+          </div>
+          <div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">{config.eyebrow}</div>
+            <h2 className="mt-2 font-display text-2xl font-bold tracking-tight">{config.title}</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">{config.description}</p>
+            <div className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+              <ShieldCheck className="h-4 w-4 text-primary" aria-hidden="true" /> Local-only package storage · no account or document upload
+            </div>
+          </div>
+          <Button asChild size="lg" className="lg:min-w-56">
+            <Link
+              to="/tools/benefits-command-center"
+              onClick={() => trackSiteEvent("benefits_command_center_entry_opened", {
+                event_category: "tools",
+                source_route: location.pathname,
+                destination_path: "/tools/benefits-command-center",
+                entry_id: "benefits_command_center",
+              })}
+            >
+              {config.buttonLabel} <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+};

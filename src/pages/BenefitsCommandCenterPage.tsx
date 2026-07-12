@@ -5,7 +5,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
 
-const BenefitsCommandCenterWorkspace = lazy(() => import("@/components/benefits/BenefitsCommandCenterWorkspace"));
+const BenefitsCommandCenterActivation = lazy(() => import("@/components/benefits/BenefitsCommandCenterActivation"));
 
 const sources = [
   {
@@ -39,14 +39,24 @@ const BenefitsCommandCenterPage = () => (
     <div className="print:hidden">
       <PageHero
         eyebrow="CAF Benefits Command Center"
-        title="Understand the complete package behind your paycheck."
-        description="Build and compare compensation, health plans, retirement contributions, paid leave, employer benefits, commute, and quality-of-life tradeoffs in one private workspace."
+        title="Understand what your job is actually worth—not just what it pays."
+        description="Build or preview a complete Benefits Receipt that separates compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs."
       >
         <Button asChild size="lg">
-          <a href="#benefits-command-center-workspace">Build my package <ArrowRight className="h-4 w-4" /></a>
+          <Link
+            to={{ pathname: "/tools/benefits-command-center", hash: "#benefits-command-center-workspace" }}
+            state={{ activation: "start_own", entrySurface: "command_center" }}
+          >
+            Build my package <ArrowRight className="h-4 w-4" />
+          </Link>
         </Button>
         <Button asChild size="lg" variant="outline">
-          <Link to="/start-here#my-plan">Open My Plan</Link>
+          <Link
+            to={{ pathname: "/tools/benefits-command-center", hash: "#benefits-command-center-workspace" }}
+            state={{ activation: "sample_receipt", entrySurface: "command_center" }}
+          >
+            Explore a sample Receipt
+          </Link>
         </Button>
       </PageHero>
 
@@ -79,9 +89,9 @@ const BenefitsCommandCenterPage = () => (
       </section>
     </div>
 
-    <section id="benefits-command-center-workspace" className="container min-w-0 pb-12 print:pb-0 md:pb-16">
+    <section id="benefits-command-center-workspace" className="container min-w-0 scroll-mt-28 pb-12 print:pb-0 md:pb-16">
       <Suspense fallback={<div className="flex min-h-[520px] items-center justify-center rounded-[2rem] border border-border bg-card text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading Benefits Command Center…</div>}>
-        <BenefitsCommandCenterWorkspace />
+        <BenefitsCommandCenterActivation />
       </Suspense>
     </section>
 
@@ -99,6 +109,7 @@ const BenefitsCommandCenterPage = () => (
               <p><strong className="text-foreground">Retirement value</strong> distinguishes employee contributions, estimated employer matching, non-elective contributions, uncaptured matching, and unvested employer value.</p>
               <p><strong className="text-foreground">Paid leave and hidden benefits</strong> receive a dollar estimate only when reasonable. Protection, family, schedule, and career benefits can remain qualitative.</p>
               <p><strong className="text-foreground">Comparison mode</strong> reports differences and uncertainty instead of declaring a universal winner.</p>
+              <p><strong className="text-foreground">Activation examples</strong> use fictional healthcare roles and the real calculation engine so visitors can inspect a completed Receipt before entering their own information.</p>
             </div>
           </div>
           <div className="rounded-3xl border border-border bg-background p-6 shadow-card">

@@ -93,7 +93,12 @@ export const DecisionToolIntro = ({ children }: { children: ReactNode }) => (
   <div className="rounded-2xl border border-primary/15 bg-primary-soft/25 p-4 text-sm leading-relaxed text-muted-foreground md:p-5">
     <div className="flex items-start gap-3">
       <ClipboardCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-      <div>{children}</div>
+      <div>
+        <div>{children}</div>
+        <p className="mt-3 border-t border-primary/10 pt-3 text-xs font-semibold text-muted-foreground">
+          Effective year: 2026 where dated federal figures are used. Policy and source review: July 12, 2026. Verify current official rules before acting.
+        </p>
+      </div>
     </div>
   </div>
 );

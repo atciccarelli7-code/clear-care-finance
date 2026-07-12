@@ -29,8 +29,11 @@ if (!String(packageJson.scripts?.build ?? "").includes("check-content-freshness.
 const dataFiles = (await readdir(path.join(root, "src/data"))).filter((name) => name.endsWith(".ts"));
 for (const name of dataFiles) {
   const content = await read(`src/data/${name}`);
-  const timeSensitiveBlocks = content.match(/timeSensitive:\s*true[\s\S]{0,500}/g) ?? [];
-  for (const block of timeSensitiveBlocks) if (!/lastReviewedAt:\s*["']\d{4}-\d{2}-\d{2}["']/.test(block)) failures.push(`${name} contains timeSensitive: true without a nearby ISO lastReviewedAt.`);
+  for (const match of content.matchAll(/timeSensitive:\s*true/g)) {
+    const index = match.index ?? 0;
+    const context = content.slice(Math.max(0, index - 500), index + 500);
+    if (!/lastReviewedAt:\s*["']\d{4}-\d{2}-\d{2}["']/.test(context)) failures.push(`${name} contains timeSensitive: true without a nearby ISO lastReviewedAt.`);
+  }
 }
 
 if (failures.length) {

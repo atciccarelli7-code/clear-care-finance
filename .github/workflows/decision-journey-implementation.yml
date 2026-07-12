@@ -7,6 +7,14 @@ on:
     paths:
       - scripts/implement-decision-journeys.mjs
       - .github/workflows/decision-journey-implementation.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/**
+      - scripts/**
+      - package.json
+      - .github/workflows/decision-journey-implementation.yml
 
 permissions:
   contents: write
@@ -17,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: agent/decision-journey-foundation
+          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
@@ -26,9 +34,11 @@ jobs:
           cache: npm
 
       - name: Apply decision journey implementation
+        if: github.event_name == 'push'
         run: node scripts/implement-decision-journeys.mjs
 
       - name: Commit generated implementation
+        if: github.event_name == 'push'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

@@ -16,6 +16,7 @@ const loadHealthcareWorkers = () => import("./pages/HealthcareWorkers.tsx");
 const loadBuildWealthHub = () => import("./pages/BuildWealthHub.tsx");
 const loadPatientsFamilies = () => import("./pages/PatientsFamilies.tsx");
 const loadTools = () => import("./pages/Tools.tsx");
+const loadBenefitsCommandCenterPage = () => import("./pages/BenefitsCommandCenterPage.tsx");
 const loadCalc403bPaycheckCalculatorPage = () => import("./pages/Calc403bPaycheckCalculatorPage.tsx");
 const loadOutOfPocketMaxEstimatorPage = () => import("./pages/OutOfPocketMaxEstimatorPage.tsx");
 const loadOpenEnrollmentTrueCostCalculatorPage = () => import("./pages/OpenEnrollmentTrueCostCalculatorPage.tsx");
@@ -63,6 +64,7 @@ const HealthcareWorkers = lazy(loadHealthcareWorkers);
 const BuildWealthHub = lazy(loadBuildWealthHub);
 const PatientsFamilies = lazy(loadPatientsFamilies);
 const Tools = lazy(loadTools);
+const BenefitsCommandCenterPage = lazy(loadBenefitsCommandCenterPage);
 const Calc403bPaycheckCalculatorPage = lazy(loadCalc403bPaycheckCalculatorPage);
 const OutOfPocketMaxEstimatorPage = lazy(loadOutOfPocketMaxEstimatorPage);
 const OpenEnrollmentTrueCostCalculatorPage = lazy(loadOpenEnrollmentTrueCostCalculatorPage);
@@ -118,6 +120,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/patients-families") return loadPatientsFamilies;
   if (pathname === "/student-loans") return loadStudentLoans;
   if (pathname === "/tools") return loadTools;
+  if (pathname === "/tools/benefits-command-center") return loadBenefitsCommandCenterPage;
   if (pathname === "/tools/403b-paycheck-calculator") return loadCalc403bPaycheckCalculatorPage;
   if (pathname === "/tools/out-of-pocket-max-estimator") return loadOutOfPocketMaxEstimatorPage;
   if (pathname === "/tools/open-enrollment-true-cost-calculator") return loadOpenEnrollmentTrueCostCalculatorPage;
@@ -231,6 +234,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/patients-families" element={<PatientsFamilies />} />
             <Route path="/student-loans" element={<StudentLoans />} />
             <Route path="/tools" element={<Tools />} />
+            <Route path="/tools/benefits-command-center" element={<BenefitsCommandCenterPage />} />
             <Route path="/tools/403b-paycheck-calculator" element={<Calc403bPaycheckCalculatorPage />} />
             <Route path="/tools/403b-contribution" element={<Navigate to="/tools/403b-paycheck-calculator" replace />} />
             <Route path="/tools/out-of-pocket-max-estimator" element={<OutOfPocketMaxEstimatorPage />} />

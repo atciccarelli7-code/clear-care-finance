@@ -15,6 +15,12 @@ export type RuntimeTopicSeoMeta = {
   description: string;
 };
 
+export type RuntimeToolSeoMeta = {
+  slug: string;
+  title: string;
+  description: string;
+};
+
 export const RUNTIME_ARTICLE_SEO_META = [
   {
     "slug": "does-medicare-cover-long-term-care",
@@ -432,3 +438,76 @@ export const RUNTIME_TOPIC_SEO_META = [
     "description": "Use discounts as a tool, not as a shopping trigger."
   }
 ] satisfies RuntimeTopicSeoMeta[];
+
+export const RUNTIME_TOOL_SEO_META = [
+  {
+    "slug": "obbb-overtime-deduction-estimator",
+    "title": "OBBB Overtime Deduction Estimator",
+    "description": "Estimate qualifying overtime premium, the deduction cap, and rough federal income-tax savings."
+  },
+  {
+    "slug": "open-enrollment-final-checklist",
+    "title": "Open Enrollment Final Checklist",
+    "description": "Run a final, printable review of health, tax account, disability, life, and supplemental elections."
+  },
+  {
+    "slug": "open-enrollment-paycheck-impact-calculator",
+    "title": "Open Enrollment Paycheck Impact Calculator",
+    "description": "Estimate how pre-tax and after-tax benefit elections may change take-home pay."
+  },
+  {
+    "slug": "supplemental-benefits-decision-helper",
+    "title": "Supplemental Benefits Decision Helper",
+    "description": "Compare premiums and likely payout for accident, critical illness, and hospital indemnity coverage."
+  },
+  {
+    "slug": "hsa-vs-fsa-decision-helper",
+    "title": "HSA vs FSA Decision Helper",
+    "description": "Compare tax savings, employer money, deductible risk, forfeiture risk, and provider needs."
+  },
+  {
+    "slug": "hospital-bill-review-checklist",
+    "title": "Hospital Bill Review Checklist",
+    "description": "Organize the first review of a large, confusing, or surprising healthcare balance."
+  },
+  {
+    "slug": "financial-assistance-checklist",
+    "title": "Financial Assistance Checklist",
+    "description": "Prepare the documents and questions for hospital charity care or financial assistance."
+  },
+  {
+    "slug": "health-insurance-visit-cost-calculator",
+    "title": "Health Insurance Visit Cost Calculator",
+    "description": "Estimate yearly cost across premiums, deductible, copays, coinsurance, visits, and remaining maximum room."
+  },
+  {
+    "slug": "student-loan-path-finder",
+    "title": "Student Loan Path Finder",
+    "description": "Separate federal forgiveness paths from private-loan payoff decisions before choosing a strategy."
+  },
+  {
+    "slug": "private-student-loan-payoff-calculator",
+    "title": "Private Student Loan Payoff Calculator",
+    "description": "Compare minimum payments, extra payments, lump sums, and a possible refinance APR."
+  },
+  {
+    "slug": "pslf-progress-estimator",
+    "title": "PSLF Progress Estimator",
+    "description": "Estimate payments remaining to 120 and identify the records that still need official verification."
+  },
+  {
+    "slug": "student-loan-payment-calculator",
+    "title": "Student Loan Payment Calculator",
+    "description": "Estimate monthly payment, total paid, and interest over time for a balance, APR, and term."
+  },
+  {
+    "slug": "medicare-cost-exposure-tool",
+    "title": "Medicare Cost Exposure Tool",
+    "description": "Create a rough planning snapshot for premiums, deductibles, prescriptions, and coinsurance."
+  },
+  {
+    "slug": "hospital-cafe-savings-calculator",
+    "title": "Hospital Cafe Savings Rate Calculator",
+    "description": "See what recurring shift spending adds up to and what redirecting part of it could become."
+  }
+] satisfies RuntimeToolSeoMeta[];

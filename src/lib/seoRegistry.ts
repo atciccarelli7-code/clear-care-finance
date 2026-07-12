@@ -1,4 +1,4 @@
-import { RUNTIME_ARTICLE_SEO_META, RUNTIME_TOPIC_SEO_META } from "@/data/runtimeSeoManifest";
+import { RUNTIME_ARTICLE_SEO_META, RUNTIME_TOOL_SEO_META, RUNTIME_TOPIC_SEO_META } from "@/data/runtimeSeoManifest";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export type SeoJsonLd = Record<string, unknown>;
@@ -275,6 +275,17 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
 
 export const STATIC_INDEXABLE_ROUTES = Object.keys(STATIC_PAGE_META);
 
+const GENERIC_TOOL_META = new Map(
+  RUNTIME_TOOL_SEO_META.map((tool) => [
+      `/tools/${tool.slug}`,
+      {
+        title: tool.title,
+        description: tool.description,
+        kind: "tool" as const,
+      },
+    ]),
+);
+
 const normalizePath = (pathname: string) => {
   if (!pathname || pathname === "/") return "/";
   const clean = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "");
@@ -330,6 +341,7 @@ const pageJsonLd = (path: string, meta: StaticPageMeta): SeoJsonLd => {
 export const getIndexableRoutes = () => {
   const routes = [
     ...STATIC_INDEXABLE_ROUTES,
+    ...GENERIC_TOOL_META.keys(),
     ...RUNTIME_TOPIC_SEO_META.map((topic) => `/topics/${topic.slug}`),
     ...RUNTIME_ARTICLE_SEO_META.map((article) => `/articles/${article.slug}`),
   ];
@@ -421,6 +433,24 @@ export const resolveSeoMeta = (pathname: string): SeoRouteMeta => {
         ],
       };
     }
+  }
+
+  const genericToolMeta = GENERIC_TOOL_META.get(path);
+  if (genericToolMeta) {
+    return {
+      title: genericToolMeta.title,
+      description: genericToolMeta.description,
+      canonicalPath: path,
+      robots: "index, follow, max-image-preview:large",
+      jsonLd: [
+        breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Tools", path: "/tools" },
+          { name: genericToolMeta.title, path },
+        ]),
+        pageJsonLd(path, genericToolMeta),
+      ],
+    };
   }
 
   const staticMeta = STATIC_PAGE_META[path];

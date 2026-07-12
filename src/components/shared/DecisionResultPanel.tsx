@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { AlertTriangle, CheckCircle2, ClipboardCheck, Copy, Printer, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { DecisionResult } from "@/lib/roadmapDecisionTools";
@@ -53,7 +54,7 @@ export const DecisionResultPanel = ({
   onCopy: () => void;
   onPrint: () => void;
   onReset: () => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }) => (
   <div className="space-y-5" aria-live="polite">
     <section className="rounded-3xl border border-primary/25 bg-primary-soft/30 p-5 shadow-card md:p-7">
@@ -88,7 +89,7 @@ export const DecisionResultPanel = ({
   </div>
 );
 
-export const DecisionToolIntro = ({ children }: { children: React.ReactNode }) => (
+export const DecisionToolIntro = ({ children }: { children: ReactNode }) => (
   <div className="rounded-2xl border border-primary/15 bg-primary-soft/25 p-4 text-sm leading-relaxed text-muted-foreground md:p-5">
     <div className="flex items-start gap-3">
       <ClipboardCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />

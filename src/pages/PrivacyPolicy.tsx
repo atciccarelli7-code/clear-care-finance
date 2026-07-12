@@ -20,11 +20,11 @@ const PrivacyPolicy = () => {
       />
 
       <section className="container max-w-3xl py-12 md:py-16 space-y-6" aria-label="Privacy policy details">
-        <p className="text-sm text-muted-foreground">Effective date: July 11, 2026</p>
+        <p className="text-sm text-muted-foreground">Effective date: July 12, 2026</p>
 
         <Section title="Overview">
           <p>
-            Community Acquired Finance is an independent educational website about healthcare money topics. We aim to collect as little personal information as reasonably possible while providing articles, calculators, guided decision tools, and source-backed explanations.
+            Community Acquired Finance is an independent educational website about personal finance, workplace benefits, healthcare costs, insurance, Medicare, Medicaid, and related money topics. We aim to collect as little personal information as reasonably possible while providing articles, calculators, guided decision tools, and source-backed explanations.
           </p>
           <p>
             The site currently uses hosting and security logs, Vercel performance products, Google Analytics subject to the privacy choice described below, and conditional Google advertising technology on some ordinary pages. Sensitive guided tools are intentionally excluded from the site&apos;s managed AdSense loading system.
@@ -73,6 +73,9 @@ const PrivacyPolicy = () => {
           </p>
           <p>
             Necessary only keeps Google analytics storage, advertising storage, advertising user data, and advertising personalization denied, and the site does not download the Google Analytics library. Allow analytics grants Google Analytics storage and loads Google Analytics, while advertising storage, advertising user data, and advertising personalization remain denied through this site&apos;s consent controls.
+          </p>
+          <p>
+            Site-generated Google Analytics event URLs are reduced to an origin and pathname before they enter the analytics data layer. Query strings and URL fragments are not intentionally included in the site&apos;s page-view, destination-path, or outbound-link event fields.
           </p>
           <p>
             Necessary hosting, security, and diagnostic logs may continue because they are required to operate and protect the site. Vercel performance products may process limited technical data as described by Vercel. The site does not intentionally send guided-tool answer values, employer or role names, salary or wage amounts, benefit amounts, commute details, names, email addresses, income, health status, or other sensitive form entries as analytics event properties.

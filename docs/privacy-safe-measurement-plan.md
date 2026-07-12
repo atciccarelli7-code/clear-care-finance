@@ -10,6 +10,8 @@ Custom behavioral events are sent only after the visitor selects **Allow analyti
 
 The helper sends the same sanitized event to Vercel Analytics and Google Analytics. Analytics failures must never interrupt a tool, article, form, or navigation action.
 
+Google Analytics is configured with automatic pageviews disabled. The application emits consented pageviews deliberately. Before any event enters the Google data layer, the global telemetry boundary reduces `page_location`, `*_url`, and `*_path` strings to an origin and pathname. Query strings and fragments are removed even if a caller bypasses the canonical helper.
+
 ## Never collect in custom events
 
 Do not send:
@@ -22,7 +24,7 @@ Do not send:
 - free-text user input;
 - URL query strings or fragments.
 
-The analytics sanitizer removes property keys associated with these categories and strips query strings and fragments from URLs.
+The analytics sanitizer removes property keys associated with these categories and strips query strings and fragments from URLs. The global `gtag` boundary repeats the URL cleanup as defense in depth.
 
 ## Core event taxonomy
 
@@ -34,11 +36,16 @@ The analytics sanitizer removes property keys associated with these categories a
 | `tool_start` or legacy `calculator_start` | Visitor begins interacting with a tool | `tool_id`, `tool_label` |
 | `tool_complete` | Visitor reaches a completed tool result | `tool_id`, `tool_label` |
 | `tool_result_action` | Visitor copies, prints, restarts, or opens a next step | `tool_id`, `tool_label`, `action` |
+| `tool_plan_action_added` | Visitor saves a fixed recommendation into My Plan | `recommendation_id`, `pathway_id`, `source_route`, `destination_path` |
 | `next_step_click` | Visitor follows a related article, tool, or hub card | `link_text`, `link_url`, `source_path` |
 | `official_source_click` | Visitor opens an official source | `source_name`, `link_url`, `source_path` |
 | `newsletter_signup_submit` | Reader submits the newsletter form | `source` |
 | `newsletter_signup_success` | Resend confirms durable audience capture | `source` |
 | `newsletter_signup_error` | Signup validation or backend persistence fails | `source` |
+
+### Fixed-action rule
+
+A My Plan event may identify only an action from the existing recommendation registry. It must never include the answers that produced the action, entered dollar amounts, bill status, medical details, employer details, plan labels, or free text.
 
 ## Homepage positioning baseline
 
@@ -104,6 +111,7 @@ The initial window is directional, not statistically conclusive. At the review p
 - Do not compare completion rates across tools without considering question count and complexity.
 - Do not add more tracking fields simply because a dashboard supports them.
 - Small early samples should be reported as counts and directional signals, not definitive conversion conclusions.
+- Do not infer eligibility, health status, financial condition, or personal intent from a fixed tool event.
 
 ## Initial reporting questions
 
@@ -113,6 +121,7 @@ The initial window is directional, not statistically conclusive. At the review p
 4. Which articles produce tool opens or newsletter signups?
 5. Which official-source links are used most often?
 6. Which newsletter placements produce durable audience contacts?
+7. Which fixed My Plan actions are saved after a completed workflow?
 
 ## Release checks
 
@@ -123,5 +132,6 @@ Before merging analytics changes:
 3. Confirm events fire after **Allow analytics**.
 4. Confirm no event contains answer-level or numeric user inputs.
 5. Confirm analytics failures do not interrupt navigation or form submission.
-6. Confirm destination paths lose query strings and fragments.
-7. Check Vercel preview and production runtime errors.
+6. Confirm page locations, destination paths, and link URLs lose query strings and fragments at both the helper and global telemetry boundary.
+7. Confirm My Plan analytics contain only fixed recommendation and route identifiers.
+8. Check Vercel preview and production runtime errors.

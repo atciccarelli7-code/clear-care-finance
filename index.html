@@ -6,9 +6,33 @@
       window.dataLayer = window.dataLayer || [];
       window.__cafAnalyticsAllowed = false;
 
+      window.__cafCleanAnalyticsUrl = function (value) {
+        try {
+          var base = window.location.origin;
+          var parsed = new URL(String(value || ''), base);
+          return parsed.origin === base ? parsed.pathname : parsed.origin + parsed.pathname;
+        } catch (error) {
+          return String(value || '').split(/[?#]/, 1)[0].slice(0, 160);
+        }
+      };
+
       window.gtag = function () {
         var command = arguments[0];
         if (command === 'event' && !window.__cafAnalyticsAllowed) return;
+
+        if (command === 'event' && arguments[2] && typeof arguments[2] === 'object') {
+          var sanitized = Object.assign({}, arguments[2]);
+          Object.keys(sanitized).forEach(function (key) {
+            if (
+              typeof sanitized[key] === 'string' &&
+              (key === 'page_location' || key.endsWith('_url') || key.endsWith('_path'))
+            ) {
+              sanitized[key] = window.__cafCleanAnalyticsUrl(sanitized[key]);
+            }
+          });
+          arguments[2] = sanitized;
+        }
+
         window.dataLayer.push(arguments);
       };
 

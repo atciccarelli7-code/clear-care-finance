@@ -11,7 +11,17 @@ const assert = (condition, message) => {
   if (!condition) failures.push(message);
 };
 
-const [indexHtml, robotsTxt, adsTxt, vercelJsonRaw, seoRegistry, runtimeSeoManifest, privacyPolicy, ciWorkflow] = await Promise.all([
+const [
+  indexHtml,
+  robotsTxt,
+  adsTxt,
+  vercelJsonRaw,
+  seoRegistry,
+  runtimeSeoManifest,
+  privacyPolicy,
+  disclaimerBox,
+  ciWorkflow,
+] = await Promise.all([
   read("index.html"),
   read("public/robots.txt"),
   read("public/ads.txt"),
@@ -19,6 +29,7 @@ const [indexHtml, robotsTxt, adsTxt, vercelJsonRaw, seoRegistry, runtimeSeoManif
   read("src/lib/seoRegistry.ts"),
   read("src/data/runtimeSeoManifest.ts"),
   read("src/pages/PrivacyPolicy.tsx"),
+  read("src/components/shared/DisclaimerBox.tsx"),
   read(".github/workflows/ci.yml"),
 ]);
 
@@ -36,6 +47,14 @@ assert(
 assert(
   indexHtml.includes("window.__cafLoadGoogleAnalytics"),
   "index.html must expose the consent-gated Google Analytics loader.",
+);
+assert(
+  indexHtml.includes("window.__cafCleanAnalyticsUrl"),
+  "index.html must keep the defense-in-depth analytics URL sanitizer.",
+);
+assert(
+  indexHtml.includes("key === 'page_location' || key.endsWith('_url') || key.endsWith('_path')"),
+  "Google telemetry must strip query strings and fragments from page, destination, and link URL fields.",
 );
 assert(
   !indexHtml.includes('"@type": "Organization"'),
@@ -116,6 +135,33 @@ assert(
   privacyPolicy.includes("Google Analytics code is loaded only after a visitor chooses Allow analytics"),
   "Privacy Policy must accurately describe consent-gated Google Analytics loading.",
 );
+assert(
+  privacyPolicy.includes("Query strings and URL fragments are not intentionally included"),
+  "Privacy Policy must disclose page-view and event URL minimization.",
+);
+
+const requiredDisclaimerTerms = [
+  "financial",
+  "investment",
+  "tax",
+  "legal",
+  "insurance",
+  "medical",
+  "billing",
+  "employment",
+  "benefits",
+  "eligibility",
+  "coverage",
+  "authorization",
+  "billing-liability",
+  "plan determinations",
+];
+for (const term of requiredDisclaimerTerms) {
+  assert(
+    disclaimerBox.toLowerCase().includes(term.toLowerCase()),
+    `Shared disclaimer must preserve the ${term} boundary.`,
+  );
+}
 
 if (failures.length > 0) {
   console.error("Publication readiness checks failed:\n");

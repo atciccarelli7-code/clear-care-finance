@@ -40,6 +40,7 @@ const loadGlossary = () => import("./pages/Glossary.tsx");
 const loadNewsletter = () => import("./pages/Newsletter.tsx");
 const loadAbout = () => import("./pages/About.tsx");
 const loadContact = () => import("./pages/Contact.tsx");
+const loadForOrganizationsPage = () => import("./pages/ForOrganizationsPage.tsx");
 const loadOpenEnrollmentGuide = () => import("./pages/OpenEnrollmentGuide.tsx");
 const loadInsuranceBenefitsHub = () => import("./pages/InsuranceBenefitsHub.tsx");
 const loadHealthInsurancePlanTypesPage = () => import("./pages/HealthInsurancePlanTypesPage.tsx");
@@ -92,6 +93,7 @@ const Glossary = lazy(loadGlossary);
 const Newsletter = lazy(loadNewsletter);
 const About = lazy(loadAbout);
 const Contact = lazy(loadContact);
+const ForOrganizationsPage = lazy(loadForOrganizationsPage);
 const OpenEnrollmentGuide = lazy(loadOpenEnrollmentGuide);
 const InsuranceBenefitsHub = lazy(loadInsuranceBenefitsHub);
 const HealthInsurancePlanTypesPage = lazy(loadHealthInsurancePlanTypesPage);
@@ -171,6 +173,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/newsletter") return loadNewsletter;
   if (pathname === "/about") return loadAbout;
   if (pathname === "/contact") return loadContact;
+  if (pathname === "/for-organizations") return loadForOrganizationsPage;
   if (pathname === "/methodology") return loadMethodology;
   if (pathname === "/privacy-policy") return loadPrivacyPolicy;
   if (pathname === "/terms-of-use") return loadTermsOfUse;
@@ -299,6 +302,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/for-organizations" element={<ForOrganizationsPage />} />
             <Route path="/methodology" element={<Methodology />} />
             <Route path="/sources" element={<Navigate to="/methodology" replace />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

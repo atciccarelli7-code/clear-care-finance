@@ -252,6 +252,10 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     title: "Contact Community Acquired Finance",
     description: "Contact Community Acquired Finance with feedback, corrections, topic suggestions, partnership questions, or accessibility concerns.",
   },
+  "/for-organizations": {
+    title: "Benefits Education Pilot for Healthcare Organizations",
+    description: "Explore a small, privacy-minimized CAF educational pilot for healthcare employees, nursing programs, professional associations, and workforce organizations.",
+  },
   "/methodology": {
     title: "Research and Editorial Methodology",
     description: "See how Community Acquired Finance selects sources, checks claims, updates educational content, and separates editorial judgment from monetization.",

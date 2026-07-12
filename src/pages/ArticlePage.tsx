@@ -9,6 +9,7 @@ import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { NextStepCards, type NextStepCard } from "@/components/shared/NextStepCards";
 import { ContentFreshness } from "@/components/shared/ContentFreshness";
+import { EditorialTransparency } from "@/components/shared/EditorialTransparency";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
@@ -426,12 +427,7 @@ const ArticlePage = () => {
           reviewScope={article.reviewScope}
           updateNote={article.updateNote}
         />
-        {(article.author || article.reviewer) && (
-          <div className="rounded-2xl border border-border bg-card p-4 text-sm leading-relaxed text-muted-foreground">
-            {article.author && <div><span className="font-semibold text-foreground">Written by:</span> {article.author}</div>}
-            {article.reviewer && <div><span className="font-semibold text-foreground">Reviewed by:</span> {article.reviewer}</div>}
-          </div>
-        )}
+        <EditorialTransparency author={article.author} reviewer={article.reviewer} />
         <Section icon={Users} title="Who this is for">
           <p>{article.audience}</p>
         </Section>

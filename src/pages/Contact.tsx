@@ -17,7 +17,7 @@ const Contact = () => {
       <PageHero
         eyebrow="Contact"
         title="Questions, corrections, and source notes."
-        description="Use this page for site feedback, correction requests, source questions, and practical topic ideas. Do not send private medical, financial, tax, legal, or insurance details."
+        description="Use this page for site feedback, correction requests, source questions, practical topic ideas, and narrowly scoped organization-pilot inquiries. Do not send private medical, financial, tax, legal, insurance, employer-plan, employee, or patient details."
       />
 
       <div className="container max-w-3xl py-12 md:py-16 space-y-6">
@@ -29,7 +29,7 @@ const Contact = () => {
             <div className="space-y-2">
               <h2 className="font-display text-xl font-bold">Email</h2>
               <p className="text-muted-foreground leading-relaxed">
-                For corrections, source suggestions, website issues, privacy requests, or general educational topic ideas, email the official Community Acquired Finance inbox:
+                For corrections, source suggestions, website issues, privacy requests, educational topic ideas, or an organization-pilot inquiry, email the official Community Acquired Finance inbox:
               </p>
               <p className="text-primary font-semibold">communityacquiredfinance [at] gmail [dot] com</p>
             </div>
@@ -61,6 +61,9 @@ const Contact = () => {
           </Button>
           <Button asChild variant="outline">
             <Link to="/editorial-policy">Editorial policy</Link>
+          </Button>
+          <Button asChild variant="soft">
+            <Link to="/for-organizations">Organization pilot scope</Link>
           </Button>
         </div>
       </div>

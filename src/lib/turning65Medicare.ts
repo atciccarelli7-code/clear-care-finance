@@ -33,7 +33,7 @@ export type Turning65Plan = {
   officialActions: string[];
 };
 
-const monthName = (month: number) => new Intl.DateTimeFormat("en-US", { month: "long" }).format(new Date(Date.UTC(2026, month - 1, 1)));
+const monthName = (month: number) => new Intl.DateTimeFormat("en-US", { month: "long", timeZone: "UTC" }).format(new Date(Date.UTC(2026, month - 1, 1)));
 const isoMonth = (date: Date) => `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
 const addMonths = (date: Date, amount: number) => new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + amount, 1));
 
@@ -101,7 +101,7 @@ export const buildTurning65Plan = (answers: Turning65Answers): Turning65Plan => 
     } else if (answers.employerSize === "under-20") {
       headline = "The employer plan may expect Medicare to pay first.";
       immediateAnswer = "Medicare.gov warns that job-based coverage from an employer with fewer than 20 employees might not pay correctly without Parts A and B. Confirm the plan's written coordination rule immediately.";
-      warnings.push("Do not rely on the employer card alone; ask the benefits administrator whether Part A and Part B are required for the plan to remain primary or secondary correctly.");
+      warnings.push("For an employer with fewer than 20 employees, do not rely on the employer card alone; ask the benefits administrator whether Part A and Part B are required for the plan to remain primary or secondary correctly.");
     } else warnings.push("Employer size and Medicare coordination are unresolved. Ask the benefits administrator before deciding whether to delay Part B.");
   } else if (["cobra", "retiree", "marketplace", "none", "unknown"].includes(answers.coverageSource)) {
     headline = "Do not assume this coverage protects a delayed Medicare enrollment.";

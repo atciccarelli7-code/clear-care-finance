@@ -65,7 +65,7 @@ type ModuleId = (typeof modules)[number]["id"];
 const modeOptions: Array<{ id: BenefitsWorkspaceMode; label: string; description: string }> = [
   { id: "current_package", label: "Review my current benefits", description: "Build a complete picture of what the package provides and what may be unused." },
   { id: "compare_offers", label: "Compare two job offers", description: "Compare cash, benefits, healthcare risk, commute, and unresolved assumptions." },
-  { id: "open_enrollment", label: "Complete open enrollment", description: "Compare plan economics and organize election questions before the deadline." },
+  { id: "open_enrollment", label: "Complete open enrollment", description: "Compare plan economics, verify elections, and produce a printable Benefits Election Receipt before the deadline." },
   { id: "new_offer", label: "Understand a new offer", description: "Turn the written offer and benefits summary into a decision-ready receipt." },
   { id: "benefits_review", label: "Find benefits I may be missing", description: "Review retirement, protection, family, education, and quality-of-life value." },
 ];

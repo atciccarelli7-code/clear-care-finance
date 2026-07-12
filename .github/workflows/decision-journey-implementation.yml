@@ -1,0 +1,81 @@
+name: Decision Journey Implementation
+
+on:
+  push:
+    branches:
+      - agent/decision-journey-foundation
+    paths:
+      - scripts/implement-decision-journeys.mjs
+      - .github/workflows/decision-journey-implementation.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/**
+      - scripts/**
+      - package.json
+      - .github/workflows/decision-journey-implementation.yml
+
+permissions:
+  contents: write
+
+jobs:
+  implement-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Apply decision journey implementation
+        if: github.event_name == 'push'
+        run: node scripts/implement-decision-journeys.mjs
+
+      - name: Commit generated implementation
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+          else
+            git commit -m "Implement decision journey foundation [skip ci]"
+            git push origin HEAD:agent/decision-journey-foundation
+          fi
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Lint diagnostics
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run lint 2>&1 | tee lint-output.txt
+
+      - name: Unit and trust tests
+        shell: bash
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee test-output.txt
+
+      - name: Production build
+        run: npm run build
+
+      - name: Upload validation diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: decision-journey-validation-${{ github.run_id }}
+          path: |
+            lint-output.txt
+            test-output.txt
+          if-no-files-found: warn
+          retention-days: 7

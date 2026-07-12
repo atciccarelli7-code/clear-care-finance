@@ -9,6 +9,7 @@ import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { useSeo } from "@/lib/seo";
 import { PSLFProgressEstimator, PrivateLoanPayoffCalculator, StudentLoanPathFinder } from "@/components/calculators/StudentLoanTools";
 import CalcLoanPayment from "@/components/calculators/LoanPayment";
+import { StudentLoanPriorityBridge } from "@/components/student-loan-priority-bridge";
 
 const programs = [
   {
@@ -155,6 +156,8 @@ const StudentLoans = () => {
           </CalculatorCard>
         </div>
       </section>
+
+      <StudentLoanPriorityBridge />
 
       <section className="container pb-10 md:pb-14">
         <NewsletterSignup

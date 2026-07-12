@@ -7,6 +7,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { NextStepCards, type NextStepCard } from "@/components/shared/NextStepCards";
+import { ContentFreshness } from "@/components/shared/ContentFreshness";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
@@ -387,6 +388,15 @@ const ArticlePage = () => {
       </PageHero>
 
       <article className="container max-w-3xl py-8 md:py-16 space-y-8 md:space-y-12">
+        <ContentFreshness
+          publishedAt={article.publishedAt}
+          lastReviewedAt={article.lastReviewedAt}
+          rulesEffectiveAt={article.rulesEffectiveAt}
+          nextReviewAt={article.nextReviewAt}
+          timeSensitive={article.timeSensitive}
+          reviewScope={article.reviewScope}
+          updateNote={article.updateNote}
+        />
         <Section icon={Users} title="Who this is for">
           <p>{article.audience}</p>
         </Section>

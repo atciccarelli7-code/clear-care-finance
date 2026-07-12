@@ -18,6 +18,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
+import { DischargeCommandCenter } from "@/components/discharge-command-center";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -633,6 +634,7 @@ const HospitalDischargeCoveragePage = () => {
             </CardContent>
           </Card>
         </section>
+        <DischargeCommandCenter />
       </main>
     </>
   );

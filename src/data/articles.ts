@@ -24,6 +24,13 @@ export type Article = {
   commonMistakes?: string[];
   takeaway: string;
   sources: Source[];
+  publishedAt?: string;
+  lastReviewedAt?: string;
+  rulesEffectiveAt?: string;
+  nextReviewAt?: string;
+  timeSensitive?: boolean;
+  reviewScope?: string;
+  updateNote?: string;
   description?: string;             // backward-compat for cards
 };
 
@@ -38,6 +45,12 @@ export const ARTICLES: Article[] = [
     title: "Medicare Options Explained",
     category: "Medicare",
     readTime: "6 min read",
+    publishedAt: "2026-06-01",
+    lastReviewedAt: "2026-07-12",
+    rulesEffectiveAt: "2026-01-01",
+    nextReviewAt: "2026-10-01",
+    timeSensitive: true,
+    reviewScope: "2026 Medicare structure, enrollment cautions, cost-sharing distinctions, and official source links.",
     promise: "Understand the difference between Original Medicare, Medicare Advantage, Part D, and Medigap — in plain English.",
     audience: "Older adults, caregivers, healthcare workers, and families trying to understand Medicare choices without getting buried in insurance language.",
     summary: "Medicare is not one simple plan. Original Medicare is Parts A and B from the federal government. Medicare Advantage is a private plan alternative, also called Part C. Part D helps with outpatient prescription drugs. Medigap can help pay Original Medicare cost-sharing. Medicaid is separate and may help people with limited income and resources.",

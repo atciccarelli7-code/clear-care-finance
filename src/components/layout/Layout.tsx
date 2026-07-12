@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Header } from "./Header";
 import { SiteTrustBar } from "./SiteTrustBar";
@@ -7,6 +7,7 @@ import { MobileBottomNav } from "./MobileBottomNav";
 import { PrivacyChoices } from "@/components/shared/PrivacyChoices";
 import { hasNavigatorContextAction } from "@/components/navigator/navigatorContextConfig";
 import { hasBenefitsCommandCenterEntry } from "@/components/benefits/benefitsCommandCenterEntryConfig";
+import { scrollToHashTarget } from "@/lib/routeScroll";
 
 const NavigatorContextAction = lazy(() =>
   import("@/components/navigator/NavigatorContextAction").then((module) => ({ default: module.NavigatorContextAction })),
@@ -25,6 +26,11 @@ export const Layout = () => {
   const showNavigatorContext = hasNavigatorContextAction(location.pathname);
   const showBenefitsCommandCenterEntry = hasBenefitsCommandCenterEntry(location.pathname);
   const showContinuity = continuityRoutes.has(location.pathname);
+
+  useEffect(() => {
+    if (!location.hash) return undefined;
+    return scrollToHashTarget(location.hash);
+  }, [location.hash, location.pathname]);
 
   return (
     <div className="min-h-screen flex w-full min-w-0 flex-col pb-[calc(5rem_+_env(safe-area-inset-bottom))] md:pb-0">

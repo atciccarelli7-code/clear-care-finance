@@ -37,6 +37,7 @@ export const Header = () => {
   const location = useLocation();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstMobileLinkRef = useRef<HTMLAnchorElement>(null);
+  const mobileMenuRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setOpen(false);
@@ -50,10 +51,28 @@ export const Header = () => {
     const frame = window.requestAnimationFrame(() => firstMobileLinkRef.current?.focus());
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      event.preventDefault();
-      setOpen(false);
-      window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+        window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const focusable = Array.from(
+        mobileMenuRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])') ?? [],
+      ).filter((element) => !element.hasAttribute("hidden"));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
 
     document.addEventListener("keydown", handleKeyDown);
@@ -115,6 +134,7 @@ export const Header = () => {
       {open && (
         <div id="mobile-menu" className="border-t border-border bg-background shadow-card animate-fade-in xl:hidden">
           <nav
+            ref={mobileMenuRef}
             className="container flex max-h-[calc(100vh-4rem)] flex-col gap-1 overflow-y-auto py-4 pb-[calc(1rem_+_env(safe-area-inset-bottom))]"
             aria-label="Mobile navigation"
           >

@@ -41,6 +41,21 @@ describe("Header mobile navigation", () => {
     expect(document.body.style.overflow).toBe("");
   });
 
+  it("contains keyboard focus inside the opened mobile menu", () => {
+    renderHeader();
+    fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+
+    const firstLink = screen.getByRole("link", { name: "Start Here" });
+    const lastLink = screen.getByRole("link", { name: "Join newsletter" });
+
+    lastLink.focus();
+    fireEvent.keyDown(document, { key: "Tab" });
+    expect(firstLink).toHaveFocus();
+
+    fireEvent.keyDown(document, { key: "Tab", shiftKey: true });
+    expect(lastLink).toHaveFocus();
+  });
+
   it("exposes the active state for secondary mobile destinations", () => {
     renderHeader("/glossary");
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));

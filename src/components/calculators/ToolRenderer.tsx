@@ -1,5 +1,5 @@
+import { lazy, Suspense } from "react";
 import { CalcCafe, CalcMedicare } from "@/components/calculators/Calculators";
-import FinancialAssistanceScreeningTool from "@/components/calculators/FinancialAssistanceScreeningTool";
 import HealthInsuranceVisitCostCalculator from "@/components/calculators/HealthInsuranceVisitCostCalculator";
 import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
 import {
@@ -19,6 +19,16 @@ import {
 } from "@/components/calculators/StudentLoanTools";
 import type { ToolComponentKey } from "@/data/tools";
 
+const FinancialAssistanceScreeningTool = lazy(
+  () => import("@/components/calculators/FinancialAssistanceScreeningTool"),
+);
+
+const ToolLoadingFallback = () => (
+  <div className="flex min-h-48 items-center justify-center rounded-2xl border border-border bg-muted/20 p-6" role="status">
+    <span className="text-sm font-semibold text-muted-foreground">Loading tool…</span>
+  </div>
+);
+
 export const ToolRenderer = ({ componentKey }: { componentKey: ToolComponentKey }) => {
   switch (componentKey) {
     case "openEnrollmentChecklist":
@@ -32,7 +42,11 @@ export const ToolRenderer = ({ componentKey }: { componentKey: ToolComponentKey 
     case "hospitalBillChecklist":
       return <HospitalBillChecklistTool />;
     case "financialAssistanceChecklist":
-      return <FinancialAssistanceScreeningTool />;
+      return (
+        <Suspense fallback={<ToolLoadingFallback />}>
+          <FinancialAssistanceScreeningTool />
+        </Suspense>
+      );
     case "insuranceVisitCost":
       return <HealthInsuranceVisitCostCalculator />;
     case "overtimeDeduction":

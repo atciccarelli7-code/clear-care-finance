@@ -43,6 +43,8 @@ const loadInsuranceBenefitsHub = () => import("./pages/InsuranceBenefitsHub.tsx"
 const loadHealthInsurancePlanTypesPage = () => import("./pages/HealthInsurancePlanTypesPage.tsx");
 const loadSbcGuidePage = () => import("./pages/SbcGuidePage.tsx");
 const loadMedicareCareCostHub = () => import("./pages/MedicareCareCostHub.tsx");
+const loadTurning65MedicarePage = () => import("./pages/Turning65MedicarePage.tsx");
+const loadHealthcareCareerDecisionCenterPage = () => import("./pages/HealthcareCareerDecisionCenterPage.tsx");
 const loadMedicareMedicaidGuideLandingPage = () => import("./pages/MedicareMedicaidGuideLandingPage.tsx");
 const loadQuickGuidesLibraryPage = () => import("./pages/QuickGuidesLibraryPage.tsx");
 const loadCommercialInsuranceComparisonPage = () => import("./pages/CommercialInsuranceComparisonPage.tsx");
@@ -91,6 +93,8 @@ const InsuranceBenefitsHub = lazy(loadInsuranceBenefitsHub);
 const HealthInsurancePlanTypesPage = lazy(loadHealthInsurancePlanTypesPage);
 const SbcGuidePage = lazy(loadSbcGuidePage);
 const MedicareCareCostHub = lazy(loadMedicareCareCostHub);
+const Turning65MedicarePage = lazy(loadTurning65MedicarePage);
+const HealthcareCareerDecisionCenterPage = lazy(loadHealthcareCareerDecisionCenterPage);
 const MedicareMedicaidGuideLandingPage = lazy(loadMedicareMedicaidGuideLandingPage);
 const QuickGuidesLibraryPage = lazy(loadQuickGuidesLibraryPage);
 const CommercialInsuranceComparisonPage = lazy(loadCommercialInsuranceComparisonPage);
@@ -144,6 +148,8 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/insurance/how-to-read-an-sbc") return loadSbcGuidePage;
   if (pathname === "/insurance/commercial-insurance-comparison") return loadCommercialInsuranceComparisonPage;
   if (pathname === "/medicare-care-costs") return loadMedicareCareCostHub;
+  if (pathname === "/medicare-care-costs/turning-65") return loadTurning65MedicarePage;
+  if (pathname === "/healthcare-workers/career-decisions") return loadHealthcareCareerDecisionCenterPage;
   if (pathname === "/guides") return loadQuickGuidesLibraryPage;
   if (pathname === "/guides/hospital-discharge-medicare") return loadMedicareMedicaidGuideLandingPage;
   if (pathname === "/insurance/medicare-advantage") return loadMedicareAdvantageComparisonPage;
@@ -230,6 +236,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/start-here" element={<StartHere />} />
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
             <Route path="/build-wealth" element={<BuildWealthHub />} />
+            <Route path="/healthcare-workers/career-decisions" element={<HealthcareCareerDecisionCenterPage />} />
             <Route path="/healthcare-workers/paycheck-tools" element={<HealthcareWorkerPaycheckTools />} />
             <Route path="/patients-families" element={<PatientsFamilies />} />
             <Route path="/student-loans" element={<StudentLoans />} />
@@ -261,6 +268,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/insurance/commercial-insurance-comparison" element={<CommercialInsuranceComparisonPage />} />
             <Route path="/commercial-insurance-comparison" element={<Navigate to="/insurance/commercial-insurance-comparison" replace />} />
             <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />
+            <Route path="/medicare-care-costs/turning-65" element={<Turning65MedicarePage />} />
             <Route path="/insurance/medicare-care-costs" element={<Navigate to="/medicare-care-costs" replace />} />
             <Route path="/guides" element={<QuickGuidesLibraryPage />} />
             <Route path="/quick-guides" element={<Navigate to="/guides" replace />} />

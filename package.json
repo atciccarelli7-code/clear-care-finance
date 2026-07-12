@@ -8,19 +8,20 @@
     "seo:generate": "node scripts/generate-sitemap.mjs",
     "seo:check": "node scripts/check-search-readiness.mjs",
     "trust:check": "node scripts/check-publication-readiness.mjs",
-    "build": "node scripts/generate-sitemap.mjs && node scripts/check-publication-readiness.mjs && vite build && node scripts/check-bundle-budget.mjs && node scripts/prerender.mjs && node scripts/check-search-readiness.mjs",
+    "build": "node scripts/generate-sitemap.mjs && node scripts/check-publication-readiness.mjs && node scripts/check-content-freshness.mjs && vite build && node scripts/check-bundle-budget.mjs && node scripts/prerender.mjs && node scripts/check-search-readiness.mjs",
     "build:dev": "vite build --mode development",
     "bundle:check": "node scripts/check-bundle-budget.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "npm run trust:check && npm run guide:content-check && npm run guide:quick-content-check && vitest run",
+    "test": "npm run trust:check && npm run content:freshness-check && npm run guide:content-check && npm run guide:quick-content-check && vitest run",
     "test:watch": "vitest",
     "guide:pdf:draft": "node scripts/build-medicare-medicaid-guide-pdf.mjs",
     "guide:quick-pdf:draft": "node scripts/build-medicare-medicaid-quick-guide-pdf.mjs",
     "guide:quick-pdf:draft:all": "node scripts/build-quick-guide-pdf.mjs all",
     "guide:content-check": "node scripts/check-medicare-medicaid-guide-content.mjs",
     "guide:quick-content-check": "node scripts/check-medicare-medicaid-quick-guide-content.mjs",
-    "guide:quick-content-check:all": "node scripts/check-quick-guide-content.mjs all"
+    "guide:quick-content-check:all": "node scripts/check-quick-guide-content.mjs all",
+    "content:freshness-check": "node scripts/check-content-freshness.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

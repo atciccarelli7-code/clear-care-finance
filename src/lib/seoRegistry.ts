@@ -64,6 +64,11 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Use RN-focused paycheck, overtime, retirement contribution, and savings tools built for healthcare workers.",
     kind: "tool",
   },
+  "/healthcare-workers/career-decisions": {
+    title: "Healthcare Career Decision Center",
+    description: "Compare healthcare roles using total compensation, schedule, call, travel, career trajectory, transition risks, negotiation questions, and actions before resigning.",
+    kind: "tool",
+  },
   "/build-wealth": {
     title: "Build Wealth as a Healthcare Worker",
     description: "A practical path for healthcare workers to organize cash, debt, retirement contributions, investing, and financial independence.",
@@ -103,6 +108,11 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
   "/medicare-care-costs": {
     title: "Medicare, Medicaid, and Long-Term Care Cost Hub",
     description: "Understand Medicare, Medicaid, Medigap, Medicare Advantage, cost exposure, skilled care, custodial care, and long-term care planning.",
+    kind: "tool",
+  },
+  "/medicare-care-costs/turning-65": {
+    title: "Turning 65 Medicare Enrollment Pathway",
+    description: "Build a qualified Medicare enrollment timeline using current coverage, active employment, employer size, HSA, prescription coverage, spouse coverage, and official next steps.",
     kind: "tool",
   },
   "/guides": {

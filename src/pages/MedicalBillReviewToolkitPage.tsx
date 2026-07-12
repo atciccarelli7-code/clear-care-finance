@@ -22,6 +22,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
+import { MedicalBillCaseDashboard } from "@/components/medical-bill-case-dashboard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -585,6 +586,7 @@ const MedicalBillReviewToolkitPage = () => {
         <section className="rounded-[2rem] border border-border bg-muted/30 p-5 text-sm leading-relaxed text-muted-foreground md:p-8">
           <strong className="text-foreground">Scope:</strong> Community Acquired Finance provides educational organization tools. This page does not decide whether a service is covered, medically necessary, coded correctly, protected by law, appealable, collectible, or payable. Verify urgent deadlines and account status with the written notice, provider, insurer or plan, Medicare, Medicaid, employer plan administrator, collection agency, government help desk, or a qualified professional.
         </section>
+        <MedicalBillCaseDashboard />
       </main>
     </>
   );

@@ -529,6 +529,9 @@ const MedicareCareCostHub = () => {
           <a href="#cost-estimator">Estimate Medicare cost risk <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
+          <Link to="/medicare-care-costs/turning-65">Turning 65 timeline</Link>
+        </Button>
+        <Button asChild variant="outline" size="lg">
           <a href="#caregiver-checklist">Open caregiver checklist</a>
         </Button>
       </PageHero>

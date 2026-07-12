@@ -5,6 +5,7 @@ import { SiteTrustBar } from "./SiteTrustBar";
 import { Footer } from "./Footer";
 import { MobileBottomNav } from "./MobileBottomNav";
 import { PrivacyChoices } from "@/components/shared/PrivacyChoices";
+import { RouteFreshness } from "@/components/shared/RouteFreshness";
 import { hasNavigatorContextAction } from "@/components/navigator/navigatorContextConfig";
 import { hasBenefitsCommandCenterEntry } from "@/components/benefits/benefitsCommandCenterEntryConfig";
 import { scrollToHashTarget } from "@/lib/routeScroll";
@@ -39,6 +40,7 @@ export const Layout = () => {
       </a>
       <Header />
       <SiteTrustBar />
+      <RouteFreshness />
       <main id="main-content" className="flex-1 w-full min-w-0 outline-none" tabIndex={-1}>
         {showContinuity && (
           <Suspense fallback={null}>

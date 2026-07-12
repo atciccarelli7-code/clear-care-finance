@@ -254,7 +254,7 @@ const MedicareMedicaidEligibilityCheckPage = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-14 py-10 md:py-16">
+      <div className="container space-y-14 py-10 md:py-16">
         <section className="grid gap-4 md:grid-cols-3" aria-label="Important limitations">
           <SafetyNote icon={<ShieldCheck className="h-5 w-5" />} title="Not an official determination">
             This tool identifies paths worth checking. Medicare, Social Security, and the state Medicaid agency decide eligibility.
@@ -404,7 +404,7 @@ const MedicareMedicaidEligibilityCheckPage = () => {
             ))}
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 };

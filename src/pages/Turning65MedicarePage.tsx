@@ -64,7 +64,7 @@ export default function Turning65MedicarePage() {
 
   return <>
     <PageHero eyebrow="Turning 65 Medicare pathway" title="Know what to do, when to do it, and what still must be verified." description="Build a qualified enrollment timeline before choosing a plan. This pathway organizes current coverage, active employment, employer size, HSA timing, drug coverage, spouse coverage, and official next steps." />
-    <main className="container max-w-6xl space-y-10 py-10 md:py-16">
+    <div className="container max-w-6xl space-y-10 py-10 md:py-16">
       <ContentFreshness lastReviewedAt={TURNING_65_LAST_REVIEWED} rulesEffectiveAt="2026-07-12" nextReviewAt="2026-10-01" timeSensitive reviewScope="Official Medicare.gov enrollment timing, active-employment, HSA, creditable drug coverage, and Medigap timing resources." />
 
       <section className="grid gap-4 md:grid-cols-3" aria-label="Important limitations">
@@ -99,6 +99,6 @@ export default function Turning65MedicarePage() {
         <Card className="border-amber-200 bg-amber-50 shadow-card"><CardHeader><CardTitle className="font-display text-2xl text-amber-950">Warnings to resolve before acting</CardTitle></CardHeader><CardContent><ul className="space-y-3 text-sm leading-relaxed text-amber-950/85">{plan.warnings.map((item) => <li key={item} className="flex gap-2"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />{item}</li>)}</ul></CardContent></Card>
         <OfficialVerificationPanel links={TURNING_65_SOURCES.map((source) => ({ label: source.label, url: source.url, description: source.description }))} />
       </section>}
-    </main>
+    </div>
   </>;
 }

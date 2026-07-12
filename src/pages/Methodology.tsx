@@ -46,7 +46,7 @@ const Methodology = () => {
         description="A simple explanation of source standards, calculator limits, article structure, and how updates are handled."
       />
 
-      <main className="container py-12 md:py-16 space-y-14">
+      <div className="container py-12 md:py-16 space-y-14">
         <section className="grid gap-5 md:grid-cols-2">
           {principles.map((item) => (
             <div key={item.title} className="rounded-2xl border border-border bg-card p-6 shadow-card space-y-3">
@@ -90,7 +90,7 @@ const Methodology = () => {
             <Link to="/contact">Report an issue</Link>
           </Button>
         </div>
-      </main>
+      </div>
     </>
   );
 };

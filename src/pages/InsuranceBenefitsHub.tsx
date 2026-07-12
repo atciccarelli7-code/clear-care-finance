@@ -346,7 +346,7 @@ export const InsuranceBenefitsHub = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-14 py-12 md:py-16">
+      <div className="container space-y-14 py-12 md:py-16">
         <section>
           <SectionHeading
             centered
@@ -443,7 +443,7 @@ export const InsuranceBenefitsHub = () => {
             </Button>
           </CardContent>
         </Card>
-      </main>
+      </div>
     </>
   );
 };

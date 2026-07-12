@@ -67,7 +67,7 @@ const QuickGuidesLibraryPage = () => {
   });
 
   return (
-    <main>
+    <div>
       <PageHero
         eyebrow="Printable healthcare-finance guides"
         title="Quick guides for the moments when healthcare paperwork gets confusing"
@@ -183,7 +183,7 @@ const QuickGuidesLibraryPage = () => {
           </Card>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

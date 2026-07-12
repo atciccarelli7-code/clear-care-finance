@@ -51,7 +51,7 @@ const OpenEnrollmentGuide = () => {
         </Button>
       </PageHero>
 
-      <main className="container py-12 md:py-16 space-y-16">
+      <div className="container py-12 md:py-16 space-y-16">
         <section className="grid gap-5 md:grid-cols-3">
           {[
             { icon: Shield, title: "Health plan risk", body: "Compare premiums, deductibles, networks, prescriptions, and out-of-pocket exposure." },
@@ -120,7 +120,7 @@ const OpenEnrollmentGuide = () => {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 };

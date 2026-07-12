@@ -19,7 +19,7 @@ const Disclosures = () => {
         description="Clear boundaries around education, guided tools, official determinations, advertising, sources, and professional advice."
       />
 
-      <main className="container max-w-3xl py-12 md:py-16 space-y-6">
+      <div className="container max-w-3xl py-12 md:py-16 space-y-6">
         <p className="text-sm text-muted-foreground">Effective date: July 10, 2026</p>
 
         <Section title="Educational information only">
@@ -119,7 +119,7 @@ const Disclosures = () => {
             <Link to="/about">Back to About / Sources</Link>
           </Button>
         </div>
-      </main>
+      </div>
     </>
   );
 };

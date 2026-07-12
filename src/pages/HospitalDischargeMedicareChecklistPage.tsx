@@ -304,7 +304,7 @@ const HospitalDischargeMedicareChecklistPage = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-14 py-12 md:py-16">
+      <div className="container space-y-14 py-12 md:py-16">
         <section id="checklist" className="scroll-mt-24 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
           <Card className="rounded-3xl shadow-card">
             <CardHeader>
@@ -415,7 +415,7 @@ const HospitalDischargeMedicareChecklistPage = () => {
             <Button asChild variant="soft"><a href="/guides/hospital-discharge-medicare-quick-guide.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></Button>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 };

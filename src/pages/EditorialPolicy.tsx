@@ -19,7 +19,7 @@ const EditorialPolicy = () => {
         description="How Community Acquired Finance approaches sources, accuracy, conflicts, advertising, and educational boundaries."
       />
 
-      <main className="container max-w-3xl py-12 md:py-16 space-y-6">
+      <div className="container max-w-3xl py-12 md:py-16 space-y-6">
         <p className="text-sm text-muted-foreground">Effective date: June 19, 2026</p>
 
         <Section title="Purpose">
@@ -116,7 +116,7 @@ const EditorialPolicy = () => {
             <Link to="/about">Back to About / Sources</Link>
           </Button>
         </div>
-      </main>
+      </div>
     </>
   );
 };

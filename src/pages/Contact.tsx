@@ -20,7 +20,7 @@ const Contact = () => {
         description="Use this page for site feedback, correction requests, source questions, and practical topic ideas. Do not send private medical, financial, tax, legal, or insurance details."
       />
 
-      <main className="container max-w-3xl py-12 md:py-16 space-y-6">
+      <div className="container max-w-3xl py-12 md:py-16 space-y-6">
         <section className="rounded-2xl border border-border bg-card p-6 shadow-card space-y-4">
           <div className="flex items-start gap-4">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
@@ -63,7 +63,7 @@ const Contact = () => {
             <Link to="/editorial-policy">Editorial policy</Link>
           </Button>
         </div>
-      </main>
+      </div>
     </>
   );
 };

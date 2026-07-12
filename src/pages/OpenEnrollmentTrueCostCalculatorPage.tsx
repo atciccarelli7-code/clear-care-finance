@@ -47,7 +47,7 @@ const OpenEnrollmentTrueCostCalculatorPage = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <section id="calculator" className="scroll-mt-24">
           <CalculatorCard
             icon={Shield}
@@ -115,7 +115,7 @@ const OpenEnrollmentTrueCostCalculatorPage = () => {
             <Button asChild variant="soft"><Link to="/tools"><Receipt className="h-4 w-4" /> Browse tools</Link></Button>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 };

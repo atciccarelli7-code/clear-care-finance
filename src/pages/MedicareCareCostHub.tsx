@@ -536,7 +536,7 @@ const MedicareCareCostHub = () => {
         </Button>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:space-y-20 md:py-16">
+      <div className="container space-y-16 py-12 md:space-y-20 md:py-16">
         <section className="grid gap-5 md:grid-cols-3" aria-label="What this Medicare care cost hub helps with">
           {topCards.map((card) => (
             <InfoCard key={card.title} card={card} />
@@ -731,7 +731,7 @@ const MedicareCareCostHub = () => {
             </CardContent>
           </Card>
         </section>
-      </main>
+      </div>
     </>
   );
 };

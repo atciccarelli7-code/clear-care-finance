@@ -348,7 +348,7 @@ const MedicalBillReviewToolkitPage = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-5 shadow-card md:p-8">
           <div className="grid gap-5 md:grid-cols-[auto_1fr] md:items-start">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-amber-700 shadow-sm"><AlertTriangle className="h-6 w-6" /></div>
@@ -587,7 +587,7 @@ const MedicalBillReviewToolkitPage = () => {
           <strong className="text-foreground">Scope:</strong> Community Acquired Finance provides educational organization tools. This page does not decide whether a service is covered, medically necessary, coded correctly, protected by law, appealable, collectible, or payable. Verify urgent deadlines and account status with the written notice, provider, insurer or plan, Medicare, Medicaid, employer plan administrator, collection agency, government help desk, or a qualified professional.
         </section>
         <MedicalBillCaseDashboard />
-      </main>
+      </div>
     </>
   );
 };

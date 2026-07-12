@@ -162,7 +162,7 @@ export const MedicareAdvantagePlanHelper = () => {
   return (
     <>
       <PageHero eyebrow="Decision helper" title="Medicare Advantage Plan Type Decision Helper" description="A quick educational tool to help patients compare HMO, PPO, HMO-POS, and Original Medicare + Medigap tradeoffs before checking live plan details." />
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <SoftWarning title="Educational only" body="This tool does not recommend a plan or replace Medicare.gov, official plan documents, licensed counseling, SHIP, or individualized advice." />
         <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <Card className="rounded-3xl shadow-card">
@@ -212,7 +212,7 @@ export const MedicareAdvantagePlanHelper = () => {
           </Card>
         </section>
         <ToolLinkGrid />
-      </main>
+      </div>
     </>
   );
 };
@@ -242,7 +242,7 @@ export const PriorAuthorizationGuide = () => {
   return (
     <>
       <PageHero eyebrow="Insurance guide" title="Prior Authorization Survival Guide" description="What to ask when insurance delays imaging, procedures, medications, rehab, skilled nursing, home health, DME, or other care." />
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
           <Card className="rounded-3xl shadow-card">
             <CardHeader>
@@ -273,7 +273,7 @@ export const PriorAuthorizationGuide = () => {
         </section>
         <ToolLinkGrid />
         <SourceBox sources={[{ title: "Healthcare.gov — Health insurance rights and appeals", url: "https://www.healthcare.gov/appeal-insurance-company-decision/" }, { title: "Medicare.gov — Appeals", url: "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal" }]} />
-      </main>
+      </div>
     </>
   );
 };
@@ -311,7 +311,7 @@ export const HospitalDischargeCoverageGuide = () => {
   return (
     <>
       <PageHero eyebrow="Hospital discharge" title="Hospital Discharge Coverage Guide" description="A checklist for families trying to understand rehab, skilled nursing, home health, equipment, oxygen, wound care, and transportation before leaving the hospital." />
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <SoftWarning title="Medically ready does not always mean coverage is approved" body="Hospitals, insurers, facilities, and equipment companies may all have separate steps. Ask for the plan, authorization status, network status, and backup options before discharge day." />
         <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <Card className="rounded-3xl shadow-card">
@@ -329,7 +329,7 @@ export const HospitalDischargeCoverageGuide = () => {
           </Card>
         </section>
         <SourceBox sources={[{ title: "Medicare.gov — Skilled nursing facility care", url: "https://www.medicare.gov/coverage/skilled-nursing-facility-care" }, { title: "Medicare.gov — Home health services", url: "https://www.medicare.gov/coverage/home-health-services" }, { title: "Medicare.gov — Durable medical equipment", url: "https://www.medicare.gov/coverage/durable-medical-equipment-dme-coverage" }]} />
-      </main>
+      </div>
     </>
   );
 };
@@ -357,7 +357,7 @@ export const MedicationCoverageChecklist = () => {
   return (
     <>
       <PageHero eyebrow="Prescription checklist" title="Medication Coverage Checklist" description="Before choosing a health plan, check each medication by name, dose, tier, pharmacy, and restriction." />
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <SoftWarning title="This is not a live drug database" body="Use this checklist to organize what to verify. Confirm live coverage in the plan formulary, Medicare Plan Finder, insurer tools, and pharmacy pricing before enrolling." />
         <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <Card className="rounded-3xl shadow-card">
@@ -380,7 +380,7 @@ export const MedicationCoverageChecklist = () => {
           </Card>
         </section>
         <SourceBox sources={[{ title: "Medicare.gov — Medicare Plan Finder", url: "https://www.medicare.gov/plan-compare/" }, { title: "Medicare.gov — Drug coverage", url: "https://www.medicare.gov/drug-coverage-part-d" }]} />
-      </main>
+      </div>
     </>
   );
 };
@@ -409,7 +409,7 @@ export const MedicalBillReviewToolkit = () => {
   return (
     <>
       <PageHero eyebrow="Medical bills" title="Medical Bill Review / Appeal Toolkit" description="A practical checklist for reviewing a hospital or provider bill before paying a large or confusing balance." />
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <SoftWarning title="Do not ignore bills, but do not assume the first number is final" body="For large balances, confirm the EOB, itemized bill, insurance processing, network status, and financial assistance options before paying when possible." />
         <section className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
           <Card className="rounded-3xl shadow-card">
@@ -425,7 +425,7 @@ export const MedicalBillReviewToolkit = () => {
           </Card>
         </section>
         <SourceBox sources={[{ title: "CMS — Hospital price transparency", url: "https://www.cms.gov/priorities/key-initiatives/hospital-price-transparency" }, { title: "Healthcare.gov — Appealing a health plan decision", url: "https://www.healthcare.gov/appeal-insurance-company-decision/" }, { title: "CMS — No Surprises Act", url: "https://www.cms.gov/nosurprises" }]} />
-      </main>
+      </div>
     </>
   );
 };
@@ -448,7 +448,7 @@ export const HealthcareWorkerPaycheckTools = () => {
   return (
     <>
       <PageHero eyebrow="Healthcare worker money" title="Healthcare Worker Paycheck Tools" description="Your paycheck is the engine. Benefits, overtime, differentials, tax accounts, and retirement elections all change what actually lands in your bank account." />
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {tools.map(([title, href, body]) => (
             <Link key={title} to={href} className="rounded-3xl border border-border bg-card p-6 shadow-card transition-smooth hover:-translate-y-0.5 hover:shadow-hover">
@@ -459,7 +459,7 @@ export const HealthcareWorkerPaycheckTools = () => {
             </Link>
           ))}
         </div>
-      </main>
+      </div>
     </>
   );
 };
@@ -483,7 +483,7 @@ export const MedicareAdvantageVsMedigap = () => {
   return (
     <>
       <PageHero eyebrow="Medicare comparison" title="Medicare Advantage vs Medigap" description="The real tradeoff is usually lower premium and extra benefits versus provider flexibility, prior authorization, and supplemental coverage cost." />
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <SoftWarning title="Do not treat either option as universally best" body="The better fit depends on doctors, hospitals, prescriptions, travel, income, Medigap enrollment timing, state rules, and risk tolerance." />
         <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-card">
           <div className="overflow-x-auto">
@@ -495,7 +495,7 @@ export const MedicareAdvantageVsMedigap = () => {
         </div>
         <ToolLinkGrid />
         <SourceBox sources={[{ title: "Medicare.gov — Compare Original Medicare and Medicare Advantage", url: "https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/your-coverage-options/compare-original-medicare-medicare-advantage" }, { title: "Medicare.gov — Medigap", url: "https://www.medicare.gov/health-drug-plans/medigap" }]} />
-      </main>
+      </div>
     </>
   );
 };
@@ -517,7 +517,7 @@ export const InsuranceMarketingRealityPage = () => {
   return (
     <>
       <PageHero eyebrow="Insurance marketing" title="What Medicare Advantage Marketing May Not Emphasize" description="Marketing often highlights benefits. Patients still need to verify the less exciting details before choosing a plan." />
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <div className="grid gap-5 md:grid-cols-2">
           {items.map(([title, body]) => <Card key={title} className="rounded-3xl shadow-card"><CardHeader><Badge tone="amber">Check this</Badge><CardTitle className="font-display text-2xl">{title}</CardTitle><CardDescription className="text-base leading-relaxed">{body}</CardDescription></CardHeader></Card>)}
         </div>
@@ -525,7 +525,7 @@ export const InsuranceMarketingRealityPage = () => {
           <AccordionItem value="balanced"><AccordionTrigger className="text-left font-display text-xl font-bold">Balanced take</AccordionTrigger><AccordionContent><p className="text-sm leading-relaxed text-muted-foreground">Medicare Advantage can be a reasonable fit for some people. The point is not to avoid it automatically. The point is to compare the plan based on the care you might need in a bad year, not only the benefits that look attractive during a healthy year.</p></AccordionContent></AccordionItem>
         </Accordion>
         <ToolLinkGrid />
-      </main>
+      </div>
     </>
   );
 };
@@ -540,9 +540,9 @@ export const InsuranceDecisionToolsIndex = () => {
   return (
     <>
       <PageHero eyebrow="Insurance tools" title="Insurance Decision Tools" description="Patient- and caregiver-friendly tools for the coverage decisions that usually get confusing when care is expensive or time-sensitive." />
-      <main className="container space-y-16 py-12 md:py-16">
+      <div className="container space-y-16 py-12 md:py-16">
         <ToolLinkGrid />
-      </main>
+      </div>
     </>
   );
 };

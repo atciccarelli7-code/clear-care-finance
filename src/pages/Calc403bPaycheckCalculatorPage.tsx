@@ -29,7 +29,7 @@ const Calc403bPaycheckCalculatorPage = () => {
         </Button>
       </PageHero>
 
-      <main className="container min-w-0 space-y-10 py-10 md:space-y-14 md:py-14">
+      <div className="container min-w-0 space-y-10 py-10 md:space-y-14 md:py-14">
         <section className="grid gap-4 md:grid-cols-3" aria-label="How to use this 403b calculator">
           {[
             {
@@ -85,7 +85,7 @@ const Calc403bPaycheckCalculatorPage = () => {
             />
           </CalculatorCard>
         </section>
-      </main>
+      </div>
     </>
   );
 };

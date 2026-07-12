@@ -207,7 +207,7 @@ const BuildWealthHub = () => {
         </div>
       </PageHero>
 
-      <main className="container space-y-14 py-12 md:py-16">
+      <div className="container space-y-14 py-12 md:py-16">
         <NextStepCards
           eyebrow="Pick your stage"
           title="Where are you trying to get unstuck?"
@@ -275,7 +275,7 @@ const BuildWealthHub = () => {
             </Button>
           </CardContent>
         </Card>
-      </main>
+      </div>
     </>
   );
 };

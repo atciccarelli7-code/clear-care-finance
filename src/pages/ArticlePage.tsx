@@ -1,5 +1,6 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, Quote } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { ARTICLE_VOICE_NOTES } from "@/data/articleVoiceNotes";
 import { OPEN_ENROLLMENT_ARTICLE_SLUGS } from "@/data/openEnrollmentPath";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
 
-const Section = ({ icon: Icon, title, children }: { icon: any; title: string; children: React.ReactNode }) => (
+const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: string; children: React.ReactNode }) => (
   <div className="space-y-2.5 md:space-y-3">
     <div className="flex items-center gap-2.5 md:gap-3">
       <div className="inline-flex h-7 w-7 md:h-9 md:w-9 items-center justify-center rounded-lg bg-primary-soft text-primary shrink-0">

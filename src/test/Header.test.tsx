@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "@/components/layout/Header";
@@ -30,8 +30,9 @@ describe("Header mobile navigation", () => {
     const menuButton = screen.getByRole("button", { name: "Open menu" });
 
     fireEvent.click(menuButton);
+    const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    expect(screen.getByRole("link", { name: "Start Here" })).toHaveFocus();
+    expect(within(mobileNav).getByRole("link", { name: "Start Here" })).toHaveFocus();
     expect(document.body.style.overflow).toBe("hidden");
 
     fireEvent.keyDown(document, { key: "Escape" });
@@ -44,9 +45,10 @@ describe("Header mobile navigation", () => {
   it("contains keyboard focus inside the opened mobile menu", () => {
     renderHeader();
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+    const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    const firstLink = screen.getByRole("link", { name: "Start Here" });
-    const lastLink = screen.getByRole("link", { name: "Join newsletter" });
+    const firstLink = within(mobileNav).getByRole("link", { name: "Start Here" });
+    const lastLink = within(mobileNav).getByRole("link", { name: "Join newsletter" });
 
     lastLink.focus();
     fireEvent.keyDown(document, { key: "Tab" });
@@ -59,7 +61,8 @@ describe("Header mobile navigation", () => {
   it("exposes the active state for secondary mobile destinations", () => {
     renderHeader("/glossary");
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+    const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    expect(screen.getByRole("link", { name: "Glossary" })).toHaveAttribute("aria-current", "page");
+    expect(within(mobileNav).getByRole("link", { name: "Glossary" })).toHaveAttribute("aria-current", "page");
   });
 });

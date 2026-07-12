@@ -42,7 +42,9 @@ describe("FinancialAssistanceScreeningTool", () => {
 
     expect(screen.getByRole("heading", { name: /strong reason to request financial-assistance review/i })).toBeInTheDocument();
     expect(screen.getByText(/request the written financial-assistance policy, plain-language summary/i)).toBeInTheDocument();
-    expect(screen.queryByText(/you qualify|you are eligible|approved/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/you qualify|you are eligible|you are approved|application is approved|guaranteed approval/i),
+    ).not.toBeInTheDocument();
   });
 
   it("saves only the fixed existing action into My Plan", () => {

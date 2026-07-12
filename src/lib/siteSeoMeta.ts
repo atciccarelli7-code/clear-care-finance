@@ -1,4 +1,5 @@
 import { resolveSeoMeta, type SeoJsonLd, type SeoRouteMeta } from "@/lib/seoRegistry";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
 const normalizePath = (pathname: string) => {
   if (!pathname || pathname === "/") return "/";
@@ -49,6 +50,37 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
   },
 };
 
+const benefitsCommandCenterMeta: SeoRouteMeta = {
+  title: "Benefits Command Center: Compare Total Compensation and Workplace Benefits",
+  description:
+    "Build and compare job offers, health plans, retirement benefits, PTO, employer contributions, and hidden benefits in one private workplace-finance workspace.",
+  canonicalPath: "/tools/benefits-command-center",
+  robots: "index, follow, max-image-preview:large",
+  jsonLd: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE_URL}/tools` },
+        { "@type": "ListItem", position: 3, name: "Benefits Command Center", item: `${SITE_URL}/tools/benefits-command-center` },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Benefits Command Center: Compare Total Compensation and Workplace Benefits",
+      description:
+        "Build and compare job offers, health plans, retirement benefits, PTO, employer contributions, and hidden benefits in one private workplace-finance workspace.",
+      url: `${SITE_URL}/tools/benefits-command-center`,
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Any",
+      isAccessibleForFree: true,
+      publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    },
+  ],
+};
+
 const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, description: string) =>
   jsonLd?.map((item) => {
     const type = item["@type"];
@@ -68,8 +100,11 @@ const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, descriptio
   });
 
 export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
-  const base = resolveSeoMeta(pathname);
-  const override = overrides[normalizePath(pathname)];
+  const path = normalizePath(pathname);
+  if (path === benefitsCommandCenterMeta.canonicalPath) return benefitsCommandCenterMeta;
+
+  const base = resolveSeoMeta(path);
+  const override = overrides[path];
   if (!override) return base;
 
   return {

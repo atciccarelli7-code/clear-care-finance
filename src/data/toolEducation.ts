@@ -61,9 +61,9 @@ export const TOOL_EDUCATION_BY_TITLE: Record<string, ToolEducation> = {
     beforeActing: "Verify date of service, provider, allowed amount, adjustment, plan payment, denial language, and patient responsibility.",
   },
   "Financial Assistance Checklist": {
-    purpose: "Check whether a hospital bill should be screened for charity care, financial assistance, discounts, or payment plan options.",
-    readResult: "The checklist shows application readiness, not eligibility. The hospital policy and household details control the final answer.",
-    beforeActing: "Find the written policy, gather requested documents, ask what happens during review, and save proof of submission.",
+    purpose: "Screen whether a hospital financial-assistance review appears worth pursuing before paying more, while collecting only broad non-identifying answers.",
+    readResult: "The result is a qualified direction—strong reason to request review, possible reason to check the policy, or verify key facts first. It is not an eligibility decision or approval.",
+    beforeActing: "Request the exact written policy, identify which bills and providers it covers, confirm insurance processing, preserve deadlines, and keep proof of every application or response.",
   },
   "Health Insurance Visit Cost Calculator": {
     purpose: "Estimate how premiums, deductible, copays, coinsurance, expected visits, and remaining out-of-pocket max room may combine over a year.",

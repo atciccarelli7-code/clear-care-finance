@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
+import { DecisionConcierge } from "@/components/growth/DecisionConcierge";
 import { roadmapTools } from "@/data/roadmapTools";
 import { TOOL_CATEGORIES, getToolByLegacyAnchor, getToolHref, tools, type ToolCategory, type ToolIconKey } from "@/data/tools";
 import { trackToolEvent } from "@/lib/siteAnalytics";
@@ -86,6 +87,10 @@ const Tools = () => {
         title="Find the right tool without scrolling through every calculator."
         description="Choose the decision first. Each calculator, checklist, or guided workflow now opens on its own focused page."
       />
+
+      <section className="container min-w-0 pt-10 md:pt-12">
+        <DecisionConcierge entrySurface="tools" compact />
+      </section>
 
       <section className="container min-w-0 pt-10 md:pt-12" aria-labelledby="featured-tools-heading">
         <div className="mb-6 max-w-3xl">

@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { FinancialNavigator } from "@/components/navigator/FinancialNavigator";
+import { DecisionConcierge } from "@/components/growth/DecisionConcierge";
 import { useSeo } from "@/lib/seo";
 
 const FinancialFoundationCheckup = lazy(() => import("@/components/calculators/FinancialFoundationCheckup"));
@@ -13,6 +14,9 @@ const StartHere = () => {
 
   return (
     <>
+      <section className="container py-10 md:py-12">
+        <DecisionConcierge entrySurface="start_here" compact />
+      </section>
       <FinancialNavigator />
       <Suspense
         fallback={(

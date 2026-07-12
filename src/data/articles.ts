@@ -32,6 +32,14 @@ export type Article = {
   reviewScope?: string;
   updateNote?: string;
   description?: string;             // backward-compat for cards
+  author?: string;
+  reviewer?: string;
+  comparisonTable?: {
+    headers: [string, string, string];
+    rows: Array<[string, string, string]>;
+  };
+  numberedSteps?: string[];
+  questionsToAsk?: string[];
 };
 
 const a = (article: Article): Article => ({

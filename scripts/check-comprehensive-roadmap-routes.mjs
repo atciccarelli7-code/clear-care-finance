@@ -4,6 +4,7 @@ import { repositoryRoot } from "./seo-route-utils.mjs";
 
 const distDir = path.join(repositoryRoot, "dist");
 const routes = [
+  { path: "/tools/benefits-change-detector", heading: "Find the benefit changes that deserve your attention before you re-enroll." },
   { path: "/tools/state-medicaid-long-term-care-router", heading: "State Medicaid and Long-Term Care Program Router" },
   { path: "/tools/childcare-benefits-decision-guide", heading: "Dependent Care FSA and Childcare Benefits Decision Guide" },
   { path: "/tools/roth-vs-traditional-decision-helper", heading: "Roth vs Traditional Decision Helper" },

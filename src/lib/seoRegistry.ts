@@ -161,6 +161,11 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Free calculators and decision tools for 403(b) contributions, health insurance costs, medical bills, Medicare, open enrollment, and hospital discharge.",
     kind: "collection",
   },
+  "/tools/benefits-change-detector": {
+    title: "Benefits Change Detector",
+    description: "Find workplace benefit changes that deserve attention, prepare verification questions, and create a private annual Benefits Change Receipt.",
+    kind: "tool",
+  },
   "/tools/hospital-discharge-medicare-checklist": {
     title: "Hospital Discharge Medicare Checklist",
     description: "Use a step-by-step checklist to verify hospital status, rehab eligibility, authorization, networks, costs, and post-discharge coverage.",

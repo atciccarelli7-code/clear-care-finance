@@ -10,8 +10,13 @@ import {
   NAVIGATOR_PLAN_UPDATED_EVENT,
   loadStoredNavigatorPlan,
 } from "@/lib/financialNavigator";
+import {
+  BENEFITS_REVIEW_UPDATED_EVENT,
+  loadBenefitsReview,
+  prioritizeBenefitsReview,
+} from "@/lib/benefitsChangeDetector";
 
-export type ProductContinuityId = "my_plan" | "foundation_checkup" | "benefits_command_center";
+export type ProductContinuityId = "my_plan" | "foundation_checkup" | "benefits_command_center" | "benefits_change_review";
 
 export interface ProductContinuityItem {
   id: ProductContinuityId;
@@ -26,6 +31,7 @@ export const PRODUCT_CONTINUITY_EVENTS = [
   NAVIGATOR_PLAN_UPDATED_EVENT,
   FOUNDATION_UPDATED_EVENT,
   BENEFITS_COMMAND_CENTER_UPDATED_EVENT,
+  BENEFITS_REVIEW_UPDATED_EVENT,
 ] as const;
 
 export const PRODUCT_CONTINUITY_DISMISS_KEY = "caf-saved-progress-dismissed-v1";
@@ -81,6 +87,21 @@ export const getProductContinuityItems = (): ProductContinuityItem[] => {
       href: "/tools/benefits-command-center",
       actionLabel: packageCount > 1 ? "Continue package comparison" : "Continue benefits review",
       updatedAt: safeTimestamp(workspace.savedAt),
+    });
+  }
+
+  const benefitsReview = loadBenefitsReview();
+  if (benefitsReview && Object.keys(benefitsReview.selections).length) {
+    const unresolved = prioritizeBenefitsReview(benefitsReview).some((item) => item.priority === "review_first" || item.priority === "verify_before_enrolling" || item.priority === "still_incomplete");
+    items.push({
+      id: "benefits_change_review",
+      title: "Annual Benefits Review",
+      summary: benefitsReview.completedAt
+        ? `Review completed. Receipt available locally.${unresolved ? " Unresolved verification remains." : ""}`
+        : `Annual benefits review started.${unresolved ? " Unresolved verification remains." : ""}`,
+      href: "/tools/benefits-change-detector",
+      actionLabel: benefitsReview.completedAt ? "Open local Receipt" : "Continue annual review",
+      updatedAt: safeTimestamp(benefitsReview.updatedAt),
     });
   }
 

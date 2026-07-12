@@ -192,6 +192,30 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.irs.gov/retirement-plans",
     note: "Official contribution limits and tax treatment for 403(b), HSA, FSA.",
   },
+  dolPlanInformation: {
+    name: "U.S. Department of Labor, EBSA",
+    pageTitle: "Plan Information",
+    url: "https://www.dol.gov/general/topic/health-plans/planinformation",
+    note: "Official explanation of Summary Plan Descriptions, Summary of Material Modifications, and Summary of Benefits and Coverage documents.",
+  },
+  dolWorkersFamilies: {
+    name: "U.S. Department of Labor, EBSA",
+    pageTitle: "Workers and Families",
+    url: "https://www.dol.gov/agencies/ebsa/workers-and-families",
+    note: "Official resources for comparing job-based health and retirement benefits during major life and employment events.",
+  },
+  healthcareGovSbc: {
+    name: "HealthCare.gov",
+    pageTitle: "Summary of Benefits and Coverage",
+    url: "https://www.healthcare.gov/health-care-law-protections/summary-of-benefits-and-coverage/",
+    note: "Official explanation of the standardized SBC and how it supports apples-to-apples health-plan comparisons.",
+  },
+  irsTaxFavoredHealthPlans: {
+    name: "IRS",
+    pageTitle: "Health Savings Accounts and Other Tax-Favored Health Plans",
+    url: "https://www.irs.gov/publications/p969",
+    note: "Official federal guidance for HSAs, health FSAs, HRAs, and related eligibility and tax rules.",
+  },
   bls: {
     name: "Bureau of Labor Statistics",
     pageTitle: "Healthcare occupational wage data",

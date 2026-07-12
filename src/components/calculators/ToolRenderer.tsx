@@ -1,8 +1,8 @@
 import { CalcCafe, CalcMedicare } from "@/components/calculators/Calculators";
+import FinancialAssistanceScreeningTool from "@/components/calculators/FinancialAssistanceScreeningTool";
 import HealthInsuranceVisitCostCalculator from "@/components/calculators/HealthInsuranceVisitCostCalculator";
 import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
 import {
-  FinancialAssistanceChecklist,
   HospitalBillChecklistTool,
   OpenEnrollmentChecklistTool,
 } from "@/components/calculators/LaunchChecklistTools";
@@ -32,7 +32,7 @@ export const ToolRenderer = ({ componentKey }: { componentKey: ToolComponentKey 
     case "hospitalBillChecklist":
       return <HospitalBillChecklistTool />;
     case "financialAssistanceChecklist":
-      return <FinancialAssistanceChecklist />;
+      return <FinancialAssistanceScreeningTool />;
     case "insuranceVisitCost":
       return <HealthInsuranceVisitCostCalculator />;
     case "overtimeDeduction":

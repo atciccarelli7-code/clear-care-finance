@@ -17,6 +17,10 @@ const isLiteralRoute = (source) =>
   !source.includes("*") &&
   !source.includes("(");
 
+// Product routes can be staged here while retaining one release-time route source for sitemap,
+// prerender, redirect reconciliation, and search-readiness validation.
+export const ADDITIONAL_INDEXABLE_ROUTES = ["/tools/benefits-command-center"];
+
 export const loadPermanentRedirects = async () => {
   const configPath = path.join(repositoryRoot, "vercel.json");
   const config = JSON.parse(await readFile(configPath, "utf8"));
@@ -32,7 +36,9 @@ export const loadPermanentRedirects = async () => {
 
 export const getCanonicalRoutes = async (getIndexableRoutes) => {
   const permanentRedirects = await loadPermanentRedirects();
-  const registryRoutes = getIndexableRoutes().map(normalizeRoute);
+  const registryRoutes = Array.from(
+    new Set([...getIndexableRoutes(), ...ADDITIONAL_INDEXABLE_ROUTES].map(normalizeRoute)),
+  );
   const canonicalRoutes = registryRoutes.filter((route) => !permanentRedirects.has(route));
 
   return {

@@ -14,11 +14,17 @@ const NavigatorContextAction = lazy(() =>
 const BenefitsCommandCenterEntry = lazy(() =>
   import("@/components/benefits/BenefitsCommandCenterEntry").then((module) => ({ default: module.BenefitsCommandCenterEntry })),
 );
+const ContinueWhereYouLeftOff = lazy(() =>
+  import("@/components/shared/ContinueWhereYouLeftOff").then((module) => ({ default: module.ContinueWhereYouLeftOff })),
+);
+
+const continuityRoutes = new Set(["/", "/start-here", "/tools"]);
 
 export const Layout = () => {
   const location = useLocation();
   const showNavigatorContext = hasNavigatorContextAction(location.pathname);
   const showBenefitsCommandCenterEntry = hasBenefitsCommandCenterEntry(location.pathname);
+  const showContinuity = continuityRoutes.has(location.pathname);
 
   return (
     <div className="min-h-screen flex w-full min-w-0 flex-col pb-[calc(5rem_+_env(safe-area-inset-bottom))] md:pb-0">
@@ -28,6 +34,11 @@ export const Layout = () => {
       <Header />
       <SiteTrustBar />
       <main id="main-content" className="flex-1 w-full min-w-0 outline-none" tabIndex={-1}>
+        {showContinuity && (
+          <Suspense fallback={null}>
+            <ContinueWhereYouLeftOff sourceRoute={location.pathname} />
+          </Suspense>
+        )}
         <Outlet />
         {showBenefitsCommandCenterEntry && (
           <Suspense fallback={null}>

@@ -114,7 +114,7 @@ describe("Benefits Command Center activation samples", () => {
     expect(sanitized.salary).toBeUndefined();
     expect(sanitized.premium_amount).toBeUndefined();
     expect(sanitized.employer_name).toBeUndefined();
-    expect(sanitized.free_text).toBe("A user-entered note");
-    expect(JSON.stringify(properties)).not.toMatch(/salary|premium|deductible|commute|employer_name/i);
+    expect(sanitized.free_text).toBeUndefined();
+    expect(JSON.stringify(properties)).not.toMatch(/salary|premium|deductible|commute|employer_name|free_text/i);
   });
 });

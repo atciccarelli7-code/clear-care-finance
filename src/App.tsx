@@ -16,6 +16,7 @@ const loadHealthcareWorkers = () => import("./pages/HealthcareWorkers.tsx");
 const loadBuildWealthHub = () => import("./pages/BuildWealthHub.tsx");
 const loadPatientsFamilies = () => import("./pages/PatientsFamilies.tsx");
 const loadTools = () => import("./pages/Tools.tsx");
+const loadToolPage = () => import("./pages/ToolPage.tsx");
 const loadBenefitsCommandCenterPage = () => import("./pages/BenefitsCommandCenterPage.tsx");
 const loadCalc403bPaycheckCalculatorPage = () => import("./pages/Calc403bPaycheckCalculatorPage.tsx");
 const loadOutOfPocketMaxEstimatorPage = () => import("./pages/OutOfPocketMaxEstimatorPage.tsx");
@@ -66,6 +67,7 @@ const HealthcareWorkers = lazy(loadHealthcareWorkers);
 const BuildWealthHub = lazy(loadBuildWealthHub);
 const PatientsFamilies = lazy(loadPatientsFamilies);
 const Tools = lazy(loadTools);
+const ToolPage = lazy(loadToolPage);
 const BenefitsCommandCenterPage = lazy(loadBenefitsCommandCenterPage);
 const Calc403bPaycheckCalculatorPage = lazy(loadCalc403bPaycheckCalculatorPage);
 const OutOfPocketMaxEstimatorPage = lazy(loadOutOfPocketMaxEstimatorPage);
@@ -138,6 +140,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/tools/prior-authorization-next-step-guide") return loadPriorAuthorizationNextStepGuidePage;
   if (pathname === "/tools/healthcare-worker-total-compensation-comparison") return loadHealthcareWorkerTotalCompensationPage;
   if (pathname === "/tools/medicare-advantage-plan-helper") return loadInsuranceDecisionToolsBundle;
+  if (pathname.startsWith("/tools/")) return loadToolPage;
   if (pathname === "/articles") return loadArticles;
   if (pathname.startsWith("/articles/")) return loadArticlePage;
   if (pathname === "/topics") return loadTopics;
@@ -255,6 +258,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/tools/prior-authorization-next-step-guide" element={<PriorAuthorizationNextStepGuidePage />} />
             <Route path="/tools/healthcare-worker-total-compensation-comparison" element={<HealthcareWorkerTotalCompensationPage />} />
             <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
+            <Route path="/tools/:slug" element={<ToolPage />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />
             <Route path="/topics" element={<Topics />} />

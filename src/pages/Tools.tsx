@@ -1,446 +1,239 @@
-import type { ReactNode } from "react";
-import { Wallet, Shield, HeartPulse, Coffee, CreditCard, Receipt, PiggyBank, ClipboardCheck, GraduationCap, Landmark, ArrowRight, Sparkles, Compass } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  ArrowRight,
+  Calculator,
+  Check,
+  ClipboardCheck,
+  Coffee,
+  Compass,
+  GraduationCap,
+  HeartPulse,
+  Landmark,
+  PiggyBank,
+  Receipt,
+  Search,
+  Shield,
+  Sparkles,
+  Wallet,
+} from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
-import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
-import { CalcMedicare, CalcCafe } from "@/components/calculators/Calculators";
-import { Calc403bEmailEstimate as Calc403b } from "@/components/calculators/Calc403bEmailEstimate";
-import HealthInsuranceVisitCostCalculator from "@/components/calculators/HealthInsuranceVisitCostCalculator";
-import OutOfPocketMaxEstimator from "@/components/calculators/OutOfPocketMaxEstimator";
-import CalcLoanPayment from "@/components/calculators/LoanPayment";
-import { PSLFProgressEstimator, PrivateLoanPayoffCalculator, StudentLoanPathFinder } from "@/components/calculators/StudentLoanTools";
-import CalcOvertimeDeduction from "@/components/calculators/OvertimeDeduction";
-import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
-import {
-  OpenEnrollmentPaycheckImpactCalculator,
-  OpenEnrollmentTrueCostCalculator,
-  SupplementalBenefitsDecisionHelper,
-} from "@/components/calculators/OpenEnrollmentTools";
-import {
-  EobBillMatchChecker,
-  FinancialAssistanceChecklist,
-  HospitalBillChecklistTool,
-  OpenEnrollmentChecklistTool,
-} from "@/components/calculators/LaunchChecklistTools";
+import { TOOL_CATEGORIES, getToolByLegacyAnchor, getToolHref, tools, type ToolCategory, type ToolIconKey } from "@/data/tools";
 import { trackToolEvent } from "@/lib/siteAnalytics";
 import { useSeo } from "@/lib/seo";
 
-const calculatorGroups = [
-  {
-    label: "Open enrollment",
-    items: [
-      { id: "open-enrollment-checklist", label: "Open Enrollment Final Checklist" },
-      { id: "open-enrollment", label: "Open Enrollment True Cost Calculator" },
-      { id: "out-of-pocket-max", label: "Out-of-Pocket Max Estimator" },
-      { id: "paycheck-impact", label: "Open Enrollment Paycheck Impact Calculator" },
-      { id: "supplemental-benefits", label: "Supplemental Benefits Decision Helper" },
-      { id: "hsa-fsa", label: "HSA vs FSA Decision Helper" },
-    ],
-  },
-  {
-    label: "Hospital bills",
-    items: [
-      { id: "medical-bill-review-flow", label: "Medical Bill Review Flow" },
-      { id: "hospital-bill-checklist", label: "Hospital Bill Review Checklist" },
-      { id: "eob-bill-match", label: "EOB-to-Bill Match Checker" },
-      { id: "financial-assistance-checklist", label: "Financial Assistance Checklist" },
-      { id: "insurance", label: "Health Insurance Visit Cost Calculator" },
-    ],
-  },
-  {
-    label: "Healthcare worker money",
-    items: [
-      { id: "healthcare-worker-benefits-blueprint", label: "Healthcare Worker Benefits Blueprint" },
-      { id: "403b", label: "403(b) Paycheck Contribution Calculator" },
-      { id: "overtime", label: "OBBB Overtime Deduction Estimator" },
-    ],
-  },
-  {
-    label: "Student loans",
-    items: [
-      { id: "student-loan-path", label: "Student Loan Path Finder" },
-      { id: "private-loan-payoff", label: "Private Student Loan Payoff Calculator" },
-      { id: "pslf-progress", label: "PSLF Progress Estimator" },
-      { id: "loan", label: "Student Loan Payment Calculator" },
-    ],
-  },
-  {
-    label: "Patients and caregivers",
-    items: [
-      { id: "medicare-medicaid-eligibility-check", label: "Medicare and Medicaid Eligibility Check" },
-      { id: "hospital-discharge-medicare-checklist", label: "Hospital Discharge Medicare Checklist Tool" },
-      { id: "medicare", label: "Medicare Cost Exposure Tool" },
-    ],
-  },
-  {
-    label: "Everyday spending",
-    items: [
-      { id: "cafe", label: "Hospital Cafe Savings Rate Calculator" },
-    ],
-  },
-];
-
-const intentCards = [
-  {
-    eyebrow: "Workplace benefits",
-    title: "I need help choosing workplace benefits",
-    description: "Build a goal-first blueprint before opening the HR portal, then verify the match, plan costs, network, and HSA details.",
-    href: "#healthcare-worker-benefits-blueprint",
-    cta: "Build benefits blueprint",
-  },
-  {
-    eyebrow: "Medical bill",
-    title: "I got a confusing bill, EOB, MSN, or collection notice",
-    description: "Use the review flow to decide what to check, what to request, who to call, and whether to pause before paying.",
-    href: "#medical-bill-review-flow",
-    cta: "Review bill before paying",
-  },
-  {
-    eyebrow: "Hospital discharge",
-    title: "I need to know what to ask before discharge",
-    description: "Use the guided checklist for rehab/SNF, home health, equipment, medication, denial, Medicaid, or bill questions.",
-    href: "#hospital-discharge-medicare-checklist",
-    cta: "Build discharge checklist",
-  },
-  {
-    eyebrow: "Medicare and Medicaid",
-    title: "I need to know whether Medicare or Medicaid may apply",
-    description: "Check age, disability, ALS, ESRD, household, income, pregnancy, children, long-term care, and possible cost-assistance paths.",
-    href: "#medicare-medicaid-eligibility-check",
-    cta: "Check possible eligibility paths",
-  },
-  {
-    eyebrow: "Benefits choice",
-    title: "I am choosing a health plan",
-    description: "Compare total yearly cost, paycheck impact, HSA/FSA choices, and bad-year exposure.",
-    href: "#open-enrollment",
-    cta: "Compare plans",
-  },
-  {
-    eyebrow: "Healthcare worker money",
-    title: "I want paycheck and benefit clarity",
-    description: "Use the 403(b), overtime, and benefits tools to turn confusing deductions into numbers.",
-    href: "#403b",
-    cta: "Start with 403(b)",
-  },
-  {
-    eyebrow: "Student loans",
-    title: "I need a loan path, not random advice",
-    description: "Separate federal forgiveness options from private-loan payoff and refinance math.",
-    href: "#student-loan-path",
-    cta: "Find loan path",
-  },
-  {
-    eyebrow: "Medicare",
-    title: "I am helping a parent or caregiver",
-    description: "Estimate premium, deductible, prescription, and coinsurance exposure before comparing plan choices.",
-    href: "#medicare",
-    cta: "Estimate Medicare costs",
-  },
-  {
-    eyebrow: "Spending habits",
-    title: "I want one small money leak to fix",
-    description: "Use the cafe calculator to make shift spending visible without shame or moralizing.",
-    href: "#cafe",
-    cta: "Check cafe spend",
-  },
-];
-
-const getCalculatorLabel = (id: string) => calculatorGroups.flatMap((group) => group.items).find((item) => item.id === id)?.label;
-
-const jumpToCalculator = (id: string) => {
-  if (!id) return;
-  trackToolEvent("tool_jump_select", id, getCalculatorLabel(id));
-  const element = document.getElementById(id);
-  element?.scrollIntoView({ behavior: "smooth", block: "start" });
-  window.history.replaceState(null, "", `#${id}`);
+const iconByKey: Record<ToolIconKey, typeof Calculator> = {
+  calculator: Calculator,
+  clipboard: ClipboardCheck,
+  coffee: Coffee,
+  compass: Compass,
+  graduation: GraduationCap,
+  heart: HeartPulse,
+  landmark: Landmark,
+  piggyBank: PiggyBank,
+  receipt: Receipt,
+  shield: Shield,
+  wallet: Wallet,
 };
 
-const SectionIntro = ({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) => (
-  <div className="mb-6 max-w-3xl min-w-0">
-    <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">{eyebrow}</div>
-    <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">{title}</h2>
-    <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{description}</p>
-  </div>
-);
-
-const ToolAnchor = ({ id, bestFirst = false, children }: { id: string; bestFirst?: boolean; children: ReactNode }) => (
-  <div id={id} className="scroll-mt-28 min-w-0 space-y-3">
-    {bestFirst && (
-      <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary-soft px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-primary">
-        <Sparkles className="h-3.5 w-3.5" /> Best first tool
-      </div>
-    )}
-    {children}
-  </div>
-);
-
 const Tools = () => {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState<"All tools" | ToolCategory>("All tools");
+  const [legacySelection, setLegacySelection] = useState<string | null>(null);
+
   useSeo({
-    title: "Calculators and Checklists",
-    description: "Plain-English calculators and checklists for healthcare workers, patients, open enrollment, medical bills, Medicare, savings, workplace benefits, and student loans.",
+    title: "Financial Calculators, Checklists, and Decision Tools",
+    description:
+      "Browse focused financial tools for healthcare workers, patients, benefits, medical bills, Medicare, student loans, and everyday money decisions.",
     canonicalPath: "/tools",
   });
+
+  useEffect(() => {
+    const anchor = window.location.hash.slice(1);
+    if (!anchor) return;
+    const match = getToolByLegacyAnchor(anchor);
+    if (!match) return;
+    setCategory("All tools");
+    setQuery("");
+    setLegacySelection(match.slug);
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(`tool-${match.slug}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredTools = tools.filter((tool) => {
+    const matchesCategory = category === "All tools" || tool.category === category;
+    const haystack = `${tool.title} ${tool.shortTitle} ${tool.description} ${tool.category} ${tool.audience}`.toLowerCase();
+    return matchesCategory && (!normalizedQuery || haystack.includes(normalizedQuery));
+  });
+
+  const featuredTools = tools.filter((tool) => tool.featured);
+
+  const trackOpen = (slug: string, title: string) => {
+    trackToolEvent("tool_intent_click", slug, title);
+  };
 
   return (
     <>
       <PageHero
-        eyebrow="Tools"
-        title="Start with the problem. Then run the numbers."
-        description="Guided calculators and checklists for medical bills, benefits, Medicare, paychecks, student loans, and everyday spending decisions."
+        eyebrow="Financial tools"
+        title="Find the right tool without scrolling through every calculator."
+        description="Choose the decision first. Each calculator, checklist, or guided workflow now opens on its own focused page."
       />
 
-      <section className="container min-w-0 pt-10 md:pt-12">
-        <div className="rounded-[2rem] border border-border bg-card p-5 shadow-card md:p-7">
-          <div className="mb-6 max-w-3xl">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Start here</div>
-            <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">What are you trying to figure out?</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-              Pick the situation first. The calculator name matters less than the decision you are trying to make.
-            </p>
+      <section className="container min-w-0 pt-10 md:pt-12" aria-labelledby="featured-tools-heading">
+        <div className="mb-6 max-w-3xl">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <Sparkles className="h-4 w-4" aria-hidden="true" /> Best places to start
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {intentCards.map((card) => (
-              <a
-                key={card.href}
-                href={card.href}
-                onClick={() => trackToolEvent("tool_intent_click", card.href.replace("#", ""), card.title)}
-                className="group rounded-2xl border border-border bg-background/70 p-4 shadow-sm transition-smooth hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-card md:p-5"
+          <h2 id="featured-tools-heading" className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">
+            Start with a complete decision workflow
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
+            These tools turn a real question into an explanation, action plan, and list of details to verify.
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {featuredTools.slice(0, 8).map((tool) => {
+            const Icon = iconByKey[tool.icon];
+            return (
+              <Link
+                key={tool.slug}
+                to={getToolHref(tool)}
+                onClick={() => trackOpen(tool.slug, tool.title)}
+                className="group flex min-w-0 flex-col rounded-3xl border border-primary/15 bg-gradient-to-br from-card to-primary-soft/25 p-5 shadow-card transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-hover"
               >
-                <div className="text-[0.66rem] font-bold uppercase tracking-[0.16em] text-secondary">{card.eyebrow}</div>
-                <h3 className="mt-2 font-display text-lg font-bold leading-tight text-foreground">{card.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{card.description}</p>
-                <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary">
-                  {card.cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </div>
+                  <span className="rounded-full border border-border bg-background/75 px-2.5 py-1 text-[0.66rem] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                    {tool.estimatedUseTime}
+                  </span>
                 </div>
-              </a>
-            ))}
-          </div>
+                <div className="mt-4 text-[0.66rem] font-bold uppercase tracking-[0.16em] text-secondary">{tool.category}</div>
+                <h3 className="mt-1.5 font-display text-lg font-bold leading-tight text-foreground">{tool.shortTitle}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{tool.description}</p>
+                <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary">
+                  Open tool <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
-      <section className="container min-w-0 pt-8">
-        <div className="rounded-3xl border border-border bg-card p-5 shadow-card md:p-6">
-          <div className="grid gap-4 md:grid-cols-[1fr_360px] md:items-end">
+      <section className="container min-w-0 py-12 md:py-16" aria-labelledby="all-tools-heading">
+        <div className="rounded-[2rem] border border-border bg-card p-5 shadow-card md:p-7">
+          <div className="grid gap-5 lg:grid-cols-[1fr_380px] lg:items-end">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Already know the tool?</div>
-              <h2 className="mt-2 font-display text-2xl font-bold">Jump directly</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Use this when you already know which calculator or checklist you want.
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Full directory</div>
+              <h2 id="all-tools-heading" className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">Browse every tool</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                Search by the question, cost, benefit, or document you are working with. No account is required.
               </p>
             </div>
-            <label className="space-y-2">
-              <span className="text-sm font-semibold text-foreground">Select a tool</span>
-              <select
-                className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm font-medium text-foreground shadow-sm outline-none transition-smooth focus:border-primary focus:ring-2 focus:ring-primary/20"
-                defaultValue=""
-                onChange={(event) => jumpToCalculator(event.target.value)}
-              >
-                <option value="" disabled>Choose a calculator...</option>
-                {calculatorGroups.map((group) => (
-                  <optgroup key={group.label} label={group.label}>
-                    {group.items.map((item) => (
-                      <option key={`${group.label}-${item.id}`} value={item.id}>{item.label}</option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
+            <label className="relative block">
+              <span className="sr-only">Search tools</span>
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search bills, 403(b), Medicare…"
+                className="h-12 w-full rounded-2xl border border-border bg-background pl-11 pr-4 text-base text-foreground shadow-sm outline-none transition-smooth placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 md:text-sm"
+              />
             </label>
           </div>
+
+          <div className="mt-6 flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Filter tools by category">
+            {TOOL_CATEGORIES.map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => setCategory(item)}
+                aria-pressed={category === item}
+                className={`min-h-10 shrink-0 rounded-full border px-4 text-sm font-semibold transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                  category === item
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-background text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+
+          <p className="mt-4 text-sm text-muted-foreground" aria-live="polite">
+            Showing {filteredTools.length} of {tools.length} tools
+          </p>
+
+          {filteredTools.length > 0 ? (
+            <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {filteredTools.map((tool) => {
+                const Icon = iconByKey[tool.icon];
+                const highlighted = legacySelection === tool.slug;
+                return (
+                  <article
+                    id={`tool-${tool.slug}`}
+                    key={tool.slug}
+                    className={`scroll-mt-28 rounded-3xl border bg-background/70 p-5 transition-smooth ${
+                      highlighted ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/25"
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-[0.66rem] font-bold uppercase tracking-[0.14em] text-secondary">{tool.category}</div>
+                        <h3 className="mt-1 font-display text-lg font-bold leading-tight">{tool.title}</h3>
+                      </div>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{tool.description}</p>
+                    <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-muted-foreground">
+                      <span className="rounded-full bg-muted px-2.5 py-1">{tool.audience}</span>
+                      <span className="rounded-full bg-muted px-2.5 py-1">{tool.estimatedUseTime}</span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1"><Check className="h-3.5 w-3.5" aria-hidden="true" /> Educational</span>
+                    </div>
+                    <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <Link
+                        to={getToolHref(tool)}
+                        onClick={() => trackOpen(tool.slug, tool.title)}
+                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground transition-smooth hover:bg-primary/90"
+                      >
+                        Open tool <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </Link>
+                      {tool.relatedArticle && (
+                        <Link className="text-center text-sm font-semibold text-primary underline-offset-4 hover:underline" to={tool.relatedArticle.href}>
+                          Read the guide
+                        </Link>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="mt-5 rounded-3xl border border-dashed border-border bg-muted/25 p-8 text-center">
+              <h3 className="font-display text-xl font-bold">No tool matched that search.</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Try a broader term such as “bill,” “benefits,” “loan,” or “Medicare.”</p>
+              <button type="button" onClick={() => { setQuery(""); setCategory("All tools"); }} className="mt-4 text-sm font-bold text-primary underline-offset-4 hover:underline">
+                Clear filters
+              </button>
+            </div>
+          )}
         </div>
-      </section>
-
-      <section className="container min-w-0 py-12 md:py-16 space-y-16">
-        <section className="space-y-6">
-          <SectionIntro eyebrow="Open enrollment" title="Choose benefits by total cost, not just paycheck deduction" description="Use these tools before submitting health, tax account, disability, life, and supplemental benefit elections." />
-          <div className="space-y-8">
-            <ToolAnchor id="open-enrollment-checklist">
-              <CalculatorCard icon={ClipboardCheck} eyebrow="Open enrollment" title="Open Enrollment Final Checklist" description="A printable final pass for health, tax account, disability, life, and supplemental benefit elections." relatedArticle={{ label: "Open Enrollment Guide", href: "/open-enrollment" }}>
-                <OpenEnrollmentChecklistTool />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="open-enrollment" bestFirst>
-              <CalculatorCard icon={Shield} eyebrow="Open enrollment" title="Open Enrollment True Cost Calculator" description="Compare two plans by annual premiums, expected out-of-pocket costs, employer HSA/HRA money, and bad-year exposure." relatedArticle={{ label: "Premium, Deductible, and Out-of-Pocket Max", href: "/articles/premium-deductible-out-of-pocket-open-enrollment" }}>
-                <OpenEnrollmentTrueCostCalculator />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="out-of-pocket-max">
-              <CalculatorCard icon={Shield} eyebrow="Benefits and insurance" title="Out-of-Pocket Max Estimator" description="Estimate how close covered in-network care could bring someone to the plan's yearly out-of-pocket maximum." relatedArticle={{ label: "Full Out-of-Pocket Max Calculator Page", href: "/tools/out-of-pocket-max-estimator" }}>
-                <OutOfPocketMaxEstimator />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="paycheck-impact">
-              <CalculatorCard icon={Receipt} eyebrow="Open enrollment" title="Open Enrollment Paycheck Impact Calculator" description="Estimate how benefit elections may change take-home pay after pre-tax savings and after-tax deductions." relatedArticle={{ label: "How Open Enrollment Changes Your Paycheck", href: "/articles/open-enrollment-paycheck-impact" }}>
-                <OpenEnrollmentPaycheckImpactCalculator />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="supplemental-benefits">
-              <CalculatorCard icon={Wallet} eyebrow="Open enrollment" title="Supplemental Benefits Decision Helper" description="Evaluate accident, critical illness, and hospital indemnity policies against annual premium, emergency fund, and likely payout." relatedArticle={{ label: "Accident, Critical Illness, and Hospital Indemnity", href: "/articles/accident-critical-illness-hospital-indemnity-open-enrollment" }}>
-                <SupplementalBenefitsDecisionHelper />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="hsa-fsa">
-              <CalculatorCard icon={PiggyBank} eyebrow="Open enrollment" title="HSA vs FSA Decision Helper" description="Compare tax savings, employer HSA money, HDHP premium savings, deductible risk, FSA forfeiture risk, and provider factors." relatedArticle={{ label: "HSA vs FSA Guide", href: "/articles/hsa-vs-fsa-healthcare-workers" }}>
-                <HsaFsaDecisionHelper />
-              </CalculatorCard>
-            </ToolAnchor>
-          </div>
-        </section>
-
-        <section className="space-y-6">
-          <SectionIntro eyebrow="Hospital bills" title="Review the bill before money leaves the account" description="Start with the medical bill review flow, then match documents, check assistance, and organize questions for billing or insurance." />
-          <div className="space-y-8">
-            <ToolAnchor id="medical-bill-review-flow" bestFirst>
-              <CalculatorCard icon={Receipt} eyebrow="Hospital bills" title="Medical Bill Review Flow" description="A guided workflow for provider bills, EOBs, Medicare Summary Notices, collection notices, affordability concerns, and pressure to pay." relatedArticle={{ label: "Medical Bill Review Toolkit", href: "/insurance/medical-bill-review-toolkit" }}>
-                <div className="space-y-4">
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    Use the dedicated tool page to decide what to check before paying, what document to request, what to ask billing, and when to check financial assistance.
-                  </p>
-                  <a
-                    href="/tools/medical-bill-review-flow"
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-sm transition-smooth hover:-translate-y-0.5 hover:shadow-card"
-                  >
-                    Open review flow <ArrowRight className="h-4 w-4" />
-                  </a>
-                </div>
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="hospital-bill-checklist">
-              <CalculatorCard icon={ClipboardCheck} eyebrow="Hospital bills" title="Hospital Bill Review Checklist" description="A practical checklist for reviewing a large, confusing, or surprising healthcare balance." relatedArticle={{ label: "Financial Assistance Guide", href: "/articles/check-hospital-financial-assistance-before-paying" }}>
-                <HospitalBillChecklistTool />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="eob-bill-match">
-              <CalculatorCard icon={Receipt} eyebrow="Hospital bills" title="EOB-to-Bill Match Checker" description="Compare an insurer explanation with a provider bill and identify mismatches to ask about." relatedArticle={{ label: "How to Read an EOB", href: "/articles/how-to-read-an-eob" }}>
-                <EobBillMatchChecker />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="financial-assistance-checklist">
-              <CalculatorCard icon={Shield} eyebrow="Hospital bills" title="Financial Assistance Checklist" description="A document checklist for hospital financial assistance and charity care applications." relatedArticle={{ label: "Financial Assistance Guide", href: "/articles/check-hospital-financial-assistance-before-paying" }}>
-                <FinancialAssistanceChecklist />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="insurance">
-              <CalculatorCard icon={Shield} eyebrow="For everyone" title="Health Insurance Visit Cost Calculator" description="Estimate yearly out-of-pocket cost across premium, deductible, copays, coinsurance, visits, and remaining out-of-pocket max room." relatedArticle={{ label: "Plain-English Healthcare Finance Glossary", href: "/articles/plain-english-glossary" }}>
-                <HealthInsuranceVisitCostCalculator />
-              </CalculatorCard>
-            </ToolAnchor>
-          </div>
-        </section>
-
-        <section className="space-y-6">
-          <SectionIntro eyebrow="Healthcare worker money" title="Make paycheck and benefit choices easier to see" description="Use these when work benefits, overtime, and retirement deductions feel abstract." />
-          <div className="space-y-8">
-            <ToolAnchor id="healthcare-worker-benefits-blueprint" bestFirst>
-              <CalculatorCard icon={Compass} eyebrow="Workplace benefits" title="Healthcare Worker Benefits Blueprint" description="Answer 12 goal-first questions and leave with retirement, health-plan, HSA, coverage-tier, and HR-portal comparison priorities." relatedArticle={{ label: "Open Enrollment Guide", href: "/open-enrollment" }}>
-                <div className="space-y-4">
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    Use the dedicated tool before opening the HR portal. It creates fit signals and a verification list without ranking insurers, plans, funds, or products.
-                  </p>
-                  <a
-                    href="/tools/healthcare-worker-benefits-blueprint"
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-sm transition-smooth hover:-translate-y-0.5 hover:shadow-card"
-                  >
-                    Build my blueprint <ArrowRight className="h-4 w-4" />
-                  </a>
-                </div>
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="403b">
-              <CalculatorCard icon={Wallet} eyebrow="For healthcare workers" title="403(b) Paycheck Contribution Calculator" description="See per-paycheck contributions, annual contribution, and a rough employer match estimate." relatedArticle={{ label: "How to Pick Retirement Investments at Work", href: "/articles/how-to-pick-retirement-investments-at-work" }}>
-                <Calc403b />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="overtime">
-              <CalculatorCard icon={Receipt} eyebrow="For healthcare workers" title="OBBB Overtime Deduction Estimator" description="Estimate the qualifying half-time overtime premium, deduction cap, and rough federal income-tax savings." relatedArticle={{ label: "OBBB Overtime Tax Deduction Explained", href: "/articles/obbb-overtime-tax-deduction-healthcare-workers" }}>
-                <CalcOvertimeDeduction />
-              </CalculatorCard>
-            </ToolAnchor>
-          </div>
-        </section>
-
-        <section className="space-y-6">
-          <SectionIntro eyebrow="Student loans" title="Separate federal forgiveness paths from private payoff math" description="Start with loan type, then choose the right calculator instead of mixing incompatible strategies." />
-          <div className="space-y-8">
-            <ToolAnchor id="student-loan-path" bestFirst>
-              <CalculatorCard icon={GraduationCap} eyebrow="Student loans" title="Student Loan Path Finder" description="Separate federal forgiveness paths from private-loan payoff decisions before choosing a strategy." relatedArticle={{ label: "Full Student Loans Section", href: "/student-loans" }}>
-                <StudentLoanPathFinder />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="private-loan-payoff">
-              <CalculatorCard icon={CreditCard} eyebrow="Private loans" title="Private Student Loan Payoff Calculator" description="Compare minimum payments, extra payments, lump sums, and a possible refinance APR." relatedArticle={{ label: "Full Student Loans Section", href: "/student-loans" }}>
-                <PrivateLoanPayoffCalculator />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="pslf-progress">
-              <CalculatorCard icon={Landmark} eyebrow="Federal loans" title="PSLF Progress Estimator" description="Estimate payments remaining to 120 and see what must be verified before relying on forgiveness." relatedArticle={{ label: "Full Student Loans Section", href: "/student-loans" }}>
-                <PSLFProgressEstimator />
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="loan">
-              <CalculatorCard icon={CreditCard} eyebrow="For everyone" title="Student Loan Payment Calculator" description="Estimate monthly payment, total paid, and interest over time." relatedArticle={{ label: "Full Student Loans Section", href: "/student-loans" }}>
-                <CalcLoanPayment />
-              </CalculatorCard>
-            </ToolAnchor>
-          </div>
-        </section>
-
-        <section className="space-y-6">
-          <SectionIntro eyebrow="Medicare & caregiver planning" title="Check eligibility paths and estimate exposure" description="Start with possible eligibility paths, then use cost and discharge tools for the specific decision." />
-          <div className="space-y-8">
-            <ToolAnchor id="medicare-medicaid-eligibility-check" bestFirst>
-              <CalculatorCard icon={Landmark} eyebrow="Patients and caregivers" title="Medicare and Medicaid Eligibility Check" description="Identify possible age, disability, ALS, ESRD, Medicaid category, long-term-care, dual-eligibility, and Medicare Savings Program paths without claiming an official determination." relatedArticle={{ label: "Medicare vs. Medicaid", href: "/articles/medicare-vs-medicaid-what-is-the-difference" }}>
-                <div className="space-y-4">
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    Answer a mobile-friendly sequence of questions and get qualified guidance, documents to gather, and direct official state and federal next steps.
-                  </p>
-                  <a
-                    href="/tools/medicare-medicaid-eligibility-check"
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-sm transition-smooth hover:-translate-y-0.5 hover:shadow-card"
-                  >
-                    Open eligibility check <ArrowRight className="h-4 w-4" />
-                  </a>
-                </div>
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="hospital-discharge-medicare-checklist">
-              <CalculatorCard icon={ClipboardCheck} eyebrow="Patients and caregivers" title="Hospital Discharge Medicare Checklist Tool" description="Build a focused checklist for discharge, rehab/SNF, home health, equipment, medication, Medicare Advantage authorization, Medicaid, long-term care, or medical bill questions." relatedArticle={{ label: "Hospital Discharge & Medicare Guide", href: "/guides/hospital-discharge-medicare" }}>
-                <div className="space-y-4">
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    Use the dedicated tool page to answer a few questions and generate a copy-friendly or print-friendly call checklist.
-                  </p>
-                  <a
-                    href="/tools/hospital-discharge-medicare-checklist"
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-sm transition-smooth hover:-translate-y-0.5 hover:shadow-card"
-                  >
-                    Open checklist tool <ArrowRight className="h-4 w-4" />
-                  </a>
-                </div>
-              </CalculatorCard>
-            </ToolAnchor>
-            <ToolAnchor id="medicare">
-              <CalculatorCard icon={HeartPulse} eyebrow="For patients & caregivers" title="Medicare Cost Exposure Tool" description="Rough estimate for premiums, deductibles, prescriptions, and coinsurance over a year." relatedArticle={{ label: "Medicare Options Explained", href: "/articles/medicare-options-explained" }}>
-                <CalcMedicare />
-              </CalculatorCard>
-            </ToolAnchor>
-          </div>
-        </section>
-
-        <section className="space-y-6">
-          <SectionIntro eyebrow="Everyday spending" title="Find one small leak without shame" description="Small recurring spending is not a moral failure. The point is to see it clearly and redirect only what you actually want to redirect." />
-          <ToolAnchor id="cafe" bestFirst>
-            <CalculatorCard icon={Coffee} eyebrow="Spending, no shame" title="Hospital Cafe Savings Rate Calculator" description="See what daily cafe spend adds up to over a year — and what redirecting some of it could grow into." relatedArticle={{ label: "Your Hospital Cafe Habit Might Be Quietly Eating Your Savings Rate", href: "/articles/hospital-cafe-habit" }}>
-              <CalcCafe />
-            </CalculatorCard>
-          </ToolAnchor>
-        </section>
       </section>
 
       <section className="container min-w-0 pb-16">
         <NewsletterSignup
           source="tools"
           title="Want the Healthcare Worker Money Map in your inbox?"
-          description="Get the checklist and a short weekly email on paychecks, benefits, insurance, debt, and investing decisions healthcare workers actually face."
+          description="Get the checklist and a short monthly email on paychecks, benefits, insurance, debt, and investing decisions healthcare workers actually face."
         />
       </section>
     </>

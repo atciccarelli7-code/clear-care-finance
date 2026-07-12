@@ -25,7 +25,7 @@ describe("turning 65 Medicare pathway", () => {
   it("flags small-employer coordination risk", () => {
     const result = buildTurning65Plan({ ...base, coverageSource: "active-employer", activeEmployment: "yes", employerSize: "under-20" });
     expect(result.headline).toContain("Medicare to pay first");
-    expect(result.warnings.join(" ")).toContain("fewer than 20");
+    expect(result.immediateAnswer).toContain("fewer than 20");
   });
 
   it("flags HSA timing and unknown drug coverage", () => {

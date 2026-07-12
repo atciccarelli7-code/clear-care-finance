@@ -51,9 +51,9 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
 };
 
 const benefitsCommandCenterMeta: SeoRouteMeta = {
-  title: "Benefits Command Center: Compare Total Compensation and Workplace Benefits",
+  title: "Benefits Command Center: Compare Pay and Workplace Benefits",
   description:
-    "Build and compare job offers, health plans, retirement benefits, PTO, employer contributions, and hidden benefits in one private workplace-finance workspace.",
+    "Preview a sample Benefits Receipt, then build and compare pay, health plans, retirement benefits, PTO, employer contributions, vesting, and hidden benefits privately.",
   canonicalPath: "/tools/benefits-command-center",
   robots: "index, follow, max-image-preview:large",
   jsonLd: [
@@ -69,9 +69,9 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "Benefits Command Center: Compare Total Compensation and Workplace Benefits",
+      name: "Benefits Command Center: Compare Pay and Workplace Benefits",
       description:
-        "Build and compare job offers, health plans, retirement benefits, PTO, employer contributions, and hidden benefits in one private workplace-finance workspace.",
+        "Preview a sample Benefits Receipt, then build and compare pay, health plans, retirement benefits, PTO, employer contributions, vesting, and hidden benefits privately.",
       url: `${SITE_URL}/tools/benefits-command-center`,
       applicationCategory: "FinanceApplication",
       operatingSystem: "Any",

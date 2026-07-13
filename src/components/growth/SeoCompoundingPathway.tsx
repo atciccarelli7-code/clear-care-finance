@@ -1,5 +1,7 @@
 import { NextStepCards } from "@/components/shared/NextStepCards";
 import {
+  getArticleCompoundingPathway,
+  getHubCompoundingPathway,
   getVisibleCompoundingCards,
   type CompoundingPathwayCard,
   type SeoCompoundingPathway,
@@ -11,6 +13,10 @@ interface SeoCompoundingPathwayProps {
   currentPath: string;
   surface: "article" | "hub";
   contained?: boolean;
+}
+
+interface RouteSeoCompoundingPathwayProps {
+  pathname: string;
 }
 
 const eventNameFor = (surface: "article" | "hub", card: CompoundingPathwayCard) => {
@@ -51,6 +57,20 @@ export const SeoCompoundingPathway = ({ pathway, currentPath, surface, contained
       {content}
     </div>
   );
+};
+
+export const RouteSeoCompoundingPathway = ({ pathname }: RouteSeoCompoundingPathwayProps) => {
+  const articleSlug = pathname.startsWith("/articles/") ? pathname.slice("/articles/".length) : "";
+  const articlePathway = articleSlug ? getArticleCompoundingPathway(articleSlug) : null;
+
+  if (articlePathway) {
+    return <SeoCompoundingPathway pathway={articlePathway} currentPath={pathname} surface="article" />;
+  }
+
+  const hubPathway = getHubCompoundingPathway(pathname);
+  if (!hubPathway) return null;
+
+  return <SeoCompoundingPathway pathway={hubPathway} currentPath={pathname} surface="hub" />;
 };
 
 export default SeoCompoundingPathway;

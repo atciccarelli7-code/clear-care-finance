@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { AlertTriangle, CheckCircle2, ClipboardCheck, Copy, Printer, RotateCcw } from "lucide-react";
 import { NextStepCards } from "@/components/shared/NextStepCards";
@@ -66,9 +66,11 @@ export const DecisionResultPanel = ({
   const location = useLocation();
   const journeyId = getReadinessJourneyId(location.pathname);
   const handoffs = journeyId ? READINESS_JOURNEY_HANDOFFS[journeyId] : [];
+  const completionTrackedRef = useRef(false);
 
   useEffect(() => {
-    if (!journeyId) return;
+    if (!journeyId || completionTrackedRef.current) return;
+    completionTrackedRef.current = true;
     trackReadinessJourneyEvent("decision_journey_completed", { journey_id: journeyId });
   }, [journeyId]);
 

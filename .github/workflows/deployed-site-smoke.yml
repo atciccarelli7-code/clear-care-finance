@@ -1,0 +1,98 @@
+name: Deployed Site Smoke
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Deployment or canonical URL to verify
+        required: true
+        type: string
+      environment:
+        description: Treat response as a preview or production deployment
+        required: true
+        default: preview
+        type: choice
+        options:
+          - preview
+          - production
+          - auto
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deployed-site-smoke-${{ github.event.deployment.environment || inputs.environment || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Verify deployed application
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'deployment_status' &&
+       github.event.deployment_status.state == 'success' &&
+       (github.event.deployment_status.environment_url != '' || github.event.deployment_status.target_url != ''))
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      SMOKE_BASE_URL: ${{ github.event_name == 'deployment_status' && github.event.deployment.environment == 'Production' && 'https://communityacquiredfinance.com' || github.event.deployment_status.environment_url || github.event.deployment_status.target_url || inputs.base_url }}
+      SMOKE_ENVIRONMENT: ${{ github.event_name == 'deployment_status' && github.event.deployment.environment == 'Production' && 'production' || github.event_name == 'deployment_status' && github.event.deployment.environment == 'Preview' && 'preview' || inputs.environment || 'auto' }}
+      SMOKE_REPORT_PATH: artifacts/deployed-site-smoke.json
+      VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+
+    steps:
+      - name: Check out deployed ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.ref || github.ref }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Verify deployed routes
+        run: >-
+          node scripts/check-deployed-site.mjs
+          --base-url "$SMOKE_BASE_URL"
+          --environment "$SMOKE_ENVIRONMENT"
+          --attempts 8
+          --delay-ms 10000
+          --report "$SMOKE_REPORT_PATH"
+
+      - name: Publish smoke summary
+        if: always()
+        run: |
+          if [ ! -f "$SMOKE_REPORT_PATH" ]; then
+            echo "## Deployed-site smoke test" >> "$GITHUB_STEP_SUMMARY"
+            echo "The verifier exited before producing a report." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          node --input-type=module <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          import { readFile } from "node:fs/promises";
+          const report = JSON.parse(await readFile(process.env.SMOKE_REPORT_PATH, "utf8"));
+          console.log("## Deployed-site smoke test");
+          console.log("");
+          console.log(`- Environment: **${report.environment}**`);
+          console.log(`- Base URL: ${report.baseUrl}`);
+          console.log(`- Result: **${report.passed ? "PASS" : "FAIL"}**`);
+          console.log(`- Healthy routes: ${report.checkedRoutes - report.failedRoutes}/${report.checkedRoutes}`);
+          console.log("");
+          console.log("| Route | Result | Details |");
+          console.log("| --- | --- | --- |");
+          for (const result of report.results) {
+            const details = result.passed ? "Healthy" : result.errors.join("; ").replaceAll("|", "\\|");
+            console.log(`| \`${result.path}\` | ${result.passed ? "PASS" : "FAIL"} | ${details} |`);
+          }
+          NODE
+
+      - name: Upload smoke report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployed-site-smoke-${{ github.run_id }}
+          path: artifacts/deployed-site-smoke.json
+          if-no-files-found: warn
+          retention-days: 14

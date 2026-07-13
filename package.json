@@ -22,7 +22,8 @@
     "guide:content-check": "node scripts/check-medicare-medicaid-guide-content.mjs",
     "guide:quick-content-check": "node scripts/check-medicare-medicaid-quick-guide-content.mjs",
     "guide:quick-content-check:all": "node scripts/check-quick-guide-content.mjs all",
-    "content:freshness-check": "node scripts/check-content-freshness.mjs"
+    "content:freshness-check": "node scripts/check-content-freshness.mjs",
+    "smoke:deployed": "node scripts/check-deployed-site.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

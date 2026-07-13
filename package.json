@@ -22,7 +22,8 @@
     "guide:content-check": "node scripts/check-medicare-medicaid-guide-content.mjs",
     "guide:quick-content-check": "node scripts/check-medicare-medicaid-quick-guide-content.mjs",
     "guide:quick-content-check:all": "node scripts/check-quick-guide-content.mjs all",
-    "content:freshness-check": "node scripts/check-content-freshness.mjs"
+    "content:freshness-check": "node scripts/check-content-freshness.mjs",
+    "smoke:deployed": "node scripts/check-deployed-site.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -68,7 +69,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.61.1",
-    "react-resizable-panels": "^2.1.9",
+    "react-resizable-panels": "^1.0.7",
     "react-router-dom": "^6.30.1",
     "recharts": "^2.15.4",
     "resend": "^6.16.0",

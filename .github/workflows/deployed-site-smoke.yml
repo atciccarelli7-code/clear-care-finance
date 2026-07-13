@@ -42,8 +42,10 @@ jobs:
       VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
     steps:
-      - name: Check out repository
+      - name: Check out deployed ref
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.ref || github.ref }}
 
       - name: Set up Node
         uses: actions/setup-node@v4

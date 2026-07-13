@@ -1,6 +1,13 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { AlertTriangle, CheckCircle2, ClipboardCheck, Copy, Printer, RotateCcw } from "lucide-react";
+import { NextStepCards } from "@/components/shared/NextStepCards";
 import { Button } from "@/components/ui/button";
+import { READINESS_JOURNEY_HANDOFFS } from "@/data/readinessJourneys";
+import {
+  getReadinessJourneyId,
+  trackReadinessJourneyEvent,
+} from "@/lib/decisionJourneyAnalytics";
 import type { DecisionResult } from "@/lib/roadmapDecisionTools";
 
 const ResultList = ({ title, items }: { title: string; items: string[] }) => {
@@ -55,39 +62,76 @@ export const DecisionResultPanel = ({
   onPrint: () => void;
   onReset: () => void;
   children?: ReactNode;
-}) => (
-  <div className="space-y-5" aria-live="polite">
-    <section className="rounded-3xl border border-primary/25 bg-primary-soft/30 p-5 shadow-card md:p-7">
-      <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Qualified decision direction</p>
-      <h2 className="mt-2 font-display text-2xl font-bold leading-tight text-foreground md:text-3xl">{result.direction}</h2>
-      <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">{result.summary}</p>
-    </section>
+}) => {
+  const location = useLocation();
+  const journeyId = getReadinessJourneyId(location.pathname);
+  const handoffs = journeyId ? READINESS_JOURNEY_HANDOFFS[journeyId] : [];
 
-    <div className="grid gap-4 lg:grid-cols-2">
-      <ResultList title="Why this direction applies" items={result.reasons} />
-      <ResultList title="Do now" items={result.doNow} />
-      <ResultList title="Verify" items={result.verify} />
-      <ResultList title="Learn later" items={result.learnLater} />
+  useEffect(() => {
+    if (!journeyId) return;
+    trackReadinessJourneyEvent("decision_journey_completed", { journey_id: journeyId });
+  }, [journeyId]);
+
+  const trackResultAction = (resultAction: "copy" | "print" | "reset") => {
+    if (!journeyId) return;
+    trackReadinessJourneyEvent("decision_journey_result_action", {
+      journey_id: journeyId,
+      result_action: resultAction,
+    });
+  };
+
+  return (
+    <div className="space-y-5" aria-live="polite">
+      <section className="rounded-3xl border border-primary/25 bg-primary-soft/30 p-5 shadow-card md:p-7">
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Qualified decision direction</p>
+        <h2 className="mt-2 font-display text-2xl font-bold leading-tight text-foreground md:text-3xl">{result.direction}</h2>
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">{result.summary}</p>
+      </section>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <ResultList title="Why this direction applies" items={result.reasons} />
+        <ResultList title="Do now" items={result.doNow} />
+        <ResultList title="Verify" items={result.verify} />
+        <ResultList title="Learn later" items={result.learnLater} />
+      </div>
+
+      <section className="rounded-2xl border border-amber-300 bg-amber-50/80 p-4 dark:border-amber-800 dark:bg-amber-950/20 md:p-5">
+        <h3 className="flex items-center gap-2 font-display text-lg font-bold text-foreground">
+          <AlertTriangle className="h-5 w-5 text-amber-700 dark:text-amber-300" aria-hidden="true" /> Important limits
+        </h3>
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
+          {result.cautions.map((item) => <li key={item}>• {item}</li>)}
+        </ul>
+      </section>
+
+      {children}
+
+      {journeyId && handoffs.length > 0 && (
+        <NextStepCards
+          eyebrow="Continue the decision"
+          title="Use the next tool that matches what remains unresolved"
+          description="These are approved canonical CAF handoffs. Your answers and result are not transferred into the next route."
+          cards={handoffs}
+          columns="two"
+          onCardOpen={(card) => {
+            const handoff = handoffs.find((item) => item.href === card.href);
+            if (!handoff) return;
+            trackReadinessJourneyEvent("decision_journey_handoff_opened", {
+              journey_id: journeyId,
+              handoff_id: handoff.id,
+            });
+          }}
+        />
+      )}
+
+      <div className="flex flex-col gap-3 sm:flex-row print:hidden">
+        <Button type="button" onClick={() => { trackResultAction("copy"); onCopy(); }}><Copy className="h-4 w-4" /> {copied ? "Copied" : "Copy plan"}</Button>
+        <Button type="button" variant="outline" onClick={() => { trackResultAction("print"); onPrint(); }}><Printer className="h-4 w-4" /> Print or save as PDF</Button>
+        <Button type="button" variant="ghost" onClick={() => { trackResultAction("reset"); onReset(); }}><RotateCcw className="h-4 w-4" /> Start over</Button>
+      </div>
     </div>
-
-    <section className="rounded-2xl border border-amber-300 bg-amber-50/80 p-4 dark:border-amber-800 dark:bg-amber-950/20 md:p-5">
-      <h3 className="flex items-center gap-2 font-display text-lg font-bold text-foreground">
-        <AlertTriangle className="h-5 w-5 text-amber-700 dark:text-amber-300" aria-hidden="true" /> Important limits
-      </h3>
-      <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
-        {result.cautions.map((item) => <li key={item}>• {item}</li>)}
-      </ul>
-    </section>
-
-    {children}
-
-    <div className="flex flex-col gap-3 sm:flex-row print:hidden">
-      <Button type="button" onClick={onCopy}><Copy className="h-4 w-4" /> {copied ? "Copied" : "Copy plan"}</Button>
-      <Button type="button" variant="outline" onClick={onPrint}><Printer className="h-4 w-4" /> Print or save as PDF</Button>
-      <Button type="button" variant="ghost" onClick={onReset}><RotateCcw className="h-4 w-4" /> Start over</Button>
-    </div>
-  </div>
-);
+  );
+};
 
 export const DecisionToolIntro = ({ children }: { children: ReactNode }) => (
   <div className="rounded-2xl border border-primary/15 bg-primary-soft/25 p-4 text-sm leading-relaxed text-muted-foreground md:p-5">

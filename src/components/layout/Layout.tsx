@@ -7,6 +7,8 @@ import { MobileBottomNav } from "./MobileBottomNav";
 import { PrivacyChoices } from "@/components/shared/PrivacyChoices";
 import { RouteFreshness } from "@/components/shared/RouteFreshness";
 import { DecisionJourneyDirectory } from "@/components/shared/DecisionJourneyDirectory";
+import { SeoCompoundingPathway } from "@/components/growth/SeoCompoundingPathway";
+import { getHubCompoundingPathway } from "@/data/seoCompoundingPathways";
 import { hasNavigatorContextAction } from "@/components/navigator/navigatorContextConfig";
 import { hasBenefitsCommandCenterEntry } from "@/components/benefits/benefitsCommandCenterEntryConfig";
 import { scrollToHashTarget } from "@/lib/routeScroll";
@@ -29,6 +31,7 @@ export const Layout = () => {
   const showBenefitsCommandCenterEntry = hasBenefitsCommandCenterEntry(location.pathname);
   const showContinuity = continuityRoutes.has(location.pathname);
   const showJourneyDirectory = location.pathname === "/start-here";
+  const hubPathway = getHubCompoundingPathway(location.pathname);
 
   useEffect(() => {
     if (!location.hash) return undefined;
@@ -50,6 +53,13 @@ export const Layout = () => {
           </Suspense>
         )}
         <Outlet />
+        {hubPathway && (
+          <SeoCompoundingPathway
+            pathway={hubPathway}
+            currentPath={location.pathname}
+            surface="hub"
+          />
+        )}
         {showJourneyDirectory && <DecisionJourneyDirectory />}
         {showBenefitsCommandCenterEntry && (
           <Suspense fallback={null}>

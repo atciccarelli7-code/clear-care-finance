@@ -13,12 +13,14 @@ import { RelatedArticles } from "@/components/shared/RelatedArticles";
 import { MedicareLearningPath } from "@/components/shared/MedicareLearningPath";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { CalculatorByKey } from "@/components/calculators/CalculatorByKey";
+import HealthcareWorkerDiscountsPage from "@/components/discounts/HealthcareWorkerDiscountsPage";
 import { Button } from "@/components/ui/button";
 
 const TopicPage = () => {
   const { slug = "" } = useParams();
   const topic = findTopic(slug);
   if (!topic) return <Navigate to="/topics" replace />;
+  if (topic.slug === "discounts-perks") return <HealthcareWorkerDiscountsPage />;
 
   const isMedicareHub = topic.slug === "medicare-medicaid";
   const navItems = [
@@ -71,7 +73,7 @@ const TopicPage = () => {
           <SectionHeading centered eyebrow="Comparison" title={topic.comparison.title} description={topic.comparison.description} />
           <div className="grid min-w-0 gap-6 md:grid-cols-2 max-w-4xl mx-auto">
             <ComparisonCard side={topic.comparison.left} />
-            <ComparisonCard side={topic.comparison.right} />
+          <ComparisonCard side={topic.comparison.right} />
           </div>
         </section>
       )}

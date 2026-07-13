@@ -45,17 +45,17 @@
     --input: 150 12% 84%;
     --ring: 154 38% 23%;
 
-    --radius: 1rem;
+    --radius: 0.875rem;
 
-    --shadow-soft: 0 8px 28px -16px hsl(158 24% 18% / 0.18);
-    --shadow-card: 0 4px 18px -12px hsl(158 24% 18% / 0.16);
-    --shadow-hover: 0 18px 44px -22px hsl(154 38% 18% / 0.28);
+    --shadow-soft: 0 8px 24px -18px hsl(158 24% 18% / 0.15);
+    --shadow-card: 0 5px 16px -14px hsl(158 24% 18% / 0.13);
+    --shadow-hover: 0 14px 32px -22px hsl(154 38% 18% / 0.24);
 
-    --gradient-hero: radial-gradient(ellipse at top, hsl(var(--primary-soft) / 0.86) 0%, hsl(var(--background)) 58%, hsl(var(--section-bg)) 100%);
+    --gradient-hero: radial-gradient(ellipse at top, hsl(var(--primary-soft) / 0.58) 0%, hsl(var(--background)) 60%, hsl(var(--section-bg)) 100%);
     --gradient-primary: linear-gradient(135deg, hsl(154 38% 25%), hsl(154 38% 19%));
     --gradient-accent: linear-gradient(135deg, hsl(154 30% 31%), hsl(154 34% 22%));
 
-    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
@@ -82,10 +82,10 @@
     --border: 158 10% 19%;
     --input: 158 10% 19%;
     --ring: 145 28% 58%;
-    --shadow-soft: 0 4px 24px -8px hsl(160 30% 2% / 0.6);
-    --shadow-card: 0 2px 12px -4px hsl(160 30% 2% / 0.5);
-    --shadow-hover: 0 16px 40px -16px hsl(145 50% 30% / 0.45);
-    --gradient-hero: radial-gradient(ellipse at top, hsl(145 30% 14% / 0.6) 0%, hsl(var(--background)) 64%);
+    --shadow-soft: 0 4px 20px -10px hsl(160 30% 2% / 0.52);
+    --shadow-card: 0 2px 10px -5px hsl(160 30% 2% / 0.45);
+    --shadow-hover: 0 12px 32px -18px hsl(145 50% 30% / 0.38);
+    --gradient-hero: radial-gradient(ellipse at top, hsl(145 30% 14% / 0.44) 0%, hsl(var(--background)) 66%);
     --gradient-primary: linear-gradient(135deg, hsl(145 30% 52%), hsl(145 30% 46%));
     --gradient-accent: linear-gradient(135deg, hsl(145 28% 38%), hsl(145 28% 32%));
   }
@@ -101,8 +101,8 @@
     text-rendering: optimizeLegibility;
     font-feature-settings: "cv11", "ss01";
     background-image:
-      radial-gradient(ellipse 58% 34% at 50% -10%, hsl(var(--primary-soft) / 0.58), transparent 72%),
-      linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--background-soft)) 54%, hsl(var(--section-bg)) 100%);
+      radial-gradient(ellipse 58% 30% at 50% -12%, hsl(var(--primary-soft) / 0.34), transparent 74%),
+      linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--background-soft)) 58%, hsl(var(--section-bg)) 100%);
     background-attachment: fixed;
   }
   #root { width: 100%; max-width: 100%; min-width: 0; }

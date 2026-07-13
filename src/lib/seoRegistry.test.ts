@@ -41,6 +41,10 @@ describe("runtime SEO registry", () => {
 
   it("preserves site overrides and noindexes unknown routes", () => {
     expect(resolveSiteSeoMeta("/tools").title).toBe("Financial Calculators and Decision Tools");
+    expect(resolveSeoMeta("/for-organizations")).toMatchObject({
+      canonicalPath: "/for-organizations",
+      robots: "index, follow, max-image-preview:large",
+    });
     expect(resolveSeoMeta("/definitely-not-a-route").robots).toBe("noindex, nofollow");
   });
 });

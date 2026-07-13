@@ -17,12 +17,17 @@ export const GROWTH_EVENT_NAMES = [
   "benefits_review_reset",
   "benefits_local_review_deleted",
   "benefits_related_journey_opened",
+  "organization_page_viewed",
+  "organization_pilot_details_viewed",
+  "organization_demo_opened",
+  "organization_contact_selected",
 ] as const;
 
 export type GrowthEventName = (typeof GROWTH_EVENT_NAMES)[number];
-export type GrowthEntrySurface = "home" | "start_here" | "tools" | "acquisition_article" | "detector" | "receipt";
+export type GrowthEntrySurface = "home" | "start_here" | "tools" | "acquisition_article" | "detector" | "receipt" | "organization";
 export type GrowthCompletionBand = "started" | "partial" | "complete";
 export type GrowthReceiptAction = "view" | "copy" | "print" | "calendar" | "share" | "reset" | "delete";
+export type GrowthCtaType = "pilot_inquiry" | "pilot_scope";
 
 export type GrowthEventProperties = {
   entry_surface?: GrowthEntrySurface;
@@ -31,6 +36,7 @@ export type GrowthEventProperties = {
   completion_band?: GrowthCompletionBand;
   receipt_action?: GrowthReceiptAction;
   handoff_id?: string;
+  cta_type?: GrowthCtaType;
 };
 const ALLOWED_PROPERTY_KEYS = new Set<keyof GrowthEventProperties>([
   "entry_surface",
@@ -39,6 +45,7 @@ const ALLOWED_PROPERTY_KEYS = new Set<keyof GrowthEventProperties>([
   "completion_band",
   "receipt_action",
   "handoff_id",
+  "cta_type",
 ]);
 
 const FIXED_VALUE_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;

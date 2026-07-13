@@ -21,4 +21,17 @@ describe("privacy-safe growth analytics", () => {
       handoff_id: "employer: hospital",
     })).toEqual({ name: "benefits_review_started", properties: {} });
   });
+
+  it("allows only categorical organization-pilot intent without buyer or employer details", () => {
+    expect(sanitizeGrowthEvent("organization_contact_selected", {
+      entry_surface: "organization",
+      cta_type: "pilot_inquiry",
+      employer_name: "Example Health System",
+      email: "buyer@example.com",
+      notes: "Call next week",
+    })).toEqual({
+      name: "organization_contact_selected",
+      properties: { entry_surface: "organization", cta_type: "pilot_inquiry" },
+    });
+  });
 });

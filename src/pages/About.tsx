@@ -7,6 +7,7 @@ import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { SOURCE_PRESETS } from "@/data/sources";
 import { useSeo } from "@/lib/seo";
+import { AUTHOR_NAME } from "@/lib/seoRegistry";
 
 const About = () => {
   useSeo({
@@ -14,6 +15,20 @@ const About = () => {
     description:
       "Community Acquired Finance is written by Andrew Ciccarelli, RN, BSN, a bedside nurse building plain-English healthcare finance education for workers, patients, families, and caregivers.",
     canonicalPath: "/about",
+    jsonLd: [{
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://communityacquiredfinance.com/about#andrew-ciccarelli",
+      name: AUTHOR_NAME,
+      url: "https://communityacquiredfinance.com/about",
+      jobTitle: "Registered Nurse",
+      worksFor: {
+        "@type": "Organization",
+        name: "Community Acquired Finance",
+        url: "https://communityacquiredfinance.com",
+      },
+      knowsAbout: ["bedside nursing", "healthcare navigation", "plain-English healthcare financial education"],
+    }],
   });
 
   const allSources = Object.values(SOURCE_PRESETS);
@@ -62,6 +77,9 @@ const About = () => {
               </p>
               <p>
                 This site combines those two worlds: the bedside view of how confusing healthcare can be, and the finance view of how much small decisions can compound for or against a household.
+              </p>
+              <p>
+                <strong className="text-foreground">Credential boundary:</strong> my RN and BSN credentials support the bedside and healthcare-navigation perspective. They do not make me a CFP professional, attorney, tax preparer, insurance producer, Medicare representative, fiduciary, or benefits administrator. Pages identify their source and review status, and no independent professional review is implied unless a qualified reviewer is named.
               </p>
             </div>
           </div>

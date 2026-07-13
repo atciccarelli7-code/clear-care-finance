@@ -109,7 +109,7 @@ export function NewsletterSignup({
   return (
     <section
       className={cn(
-        "min-w-0 overflow-hidden rounded-3xl border border-primary/20 bg-primary-soft/35 p-5 shadow-card md:p-7",
+        "min-w-0 overflow-hidden rounded-xl border border-primary/15 bg-primary-soft/25 p-5 md:p-7",
         !compact && "md:p-8",
         className,
       )}
@@ -117,20 +117,21 @@ export function NewsletterSignup({
     >
       <div className={cn("grid min-w-0 gap-6", compact ? "" : "lg:grid-cols-[1fr_420px] lg:items-center")}>
         <div className="min-w-0 space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full bg-background/80 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-primary">
-            <Mail className="h-3.5 w-3.5" /> Monthly email
+          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.16em] text-primary">
+            <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>Monthly email</span>
           </div>
           <h2 id={`newsletter-signup-${source}`} className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
             {title}
           </h2>
           <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">{displayDescription}</p>
           <div className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
-            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
             <span>No spam, no popups, no individualized advice. Educational emails only. Unsubscribe anytime.</span>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="min-w-0 space-y-3 rounded-2xl border border-border bg-card/90 p-4 shadow-sm md:p-5">
+        <form onSubmit={handleSubmit} className="min-w-0 space-y-3 rounded-lg border border-border bg-card/90 p-4 md:p-5">
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor={`newsletter-first-name-${source}`} className="text-sm font-semibold">First name</Label>
@@ -161,7 +162,7 @@ export function NewsletterSignup({
             <Input id={`newsletter-website-${source}`} value={website} onChange={(event) => setWebsite(event.target.value)} tabIndex={-1} autoComplete="off" />
           </div>
 
-          <label className="flex cursor-pointer items-start gap-2 rounded-2xl border border-border bg-muted/30 p-3 text-xs leading-relaxed text-muted-foreground">
+          <label className="flex cursor-pointer items-start gap-2 rounded-lg border border-border bg-muted/20 p-3 text-xs leading-relaxed text-muted-foreground">
             <input
               type="checkbox"
               checked={consent}

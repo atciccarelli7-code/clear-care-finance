@@ -1,6 +1,7 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { AppErrorBoundary } from "./components/system/AppErrorBoundary";
 import { installRouteAwareAdSense } from "./lib/routeAwareAdSense";
 
 const container = document.getElementById("root");
@@ -11,8 +12,14 @@ if (!container) {
 
 installRouteAwareAdSense();
 
+const application = (
+  <AppErrorBoundary>
+    <App />
+  </AppErrorBoundary>
+);
+
 if (container.hasChildNodes()) {
-  hydrateRoot(container, <App />);
+  hydrateRoot(container, application);
 } else {
-  createRoot(container).render(<App />);
+  createRoot(container).render(application);
 }

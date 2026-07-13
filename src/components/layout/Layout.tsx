@@ -7,8 +7,6 @@ import { MobileBottomNav } from "./MobileBottomNav";
 import { PrivacyChoices } from "@/components/shared/PrivacyChoices";
 import { RouteFreshness } from "@/components/shared/RouteFreshness";
 import { DecisionJourneyDirectory } from "@/components/shared/DecisionJourneyDirectory";
-import { SeoCompoundingPathway } from "@/components/growth/SeoCompoundingPathway";
-import { getArticleCompoundingPathway, getHubCompoundingPathway } from "@/data/seoCompoundingPathways";
 import { hasNavigatorContextAction } from "@/components/navigator/navigatorContextConfig";
 import { hasBenefitsCommandCenterEntry } from "@/components/benefits/benefitsCommandCenterEntryConfig";
 import { scrollToHashTarget } from "@/lib/routeScroll";
@@ -22,6 +20,9 @@ const BenefitsCommandCenterEntry = lazy(() =>
 const ContinueWhereYouLeftOff = lazy(() =>
   import("@/components/shared/ContinueWhereYouLeftOff").then((module) => ({ default: module.ContinueWhereYouLeftOff })),
 );
+const RouteSeoCompoundingPathway = lazy(() =>
+  import("@/components/growth/SeoCompoundingPathway").then((module) => ({ default: module.RouteSeoCompoundingPathway })),
+);
 
 const continuityRoutes = new Set(["/", "/start-here", "/tools"]);
 
@@ -31,9 +32,6 @@ export const Layout = () => {
   const showBenefitsCommandCenterEntry = hasBenefitsCommandCenterEntry(location.pathname);
   const showContinuity = continuityRoutes.has(location.pathname);
   const showJourneyDirectory = location.pathname === "/start-here";
-  const hubPathway = getHubCompoundingPathway(location.pathname);
-  const articleSlug = location.pathname.startsWith("/articles/") ? location.pathname.slice("/articles/".length) : "";
-  const articlePathway = articleSlug ? getArticleCompoundingPathway(articleSlug) : null;
 
   useEffect(() => {
     if (!location.hash) return undefined;
@@ -55,20 +53,9 @@ export const Layout = () => {
           </Suspense>
         )}
         <Outlet />
-        {articlePathway && (
-          <SeoCompoundingPathway
-            pathway={articlePathway}
-            currentPath={location.pathname}
-            surface="article"
-          />
-        )}
-        {hubPathway && (
-          <SeoCompoundingPathway
-            pathway={hubPathway}
-            currentPath={location.pathname}
-            surface="hub"
-          />
-        )}
+        <Suspense fallback={null}>
+          <RouteSeoCompoundingPathway pathname={location.pathname} />
+        </Suspense>
         {showJourneyDirectory && <DecisionJourneyDirectory />}
         {showBenefitsCommandCenterEntry && (
           <Suspense fallback={null}>

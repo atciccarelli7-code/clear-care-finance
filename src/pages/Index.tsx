@@ -54,6 +54,15 @@ const topicPromiseOverrides: Record<string, string> = {
     "Make sense of retirement matches, insurance, pre-tax accounts, and open enrollment—no matter where you work.",
 };
 
+const standards = [
+  { t: "Plain-English education", d: "No jargon, no acronym soup." },
+  { t: "Credible sources", d: "Every topic links to government or reputable references." },
+  { t: "Practical calculators", d: "Numbers you can actually use." },
+  { t: "No scare tactics", d: "Information, not fear." },
+  { t: "No spammy monetization", d: "No popups, no sales funnels." },
+  { t: "Educational only", d: "Never individualized advice." },
+];
+
 const Index = () => {
   const featuredTopics = featuredTopicSlugs
     .map((slug) => TOPICS.find((topic) => topic.slug === slug))
@@ -165,14 +174,14 @@ const Index = () => {
         </p>
       </section>
 
-      <section className="border-y border-border bg-card/30 py-16 md:py-20">
+      <section className="border-y border-border bg-card/20 py-16 md:py-20">
         <div className="container min-w-0">
           <SectionHeading
             eyebrow="Explore by topic"
             title="General financial guidance, with deeper healthcare expertise"
             description="Move from a plain-English explanation to a comparison, calculator, related articles, and trusted sources."
           />
-          <div className="grid min-w-0 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid min-w-0 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {featuredTopics.map((topic) => {
               const href = `/topics/${topic.slug}`;
               return (
@@ -188,7 +197,7 @@ const Index = () => {
               );
             })}
           </div>
-          <div className="mt-10 text-center min-w-0">
+          <div className="mt-10 min-w-0 text-center">
             <Button asChild variant="soft">
               <Link
                 to="/topics"
@@ -202,7 +211,7 @@ const Index = () => {
       </section>
 
       <section className="container min-w-0 py-16 md:py-20">
-        <div className="flex min-w-0 flex-wrap items-end justify-between gap-4 mb-12">
+        <div className="mb-10 flex min-w-0 flex-wrap items-end justify-between gap-4">
           <SectionHeading
             eyebrow="Articles"
             title="Start with a question you already have"
@@ -218,7 +227,7 @@ const Index = () => {
             </Link>
           </Button>
         </div>
-        <div className="grid min-w-0 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid min-w-0 gap-5 md:grid-cols-2 lg:grid-cols-4">
           {featuredArticles.map((article) => (
             <ArticleCard
               key={article.slug}
@@ -231,7 +240,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="bg-gradient-hero border-y border-border py-16 md:py-20">
+      <section className="border-y border-border bg-background/55 py-16 md:py-20">
         <div className="container min-w-0">
           <SectionHeading
             centered
@@ -239,20 +248,13 @@ const Index = () => {
             title="Built for clarity, not clicks."
             description="Money and healthcare are complicated enough. The explanation should not add to the confusion."
           />
-          <div className="grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
-            {[
-              { t: "Plain-English education", d: "No jargon, no acronym soup." },
-              { t: "Credible sources", d: "Every topic links to government or reputable references." },
-              { t: "Practical calculators", d: "Numbers you can actually use." },
-              { t: "No scare tactics", d: "Information, not fear." },
-              { t: "No spammy monetization", d: "No popups, no sales funnels." },
-              { t: "Educational only", d: "Never individualized advice." },
-            ].map((item) => (
-              <div key={item.t} className="flex min-w-0 gap-3 rounded-2xl bg-card border border-border p-5 shadow-card">
-                <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+          <div className="mx-auto grid max-w-5xl min-w-0 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+            {standards.map((item) => (
+              <div key={item.t} className="flex min-w-0 gap-3 border-t border-border/80 py-5">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
                 <div className="min-w-0 break-words">
                   <div className="font-semibold break-words">{item.t}</div>
-                  <div className="text-sm text-muted-foreground break-words">{item.d}</div>
+                  <div className="mt-1 text-sm text-muted-foreground break-words">{item.d}</div>
                 </div>
               </div>
             ))}
@@ -269,35 +271,38 @@ const Index = () => {
         />
       </section>
 
-      <section className="container min-w-0 py-20">
-        <div className="min-w-0 break-words rounded-3xl bg-gradient-primary p-6 text-center text-primary-foreground shadow-hover sm:p-10 md:p-16">
-          <BookOpen className="h-10 w-10 mx-auto mb-4 opacity-90" />
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-balance break-words">Start with one small win</h2>
-          <p className="text-lg opacity-90 max-w-xl mx-auto mb-7 break-words">
-            Pick a calculator, one guide, or one article. Financial clarity compounds over time.
-          </p>
-          <div className="flex min-w-0 flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild size="lg" variant="secondary">
-              <Link
-                to="/tools"
-                onClick={() => trackHomepageNavigation("closing_cta", "browse_tools", "/tools")}
+      <section className="container min-w-0 py-16 md:py-20">
+        <div className="min-w-0 break-words rounded-xl bg-primary p-7 text-primary-foreground shadow-card md:p-10">
+          <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <h2 className="font-display text-3xl font-bold text-balance break-words md:text-4xl">Start with one small win</h2>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-primary-foreground/85 break-words md:text-lg">
+                Pick a calculator, one guide, or one article. Financial clarity compounds over time.
+              </p>
+            </div>
+            <div className="flex min-w-0 flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
+              <Button asChild size="lg" variant="secondary">
+                <Link
+                  to="/tools"
+                  onClick={() => trackHomepageNavigation("closing_cta", "browse_tools", "/tools")}
+                >
+                  <Calculator className="h-4 w-4" /> Browse tools
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-primary-foreground/35 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
-                <Calculator className="h-4 w-4" /> Browse tools
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="bg-transparent text-primary-foreground border-primary-foreground/40 hover:bg-primary-foreground/10 hover:text-primary-foreground"
-            >
-              <Link
-                to="/articles"
-                onClick={() => trackHomepageNavigation("closing_cta", "read_article", "/articles")}
-              >
-                <FileText className="h-4 w-4" /> Read an article
-              </Link>
-            </Button>
+                <Link
+                  to="/articles"
+                  onClick={() => trackHomepageNavigation("closing_cta", "read_article", "/articles")}
+                >
+                  <FileText className="h-4 w-4" /> Read an article
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

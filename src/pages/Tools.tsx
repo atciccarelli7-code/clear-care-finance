@@ -14,7 +14,6 @@ import {
   Receipt,
   Search,
   Shield,
-  Sparkles,
   Wallet,
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
@@ -38,6 +37,15 @@ const iconByKey: Record<ToolIconKey, typeof Calculator> = {
   shield: Shield,
   wallet: Wallet,
 };
+
+const featuredToolSelections = [
+  { slug: "benefits-command-center", role: "Full benefits workspace" },
+  { slug: "benefits-change-detector", role: "Annual benefits review" },
+  { slug: "medical-bill-review-flow", role: "Medical bill triage" },
+  { slug: "roth-vs-traditional-decision-helper", role: "Retirement tax decision" },
+  { slug: "medicare-plan-verification-checklist", role: "Medicare plan verification" },
+  { slug: "debt-vs-retirement-router", role: "Debt and savings priority" },
+] as const;
 
 const allTools = [...tools, ...roadmapTools];
 
@@ -74,7 +82,10 @@ const Tools = () => {
     return matchesCategory && (!normalizedQuery || haystack.includes(normalizedQuery));
   });
 
-  const featuredTools = allTools.filter((tool) => tool.featured);
+  const featuredTools = featuredToolSelections.flatMap(({ slug, role }) => {
+    const tool = allTools.find((item) => item.slug === slug);
+    return tool ? [{ tool, role }] : [];
+  });
 
   const trackOpen = (slug: string, title: string) => {
     trackToolEvent("tool_intent_click", slug, title);
@@ -92,40 +103,42 @@ const Tools = () => {
         <DecisionConcierge entrySurface="tools" compact />
       </section>
 
-      <section className="container min-w-0 pt-10 md:pt-12" aria-labelledby="featured-tools-heading">
-        <div className="mb-6 max-w-3xl">
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">
-            <Sparkles className="h-4 w-4" aria-hidden="true" /> Best places to start
+      <section className="container min-w-0 pt-12 md:pt-16" aria-labelledby="featured-tools-heading">
+        <div className="mb-8 max-w-3xl">
+          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <span className="h-px w-7 bg-primary/35" aria-hidden="true" />
+            Curated starting points
           </div>
-          <h2 id="featured-tools-heading" className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">
-            Start with a complete decision workflow
+          <h2 id="featured-tools-heading" className="mt-3 font-display text-2xl font-bold tracking-tight md:text-3xl">
+            Start with the tool that owns the decision
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-            These tools turn a real question into an explanation, action plan, and list of details to verify.
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+            These six routes cover the site&apos;s most common full decisions. The complete directory below keeps every focused calculator, checklist, and guide available without making them all compete for attention.
           </p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {featuredTools.slice(0, 12).map((tool) => {
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {featuredTools.map(({ tool, role }) => {
             const Icon = iconByKey[tool.icon];
             return (
               <Link
                 key={tool.slug}
                 to={getToolHref(tool)}
                 onClick={() => trackOpen(tool.slug, tool.title)}
-                className="group flex min-w-0 flex-col rounded-3xl border border-primary/15 bg-gradient-to-br from-card to-primary-soft/25 p-5 shadow-card transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-hover"
+                className="group flex min-w-0 flex-col rounded-xl border border-border bg-card/75 p-5 transition-smooth hover:border-primary/35 hover:bg-card"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-soft/75 text-primary">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <span className="rounded-full border border-border bg-background/75 px-2.5 py-1 text-[0.66rem] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                  <div className="text-right text-[0.66rem] font-bold uppercase tracking-[0.12em] text-muted-foreground">
                     {tool.estimatedUseTime}
-                  </span>
+                  </div>
                 </div>
-                <div className="mt-4 text-[0.66rem] font-bold uppercase tracking-[0.16em] text-secondary">{tool.category}</div>
-                <h3 className="mt-1.5 font-display text-lg font-bold leading-tight text-foreground">{tool.shortTitle}</h3>
+                <div className="mt-5 text-[0.66rem] font-bold uppercase tracking-[0.14em] text-primary">{role}</div>
+                <div className="mt-1 text-[0.66rem] font-bold uppercase tracking-[0.14em] text-secondary">{tool.category}</div>
+                <h3 className="mt-2 font-display text-lg font-bold leading-tight text-foreground">{tool.shortTitle}</h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{tool.description}</p>
-                <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary">
+                <div className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-primary">
                   Open tool <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                 </div>
               </Link>
@@ -135,7 +148,7 @@ const Tools = () => {
       </section>
 
       <section className="container min-w-0 py-12 md:py-16" aria-labelledby="all-tools-heading">
-        <div className="rounded-[2rem] border border-border bg-card p-5 shadow-card md:p-7">
+        <div className="rounded-xl border border-border bg-card/75 p-5 md:p-7">
           <div className="grid gap-5 lg:grid-cols-[1fr_380px] lg:items-end">
             <div>
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Full directory</div>
@@ -152,7 +165,7 @@ const Tools = () => {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search bills, 403(b), Medicare…"
-                className="h-12 w-full rounded-2xl border border-border bg-background pl-11 pr-4 text-base text-foreground shadow-sm outline-none transition-smooth placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 md:text-sm"
+                className="h-12 w-full rounded-lg border border-border bg-background pl-11 pr-4 text-base text-foreground outline-none transition-smooth placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 md:text-sm"
               />
             </label>
           </div>
@@ -164,7 +177,7 @@ const Tools = () => {
                 type="button"
                 onClick={() => setCategory(item)}
                 aria-pressed={category === item}
-                className={`min-h-10 shrink-0 rounded-full border px-4 text-sm font-semibold transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                className={`min-h-10 shrink-0 rounded-lg border px-4 text-sm font-semibold transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                   category === item
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-background text-muted-foreground hover:border-primary/30 hover:text-foreground"
@@ -188,13 +201,13 @@ const Tools = () => {
                   <article
                     id={`tool-${tool.slug}`}
                     key={tool.slug}
-                    className={`scroll-mt-28 rounded-3xl border bg-background/70 p-5 transition-smooth ${
+                    className={`scroll-mt-28 rounded-xl border bg-background/65 p-5 transition-smooth ${
                       highlighted ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/25"
                     }`}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary">
-                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-soft/75 text-primary">
+                        <Icon className="h-4.5 w-4.5" aria-hidden="true" />
                       </div>
                       <div className="min-w-0">
                         <div className="text-[0.66rem] font-bold uppercase tracking-[0.14em] text-secondary">{tool.category}</div>
@@ -202,16 +215,18 @@ const Tools = () => {
                       </div>
                     </div>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{tool.description}</p>
-                    <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-muted-foreground">
-                      <span className="rounded-full bg-muted px-2.5 py-1">{tool.audience}</span>
-                      <span className="rounded-full bg-muted px-2.5 py-1">{tool.estimatedUseTime}</span>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1"><Check className="h-3.5 w-3.5" aria-hidden="true" /> Educational</span>
+                    <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs font-semibold text-muted-foreground">
+                      <span>{tool.audience}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{tool.estimatedUseTime}</span>
+                      <span aria-hidden="true">·</span>
+                      <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" aria-hidden="true" /> Educational</span>
                     </div>
                     <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                       <Link
                         to={getToolHref(tool)}
                         onClick={() => trackOpen(tool.slug, tool.title)}
-                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground transition-smooth hover:bg-primary/90"
+                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground transition-smooth hover:bg-primary/90"
                       >
                         Open tool <ArrowRight className="h-4 w-4" aria-hidden="true" />
                       </Link>
@@ -226,7 +241,7 @@ const Tools = () => {
               })}
             </div>
           ) : (
-            <div className="mt-5 rounded-3xl border border-dashed border-border bg-muted/25 p-8 text-center">
+            <div className="mt-5 rounded-xl border border-dashed border-border bg-muted/20 p-8 text-center">
               <h3 className="font-display text-xl font-bold">No tool matched that search.</h3>
               <p className="mt-2 text-sm text-muted-foreground">Try a broader term such as “bill,” “benefits,” “loan,” or “Medicare.”</p>
               <button type="button" onClick={() => { setQuery(""); setCategory("All tools"); }} className="mt-4 text-sm font-bold text-primary underline-offset-4 hover:underline">

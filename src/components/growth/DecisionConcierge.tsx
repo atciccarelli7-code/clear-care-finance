@@ -70,9 +70,9 @@ export const DecisionConcierge = ({ entrySurface, compact = false }: DecisionCon
   const followUpOptions = problem === "not_sure" ? CONCIERGE_AUDIENCE_OPTIONS : CONCIERGE_TIMING_OPTIONS;
 
   return (
-    <section className={`rounded-[2rem] border border-primary/20 bg-card shadow-card ${compact ? "p-5 md:p-6" : "p-6 md:p-8"}`} aria-labelledby={`concierge-${entrySurface}-heading`}>
+    <section className={`rounded-xl border border-border bg-card/75 ${compact ? "p-5 md:p-6" : "p-6 md:p-8"}`} aria-labelledby={`concierge-${entrySurface}-heading`}>
       <div className="flex items-start gap-4">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary"><Compass className="h-5 w-5" aria-hidden="true" /></div>
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-soft/75 text-primary"><Compass className="h-5 w-5" aria-hidden="true" /></div>
         <div className="min-w-0">
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">One-Minute Decision Concierge</div>
           <h2 id={`concierge-${entrySurface}-heading`} className="mt-1 font-display text-2xl font-bold tracking-tight">What are you trying to figure out?</h2>
@@ -83,7 +83,7 @@ export const DecisionConcierge = ({ entrySurface, compact = false }: DecisionCon
       {!problem && (
         <div className={`mt-6 grid gap-2 ${compact ? "md:grid-cols-2" : "md:grid-cols-2 xl:grid-cols-3"}`} role="group" aria-label="Choose a decision category">
           {CONCIERGE_PROBLEM_OPTIONS.map((option) => (
-            <button key={option.id} type="button" onClick={() => start(option.id)} className="min-h-12 rounded-2xl border border-border bg-background px-4 py-3 text-left text-sm font-semibold leading-snug transition hover:border-primary/35 hover:bg-primary-soft/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <button key={option.id} type="button" onClick={() => start(option.id)} className="min-h-12 rounded-lg border border-border bg-background px-4 py-3 text-left text-sm font-semibold leading-snug transition hover:border-primary/35 hover:bg-primary-soft/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               {option.label}
             </button>
           ))}
@@ -91,12 +91,12 @@ export const DecisionConcierge = ({ entrySurface, compact = false }: DecisionCon
       )}
 
       {problem && !complete && (
-        <div className="mt-6 rounded-2xl border border-border bg-muted/20 p-4 md:p-5">
+        <div className="mt-6 rounded-lg border border-border bg-muted/15 p-4 md:p-5">
           <div className="text-xs font-bold uppercase tracking-[0.14em] text-secondary">One follow-up</div>
           <h3 className="mt-1 font-display text-lg font-bold">{problem === "not_sure" ? "Which starting point is closest?" : "How soon do you need to act?"}</h3>
           <div className="mt-4 grid gap-2 sm:grid-cols-2" role="group" aria-label="Concierge follow-up choices">
             {followUpOptions.map((option) => (
-              <button key={option.id} type="button" onClick={() => problem === "not_sure" ? finish({ audience: option.id as ConciergeAudience }) : finish({ timing: option.id as ConciergeTiming })} className="min-h-11 rounded-xl border border-border bg-background px-4 py-2.5 text-left text-sm font-semibold hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              <button key={option.id} type="button" onClick={() => problem === "not_sure" ? finish({ audience: option.id as ConciergeAudience }) : finish({ timing: option.id as ConciergeTiming })} className="min-h-11 rounded-lg border border-border bg-background px-4 py-2.5 text-left text-sm font-semibold hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 {option.label}
               </button>
             ))}
@@ -107,13 +107,13 @@ export const DecisionConcierge = ({ entrySurface, compact = false }: DecisionCon
 
       {problem && complete && (
         <div className="mt-6 space-y-5" aria-live="polite">
-          <div className="rounded-2xl border border-primary/25 bg-primary-soft/25 p-5 md:p-6">
+          <div className="rounded-lg border border-primary/25 bg-primary-soft/20 p-5 md:p-6">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-primary"><CheckCircle2 className="h-4 w-4" /> Best next journey</div>
             <h3 ref={resultHeadingRef} tabIndex={-1} className="mt-2 font-display text-2xl font-bold outline-none">{result.label}</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{result.reason}</p>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-xl border border-border bg-background/80 p-4"><div className="flex items-center gap-2 text-sm font-bold"><FileCheck2 className="h-4 w-4 text-primary" /> Have available</div><ul className="mt-2 space-y-1 text-sm text-muted-foreground">{result.haveAvailable.map((item) => <li key={item}>• {item}</li>)}</ul></div>
-              <div className="rounded-xl border border-border bg-background/80 p-4"><div className="flex items-center gap-2 text-sm font-bold"><Clock3 className="h-4 w-4 text-primary" /> Expected effort</div><p className="mt-2 text-sm text-muted-foreground">{result.effort}</p><p className="mt-2 text-xs text-muted-foreground">{result.canSaveReceipt ? "This pathway can save an action or Receipt locally." : "This focused step does not save entered values into My Plan."}</p></div>
+              <div className="rounded-lg border border-border bg-background/80 p-4"><div className="flex items-center gap-2 text-sm font-bold"><FileCheck2 className="h-4 w-4 text-primary" /> Have available</div><ul className="mt-2 space-y-1 text-sm text-muted-foreground">{result.haveAvailable.map((item) => <li key={item}>• {item}</li>)}</ul></div>
+              <div className="rounded-lg border border-border bg-background/80 p-4"><div className="flex items-center gap-2 text-sm font-bold"><Clock3 className="h-4 w-4 text-primary" /> Expected effort</div><p className="mt-2 text-sm text-muted-foreground">{result.effort}</p><p className="mt-2 text-xs text-muted-foreground">{result.canSaveReceipt ? "This pathway can save an action or Receipt locally." : "This focused step does not save entered values into My Plan."}</p></div>
             </div>
             <div className="mt-5 flex flex-col gap-2 sm:flex-row">
               <Button asChild variant="hero"><Link to={result.destinationPath} onClick={() => trackGrowthEvent("concierge_destination_opened", { entry_surface: entrySurface, problem_category: result.problem, destination_id: result.journeyId.replaceAll("-", "_") })}>Open this journey <ArrowRight className="h-4 w-4" /></Link></Button>

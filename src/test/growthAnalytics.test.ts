@@ -13,6 +13,41 @@ describe("privacy-safe growth analytics", () => {
     })).toEqual({ name: "benefits_review_completed", properties: { entry_surface: "detector", completion_band: "complete" } });
   });
 
+  it("accepts categorical article and hub pathway events without URLs or user answers", () => {
+    expect(sanitizeGrowthEvent("article_to_tool_clicked", {
+      entry_surface: "article",
+      problem_category: "cost_sharing_to_bill_review",
+      destination_id: "eob_bill_match",
+      handoff_id: "tool",
+      source_url: "/articles/how-to-read-an-eob",
+      medication: "insulin",
+      claim_amount: "4500",
+    })).toEqual({
+      name: "article_to_tool_clicked",
+      properties: {
+        entry_surface: "article",
+        problem_category: "cost_sharing_to_bill_review",
+        destination_id: "eob_bill_match",
+        handoff_id: "tool",
+      },
+    });
+
+    expect(sanitizeGrowthEvent("hub_to_resource_clicked", {
+      entry_surface: "hub",
+      problem_category: "healthcare_worker_start",
+      destination_id: "healthcare_money_map",
+      handoff_id: "article",
+    })).toEqual({
+      name: "hub_to_resource_clicked",
+      properties: {
+        entry_surface: "hub",
+        problem_category: "healthcare_worker_start",
+        destination_id: "healthcare_money_map",
+        handoff_id: "article",
+      },
+    });
+  });
+
   it("rejects unknown events, arbitrary strings, dates, URLs, and answer-like values", () => {
     expect(sanitizeGrowthEvent("benefit_answer_saved", { entry_surface: "detector" })).toBeNull();
     expect(sanitizeGrowthEvent("benefits_review_started", {

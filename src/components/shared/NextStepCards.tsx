@@ -16,6 +16,7 @@ interface NextStepCardsProps {
   description?: string;
   cards: NextStepCard[];
   columns?: "two" | "three" | "four";
+  onCardOpen?: (card: NextStepCard) => void;
 }
 
 const gridClass = {
@@ -30,6 +31,7 @@ export const NextStepCards = ({
   description = "Use the next article, checklist, or calculator based on the question you are trying to answer.",
   cards,
   columns = "three",
+  onCardOpen,
 }: NextStepCardsProps) => {
   if (!cards.length) return null;
 
@@ -51,12 +53,15 @@ export const NextStepCards = ({
           <Link
             key={`${card.href}-${card.title}`}
             to={card.href}
-            onClick={() => trackSiteEvent("next_step_click", {
-              event_category: "navigation",
-              link_text: card.title,
-              link_url: card.href,
-              source_path: window.location.pathname,
-            })}
+            onClick={() => {
+              trackSiteEvent("next_step_click", {
+                event_category: "navigation",
+                link_text: card.title,
+                link_url: card.href,
+                source_path: window.location.pathname,
+              });
+              onCardOpen?.(card);
+            }}
             className="group rounded-2xl border border-border bg-background/70 p-4 shadow-sm transition-smooth hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-card md:p-5"
           >
             {card.eyebrow && (

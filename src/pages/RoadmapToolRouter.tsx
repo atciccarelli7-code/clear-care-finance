@@ -1,4 +1,6 @@
 import { lazy, Suspense } from "react";
+import { DecisionJourneyAnalyticsBoundary } from "@/components/readiness/DecisionJourneyAnalyticsBoundary";
+import type { ReadinessJourneyId } from "@/lib/decisionJourneyAnalytics";
 
 const WorkplaceBundle = lazy(() => import("@/pages/WorkplaceDecisionToolsBundle").then((module) => ({ default: module.ChildcareBenefitsDecisionGuidePage })));
 const RothTraditional = lazy(() => import("@/pages/WorkplaceDecisionToolsBundle").then((module) => ({ default: module.RothTraditionalDecisionHelperPage })));
@@ -13,6 +15,19 @@ const Loading = () => (
   </div>
 );
 
+const analyticsIdForSlug = (slug: string): ReadinessJourneyId | null => {
+  switch (slug) {
+    case "roth-vs-traditional-decision-helper":
+      return "roth_traditional";
+    case "debt-vs-retirement-router":
+      return "debt_retirement";
+    case "observation-vs-inpatient-status-guide":
+      return "observation_status";
+    default:
+      return null;
+  }
+};
+
 export const RoadmapToolRouter = ({ slug }: { slug: string }) => {
   const page = (() => {
     switch (slug) {
@@ -26,7 +41,14 @@ export const RoadmapToolRouter = ({ slug }: { slug: string }) => {
     }
   })();
 
-  return page ? <Suspense fallback={<Loading />}>{page}</Suspense> : null;
+  if (!page) return null;
+
+  const journeyId = analyticsIdForSlug(slug);
+  const content = journeyId
+    ? <DecisionJourneyAnalyticsBoundary journeyId={journeyId}>{page}</DecisionJourneyAnalyticsBoundary>
+    : page;
+
+  return <Suspense fallback={<Loading />}>{content}</Suspense>;
 };
 
 export default RoadmapToolRouter;

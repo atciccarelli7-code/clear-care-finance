@@ -6,6 +6,10 @@ export const GROWTH_EVENT_NAMES = [
   "concierge_completed",
   "concierge_destination_opened",
   "acquisition_tool_cta_selected",
+  "article_to_tool_clicked",
+  "article_to_related_article_clicked",
+  "hub_to_tool_clicked",
+  "hub_to_resource_clicked",
   "benefits_review_started",
   "benefits_review_completed",
   "benefits_receipt_viewed",
@@ -24,7 +28,7 @@ export const GROWTH_EVENT_NAMES = [
 ] as const;
 
 export type GrowthEventName = (typeof GROWTH_EVENT_NAMES)[number];
-export type GrowthEntrySurface = "home" | "start_here" | "tools" | "acquisition_article" | "detector" | "receipt" | "organization";
+export type GrowthEntrySurface = "home" | "start_here" | "tools" | "acquisition_article" | "article" | "hub" | "detector" | "receipt" | "organization";
 export type GrowthCompletionBand = "started" | "partial" | "complete";
 export type GrowthReceiptAction = "view" | "copy" | "print" | "calendar" | "share" | "reset" | "delete";
 export type GrowthCtaType = "pilot_inquiry" | "pilot_scope";

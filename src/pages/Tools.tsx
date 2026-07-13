@@ -39,6 +39,15 @@ const iconByKey: Record<ToolIconKey, typeof Calculator> = {
   wallet: Wallet,
 };
 
+const featuredToolSelections = [
+  { slug: "benefits-command-center", role: "Full benefits workspace" },
+  { slug: "benefits-change-detector", role: "Annual benefits review" },
+  { slug: "medical-bill-review-flow", role: "Medical bill triage" },
+  { slug: "roth-vs-traditional-decision-helper", role: "Retirement tax decision" },
+  { slug: "medicare-plan-verification-checklist", role: "Medicare plan verification" },
+  { slug: "debt-vs-retirement-router", role: "Debt and savings priority" },
+] as const;
+
 const allTools = [...tools, ...roadmapTools];
 
 const Tools = () => {
@@ -74,7 +83,10 @@ const Tools = () => {
     return matchesCategory && (!normalizedQuery || haystack.includes(normalizedQuery));
   });
 
-  const featuredTools = allTools.filter((tool) => tool.featured);
+  const featuredTools = featuredToolSelections.flatMap(({ slug, role }) => {
+    const tool = allTools.find((item) => item.slug === slug);
+    return tool ? [{ tool, role }] : [];
+  });
 
   const trackOpen = (slug: string, title: string) => {
     trackToolEvent("tool_intent_click", slug, title);
@@ -95,17 +107,17 @@ const Tools = () => {
       <section className="container min-w-0 pt-10 md:pt-12" aria-labelledby="featured-tools-heading">
         <div className="mb-6 max-w-3xl">
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">
-            <Sparkles className="h-4 w-4" aria-hidden="true" /> Best places to start
+            <Sparkles className="h-4 w-4" aria-hidden="true" /> Curated starting points
           </div>
           <h2 id="featured-tools-heading" className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">
-            Start with a complete decision workflow
+            Start with the tool that owns the decision
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-            These tools turn a real question into an explanation, action plan, and list of details to verify.
+            These six routes cover the site&apos;s most common full decisions. The complete directory below keeps every focused calculator, checklist, and guide available without making them all compete for attention.
           </p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {featuredTools.slice(0, 12).map((tool) => {
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {featuredTools.map(({ tool, role }) => {
             const Icon = iconByKey[tool.icon];
             return (
               <Link
@@ -118,9 +130,14 @@ const Tools = () => {
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <span className="rounded-full border border-border bg-background/75 px-2.5 py-1 text-[0.66rem] font-bold uppercase tracking-[0.12em] text-muted-foreground">
-                    {tool.estimatedUseTime}
-                  </span>
+                  <div className="flex flex-col items-end gap-2 text-right">
+                    <span className="rounded-full border border-primary/20 bg-primary-soft px-2.5 py-1 text-[0.64rem] font-bold uppercase tracking-[0.1em] text-primary">
+                      {role}
+                    </span>
+                    <span className="rounded-full border border-border bg-background/75 px-2.5 py-1 text-[0.66rem] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                      {tool.estimatedUseTime}
+                    </span>
+                  </div>
                 </div>
                 <div className="mt-4 text-[0.66rem] font-bold uppercase tracking-[0.16em] text-secondary">{tool.category}</div>
                 <h3 className="mt-1.5 font-display text-lg font-bold leading-tight text-foreground">{tool.shortTitle}</h3>

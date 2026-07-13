@@ -40,6 +40,7 @@ const linkGroups = [
     links: [
       { to: "/about", label: "About" },
       { to: "/contact", label: "Contact" },
+      { to: "/for-organizations", label: "For Organizations" },
       { to: "/methodology", label: "Sources & Methodology" },
       { to: "/editorial-policy", label: "Editorial Policy" },
       { to: "/disclosures", label: "Disclosures" },

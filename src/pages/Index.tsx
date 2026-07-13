@@ -15,6 +15,7 @@ import { TopicCard } from "@/components/shared/TopicCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { PageHero } from "@/components/shared/PageHero";
+import { DecisionConcierge } from "@/components/growth/DecisionConcierge";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { TOPICS } from "@/data/topics";
@@ -125,6 +126,10 @@ const Index = () => {
           </Link>
         </Button>
       </PageHero>
+
+      <section className="container min-w-0 pt-10 md:pt-12">
+        <DecisionConcierge entrySurface="home" compact />
+      </section>
 
       <section id="choose-path" className="container min-w-0 scroll-mt-20 py-12 md:py-16">
         <SectionHeading

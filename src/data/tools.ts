@@ -65,6 +65,19 @@ export const TOOL_CATEGORIES: Array<"All tools" | ToolCategory> = [
 
 export const tools: ToolDefinition[] = [
   {
+    slug: "benefits-change-detector",
+    title: "Benefits Change Detector",
+    shortTitle: "Benefits Change Detector",
+    category: "Open enrollment",
+    audience: "Everyone",
+    description: "Identify year-over-year workplace benefit changes, prioritize what to verify, and create a private Benefits Change Receipt.",
+    estimatedUseTime: "6–10 min",
+    icon: "receipt",
+    featured: true,
+    href: "/tools/benefits-change-detector",
+    relatedArticle: { label: "What benefit changes should I compare?", href: "/articles/what-employer-benefit-changes-should-i-compare" },
+  },
+  {
     slug: "benefits-command-center",
     title: "Benefits Command Center",
     shortTitle: "Benefits Command Center",

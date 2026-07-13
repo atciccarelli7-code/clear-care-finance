@@ -22,8 +22,29 @@ describe("runtime SEO registry", () => {
     if (article.lastReviewedAt) expect(articleSchema).toMatchObject({ dateModified: article.lastReviewedAt });
   });
 
+  it("publishes the compounding-growth article and detector with canonical structured data", () => {
+    const articlePath = "/articles/what-employer-benefit-changes-should-i-compare";
+    const detectorPath = "/tools/benefits-change-detector";
+    const articleMeta = resolveSeoMeta(articlePath);
+    const detectorMeta = resolveSeoMeta(detectorPath);
+
+    expect(getIndexableRoutes()).toEqual(expect.arrayContaining([articlePath, detectorPath]));
+    expect(articleMeta.canonicalPath).toBe(articlePath);
+    expect(articleMeta.jsonLd?.map((item) => item["@type"])).toEqual(
+      expect.arrayContaining(["Article", "BreadcrumbList"]),
+    );
+    expect(detectorMeta.canonicalPath).toBe(detectorPath);
+    expect(detectorMeta.jsonLd?.map((item) => item["@type"])).toEqual(
+      expect.arrayContaining(["WebApplication", "BreadcrumbList"]),
+    );
+  });
+
   it("preserves site overrides and noindexes unknown routes", () => {
     expect(resolveSiteSeoMeta("/tools").title).toBe("Financial Calculators and Decision Tools");
+    expect(resolveSeoMeta("/for-organizations")).toMatchObject({
+      canonicalPath: "/for-organizations",
+      robots: "index, follow, max-image-preview:large",
+    });
     expect(resolveSeoMeta("/definitely-not-a-route").robots).toBe("noindex, nofollow");
   });
 });

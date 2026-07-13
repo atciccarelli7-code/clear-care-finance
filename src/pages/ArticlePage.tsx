@@ -9,9 +9,11 @@ import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { NextStepCards, type NextStepCard } from "@/components/shared/NextStepCards";
 import { ContentFreshness } from "@/components/shared/ContentFreshness";
+import { EditorialTransparency } from "@/components/shared/EditorialTransparency";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
 const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: string; children: React.ReactNode }) => (
   <div className="space-y-2.5 md:space-y-3">
@@ -26,6 +28,32 @@ const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: str
 );
 
 const getArticleNextSteps = (slug: string, category: string, relatedCalculator?: { label: string; href: string }): NextStepCard[] => {
+  if (slug === "what-employer-benefit-changes-should-i-compare") {
+    return [
+      {
+        eyebrow: "Full package",
+        title: "Open the Benefits Command Center",
+        description: "Compare pay, health coverage, retirement, protection, time off, and employer value as one compensation system.",
+        href: "/tools/benefits-command-center",
+        cta: "Open Command Center",
+      },
+      {
+        eyebrow: "Health plans",
+        title: "Compare true annual plan cost",
+        description: "Use premiums, expected care, employer funding, and bad-year exposure after identifying what changed.",
+        href: "/tools/open-enrollment-true-cost-calculator",
+        cta: "Compare health plans",
+      },
+      {
+        eyebrow: "Complete path",
+        title: "Use the open-enrollment guide",
+        description: "Review medical, tax-advantaged, protection, and supplemental benefits before submitting elections.",
+        href: "/open-enrollment",
+        cta: "Open enrollment guide",
+      },
+    ];
+  }
+
   if (slug === "how-to-read-an-eob") {
     return [
       {
@@ -347,6 +375,7 @@ const ArticlePage = () => {
     description: article?.description ?? article?.promise ?? "Plain-English healthcare finance article from Community Acquired Finance.",
     canonicalPath: article ? `/articles/${article.slug}` : "/articles",
     type: "article",
+    author: article?.author,
   });
 
   if (!article) return <Navigate to="/articles" replace />;
@@ -398,6 +427,7 @@ const ArticlePage = () => {
           reviewScope={article.reviewScope}
           updateNote={article.updateNote}
         />
+        <EditorialTransparency author={article.author} reviewer={article.reviewer} />
         <Section icon={Users} title="Who this is for">
           <p>{article.audience}</p>
         </Section>
@@ -474,6 +504,29 @@ const ArticlePage = () => {
           </div>
         )}
 
+        {article.comparisonTable && (
+          <Section icon={BookOpen} title="Quick comparison table">
+            <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+              <table className="w-full min-w-[640px] text-left text-sm">
+                <thead className="bg-muted/50 text-foreground"><tr>{article.comparisonTable.headers.map((header) => <th key={header} className="px-4 py-3 font-bold">{header}</th>)}</tr></thead>
+                <tbody>{article.comparisonTable.rows.map((row) => <tr key={row[0]} className="border-t border-border">{row.map((cell) => <td key={cell} className="px-4 py-3 align-top leading-relaxed">{cell}</td>)}</tr>)}</tbody>
+              </table>
+            </div>
+          </Section>
+        )}
+
+        {article.numberedSteps && (
+          <Section icon={CheckCircle2} title="A practical review process">
+            <ol className="list-decimal space-y-3 pl-5">{article.numberedSteps.map((step) => <li key={step} className="pl-1">{step}</li>)}</ol>
+          </Section>
+        )}
+
+        {article.questionsToAsk && (
+          <Section icon={Users} title="Questions to ask HR or the plan administrator">
+            <ul className="space-y-2">{article.questionsToAsk.map((question) => <li key={question} className="flex items-start gap-2.5"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /><span>{question}</span></li>)}</ul>
+          </Section>
+        )}
+
         {article.relatedCalculator && (
           <div className="rounded-2xl border border-primary/30 bg-primary-soft/40 p-6 md:p-8 flex flex-col sm:flex-row sm:items-center gap-5 justify-between">
             <div>
@@ -481,7 +534,7 @@ const ArticlePage = () => {
               <h3 className="font-display text-lg font-bold">{article.relatedCalculator.label}</h3>
             </div>
             <Button asChild variant="hero">
-              <Link to={article.relatedCalculator.href}>Open calculator <ArrowRight className="h-4 w-4" /></Link>
+              <Link to={article.relatedCalculator.href} onClick={() => article.slug === "what-employer-benefit-changes-should-i-compare" && trackGrowthEvent("acquisition_tool_cta_selected", { entry_surface: "acquisition_article", destination_id: "benefits_change_detector" })}>Open tool <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </div>
         )}

@@ -3,6 +3,111 @@ import { SOURCE_PRESETS } from "./sources";
 
 export const SEARCH_MOAT_ARTICLES: Article[] = [
   {
+    slug: "what-employer-benefit-changes-should-i-compare",
+    title: "What Employer-Benefit Changes Should I Compare During Open Enrollment?",
+    category: "Workplace Benefits",
+    readTime: "7 min read",
+    publishedAt: "2026-07-12",
+    lastReviewedAt: "2026-07-12",
+    rulesEffectiveAt: "2026-01-01",
+    nextReviewAt: "2027-07-01",
+    timeSensitive: true,
+    reviewScope: "Job-based medical coverage, retirement, protection, family benefits, leave, and employer-benefit document controls for the 2026 review year.",
+    author: "Andrew Ciccarelli, BSN, RN",
+    reviewer: "Community Acquired Finance editorial review — verify employer-specific conclusions with HR or the plan administrator",
+    promise: "Compare the changes that can alter cost, access, employer value, or protection before you repeat last year's elections.",
+    audience: "Employees, healthcare workers, spouses, and families comparing a new workplace-benefits guide with the prior year before enrollment closes.",
+    summary: "Start with four questions: Did my cost increase? Did access to doctors, prescriptions, or services narrow? Did the employer contribution or retirement match decrease? Did a protection, leave, or family benefit disappear or become harder to use? Then verify every important change in the current Summary of Benefits and Coverage, Summary Plan Description, plan amendment, rate sheet, certificate, or written plan-administrator response. Do not assume an unchanged election produces unchanged coverage.",
+    body: [
+      "Open enrollment is a change-detection problem before it is a plan-selection problem. Repeating last year's elections can still produce a different result when premiums, networks, formularies, employer contributions, matching formulas, leave rules, or protection benefits change.",
+      "The goal is not to inspect every line with equal urgency. Find changes that can materially affect cost, access, employer-provided value, or protection, then turn uncertainty into exact verification questions.",
+      "CAF's Benefits Change Detector keeps this review local to the browser and produces a practical Receipt. Employer documents and plan-administrator answers remain controlling."
+    ],
+    sections: [
+      {
+        title: "Review first: changes that can create immediate cost or access risk",
+        definition: "A higher employee premium, deductible, coinsurance rate, copay, or out-of-pocket maximum can increase cost. A narrower network, removed out-of-network benefit, formulary change, or new authorization rule can affect access even when the premium looks attractive.",
+        keyPoints: [
+          "Compare the exact employee-only, spouse, and family payroll rates rather than a marketing summary.",
+          "Check the individual and family deductible and out-of-pocket structure, not only the headline amount.",
+          "Confirm doctors, hospitals, laboratories, prescriptions, pharmacies, and authorization rules in the exact plan for the new year.",
+          "Treat a removed plan or benefit as a fresh decision rather than a routine renewal."
+        ],
+        watchOut: "A provider directory or formulary can change during the year. Save the date and source of any verification and confirm important details directly."
+      },
+      {
+        title: "Compare employer value, not only employee cost",
+        keyPoints: [
+          "Employer HSA or HRA funding can offset part of a higher deductible, but deposit timing and eligibility matter.",
+          "A retirement match or non-elective contribution is part of compensation; compare the formula, eligible pay, true-up, and vesting.",
+          "Employer-paid disability and life insurance can change without appearing in the medical-plan comparison.",
+          "PTO, holidays, education assistance, commuter support, and student-loan benefits can change total compensation."
+        ]
+      },
+      {
+        title: "Benefits people commonly overlook",
+        keyPoints: [
+          "Short- and long-term disability waiting periods, benefit percentages, maximums, and definitions of disability.",
+          "Healthcare FSA and Dependent Care FSA claim deadlines, carryover, grace-period, and eligible-expense rules.",
+          "HSA eligibility when a spouse's coverage, general-purpose FSA, or other arrangement changes.",
+          "Parental leave coordination with disability, state leave, PTO, and service requirements.",
+          "Backup care, adoption, fertility, tuition, wellness, commuter, and student-loan program limits.",
+          "Scheduling, call, travel, and remote-work expectations when they appear in benefits or employment materials."
+        ]
+      },
+      {
+        title: "Which document controls which question?",
+        keyPoints: [
+          "Use the Summary of Benefits and Coverage for a standardized health-plan comparison, but check the fuller plan document for exclusions and operating rules.",
+          "Use the Summary Plan Description and amendment notices for retirement, welfare-benefit, claim, eligibility, and participant-right details when applicable.",
+          "Use rate sheets and enrollment confirmations for payroll deductions and coverage tiers.",
+          "Use certificates of coverage for disability, life, and accidental-death definitions and exclusions.",
+          "Use the current formulary and provider directory for prescription and network checks, then verify high-stakes details directly."
+        ],
+        watchOut: "The enrollment guide is a useful index, but it may not be the controlling legal plan document. Ask which document controls when two sources conflict."
+      }
+    ],
+    comparisonTable: {
+      headers: ["Change area", "Why compare it", "Where to verify"],
+      rows: [
+        ["Premiums and cost sharing", "Changes cash flow and possible bad-year exposure", "Rate sheet, SBC, plan document"],
+        ["Network, formulary, authorization", "Changes access to doctors, facilities, prescriptions, and services", "Provider directory, formulary, utilization rules"],
+        ["HSA/HRA funding", "Changes employer value and the net impact of a high-deductible plan", "Employer contribution notice and plan materials"],
+        ["Retirement match and vesting", "Changes total compensation and the value kept after leaving", "SPD, match notice, fee disclosure"],
+        ["Disability and life insurance", "Changes income and family protection during a serious event", "Certificate of coverage and rate sheet"],
+        ["FSA, childcare, leave, and PTO", "Changes tax savings, family logistics, and paid time away", "Program terms, leave policy, PTO policy"]
+      ]
+    },
+    numberedSteps: [
+      "Confirm the enrollment deadline, effective date, and which elections will roll over automatically.",
+      "Collect the current enrollment guide, every medical-plan SBC, rate sheet, retirement notices, protection certificates, and leave or spending-account terms.",
+      "Compare the new materials with the prior year and mark each meaningful area as increased, decreased, added, removed, unchanged, unclear, not reviewed, not offered, or not sure.",
+      "Review cost increases, removed benefits, reduced employer value, and narrowed access first.",
+      "Turn every unclear or incomplete item into one exact question for HR or the plan administrator.",
+      "Complete deeper comparisons only where the change matters, such as health-plan total cost, retirement contributions, or job total compensation.",
+      "Save the final enrollment confirmation and schedule a check of the first payroll deduction and coverage effective date."
+    ],
+    questionsToAsk: [
+      "Which document controls if the enrollment guide, SBC, portal, and plan document do not match?",
+      "Which medical, pharmacy, retirement, protection, leave, or spending-account provisions changed for the new year?",
+      "Did any provider network, formulary, prior-authorization, referral, or preferred-pharmacy rule change?",
+      "Did the employer HSA/HRA contribution, retirement match, non-elective contribution, vesting, or fee structure change?",
+      "Which elections roll over automatically, and which require an active election?",
+      "When do elections become effective, when will deductions begin, and what can be corrected after the deadline?",
+      "Can you provide the current controlling document or answer this question in writing?"
+    ],
+    relatedCalculator: { label: "Benefits Change Detector", href: "/tools/benefits-change-detector" },
+    commonMistakes: [
+      "Repeating last year's elections without checking what changed.",
+      "Comparing only premiums while ignoring networks, prescriptions, authorization, employer funding, and bad-year exposure.",
+      "Treating every added benefit as valuable without checking eligibility, limits, tax treatment, or payroll cost.",
+      "Assuming the enrollment guide overrides the controlling plan document.",
+      "Waiting until after enrollment closes to resolve unclear coverage or contribution rules."
+    ],
+    takeaway: "Compare changes in cost, access, employer value, and protection first. Use the current official documents, ask exact questions about uncertainty, and save a final confirmation rather than relying on last year's memory.",
+    sources: [SOURCE_PRESETS.dolPlanInformation, SOURCE_PRESETS.dolWorkersFamilies, SOURCE_PRESETS.healthcareGovSbc, SOURCE_PRESETS.irsTaxFavoredHealthPlans, SOURCE_PRESETS.irs],
+  },
+  {
     slug: "does-medicare-cover-long-term-care",
     title: "Does Medicare Cover Long-Term Care?",
     category: "Medicare",

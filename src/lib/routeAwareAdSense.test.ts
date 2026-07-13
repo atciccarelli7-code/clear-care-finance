@@ -38,6 +38,7 @@ describe("route-aware AdSense guard", () => {
     ["topic index", "/topics"],
     ["newsletter", "/newsletter"],
     ["contact", "/contact"],
+    ["organization pilot", "/for-organizations"],
     ["privacy policy", "/privacy-policy"],
     ["printable checklist", "/insurance/hospital-discharge-coverage/printable"],
   ])("keeps the %s screen ad-free", (_label, path) => {

@@ -23,6 +23,14 @@ export type RuntimeToolSeoMeta = {
 
 export const RUNTIME_ARTICLE_SEO_META = [
   {
+    "slug": "what-employer-benefit-changes-should-i-compare",
+    "title": "What Employer-Benefit Changes Should I Compare During Open Enrollment?",
+    "description": "Compare the changes that can alter cost, access, employer value, or protection before you repeat last year's elections.",
+    "category": "Workplace Benefits",
+    "publishedAt": "2026-07-12",
+    "lastReviewedAt": "2026-07-12"
+  },
+  {
     "slug": "does-medicare-cover-long-term-care",
     "title": "Does Medicare Cover Long-Term Care?",
     "description": "A plain-English answer to the Medicare long-term care gap, including the difference between skilled care and custodial care.",
@@ -509,5 +517,35 @@ export const RUNTIME_TOOL_SEO_META = [
     "slug": "hospital-cafe-savings-calculator",
     "title": "Hospital Cafe Savings Rate Calculator",
     "description": "See what recurring shift spending adds up to and what redirecting part of it could become."
+  },
+  {
+    "slug": "state-medicaid-long-term-care-router",
+    "title": "State Medicaid and Long-Term Care Program Router",
+    "description": "Find the official state starting point for Medicaid coverage, Medicare cost help, nursing-facility care, or home- and community-based services."
+  },
+  {
+    "slug": "childcare-benefits-decision-guide",
+    "title": "Dependent Care FSA and Childcare Benefits Decision Guide",
+    "description": "Coordinate a 2026 Dependent Care FSA, employer childcare help, predictable expenses, and federal tax-credit questions."
+  },
+  {
+    "slug": "roth-vs-traditional-decision-helper",
+    "title": "Roth vs Traditional Retirement Contribution Decision Helper",
+    "description": "Compare current deduction value, possible future tax rates, pension income, cash flow, account mix, and retirement-access planning."
+  },
+  {
+    "slug": "observation-vs-inpatient-status-guide",
+    "title": "Observation vs Inpatient Hospital Status Guide",
+    "description": "Prepare the written-status, notice, coverage, skilled-care, discharge, and deadline questions to ask the hospital and payer."
+  },
+  {
+    "slug": "medicare-plan-verification-checklist",
+    "title": "Medicare Plan Verification Checklist",
+    "description": "Verify providers, prescriptions, prior authorization, costs, travel, supplemental benefits, annual changes, and enrollment timing."
+  },
+  {
+    "slug": "debt-vs-retirement-router",
+    "title": "Debt vs Retirement Contribution Decision Router",
+    "description": "Order emergency savings, employer match, high-cost debt, federal loan protections, and sustainable retirement progress."
   }
 ] satisfies RuntimeToolSeoMeta[];

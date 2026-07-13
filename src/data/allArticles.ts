@@ -14,6 +14,7 @@ import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
 import { SEARCH_MOAT_ARTICLES } from "./searchMoatArticles";
 import { TOTAL_COMPENSATION_ARTICLE } from "./totalCompensationArticle";
+import { applySearchConsoleArticleEnhancements } from "./searchConsoleArticleEnhancements";
 import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
 
@@ -26,7 +27,7 @@ const OPEN_ENROLLMENT_ARTICLES_READY = OPEN_ENROLLMENT_ARTICLES.map((article) =>
     : article,
 );
 
-export const ALL_ARTICLES = publishedArticles([
+const BASE_ARTICLES = [
   ...SEARCH_MOAT_ARTICLES,
   ...RETIREMENT_INVESTMENT_ARTICLES,
   ...WEALTH_ARTICLES,
@@ -43,4 +44,6 @@ export const ALL_ARTICLES = publishedArticles([
   OBBB_OVERTIME_ARTICLE,
   BACKUP_CARE_ARTICLE,
   ...SITE_ARTICLES,
-]);
+];
+
+export const ALL_ARTICLES = publishedArticles(applySearchConsoleArticleEnhancements(BASE_ARTICLES));

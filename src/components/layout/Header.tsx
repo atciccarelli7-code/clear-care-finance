@@ -1,7 +1,14 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 const nav = [
   { to: "/start-here", label: "Start Here" },
@@ -22,6 +29,8 @@ const secondaryNav = [
   { to: "/about", label: "About" },
 ];
 
+const isRouteActive = (pathname: string, route: string) => pathname === route || pathname.startsWith(`${route}/`);
+
 const LogoMark = () => (
   <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-primary/25 bg-gradient-primary text-[0.62rem] font-extrabold tracking-tight text-primary-foreground shadow-card">
     CAF
@@ -38,6 +47,7 @@ export const Header = () => {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstMobileLinkRef = useRef<HTMLAnchorElement>(null);
   const mobileMenuRef = useRef<HTMLElement>(null);
+  const secondaryActive = secondaryNav.some((item) => isRouteActive(location.pathname, item.to));
 
   useEffect(() => {
     setOpen(false);
@@ -115,6 +125,39 @@ export const Header = () => {
               {n.label}
             </NavLink>
           ))}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className={`inline-flex items-center gap-1 whitespace-nowrap rounded-xl px-3 py-2 text-[0.82rem] font-semibold transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=open]:bg-muted ${
+                  secondaryActive ? "bg-primary-soft text-primary" : "text-muted-foreground hover:bg-muted/70 hover:text-foreground"
+                }`}
+                aria-label="Open additional navigation"
+              >
+                More <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64 rounded-2xl border-border p-2 shadow-hover">
+              <DropdownMenuLabel className="px-3 pb-2 pt-1 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                Explore more
+              </DropdownMenuLabel>
+              {secondaryNav.map((n) => (
+                <DropdownMenuItem key={n.to} asChild className="p-0 focus:bg-transparent">
+                  <NavLink
+                    to={n.to}
+                    className={({ isActive }) =>
+                      `flex w-full rounded-xl px-3 py-2.5 text-sm font-semibold transition-smooth focus-visible:outline-none ${
+                        isActive ? "bg-primary-soft text-primary" : "text-foreground hover:bg-muted"
+                      }`
+                    }
+                  >
+                    {n.label}
+                  </NavLink>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">

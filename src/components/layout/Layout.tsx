@@ -20,6 +20,9 @@ const BenefitsCommandCenterEntry = lazy(() =>
 const ContinueWhereYouLeftOff = lazy(() =>
   import("@/components/shared/ContinueWhereYouLeftOff").then((module) => ({ default: module.ContinueWhereYouLeftOff })),
 );
+const RouteSeoCompoundingPathway = lazy(() =>
+  import("@/components/growth/SeoCompoundingPathway").then((module) => ({ default: module.RouteSeoCompoundingPathway })),
+);
 
 const continuityRoutes = new Set(["/", "/start-here", "/tools"]);
 
@@ -50,6 +53,9 @@ export const Layout = () => {
           </Suspense>
         )}
         <Outlet />
+        <Suspense fallback={null}>
+          <RouteSeoCompoundingPathway pathname={location.pathname} />
+        </Suspense>
         {showJourneyDirectory && <DecisionJourneyDirectory />}
         {showBenefitsCommandCenterEntry && (
           <Suspense fallback={null}>

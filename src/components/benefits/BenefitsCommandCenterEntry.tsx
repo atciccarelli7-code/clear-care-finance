@@ -16,10 +16,10 @@ export const BenefitsCommandCenterEntry = () => {
 
   return (
     <section className="container mt-10 print:hidden" aria-label="Benefits Command Center next step">
-      <div className="overflow-hidden rounded-[2rem] border border-secondary/20 bg-gradient-to-br from-secondary-soft/60 via-card to-primary-soft/35 p-5 shadow-card md:p-7">
+      <div className="overflow-hidden rounded-xl border border-secondary/20 bg-card/80 p-5 md:p-7">
         <div className="grid gap-5 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-card text-secondary shadow-sm ring-1 ring-secondary/15">
-            <ReceiptText className="h-6 w-6" aria-hidden="true" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary-soft/70 text-secondary">
+            <ReceiptText className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">{config.eyebrow}</div>

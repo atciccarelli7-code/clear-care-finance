@@ -142,20 +142,22 @@ export const Header = () => {
               <DropdownMenuLabel className="px-3 pb-2 pt-1 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">
                 Explore more
               </DropdownMenuLabel>
-              {secondaryNav.map((n) => (
-                <DropdownMenuItem key={n.to} asChild className="p-0 focus:bg-transparent">
-                  <NavLink
-                    to={n.to}
-                    className={({ isActive }) =>
-                      `flex w-full rounded-xl px-3 py-2.5 text-sm font-semibold transition-smooth focus-visible:outline-none ${
-                        isActive ? "bg-primary-soft text-primary" : "text-foreground hover:bg-muted"
-                      }`
-                    }
-                  >
-                    {n.label}
-                  </NavLink>
-                </DropdownMenuItem>
-              ))}
+              {secondaryNav.map((n) => {
+                const active = isRouteActive(location.pathname, n.to);
+                return (
+                  <DropdownMenuItem key={n.to} asChild className="p-0 focus:bg-transparent">
+                    <Link
+                      to={n.to}
+                      aria-current={active ? "page" : undefined}
+                      className={`flex w-full rounded-xl px-3 py-2.5 text-sm font-semibold transition-smooth focus-visible:outline-none ${
+                        active ? "bg-primary-soft text-primary" : "text-foreground hover:bg-muted"
+                      }`}
+                    >
+                      {n.label}
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
             </DropdownMenuContent>
           </DropdownMenu>
         </nav>

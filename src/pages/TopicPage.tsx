@@ -13,12 +13,90 @@ import { RelatedArticles } from "@/components/shared/RelatedArticles";
 import { MedicareLearningPath } from "@/components/shared/MedicareLearningPath";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { CalculatorByKey } from "@/components/calculators/CalculatorByKey";
+import HealthcareWorkerDiscountsPage from "@/components/discounts/HealthcareWorkerDiscountsPage";
 import { Button } from "@/components/ui/button";
+import { absoluteUrl, useSeo } from "@/lib/seo";
+
+const DISCOUNTS_DESCRIPTION =
+  "Browse verified 2026 healthcare worker discounts for nurses, clinicians, and hospital employees. Compare eligibility, verification, fine print, and real savings.";
+
+const DiscountsTopicPage = () => {
+  useSeo({
+    title: "Healthcare Worker Discounts for Nurses & Hospital Staff (2026)",
+    description: DISCOUNTS_DESCRIPTION,
+    canonicalPath: "/topics/discounts-perks",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+          { "@type": "ListItem", position: 2, name: "Topics", item: absoluteUrl("/topics") },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "Healthcare Worker Discounts & Perks",
+            item: absoluteUrl("/topics/discounts-perks"),
+          },
+        ],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "Healthcare Worker Discounts & Perks (2026)",
+        description: DISCOUNTS_DESCRIPTION,
+        url: absoluteUrl("/topics/discounts-perks"),
+        audience: {
+          "@type": "Audience",
+          audienceType: "Nurses, healthcare professionals, clinicians, and hospital employees",
+        },
+        isPartOf: {
+          "@type": "WebSite",
+          name: "Community Acquired Finance",
+          url: absoluteUrl("/"),
+        },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Do all hospital employees qualify for healthcare worker discounts?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. Eligibility varies by brand. Some programs include hospital employees, while others are limited to licensed nurses, physicians, medical providers, EMTs, or first responders.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Can healthcare worker discounts be combined with sale codes?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Often they cannot be combined, although rules differ by retailer. Compare the verified offer with the public sale price before checking out.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How are healthcare worker discounts verified?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Brands commonly use ID.me, SheerID, a work email, a professional license, or an employment document to confirm eligibility.",
+            },
+          },
+        ],
+      },
+    ],
+  });
+
+  return <HealthcareWorkerDiscountsPage />;
+};
 
 const TopicPage = () => {
   const { slug = "" } = useParams();
   const topic = findTopic(slug);
   if (!topic) return <Navigate to="/topics" replace />;
+  if (topic.slug === "discounts-perks") return <DiscountsTopicPage />;
 
   const isMedicareHub = topic.slug === "medicare-medicaid";
   const navItems = [

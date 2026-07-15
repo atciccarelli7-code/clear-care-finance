@@ -16,7 +16,7 @@
     "bundle:check": "node scripts/check-bundle-budget.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "npm run trust:check && npm run content:freshness-check && npm run guide:content-check && npm run guide:quick-content-check && vitest run --reporter=default --reporter=json --outputFile=vitest-results.json",
+    "test": "npm run trust:check && npm run content:freshness-check && npm run guide:content-check && npm run guide:quick-content-check && vitest run",
     "test:watch": "vitest",
     "guide:pdf:draft": "node scripts/build-medicare-medicaid-guide-pdf.mjs",
     "guide:quick-pdf:draft": "node scripts/build-medicare-medicaid-quick-guide-pdf.mjs",

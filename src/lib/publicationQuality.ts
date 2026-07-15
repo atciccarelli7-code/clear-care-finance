@@ -63,7 +63,11 @@ export const getAdEligibleArticleIssues = (
     if (!condition) issues.push({ field, message });
   };
 
-  require(hasText(article.publishedAt, 10), "publishedAt", "Ad-eligible article needs a publication date.");
+  require(
+    hasText(article.publishedAt, 10) || hasText(article.lastReviewedAt, 10),
+    "publicationMetadata",
+    "Ad-eligible article needs a publication date or recorded editorial review date.",
+  );
   require(hasText(article.lastReviewedAt, 10), "lastReviewedAt", "Ad-eligible article needs a recorded content review date.");
   require(
     hasPracticalDecisionSupport(article),

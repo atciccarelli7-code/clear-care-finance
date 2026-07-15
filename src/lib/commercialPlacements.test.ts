@@ -14,7 +14,7 @@ const activePlacement: CommercialPlacement = {
   id: "benefits_resource_slot",
   kind: "affiliate",
   status: "active",
-  routeGroups: ["articles", "reviewed_guides"],
+  routeGroups: ["articles"],
   partnerId: "example_partner",
   campaignId: "benefits_education_2026",
   destinationUrl: "https://example.com/resource",
@@ -36,15 +36,17 @@ describe("commercial placement foundation", () => {
   });
 
   it.each([
-    ["article", "/articles/how-to-read-an-eob", "articles"],
-    ["topic", "/topics/retirement-accounts", "topics"],
-    ["reviewed guide", "/insurance/health-insurance-plan-types", "reviewed_guides"],
-  ])("recognizes reviewed publisher content: %s", (_label, path, group) => {
+    ["reviewed EOB article", "/articles/how-to-read-an-eob"],
+    ["reviewed Medicare article", "/articles/medicare-options-explained"],
+  ])("recognizes affirmatively reviewed publisher content: %s", (_label, path) => {
     expect(isCommerciallyEligiblePath(path)).toBe(true);
-    expect(getCommercialRouteGroup(path)).toBe(group);
+    expect(getCommercialRouteGroup(path)).toBe("articles");
   });
 
   it.each([
+    ["unreviewed article", "/articles/what-does-medicare-not-cover"],
+    ["topic", "/topics/retirement-accounts"],
+    ["guide", "/insurance/health-insurance-plan-types"],
     ["tool", "/tools/roth-vs-traditional-decision-helper"],
     ["tool directory", "/tools"],
     ["personal plan", "/start-here"],

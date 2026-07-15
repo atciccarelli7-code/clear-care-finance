@@ -1,3 +1,5 @@
+import { isRouteAdEligible } from "@/lib/contentGovernance";
+
 const ADSENSE_CLIENT = "ca-pub-3330626498830044";
 
 export const ADSENSE_SCRIPT_ID = "caf-route-aware-adsense";
@@ -5,30 +7,6 @@ export const ADSENSE_SCRIPT_SRC = `https://pagead2.googlesyndication.com/pagead/
 
 const PRIOR_AUTHORIZATION_TOOL_PATH = "/tools/prior-authorization-next-step-guide";
 const LEGACY_PRIOR_AUTHORIZATION_PATH = "/insurance/prior-authorization-guide";
-
-// Ad eligibility is intentionally allowlisted. New routes remain ad-free until they are
-// reviewed for publisher-content depth, interaction risk, and sensitive context.
-const AD_ELIGIBLE_EXACT_PATHS = new Set([
-  "/healthcare-workers",
-  "/build-wealth",
-  "/patients-families",
-  "/student-loans",
-  "/open-enrollment",
-  "/insurance",
-  "/insurance/health-insurance-plan-types",
-  "/insurance/how-to-read-an-sbc",
-  "/insurance/commercial-insurance-comparison",
-  "/insurance/medicare-advantage",
-  "/insurance/hospital-discharge-coverage",
-  "/insurance/medication-coverage-checklist",
-  "/insurance/medical-bill-review-toolkit",
-  "/insurance/medicare-advantage-vs-medigap",
-  "/insurance/what-medicare-advantage-marketing-may-not-emphasize",
-  "/medicare-care-costs",
-  "/guides/hospital-discharge-medicare",
-]);
-
-const AD_ELIGIBLE_PATH_PREFIXES = ["/articles/", "/topics/"];
 
 type AdSenseSyncAction = "blocked" | "loaded" | "present" | "reload";
 
@@ -56,13 +34,7 @@ const buildCanonicalPriorAuthorizationUrl = (href: string) => {
   }
 };
 
-export const isAdEligiblePath = (pathname: string) => {
-  const normalizedPath = normalizePathname(pathname);
-  return (
-    AD_ELIGIBLE_EXACT_PATHS.has(normalizedPath) ||
-    AD_ELIGIBLE_PATH_PREFIXES.some((prefix) => normalizedPath.startsWith(prefix))
-  );
-};
+export const isAdEligiblePath = (pathname: string) => isRouteAdEligible(normalizePathname(pathname));
 
 export const isAdFreePath = (pathname: string) => !isAdEligiblePath(pathname);
 

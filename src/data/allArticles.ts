@@ -46,4 +46,19 @@ const BASE_ARTICLES = [
   ...SITE_ARTICLES,
 ];
 
-export const ALL_ARTICLES = publishedArticles(applySearchConsoleArticleEnhancements(BASE_ARTICLES));
+const ARTICLES_WITH_REVIEW_METADATA = applySearchConsoleArticleEnhancements(BASE_ARTICLES).map((article) =>
+  article.slug === "medicare-options-explained"
+    ? {
+        ...article,
+        publishedAt: article.publishedAt ?? "2026-06-01",
+        lastReviewedAt: article.lastReviewedAt ?? "2026-07-12",
+        nextReviewAt: article.nextReviewAt ?? "2026-10-01",
+        reviewScope:
+          article.reviewScope ??
+          "2026 Medicare structure, Original Medicare, Medicare Advantage, Part D, Medigap, Medicaid, and long-term-care distinctions.",
+        timeSensitive: article.timeSensitive ?? true,
+      }
+    : article,
+);
+
+export const ALL_ARTICLES = publishedArticles(ARTICLES_WITH_REVIEW_METADATA);

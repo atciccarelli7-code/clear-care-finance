@@ -68,9 +68,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "how-hospital-403b-matching-works",
-    "title": "How Hospital 403(b) Matching Works",
-    "description": "Decode employer match formulas, vesting, payroll timing, and why the match is often the first retirement target for healthcare workers.",
-    "category": "Build Wealth"
+    "title": "How Does a Hospital 403(b) Match Work? Examples and Vesting",
+    "description": "See how hospital 403(b) matching works, including common formulas, contribution examples, vesting, eligible pay, and 401(a) employer deposits.",
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-13"
   },
   {
     "slug": "how-to-pick-retirement-investments-at-work",
@@ -158,15 +159,17 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "spouse-family-health-insurance-open-enrollment",
-    "title": "Should You Put Your Spouse or Kids on Your Health Insurance?",
-    "description": "Use a household framework for spouse coverage, spouse surcharges, family deductibles, and children's networks.",
-    "category": "Open Enrollment"
+    "title": "Can You Add a Spouse to Your Health Insurance? Rules, Costs, and Dual Coverage",
+    "description": "Learn when you can add a spouse to health insurance, how qualifying life events work, and how to compare surcharges, dual coverage, and family costs.",
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-13"
   },
   {
     "slug": "prescription-coverage-open-enrollment-checklist",
-    "title": "Before You Pick a Health Plan, Check Your Medications",
-    "description": "Avoid choosing a plan that looks cheap until one medication changes the math.",
-    "category": "Open Enrollment"
+    "title": "How to Check Prescription Drug Coverage Before Choosing a Health Plan",
+    "description": "Check prescription drug coverage before choosing a health plan, including formularies, tiers, pharmacies, deductibles, and prior authorization.",
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-13"
   },
   {
     "slug": "network-checklist-open-enrollment",
@@ -188,9 +191,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "accident-critical-illness-hospital-indemnity-open-enrollment",
-    "title": "Accident, Critical Illness, and Hospital Indemnity: Real Benefit or Paycheck Leak?",
-    "description": "Evaluate supplemental health policies without confusing them for major medical insurance.",
-    "category": "Open Enrollment"
+    "title": "Accident vs. Critical Illness vs. Hospital Indemnity Insurance",
+    "description": "Compare accident, critical illness, and hospital indemnity insurance by benefit trigger, payout, exclusions, and fit with your health plan.",
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-13"
   },
   {
     "slug": "dental-vision-insurance-open-enrollment",
@@ -242,9 +246,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "facility-fee-vs-professional-fee",
-    "title": "Facility Fee vs Professional Fee: Why You May Get Charged Twice",
-    "description": "Separate the building charge from the clinician charge so hospital bills make more sense.",
-    "category": "Hospital Bills"
+    "title": "Facility Fee vs. Professional Fee: Why One Visit Can Produce Two Bills",
+    "description": "Learn the difference between a facility fee and professional fee, why one visit can create two bills, and what to verify before paying.",
+    "category": "Hospital Bills",
+    "lastReviewedAt": "2026-07-13"
   },
   {
     "slug": "observation-vs-inpatient-status",
@@ -266,9 +271,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "prior-authorization-explained",
-    "title": "Prior Authorization: Why Doctor-Recommended Does Not Always Mean Insurance-Approved",
-    "description": "Understand why a recommended test, drug, procedure, or piece of equipment may still need plan approval.",
-    "category": "Insurance"
+    "title": "What Is Prior Authorization? Why Insurance Can Delay Doctor-Recommended Care",
+    "description": "Learn what prior authorization is, why insurance may delay doctor-recommended care, and what to do when a request is pending or denied.",
+    "category": "Insurance",
+    "lastReviewedAt": "2026-07-13"
   },
   {
     "slug": "check-hospital-financial-assistance-before-paying",
@@ -308,9 +314,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "backup-care-plans-for-busy-healthcare-workers",
-    "title": "Backup Care Plans for Busy Healthcare Workers",
-    "description": "Build a practical pet care, child care, and home backup plan before a shift turns into a crisis.",
-    "category": "Spending"
+    "title": "Backup Childcare for Healthcare Workers: A Shift-Proof Plan",
+    "description": "Create a backup childcare plan for nursing shifts, weekends, call, illness, and school closures, including employer benefits and cost planning.",
+    "category": "Spending",
+    "lastReviewedAt": "2026-07-13"
   },
   {
     "slug": "workplace-benefits-definitions",
@@ -320,15 +327,17 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "deductible-copay-coinsurance-out-of-pocket-max",
-    "title": "Deductible, Copay, Coinsurance, and Out-of-Pocket Max",
-    "description": "Understand the four health insurance numbers that decide what a covered medical visit may cost you.",
-    "category": "Insurance"
+    "title": "Deductible vs. Copay vs. Coinsurance vs. Out-of-Pocket Maximum",
+    "description": "Learn the difference between a deductible, copay, coinsurance, and out-of-pocket maximum with a simple medical-bill example.",
+    "category": "Insurance",
+    "lastReviewedAt": "2026-07-13"
   },
   {
     "slug": "how-to-read-an-eob",
-    "title": "How to Read an Explanation of Benefits Without Losing Your Mind",
-    "description": "Learn how to compare your EOB to the actual medical bill before you pay.",
-    "category": "Hospital Bills"
+    "title": "How to Read an Explanation of Benefits (EOB) Before Paying a Medical Bill",
+    "description": "Learn how to read an Explanation of Benefits, match it to a medical bill, and verify allowed amount, insurance payment, and patient responsibility.",
+    "category": "Hospital Bills",
+    "lastReviewedAt": "2026-07-13"
   },
   {
     "slug": "why-er-visit-is-expensive",
@@ -340,7 +349,9 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "medicare-options-explained",
     "title": "Medicare Options Explained",
     "description": "Understand Original Medicare, Medicare Advantage, Part D, Medigap, and Medicaid without getting buried in insurance language.",
-    "category": "Medicare"
+    "category": "Medicare",
+    "publishedAt": "2026-06-01",
+    "lastReviewedAt": "2026-07-12"
   },
   {
     "slug": "discharge-coverage-guide",

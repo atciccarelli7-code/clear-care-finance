@@ -41,7 +41,14 @@ jobs:
         run: npm run guide:quick-content-check:all
 
       - name: AdSense publisher-content governance
-        run: npm run seo:generate && npm run adsense:check
+        run: npm run seo:generate && npm run adsense:audit && npm run adsense:check
+
+      - name: Upload generated AdSense route audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: adsense-readiness-audit
+          path: docs/adsense-readiness-audit.md
+          if-no-files-found: error
 
       - name: Production build, bundle budget, and prerender
         run: npm run build

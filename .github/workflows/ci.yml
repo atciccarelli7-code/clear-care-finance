@@ -40,5 +40,8 @@ jobs:
       - name: All quick guide content checks
         run: npm run guide:quick-content-check:all
 
+      - name: AdSense publisher-content governance
+        run: npm run seo:generate && npm run adsense:check
+
       - name: Production build, bundle budget, and prerender
         run: npm run build

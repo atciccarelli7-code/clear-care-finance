@@ -57,6 +57,14 @@ Source contract: `src/lib/growthAnalytics.ts`
 | Commercial | `organization_pilot_details_viewed` | Pilot details are expanded | `entry_surface`, `cta_type` | Implemented and tested; not yet observed |
 | Commercial | `organization_demo_opened` | Public demonstration is opened | `entry_surface`, `destination_id` | Implemented and tested; not yet observed |
 | Commercial | `organization_contact_selected` | Contact CTA is selected | `entry_surface`, `cta_type` | Implemented and tested; buyer identity prohibited; not yet observed |
+| Commercial activation | `organization_program_builder_started` | First fixed program-planner selection is made | `entry_surface` | Implemented and tested; selections prohibited; not yet observed |
+| Commercial activation | `organization_program_plan_created` | A complete program brief is produced | `entry_surface`, `action_id` | Implemented and tested; organization type, audience, priority, and timeline prohibited; not yet observed |
+| Commercial value | `organization_program_plan_action` | Brief is copied, printed, or reset | `entry_surface`, `action_id` | Implemented and tested; brief contents prohibited; not yet observed |
+| Commercial value | `organization_resource_opened` | A released participant module is opened | `entry_surface`, `destination_id`, `action_id` | Implemented and tested; URL and participant context prohibited; not yet observed |
+| Commercial value | `organization_launch_asset_action` | A fixed launch template is copied | `entry_surface`, `action_id` | Implemented and tested; edited copy prohibited; not yet observed |
+| Commercial evaluation | `organization_buyer_faq_opened` | A numbered procurement FAQ is expanded | `entry_surface`, `action_id` | Implemented and tested; buyer identity and question text prohibited; not yet observed |
+
+The organization planner may not transmit its four selections. The permitted event stream can show that the fixed-choice planner started, produced a brief, or triggered an approved action; it cannot reveal organization type, audience, priority, timeline, buyer, employer, campaign, participant, plan, case, or brief content.
 
 ## Flagship decision-tool funnel
 

@@ -253,8 +253,8 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Contact Community Acquired Finance with feedback, corrections, topic suggestions, partnership questions, or accessibility concerns.",
   },
   "/for-organizations": {
-    title: "Benefits Education Pilot for Healthcare Organizations",
-    description: "Explore a small, privacy-minimized CAF educational pilot for healthcare employees, nursing programs, professional associations, and workforce organizations.",
+    title: "Healthcare Financial Education Programs for Organizations",
+    description: "Build a privacy-minimized healthcare financial education program for employees, patients, caregivers, members, or students using live decision tools, implementation plans, measurement boundaries, and procurement-ready safeguards.",
   },
   "/methodology": {
     title: "Research and Editorial Methodology",

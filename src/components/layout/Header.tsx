@@ -22,6 +22,7 @@ const nav = [
 const secondaryNav = [
   { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patients & Caregivers" },
+  { to: "/topics", label: "Topic Guides" },
   { to: "/guides", label: "Quick Guides" },
   { to: "/open-enrollment", label: "Open Enrollment" },
   { to: "/student-loans", label: "Student Loans" },
@@ -110,7 +111,7 @@ export const Header = () => {
           <span className="whitespace-nowrap text-base md:hidden">Finance</span>
         </Link>
 
-        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex" aria-label="Primary navigation">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 2xl:flex" aria-label="Primary navigation">
           {nav.map((n) => (
             <NavLink
               key={n.to}
@@ -168,7 +169,7 @@ export const Header = () => {
           </Button>
           <button
             ref={menuButtonRef}
-            className="rounded-lg p-2 transition-smooth hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 xl:hidden"
+            className="rounded-lg p-2 transition-smooth hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 2xl:hidden"
             onClick={() => setOpen((current) => !current)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-controls="mobile-menu"
@@ -181,7 +182,7 @@ export const Header = () => {
       </div>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-border bg-background animate-fade-in xl:hidden">
+        <div id="mobile-menu" className="border-t border-border bg-background animate-fade-in 2xl:hidden">
           <nav
             ref={mobileMenuRef}
             className="container flex max-h-[calc(100vh-4rem)] flex-col gap-1 overflow-y-auto py-4 pb-[calc(1rem_+_env(safe-area-inset-bottom))]"
@@ -193,6 +194,7 @@ export const Header = () => {
                 key={n.to}
                 to={n.to}
                 end={n.to === "/"}
+                onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   `rounded-lg px-3 py-3 text-sm font-semibold transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                     isActive ? "bg-primary-soft/75 text-primary" : "text-foreground hover:bg-muted/60"
@@ -209,6 +211,7 @@ export const Header = () => {
               <NavLink
                 key={n.to}
                 to={n.to}
+                onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   `rounded-lg px-3 py-2.5 text-sm font-medium transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                     isActive ? "bg-primary-soft/75 text-primary" : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
@@ -220,7 +223,9 @@ export const Header = () => {
             ))}
 
             <Button asChild variant="hero" className="mt-2 md:hidden">
-              <Link to="/newsletter">Join newsletter</Link>
+              <Link to="/newsletter" onClick={() => setOpen(false)}>
+                Join newsletter
+              </Link>
             </Button>
           </nav>
         </div>

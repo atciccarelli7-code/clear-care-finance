@@ -21,6 +21,7 @@ const linkGroups = [
       { to: "/build-wealth", label: "Money & Retirement" },
       { to: "/insurance", label: "Benefits & Insurance" },
       { to: "/medicare-care-costs", label: "Medicare & Medicaid" },
+      { to: "/topics", label: "Topic Guides" },
       { to: "/articles", label: "Articles" },
     ],
   },

@@ -40,6 +40,7 @@ export type Article = {
   };
   numberedSteps?: string[];
   questionsToAsk?: string[];
+  questionsHeading?: string;
 };
 
 const a = (article: Article): Article => ({

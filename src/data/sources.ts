@@ -24,6 +24,48 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.cms.gov",
     note: "Regulator that publishes the underlying coverage and payment rules.",
   },
+  cdcHealthcareAssociatedVte: {
+    name: "CDC",
+    pageTitle: "Understanding Your Risk for Healthcare-Associated VTE",
+    url: "https://www.cdc.gov/blood-clots/risk-factors/ha-vte.html",
+    note: "Federal patient education on hospitalization, blood-clot risk, and prevention measures.",
+  },
+  medlinePlusHeparin: {
+    name: "MedlinePlus",
+    pageTitle: "Heparin Injection",
+    url: "https://medlineplus.gov/druginfo/meds/a682826.html",
+    note: "National Library of Medicine patient information on heparin uses, precautions, and urgent concerns.",
+  },
+  medlinePlusEnoxaparin: {
+    name: "MedlinePlus",
+    pageTitle: "Enoxaparin Injection",
+    url: "https://medlineplus.gov/druginfo/meds/a601210.html",
+    note: "National Library of Medicine patient information on enoxaparin uses, precautions, and administration.",
+  },
+  medlinePlusApixaban: {
+    name: "MedlinePlus",
+    pageTitle: "Apixaban",
+    url: "https://medlineplus.gov/druginfo/meds/a613032.html",
+    note: "National Library of Medicine patient information on apixaban uses, warnings, and precautions.",
+  },
+  medlinePlusRivaroxaban: {
+    name: "MedlinePlus",
+    pageTitle: "Rivaroxaban",
+    url: "https://medlineplus.gov/druginfo/meds/a611049.html",
+    note: "National Library of Medicine patient information on rivaroxaban uses, warnings, and precautions.",
+  },
+  medlinePlusAspirin: {
+    name: "MedlinePlus",
+    pageTitle: "Aspirin",
+    url: "https://medlineplus.gov/druginfo/meds/a682878.html",
+    note: "National Library of Medicine patient information on aspirin uses, blood-clot effects, and precautions.",
+  },
+  jointCommissionMedicationReconciliation: {
+    name: "The Joint Commission",
+    pageTitle: "Maintaining and Communicating Patient Medication Information",
+    url: "https://www.jointcommission.org/en-us/knowledge-library/support-center/standards-interpretation/standards-faqs/000001214",
+    note: "Current hospital-safety guidance on comparing home medication information with new orders and resolving discrepancies.",
+  },
   kff: {
     name: "KFF",
     pageTitle: "Health policy research and explainers",

@@ -15,6 +15,7 @@ const loadStartHere = () => import("./pages/StartHere.tsx");
 const loadHealthcareWorkers = () => import("./pages/HealthcareWorkers.tsx");
 const loadBuildWealthHub = () => import("./pages/BuildWealthHub.tsx");
 const loadPatientsFamilies = () => import("./pages/PatientsFamilies.tsx");
+const loadHospitalPatientGuidePage = () => import("./pages/HospitalPatientGuidePage.tsx");
 const loadTools = () => import("./pages/Tools.tsx");
 const loadToolPage = () => import("./pages/ToolPage.tsx");
 const loadBenefitsCommandCenterPage = () => import("./pages/BenefitsCommandCenterPage.tsx");
@@ -68,6 +69,7 @@ const StartHere = lazy(loadStartHere);
 const HealthcareWorkers = lazy(loadHealthcareWorkers);
 const BuildWealthHub = lazy(loadBuildWealthHub);
 const PatientsFamilies = lazy(loadPatientsFamilies);
+const HospitalPatientGuidePage = lazy(loadHospitalPatientGuidePage);
 const Tools = lazy(loadTools);
 const ToolPage = lazy(loadToolPage);
 const BenefitsCommandCenterPage = lazy(loadBenefitsCommandCenterPage);
@@ -128,6 +130,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/healthcare-workers/paycheck-tools") return loadInsuranceDecisionToolsBundle;
   if (pathname === "/build-wealth") return loadBuildWealthHub;
   if (pathname === "/patients-families") return loadPatientsFamilies;
+  if (pathname === "/patients-families/hospital-guide") return loadHospitalPatientGuidePage;
   if (pathname === "/student-loans") return loadStudentLoans;
   if (pathname === "/tools") return loadTools;
   if (pathname === "/tools/benefits-command-center") return loadBenefitsCommandCenterPage;
@@ -248,6 +251,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/healthcare-workers/career-decisions" element={<HealthcareCareerDecisionCenterPage />} />
             <Route path="/healthcare-workers/paycheck-tools" element={<HealthcareWorkerPaycheckTools />} />
             <Route path="/patients-families" element={<PatientsFamilies />} />
+            <Route path="/patients-families/hospital-guide" element={<HospitalPatientGuidePage />} />
             <Route path="/student-loans" element={<StudentLoans />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/benefits-command-center" element={<BenefitsCommandCenterPage />} />

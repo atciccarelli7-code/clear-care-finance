@@ -8,7 +8,8 @@ The content is educational only. It is not individualized financial, legal, insu
 
 - [Home](https://communityacquiredfinance.com/)
 - [Healthcare Workers](https://communityacquiredfinance.com/healthcare-workers)
-- [Patients & Families](https://communityacquiredfinance.com/patients-families)
+- [Patients & Caregivers](https://communityacquiredfinance.com/patients-families)
+- [Hospital & Patient Guide](https://communityacquiredfinance.com/patients-families/hospital-guide)
 - [Student Loans](https://communityacquiredfinance.com/student-loans)
 - [Insurance Decision Tools](https://communityacquiredfinance.com/insurance)
 - [Calculators](https://communityacquiredfinance.com/tools)
@@ -20,6 +21,9 @@ The content is educational only. It is not individualized financial, legal, insu
 
 ## High-value pages
 
+- [Hospital & Patient Guide](https://communityacquiredfinance.com/patients-families/hospital-guide)
+- [Why Am I Getting a Blood Thinner in the Hospital?](https://communityacquiredfinance.com/articles/why-am-i-getting-a-blood-thinner-in-the-hospital)
+- [Why Did the Hospital Stop or Change My Home Medications?](https://communityacquiredfinance.com/articles/why-did-the-hospital-stop-or-change-my-home-medications)
 - [Student Loans](https://communityacquiredfinance.com/student-loans)
 - [From the Bedside: Long-Term Care Medicaid Should Not Wait Until a Crisis](https://communityacquiredfinance.com/articles/from-the-bedside-long-term-care-medicaid-hospital-delay)
 - [From the Bedside: Why Is My Prescription So Expensive If I Have Medicare?](https://communityacquiredfinance.com/articles/from-the-bedside-medicare-prescription-cost)

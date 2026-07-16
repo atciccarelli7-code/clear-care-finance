@@ -331,6 +331,11 @@ const HospitalDischargeCoveragePage = () => {
       </PageHero>
 
       <div className="container space-y-16 py-12 md:space-y-20 md:py-16">
+        <div className="-mb-8 flex justify-center md:-mb-12">
+          <Link className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary-soft/35 px-4 py-2 text-sm font-bold text-primary hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" to="/patients-families/hospital-guide">
+            Hospital &amp; Patient Guide <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
         <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-5 shadow-card md:p-8">
           <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
             <div>

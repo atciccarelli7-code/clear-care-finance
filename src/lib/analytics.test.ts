@@ -100,4 +100,21 @@ describe("privacy-safe analytics", () => {
     expect(track).toHaveBeenCalledWith("homepage_navigation", expectedProperties);
     expect(gtag).toHaveBeenCalledWith("event", "homepage_navigation", expectedProperties);
   });
+
+  it("keeps fixed patient-guide identifiers while removing medical and claim details", () => {
+    expect(sanitizeEventProperties({
+      stage_id: "medications_treatments",
+      item_id: "blood_thinner_article",
+      destination_path: "/articles/why-am-i-getting-a-blood-thinner-in-the-hospital?source=guide",
+      medication_name: "example medicine",
+      diagnosis: "example diagnosis",
+      claim_number: "12345",
+      provider_name: "example provider",
+      follow_up_date: "2026-08-01",
+    })).toEqual({
+      stage_id: "medications_treatments",
+      item_id: "blood_thinner_article",
+      destination_path: "/articles/why-am-i-getting-a-blood-thinner-in-the-hospital",
+    });
+  });
 });

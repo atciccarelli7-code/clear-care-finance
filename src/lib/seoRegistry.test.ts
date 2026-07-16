@@ -39,6 +39,29 @@ describe("runtime SEO registry", () => {
     );
   });
 
+  it("publishes the hospital guide and launch articles with canonical structured data", () => {
+    const hubPath = "/patients-families/hospital-guide";
+    const articlePaths = [
+      "/articles/why-am-i-getting-a-blood-thinner-in-the-hospital",
+      "/articles/why-did-the-hospital-stop-or-change-my-home-medications",
+    ];
+
+    expect(getIndexableRoutes()).toEqual(expect.arrayContaining([hubPath, ...articlePaths]));
+    expect(resolveSeoMeta(hubPath)).toMatchObject({
+      canonicalPath: hubPath,
+      robots: "index, follow, max-image-preview:large",
+    });
+    expect(resolveSeoMeta(hubPath).jsonLd?.map((item) => item["@type"])).toEqual(
+      expect.arrayContaining(["CollectionPage", "BreadcrumbList"]),
+    );
+
+    for (const articlePath of articlePaths) {
+      expect(resolveSeoMeta(articlePath).jsonLd?.map((item) => item["@type"])).toEqual(
+        expect.arrayContaining(["Article", "BreadcrumbList"]),
+      );
+    }
+  });
+
   it("preserves site overrides and noindexes unknown routes", () => {
     expect(resolveSiteSeoMeta("/tools").title).toBe("Financial Calculators and Decision Tools");
     expect(resolveSeoMeta("/for-organizations")).toMatchObject({

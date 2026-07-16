@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
+import { HOSPITAL_GUIDE_ROUTE, getHospitalGuideResourceByArticleSlug } from "@/data/hospitalPatientGuide";
 
 const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: string; children: React.ReactNode }) => (
   <div className="space-y-2.5 md:space-y-3">
@@ -28,6 +29,40 @@ const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: str
 );
 
 const getArticleNextSteps = (slug: string, category: string, relatedCalculator?: { label: string; href: string }): NextStepCard[] => {
+  const hospitalGuideResource = getHospitalGuideResourceByArticleSlug(slug);
+  if (hospitalGuideResource) {
+    const relatedArticle = hospitalGuideResource.relatedArticles[0];
+    const relatedArticleData = relatedArticle?.startsWith("/articles/")
+      ? ALL_ARTICLES.find((article) => `/articles/${article.slug}` === relatedArticle)
+      : undefined;
+
+    return [
+      {
+        eyebrow: "Hospital journey",
+        title: "Hospital & Patient Guide",
+        description: "See what commonly happens before, during, and after a hospital stay—and where bills and coverage fit.",
+        href: HOSPITAL_GUIDE_ROUTE,
+        cta: "Open the guide",
+      },
+      ...(relatedArticleData
+        ? [{
+            eyebrow: "Related explanation",
+            title: relatedArticleData.title,
+            description: relatedArticleData.promise,
+            href: `/articles/${relatedArticleData.slug}`,
+            cta: "Read next",
+          }]
+        : []),
+      {
+        eyebrow: "Patient pathways",
+        title: "Choose another patient or caregiver need",
+        description: "Go to discharge, medical bills, denied care, Medicare and Medicaid, medication coverage, or long-term-care planning.",
+        href: "/patients-families",
+        cta: "View patient pathways",
+      },
+    ];
+  }
+
   if (slug === "what-employer-benefit-changes-should-i-compare") {
     return [
       {
@@ -253,11 +288,11 @@ const getArticleNextSteps = (slug: string, category: string, relatedCalculator?:
         cta: "Read EOB guide",
       },
       {
-        eyebrow: "Calculator",
-        title: relatedCalculator?.label ?? "Health Insurance Visit Cost Calculator",
-        description: "Turn the insurance terms into a rough dollar estimate before deciding what to question next.",
-        href: relatedCalculator?.href ?? "/tools#insurance",
-        cta: "Open calculator",
+        eyebrow: "Hospital journey",
+        title: "Hospital & Patient Guide",
+        description: "Connect the bill to what happened during the stay, the discharge plan, and the relevant coverage questions.",
+        href: HOSPITAL_GUIDE_ROUTE,
+        cta: "Open the guide",
       },
     ];
   }
@@ -522,7 +557,7 @@ const ArticlePage = () => {
         )}
 
         {article.questionsToAsk && (
-          <Section icon={Users} title="Questions to ask HR or the plan administrator">
+          <Section icon={Users} title={article.questionsHeading ?? "Questions to ask HR or the plan administrator"}>
             <ul className="space-y-2">{article.questionsToAsk.map((question) => <li key={question} className="flex items-start gap-2.5"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /><span>{question}</span></li>)}</ul>
           </Section>
         )}

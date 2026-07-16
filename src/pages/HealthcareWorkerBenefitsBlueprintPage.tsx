@@ -30,6 +30,7 @@ import {
   type BenefitsBlueprintAnswers,
 } from "@/lib/benefitsBlueprint";
 import { useSeo } from "@/lib/seo";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
 type DraftAnswers = Partial<Omit<BenefitsBlueprintAnswers, "age" | "targetRetirementAge">> & {
   age: string;
@@ -111,6 +112,32 @@ const matchOptions: ChoiceOption[] = [
   { value: "not-sure", label: "Unknown", helper: "Finding the formula and vesting schedule becomes the first action." },
 ];
 
+const emergencyFundOptions: ChoiceOption[] = [
+  { value: "under-one-month", label: "Less than one month", helper: "A deductible, missed shifts, or an urgent repair could quickly require new debt." },
+  { value: "one-to-three-months", label: "About one to three months", helper: "There is a buffer, but larger benefit deductions or a high deductible still need a cash-flow check." },
+  { value: "three-plus-months", label: "Three months or more", helper: "The reserve is more established, though household risks and job stability still matter." },
+  { value: "not-sure", label: "Not sure", helper: "The blueprint will make confirming accessible cash a next step." },
+];
+
+const debtOptions: ChoiceOption[] = [
+  { value: "yes", label: "Yes", helper: "Credit-card or other high-rate debt may deserve priority after preserving an employer-match decision." },
+  { value: "no", label: "No", helper: "No high-interest balance needs to be included in the first action order." },
+  { value: "not-sure", label: "Not sure", helper: "Check the annual percentage rate before accelerating long-term contributions." },
+];
+
+const taxOptions: ChoiceOption[] = [
+  { value: "lower-current-tax", label: "Lower taxes now", helper: "Compare how a traditional contribution changes taxable income and take-home pay." },
+  { value: "balanced", label: "Build tax flexibility", helper: "Compare whether the plan allows a split between traditional and Roth contributions." },
+  { value: "future-tax-free", label: "Prioritize Roth flexibility", helper: "Compare the after-tax paycheck effect of Roth contributions and qualified future withdrawals." },
+  { value: "not-sure", label: "Not sure", helper: "The result will frame the decision without trying to predict one perfect future tax rate." },
+];
+
+const protectionOptions: ChoiceOption[] = [
+  { value: "current", label: "Reviewed recently", helper: "Disability coverage, life-insurance needs, and beneficiary designations were checked after the latest job or household change." },
+  { value: "needs-review", label: "Needs review", helper: "One or more protection or beneficiary decisions may be outdated or incomplete." },
+  { value: "not-sure", label: "Not sure", helper: "The blueprint will add the controlling documents and questions to the action list." },
+];
+
 const steps = [
   "Current age",
   "Target retirement age",
@@ -124,6 +151,29 @@ const steps = [
   "Higher deductible and HSA comfort",
   "Coverage tier",
   "Employer retirement match",
+  "Emergency-fund readiness",
+  "High-interest debt",
+  "Traditional versus Roth priority",
+  "Protection and beneficiaries",
+] as const;
+
+const stepIds = [
+  "current_age",
+  "target_retirement_age",
+  "pay_range",
+  "saving_priority",
+  "risk_tolerance",
+  "cost_preference",
+  "healthcare_use",
+  "regular_care",
+  "provider_flexibility",
+  "hsa_comfort",
+  "coverage_tier",
+  "employer_match",
+  "emergency_fund",
+  "high_interest_debt",
+  "tax_priority",
+  "protection_review",
 ] as const;
 
 const sources: Source[] = [
@@ -131,13 +181,13 @@ const sources: Source[] = [
     name: "IRS",
     pageTitle: "403(b) contribution limits",
     url: "https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-403b-contribution-limits",
-    note: `Official 2026 employee deferral limit: $${BENEFITS_LIMITS_2026.workplaceRetirementDeferral.toLocaleString()}, with separate catch-up rules for eligible participants. Reviewed July 10, 2026.`,
+    note: `Official 2026 employee deferral limit: $${BENEFITS_LIMITS_2026.workplaceRetirementDeferral.toLocaleString()}, with separate age, 15-year-service, and Roth catch-up rules for eligible participants. Re-verified July 16, 2026.`,
   },
   {
     name: "IRS",
     pageTitle: "Revenue Procedure 2025-19 — 2026 HSA limits",
     url: "https://www.irs.gov/pub/irs-drop/rp-25-19.pdf",
-    note: `Official 2026 HSA limits: $${BENEFITS_LIMITS_2026.hsaSelfOnly.toLocaleString()} self-only and $${BENEFITS_LIMITS_2026.hsaFamily.toLocaleString()} family. Reviewed July 10, 2026.`,
+    note: `Official 2026 HSA limits: $${BENEFITS_LIMITS_2026.hsaSelfOnly.toLocaleString()} self-only and $${BENEFITS_LIMITS_2026.hsaFamily.toLocaleString()} family. Re-verified July 16, 2026.`,
   },
   {
     name: "HealthCare.gov",
@@ -231,6 +281,7 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
   const [showResults, setShowResults] = useState(false);
   const [copied, setCopied] = useState(false);
   const focusRef = useRef<HTMLDivElement>(null);
+  const startedRef = useRef(false);
 
   useSeo({
     title: "Healthcare Worker Benefits Blueprint",
@@ -262,7 +313,11 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
       !answers.flexibility ||
       !answers.hsaComfort ||
       !answers.coverageTier ||
-      !answers.employerMatch
+      !answers.employerMatch ||
+      !answers.emergencyFund ||
+      !answers.highInterestDebt ||
+      !answers.taxPriority ||
+      !answers.protectionReview
     ) {
       return null;
     }
@@ -295,6 +350,10 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
       "hsaComfort",
       "coverageTier",
       "employerMatch",
+      "emergencyFund",
+      "highInterestDebt",
+      "taxPriority",
+      "protectionReview",
     ];
     return Boolean(answers[keys[step - 2]]);
   }, [answers, step]);
@@ -305,8 +364,17 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
 
   const goNext = () => {
     if (!currentStepValid) return;
+    if (!startedRef.current) {
+      startedRef.current = true;
+      trackGrowthEvent("flagship_tool_started", { tool_id: "benefits_blueprint" });
+    }
+    trackGrowthEvent("flagship_tool_step_completed", {
+      tool_id: "benefits_blueprint",
+      step_id: stepIds[step],
+    });
     if (step === steps.length - 1) {
       setShowResults(true);
+      trackGrowthEvent("flagship_tool_completed", { tool_id: "benefits_blueprint" });
       return;
     }
     setStep((current) => current + 1);
@@ -317,6 +385,7 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
     try {
       await navigator.clipboard.writeText(blueprintToText(blueprint));
       setCopied(true);
+      trackGrowthEvent("flagship_tool_result_action", { tool_id: "benefits_blueprint", result_action: "copy" });
       window.setTimeout(() => setCopied(false), 2200);
     } catch {
       setCopied(false);
@@ -324,10 +393,21 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
   };
 
   const restart = () => {
+    if (showResults) {
+      trackGrowthEvent("flagship_tool_result_action", { tool_id: "benefits_blueprint", result_action: "restart" });
+    }
     setAnswers(initialAnswers);
     setStep(0);
     setShowResults(false);
     setCopied(false);
+    startedRef.current = false;
+  };
+
+  const openHandoff = (actionId: string) => {
+    trackGrowthEvent("flagship_tool_handoff_opened", {
+      tool_id: "benefits_blueprint",
+      action_id: actionId,
+    });
   };
 
   const renderStep = () => {
@@ -400,6 +480,14 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
         return <ChoiceStep title="Which coverage tier will you probably need?" description="This only identifies the tier to inspect. It does not compare another household member's employer coverage." options={coverageOptions} value={answers.coverageTier} onChange={(value) => setChoice("coverageTier", value)} />;
       case 11:
         return <ChoiceStep title="Do you expect an employer retirement match?" description="If the formula is unknown, finding it becomes the first action before choosing a percentage." options={matchOptions} value={answers.employerMatch} onChange={(value) => setChoice("employerMatch", value)} />;
+      case 12:
+        return <ChoiceStep title="How much accessible emergency cash is available?" description="Use cash that can cover bills without selling investments or using a credit card. This answer changes the order of actions, not the retirement limit." options={emergencyFundOptions} value={answers.emergencyFund} onChange={(value) => setChoice("emergencyFund", value)} />;
+      case 13:
+        return <ChoiceStep title="Is there high-interest debt to address?" description="Think credit cards or other balances with rates high enough to compete with long-term saving. Do not include a low-rate mortgage just because it is debt." options={debtOptions} value={answers.highInterestDebt} onChange={(value) => setChoice("highInterestDebt", value)} />;
+      case 14:
+        return <ChoiceStep title="Which retirement tax priority is closest?" description="This does not predict future tax rates. It identifies which paycheck comparison to run first." options={taxOptions} value={answers.taxPriority} onChange={(value) => setChoice("taxPriority", value)} />;
+      case 15:
+        return <ChoiceStep title="When were disability, life insurance, and beneficiaries last reviewed?" description="These elections protect income and household plans. The tool does not estimate a coverage amount." options={protectionOptions} value={answers.protectionReview} onChange={(value) => setChoice("protectionReview", value)} />;
       default:
         return null;
     }
@@ -410,7 +498,7 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
       <PageHero
         eyebrow="Goal-first workplace benefits tool"
         title="Healthcare Worker Benefits Blueprint"
-        description="Answer 12 plain-English questions before opening the HR portal. Leave with a retirement starting range, health-plan fit signals, an HSA check, and the exact numbers to find."
+        description="Answer 16 plain-English questions before opening the HR portal. Leave with a retirement starting range, health-plan fit signals, an HSA check, and the exact numbers to find."
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero"><a href="#blueprint">Build my blueprint</a></Button>
@@ -486,6 +574,28 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
                     <p className="text-sm leading-relaxed text-foreground">{blueprint.matchReminder}</p>
                   </section>
 
+                  <section className="space-y-4" aria-labelledby="blueprint-priority-actions">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Prioritized action plan</p>
+                      <h3 id="blueprint-priority-actions" className="mt-1 font-display text-2xl font-bold">Work from the top, then verify in the portal</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">The order uses only broad readiness signals. It does not replace the employer documents or individualized financial, tax, insurance, or legal advice.</p>
+                    </div>
+                    <ol className="space-y-3">
+                      {blueprint.priorityActions.map((action, index) => (
+                        <li key={action.id} className="grid gap-4 rounded-2xl border border-border bg-background p-4 sm:grid-cols-[auto_1fr_auto] sm:items-center">
+                          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-soft text-sm font-bold text-primary" aria-hidden="true">{index + 1}</span>
+                          <div>
+                            <h4 className="font-display text-lg font-bold">{action.title}</h4>
+                            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{action.reason}</p>
+                          </div>
+                          <Button asChild variant="outline" size="sm">
+                            <Link to={action.href} onClick={() => openHandoff(action.id)}>{action.cta}<ArrowRight className="h-4 w-4" /></Link>
+                          </Button>
+                        </li>
+                      ))}
+                    </ol>
+                  </section>
+
                   <ResultList title="Retirement account characteristics to compare" items={blueprint.retirementComparison} />
 
                   <section className="space-y-4">
@@ -511,6 +621,17 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
                     <p className="text-sm leading-relaxed text-muted-foreground">{blueprint.hsaGuidance}</p>
                   </section>
 
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    <section className="rounded-2xl border border-border bg-muted/30 p-5">
+                      <h3 className="font-display text-lg font-bold">Traditional versus Roth check</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{blueprint.taxGuidance}</p>
+                    </section>
+                    <section className="rounded-2xl border border-border bg-muted/30 p-5">
+                      <h3 className="font-display text-lg font-bold">Disability, life, and beneficiary check</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{blueprint.protectionGuidance}</p>
+                    </section>
+                  </div>
+
                   <div className="grid gap-8 lg:grid-cols-2">
                     <ResultList title="Numbers to locate in the HR portal" items={blueprint.portalNumbers} />
                     <ResultList title="Five questions to ask HR" items={blueprint.hrQuestions} />
@@ -525,10 +646,10 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
                     <Button type="button" onClick={copyResults}>
                       <ClipboardCopy className="h-4 w-4" /> {copied ? "Copied" : "Copy blueprint"}
                     </Button>
-                    <Button type="button" variant="outline" onClick={() => window.print()}>
+                    <Button type="button" variant="outline" onClick={() => { trackGrowthEvent("flagship_tool_result_action", { tool_id: "benefits_blueprint", result_action: "print" }); window.print(); }}>
                       <Printer className="h-4 w-4" /> Print blueprint
                     </Button>
-                    <Button type="button" variant="outline" onClick={() => { setShowResults(false); setStep(0); }}>
+                    <Button type="button" variant="outline" onClick={() => { trackGrowthEvent("flagship_tool_result_action", { tool_id: "benefits_blueprint", result_action: "review" }); setShowResults(false); setStep(0); }}>
                       <Pencil className="h-4 w-4" /> Review answers
                     </Button>
                     <Button type="button" variant="ghost" onClick={restart}>Start over</Button>
@@ -580,7 +701,7 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
           />
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {relatedLinks.map(([title, href, description]) => (
-              <Link key={href} to={href} className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition-smooth hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card">
+              <Link key={href} to={href} onClick={() => openHandoff(title.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, ""))} className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition-smooth hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card">
                 <h3 className="font-display text-lg font-bold group-hover:text-primary">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
                 <ArrowRight className="mt-4 h-4 w-4 text-primary transition-transform group-hover:translate-x-1" aria-hidden="true" />

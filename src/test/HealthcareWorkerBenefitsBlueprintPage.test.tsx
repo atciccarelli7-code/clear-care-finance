@@ -6,7 +6,7 @@ import HealthcareWorkerBenefitsBlueprintPage from "@/pages/HealthcareWorkerBenef
 const clickNext = () => fireEvent.click(screen.getByRole("button", { name: /^next$/i }));
 
 describe("HealthcareWorkerBenefitsBlueprintPage", () => {
-  it("uses semantic controls and generates a result after all 12 questions", () => {
+  it("uses semantic controls and generates a prioritized result after all 16 questions", () => {
     render(
       <MemoryRouter>
         <HealthcareWorkerBenefitsBlueprintPage />
@@ -29,6 +29,10 @@ describe("HealthcareWorkerBenefitsBlueprintPage", () => {
       /Maybe I want to see/i,
       /employee only/i,
       /Yes The blueprint will prioritize/i,
+      /three months or more/i,
+      /No No high-interest balance/i,
+      /Build tax flexibility/i,
+      /Reviewed recently/i,
     ];
 
     choices.forEach((choice, index) => {
@@ -45,6 +49,8 @@ describe("HealthcareWorkerBenefitsBlueprintPage", () => {
     expect(screen.getByRole("button", { name: /copy blueprint/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /print blueprint/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /review answers/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /work from the top/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /review matching/i })).toBeInTheDocument();
   });
 
   it("keeps next disabled until the current question is answered", () => {

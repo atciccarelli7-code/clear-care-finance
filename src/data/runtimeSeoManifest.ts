@@ -111,9 +111,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "cash-vs-investing-when-you-feel-behind",
-    "title": "Cash vs Investing When You Feel Behind",
-    "description": "How to balance emergency cash, known expenses, and long-term investing when you feel anxious about money and the market.",
-    "category": "Build Wealth"
+    "title": "Should You Keep Cash or Invest It? A Practical Decision Framework",
+    "description": "Use a practical cash-versus-investing framework based on emergency reserves, near-term expenses, debt, employer matching, and time horizon.",
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-15"
   },
   {
     "slug": "can-you-live-off-dividends-passive-income-guide",
@@ -290,9 +291,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "medicare-advantage-vs-original-medicare-2026",
-    "title": "Medicare Advantage vs Original Medicare in 2026",
-    "description": "Compare Medicare Advantage and Original Medicare using the 2026 costs, network rules, prior authorization friction, and patient-centered questions that families should check before choosing coverage.",
-    "category": "Medicare"
+    "title": "Medicare Advantage vs. Original Medicare in 2026: Key Tradeoffs",
+    "description": "Compare Medicare Advantage and Original Medicare in 2026 by provider access, premiums, cost sharing, drug coverage, prior authorization, travel, and Medigap.",
+    "category": "Medicare",
+    "lastReviewedAt": "2026-07-15"
   },
   {
     "slug": "hsa-vs-fsa-healthcare-workers",
@@ -379,9 +381,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "long-term-care-and-custodial-care",
-    "title": "Long-Term Care and Custodial Care",
-    "description": "Learn why Medicare usually does not pay for long-term daily help — and why Medicaid planning may matter.",
-    "category": "Medicare"
+    "title": "Skilled Care vs. Custodial Care: What Medicare Usually Covers",
+    "description": "Learn the difference between skilled care and custodial care, what Medicare may cover, and when Medicaid or separate long-term-care planning may matter.",
+    "category": "Medicare",
+    "lastReviewedAt": "2026-07-15"
   },
   {
     "slug": "medicaid-dual-eligibility-ltss",
@@ -397,9 +400,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   },
   {
     "slug": "hospital-cafe-habit",
-    "title": "Your Hospital Café Habit Might Be Quietly Eating Your Savings Rate",
-    "description": "A non-shaming way to see how shift coffee, snacks, and lunches add up over a year.",
-    "category": "Spending"
+    "title": "How Much Does Hospital Cafeteria Spending Cost Per Year?",
+    "description": "Calculate the yearly cost of hospital cafeteria meals and coffee, then build a realistic shift-work spending plan instead of an all-or-nothing budget.",
+    "category": "Spending",
+    "lastReviewedAt": "2026-07-15"
   },
   {
     "slug": "healthcare-worker-discounts",
@@ -423,8 +427,8 @@ export const RUNTIME_TOPIC_SEO_META = [
   },
   {
     "slug": "workplace-benefits",
-    "title": "Workplace Benefits",
-    "description": "Decode the paperwork hospitals hand you at orientation and open enrollment."
+    "title": "Healthcare Worker Benefits Hub",
+    "description": "Move from match and paycheck decisions to health-plan math, HSA or FSA choices, disability coverage, life insurance, and beneficiaries in one connected path."
   },
   {
     "slug": "retirement-accounts",

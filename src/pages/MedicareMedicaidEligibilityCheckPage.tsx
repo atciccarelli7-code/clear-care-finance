@@ -40,6 +40,7 @@ import {
   type YesNoNotSure,
 } from "@/lib/medicareMedicaidEligibility";
 import { useSeo } from "@/lib/seo";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
 type StepId =
   | "state"
@@ -197,6 +198,7 @@ const MedicareMedicaidEligibilityCheckPage = () => {
   const [stepIndex, setStepIndex] = useState(0);
   const [copied, setCopied] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const startedRef = useRef(false);
   const steps = useMemo(() => buildEligibilitySteps(answers), [answers]);
   const currentStep = steps[Math.min(stepIndex, steps.length - 1)];
   const result = useMemo(() => evaluateMedicareMedicaidEligibility(answers), [answers]);
@@ -224,9 +226,13 @@ const MedicareMedicaidEligibilityCheckPage = () => {
   };
 
   const startOver = () => {
+    if (currentStep === "results") {
+      trackGrowthEvent("flagship_tool_result_action", { tool_id: "medicare_medicaid_eligibility", result_action: "restart" });
+    }
     setAnswers({ ...EMPTY_ELIGIBILITY_ANSWERS });
     setStepIndex(0);
     setCopied(false);
+    startedRef.current = false;
   };
 
   const resultText = useMemo(() => buildCopyText(result), [result]);
@@ -235,10 +241,40 @@ const MedicareMedicaidEligibilityCheckPage = () => {
     try {
       await navigator.clipboard.writeText(resultText);
       setCopied(true);
+      trackGrowthEvent("flagship_tool_result_action", { tool_id: "medicare_medicaid_eligibility", result_action: "copy" });
       window.setTimeout(() => setCopied(false), 2200);
     } catch {
       setCopied(false);
     }
+  };
+
+  const goNext = () => {
+    if (!isStepComplete(currentStep, answers) || currentStep === "results") return;
+    if (!startedRef.current) {
+      startedRef.current = true;
+      trackGrowthEvent("flagship_tool_started", { tool_id: "medicare_medicaid_eligibility" });
+    }
+    trackGrowthEvent("flagship_tool_step_completed", {
+      tool_id: "medicare_medicaid_eligibility",
+      step_id: currentStep.replaceAll("-", "_"),
+    });
+    const nextIndex = Math.min(steps.length - 1, stepIndex + 1);
+    if (steps[nextIndex] === "results") {
+      trackGrowthEvent("flagship_tool_completed", { tool_id: "medicare_medicaid_eligibility" });
+    }
+    setStepIndex(nextIndex);
+  };
+
+  const printResults = () => {
+    trackGrowthEvent("flagship_tool_result_action", { tool_id: "medicare_medicaid_eligibility", result_action: "print" });
+    window.print();
+  };
+
+  const trackHandoff = (actionId: string) => {
+    trackGrowthEvent("flagship_tool_handoff_opened", {
+      tool_id: "medicare_medicaid_eligibility",
+      action_id: actionId,
+    });
   };
 
   return (
@@ -296,7 +332,7 @@ const MedicareMedicaidEligibilityCheckPage = () => {
               {questionHelp[currentStep] && <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">{questionHelp[currentStep]}</p>}
 
               <div className="mt-7">
-                <StepContent step={currentStep} answers={answers} updateAnswer={updateAnswer} result={result} onCopy={copyResults} copied={copied} />
+                <StepContent step={currentStep} answers={answers} updateAnswer={updateAnswer} result={result} onCopy={copyResults} onPrint={printResults} onHandoff={trackHandoff} copied={copied} />
               </div>
 
               <div className="mt-8 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between print:hidden">
@@ -306,7 +342,7 @@ const MedicareMedicaidEligibilityCheckPage = () => {
                 {currentStep !== "results" ? (
                   <Button
                     type="button"
-                    onClick={() => setStepIndex((value) => Math.min(steps.length - 1, value + 1))}
+                    onClick={goNext}
                     disabled={!isStepComplete(currentStep, answers)}
                   >
                     {stepIndex === steps.length - 2 ? "See possible paths" : "Continue"} <ArrowRight className="h-4 w-4" />
@@ -381,9 +417,9 @@ const MedicareMedicaidEligibilityCheckPage = () => {
             centered
           />
           <div className="mt-7 grid gap-4 md:grid-cols-3">
-            <RelatedLink href="/articles/medicare-vs-medicaid-what-is-the-difference" title="Medicare vs. Medicaid" description="Understand why the programs overlap but use different eligibility and coverage rules." />
-            <RelatedLink href="/medicare-care-costs" title="Medicare, Medicaid & long-term care" description="Review coverage gaps, cost exposure, skilled care, and custodial care planning." />
-            <RelatedLink href="/guides/hospital-discharge-medicare" title="Hospital discharge and long-term care guide" description="Prepare for rehab, home health, equipment, Medicaid, and post-hospital care decisions." />
+            <RelatedLink href="/articles/medicare-vs-medicaid-what-is-the-difference" title="Medicare vs. Medicaid" description="Understand why the programs overlap but use different eligibility and coverage rules." onOpen={() => trackHandoff("medicare_vs_medicaid")} />
+            <RelatedLink href="/medicare-care-costs" title="Medicare, Medicaid & long-term care" description="Review coverage gaps, cost exposure, skilled care, and custodial care planning." onOpen={() => trackHandoff("medicare_medicaid_hub")} />
+            <RelatedLink href="/guides/hospital-discharge-medicare" title="Hospital discharge and long-term care guide" description="Prepare for rehab, home health, equipment, Medicaid, and post-hospital care decisions." onOpen={() => trackHandoff("hospital_discharge_guide")} />
           </div>
         </section>
 
@@ -415,6 +451,8 @@ const StepContent = ({
   updateAnswer,
   result,
   onCopy,
+  onPrint,
+  onHandoff,
   copied,
 }: {
   step: StepId;
@@ -422,6 +460,8 @@ const StepContent = ({
   updateAnswer: <K extends keyof EligibilityAnswers>(key: K, value: EligibilityAnswers[K]) => void;
   result: EligibilityScreeningResult;
   onCopy: () => void;
+  onPrint: () => void;
+  onHandoff: (actionId: string) => void;
   copied: boolean;
 }) => {
   switch (step) {
@@ -531,7 +571,7 @@ const StepContent = ({
     case "msp-unit":
       return <ChoiceGroup name="msp-unit" choices={MSP_UNITS} value={answers.mspApplicationUnit} onChange={(value) => updateAnswer("mspApplicationUnit", value)} />;
     case "results":
-      return <Results result={result} onCopy={onCopy} copied={copied} />;
+      return <Results result={result} onCopy={onCopy} onPrint={onPrint} onHandoff={onHandoff} copied={copied} />;
   }
 };
 
@@ -620,7 +660,7 @@ const NumberOrNotSure = ({
   </div>
 );
 
-const Results = ({ result, onCopy, copied }: { result: EligibilityScreeningResult; onCopy: () => void; copied: boolean }) => (
+const Results = ({ result, onCopy, onPrint, onHandoff, copied }: { result: EligibilityScreeningResult; onCopy: () => void; onPrint: () => void; onHandoff: (actionId: string) => void; copied: boolean }) => (
   <div className="space-y-7" aria-live="polite">
     <div className="rounded-2xl border border-primary/20 bg-primary-soft p-4 text-sm leading-relaxed text-foreground">
       <strong>Educational screening only.</strong> These are possible pathways to investigate—not an approval, denial, or official eligibility determination.
@@ -638,7 +678,7 @@ const Results = ({ result, onCopy, copied }: { result: EligibilityScreeningResul
       <h3 className="font-display text-xl font-bold">Official links</h3>
       <div className="grid gap-3 sm:grid-cols-2">
         {result.officialLinks.map((link) => (
-          <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="rounded-2xl border border-border p-4 transition-smooth hover:border-primary/40 hover:shadow-sm">
+          <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" onClick={() => onHandoff("official_resource")} className="rounded-2xl border border-border p-4 transition-smooth hover:border-primary/40 hover:shadow-sm">
             <span className="flex items-center justify-between gap-3 text-sm font-bold text-foreground">{link.label}<ExternalLink className="h-4 w-4 shrink-0 text-primary" /></span>
             <span className="mt-2 block text-xs leading-relaxed text-muted-foreground">{link.description}</span>
           </a>
@@ -660,7 +700,7 @@ const Results = ({ result, onCopy, copied }: { result: EligibilityScreeningResul
 
     <div className="flex flex-col gap-3 sm:flex-row print:hidden">
       <Button type="button" onClick={onCopy}><Copy className="h-4 w-4" /> {copied ? "Copied" : "Copy results"}</Button>
-      <Button type="button" variant="outline" onClick={() => window.print()}><Printer className="h-4 w-4" /> Print results</Button>
+      <Button type="button" variant="outline" onClick={onPrint}><Printer className="h-4 w-4" /> Print results</Button>
     </div>
   </div>
 );
@@ -721,8 +761,8 @@ const ArticleCard = ({ icon, title, children }: { icon: ReactNode; title: string
   </Card>
 );
 
-const RelatedLink = ({ href, title, description }: { href: string; title: string; description: string }) => (
-  <Link to={href} className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition-smooth hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card">
+const RelatedLink = ({ href, title, description, onOpen }: { href: string; title: string; description: string; onOpen: () => void }) => (
+  <Link to={href} onClick={onOpen} className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition-smooth hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card">
     <h3 className="font-display text-lg font-bold">{title}</h3>
     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
     <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary">Open guide <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></span>

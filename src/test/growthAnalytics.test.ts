@@ -69,4 +69,36 @@ describe("privacy-safe growth analytics", () => {
       properties: { entry_surface: "organization", cta_type: "pilot_inquiry" },
     });
   });
+
+  it("supports flagship-tool funnels without accepting benefit, income, or health answers", () => {
+    expect(sanitizeGrowthEvent("flagship_tool_step_completed", {
+      tool_id: "benefits_blueprint",
+      step_id: "emergency_fund",
+      action_id: "financial_foundation",
+      result_action: "copy",
+      income: "87500",
+      emergency_fund_answer: "under one month",
+      disability_status: "yes",
+      state: "NC",
+    })).toEqual({
+      name: "flagship_tool_step_completed",
+      properties: {
+        tool_id: "benefits_blueprint",
+        step_id: "emergency_fund",
+        action_id: "financial_foundation",
+        result_action: "copy",
+      },
+    });
+
+    expect(sanitizeGrowthEvent("flagship_tool_completed", {
+      tool_id: "medicare_medicaid_eligibility",
+      step_id: "results",
+      household_size: "2",
+      exact_income: "1350",
+      condition: "esrd",
+    })).toEqual({
+      name: "flagship_tool_completed",
+      properties: { tool_id: "medicare_medicaid_eligibility", step_id: "results" },
+    });
+  });
 });

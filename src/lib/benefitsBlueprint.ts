@@ -7,8 +7,12 @@ export type YesNoUnknown = "yes" | "no" | "not-sure";
 export type FlexibilityPreference = "essential" | "helpful" | "not-important" | "not-sure";
 export type HsaComfort = "yes" | "maybe" | "no" | "not-sure";
 export type CoverageTier = "employee" | "employee-spouse" | "employee-children" | "family" | "not-sure";
+export type EmergencyFundStatus = "under-one-month" | "one-to-three-months" | "three-plus-months" | "not-sure";
+export type TaxPriority = "lower-current-tax" | "balanced" | "future-tax-free" | "not-sure";
+export type ProtectionReview = "current" | "needs-review" | "not-sure";
 
 export type BenefitsBlueprintAnswers = {
+  /** Age the participant will have reached by December 31, 2026. */
   age: number;
   targetRetirementAge: number;
   payRange: PayRange;
@@ -21,6 +25,18 @@ export type BenefitsBlueprintAnswers = {
   hsaComfort: HsaComfort;
   coverageTier: CoverageTier;
   employerMatch: YesNoUnknown;
+  emergencyFund: EmergencyFundStatus;
+  highInterestDebt: YesNoUnknown;
+  taxPriority: TaxPriority;
+  protectionReview: ProtectionReview;
+};
+
+export type BenefitsPriorityAction = {
+  id: "match" | "foundation" | "plan-math" | "hsa-fsa" | "tax-treatment" | "protection" | "beneficiaries";
+  title: string;
+  reason: string;
+  href: string;
+  cta: string;
 };
 
 export type PlanArchetype = {
@@ -40,6 +56,9 @@ export type BenefitsBlueprint = {
   planArchetypes: PlanArchetype[];
   coverageTier: string;
   hsaGuidance: string;
+  taxGuidance: string;
+  protectionGuidance: string;
+  priorityActions: BenefitsPriorityAction[];
   portalNumbers: string[];
   hrQuestions: string[];
   changeFactors: string[];
@@ -261,11 +280,113 @@ const getHsaGuidance = (answers: BenefitsBlueprintAnswers) => {
   return `HSA fit is still uncertain. Find the plan's HSA-eligibility statement, employer contribution, deductible, and out-of-pocket maximum before deciding.${ageEligibilityNote}`;
 };
 
+const getTaxGuidance = (answers: BenefitsBlueprintAnswers) => {
+  const preference = answers.taxPriority === "lower-current-tax"
+    ? "Your priority is lowering current taxable income, so compare the traditional contribution's paycheck effect first."
+    : answers.taxPriority === "future-tax-free"
+      ? "Your priority is building future tax-free flexibility, so compare the Roth contribution's paycheck effect first."
+      : answers.taxPriority === "balanced"
+        ? "You prefer tax diversification, so ask whether the plan allows contributions to be split between traditional and Roth sources."
+        : "Your tax-treatment preference is unresolved. Compare traditional, Roth, and a split election without trying to predict one perfect future tax rate.";
+
+  const catchUpNote = answers.age >= 50 && answers.payRange === "150-plus"
+    ? " Beginning in 2026, catch-up contributions generally must be Roth when prior-year wages from the plan sponsor exceeded $150,000. A broad pay range cannot determine whether that rule applies, so confirm prior-year plan-sponsor wages and the plan's process."
+    : "";
+
+  return `${preference} Neither option fixes a weak cash-flow plan: choose the treatment that supports a sustainable contribution while preserving emergency reserves and avoiding high-interest debt.${catchUpNote}`;
+};
+
+const getProtectionGuidance = (answers: BenefitsBlueprintAnswers) => {
+  if (answers.protectionReview === "current") {
+    return "You reported that disability coverage, life insurance needs, and beneficiary designations were reviewed recently. Confirm the elections shown on the final enrollment receipt and revisit them after a job or household change.";
+  }
+  if (answers.protectionReview === "needs-review") {
+    return "Put disability coverage, life insurance needs, and beneficiary designations on the enrollment checklist. Employer-paid coverage can be valuable, but definitions, benefit amounts, tax treatment, portability, and exclusions still need review.";
+  }
+  return "Protection details are unresolved. Locate short- and long-term disability definitions, employer-paid and optional life coverage, and every beneficiary designation before submitting elections.";
+};
+
+const getPriorityActions = (answers: BenefitsBlueprintAnswers): BenefitsPriorityAction[] => {
+  const actions: BenefitsPriorityAction[] = [];
+
+  if (answers.employerMatch !== "no") {
+    actions.push({
+      id: "match",
+      title: answers.employerMatch === "yes" ? "Capture the full available employer match" : "Find the match formula before choosing a contribution",
+      reason: answers.employerMatch === "yes"
+        ? "Confirm the formula, deposit timing, and vesting schedule, then test whether contributing enough to receive the full available match fits the paycheck."
+        : "The first retirement target cannot be set responsibly until the formula and vesting schedule are known.",
+      href: "/articles/how-hospital-403b-matching-works",
+      cta: "Review matching",
+    });
+  }
+
+  if (answers.emergencyFund !== "three-plus-months" || answers.highInterestDebt !== "no") {
+    actions.push({
+      id: "foundation",
+      title: "Protect the financial foundation before accelerating",
+      reason: answers.highInterestDebt === "yes"
+        ? "High-interest debt can overwhelm investment gains. Preserve any match decision, then compare debt payoff and emergency-cash needs before increasing retirement contributions further."
+        : answers.emergencyFund === "under-one-month"
+          ? "A thin cash reserve can turn a deductible, missed shift, or repair into new debt. Build a starter buffer before treating the top of the retirement range as a target."
+          : "Emergency reserves or debt status are not fully settled, so verify the cash buffer before stretching the paycheck.",
+      href: "/start-here#financial-foundation-checkup",
+      cta: "Check the foundation",
+    });
+  }
+
+  actions.push({
+    id: "plan-math",
+    title: "Compare health plans with expected-year and bad-year math",
+    reason: "Place annual premiums, employer account money, expected care, deductible exposure, network rules, prescriptions, and the out-of-pocket maximum side by side.",
+    href: "/tools/open-enrollment-true-cost-calculator",
+    cta: "Compare plan costs",
+  });
+
+  if (answers.hsaComfort !== "no") {
+    actions.push({
+      id: "hsa-fsa",
+      title: "Test whether an HSA or FSA fits the actual plan",
+      reason: "Use the plan's eligibility statement, employer contribution, deductible exposure, predictable expenses, and forfeiture or carryover rules rather than choosing from the acronym alone.",
+      href: "/articles/hsa-vs-fsa-healthcare-workers",
+      cta: "Compare HSA and FSA",
+    });
+  }
+
+  actions.push({
+    id: "tax-treatment",
+    title: "Choose traditional, Roth, or a split only after the paycheck test",
+    reason: getTaxGuidance(answers),
+    href: "/articles/roth-vs-traditional-403b-healthcare-workers",
+    cta: "Compare tax treatment",
+  });
+
+  if (answers.protectionReview !== "current") {
+    actions.push({
+      id: "protection",
+      title: "Review disability and life insurance definitions",
+      reason: getProtectionGuidance(answers),
+      href: "/articles/disability-insurance-healthcare-workers-open-enrollment",
+      cta: "Review protection",
+    });
+  }
+
+  actions.push({
+    id: "beneficiaries",
+    title: "Confirm beneficiaries and save the enrollment receipt",
+    reason: "Check retirement, pension or 401(a), HSA, employer life, optional life, and old accounts. Save the final confirmation because a selected option is not useful if it was never submitted successfully.",
+    href: "/articles/beneficiaries-open-enrollment-checklist",
+    cta: "Open beneficiary checklist",
+  });
+
+  return actions;
+};
+
 export const buildBenefitsBlueprint = (answers: BenefitsBlueprintAnswers): BenefitsBlueprint => {
   const contributionRange = getContributionRange(answers);
   const applicableRetirementLimit = getApplicableRetirementLimit(answers.age);
   const retirementCatchUpReminder =
-    " The displayed 2026 limit reflects age-based federal rules, but catch-up contributions apply only when permitted by the plan. Some 403(b) participants with at least 15 years of service for the same eligible employer may have a separate plan-permitted catch-up; verify eligibility with the plan administrator.";
+    " The displayed 2026 limit uses age at the end of the calendar year and reflects age-based federal rules, but catch-up contributions apply only when permitted by the plan. Some 403(b) participants with at least 15 years of service for the same eligible employer may have a separate plan-permitted catch-up; verify eligibility with the plan administrator.";
   const matchReminder =
     (answers.employerMatch === "yes"
       ? "Start by finding the exact match formula and contributing enough to capture the full available match, if your budget allows. Then decide whether moving toward the planning range is sustainable."
@@ -296,6 +417,9 @@ export const buildBenefitsBlueprint = (answers: BenefitsBlueprintAnswers): Benef
     planArchetypes: getPlanArchetypes(answers),
     coverageTier: COVERAGE_LABELS[answers.coverageTier],
     hsaGuidance: getHsaGuidance(answers),
+    taxGuidance: getTaxGuidance(answers),
+    protectionGuidance: getProtectionGuidance(answers),
+    priorityActions: getPriorityActions(answers),
     portalNumbers: [
       "Employer match formula and vesting rules",
       "Plan-permitted age and 15-year-service catch-up rules",
@@ -327,7 +451,7 @@ export const blueprintToText = (blueprint: BenefitsBlueprint) => {
     "",
     `Retirement contribution planning range: ${blueprint.contributionRange.minimum}%-${blueprint.contributionRange.maximum}% of pay.`,
     annualRange,
-    `Potential 2026 employee elective-deferral limit used for this age: $${blueprint.applicableRetirementLimit.toLocaleString()}. Employer contributions follow separate plan and overall-limit rules. Confirm that the plan permits any applicable catch-up contribution.`,
+    `Potential 2026 employee elective-deferral limit using age at the end of 2026: $${blueprint.applicableRetirementLimit.toLocaleString()}. Employer contributions follow separate plan and overall-limit rules. Confirm that the plan permits any applicable catch-up contribution.`,
     blueprint.matchReminder,
     "",
     "Retirement account characteristics to compare:",
@@ -338,6 +462,15 @@ export const blueprintToText = (blueprint: BenefitsBlueprint) => {
     "",
     `Coverage tier to look for: ${blueprint.coverageTier}.`,
     blueprint.hsaGuidance,
+    "",
+    "Prioritized action plan:",
+    ...blueprint.priorityActions.map((action, index) => `${index + 1}. ${action.title}: ${action.reason}`),
+    "",
+    "Tax-treatment check:",
+    blueprint.taxGuidance,
+    "",
+    "Protection and beneficiary check:",
+    blueprint.protectionGuidance,
     "",
     "Numbers to locate in the HR portal:",
     ...blueprint.portalNumbers.map((item) => `- ${item}`),

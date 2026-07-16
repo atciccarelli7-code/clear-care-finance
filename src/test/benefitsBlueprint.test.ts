@@ -19,6 +19,10 @@ const baseAnswers: BenefitsBlueprintAnswers = {
   hsaComfort: "maybe",
   coverageTier: "employee",
   employerMatch: "yes",
+  emergencyFund: "three-plus-months",
+  highInterestDebt: "no",
+  taxPriority: "balanced",
+  protectionReview: "current",
 };
 
 describe("buildBenefitsBlueprint", () => {
@@ -31,6 +35,8 @@ describe("buildBenefitsBlueprint", () => {
     expect(result.matchReminder).toContain("catch-up contributions apply only");
     expect(result.hrQuestions).toHaveLength(5);
     expect(result.hrQuestions[0]).toContain("15-year service catch-up");
+    expect(result.priorityActions[0].id).toBe("match");
+    expect(result.priorityActions.map((action) => action.id)).not.toContain("foundation");
   });
 
   it("moves an accelerated, shorter-horizon scenario higher without exceeding the guardrail", () => {
@@ -69,6 +75,17 @@ describe("buildBenefitsBlueprint", () => {
     expect(result.hsaGuidance).toContain("Medicare enrollment generally ends HSA contribution eligibility");
   });
 
+  it("documents that age-based 2026 limits use age at the end of the calendar year", () => {
+    const result = buildBenefitsBlueprint({
+      ...baseAnswers,
+      age: 60,
+      targetRetirementAge: 67,
+    });
+
+    expect(result.matchReminder).toContain("age at the end of the calendar year");
+    expect(blueprintToText(result)).toContain("using age at the end of 2026");
+  });
+
   it("labels equal leading plan scores as a tie instead of manufacturing a winner", () => {
     const result = buildBenefitsBlueprint({
       ...baseAnswers,
@@ -100,6 +117,10 @@ describe("buildBenefitsBlueprint", () => {
       hsaComfort: "not-sure",
       coverageTier: "not-sure",
       employerMatch: "not-sure",
+      emergencyFund: "not-sure",
+      highInterestDebt: "not-sure",
+      taxPriority: "not-sure",
+      protectionReview: "not-sure",
     });
 
     expect(result.approximateAnnualRange).toBeNull();
@@ -108,6 +129,34 @@ describe("buildBenefitsBlueprint", () => {
     expect(result.hsaGuidance).toContain("uncertain");
     expect(result.planArchetypes.every((plan) => plan.reason.includes("do not strongly favor"))).toBe(true);
     expect(result.planArchetypes.every((plan) => plan.fitLabel === "No clear fit signal")).toBe(true);
+    expect(result.priorityActions.map((action) => action.id)).toContain("foundation");
+    expect(result.priorityActions.map((action) => action.id)).toContain("protection");
+  });
+
+  it("prioritizes cash reserves and high-interest debt after the match decision", () => {
+    const result = buildBenefitsBlueprint({
+      ...baseAnswers,
+      emergencyFund: "under-one-month",
+      highInterestDebt: "yes",
+      protectionReview: "needs-review",
+    });
+
+    expect(result.priorityActions.slice(0, 3).map((action) => action.id)).toEqual(["match", "foundation", "plan-math"]);
+    expect(result.priorityActions.find((action) => action.id === "foundation")?.reason).toContain("High-interest debt");
+    expect(result.priorityActions.map((action) => action.id)).toContain("protection");
+  });
+
+  it("qualifies the 2026 Roth catch-up rule when the broad pay and age signals overlap", () => {
+    const result = buildBenefitsBlueprint({
+      ...baseAnswers,
+      age: 55,
+      targetRetirementAge: 67,
+      payRange: "150-plus",
+      taxPriority: "lower-current-tax",
+    });
+
+    expect(result.taxGuidance).toContain("prior-year wages from the plan sponsor exceeded $150,000");
+    expect(result.taxGuidance).toContain("broad pay range cannot determine");
   });
 
   it("creates copy-friendly text with the educational guardrail", () => {
@@ -116,6 +165,7 @@ describe("buildBenefitsBlueprint", () => {
     expect(text).toContain("Healthcare Worker Benefits Blueprint");
     expect(text).toContain("Potential 2026 employee elective-deferral limit");
     expect(text).toContain("Health-plan archetypes to compare");
+    expect(text).toContain("Prioritized action plan");
     expect(text).toContain("Educational planning only");
   });
 });

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight,
   BriefcaseBusiness,
+  ClipboardCheck,
   CheckSquare,
   History,
   LockKeyhole,
@@ -22,6 +23,7 @@ const itemIcons: Record<ProductContinuityId, typeof CheckSquare> = {
   my_plan: CheckSquare,
   foundation_checkup: History,
   benefits_command_center: BriefcaseBusiness,
+  benefits_change_review: ClipboardCheck,
 };
 
 const formatUpdatedDate = (iso: string) => new Intl.DateTimeFormat("en-US", {
@@ -96,7 +98,7 @@ export const ContinueWhereYouLeftOff = ({ sourceRoute }: { sourceRoute: string }
 
           <div className="mt-4 grid gap-3 lg:grid-cols-3">
             {items.map((item) => {
-              const Icon = itemIcons[item.id];
+              const Icon = itemIcons[item.id] ?? History;
               return (
                 <Link
                   key={item.id}

@@ -21,6 +21,11 @@ export const GROWTH_EVENT_NAMES = [
   "benefits_review_reset",
   "benefits_local_review_deleted",
   "benefits_related_journey_opened",
+  "flagship_tool_started",
+  "flagship_tool_step_completed",
+  "flagship_tool_completed",
+  "flagship_tool_result_action",
+  "flagship_tool_handoff_opened",
   "organization_page_viewed",
   "organization_pilot_details_viewed",
   "organization_demo_opened",
@@ -32,6 +37,8 @@ export type GrowthEntrySurface = "home" | "start_here" | "tools" | "acquisition_
 export type GrowthCompletionBand = "started" | "partial" | "complete";
 export type GrowthReceiptAction = "view" | "copy" | "print" | "calendar" | "share" | "reset" | "delete";
 export type GrowthCtaType = "pilot_inquiry" | "pilot_scope";
+export type GrowthToolId = "benefits_blueprint" | "medicare_medicaid_eligibility";
+export type GrowthResultAction = "copy" | "print" | "review" | "restart";
 
 export type GrowthEventProperties = {
   entry_surface?: GrowthEntrySurface;
@@ -41,6 +48,10 @@ export type GrowthEventProperties = {
   receipt_action?: GrowthReceiptAction;
   handoff_id?: string;
   cta_type?: GrowthCtaType;
+  tool_id?: GrowthToolId;
+  step_id?: string;
+  action_id?: string;
+  result_action?: GrowthResultAction;
 };
 const ALLOWED_PROPERTY_KEYS = new Set<keyof GrowthEventProperties>([
   "entry_surface",
@@ -50,6 +61,10 @@ const ALLOWED_PROPERTY_KEYS = new Set<keyof GrowthEventProperties>([
   "receipt_action",
   "handoff_id",
   "cta_type",
+  "tool_id",
+  "step_id",
+  "action_id",
+  "result_action",
 ]);
 
 const FIXED_VALUE_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;

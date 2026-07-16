@@ -58,6 +58,29 @@ Source contract: `src/lib/growthAnalytics.ts`
 | Commercial | `organization_demo_opened` | Public demonstration is opened | `entry_surface`, `destination_id` | Implemented and tested; not yet observed |
 | Commercial | `organization_contact_selected` | Contact CTA is selected | `entry_surface`, `cta_type` | Implemented and tested; buyer identity prohibited; not yet observed |
 
+## Flagship decision-tool funnel
+
+Source contract: `src/lib/growthAnalytics.ts`
+
+This shared funnel measures the Healthcare Worker Benefits Blueprint and Medicare and Medicaid Eligibility Check without creating an answer-level event stream.
+
+| Funnel | Event | Trigger | Permitted properties | Status |
+|---|---|---|---|---|
+| Activation | `flagship_tool_started` | First valid question is completed | `tool_id` | Implemented and tested; not yet observed |
+| Activation | `flagship_tool_step_completed` | A valid step advances | `tool_id`, `step_id` | Implemented and tested; answer prohibited; not yet observed |
+| Activation | `flagship_tool_completed` | The result screen is reached | `tool_id` | Implemented and tested; not yet observed |
+| Value | `flagship_tool_result_action` | Copy, print, review, or restart is selected | `tool_id`, `result_action` | Implemented and tested; result text prohibited; not yet observed |
+| Value | `flagship_tool_handoff_opened` | An approved internal next step or official resource is opened | `tool_id`, `action_id` | Implemented and tested; URL and user values prohibited; not yet observed |
+
+### Allowed tool IDs
+
+- `benefits_blueprint`
+- `medicare_medicaid_eligibility`
+
+### Privacy boundary
+
+The funnel may identify a fixed question category such as `emergency_fund`, `income`, or `disability`, but it must never include the answer. Exact or approximate age, income, state, household size, health status, disability status, pregnancy status, benefit choices, debt status, retirement contribution, employer, plan, result text, source URL, or copied summary are prohibited.
+
 ## Priority decision-journey funnel
 
 Source contract: `src/lib/decisionJourneyAnalytics.ts`

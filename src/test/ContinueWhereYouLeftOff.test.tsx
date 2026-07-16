@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { ContinueWhereYouLeftOff } from "@/components/shared/ContinueWhereYouLeftOff";
 import { addNavigatorAction } from "@/lib/financialNavigator";
 import { PRODUCT_CONTINUITY_DISMISS_KEY } from "@/lib/productContinuity";
+import { createBenefitsReview, saveBenefitsReview } from "@/lib/benefitsChangeDetector";
 
 const renderSummary = () => render(
   <MemoryRouter>
@@ -40,5 +41,15 @@ describe("ContinueWhereYouLeftOff", () => {
     expect(screen.queryByRole("heading", { name: "Continue where you left off" })).not.toBeInTheDocument();
     expect(window.sessionStorage.getItem(PRODUCT_CONTINUITY_DISMISS_KEY)).toBe("true");
     expect(window.localStorage.length).toBeGreaterThan(0);
+  });
+
+  it("renders a saved annual benefits review without crashing the app shell", () => {
+    saveBenefitsReview({
+      ...createBenefitsReview(2027),
+      selections: { deductible: "increased" },
+    });
+    renderSummary();
+
+    expect(screen.getByRole("link", { name: /Continue annual review/i })).toHaveAttribute("href", "/tools/benefits-change-detector");
   });
 });

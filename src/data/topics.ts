@@ -181,10 +181,10 @@ export const TOPICS: Topic[] = [
     slug: "workplace-benefits",
     category: "Workplace Benefits",
     icon: Briefcase,
-    title: "Workplace Benefits",
-    promise: "Decode the paperwork hospitals hand you at orientation and open enrollment.",
+    title: "Healthcare Worker Benefits Hub",
+    promise: "Move from match and paycheck decisions to health-plan math, HSA or FSA choices, disability coverage, life insurance, and beneficiaries in one connected path.",
     startHere:
-      "Workplace benefits are pay you can't see on your paystub: insurance, retirement contributions, pre-tax accounts, and matches. Understanding them is one of the highest-return uses of an hour each year.",
+      "Workplace benefits are compensation you cannot see in the hourly rate alone: employer retirement contributions, health coverage, tax-advantaged accounts, disability protection, life insurance, and paid time away. Use this hub in decision order: set priorities before opening the portal, find the controlling numbers, compare the paycheck and bad-year exposure, protect income and dependents, then save the final enrollment receipt.",
     definitions: [
       { term: "Employer match", meaning: "Money your employer adds to your retirement when you contribute. Often the highest-return dollars you'll ever see." },
       { term: "Pre-tax contribution", meaning: "Money taken out before income tax — lowers your taxable income now." },
@@ -197,7 +197,16 @@ export const TOPICS: Topic[] = [
       title: "Workplace Benefits Decoder · 403(b) Calculator",
       description: "See per-paycheck contribution, annual contribution, and employer match estimate.",
     },
-    relatedArticleSlugs: ["workplace-benefits-definitions", "how-to-pick-retirement-investments-at-work"],
+    relatedArticleSlugs: [
+      "workplace-benefits-definitions",
+      "how-hospital-403b-matching-works",
+      "roth-vs-traditional-403b-healthcare-workers",
+      "hsa-vs-fsa-healthcare-workers",
+      "disability-insurance-healthcare-workers-open-enrollment",
+      "employer-life-insurance-open-enrollment",
+      "beneficiaries-open-enrollment-checklist",
+      "open-enrollment-paycheck-impact",
+    ],
     sources: [SOURCE_PRESETS.irs, SOURCE_PRESETS.healthcareGov],
   },
   {

@@ -14,6 +14,7 @@ import { MedicareLearningPath } from "@/components/shared/MedicareLearningPath";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { CalculatorByKey } from "@/components/calculators/CalculatorByKey";
 import { Button } from "@/components/ui/button";
+import { BenefitsLearningPath } from "@/components/shared/BenefitsLearningPath";
 
 const TopicPage = () => {
   const { slug = "" } = useParams();
@@ -21,8 +22,10 @@ const TopicPage = () => {
   if (!topic) return <Navigate to="/topics" replace />;
 
   const isMedicareHub = topic.slug === "medicare-medicaid";
+  const isBenefitsHub = topic.slug === "workplace-benefits";
   const navItems = [
     { href: "#start-here", label: "Start here", show: true },
+    { href: "#benefits-path", label: "Decision path", show: isBenefitsHub },
     { href: "#comparison", label: "Compare", show: Boolean(topic.comparison) },
     { href: "#fact-sheet", label: "Fact sheet", show: Boolean(topic.factSheet) },
     { href: "#watch-out", label: "Watch out", show: Boolean(topic.warning) },
@@ -34,9 +37,19 @@ const TopicPage = () => {
   return (
     <>
       <PageHero eyebrow={topic.category} title={topic.title} description={topic.promise}>
-        {topic.calculator && (
+        {topic.calculator && !isBenefitsHub && (
           <Button asChild variant="hero" size="lg">
             <a href="#calculator">Try the calculator <ArrowRight className="h-4 w-4" /></a>
+          </Button>
+        )}
+        {isBenefitsHub && (
+          <Button asChild variant="hero" size="lg">
+            <Link to="/tools/healthcare-worker-benefits-blueprint">Build a Benefits Blueprint <ArrowRight className="h-4 w-4" /></Link>
+          </Button>
+        )}
+        {isBenefitsHub && (
+          <Button asChild variant="accent" size="lg">
+            <Link to="/tools/benefits-command-center">Open Benefits Command Center <ArrowRight className="h-4 w-4" /></Link>
           </Button>
         )}
         {isMedicareHub && (
@@ -65,6 +78,12 @@ const TopicPage = () => {
       <section id="start-here" className="container min-w-0 scroll-mt-24 py-10 md:py-16">
         <TopicOverview startHere={topic.startHere} definitions={topic.definitions} />
       </section>
+
+      {isBenefitsHub && (
+        <section id="benefits-path" className="container min-w-0 scroll-mt-24 py-12 md:py-16">
+          <BenefitsLearningPath />
+        </section>
+      )}
 
       {topic.comparison && (
         <section id="comparison" className="container min-w-0 scroll-mt-24 py-12">

@@ -16,6 +16,8 @@ const expectedHubPaths = [
   "/medicare-care-costs",
   "/articles",
   "/tools",
+  "/insurance/medical-bill-review-toolkit",
+  "/tools/prior-authorization-next-step-guide",
 ];
 
 const upgradedArticleSlugs = [
@@ -58,6 +60,8 @@ describe("SEO compounding pathways", () => {
     expect(getArticleCompoundingPathway("facility-fee-vs-professional-fee")?.id).toBe("hospital_bill_review");
     expect(getArticleCompoundingPathway("how-hospital-403b-matching-works")?.id).toBe("healthcare_retirement_sequence");
     expect(getArticleCompoundingPathway("spouse-family-health-insurance-open-enrollment")?.id).toBe("household_open_enrollment");
+    expect(getArticleCompoundingPathway("facility-fee-vs-professional-fee")?.cards[0].href).toBe("/tools/medical-appointment-cost-preparation");
+    expect(getHubCompoundingPathway("/insurance/medical-bill-review-toolkit")?.cards[0].href).toBe("/tools/medical-appointment-cost-preparation");
   });
 
   it("keeps upgraded article URLs stable and avoids duplicate direct-answer sections", () => {

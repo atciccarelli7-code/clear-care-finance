@@ -64,4 +64,22 @@ export const READINESS_JOURNEY_HANDOFFS: Record<ReadinessJourneyId, ReadinessJou
       cta: "Open toolkit",
     },
   ],
+  medicare_plan_verification: [
+    {
+      id: "medicare_turning_65",
+      eyebrow: "Enrollment timing",
+      title: "Build the Turning 65 timeline",
+      description: "Connect current coverage, employer size, HSA contributions, Part D, Medigap, and enrollment timing before a deadline.",
+      href: "/medicare-care-costs/turning-65",
+      cta: "Build the timeline",
+    },
+    {
+      id: "medicare_cost_hub",
+      eyebrow: "Cost and coverage context",
+      title: "Open the Medicare and care-cost hub",
+      description: "Review 2026 cost references, Original Medicare gaps, Medicare versus Medicaid, and long-term care limits.",
+      href: "/medicare-care-costs",
+      cta: "Open Medicare hub",
+    },
+  ],
 };

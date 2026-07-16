@@ -367,7 +367,7 @@ export const FinancialNavigator = () => {
 
         <section id="navigator-paths" className="scroll-mt-24 print:hidden" aria-labelledby="navigator-paths-heading">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="rounded-full bg-secondary-soft px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-secondary">Choose the decision</span>
+            <span className="rounded-full bg-secondary-soft px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-foreground">Choose the decision</span>
             <h2
               ref={pathwaysHeadingRef}
               id="navigator-paths-heading"

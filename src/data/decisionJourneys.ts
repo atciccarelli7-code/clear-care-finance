@@ -49,7 +49,7 @@ export const DECISION_JOURNEYS: DecisionJourney[] = [
     primaryQuestion: "What is wrong with this medical bill, and what should I do next?",
     canonicalPath: "/insurance/medical-bill-review-toolkit",
     relatedPaths: ["/topics/patient-medical-costs"],
-    toolPaths: ["/tools/medical-bill-review-flow", "/tools/eob-to-bill-match-checker", "/tools/prior-authorization-next-step-guide"],
+    toolPaths: ["/tools/medical-appointment-cost-preparation", "/tools/medical-bill-review-flow", "/tools/eob-to-bill-match-checker", "/tools/prior-authorization-next-step-guide"],
     officialVerification: [{ label: "CMS medical bill rights", url: "https://www.cms.gov/medical-bill-rights" }],
     requiredLayers: FIVE_LAYERS,
     supportsLocalProgress: true,

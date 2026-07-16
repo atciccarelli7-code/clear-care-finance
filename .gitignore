@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.npm-cache/
+test-results/
+playwright-report/
 
 # Generated guide drafts
 docs/generated/

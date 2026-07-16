@@ -2,6 +2,19 @@ import type { ToolDefinition } from "@/data/tools";
 
 export const roadmapTools: ToolDefinition[] = [
   {
+    slug: "medical-appointment-cost-preparation",
+    title: "Medical Appointment Cost Preparation Tool",
+    shortTitle: "Medical Cost Preparation",
+    category: "Medical bills",
+    audience: "Patients & caregivers",
+    description: "Prepare network, authorization, estimate, facility-fee, separate-bill, payment, and financial-assistance questions before planned care.",
+    estimatedUseTime: "4–7 min",
+    icon: "clipboard",
+    featured: true,
+    href: "/tools/medical-appointment-cost-preparation",
+    relatedArticle: { label: "Medical Bill Review Toolkit", href: "/insurance/medical-bill-review-toolkit" },
+  },
+  {
     slug: "state-medicaid-long-term-care-router",
     title: "State Medicaid and Long-Term Care Program Router",
     shortTitle: "State Medicaid & Long-Term Care Router",

@@ -46,6 +46,7 @@ const HOSPITAL_BILLING_PATHWAY: SeoCompoundingPathway = {
   title: "Understand every bill before deciding what to pay",
   description: "Separate billing entities, find the allowed amount, confirm network processing, match the EOB, and check financial assistance.",
   cards: [
+    card("medical_cost_preparation", "tool", "Before planned care", "Medical Appointment Cost Preparation", "Prepare network, authorization, estimate, facility-fee, separate-bill, and assistance questions before the service.", "/tools/medical-appointment-cost-preparation", "Prepare before care"),
     card("multiple_hospital_bills", "article", "Start with the structure", "Why one hospital visit can create multiple bills", "Understand why the facility, clinician, laboratory, radiology, and anesthesia groups may bill separately.", "/articles/why-one-hospital-visit-can-create-multiple-bills", "Understand separate bills"),
     card("facility_professional_fee", "article", "Separate the charges", "Facility fee vs. professional fee", "Distinguish the hospital-owned site charge from the clinician's professional charge.", "/articles/facility-fee-vs-professional-fee", "Compare the fees"),
     card("allowed_amount", "article", "Find the working number", "Allowed amount on a medical bill", "Use the insurer's recognized amount rather than the provider's billed charge to understand cost sharing.", "/articles/allowed-amount-medical-bills", "Understand allowed amount"),
@@ -53,6 +54,20 @@ const HOSPITAL_BILLING_PATHWAY: SeoCompoundingPathway = {
     card("eob_bill_match", "tool", "Match the claim", "EOB-to-Bill Match Checker", "Compare the provider bill with the final EOB, insurer payment, adjustment, and patient responsibility.", "/tools/eob-to-bill-match-checker", "Match EOB and bill"),
     card("medical_bill_toolkit", "tool", "Review the full balance", "Medical Bill Review Toolkit", "Work through itemization, coding, network status, insurer processing, and payment options.", "/insurance/medical-bill-review-toolkit", "Review the bill"),
     card("financial_assistance", "article", "Before paying", "Check hospital financial assistance", "Review charity-care and payment-assistance options before draining savings or using a credit card.", "/articles/check-hospital-financial-assistance-before-paying", "Check assistance"),
+  ],
+};
+
+const PLANNED_CARE_COST_PATHWAY: SeoCompoundingPathway = {
+  id: "planned_care_cost_preparation",
+  eyebrow: "Before and after planned care",
+  title: "Connect preparation, authorization, and final bill review",
+  description: "Prepare before the appointment, resolve authorization questions, then compare the insurer explanation and every provider bill.",
+  cards: [
+    card("medical_cost_preparation", "tool", "Before the service", "Medical Appointment Cost Preparation", "Prepare provider, health-plan, estimate, facility-fee, and separate-bill questions without entering personal information.", "/tools/medical-appointment-cost-preparation", "Build the plan"),
+    card("prior_authorization_guide", "tool", "Coverage process", "Prior Authorization Next-Step Guide", "Organize the next step for a pending, delayed, denied, expired, or unclear authorization.", "/tools/prior-authorization-next-step-guide", "Review authorization"),
+    card("medical_bill_toolkit", "tool", "After care", "Medical Bill Review Toolkit", "Review the insurer explanation, itemization, separate bills, network processing, financial assistance, and follow-up record.", "/insurance/medical-bill-review-toolkit", "Review a bill"),
+    card("eob_bill_match", "tool", "Compare documents", "EOB-to-Bill Match Checker", "Check whether the provider balance matches the final processed insurer explanation.", "/tools/eob-to-bill-match-checker", "Match EOB and bill"),
+    card("facility_professional_fee", "article", "Understand the setting", "Facility fee vs. professional fee", "Learn why a hospital-owned location and the clinician may create different charges.", "/articles/facility-fee-vs-professional-fee", "Compare the fees"),
   ],
 };
 
@@ -175,12 +190,15 @@ const HUB_PATHWAYS: Record<string, SeoCompoundingPathway> = {
     title: "What should a family do before paying a confusing medical bill?",
     description: "Read the insurer explanation, match the provider bill, review every charge, and check assistance before using savings or debt.",
     cards: [
+      card("medical_cost_preparation", "tool", "Before planned care", "Medical Appointment Cost Preparation", "Prepare network, authorization, estimate, facility-fee, separate-bill, and assistance questions before care.", "/tools/medical-appointment-cost-preparation", "Prepare before care"),
       card("read_an_eob", "article", "Start here", "How to read an Explanation of Benefits", "Understand the allowed amount, adjustments, plan payment, and patient responsibility.", "/articles/how-to-read-an-eob", "Read the EOB guide"),
       card("eob_bill_match", "tool", "Compare documents", "EOB-to-Bill Match Checker", "Confirm the provider balance matches the final processed claim.", "/tools/eob-to-bill-match-checker", "Match EOB and bill"),
       card("medical_bill_toolkit", "tool", "Review the balance", "Medical Bill Review Toolkit", "Check itemization, coding, network processing, and payment options.", "/insurance/medical-bill-review-toolkit", "Review the bill"),
       card("financial_assistance", "article", "Before paying", "Check hospital financial assistance", "Review charity-care and payment-assistance options before draining savings.", "/articles/check-hospital-financial-assistance-before-paying", "Check assistance"),
     ],
   },
+  "/insurance/medical-bill-review-toolkit": PLANNED_CARE_COST_PATHWAY,
+  "/tools/prior-authorization-next-step-guide": PLANNED_CARE_COST_PATHWAY,
   "/medicare-care-costs": {
     id: "medicare_cost_start",
     eyebrow: "Medicare decision sequence",

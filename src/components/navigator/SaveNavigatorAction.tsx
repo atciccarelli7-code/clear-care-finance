@@ -14,6 +14,7 @@ interface SaveNavigatorActionProps {
   sourceRoute: string;
   title?: string;
   description?: string;
+  onAdded?: () => void;
 }
 
 export const SaveNavigatorAction = ({
@@ -21,6 +22,7 @@ export const SaveNavigatorAction = ({
   sourceRoute,
   title = "Keep this next step in My Plan",
   description = "Save the fixed action only. Your answers and entered values are not added to the shared plan.",
+  onAdded,
 }: SaveNavigatorActionProps) => {
   const recommendation = getNavigatorRecommendation(recommendationId);
   const [added, setAdded] = useState(
@@ -35,6 +37,7 @@ export const SaveNavigatorAction = ({
     setAdded(isAdded);
 
     if (isAdded) {
+      onAdded?.();
       trackSiteEvent("tool_plan_action_added", {
         event_category: "navigator",
         recommendation_id: recommendation.fixedAnalyticsId,

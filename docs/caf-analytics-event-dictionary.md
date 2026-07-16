@@ -90,14 +90,15 @@ Initial scope is deliberately limited to:
 - `roth_traditional`
 - `debt_retirement`
 - `observation_status`
+- `medicare_plan_verification`
 
-The state Medicaid router is excluded from this first contract to prevent accidental state transmission. The Medicare checklist remains outside until its completion state is explicit.
+The state Medicaid router remains excluded to prevent accidental state transmission. The Medicare checklist enters the contract only after the critical-group completion definition in `src/lib/medicarePlanVerification.ts` is satisfied.
 
 | Funnel | Event | Trigger | Required fixed properties | Status |
 |---|---|---|---|---|
 | Activation | `decision_journey_started` | First form change or form submission | `journey_id` | Implemented and tested in readiness batch; production observation pending |
-| Activation | `decision_journey_completed` | Qualified result panel mounts | `journey_id` | Implemented and tested in readiness batch; production observation pending |
-| Value | `decision_journey_result_action` | Copy, print, or reset is selected | `journey_id`, `result_action` | Implemented and tested in readiness batch; production observation pending |
+| Activation | `decision_journey_completed` | Qualified result panel mounts, or every Medicare critical group is deliberately resolved | `journey_id` | Implemented and tested in readiness batch; production observation pending |
+| Value | `decision_journey_result_action` | Copy, print, reset, or fixed My Plan save is selected | `journey_id`, `result_action` | Implemented and tested in readiness batch; production observation pending |
 | Value | `decision_journey_handoff_opened` | Approved canonical next journey is opened | `journey_id`, `handoff_id` | Implemented and tested in readiness batch; production observation pending |
 
 ### Allowed result actions
@@ -105,6 +106,7 @@ The state Medicaid router is excluded from this first contract to prevent accide
 - `copy`
 - `print`
 - `reset`
+- `my_plan`
 
 ### Allowed handoff IDs
 
@@ -114,8 +116,34 @@ The state Medicaid router is excluded from this first contract to prevent accide
 - `debt_student_loans`
 - `observation_discharge_center`
 - `observation_medical_bill_toolkit`
+- `medicare_plan_finder`
+- `medicare_ship`
+- `medicare_turning_65`
+- `medicare_cost_hub`
 
 No route, URL, title, answer, selected option, calculation, or result text is sent through the strict decision-journey event contract.
+
+## Preventive healthcare cost-preparation funnel
+
+Source contract: `src/lib/preventiveCostAnalytics.ts`
+
+| Funnel | Event | Trigger | Required fixed properties | Status |
+|---|---|---|---|---|
+| Acquisition | `preventive_cost_tool_viewed` | Canonical tool mounts | `tool_id` | Implemented and tested; production observation pending |
+| Activation | `preventive_cost_tool_started` | First fixed choice or stage continuation | `tool_id`, `stage_id` | Implemented and tested; production observation pending |
+| Activation | `preventive_cost_tool_completed` | Cost Preparation Plan is built | `tool_id`, `stage_id=plan` | Implemented and tested; production observation pending |
+| Value | `preventive_cost_plan_action` | Copy, print, reset, or fixed My Plan save | `tool_id`, `action_id` | Implemented and tested; production observation pending |
+| Value | `preventive_cost_handoff_opened` | Approved toolkit or official source opens | `tool_id`, `handoff_id` | Implemented and tested; production observation pending |
+
+Allowed tool ID: `medical_appointment_cost_preparation`.
+
+Allowed stages: `situation`, `preparation`, `next_call`, `plan`.
+
+Allowed actions: `copy`, `print`, `reset`, `my_plan`.
+
+Allowed handoffs: `medical_bill_toolkit`, `consumer_rights`, `good_faith_estimate`, `hospital_price_transparency`.
+
+The sanitizer discards all unrecognized properties and rejects an event that lacks its required fixed ID. Care timing, setting, coverage category, verification status, call owner, estimate, price, provider, insurer, plan, URL, query string, generated plan, and copied text are prohibited.
 
 ## Existing shared product events
 

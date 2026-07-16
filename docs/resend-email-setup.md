@@ -2,6 +2,24 @@
 
 This project is a Vite/React app deployed on Vercel, not a Next.js App Router app. Email sending uses a top-level Vercel serverless function in `api/send.ts`.
 
+## Current verification status — July 16, 2026
+
+The code contract is implemented, but external production success remains `UNVERIFIED` in this preview-only sprint.
+
+| Item | Status | Evidence or owner action |
+|---|---|---|
+| Sender domain valid and verified in Resend | `UNVERIFIED` | Site owner must inspect the authenticated Resend domain record and capture the verified status without publishing DNS secrets. |
+| Production `RESEND_FROM_EMAIL` uses that verified domain | `UNVERIFIED` | Site owner must inspect the Vercel Production environment value and redeploy only through an approved production change. |
+| Contact persists in the intended audience | `UNVERIFIED` | Submit a consented non-owner test address, then confirm the contact in the authenticated Resend audience. Do not record the address in GitHub or analytics. |
+| Welcome message reaches a non-owner inbox | `UNVERIFIED` | Confirm accepted API response, inbox delivery, and Vercel runtime log after sender verification. |
+| Unsubscribe operation works | `UNVERIFIED` | Confirm the production unsubscribe process and audience state; reply-only copy is not sufficient evidence of automated unsubscribe compliance. |
+| UI distinguishes contact save from delivery | Implemented in source; external outcome `UNVERIFIED` | `/api/send` returns separate `saved` and `emailDelivered` fields. The UI controls success on `saved` and displays limited-success copy when delivery is unavailable. Exercise this in authenticated preview/production after configuration. |
+| GA4 event receipt/reporting | `UNVERIFIED` | Owner must use a consented test and inspect the configured debug/reporting destination. Source code alone is not evidence. |
+| AdSense account/approval state | `UNVERIFIED` | Inspect the authenticated AdSense account. Route eligibility checks do not prove account approval or serving. |
+| Google-certified CMP for personalized EEA/UK/Swiss ads | `UNVERIFIED` and required before enablement | Do not enable personalized advertising in those regions until the owner documents an appropriate certified CMP and legal/policy review. |
+
+No email provider, production environment variable, advertising setting, or CMP was changed by the Preventive Healthcare Cost Preparation sprint.
+
 ## What this setup adds
 
 - `resend` dependency for sending emails and saving newsletter contacts.

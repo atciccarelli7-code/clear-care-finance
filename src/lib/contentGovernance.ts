@@ -200,7 +200,7 @@ export const resolveContentGovernance = (
       sensitiveContext: false,
       interactiveContext: false,
       reviewStatus: "blocked",
-      reason: "Organization and pilot surfaces remain separate from programmatic advertising.",
+      reason: "Organization and commercial-program surfaces remain separate from programmatic advertising.",
     };
   }
 

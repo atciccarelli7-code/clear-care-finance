@@ -57,7 +57,7 @@ describe("privacy-safe growth analytics", () => {
     })).toEqual({ name: "benefits_review_started", properties: {} });
   });
 
-  it("allows only categorical organization-pilot intent without buyer or employer details", () => {
+  it("allows only categorical organization intent without buyer or employer details", () => {
     expect(sanitizeGrowthEvent("organization_contact_selected", {
       entry_surface: "organization",
       cta_type: "pilot_inquiry",
@@ -67,6 +67,31 @@ describe("privacy-safe growth analytics", () => {
     })).toEqual({
       name: "organization_contact_selected",
       properties: { entry_surface: "organization", cta_type: "pilot_inquiry" },
+    });
+  });
+
+  it("measures the organization planner and resources without accepting selections or buyer context", () => {
+    expect(sanitizeGrowthEvent("organization_program_plan_created", {
+      entry_surface: "organization",
+      action_id: "program_brief",
+      organization_type: "health system",
+      audience_answer: "patients and caregivers",
+      buyer_email: "buyer@example.com",
+      plan_name: "Example PPO",
+    })).toEqual({
+      name: "organization_program_plan_created",
+      properties: { entry_surface: "organization", action_id: "program_brief" },
+    });
+
+    expect(sanitizeGrowthEvent("organization_resource_opened", {
+      entry_surface: "organization",
+      destination_id: "medicare_discharge",
+      action_id: "module_1",
+      participant_id: "123456",
+      diagnosis: "stroke",
+    })).toEqual({
+      name: "organization_resource_opened",
+      properties: { entry_surface: "organization", destination_id: "medicare_discharge", action_id: "module_1" },
     });
   });
 

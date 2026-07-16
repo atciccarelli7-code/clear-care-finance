@@ -30,13 +30,19 @@ export const GROWTH_EVENT_NAMES = [
   "organization_pilot_details_viewed",
   "organization_demo_opened",
   "organization_contact_selected",
+  "organization_program_builder_started",
+  "organization_program_plan_created",
+  "organization_program_plan_action",
+  "organization_resource_opened",
+  "organization_launch_asset_action",
+  "organization_buyer_faq_opened",
 ] as const;
 
 export type GrowthEventName = (typeof GROWTH_EVENT_NAMES)[number];
 export type GrowthEntrySurface = "home" | "start_here" | "tools" | "acquisition_article" | "article" | "hub" | "detector" | "receipt" | "organization";
 export type GrowthCompletionBand = "started" | "partial" | "complete";
 export type GrowthReceiptAction = "view" | "copy" | "print" | "calendar" | "share" | "reset" | "delete";
-export type GrowthCtaType = "pilot_inquiry" | "pilot_scope";
+export type GrowthCtaType = "pilot_inquiry" | "pilot_scope" | "program_review" | "procurement_inquiry";
 export type GrowthToolId = "benefits_blueprint" | "medicare_medicaid_eligibility";
 export type GrowthResultAction = "copy" | "print" | "review" | "restart";
 

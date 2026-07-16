@@ -229,3 +229,22 @@ test("Medicare cost hub keeps its source-backed comparison table keyboard access
   await expect(tableRegion).toBeFocused();
   await certifyPage(page, watch);
 });
+
+test("Organization program planner builds a private review-ready brief", async ({ page }) => {
+  const watch = installHealthWatch(page);
+  await visit(page, "/for-organizations");
+
+  await page.getByLabel("Organization type").selectOption("health_system");
+  await page.getByLabel("Primary audience").selectOption("patients_caregivers");
+  await page.getByLabel("First priority").selectOption("medicare_discharge");
+  await page.getByLabel("Planning horizon").selectOption("thirty_days");
+  await page.getByRole("button", { name: /Build program brief/i }).click();
+
+  await expect(page.getByRole("heading", { name: /Medicare, Medicaid, and Discharge Readiness for Hospital or health system/i })).toBeFocused();
+  await page.getByText("Privacy and scope guardrails", { exact: true }).click();
+  await expect(page.getByText(/Do not send names, emails, employee or member IDs/i)).toBeVisible();
+  await page.getByRole("button", { name: /Print or save PDF/i }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
+  await expect(page.getByRole("link", { name: /Request program review/i })).toHaveAttribute("href", "/contact");
+  await certifyPage(page, watch);
+});

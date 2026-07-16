@@ -534,6 +534,11 @@ export const RUNTIME_TOOL_SEO_META = [
     "description": "See what recurring shift spending adds up to and what redirecting part of it could become."
   },
   {
+    "slug": "medical-appointment-cost-preparation",
+    "title": "Medical Appointment Cost Preparation Tool",
+    "description": "Prepare network, authorization, estimate, facility-fee, separate-bill, payment, and financial-assistance questions before planned care."
+  },
+  {
     "slug": "state-medicaid-long-term-care-router",
     "title": "State Medicaid and Long-Term Care Program Router",
     "description": "Find the official state starting point for Medicaid coverage, Medicare cost help, nursing-facility care, or home- and community-based services."

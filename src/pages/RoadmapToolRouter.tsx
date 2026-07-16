@@ -8,6 +8,7 @@ const DebtRetirement = lazy(() => import("@/pages/WorkplaceDecisionToolsBundle")
 const MedicaidRouter = lazy(() => import("@/pages/CareDecisionToolsBundle").then((module) => ({ default: module.StateMedicaidLongTermCareRouterPage })));
 const ObservationGuide = lazy(() => import("@/pages/CareDecisionToolsBundle").then((module) => ({ default: module.ObservationInpatientStatusGuidePage })));
 const MedicareChecklist = lazy(() => import("@/pages/CareDecisionToolsBundle").then((module) => ({ default: module.MedicarePlanVerificationChecklistPage })));
+const MedicalCostPreparation = lazy(() => import("@/pages/MedicalAppointmentCostPreparationPage"));
 
 const Loading = () => (
   <div className="container flex min-h-[45vh] items-center justify-center py-16" role="status" aria-live="polite">
@@ -23,6 +24,8 @@ const analyticsIdForSlug = (slug: string): ReadinessJourneyId | null => {
       return "debt_retirement";
     case "observation-vs-inpatient-status-guide":
       return "observation_status";
+    case "medicare-plan-verification-checklist":
+      return "medicare_plan_verification";
     default:
       return null;
   }
@@ -37,6 +40,7 @@ export const RoadmapToolRouter = ({ slug }: { slug: string }) => {
       case "state-medicaid-long-term-care-router": return <MedicaidRouter />;
       case "observation-vs-inpatient-status-guide": return <ObservationGuide />;
       case "medicare-plan-verification-checklist": return <MedicareChecklist />;
+      case "medical-appointment-cost-preparation": return <MedicalCostPreparation />;
       default: return null;
     }
   })();

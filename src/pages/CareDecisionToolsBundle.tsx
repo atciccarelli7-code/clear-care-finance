@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, ExternalLink, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SaveNavigatorAction } from "@/components/navigator/SaveNavigatorAction";
@@ -7,6 +7,8 @@ import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { PageHero } from "@/components/shared/PageHero";
 import { Button } from "@/components/ui/button";
 import { OFFICIAL_ELIGIBILITY_SOURCES, STATE_MEDICAID_LINKS } from "@/data/medicareMedicaidEligibilityData";
+import { trackReadinessJourneyEvent, type ReadinessJourneyHandoffId } from "@/lib/decisionJourneyAnalytics";
+import { getMedicarePlanVerificationState, type MedicareChecklistStatus } from "@/lib/medicarePlanVerification";
 import {
   buildMedicaidRoutingResult,
   buildObservationResult,
@@ -24,16 +26,23 @@ const YES_NO_NOT_SURE = [
   { value: "no", label: "No" },
 ];
 
-const OfficialSources = ({ sources }: { sources: Array<{ label: string; href: string; note: string }> }) => (
+const OfficialSources = ({
+  sources,
+  onOpen,
+}: {
+  sources: Array<{ id?: ReadinessJourneyHandoffId; label: string; href: string; note: string }>;
+  onOpen?: (id: ReadinessJourneyHandoffId) => void;
+}) => (
   <section className="rounded-2xl border border-border bg-card p-4 shadow-sm md:p-5">
     <h3 className="flex items-center gap-2 font-display text-lg font-bold text-foreground"><ShieldCheck className="h-5 w-5 text-primary" aria-hidden="true" /> Official verification</h3>
     <div className="mt-4 grid gap-3 sm:grid-cols-2">
-      {sources.map((source) => (
-        <a key={source.href} href={source.href} target="_blank" rel="noreferrer" className="rounded-xl border border-border bg-background px-4 py-3 hover:border-primary/30">
-          <span className="flex items-start justify-between gap-2 text-sm font-bold text-primary">{source.label}<ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" /></span>
-          <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">{source.note}</span>
-        </a>
-      ))}
+      {sources.map((source) => {
+        const content = <><span className="flex items-start justify-between gap-2 text-sm font-bold text-primary">{source.label}<ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" /></span><span className="mt-1 block text-xs leading-relaxed text-muted-foreground">{source.note}</span></>;
+        const handleClick = () => { if (source.id) onOpen?.(source.id); };
+        return source.href.startsWith("/")
+          ? <Link key={source.href} to={source.href} onClick={handleClick} className="rounded-xl border border-border bg-background px-4 py-3 hover:border-primary/30">{content}</Link>
+          : <a key={source.href} href={source.href} onClick={handleClick} target="_blank" rel="noreferrer" className="rounded-xl border border-border bg-background px-4 py-3 hover:border-primary/30">{content}</a>;
+      })}
     </div>
   </section>
 );
@@ -155,7 +164,6 @@ export const ObservationInpatientStatusGuidePage = () => {
   );
 };
 
-type ChecklistStatus = "unconfirmed" | "confirmed" | "not-applicable";
 type ChecklistItem = { id: string; category: string; prompt: string; verification: string };
 
 const MEDICARE_CHECKLIST: ChecklistItem[] = [
@@ -173,24 +181,52 @@ const MEDICARE_CHECKLIST: ChecklistItem[] = [
   { id: "enrollment", category: "Enrollment", prompt: "The correct enrollment period and effective date were confirmed", verification: "Use Medicare.gov, Social Security, SHIP, and the official plan enrollment confirmation." },
 ];
 
+const createMedicareChecklistStatuses = (): Record<string, MedicareChecklistStatus> => (
+  Object.fromEntries(MEDICARE_CHECKLIST.map((item) => [item.id, "unconfirmed"]))
+);
+
 export const MedicarePlanVerificationChecklistPage = () => {
   useSeo({ title: "Medicare Plan Verification Checklist", description: "Prepare provider, prescription, authorization, cost, travel, supplemental-benefit, and enrollment questions before choosing Medicare coverage.", canonicalPath: "/tools/medicare-plan-verification-checklist" });
-  const [statuses, setStatuses] = useState<Record<string, ChecklistStatus>>(() => Object.fromEntries(MEDICARE_CHECKLIST.map((item) => [item.id, "unconfirmed"])));
+  const [statuses, setStatuses] = useState<Record<string, MedicareChecklistStatus>>(createMedicareChecklistStatuses);
   const [copied, setCopied] = useState(false);
-  const counts = useMemo(() => ({ confirmed: Object.values(statuses).filter((value) => value === "confirmed").length, total: MEDICARE_CHECKLIST.length }), [statuses]);
+  const completionTrackedRef = useRef(false);
+  const completionRef = useRef<HTMLHeadingElement>(null);
+  const verification = useMemo(() => getMedicarePlanVerificationState(statuses, MEDICARE_CHECKLIST.length), [statuses]);
   const grouped = useMemo(() => [...new Set(MEDICARE_CHECKLIST.map((item) => item.category))], []);
+
+  useEffect(() => {
+    if (verification.state !== "completed" || completionTrackedRef.current) return;
+    completionTrackedRef.current = true;
+    trackReadinessJourneyEvent("decision_journey_completed", { journey_id: "medicare_plan_verification" });
+    window.setTimeout(() => completionRef.current?.focus(), 0);
+  }, [verification.state]);
+
+  const trackAction = (resultAction: "copy" | "print" | "reset" | "my_plan") => {
+    trackReadinessJourneyEvent("decision_journey_result_action", {
+      journey_id: "medicare_plan_verification",
+      result_action: resultAction,
+    });
+  };
 
   const copy = async () => {
     const text = [
       "MEDICARE PLAN VERIFICATION CHECKLIST",
-      `Confirmed: ${counts.confirmed} of ${counts.total}`,
+      `Preparation status: ${verification.state.replaceAll("_", " ")}`,
+      `Confirmed: ${verification.confirmed} of ${verification.total}`,
+      `Resolved as confirmed or not applicable: ${verification.resolved} of ${verification.total}`,
       "",
       ...MEDICARE_CHECKLIST.flatMap((item) => [`[${statuses[item.id]}] ${item.prompt}`, `Verify: ${item.verification}`, ""]),
       "This checklist does not recommend a plan or determine coverage. Verify through Medicare.gov, plan documents, providers, pharmacies, SHIP, and official enrollment confirmation.",
     ].join("\n");
+    trackAction("copy");
     try { await navigator.clipboard.writeText(text); setCopied(true); } catch { setCopied(false); }
   };
-  const reset = () => { setStatuses(Object.fromEntries(MEDICARE_CHECKLIST.map((item) => [item.id, "unconfirmed"]))); setCopied(false); };
+  const reset = () => {
+    trackAction("reset");
+    setStatuses(createMedicareChecklistStatuses());
+    setCopied(false);
+    completionTrackedRef.current = false;
+  };
 
   return (
     <>
@@ -198,10 +234,29 @@ export const MedicarePlanVerificationChecklistPage = () => {
       <div className="container max-w-5xl space-y-8 py-10 md:py-16">
         <DecisionToolIntro><strong className="text-foreground">No plan, carrier, provider, or medication names are stored.</strong> Mark each category confirmed, unconfirmed, or not applicable. This checklist does not rank Original Medicare, Medicare Advantage, Medigap, or Part D options.</DecisionToolIntro>
         <section className="rounded-3xl border border-primary/20 bg-primary-soft/25 p-5 md:p-7" aria-live="polite">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Verification progress</p>
-          <h2 className="mt-2 font-display text-3xl font-bold text-foreground">{counts.confirmed} of {counts.total} confirmed</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Unconfirmed items are questions to take to Medicare Plan Finder, SHIP, the plan, provider, or pharmacy—not automatic reasons to reject a plan.</p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Verification progress</p>
+              <h2 className="mt-2 font-display text-3xl font-bold text-foreground">{verification.confirmed} of {verification.total} confirmed</h2>
+            </div>
+            <p className="rounded-full border border-primary/20 bg-card px-3 py-1.5 text-sm font-bold text-primary">
+              {verification.state === "not_started" ? "Not started" : verification.state === "in_progress" ? "In progress" : "Preparation complete"}
+            </p>
+          </div>
+          <div className="mt-5" role="progressbar" aria-label="Medicare verification items resolved" aria-valuemin={0} aria-valuemax={verification.total} aria-valuenow={verification.resolved}>
+            <div className="h-2 overflow-hidden rounded-full bg-card"><div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${(verification.resolved / verification.total) * 100}%` }} /></div>
+            <p className="mt-2 text-xs font-semibold text-muted-foreground">{verification.resolved} of {verification.total} marked confirmed or deliberately not applicable</p>
+          </div>
+          <p className="mt-3 text-sm text-muted-foreground">Completion requires the core provider-access, prescription, plan-rule, cost-exposure, annual-change, and enrollment categories. Unconfirmed items are questions to take to Medicare Plan Finder, SHIP, the plan, provider, or pharmacy—not automatic reasons to reject a plan.</p>
         </section>
+
+        {verification.state === "completed" && (
+          <div className="rounded-3xl border border-emerald-300 bg-emerald-50 p-5 outline-none focus-within:ring-2 focus-within:ring-ring dark:border-emerald-800 dark:bg-emerald-950/20 md:p-7" aria-live="polite">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-300">Preparation complete</p>
+            <h2 ref={completionRef} tabIndex={-1} className="mt-2 font-display text-2xl font-bold text-foreground outline-none">The critical verification categories were deliberately resolved</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">This means the checklist is ready to support a plan comparison or enrollment conversation. It does not mean a plan is suitable, recommended, approved, or guaranteed to cover a service.</p>
+          </div>
+        )}
 
         {grouped.map((category) => (
           <section key={category} className="rounded-2xl border border-border bg-card p-4 shadow-sm md:p-6">
@@ -211,7 +266,7 @@ export const MedicarePlanVerificationChecklistPage = () => {
                 <div key={item.id} className="rounded-xl border border-border bg-background/70 p-4">
                   <label htmlFor={`status-${item.id}`} className="block text-sm font-bold text-foreground">{item.prompt}</label>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{item.verification}</p>
-                  <select id={`status-${item.id}`} value={statuses[item.id]} onChange={(event) => setStatuses((current) => ({ ...current, [item.id]: event.target.value as ChecklistStatus }))} className="mt-3 min-h-11 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground sm:max-w-xs">
+                  <select id={`status-${item.id}`} value={statuses[item.id]} onChange={(event) => { setCopied(false); setStatuses((current) => ({ ...current, [item.id]: event.target.value as MedicareChecklistStatus })); }} className="mt-3 min-h-11 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground sm:max-w-xs">
                     <option value="unconfirmed">Needs verification</option><option value="confirmed">Confirmed</option><option value="not-applicable">Not applicable</option>
                   </select>
                 </div>
@@ -221,13 +276,14 @@ export const MedicarePlanVerificationChecklistPage = () => {
         ))}
 
         <OfficialSources sources={[
-          { label: "Medicare Plan Finder", href: "https://www.medicare.gov/plan-compare/", note: "Official plan comparison, drug, pharmacy, and estimated-cost tool." },
-          { label: "Find local SHIP counseling", href: "https://www.shiphelp.org/", note: "Free state-based Medicare counseling and assistance." },
+          { id: "medicare_plan_finder", label: "Medicare Plan Finder", href: "https://www.medicare.gov/plan-compare/", note: "Official plan comparison, drug, pharmacy, and estimated-cost tool." },
+          { id: "medicare_ship", label: "Find local SHIP counseling", href: "https://www.shiphelp.org/", note: "Free state-based Medicare counseling and assistance." },
           { label: "Medicare coverage choices", href: "https://www.medicare.gov/health-drug-plans/health-plans/your-coverage-options", note: "Official overview of Original Medicare and Medicare Advantage choices." },
-          { label: "Turning 65 timeline", href: "/medicare-care-costs/turning-65", note: "Connect enrollment timing, employer coverage, HSA, Part D, Medigap, and IRMAA questions." },
-        ]} />
-        <SaveNavigatorAction recommendationId="cost_program_guide" sourceRoute="/tools/medicare-plan-verification-checklist" title="Save the Medicare verification step" description="Only the fixed Medicare-program review action is saved. Checklist statuses and plan-comparison details are not stored in My Plan." />
-        <div className="flex flex-col gap-3 sm:flex-row print:hidden"><Button type="button" onClick={copy}><CheckCircle2 className="h-4 w-4" /> {copied ? "Copied" : "Copy checklist"}</Button><Button type="button" variant="outline" onClick={() => window.print()}>Print or save as PDF</Button><Button type="button" variant="ghost" onClick={reset}>Reset</Button></div>
+          { id: "medicare_turning_65", label: "Turning 65 timeline", href: "/medicare-care-costs/turning-65", note: "Connect enrollment timing, employer coverage, HSA, Part D, Medigap, and IRMAA questions." },
+          { id: "medicare_cost_hub", label: "Medicare and care-cost hub", href: "/medicare-care-costs", note: "Review current cost references, coverage gaps, Medicaid, and long-term care context." },
+        ]} onOpen={(handoffId) => trackReadinessJourneyEvent("decision_journey_handoff_opened", { journey_id: "medicare_plan_verification", handoff_id: handoffId })} />
+        <SaveNavigatorAction recommendationId="cost_program_guide" sourceRoute="/tools/medicare-plan-verification-checklist" title="Save the Medicare verification step" description="Only the fixed Medicare-program review action is saved. Checklist statuses and plan-comparison details are not stored in My Plan." onAdded={() => trackAction("my_plan")} />
+        <div className="flex flex-col gap-3 sm:flex-row print:hidden"><Button type="button" onClick={copy}><CheckCircle2 className="h-4 w-4" /> {copied ? "Copied" : "Copy checklist"}</Button><Button type="button" variant="outline" onClick={() => { trackAction("print"); window.print(); }}>Print or save as PDF</Button><Button type="button" variant="ghost" onClick={reset}>Reset</Button></div>
         <DisclaimerBox />
       </div>
     </>

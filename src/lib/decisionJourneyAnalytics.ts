@@ -4,6 +4,7 @@ export const READINESS_JOURNEY_IDS = [
   "roth_traditional",
   "debt_retirement",
   "observation_status",
+  "medicare_plan_verification",
 ] as const;
 
 export type ReadinessJourneyId = (typeof READINESS_JOURNEY_IDS)[number];
@@ -16,14 +17,18 @@ export const READINESS_JOURNEY_EVENT_NAMES = [
 ] as const;
 
 export type ReadinessJourneyEventName = (typeof READINESS_JOURNEY_EVENT_NAMES)[number];
-export type ReadinessJourneyResultAction = "copy" | "print" | "reset";
+export type ReadinessJourneyResultAction = "copy" | "print" | "reset" | "my_plan";
 export type ReadinessJourneyHandoffId =
   | "roth_403b_calculator"
   | "roth_benefits_command_center"
   | "debt_financial_foundation"
   | "debt_student_loans"
   | "observation_discharge_center"
-  | "observation_medical_bill_toolkit";
+  | "observation_medical_bill_toolkit"
+  | "medicare_plan_finder"
+  | "medicare_ship"
+  | "medicare_turning_65"
+  | "medicare_cost_hub";
 
 export type ReadinessJourneyEventProperties = {
   journey_id?: ReadinessJourneyId;
@@ -31,7 +36,7 @@ export type ReadinessJourneyEventProperties = {
   handoff_id?: ReadinessJourneyHandoffId;
 };
 
-const RESULT_ACTIONS = new Set<ReadinessJourneyResultAction>(["copy", "print", "reset"]);
+const RESULT_ACTIONS = new Set<ReadinessJourneyResultAction>(["copy", "print", "reset", "my_plan"]);
 const HANDOFF_IDS = new Set<ReadinessJourneyHandoffId>([
   "roth_403b_calculator",
   "roth_benefits_command_center",
@@ -39,6 +44,10 @@ const HANDOFF_IDS = new Set<ReadinessJourneyHandoffId>([
   "debt_student_loans",
   "observation_discharge_center",
   "observation_medical_bill_toolkit",
+  "medicare_plan_finder",
+  "medicare_ship",
+  "medicare_turning_65",
+  "medicare_cost_hub",
 ]);
 
 export const getReadinessJourneyId = (pathname: string): ReadinessJourneyId | null => {
@@ -49,6 +58,8 @@ export const getReadinessJourneyId = (pathname: string): ReadinessJourneyId | nu
       return "debt_retirement";
     case "/tools/observation-vs-inpatient-status-guide":
       return "observation_status";
+    case "/tools/medicare-plan-verification-checklist":
+      return "medicare_plan_verification";
     default:
       return null;
   }

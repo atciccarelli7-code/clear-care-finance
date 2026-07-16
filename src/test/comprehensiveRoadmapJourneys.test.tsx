@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it } from "vitest";
 import {
@@ -23,7 +23,7 @@ describe("comprehensive roadmap journeys", () => {
   it("keeps roadmap tool slugs unique across the complete directory", () => {
     const slugs = [...tools, ...roadmapTools].map((tool) => tool.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
-    expect(roadmapTools).toHaveLength(6);
+    expect(roadmapTools).toHaveLength(7);
     roadmapTools.forEach((tool) => {
       expect(tool.href).toBe(`/tools/${tool.slug}`);
       expect(tool.description.length).toBeGreaterThan(40);
@@ -68,13 +68,25 @@ describe("comprehensive roadmap journeys", () => {
     expect(screen.queryByText(/always choose|guaranteed|best choice/i)).not.toBeInTheDocument();
   });
 
-  it("keeps Medicare checklist statuses transient and provides official verification", () => {
+  it("keeps Medicare checklist statuses transient and provides official verification", async () => {
     renderPage(<MedicarePlanVerificationChecklistPage />);
 
     const providerStatus = screen.getByLabelText(/Preferred doctors, specialists, and hospitals were checked/i);
     fireEvent.change(providerStatus, { target: { value: "confirmed" } });
 
     expect(screen.getByRole("heading", { name: /1 of 12 confirmed/i })).toBeInTheDocument();
+    [
+      /Every recurring prescription was checked/i,
+      /Preferred and mail-order pharmacy rules/i,
+      /Prior authorization, referral, and step-therapy/i,
+      /Premium, deductible, copays, coinsurance/i,
+      /maximum out-of-pocket exposure was identified/i,
+      /Annual Notice of Change was reviewed/i,
+      /correct enrollment period and effective date/i,
+    ].forEach((label) => fireEvent.change(screen.getByLabelText(label), { target: { value: "confirmed" } }));
+
+    await waitFor(() => expect(screen.getByRole("heading", { name: /critical verification categories were deliberately resolved/i })).toHaveFocus());
+    expect(screen.getByText(/does not mean a plan is suitable, recommended, approved/i)).toBeInTheDocument();
     expect(screen.getByText(/does not rank Original Medicare/i)).toBeInTheDocument();
     expect(window.localStorage.length).toBe(0);
     expect(screen.getByRole("link", { name: /Medicare Plan Finder/i })).toHaveAttribute("href", "https://www.medicare.gov/plan-compare/");

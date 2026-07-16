@@ -16,6 +16,10 @@
     "bundle:check": "node scripts/check-bundle-budget.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
+    "preview:test": "vite preview --host 127.0.0.1 --port 4173",
+    "test:browser": "npm run build && playwright test e2e/flagship-journeys.spec.ts",
+    "test:browser:journeys": "playwright test e2e/flagship-journeys.spec.ts",
+    "test:performance": "playwright test e2e/route-performance.spec.ts --project=mobile-chromium",
     "test": "npm run trust:check && npm run content:freshness-check && npm run guide:content-check && npm run guide:quick-content-check && vitest run",
     "test:watch": "vitest",
     "guide:pdf:draft": "node scripts/build-medicare-medicaid-guide-pdf.mjs",
@@ -82,7 +86,9 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
     "@eslint/js": "^9.32.0",
+    "@playwright/test": "1.61.1",
     "@tailwindcss/typography": "^0.5.16",
     "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.0.0",

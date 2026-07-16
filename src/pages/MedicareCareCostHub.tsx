@@ -7,22 +7,30 @@ import {
   CheckCircle2,
   ClipboardCheck,
   ExternalLink,
-  HeartPulse,
-  Home,
-  Hospital,
   Info,
   Pill,
   Printer,
   ShieldCheck,
   Stethoscope,
-  Users,
-  WalletCards,
   type LucideIcon,
 } from "lucide-react";
+import {
+  ComparisonPanel,
+  CostReferenceTable,
+  CoverageGapGrid,
+  VisualSourceNote,
+  WarningCallout,
+} from "@/components/visual-explainers/HealthcareVisualExplainers";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  MEDICARE_2026_OFFICIAL_COSTS,
+  MEDICARE_MEDICAID_COMPARISON,
+  MEDICARE_VISUAL_SOURCES,
+  ORIGINAL_MEDICARE_GAPS,
+} from "@/data/medicareVisualExplainers";
 import { useSeo } from "@/lib/seo";
 
 const inputClass =
@@ -111,8 +119,8 @@ const sourceLinks = [
     url: "https://www.medicaid.gov/medicaid/eligibility-policy/seniors-medicare-and-medicaid-enrollees",
   },
   {
-    title: "KFF — Sources of coverage among Medicare beneficiaries",
-    url: "https://www.kff.org/medicare/a-snapshot-of-sources-of-coverage-among-medicare-beneficiaries/",
+    title: "Medicare.gov — Part D costs",
+    url: "https://www.medicare.gov/health-drug-plans/part-d/basics/costs",
   },
 ];
 
@@ -480,27 +488,6 @@ const MedicareCareCostHub = () => {
     },
   ];
 
-  const compareCards: HubCard[] = [
-    {
-      eyebrow: "Medicare",
-      title: "Think age or disability-based health insurance.",
-      body: "Mostly for people age 65 and older, plus some younger people with disabilities or specific conditions. It is federal insurance, but it still has premiums, deductibles, coinsurance, and coverage limits.",
-      icon: HeartPulse,
-    },
-    {
-      eyebrow: "Medicaid",
-      title: "Think income/resource-based assistance.",
-      body: "A joint federal-state program. Rules vary by state, and it can help eligible people with premiums, cost-sharing, and some long-term care needs Medicare usually does not cover.",
-      icon: Users,
-    },
-    {
-      eyebrow: "Medicare Advantage",
-      title: "Think private plan structure with network rules.",
-      body: "Often advertises low premiums and extra benefits, but the practical test is doctors, hospitals, drugs, prior authorization, post-acute care, and max out-of-pocket exposure.",
-      icon: WalletCards,
-    },
-  ];
-
   const checklist = [
     "List current doctors, hospitals, pharmacies, medications, and preferred rehab or home-health providers.",
     "Check whether the patient uses Original Medicare, Medigap, Part D, Medicare Advantage, Medicaid, employer retiree coverage, or another payer.",
@@ -509,14 +496,6 @@ const MedicareCareCostHub = () => {
     "For hospital discharge, verify skilled nursing facility, rehab, home health, DME, oxygen, transportation, and medication authorization rules before assuming coverage.",
     "Call SHIP, Medicare.gov, the plan, state Medicaid, or the provider billing office before acting on unclear coverage details.",
   ];
-
-  const costBars = [
-    ["Part B standard premium", "$202.90/month", 100],
-    ["Part A inpatient hospital deductible", "$1,736/benefit period", 71],
-    ["Hospital days 61-90", "$434/day", 18],
-    ["Part B annual deductible", "$283/year", 12],
-    ["Skilled nursing facility days 21-100", "$217/day", 9],
-  ] as const;
 
   return (
     <>
@@ -567,70 +546,45 @@ const MedicareCareCostHub = () => {
           </div>
         </section>
 
-        <section>
-          <SectionHeading
-            centered
-            eyebrow="Program map"
-            title="Medicare vs. Medicaid vs. Medicare Advantage"
-            description="Use these as plain-English anchors before comparing plan details or calling a payer."
-          />
-          <div className="grid gap-5 lg:grid-cols-3">
-            {compareCards.map((card) => (
-              <InfoCard key={card.title} card={card} />
-            ))}
-          </div>
-        </section>
+        <ComparisonPanel
+          eyebrow="Program memory aid"
+          title="Medicare, Medicaid, and dual eligibility solve different problems"
+          description="Use this distinction to find the responsible program before comparing plan details. Medicare Advantage is a private way to receive Medicare benefits; it is not a third public eligibility program."
+          columns={MEDICARE_MEDICAID_COMPARISON}
+        />
+
+        <div className="flex flex-col justify-center gap-3 sm:flex-row print:hidden">
+          <Button asChild variant="hero"><Link to="/tools/medicare-plan-verification-checklist">Verify a Medicare plan <ArrowRight className="h-4 w-4" /></Link></Button>
+          <Button asChild variant="outline"><Link to="/tools/state-medicaid-long-term-care-router">Find the official state pathway</Link></Button>
+        </div>
 
         <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-          <Card className="rounded-3xl border-border/80 shadow-card">
-            <CardHeader>
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-soft text-primary">
-                <Hospital className="h-5 w-5" />
-              </div>
-              <CardTitle className="font-display text-2xl">Common 2026 Medicare costs that surprise people</CardTitle>
-              <CardDescription className="text-sm leading-relaxed">
-                These are not every cost someone could owe. They are the cost categories most likely to show up in Medicare conversations.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {costBars.map(([label, value, width]) => (
-                <div key={label}>
-                  <div className="flex items-baseline justify-between gap-4 text-sm">
-                    <span className="font-bold text-foreground">{label}</span>
-                    <span className="font-semibold text-muted-foreground">{value}</span>
-                  </div>
-                  <div className="mt-2 h-3 overflow-hidden rounded-full bg-muted">
-                    <div className="h-full rounded-full bg-primary" style={{ width: `${width}%` }} />
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+          <CostReferenceTable
+            title="Common Medicare cost points that need different units"
+            description="A monthly premium, annual deductible, benefit-period deductible, daily coinsurance, and annual drug threshold are not directly comparable. This table keeps every figure in its correct unit instead of using misleading bar lengths."
+            rows={MEDICARE_2026_OFFICIAL_COSTS}
+          />
 
-          <Card className="rounded-3xl border-amber-200 bg-amber-50 shadow-card">
-            <CardHeader>
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-amber-700 shadow-sm">
-                <Home className="h-5 w-5" />
-              </div>
-              <CardTitle className="font-display text-2xl text-amber-950">The long-term care warning</CardTitle>
-              <CardDescription className="text-sm leading-relaxed text-amber-950/80">
-                Medicare may cover skilled nursing facility care for a limited time when strict rules are met. It usually does not pay for long-term custodial care — help with bathing, dressing, toileting, meals, supervision, or daily living over time.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {[
-                "Ask whether the care is skilled care or custodial care.",
-                "Ask what exact Medicare rule, plan rule, or Medicaid rule applies.",
-                "Ask what happens when Medicare coverage ends or the authorization is denied.",
-              ].map((item) => (
-                <div key={item} className="flex gap-3 rounded-2xl border border-amber-200 bg-white/70 p-4 text-sm font-medium text-amber-950">
-                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+          <WarningCallout
+            title="Skilled care is not the same as custodial care"
+            items={[
+              "Ask whether the service is skilled care or help with activities of daily living.",
+              "Ask which Medicare, plan, or Medicaid rule controls the decision and request the written notice.",
+              "Ask what changes when covered skilled care ends or authorization is denied.",
+              "Use the state long-term-care router for official Medicaid and home- and community-based service starting points.",
+            ]}
+          >
+            Medicare may cover skilled nursing facility care for a limited time when strict conditions are met. It generally does not cover long-term custodial care such as ongoing help with bathing, dressing, toileting, meals, supervision, or other daily activities.
+          </WarningCallout>
         </section>
+
+        <CoverageGapGrid
+          title="What Original Medicare does not automatically solve"
+          description="Supplemental coverage, Part D, Medicaid, employer or retiree coverage, or a Medicare Advantage plan may change some gaps. Verify the exact arrangement."
+          gaps={ORIGINAL_MEDICARE_GAPS}
+        />
+
+        <VisualSourceNote sources={MEDICARE_VISUAL_SOURCES} />
 
         <MedicareCostEstimator />
 

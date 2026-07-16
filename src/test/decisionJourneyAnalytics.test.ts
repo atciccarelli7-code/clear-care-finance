@@ -9,7 +9,7 @@ describe("decision journey readiness analytics", () => {
     expect(getReadinessJourneyId("/tools/roth-vs-traditional-decision-helper")).toBe("roth_traditional");
     expect(getReadinessJourneyId("/tools/debt-vs-retirement-router")).toBe("debt_retirement");
     expect(getReadinessJourneyId("/tools/observation-vs-inpatient-status-guide")).toBe("observation_status");
-    expect(getReadinessJourneyId("/tools/medicare-plan-verification-checklist")).toBeNull();
+    expect(getReadinessJourneyId("/tools/medicare-plan-verification-checklist")).toBe("medicare_plan_verification");
   });
 
   it("keeps only fixed journey and result-action values", () => {
@@ -58,6 +58,15 @@ describe("decision journey readiness analytics", () => {
         journey_id: "observation_status",
         handoff_id: "observation_discharge_center",
       },
+    });
+    expect(sanitizeReadinessJourneyEvent("decision_journey_handoff_opened", {
+      journey_id: "medicare_plan_verification",
+      handoff_id: "medicare_plan_finder",
+      plan_name: "example",
+      selected_statuses: "example",
+    })?.properties).toEqual({
+      journey_id: "medicare_plan_verification",
+      handoff_id: "medicare_plan_finder",
     });
   });
 });

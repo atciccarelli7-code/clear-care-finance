@@ -6,7 +6,7 @@
 **Output:** Production build served through local Vite preview  
 **Failure evidence:** Screenshot, trace, and video retained only on failure; CI artifact retention is seven days.
 
-**Verified result:** 14 of 14 journey executions passed on the exact local build: seven mobile and seven desktop.
+**Verified result:** 16 of 16 journey executions passed on the exact local build: eight mobile and eight desktop.
 
 | Journey | Required state transition | Continuity/action evidence | Accessibility and runtime gates |
 |---|---|---|---|
@@ -17,6 +17,7 @@
 | Turning 65 | Broad fictional timing inputs → dated timeline | Copy, print intent, official-resource handoff | Result content, one main/H1, axe, runtime scan |
 | Medical Appointment Cost Preparation | Keyboard-operated fixed-choice stages → Cost Preparation Plan | Copy, print, fixed My Plan action, toolkit handoff | Keyboard completion, progress, focus, no overflow, axe, runtime scan |
 | Medicare Plan Verification | Resolve every critical category → explicit preparation completion | Copy, print, official resource, Turning 65 handoff | Completion focus/live region, progress semantics, axe, runtime scan |
+| Medicare Cost & Care Hub | Review the source-backed cost table and coverage-gap explainer | Focus the horizontally scrollable reference table | Keyboard focus, one main/H1, axe, overflow, runtime scan |
 
 Every journey rejects real personal, medical, plan, claim, and financial information. The suite supplies only broad fictional values.
 

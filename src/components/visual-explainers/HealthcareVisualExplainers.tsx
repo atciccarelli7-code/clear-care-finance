@@ -57,7 +57,12 @@ export const CostReferenceTable = ({
       <h2 className="mt-2 font-display text-2xl font-bold text-foreground">{title}</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
     </div>
-    <div className="overflow-x-auto border-t border-border">
+    <div
+      className="overflow-x-auto border-t border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+      role="region"
+      aria-label={`${title} scrollable table`}
+      tabIndex={0}
+    >
       <table className="w-full min-w-[42rem] text-left text-sm">
         <caption className="sr-only">{title}</caption>
         <thead className="bg-muted/50 text-xs uppercase tracking-[0.1em] text-muted-foreground">

@@ -217,3 +217,15 @@ test("Medicare Plan Verification reaches explicit preparation completion and a n
   await expect(page).toHaveURL(/\/medicare-care-costs\/turning-65$/);
   await certifyPage(page, watch);
 });
+
+test("Medicare cost hub keeps its source-backed comparison table keyboard accessible", async ({ page }) => {
+  const watch = installHealthWatch(page);
+  await visit(page, "/medicare-care-costs");
+
+  await expect(page.getByRole("heading", { name: /Common Medicare cost points/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /What Original Medicare does not automatically solve/i })).toBeVisible();
+  const tableRegion = page.getByRole("region", { name: /Common Medicare cost points.*scrollable table/i });
+  await tableRegion.focus();
+  await expect(tableRegion).toBeFocused();
+  await certifyPage(page, watch);
+});

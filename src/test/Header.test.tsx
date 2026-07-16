@@ -65,4 +65,17 @@ describe("Header mobile navigation", () => {
 
     expect(within(mobileNav).getByRole("link", { name: "Glossary" })).toHaveAttribute("aria-current", "page");
   });
+
+  it("includes Topic Guides as an active secondary destination", () => {
+    renderHeader("/topics");
+    fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+    const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
+    const topicLink = within(mobileNav).getByRole("link", { name: "Topic Guides" });
+
+    expect(topicLink).toHaveAttribute("href", "/topics");
+    expect(topicLink).toHaveAttribute("aria-current", "page");
+
+    fireEvent.click(topicLink);
+    expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
+  });
 });

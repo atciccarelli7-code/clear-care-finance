@@ -96,8 +96,8 @@ const Index = () => {
       icon: BookOpen,
       title: "I’m trying to understand Medicare or Medicaid",
       description: "Learn what the programs cover, where costs appear, and why long-term care needs separate planning.",
-      href: "/topics/medicare-medicaid",
-      cta: "Open the guide",
+      href: "/medicare-care-costs",
+      cta: "Open the hub",
       accent: "green",
     },
     {
@@ -183,7 +183,7 @@ const Index = () => {
           />
           <div className="grid min-w-0 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {featuredTopics.map((topic) => {
-              const href = `/topics/${topic.slug}`;
+              const href = topic.slug === "medicare-medicaid" ? "/medicare-care-costs" : `/topics/${topic.slug}`;
               return (
                 <TopicCard
                   key={topic.slug}
@@ -191,7 +191,7 @@ const Index = () => {
                   title={topic.title}
                   description={topic.promise}
                   href={href}
-                  cta="Open guide"
+                  cta={topic.slug === "medicare-medicaid" ? "Open complete hub" : "Open guide"}
                   onClick={() => trackHomepageNavigation("featured_topic", topic.slug, href)}
                 />
               );

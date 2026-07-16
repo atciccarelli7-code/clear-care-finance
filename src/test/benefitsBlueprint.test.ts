@@ -75,6 +75,17 @@ describe("buildBenefitsBlueprint", () => {
     expect(result.hsaGuidance).toContain("Medicare enrollment generally ends HSA contribution eligibility");
   });
 
+  it("documents that age-based 2026 limits use age at the end of the calendar year", () => {
+    const result = buildBenefitsBlueprint({
+      ...baseAnswers,
+      age: 60,
+      targetRetirementAge: 67,
+    });
+
+    expect(result.matchReminder).toContain("age at the end of the calendar year");
+    expect(blueprintToText(result)).toContain("using age at the end of 2026");
+  });
+
   it("labels equal leading plan scores as a tie instead of manufacturing a winner", () => {
     const result = buildBenefitsBlueprint({
       ...baseAnswers,

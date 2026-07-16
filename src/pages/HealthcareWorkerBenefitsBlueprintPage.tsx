@@ -139,7 +139,7 @@ const protectionOptions: ChoiceOption[] = [
 ];
 
 const steps = [
-  "Current age",
+  "Age at year-end",
   "Target retirement age",
   "Approximate pay range",
   "Retirement-saving priority",
@@ -158,7 +158,7 @@ const steps = [
 ] as const;
 
 const stepIds = [
-  "current_age",
+  "year_end_age",
   "target_retirement_age",
   "pay_range",
   "saving_priority",
@@ -415,12 +415,12 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
       case 0:
         return (
           <fieldset className="space-y-5">
-            <legend className="font-display text-2xl font-bold text-foreground md:text-3xl">What is your current age?</legend>
+            <legend className="font-display text-2xl font-bold text-foreground md:text-3xl">How old will you be on December 31, 2026?</legend>
             <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-              Age is used only to estimate the time until your target retirement. It stays in this browser session.
+              Year-end age aligns the 2026 retirement and HSA catch-up checks with IRS rules. It is also used to estimate time until your target retirement and stays in this browser session.
             </p>
             <label className="block max-w-xs space-y-2 text-sm font-bold">
-              Current age
+              Age on December 31, 2026
               <Input
                 type="number"
                 min={18}
@@ -433,7 +433,7 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
                 autoFocus
               />
             </label>
-            <p id="age-help" className="text-xs text-muted-foreground">Enter an age from 18 through 80.</p>
+            <p id="age-help" className="text-xs text-muted-foreground">Enter the age you will have reached by the end of 2026, from 18 through 80.</p>
           </fieldset>
         );
       case 1:
@@ -457,7 +457,7 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
                 autoFocus
               />
             </label>
-            <p id="retirement-age-help" className="text-xs text-muted-foreground">Choose an age later than your current age and no higher than 85.</p>
+            <p id="retirement-age-help" className="text-xs text-muted-foreground">Choose an age later than your age at the end of 2026 and no higher than 85.</p>
           </fieldset>
         );
       case 2:
@@ -550,7 +550,7 @@ const HealthcareWorkerBenefitsBlueprintPage = () => {
                       <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Retirement starting range</p>
                       <p className="mt-2 font-display text-3xl font-bold">{blueprint.contributionRange.minimum}%-{blueprint.contributionRange.maximum}%</p>
                       <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                        Planning range based on saving priority and time to target retirement—not individualized advice. The 2026 employee deferral cap used for your age is {formatCurrency(blueprint.applicableRetirementLimit)}.
+                        Planning range based on saving priority and time to target retirement—not individualized advice. The potential 2026 employee deferral cap uses your age at the end of 2026: {formatCurrency(blueprint.applicableRetirementLimit)}.
                       </p>
                     </div>
                     <div className="rounded-2xl border border-border bg-card p-5">

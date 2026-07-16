@@ -13,7 +13,7 @@ describe("HealthcareWorkerBenefitsBlueprintPage", () => {
       </MemoryRouter>,
     );
 
-    fireEvent.change(screen.getByRole("spinbutton", { name: /current age/i }), { target: { value: "30" } });
+    fireEvent.change(screen.getByRole("spinbutton", { name: /age on december 31, 2026/i }), { target: { value: "30" } });
     clickNext();
     fireEvent.change(screen.getByRole("spinbutton", { name: /target retirement age/i }), { target: { value: "65" } });
     clickNext();
@@ -53,7 +53,7 @@ describe("HealthcareWorkerBenefitsBlueprintPage", () => {
     expect(screen.getByRole("link", { name: /review matching/i })).toBeInTheDocument();
   });
 
-  it("keeps next disabled until the current question is answered", () => {
+  it("keeps next disabled until the year-end age question is answered", () => {
     render(
       <MemoryRouter>
         <HealthcareWorkerBenefitsBlueprintPage />
@@ -62,5 +62,6 @@ describe("HealthcareWorkerBenefitsBlueprintPage", () => {
 
     expect(screen.getByRole("button", { name: /^next$/i })).toBeDisabled();
     expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow");
+    expect(screen.getByRole("group", { name: /how old will you be on december 31, 2026/i })).toBeInTheDocument();
   });
 });

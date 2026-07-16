@@ -12,6 +12,7 @@ export type TaxPriority = "lower-current-tax" | "balanced" | "future-tax-free" |
 export type ProtectionReview = "current" | "needs-review" | "not-sure";
 
 export type BenefitsBlueprintAnswers = {
+  /** Age the participant will have reached by December 31, 2026. */
   age: number;
   targetRetirementAge: number;
   payRange: PayRange;
@@ -385,7 +386,7 @@ export const buildBenefitsBlueprint = (answers: BenefitsBlueprintAnswers): Benef
   const contributionRange = getContributionRange(answers);
   const applicableRetirementLimit = getApplicableRetirementLimit(answers.age);
   const retirementCatchUpReminder =
-    " The displayed 2026 limit reflects age-based federal rules, but catch-up contributions apply only when permitted by the plan. Some 403(b) participants with at least 15 years of service for the same eligible employer may have a separate plan-permitted catch-up; verify eligibility with the plan administrator.";
+    " The displayed 2026 limit uses age at the end of the calendar year and reflects age-based federal rules, but catch-up contributions apply only when permitted by the plan. Some 403(b) participants with at least 15 years of service for the same eligible employer may have a separate plan-permitted catch-up; verify eligibility with the plan administrator.";
   const matchReminder =
     (answers.employerMatch === "yes"
       ? "Start by finding the exact match formula and contributing enough to capture the full available match, if your budget allows. Then decide whether moving toward the planning range is sustainable."
@@ -450,7 +451,7 @@ export const blueprintToText = (blueprint: BenefitsBlueprint) => {
     "",
     `Retirement contribution planning range: ${blueprint.contributionRange.minimum}%-${blueprint.contributionRange.maximum}% of pay.`,
     annualRange,
-    `Potential 2026 employee elective-deferral limit used for this age: $${blueprint.applicableRetirementLimit.toLocaleString()}. Employer contributions follow separate plan and overall-limit rules. Confirm that the plan permits any applicable catch-up contribution.`,
+    `Potential 2026 employee elective-deferral limit using age at the end of 2026: $${blueprint.applicableRetirementLimit.toLocaleString()}. Employer contributions follow separate plan and overall-limit rules. Confirm that the plan permits any applicable catch-up contribution.`,
     blueprint.matchReminder,
     "",
     "Retirement account characteristics to compare:",

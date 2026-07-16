@@ -1,8 +1,8 @@
 # Community Acquired Finance Maximum-Impact Compounding Sprint
 
-**Audit date:** July 16, 2026  
-**Branch:** `agent/maximum-impact-compounding-sprint`  
-**Production base inspected:** `aec79c1`  
+**Audit date:** July 16, 2026
+**Branch:** `agent/maximum-impact-compounding-sprint`
+**Production base inspected:** `aec79c1`
 **Release posture:** preview and pull request only; no direct production change
 
 ## Executive audit
@@ -51,6 +51,7 @@ Connected-system evidence at sprint start:
 - Added deterministic priority actions covering employer match, financial foundation, health-plan math, HSA/FSA, tax treatment, disability/life protection, and beneficiaries.
 - Added direct internal handoffs from each action to an existing calculator or source-backed article.
 - Added a qualified 2026 Roth catch-up warning only when age and broad pay signals make it relevant; the tool explicitly states that the pay band cannot determine whether the rule applies.
+- Clarified that the age input is age at the end of 2026, matching IRS treatment of age-based retirement and HSA catch-up thresholds.
 - Kept all answers in React session state and out of URLs, persistence, and analytics.
 
 ### Healthcare Worker Benefits Hub

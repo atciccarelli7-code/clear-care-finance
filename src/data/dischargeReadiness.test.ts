@@ -4,17 +4,29 @@ import {
   DISCHARGE_BARRIER_CATEGORIES,
   DISCHARGE_READINESS_BARRIERS,
   FAMILY_HOSPITAL_QUESTION_GROUPS,
+  RN_DISCHARGE_PRINCIPLES,
   getDischargeBarriersForCategory,
 } from "@/data/dischargeReadiness";
 
 describe("discharge readiness system", () => {
-  it("organizes the initial ten RN-identified barriers across six operating categories", () => {
-    expect(DISCHARGE_READINESS_BARRIERS).toHaveLength(10);
+  it("organizes twelve RN-identified barriers across six operating categories", () => {
+    expect(DISCHARGE_READINESS_BARRIERS).toHaveLength(12);
     expect(DISCHARGE_BARRIER_CATEGORIES).toHaveLength(6);
-    expect(new Set(DISCHARGE_READINESS_BARRIERS.map((barrier) => barrier.id)).size).toBe(10);
+    expect(new Set(DISCHARGE_READINESS_BARRIERS.map((barrier) => barrier.id)).size).toBe(12);
 
     for (const category of DISCHARGE_BARRIER_CATEGORIES) {
       expect(getDischargeBarriersForCategory(category.id).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("captures the RN long-term care funding and functional decline patterns", () => {
+    expect(RN_DISCHARGE_PRINCIPLES).toHaveLength(3);
+    expect(DISCHARGE_READINESS_BARRIERS.map((barrier) => barrier.id)).toContain("long_term_care_funding_not_ready");
+    expect(DISCHARGE_READINESS_BARRIERS.map((barrier) => barrier.id)).toContain("functional_decline_during_delay");
+
+    for (const principle of RN_DISCHARGE_PRINCIPLES) {
+      expect(principle.title.length).toBeGreaterThan(20);
+      expect(principle.description.length).toBeGreaterThan(100);
     }
   });
 

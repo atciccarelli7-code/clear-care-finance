@@ -5,6 +5,21 @@ export type ArticleVoiceNote = {
 };
 
 export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
+  "deductible-copay-coinsurance-out-of-pocket-max": {
+    eyebrow: "A de-identified bedside lesson",
+    title: "Medication affordability can be a coverage-literacy problem.",
+    body: "I cared for a patient who was rationing important medications because the monthly prices looked impossible. The missing question was whether the prescriptions were covered, which costs counted toward the plan's out-of-pocket limit, and what the total plan-year exposure could be. The lesson is not that every drug becomes free after a certain payment. It is that nobody should abandon a prescribed medication before verifying the formulary, pharmacy network, cost-sharing accumulator, and available assistance with the plan, pharmacist, and prescriber.",
+  },
+  "prescription-coverage-open-enrollment-checklist": {
+    eyebrow: "From discharge education",
+    title: "Affordability belongs in the medication-safety conversation.",
+    body: "A medication list is not a workable discharge plan if the patient cannot obtain the medications on it. I learned to treat cost and coverage as practical safety questions: Is the drug covered? Is this the required pharmacy? Does it need authorization? Is there a covered alternative or a legitimate assistance pathway? Those questions should be answered before a refill becomes an emergency, not after doses have already been skipped.",
+  },
+  "how-hospital-403b-matching-works": {
+    eyebrow: "From conversations with hospital coworkers",
+    title: "The match is easy to overlook when the paycheck feels more urgent.",
+    body: "I kept finding that coworkers were willing to save but had never been shown how the hospital match, vesting rules, and contribution election fit together. The useful conversation was rarely about choosing a perfect percentage. It was about finding the actual match formula, contributing enough to capture available employer value when feasible, confirming the money was invested, and building from there without creating a paycheck crisis.",
+  },
   "medicare-medicaid-changes-january-2027": {
     eyebrow: "From the discharge-planning side",
     title: "Policy details can affect discharge planning.",

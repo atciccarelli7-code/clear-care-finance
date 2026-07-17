@@ -6,7 +6,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { NextStepCards } from "@/components/shared/NextStepCards";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { OBBB_OVERTIME_ARTICLE } from "@/data/healthcareWorkerArticles";
-import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock, TrendingUp, GraduationCap, BriefcaseBusiness } from "lucide-react";
+import { Wallet, PiggyBank, Shield, Receipt, Brain, Tag, ArrowRight, Clock, TrendingUp, GraduationCap, BriefcaseBusiness, Stethoscope } from "lucide-react";
 
 const HealthcareWorkers = () => {
   return (
@@ -23,6 +23,24 @@ const HealthcareWorkers = () => {
           <Link to="/tools/healthcare-worker-benefits-blueprint">Build a benefits blueprint</Link>
         </Button>
       </PageHero>
+
+      <section className="container py-10 md:py-14">
+        <div className="grid gap-5 rounded-3xl border border-primary/20 bg-primary-soft/30 p-6 shadow-card md:grid-cols-[auto_1fr] md:p-8">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-card text-primary shadow-sm">
+            <Stethoscope className="h-5 w-5" aria-hidden="true" />
+          </div>
+          <div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Why this worker section exists</div>
+            <h2 className="mt-2 font-display text-2xl font-bold tracking-tight">Good income does not automatically create a good financial system.</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+              I kept helping coworkers make sense of 403(b) contributions, employer benefits, and the decisions hidden behind an HR portal. The recurring problem was not a lack of effort. Important choices arrived during orientation, open enrollment, job changes, and exhausting shifts without enough context. These tools are meant to make the value behind the paycheck visible before years pass unnoticed.
+            </p>
+            <Link to="/articles/how-hospital-403b-matching-works" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline">
+              Understand hospital 403(b) matching <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <section className="container py-10 md:py-14">
         <NextStepCards

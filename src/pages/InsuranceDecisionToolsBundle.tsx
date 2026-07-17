@@ -335,10 +335,7 @@ export const HospitalDischargeCoverageGuide = () => {
 };
 
 export const MedicationCoverageChecklist = () => {
-  const [medication, setMedication] = useState("Eliquis");
-  const [dose, setDose] = useState("5 mg twice daily");
-  const [pharmacy, setPharmacy] = useState("preferred pharmacy");
-  const [cost, setCost] = useState("");
+  const [coverageChecks, setCoverageChecks] = useState<Record<string, string>>({ formulary: "unsure", pharmacy: "unsure", cost: "unsure" });
   const [flags, setFlags] = useState<Record<string, boolean>>({ priorAuth: true });
 
   useSeo({
@@ -348,6 +345,9 @@ export const MedicationCoverageChecklist = () => {
   });
 
   const redFlags = [
+    coverageChecks.formulary === "not-covered" && "The medication may be excluded or non-formulary. Ask the prescriber and plan about the exceptions process or covered alternatives.",
+    coverageChecks.pharmacy === "out-of-network" && "The selected pharmacy may not receive preferred or in-network pricing under the plan.",
+    coverageChecks.cost === "not-checked" && "The current plan-year price and applicable cost-sharing have not been verified.",
     flags.priorAuth && "Prior authorization may delay fills unless the prescriber submits documentation.",
     flags.stepTherapy && "Step therapy may require trying a different medication first.",
     flags.quantity && "Quantity limits may block the prescribed dose or refill timing.",
@@ -356,22 +356,46 @@ export const MedicationCoverageChecklist = () => {
 
   return (
     <>
-      <PageHero eyebrow="Prescription checklist" title="Medication Coverage Checklist" description="Before choosing a health plan, check each medication by name, dose, tier, pharmacy, and restriction." />
+      <PageHero eyebrow="Prescription checklist" title="Medication Coverage Checklist" description="Privately verify each medication's formulary status, tier, pharmacy, cost, and restrictions before choosing a health plan." />
       <div className="container space-y-16 py-12 md:py-16">
-        <SoftWarning title="This is not a live drug database" body="Use this checklist to organize what to verify. Confirm live coverage in the plan formulary, Medicare Plan Finder, insurer tools, and pharmacy pricing before enrolling." />
+        <SoftWarning title="Keep medication details private" body="CAF does not need a medication name, dose, diagnosis, pharmacy, price, plan name, or member identifier. Keep those details in your own records and use this fixed-choice checklist to organize what to verify in the plan formulary, insurer portal, Medicare Plan Finder, pharmacy, or prescriber's office." />
+
+        <section className="rounded-3xl border border-primary/20 bg-primary-soft/30 p-5 shadow-card md:p-8" aria-labelledby="rn-medication-access-lesson">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-card text-primary">
+              <Stethoscope className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">From discharge education</div>
+              <h2 id="rn-medication-access-lesson" className="mt-2 font-display text-2xl font-bold tracking-tight">A medication plan is not complete until access is realistic.</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                I have cared for patients who were rationing important medications because the cost looked impossible, even though coverage or assistance questions were still unresolved. The safer response is not to promise a discount. It is to identify the barrier early and verify the formulary, tier, pharmacy, authorization rules, plan-year cost sharing, covered alternatives, and legitimate assistance options with the people who control them.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <Card className="rounded-3xl shadow-card">
-            <CardHeader><CardTitle className="font-display text-2xl">Medication details</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="font-display text-2xl">Private verification status</CardTitle><CardDescription>Choose only a status. Do not enter a medication or personal health detail.</CardDescription></CardHeader>
             <CardContent className="space-y-4">
-              <label className="space-y-2"><span className="text-sm font-semibold">Medication</span><input className={inputClass} value={medication} onChange={(event) => setMedication(event.target.value)} /></label>
-              <label className="space-y-2"><span className="text-sm font-semibold">Dose / directions</span><input className={inputClass} value={dose} onChange={(event) => setDose(event.target.value)} /></label>
-              <label className="space-y-2"><span className="text-sm font-semibold">Preferred pharmacy</span><input className={inputClass} value={pharmacy} onChange={(event) => setPharmacy(event.target.value)} /></label>
-              <label className="space-y-2"><span className="text-sm font-semibold">Estimated monthly cost, if known</span><input className={inputClass} value={cost} onChange={(event) => setCost(event.target.value)} placeholder="$" /></label>
+              {[
+                ["formulary", "Formulary status", [["unsure", "Not checked"], ["covered", "Listed as covered"], ["not-covered", "Not covered / not listed"]]],
+                ["pharmacy", "Pharmacy network", [["unsure", "Not checked"], ["preferred", "Preferred or in-network"], ["out-of-network", "Not preferred / out-of-network"]]],
+                ["cost", "Current plan-year cost", [["unsure", "Not checked"], ["checked", "Verified with plan or pharmacy"], ["not-checked", "Price still needs verification"]]],
+              ].map(([id, label, options]) => (
+                <label key={id as string} className="space-y-2">
+                  <span className="text-sm font-semibold">{label as string}</span>
+                  <select className={inputClass} value={coverageChecks[id as string]} onChange={(event) => setCoverageChecks((current) => ({ ...current, [id as string]: event.target.value }))}>
+                    {(options as string[][]).map(([value, optionLabel]) => <option key={value} value={value}>{optionLabel}</option>)}
+                  </select>
+                </label>
+              ))}
               <div className="grid gap-2 sm:grid-cols-2">{[["priorAuth", "Prior authorization"], ["stepTherapy", "Step therapy"], ["quantity", "Quantity limit"], ["brand", "Brand/generic issue"]].map(([id, label]) => <label key={id} className="flex items-center gap-3 rounded-xl border border-border p-3 text-sm"><input type="checkbox" checked={Boolean(flags[id])} onChange={(event) => setFlags((current) => ({ ...current, [id]: event.target.checked }))} />{label}</label>)}</div>
             </CardContent>
           </Card>
           <Card className="rounded-3xl border-primary/20 bg-primary-soft/30 shadow-card">
-            <CardHeader><CardTitle className="font-display text-2xl">What to verify</CardTitle><CardDescription>{medication} · {dose} · {pharmacy}{cost ? ` · ${cost}/month` : ""}</CardDescription></CardHeader>
+            <CardHeader><CardTitle className="font-display text-2xl">What to verify</CardTitle><CardDescription>Use the exact medication details only in a trusted plan, pharmacy, or prescriber workflow.</CardDescription></CardHeader>
             <CardContent className="space-y-5">
               <ul className="space-y-3 text-sm text-muted-foreground">{["Exact medication name, dose, and formulation.", "Formulary tier and whether generic substitution applies.", "Preferred pharmacy, standard pharmacy, and mail-order pricing.", "Prior authorization, step therapy, quantity limits, and refill timing.", "What changes if the plan year changes."].map((item) => <li key={item} className="flex gap-2"><Pill className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{item}</li>)}</ul>
               {redFlags.length > 0 && <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><h3 className="font-bold text-amber-950">Red flags</h3><ul className="mt-2 space-y-2 text-sm text-amber-950/80">{redFlags.map((flag) => <li key={flag}>{flag}</li>)}</ul></div>}
@@ -379,7 +403,7 @@ export const MedicationCoverageChecklist = () => {
             </CardContent>
           </Card>
         </section>
-        <SourceBox sources={[{ title: "Medicare.gov — Medicare Plan Finder", url: "https://www.medicare.gov/plan-compare/" }, { title: "Medicare.gov — Drug coverage", url: "https://www.medicare.gov/drug-coverage-part-d" }]} />
+        <SourceBox sources={[{ title: "HealthCare.gov — Getting prescription medications", url: "https://www.healthcare.gov/using-marketplace-coverage/prescription-medications/" }, { title: "CMS — Pharmaceutical manufacturer patient assistance programs", url: "https://www.cms.gov/medicare/coverage/prescription-drug-coverage/patient-assistance-program" }, { title: "Medicare.gov — Medicare Plan Finder", url: "https://www.medicare.gov/plan-compare/" }, { title: "Medicare.gov — Prescription Payment Plan", url: "https://www.medicare.gov/prescription-payment-plan" }]} />
       </div>
     </>
   );

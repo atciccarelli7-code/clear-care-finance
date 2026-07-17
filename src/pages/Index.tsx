@@ -70,7 +70,7 @@ const Index = () => (
     <PageHero
       eyebrow="Plain-English financial decision support"
       title="Make the next money or healthcare decision clearer."
-      description="Start with a short routing question or go directly to CAF's three primary decision journeys. General retirement, investing, debt, insurance, and student-loan education remains available in the full library."
+      description="Start with a short routing question before a confusing bill, discharge, benefits deadline, or retirement gap becomes urgent. General retirement, investing, debt, insurance, and student-loan education remains available in the full library."
     >
       <Button asChild variant="hero" size="lg">
         <a
@@ -141,7 +141,7 @@ const Index = () => (
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Trust boundary</div>
           <h2 id="trust-heading" className="mt-2 font-display text-3xl font-bold tracking-tight">Useful without asking for your private story.</h2>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">CAF is RN-led, source-backed, privacy-minimized, and educational. Official documents, agencies, providers, plans, employers, and qualified professionals still control material decisions.</p>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">CAF is shaped by bedside, charge, and admissions-discharge-transfer nursing experience, then checked against authoritative sources. Official documents, agencies, providers, plans, employers, and qualified professionals still control material decisions.</p>
           <div className="mt-5 flex flex-wrap gap-3 text-sm font-semibold">
             <Link to="/methodology" className="text-primary hover:underline">Review sources</Link>
             <Link to="/privacy-policy" className="text-primary hover:underline">Privacy policy</Link>
@@ -150,7 +150,7 @@ const Index = () => (
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
-            [ShieldCheck, "RN-led", "Healthcare context without clinical advice."],
+            [ShieldCheck, "RN-led", "Care-transition context without clinical advice."],
             [BookOpenCheck, "Source-backed", "Official references and visible limitations."],
             [LockKeyhole, "Privacy-minimized", "No account or sensitive case narrative required."],
             [CheckCircle2, "Educational only", "Preparation and math—not an official determination."],

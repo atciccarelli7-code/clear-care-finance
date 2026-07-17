@@ -13,7 +13,7 @@ const About = () => {
   useSeo({
     title: "About Andrew Ciccarelli, RN, BSN",
     description:
-      "Community Acquired Finance is written by Andrew Ciccarelli, RN, BSN, a bedside nurse building plain-English healthcare finance education for workers, patients, families, and caregivers.",
+      "Community Acquired Finance is written by Andrew Ciccarelli, RN, BSN, using bedside, charge, and admissions-discharge-transfer nursing experience to explain healthcare and personal-finance decisions.",
     canonicalPath: "/about",
     jsonLd: [{
       "@context": "https://schema.org",
@@ -27,7 +27,7 @@ const About = () => {
         name: "Community Acquired Finance",
         url: "https://communityacquiredfinance.com",
       },
-      knowsAbout: ["bedside nursing", "healthcare navigation", "plain-English healthcare financial education"],
+      knowsAbout: ["bedside nursing", "care transitions", "discharge education", "health insurance cost sharing", "healthcare worker benefits", "plain-English healthcare financial education"],
     }],
   });
 
@@ -58,25 +58,28 @@ const About = () => {
               <div className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-primary">Founder note</div>
               <h2 className="mt-2 font-display text-3xl font-bold tracking-tight">Andrew Ciccarelli, RN, BSN</h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                Bedside nurse. Finance nerd. Building a practical education site for the money questions healthcare creates.
+                Registered nurse with bedside, charge, and admissions-discharge-transfer experience. Finance nerd. Building practical education for the money questions healthcare creates.
               </p>
             </div>
 
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p className="text-lg text-foreground">
-                My name is <strong>Andrew Ciccarelli, RN, BSN</strong>. I am a bedside nurse, and I built Community Acquired Finance because healthcare creates financial decisions that most people are expected to understand with almost no clear explanation.
+                My name is <strong>Andrew Ciccarelli, RN, BSN</strong>. I built Community Acquired Finance because healthcare creates financial decisions that patients, families, and workers are expected to understand with almost no clear explanation.
               </p>
               <p>
-                I have watched patients and families try to make sense of bills, deductibles, discharge plans, insurance rules, Medicare, Medicaid, medication coverage, and what care might actually cost. I have also watched healthcare workers try to decode paychecks, overtime, retirement plans, taxes, benefits, student loans, and insurance decisions while working stressful jobs.
+                Early in nursing, I was hesitant, slow, and focused on completing the task directly in front of me. Becoming a charge nurse and an admissions, discharge, and transfer nurse widened that view. I began working more directly with pharmacists, physicians, and case managers and learning how medication access, insurance rules, post-hospital services, family readiness, and clinical plans collide during a real care transition.
               </p>
               <p>
-                That gap bothered me. The financial side of healthcare is not a side issue. It affects whether people feel safe going home, whether a family understands a bill, whether a worker chooses the right benefits, and whether someone can build long-term stability while caring for other people.
+                Discharge education taught me that a clinically sound plan can still fail when a medication is unaffordable, coverage is misunderstood, equipment is delayed, or a family does not know which question to ask. I kept learning alongside the people I was educating. Over time, helping someone understand the system became as important to me as explaining the immediate care task.
+              </p>
+              <p>
+                That is the nursing lens behind this site: financial confusion is not a side issue when it changes whether someone fills a medication, feels safe going home, understands a bill, or discovers a coverage limit only after a crisis. My goal is to help people recognize those questions earlier, while there is still time to verify options and make a plan.
               </p>
               <p>
                 My interest in finance came from my Nonno. He introduced me to the stock market by showing me a notebook filled with stock purchases from his early years in America after immigrating from Italy. That notebook made finance feel personal to me. It was not about getting rich quickly. It was about decisions, discipline, ownership, and building something stable over time.
               </p>
               <p>
-                This site combines those two worlds: the bedside view of how confusing healthcare can be, and the finance view of how much small decisions can compound for or against a household.
+                I saw the same prevention gap among coworkers. Questions about a 403(b), employer match, insurance elections, and total compensation often surfaced only after money had already been left on the table. This site combines those two worlds: the nursing view of where healthcare systems become confusing and the finance view of how early, understandable decisions can compound for or against a household.
               </p>
               <p>
                 <strong className="text-foreground">Credential boundary:</strong> my RN and BSN credentials support the bedside and healthcare-navigation perspective. They do not make me a CFP professional, attorney, tax preparer, insurance producer, Medicare representative, fiduciary, or benefits administrator. Pages identify their source and review status, and no independent professional review is implied unless a qualified reviewer is named.
@@ -89,8 +92,8 @@ const About = () => {
           {[
             {
               icon: Heart,
-              t: "Written from the bedside",
-              d: "Built by a nurse who sees how financial confusion hits workers, patients, and families in real life.",
+              t: "Built from care transitions",
+              d: "Informed by bedside, charge, and ADT work where medication access, insurance, discharge plans, and home readiness meet.",
             },
             {
               icon: BookOpen,

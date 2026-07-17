@@ -8,16 +8,18 @@ export const HOSPITAL_PATIENT_ARTICLES: Article[] = [
     category: "Hospital Stay",
     readTime: "7 min read",
     publishedAt: "2026-07-16",
-    lastReviewedAt: "2026-07-16",
+    lastReviewedAt: "2026-07-17",
     nextReviewAt: "2027-01-16",
     timeSensitive: true,
-    reviewScope: "Hospital blood-clot prevention, preventive versus treatment use, medication-class distinctions, bleeding precautions, and current federal patient sources.",
+    reviewScope: "Hospital blood-clot prevention, preventive versus treatment use, medication-class distinctions, bleeding precautions, mobility context, and current federal patient sources.",
+    updateNote: "Added privacy-minimized RN bedside perspective on mobility, therapy participation, compression devices, and safe questions about alternatives.",
     promise: "A plain-English explanation of why hospitals use blood thinners, what common options do differently, and what to ask before accepting or declining a dose.",
     audience: "Hospital patients and caregivers who see heparin, Lovenox (enoxaparin), Eliquis (apixaban), Xarelto (rivaroxaban), or aspirin on the medication list and want to understand the reason safely.",
     summary: "Hospitals often use a blood thinner to prevent a clot when illness, surgery, injury, or reduced movement raises risk. Receiving one does not necessarily mean a clot has already been found. The exact reason, medicine, route, and dose depend on the clinical situation, kidney function, bleeding risk, procedures, other medicines, and whether the goal is prevention or treatment. Ask the bedside team for the patient-specific reason, and do not start, stop, substitute, or change a dose independently.",
     body: [
       "The term blood thinner is used for medicines that reduce the blood's ability to form harmful clots. They do not literally make blood thinner, and different medicines affect clotting in different ways.",
       "A hospital may use a preventive dose even when no clot has been diagnosed. A treatment plan for a known clot, atrial fibrillation, heart condition, or another indication can be very different from routine hospital prevention.",
+      "From the bedside, the prevention plan is often broader than one injection. Safe movement, getting into a chair, walking when permitted, working with therapy, and using ordered compression devices may all matter. They are not automatic substitutes for medication, so ask which combination applies to this patient today.",
     ],
     sections: [
       {
@@ -29,6 +31,17 @@ export const HOSPITAL_PATIENT_ARTICLES: Article[] = [
           "Mechanical prevention, such as compression devices and walking when permitted, may be used instead of or alongside medication depending on the situation.",
         ],
         watchOut: "Preventive and treatment plans are not interchangeable. Ask which purpose applies to this patient and this dose.",
+      },
+      {
+        title: "From the bedside: mobility is part of the prevention plan",
+        definition: "Patients may experience the injection as the whole plan, while the bedside team is also watching how much the patient is actually moving and whether mechanical prevention is being used correctly.",
+        keyPoints: [
+          "When the care team says it is safe, sitting in the chair for meals, walking, and participating with physical or occupational therapy can support recovery and reduce immobility.",
+          "Ordered sequential compression devices only help when they are worn and functioning as directed.",
+          "A patient who is worried about an injection can ask whether walking, compression devices, or another option is appropriate—but the answer depends on the patient's clot and bleeding risks.",
+          "Movement and compression devices are not automatic substitutes for anticoagulant medication; the team may recommend one, the other, or both.",
+        ],
+        watchOut: "Do not decline a preventive medicine solely because you intend to walk. First ask whether that alternative is appropriate for the patient-specific risk and current mobility level.",
       },
       {
         title: "What this does not necessarily mean",
@@ -103,6 +116,7 @@ export const HOSPITAL_PATIENT_ARTICLES: Article[] = [
       "Is this dose intended to prevent a clot or treat an existing problem?",
       "Which risk factors or diagnosis led to this recommendation?",
       "Why was this medicine and route chosen instead of another option?",
+      "What movement plan is safe today, and do compression devices change the recommendation?",
       "How do kidney function, blood counts, bleeding history, other medicines, or planned procedures affect the plan?",
       "What bleeding or clot concerns should be reported immediately?",
       "If I am worried about or decline this dose, what risk, alternative, and follow-up plan should I understand?",
@@ -112,11 +126,12 @@ export const HOSPITAL_PATIENT_ARTICLES: Article[] = [
     commonMistakes: [
       "Assuming a preventive dose means a clot was diagnosed.",
       "Treating aspirin, heparin, Lovenox, Eliquis, and Xarelto as interchangeable.",
+      "Assuming one walk or compression devices automatically replace the ordered medication.",
       "Skipping a dose without first asking why it was ordered and what alternatives apply.",
       "Failing to report a fall, head strike, bleeding concern, procedure, or home blood thinner.",
       "Restarting, stopping, or changing the medicine after discharge without the prescriber's instructions.",
     ],
-    takeaway: "A hospital blood thinner may be for prevention or treatment. The patient-specific reason, medicine, route, and safety plan depend on clinical details the bedside team can explain. Ask directly, report concerns promptly, and do not change therapy independently.",
+    takeaway: "A hospital blood thinner may be for prevention or treatment. The patient-specific reason, medicine, route, mobility plan, and safety plan depend on clinical details the bedside team can explain. Ask directly, report concerns promptly, and do not change therapy independently.",
     sources: [
       SOURCE_PRESETS.cdcHealthcareAssociatedVte,
       SOURCE_PRESETS.medlinePlusHeparin,
@@ -133,16 +148,18 @@ export const HOSPITAL_PATIENT_ARTICLES: Article[] = [
     category: "Hospital Stay",
     readTime: "6 min read",
     publishedAt: "2026-07-16",
-    lastReviewedAt: "2026-07-16",
+    lastReviewedAt: "2026-07-17",
     nextReviewAt: "2027-01-16",
     timeSensitive: true,
-    reviewScope: "Hospital medication reconciliation, common temporary medication changes, discharge verification, and current patient-safety sources.",
+    reviewScope: "Hospital medication reconciliation, common temporary medication changes, discharge verification, informed questions, follow-up monitoring, and current patient-safety sources.",
+    updateNote: "Added privacy-minimized RN perspective on asking questions without losing the monitoring and follow-up plan.",
     promise: "A plain-English guide to temporary medication holds, substitutions, timing changes, and the questions that prevent confusion at discharge.",
     audience: "Hospital patients and caregivers who notice that a home prescription is missing, held, rescheduled, replaced, or given differently during a hospital stay.",
     summary: "A hospital does not automatically continue every home medicine exactly as it was taken before admission. The team compares the home list with new orders and may hold, substitute, reschedule, or change a medicine because the illness, laboratory results, blood pressure, kidney or liver function, procedure plan, interactions, route, or treatment goal has changed. The change may be temporary or permanent. Ask for the reason and make sure the written discharge list clearly says what to take, stop, change, or restart at home.",
     body: [
       "Medication reconciliation is the process of comparing what a patient was taking with what is ordered now. The goal is to identify omissions, duplications, interactions, unclear information, and changes that need an explanation.",
       "A missing home medicine can be intentional, delayed while the team verifies the list, or an error. The safe response is to ask promptly and give the team the most accurate information available.",
+      "It is reasonable to ask why a medicine is being recommended, whether an alternative exists, or whether a decision can wait. The important distinction is that waiting or declining should still end with a written monitoring and follow-up plan rather than the question disappearing after discharge.",
     ],
     sections: [
       {
@@ -207,6 +224,17 @@ export const HOSPITAL_PATIENT_ARTICLES: Article[] = [
         ],
       },
       {
+        title: "From the bedside: asking why is different from abandoning follow-up",
+        definition: "A patient can reasonably ask why a medication is recommended, discuss alternatives, or decide to wait after an informed conversation. The unsafe gap is leaving without knowing what happens next.",
+        keyPoints: [
+          "Ask what problem or future risk the medicine is intended to address, not only what today's single result shows.",
+          "If the plan is to delay, decline, or revisit the medicine, identify the laboratory test, symptom, home reading, or follow-up visit that will reopen the decision.",
+          "Write down who is responsible for follow-up and the expected time frame.",
+          "Make sure the primary care clinician or usual prescriber receives the hospital change and knows what still needs a decision.",
+        ],
+        watchOut: "A normal result today does not answer every future-risk question. The patient-specific reason, alternatives, and monitoring plan still need to be clear.",
+      },
+      {
         title: "Educational limits",
         definition: "This page cannot determine whether a medication hold, substitution, or dose change is correct for a particular patient.",
         keyPoints: [
@@ -221,6 +249,7 @@ export const HOSPITAL_PATIENT_ARTICLES: Article[] = [
       "What changed in the illness, laboratory results, procedure plan, interaction risk, or treatment goal?",
       "Is the hospital alternative equivalent for this purpose, and will the home medicine return later?",
       "What monitoring or follow-up is needed because of the change?",
+      "If I choose not to start or restart this now, what follow-up prevents the decision from being lost?",
       "Which medicines should I take tonight and tomorrow after discharge?",
       "Which old bottles should be removed or set aside to prevent duplicate doses?",
       "Who should I call if the discharge list conflicts with my pharmacy or usual prescriber's list?",
@@ -231,9 +260,10 @@ export const HOSPITAL_PATIENT_ARTICLES: Article[] = [
       "Taking a home dose without telling the bedside team.",
       "Relying on an old portal list instead of reporting what was actually taken and when.",
       "Leaving without comparing the discharge list with the pre-hospital list.",
+      "Treating 'I want to wait' as a complete plan without a follow-up appointment, laboratory plan, or responsible clinician.",
       "Restarting a held medicine or stopping a new medicine without the treating or prescribing clinician's instructions.",
     ],
-    takeaway: "Hospital medication changes often reflect a temporary change in illness, testing, procedures, monitoring, or available formulations—but any omission can also deserve verification. Ask for the reason now and leave with one clear written list for home.",
+    takeaway: "Hospital medication changes often reflect a temporary change in illness, testing, procedures, monitoring, or available formulations—but any omission can also deserve verification. Ask for the reason now and leave with one clear written list and follow-up plan for home.",
     sources: [
       SOURCE_PRESETS.jointCommissionMedicationReconciliation,
       SOURCE_PRESETS.medlinePlusHeparin,

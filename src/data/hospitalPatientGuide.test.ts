@@ -36,8 +36,21 @@ describe("Hospital & Patient Guide configuration", () => {
       expect(article.sources.length).toBeGreaterThanOrEqual(3);
       expect(article.author).toBe("Andrew Ciccarelli, BSN, RN");
       expect(article.reviewer).toBeUndefined();
-      expect(article.lastReviewedAt).toBe("2026-07-16");
+      expect(article.lastReviewedAt).toBe("2026-07-17");
     }
+  });
+
+  it("integrates RN bedside insight without turning it into individualized treatment advice", () => {
+    const bloodThinner = HOSPITAL_PATIENT_ARTICLES.find((article) => article.slug === "why-am-i-getting-a-blood-thinner-in-the-hospital");
+    const medicationChanges = HOSPITAL_PATIENT_ARTICLES.find((article) => article.slug === "why-did-the-hospital-stop-or-change-my-home-medications");
+
+    expect(bloodThinner?.sections?.map((section) => section.title)).toContain("From the bedside: mobility is part of the prevention plan");
+    expect(bloodThinner?.body.join(" ")).toContain("not automatic substitutes for medication");
+    expect(bloodThinner?.commonMistakes).toContain("Assuming one walk or compression devices automatically replace the ordered medication.");
+
+    expect(medicationChanges?.sections?.map((section) => section.title)).toContain("From the bedside: asking why is different from abandoning follow-up");
+    expect(medicationChanges?.questionsToAsk).toContain("If I choose not to start or restart this now, what follow-up prevents the decision from being lost?");
+    expect(medicationChanges?.takeaway).toContain("follow-up plan");
   });
 
   it("keeps the hub and clinical launch articles ad-free", () => {
@@ -51,4 +64,3 @@ describe("Hospital & Patient Guide configuration", () => {
     }
   });
 });
-

@@ -6,6 +6,7 @@ import {
   ClipboardCheck,
   HelpCircle,
   RotateCcw,
+  ShieldCheck,
   UsersRound,
 } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -15,6 +16,7 @@ import {
   DISCHARGE_BARRIER_CATEGORIES,
   DISCHARGE_READINESS_BARRIERS,
   FAMILY_HOSPITAL_QUESTION_GROUPS,
+  RN_DISCHARGE_PRINCIPLES,
   getDischargeBarriersForCategory,
 } from "@/data/dischargeReadiness";
 
@@ -42,9 +44,28 @@ const DischargeReadinessSystem = () => {
           id="discharge-readiness-heading"
           centered
           eyebrow="Discharge readiness system"
-          title="Find the nonmedical barriers before they become a last-minute delay"
+          title="Find the barriers that can keep a medically ready patient from leaving safely"
           description="Select any issue that is still unresolved. The page will organize specific questions for the care team without asking for names, diagnoses, policy numbers, or other private medical information. Selections remain only in this browser session."
         />
+
+        <div className="mt-8 grid gap-4 md:grid-cols-3" aria-label="RN discharge planning principles">
+          {RN_DISCHARGE_PRINCIPLES.map((principle, index) => (
+            <article key={principle.id} className="rounded-3xl border border-primary/15 bg-card p-5 shadow-sm md:p-6">
+              <div className="flex items-start gap-3">
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-sm font-bold text-primary">
+                  {index + 1}
+                </span>
+                <div>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.13em] text-primary">
+                    <ShieldCheck className="h-4 w-4" aria-hidden="true" /> RN principle
+                  </div>
+                  <h3 className="mt-2 font-display text-lg font-bold leading-tight text-foreground">{principle.title}</h3>
+                </div>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{principle.description}</p>
+            </article>
+          ))}
+        </div>
 
         <div className="mt-9 grid gap-6 xl:grid-cols-[1.45fr_0.75fr]">
           <div className="grid gap-5 md:grid-cols-2">
@@ -138,7 +159,7 @@ const DischargeReadinessSystem = () => {
             <div className="mt-5 flex items-start gap-3 rounded-2xl border border-border bg-muted/25 p-4 text-sm leading-relaxed text-muted-foreground">
               <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
               <p>
-                A patient may be medically ready to leave while logistics, coverage, equipment, placement, teaching, or home support remain unresolved. Urgent safety concerns should be raised directly with the bedside team.
+                A patient may be medically ready to leave while logistics, funding, equipment, placement, teaching, or home support remain unresolved. If the destination is delayed, ask what safe mobility and therapy plan will protect function while the logistics are being resolved. Urgent safety concerns should be raised directly with the bedside team.
               </p>
             </div>
           </aside>

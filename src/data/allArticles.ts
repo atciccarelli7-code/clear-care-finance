@@ -10,6 +10,7 @@ import { MODERN_MONEY_FRICTION_ARTICLE } from "./modernMoneyFrictionArticle";
 import { CREDIT_CARD_DEBT_ARTICLE } from "./creditCardDebtArticle";
 import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
 import { FROM_BEDSIDE_ARTICLES } from "./fromBedsideArticles";
+import { HOSPITAL_PATIENT_ARTICLES } from "./hospitalPatientArticles";
 import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
 import { SEARCH_MOAT_ARTICLES } from "./searchMoatArticles";
@@ -36,6 +37,7 @@ const BASE_ARTICLES = [
   CREDIT_CARD_DEBT_ARTICLE,
   ...OPEN_ENROLLMENT_ARTICLES_READY,
   ...FROM_BEDSIDE_ARTICLES,
+  ...HOSPITAL_PATIENT_ARTICLES,
   TOTAL_COMPENSATION_ARTICLE,
   ...HEALTHCARE_CONFUSION_ARTICLES,
   INSURANCE_FUTURE_PLANNING_ARTICLE,

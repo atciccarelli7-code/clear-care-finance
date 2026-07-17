@@ -234,6 +234,22 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "category": "Medicaid"
   },
   {
+    "slug": "why-am-i-getting-a-blood-thinner-in-the-hospital",
+    "title": "Why Am I Getting a Blood Thinner in the Hospital?",
+    "description": "A plain-English explanation of why hospitals use blood thinners, what common options do differently, and what to ask before accepting or declining a dose.",
+    "category": "Hospital Stay",
+    "publishedAt": "2026-07-16",
+    "lastReviewedAt": "2026-07-16"
+  },
+  {
+    "slug": "why-did-the-hospital-stop-or-change-my-home-medications",
+    "title": "Why Did the Hospital Stop or Change My Home Medications?",
+    "description": "A plain-English guide to temporary medication holds, substitutions, timing changes, and the questions that prevent confusion at discharge.",
+    "category": "Hospital Stay",
+    "publishedAt": "2026-07-16",
+    "lastReviewedAt": "2026-07-16"
+  },
+  {
     "slug": "how-healthcare-workers-should-compare-job-offers",
     "title": "How Healthcare Workers Should Compare Two Job Offers",
     "description": "Compare salary, overtime, differentials, benefits, PTO, insurance premiums, commute burden, and schedule tradeoffs before accepting a healthcare job.",

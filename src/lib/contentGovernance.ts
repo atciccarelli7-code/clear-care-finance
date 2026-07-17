@@ -81,6 +81,7 @@ const HUB_ROUTES = new Set([
   "/healthcare-workers",
   "/build-wealth",
   "/patients-families",
+  "/patients-families/hospital-guide",
   "/student-loans",
   "/open-enrollment",
   "/insurance",

@@ -74,8 +74,13 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     kind: "collection",
   },
   "/patients-families": {
-    title: "Medical Cost Guides for Patients and Families",
-    description: "Understand medical bills, EOBs, insurance rules, Medicare, Medicaid, discharge costs, and financial assistance in plain English.",
+    title: "Patient and Caregiver Healthcare Guides",
+    description: "Choose a clear path for a hospital stay, discharge, rehabilitation, medical bills, denied care, medication coverage, Medicare, Medicaid, or long-term care.",
+    kind: "collection",
+  },
+  "/patients-families/hospital-guide": {
+    title: "Hospital & Patient Guide: Understand a Hospital Stay",
+    description: "Understand what commonly happens before, during, and after a hospital stay, including medications, discharge planning, insurance coverage, and medical bills.",
     kind: "collection",
   },
   "/student-loans": {
@@ -484,7 +489,15 @@ export const resolveSeoMeta = (pathname: string): SeoRouteMeta => {
 
   const staticMeta = STATIC_PAGE_META[path];
   if (staticMeta) {
-    const breadcrumbs = path === "/" ? [] : [{ name: "Home", path: "/" }, { name: staticMeta.title, path }];
+    const breadcrumbs = path === "/"
+      ? []
+      : path === "/patients-families/hospital-guide"
+        ? [
+            { name: "Home", path: "/" },
+            { name: "Patients & Caregivers", path: "/patients-families" },
+            { name: "Hospital & Patient Guide", path },
+          ]
+        : [{ name: "Home", path: "/" }, { name: staticMeta.title, path }];
 
     return {
       title: staticMeta.title,

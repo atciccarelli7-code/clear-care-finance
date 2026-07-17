@@ -41,6 +41,7 @@ const loadNewsletter = () => import("./pages/Newsletter.tsx");
 const loadAbout = () => import("./pages/About.tsx");
 const loadContact = () => import("./pages/Contact.tsx");
 const loadForOrganizationsPage = () => import("./pages/ForOrganizationsPage.tsx");
+const loadOrganizationDetailsPage = () => import("./pages/OrganizationDetailsPage.tsx");
 const loadOpenEnrollmentGuide = () => import("./pages/OpenEnrollmentGuide.tsx");
 const loadInsuranceBenefitsHub = () => import("./pages/InsuranceBenefitsHub.tsx");
 const loadHealthInsurancePlanTypesPage = () => import("./pages/HealthInsurancePlanTypesPage.tsx");
@@ -94,6 +95,7 @@ const Newsletter = lazy(loadNewsletter);
 const About = lazy(loadAbout);
 const Contact = lazy(loadContact);
 const ForOrganizationsPage = lazy(loadForOrganizationsPage);
+const OrganizationDetailsPage = lazy(loadOrganizationDetailsPage);
 const OpenEnrollmentGuide = lazy(loadOpenEnrollmentGuide);
 const InsuranceBenefitsHub = lazy(loadInsuranceBenefitsHub);
 const HealthInsurancePlanTypesPage = lazy(loadHealthInsurancePlanTypesPage);
@@ -174,6 +176,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/about") return loadAbout;
   if (pathname === "/contact") return loadContact;
   if (pathname === "/for-organizations") return loadForOrganizationsPage;
+  if (pathname.startsWith("/for-organizations/")) return loadOrganizationDetailsPage;
   if (pathname === "/methodology") return loadMethodology;
   if (pathname === "/privacy-policy") return loadPrivacyPolicy;
   if (pathname === "/terms-of-use") return loadTermsOfUse;
@@ -303,6 +306,11 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/for-organizations" element={<ForOrganizationsPage />} />
+            <Route path="/for-organizations/programs" element={<OrganizationDetailsPage />} />
+            <Route path="/for-organizations/implementation" element={<OrganizationDetailsPage />} />
+            <Route path="/for-organizations/measurement" element={<OrganizationDetailsPage />} />
+            <Route path="/for-organizations/trust-procurement" element={<OrganizationDetailsPage />} />
+            <Route path="/for-organizations/faq" element={<OrganizationDetailsPage />} />
             <Route path="/methodology" element={<Methodology />} />
             <Route path="/sources" element={<Navigate to="/methodology" replace />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

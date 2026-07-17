@@ -19,9 +19,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackSiteEvent } from "@/lib/analytics";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 import { addNavigatorAction, getNavigatorRecommendation } from "@/lib/financialNavigator";
 import {
-  BENEFITS_COMMAND_CENTER_STORAGE_KEY,
   HIDDEN_BENEFIT_LABELS,
   MAX_BENEFITS_PACKAGES,
   MAX_HEALTH_PLANS_PER_PACKAGE,
@@ -97,7 +97,7 @@ const NumberField = ({
   help?: string;
 }) => (
   <label htmlFor={id} className="block min-w-0 space-y-1.5">
-    <span className="text-sm font-semibold text-foreground">{label}</span>
+    <span className="text-sm font-semibold text-foreground">{label} <span className="font-normal text-muted-foreground">(optional)</span></span>
     <span className="flex min-w-0 items-center rounded-xl border border-border bg-background shadow-sm focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
       {prefix && <span className="shrink-0 pl-3 text-sm font-semibold text-muted-foreground" aria-hidden="true">{prefix}</span>}
       <input
@@ -118,7 +118,7 @@ const NumberField = ({
 
 const TextField = ({ id, label, value, onChange, help }: { id: string; label: string; value: string; onChange: (value: string) => void; help?: string }) => (
   <label htmlFor={id} className="block min-w-0 space-y-1.5">
-    <span className="text-sm font-semibold text-foreground">{label}</span>
+    <span className="text-sm font-semibold text-foreground">{label} <span className="font-normal text-muted-foreground">(optional)</span></span>
     <input
       id={id}
       type="text"
@@ -212,6 +212,8 @@ const BenefitsCommandCenterWorkspace = () => {
   const [feedback, setFeedback] = useState("Saved locally in this browser.");
   const moduleHeadingRef = useRef<HTMLHeadingElement>(null);
   const openedRef = useRef(false);
+  const outputEventRef = useRef<ModuleId | null>(null);
+  const skipNextSaveRef = useRef(false);
 
   const activePackage = workspace.packages.find((item) => item.id === workspace.activePackageId) ?? workspace.packages[0];
   const activeReceipt = useMemo(() => calculateBenefitsReceipt(activePackage), [activePackage]);
@@ -224,6 +226,10 @@ const BenefitsCommandCenterWorkspace = () => {
   }, [workspace.comparisonPackageIds, workspace.packages]);
 
   useEffect(() => {
+    if (skipNextSaveRef.current) {
+      skipNextSaveRef.current = false;
+      return;
+    }
     const saved = saveBenefitsWorkspace(workspace);
     setFeedback(`Saved locally ${new Date(saved.savedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}.`);
   }, [workspace]);
@@ -238,6 +244,20 @@ const BenefitsCommandCenterWorkspace = () => {
     if (!moduleHeadingRef.current) return;
     moduleHeadingRef.current.focus({ preventScroll: true });
   }, [activeModule]);
+
+  useEffect(() => {
+    if (activeModule === "receipt") {
+      if (outputEventRef.current === activeModule) return;
+      outputEventRef.current = activeModule;
+      trackGrowthEvent("bcc_receipt_generated", { entry_surface: "command_center", action_id: "receipt" });
+    } else if (activeModule === "compare" && comparison) {
+      if (outputEventRef.current === activeModule) return;
+      outputEventRef.current = activeModule;
+      trackGrowthEvent("bcc_comparison_generated", { entry_surface: "command_center", action_id: "comparison" });
+    } else {
+      outputEventRef.current = null;
+    }
+  }, [activeModule, comparison]);
 
   const updateActivePackage = (updater: (current: BenefitsPackage) => BenefitsPackage) => {
     setWorkspace((current) => ({
@@ -255,6 +275,7 @@ const BenefitsCommandCenterWorkspace = () => {
 
   const setMode = (mode: BenefitsWorkspaceMode) => {
     setWorkspace((current) => ({ ...current, mode }));
+    trackGrowthEvent("bcc_mode_selected", { entry_surface: "command_center", action_id: `mode_${mode}` });
     trackSiteEvent("benefits_workspace_mode_selected", { event_category: "tools", tool_id: TOOL_ID, workspace_mode: mode });
   };
 
@@ -270,6 +291,7 @@ const BenefitsCommandCenterWorkspace = () => {
       mode: current.mode === "current_package" ? "compare_offers" : current.mode,
     }));
     setActiveModule("compensation");
+    trackGrowthEvent("bcc_package_started", { entry_surface: "command_center", action_id: "additional_package" });
     trackSiteEvent("benefits_package_started", { event_category: "tools", tool_id: TOOL_ID, package_count: workspace.packages.length + 1 });
   };
 
@@ -323,6 +345,7 @@ const BenefitsCommandCenterWorkspace = () => {
   };
 
   const printReceipt = () => {
+    trackGrowthEvent("bcc_print_clicked", { entry_surface: "command_center", action_id: "receipt" });
     setActiveModule("receipt");
     trackSiteEvent("benefits_receipt_printed", { event_category: "tools", tool_id: TOOL_ID, output_type: "browser_print" });
     window.setTimeout(() => window.print(), 50);
@@ -330,14 +353,19 @@ const BenefitsCommandCenterWorkspace = () => {
 
   const resetAll = () => {
     clearBenefitsWorkspace();
+    skipNextSaveRef.current = true;
     setWorkspace(createDefaultBenefitsWorkspace());
     setActiveModule("overview");
     setFeedback("All Command Center data was cleared from this browser.");
+    trackGrowthEvent("bcc_local_data_cleared", { entry_surface: "command_center", action_id: "workspace" });
   };
 
   const activeIndex = modules.findIndex((module) => module.id === activeModule);
   const moveModule = (direction: -1 | 1) => {
     const next = modules[Math.min(modules.length - 1, Math.max(0, activeIndex + direction))];
+    if (direction === 1) {
+      trackGrowthEvent("bcc_section_completed", { entry_surface: "command_center", action_id: `section_${activeModule}` });
+    }
     setActiveModule(next.id);
   };
 
@@ -354,8 +382,13 @@ const BenefitsCommandCenterWorkspace = () => {
           </div>
           <div className="rounded-2xl border border-border bg-background px-4 py-3 text-sm">
             <div className="font-semibold text-foreground">{feedback}</div>
-            <div className="mt-1 text-xs text-muted-foreground">Storage key: {BENEFITS_COMMAND_CENTER_STORAGE_KEY}</div>
+            <div className="mt-1 text-xs text-muted-foreground">Saved only in this browser. Clearing the workspace removes this local record.</div>
+            <Button type="button" variant="ghost" size="sm" className="mt-2 w-full" onClick={() => setActiveModule("receipt")}>Open partial Receipt</Button>
           </div>
+        </div>
+
+        <div className="mt-5 rounded-2xl border border-primary/20 bg-primary-soft/20 p-4 text-sm leading-relaxed text-muted-foreground">
+          <strong className="text-foreground">Start small:</strong> choose a package purpose, enter the pay information you know, and open a partial Receipt at any time. Every numeric field is optional; unknown items remain visible for later verification rather than being treated as zero-confidence facts.
         </div>
 
         <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-5" aria-label="Workspace purpose">

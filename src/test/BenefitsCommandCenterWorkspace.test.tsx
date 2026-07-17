@@ -38,7 +38,7 @@ describe("BenefitsCommandCenterWorkspace", () => {
     });
   });
 
-  it("renders the Benefits Receipt and resets the workspace to one local package", async () => {
+  it("renders the Benefits Receipt and clears the persisted local record", async () => {
     render(<BenefitsCommandCenterWorkspace />);
 
     fireEvent.click(screen.getByRole("button", { name: /add package/i }));
@@ -50,10 +50,7 @@ describe("BenefitsCommandCenterWorkspace", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /clear all local data/i }));
     expect(screen.queryByRole("button", { name: "Offer B" })).not.toBeInTheDocument();
-
-    await waitFor(() => {
-      const stored = JSON.parse(window.localStorage.getItem(BENEFITS_COMMAND_CENTER_STORAGE_KEY) ?? "null") as { packages?: unknown[] } | null;
-      expect(stored?.packages).toHaveLength(1);
-    });
+    expect(screen.getByText(/All Command Center data was cleared from this browser/i)).toBeInTheDocument();
+    await waitFor(() => expect(window.localStorage.getItem(BENEFITS_COMMAND_CENTER_STORAGE_KEY)).toBeNull());
   });
 });

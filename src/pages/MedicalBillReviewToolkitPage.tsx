@@ -27,6 +27,7 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trackSiteEvent } from "@/lib/analytics";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 import {
   CONTACT_TYPES,
   DOCUMENT_TYPES,
@@ -257,6 +258,7 @@ const MedicalBillReviewToolkitPage = () => {
       item_id: itemId,
       destination_path: destinationPath,
     });
+    trackGrowthEvent("bill_review_started", { entry_surface: "healthcare_cost", action_id: itemId });
   };
 
   const resetDraft = () => {
@@ -573,7 +575,7 @@ const MedicalBillReviewToolkitPage = () => {
           <SectionHeading centered eyebrow="Official verification" title="Use the written notice and current official source" description="A general guide cannot replace plan documents, hospital policies, state rules, or an official determination." />
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {officialResources.map((resource) => (
-              <a key={resource.href} href={resource.href} target="_blank" rel="noreferrer" onClick={() => trackSiteEvent("medical_bill_official_resource_clicked", { event_category: "medical_bill", resource_id: resource.title.toLowerCase().replace(/[^a-z0-9]+/g, "_").slice(0, 64), destination_url: resource.href })} className="group rounded-3xl border border-border bg-card p-5 shadow-card transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-hover">
+              <a key={resource.href} href={resource.href} target="_blank" rel="noreferrer" onClick={() => { trackSiteEvent("medical_bill_official_resource_clicked", { event_category: "medical_bill", resource_id: resource.title.toLowerCase().replace(/[^a-z0-9]+/g, "_").slice(0, 64), destination_url: resource.href }); trackGrowthEvent("official_source_opened", { entry_surface: "healthcare_cost", destination_id: "medical_bill_rights" }); }} className="group rounded-3xl border border-border bg-card p-5 shadow-card transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-hover">
                 <Landmark className="h-6 w-6 text-primary" />
                 <h3 className="mt-4 font-display text-xl font-bold text-foreground">{resource.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{resource.body}</p>

@@ -77,6 +77,7 @@ test("homepage concierge routes to the canonical pre-care journey and survives b
   const watch = installHealthWatch(page);
   await visit(page, "/");
 
+  await page.getByRole("button", { name: /Healthcare costs or medical bills/i }).click();
   await page.getByRole("button", { name: "Prepare financially before medical care" }).click();
   await page.getByRole("button", { name: "I am planning ahead" }).click();
   await expect(page.getByRole("heading", { name: "Medical Appointment Cost Preparation" })).toBeFocused();
@@ -227,6 +228,30 @@ test("Medicare cost hub keeps its source-backed comparison table keyboard access
   const tableRegion = page.getByRole("region", { name: /Common Medicare cost points.*scrollable table/i });
   await tableRegion.focus();
   await expect(tableRegion).toBeFocused();
+  await certifyPage(page, watch);
+});
+
+test("Benefits Command Center supports direct modes, partial output, print, and local clearing", async ({ page }) => {
+  const watch = installHealthWatch(page);
+
+  await visit(page, "/tools/benefits-command-center?mode=tour");
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.getByRole("button", { name: /skip tour/i }).click();
+
+  await visit(page, "/tools/benefits-command-center?mode=compare-samples");
+  await expect(page.getByRole("heading", { name: /bedside rn versus clinical specialist/i })).toBeVisible();
+
+  await visit(page, "/tools/benefits-command-center?mode=build");
+  await expect(page.getByRole("heading", { name: /build the package behind the paycheck/i })).toBeVisible();
+  await page.getByLabel("Local package label").fill("Private offer");
+  await page.getByRole("button", { name: "Open partial Receipt" }).click();
+  await expect(page.getByRole("article", { name: /Benefits Receipt for Private offer/i })).toBeVisible();
+  await page.getByRole("button", { name: "Print / PDF" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
+  await page.getByRole("button", { name: /Clear all local data/i }).click();
+  await expect(page.getByText(/All Command Center data was cleared from this browser/i)).toBeVisible();
+  await expect(page.getByLabel("Local package label")).not.toHaveValue("Private offer");
+
   await certifyPage(page, watch);
 });
 

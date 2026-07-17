@@ -4,19 +4,22 @@ import { describe, expect, it } from "vitest";
 import ForOrganizationsPage from "@/pages/ForOrganizationsPage";
 
 describe("ForOrganizationsPage", () => {
-  it("presents a complete, inspectable organization offering with explicit buyer boundaries", () => {
+  it("presents a concise executive overview with inspectable due-diligence paths", () => {
     render(<MemoryRouter><ForOrganizationsPage /></MemoryRouter>);
 
     expect(screen.getByRole("heading", { name: /without handing over their private information/i })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /five offerings built from working participant experiences/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Focused pathways built from products buyers can open today/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Benefits Decision Readiness" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Healthcare Cost Preparation" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Medicare, Medicaid, and Discharge Readiness" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Healthcare Career and Compensation Decisions" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Healthcare Finance Navigation Library" })).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /Benefits Change Detector/i })[0]).toHaveAttribute("href", "/tools/benefits-change-detector");
-    expect(screen.getAllByText(/not currently offered/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/choose another category of vendor when/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Programs.*Participant pathways/i })).toHaveAttribute("href", "/for-organizations/programs");
+    expect(screen.getByRole("link", { name: /Implementation.*Owners, review/i })).toHaveAttribute("href", "/for-organizations/implementation");
+    expect(screen.getByRole("link", { name: /Measurement.*Decision-grade/i })).toHaveAttribute("href", "/for-organizations/measurement");
+    expect(screen.getByRole("link", { name: /Trust & procurement.*Available now/i })).toHaveAttribute("href", "/for-organizations/trust-procurement");
+    expect(screen.getByRole("link", { name: /Buyer FAQ.*Data, certifications/i })).toHaveAttribute("href", "/for-organizations/faq");
+    expect(screen.getByText(/does not claim HIPAA, SOC 2, HITRUST, or BAA readiness/i)).toBeInTheDocument();
     expect(screen.queryByText(/CAF is HIPAA compliant|CAF guarantees savings|CAF has proven ROI/i)).not.toBeInTheDocument();
   });
 

@@ -64,7 +64,14 @@ const AD_ELIGIBLE_ARTICLE_REVIEWS = new Map<string, { tier: "flagship" | "substa
 const TRUST_ROUTES = new Set(["/about", "/methodology", "/editorial-policy", "/disclosures", "/accessibility"]);
 const LEGAL_ROUTES = new Set(["/privacy-policy", "/terms-of-use"]);
 const FORM_ROUTES = new Set(["/newsletter", "/contact"]);
-const ORGANIZATION_ROUTES = new Set(["/for-organizations"]);
+const ORGANIZATION_ROUTES = new Set([
+  "/for-organizations",
+  "/for-organizations/programs",
+  "/for-organizations/implementation",
+  "/for-organizations/measurement",
+  "/for-organizations/trust-procurement",
+  "/for-organizations/faq",
+]);
 const PRINTABLE_ROUTES = new Set(["/insurance/hospital-discharge-coverage/printable"]);
 const RESULT_OR_SAVED_WORK_ROUTES = new Set(["/start-here/my-plan", "/my-plan", "/receipts"]);
 const DIRECTORY_ROUTES = new Set(["/articles", "/topics", "/tools", "/guides", "/healthcare-workers/paycheck-tools"]);

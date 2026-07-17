@@ -253,6 +253,7 @@ const MedicareMedicaidEligibilityCheckPage = () => {
     if (!startedRef.current) {
       startedRef.current = true;
       trackGrowthEvent("flagship_tool_started", { tool_id: "medicare_medicaid_eligibility" });
+      trackGrowthEvent("coverage_check_started", { entry_surface: "medicare", action_id: "eligibility_questions" });
     }
     trackGrowthEvent("flagship_tool_step_completed", {
       tool_id: "medicare_medicaid_eligibility",
@@ -261,6 +262,7 @@ const MedicareMedicaidEligibilityCheckPage = () => {
     const nextIndex = Math.min(steps.length - 1, stepIndex + 1);
     if (steps[nextIndex] === "results") {
       trackGrowthEvent("flagship_tool_completed", { tool_id: "medicare_medicaid_eligibility" });
+      trackGrowthEvent("coverage_check_completed", { entry_surface: "medicare", action_id: "starting_points" });
     }
     setStepIndex(nextIndex);
   };
@@ -275,6 +277,9 @@ const MedicareMedicaidEligibilityCheckPage = () => {
       tool_id: "medicare_medicaid_eligibility",
       action_id: actionId,
     });
+    if (actionId === "official_resource") {
+      trackGrowthEvent("official_program_resource_opened", { entry_surface: "medicare", action_id: "official_resource" });
+    }
   };
 
   return (

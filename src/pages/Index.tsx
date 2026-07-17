@@ -1,313 +1,199 @@
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  Calculator,
-  FileText,
-  BookOpen,
+  BookOpenCheck,
+  BriefcaseBusiness,
   CheckCircle2,
   HeartPulse,
-  Receipt,
-  PiggyBank,
-  type LucideIcon,
+  LockKeyhole,
+  ReceiptText,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TopicCard } from "@/components/shared/TopicCard";
-import { SectionHeading } from "@/components/shared/SectionHeading";
-import { ArticleCard } from "@/components/shared/ArticleCard";
 import { PageHero } from "@/components/shared/PageHero";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 import { DecisionConcierge } from "@/components/growth/DecisionConcierge";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
-import { ALL_ARTICLES } from "@/data/allArticles";
-import { TOPICS } from "@/data/topics";
 import { trackHomepageNavigation } from "@/lib/analytics";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
-type PathCard = {
-  id: string;
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  href: string;
-  cta: string;
-  accent?: "blue" | "green";
-};
+const flagshipJourneys = [
+  {
+    id: "workplace_benefits",
+    icon: BriefcaseBusiness,
+    eyebrow: "Workplace benefits and job value",
+    title: "See the complete package behind the paycheck",
+    description: "Use the Benefits Command Center to separate guaranteed cash, variable pay, employer contributions, employee costs, health-plan exposure, vesting, estimates, and qualitative benefits.",
+    href: "/tools/benefits-command-center?mode=build#benefits-command-center-workspace",
+    cta: "Build my benefits package",
+    supporting: [
+      ["Preview a sample Receipt", "/tools/benefits-command-center?mode=sample-receipt#benefits-command-center-workspace"],
+      ["Compare two sample jobs", "/tools/benefits-command-center?mode=compare-samples#benefits-command-center-workspace"],
+    ],
+  },
+  {
+    id: "healthcare_costs",
+    icon: ReceiptText,
+    eyebrow: "Healthcare costs and medical bills",
+    title: "Prepare before care and review what arrives after",
+    description: "Organize cost and coverage questions before an appointment, understand prior authorization, then review bills and payer documents without sending case details to CAF.",
+    href: "/tools/medical-appointment-cost-preparation",
+    cta: "Prepare for healthcare costs",
+    supporting: [
+      ["Prior authorization next steps", "/tools/prior-authorization-next-step-guide"],
+      ["Medical Bill Review Toolkit", "/insurance/medical-bill-review-toolkit"],
+    ],
+  },
+  {
+    id: "medicare_discharge",
+    icon: HeartPulse,
+    eyebrow: "Medicare, Medicaid, and discharge",
+    title: "Find the right starting point and verify it officially",
+    description: "Screen possible coverage pathways, learn the Medicare and Medicaid structure, prepare for discharge questions, and continue to the government or program source that controls.",
+    href: "/tools/medicare-medicaid-eligibility-check",
+    cta: "Check possible coverage paths",
+    supporting: [
+      ["Medicare and Medicaid hub", "/medicare-care-costs"],
+      ["Hospital discharge checklist", "/tools/hospital-discharge-medicare-checklist"],
+    ],
+  },
+] as const;
 
-const featuredArticleSlugs = [
-  "use-credit-cards-without-credit-card-debt",
-  "managing-money-has-never-been-easier-or-harder",
-  "how-to-pick-retirement-investments-at-work",
-  "deductible-copay-coinsurance-out-of-pocket-max",
-];
+const depthLinks = [
+  ["Retirement and investing", "/build-wealth", "Workplace accounts, investing, debt, and financial independence."],
+  ["Student loan decisions", "/student-loans", "Repayment priorities and links to controlling federal resources."],
+  ["Financial topics and articles", "/topics", "Browse the full education library without crowding the homepage."],
+] as const;
 
-const featuredTopicSlugs = [
-  "retirement-accounts",
-  "workplace-benefits",
-  "health-insurance",
-  "patient-medical-costs",
-  "medicare-medicaid",
-  "hospital-economics",
-];
+const Index = () => (
+  <>
+    <PageHero
+      eyebrow="Plain-English financial decision support"
+      title="Make the next money or healthcare decision clearer."
+      description="Start with a short routing question or go directly to CAF's three primary decision journeys. General retirement, investing, debt, insurance, and student-loan education remains available in the full library."
+    >
+      <Button asChild variant="hero" size="lg">
+        <a
+          href="#decision-concierge"
+          onClick={() => {
+            trackGrowthEvent("home_primary_cta_clicked", { entry_surface: "home", action_id: "decision_concierge" });
+            trackHomepageNavigation("hero_action", "decision_concierge");
+          }}
+        >
+          Help me choose where to start <ArrowRight className="h-4 w-4" />
+        </a>
+      </Button>
+      <Button asChild variant="outline" size="lg">
+        <Link
+          to="/tools"
+          onClick={() => {
+            trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "tools_library" });
+            trackHomepageNavigation("hero_action", "tools_library", "/tools");
+          }}
+        >
+          Browse all tools
+        </Link>
+      </Button>
+    </PageHero>
 
-const topicPromiseOverrides: Record<string, string> = {
-  "retirement-accounts":
-    "Understand workplace retirement accounts, employer matches, Roth versus Traditional contributions, and diversified investing.",
-  "workplace-benefits":
-    "Make sense of retirement matches, insurance, pre-tax accounts, and open enrollment—no matter where you work.",
-};
+    <section id="decision-concierge" className="container min-w-0 scroll-mt-24 py-10 md:py-12">
+      <DecisionConcierge entrySurface="home" compact />
+    </section>
 
-const standards = [
-  { t: "Plain-English education", d: "No jargon, no acronym soup." },
-  { t: "Credible sources", d: "Every topic links to government or reputable references." },
-  { t: "Practical calculators", d: "Numbers you can actually use." },
-  { t: "No scare tactics", d: "Information, not fear." },
-  { t: "No spammy monetization", d: "No popups, no sales funnels." },
-  { t: "Educational only", d: "Never individualized advice." },
-];
-
-const Index = () => {
-  const featuredTopics = featuredTopicSlugs
-    .map((slug) => TOPICS.find((topic) => topic.slug === slug))
-    .filter((topic): topic is (typeof TOPICS)[number] => Boolean(topic))
-    .map((topic) => ({ ...topic, promise: topicPromiseOverrides[topic.slug] ?? topic.promise }));
-  const featuredArticles = featuredArticleSlugs
-    .map((slug) => ALL_ARTICLES.find((article) => article.slug === slug))
-    .filter((article): article is (typeof ALL_ARTICLES)[number] => Boolean(article));
-
-  const pathCards: PathCard[] = [
-    {
-      id: "retirement_financial_independence",
-      icon: PiggyBank,
-      title: "I’m planning for retirement or financial independence",
-      description: "Organize saving, retirement accounts, investing, debt, and the next step toward long-term financial flexibility.",
-      href: "/build-wealth",
-      cta: "Build my plan",
-      accent: "blue",
-    },
-    {
-      id: "medical_bill",
-      icon: Receipt,
-      title: "I got a medical bill",
-      description: "Review the bill, compare it with your EOB, and find the next practical step before paying.",
-      href: "/insurance/medical-bill-review-toolkit",
-      cta: "Review the bill",
-      accent: "green",
-    },
-    {
-      id: "medicare_medicaid",
-      icon: BookOpen,
-      title: "I’m trying to understand Medicare or Medicaid",
-      description: "Learn what the programs cover, where costs appear, and why long-term care needs separate planning.",
-      href: "/medicare-care-costs",
-      cta: "Open the hub",
-      accent: "green",
-    },
-    {
-      id: "workplace_benefits_insurance",
-      icon: HeartPulse,
-      title: "I’m choosing workplace benefits or insurance",
-      description: "Compare premiums, deductibles, retirement matches, FSAs, HSAs, and open-enrollment tradeoffs.",
-      href: "/insurance",
-      cta: "Compare options",
-      accent: "blue",
-    },
-  ];
-
-  return (
-    <>
-      <PageHero
-        eyebrow="Plain-English financial clarity"
-        title="Understand your money—from workplace benefits to healthcare costs."
-        description="Use practical guides and calculators for retirement, investing, workplace benefits, insurance, medical bills, Medicare, and Medicaid—built with an RN’s healthcare perspective."
-      >
-        <Button asChild variant="hero" size="lg">
-          <a
-            href="#choose-path"
-            onClick={() => trackHomepageNavigation("hero_action", "choose_starting_point")}
-          >
-            Choose a starting point <ArrowRight className="h-4 w-4" />
-          </a>
-        </Button>
-        <Button asChild variant="outline" size="lg">
-          <Link
-            to="/tools"
-            onClick={() => trackHomepageNavigation("hero_action", "use_calculator", "/tools")}
-          >
-            Use a calculator
-          </Link>
-        </Button>
-      </PageHero>
-
-      <section className="container min-w-0 pt-10 md:pt-12">
-        <DecisionConcierge entrySurface="home" compact />
-      </section>
-
-      <section id="choose-path" className="container min-w-0 scroll-mt-20 py-12 md:py-16">
+    <section className="border-y border-border bg-card/25 py-14 md:py-20" aria-labelledby="flagship-journeys-heading">
+      <div className="container min-w-0">
         <SectionHeading
           centered
-          eyebrow="Start here"
-          title="What would you like to understand today?"
-          description="Choose the situation closest to yours. Each path leads to a practical guide or calculator, not a sales funnel."
+          eyebrow="Three primary journeys"
+          title="Choose the decision—not a catalog."
+          description="Each journey has one clear first step and a short sequence of supporting tools."
         />
-        <div className="mx-auto grid max-w-5xl min-w-0 gap-5 md:grid-cols-2">
-          {pathCards.map(({ id, icon, title, description, href, cta, accent }) => (
-            <TopicCard
-              key={id}
-              icon={icon}
-              title={title}
-              description={description}
-              href={href}
-              cta={cta}
-              accent={accent}
-              onClick={() => trackHomepageNavigation("starting_path", id, href)}
-            />
-          ))}
-        </div>
-        <p className="mx-auto mt-7 max-w-3xl text-center text-sm leading-relaxed text-muted-foreground">
-          Work in healthcare? The{" "}
-          <Link
-            className="font-semibold text-primary underline-offset-4 hover:underline"
-            to="/healthcare-workers"
-            onClick={() => trackHomepageNavigation("specialty_hub", "healthcare_workers", "/healthcare-workers")}
-          >
-            healthcare-worker hub
-          </Link>{" "}
-          adds RN-focused pay, career, and benefit tools without limiting the rest of the site to healthcare employees.
-        </p>
-      </section>
-
-      <section className="border-y border-border bg-card/20 py-16 md:py-20">
-        <div className="container min-w-0">
-          <SectionHeading
-            eyebrow="Explore by topic"
-            title="General financial guidance, with deeper healthcare expertise"
-            description="Move from a plain-English explanation to a comparison, calculator, related articles, and trusted sources."
-          />
-          <div className="grid min-w-0 gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {featuredTopics.map((topic) => {
-              const href = topic.slug === "medicare-medicaid" ? "/medicare-care-costs" : `/topics/${topic.slug}`;
-              return (
-                <TopicCard
-                  key={topic.slug}
-                  icon={topic.icon}
-                  title={topic.title}
-                  description={topic.promise}
-                  href={href}
-                  cta={topic.slug === "medicare-medicaid" ? "Open complete hub" : "Open guide"}
-                  onClick={() => trackHomepageNavigation("featured_topic", topic.slug, href)}
-                />
-              );
-            })}
-          </div>
-          <div className="mt-10 min-w-0 text-center">
-            <Button asChild variant="soft">
-              <Link
-                to="/topics"
-                onClick={() => trackHomepageNavigation("section_browse", "all_topics", "/topics")}
-              >
-                See all topics <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <section className="container min-w-0 py-16 md:py-20">
-        <div className="mb-10 flex min-w-0 flex-wrap items-end justify-between gap-4">
-          <SectionHeading
-            eyebrow="Articles"
-            title="Start with a question you already have"
-            description="Read practical explanations about credit, retirement investing, everyday money decisions, and healthcare costs."
-            className="mb-0"
-          />
-          <Button asChild variant="soft">
-            <Link
-              to="/articles"
-              onClick={() => trackHomepageNavigation("section_browse", "all_articles", "/articles")}
-            >
-              Browse all <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
-        <div className="grid min-w-0 gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {featuredArticles.map((article) => (
-            <ArticleCard
-              key={article.slug}
-              article={article}
-              onClick={() =>
-                trackHomepageNavigation("featured_article", article.slug, `/articles/${article.slug}`)
-              }
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="border-y border-border bg-background/55 py-16 md:py-20">
-        <div className="container min-w-0">
-          <SectionHeading
-            centered
-            eyebrow="Our standards"
-            title="Built for clarity, not clicks."
-            description="Money and healthcare are complicated enough. The explanation should not add to the confusion."
-          />
-          <div className="mx-auto grid max-w-5xl min-w-0 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
-            {standards.map((item) => (
-              <div key={item.t} className="flex min-w-0 gap-3 border-t border-border/80 py-5">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                <div className="min-w-0 break-words">
-                  <div className="font-semibold break-words">{item.t}</div>
-                  <div className="mt-1 text-sm text-muted-foreground break-words">{item.d}</div>
-                </div>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {flagshipJourneys.map(({ id, icon: Icon, eyebrow, title, description, href, cta, supporting }) => (
+            <article key={id} className="flex min-w-0 flex-col rounded-3xl border border-border bg-card p-6 shadow-card">
+              <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+              <div className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-secondary">{eyebrow}</div>
+              <h2 className="mt-2 font-display text-2xl font-bold tracking-tight">{title}</h2>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
+              <Button asChild className="mt-6 w-full">
+                <Link
+                  to={href}
+                  onClick={() => trackGrowthEvent("flagship_journey_opened", { entry_surface: "home", destination_id: id })}
+                >
+                  {cta} <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+              <div className="mt-4 space-y-2 border-t border-border pt-4">
+                {supporting.map(([label, path]) => (
+                  <Link key={path} to={path} className="flex min-h-10 items-center justify-between gap-3 rounded-lg px-2 text-sm font-semibold text-muted-foreground hover:bg-muted/40 hover:text-primary">
+                    {label}<ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                  </Link>
+                ))}
               </div>
-            ))}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section className="container min-w-0 py-14 md:py-20" aria-labelledby="trust-heading">
+      <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
+        <div>
+          <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Trust boundary</div>
+          <h2 id="trust-heading" className="mt-2 font-display text-3xl font-bold tracking-tight">Useful without asking for your private story.</h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">CAF is RN-led, source-backed, privacy-minimized, and educational. Official documents, agencies, providers, plans, employers, and qualified professionals still control material decisions.</p>
+          <div className="mt-5 flex flex-wrap gap-3 text-sm font-semibold">
+            <Link to="/methodology" className="text-primary hover:underline">Review sources</Link>
+            <Link to="/privacy-policy" className="text-primary hover:underline">Privacy policy</Link>
+            <Link to="/disclosures" className="text-primary hover:underline">Disclosures</Link>
           </div>
         </div>
-      </section>
-
-      <section className="container min-w-0 py-16 md:py-20">
-        <NewsletterSignup
-          source="home"
-          title="Get one clear financial email each month"
-          description="Join Community Acquired Finance Monthly for practical notes on retirement, workplace benefits, insurance, medical bills, Medicare, Medicaid, and new calculators. First issue planned for August 1."
-          buttonLabel="Join the monthly list"
-        />
-      </section>
-
-      <section className="container min-w-0 py-16 md:py-20">
-        <div className="min-w-0 break-words rounded-xl bg-primary p-7 text-primary-foreground shadow-card md:p-10">
-          <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
-            <div>
-              <h2 className="font-display text-3xl font-bold text-balance break-words md:text-4xl">Start with one small win</h2>
-              <p className="mt-3 max-w-2xl text-base leading-relaxed text-primary-foreground/85 break-words md:text-lg">
-                Pick a calculator, one guide, or one article. Financial clarity compounds over time.
-              </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[
+            [ShieldCheck, "RN-led", "Healthcare context without clinical advice."],
+            [BookOpenCheck, "Source-backed", "Official references and visible limitations."],
+            [LockKeyhole, "Privacy-minimized", "No account or sensitive case narrative required."],
+            [CheckCircle2, "Educational only", "Preparation and math—not an official determination."],
+          ].map(([Icon, title, body]) => (
+            <div key={title as string} className="rounded-2xl border border-border bg-card p-5">
+              <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+              <h3 className="mt-3 font-display text-lg font-bold">{title as string}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{body as string}</p>
             </div>
-            <div className="flex min-w-0 flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
-              <Button asChild size="lg" variant="secondary">
-                <Link
-                  to="/tools"
-                  onClick={() => trackHomepageNavigation("closing_cta", "browse_tools", "/tools")}
-                >
-                  <Calculator className="h-4 w-4" /> Browse tools
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-primary-foreground/35 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
-              >
-                <Link
-                  to="/articles"
-                  onClick={() => trackHomepageNavigation("closing_cta", "read_article", "/articles")}
-                >
-                  <FileText className="h-4 w-4" /> Read an article
-                </Link>
-              </Button>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
-    </>
-  );
-};
+      </div>
+    </section>
+
+    <section className="border-y border-border bg-background/55 py-14 md:py-20" aria-labelledby="depth-heading">
+      <div className="container min-w-0">
+        <SectionHeading eyebrow="More financial education" title="The depth is still here when you need it." description="Use the full libraries for general financial questions and focused single-purpose tasks." />
+        <div className="grid gap-4 md:grid-cols-3">
+          {depthLinks.map(([title, href, description]) => (
+            <Link key={href} to={href} className="rounded-2xl border border-border bg-card p-5 transition hover:border-primary/35 hover:shadow-card">
+              <h3 className="font-display text-lg font-bold">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary">Open resource <ArrowRight className="h-4 w-4" /></span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <Button asChild variant="outline"><Link to="/topics">Browse topics</Link></Button>
+          <Button asChild variant="outline"><Link to="/articles">Browse articles</Link></Button>
+          <Button asChild variant="outline"><Link to="/guides">Browse quick guides</Link></Button>
+        </div>
+      </div>
+    </section>
+
+    <section className="container min-w-0 py-14 md:py-20">
+      <NewsletterSignup
+        source="home"
+        title="Get one clear financial email each month"
+        description="A calm monthly note on workplace benefits, healthcare costs, retirement, insurance, Medicare, Medicaid, and useful new tools."
+        buttonLabel="Join the monthly list"
+      />
+    </section>
+  </>
+);
 
 export default Index;

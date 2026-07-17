@@ -34,6 +34,7 @@ export const OrganizationProgramBuilder = () => {
   const update = <Key extends keyof OrganizationProgramBuilderInput>(key: Key, value: OrganizationProgramBuilderInput[Key]) => {
     if (!started.current) {
       trackGrowthEvent("organization_program_builder_started", { entry_surface: "organization" });
+      trackGrowthEvent("organization_brief_started", { entry_surface: "organization", action_id: "fixed_choice" });
       started.current = true;
     }
     setDraft((current) => ({ ...current, [key]: value }));
@@ -48,6 +49,7 @@ export const OrganizationProgramBuilder = () => {
     const input = draft as OrganizationProgramBuilderInput;
     setSubmitted(input);
     trackGrowthEvent("organization_program_plan_created", { entry_surface: "organization", action_id: "program_brief" });
+    trackGrowthEvent("organization_brief_completed", { entry_surface: "organization", action_id: "program_brief" });
     window.setTimeout(() => resultRef.current?.focus(), 0);
   };
 
@@ -179,7 +181,7 @@ export const OrganizationProgramBuilder = () => {
 
           <div className="mt-8 flex flex-col gap-4 rounded-2xl bg-primary-soft/35 p-5 sm:flex-row sm:items-center sm:justify-between print:hidden">
             <p className="max-w-2xl text-sm leading-relaxed"><strong>Ready for a scoped review?</strong> Share the non-sensitive brief internally, identify the accountable owner, then contact CAF without including employee, patient, plan, medical, or financial details.</p>
-            <Button asChild variant="hero" className="shrink-0"><Link to="/contact" onClick={() => trackGrowthEvent("organization_contact_selected", { entry_surface: "organization", cta_type: "program_review" })}>Request program review <ArrowRight className="h-4 w-4" /></Link></Button>
+            <Button asChild variant="hero" className="shrink-0"><Link to="/contact" onClick={() => { trackGrowthEvent("organization_contact_selected", { entry_surface: "organization", cta_type: "program_review" }); trackGrowthEvent("organization_contact_opened", { entry_surface: "organization", action_id: "program_review" }); }}>Request program review <ArrowRight className="h-4 w-4" /></Link></Button>
           </div>
         </div>
       )}

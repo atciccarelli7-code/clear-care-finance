@@ -29,6 +29,7 @@ import {
   type PreventiveCostHandoffId,
 } from "@/lib/preventiveCostAnalytics";
 import { useSeo } from "@/lib/seo";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
 const STATUS_OPTIONS = [
   { value: "needs-check", label: "Needs verification" },
@@ -73,6 +74,7 @@ const trackHandoff = (handoffId: PreventiveCostHandoffId) => {
     tool_id: PREVENTIVE_COST_TOOL_ID,
     handoff_id: handoffId,
   });
+  trackGrowthEvent("official_source_opened", { entry_surface: "healthcare_cost", destination_id: handoffId });
 };
 
 export const MedicalAppointmentCostPreparationPage = () => {
@@ -105,6 +107,7 @@ export const MedicalAppointmentCostPreparationPage = () => {
       tool_id: PREVENTIVE_COST_TOOL_ID,
       stage_id: stageId,
     });
+    trackGrowthEvent("cost_prep_started", { entry_surface: "healthcare_cost", action_id: stageId });
   };
 
   const update = <K extends keyof MedicalAppointmentCostAnswers>(key: K, value: MedicalAppointmentCostAnswers[K]) => {
@@ -128,6 +131,7 @@ export const MedicalAppointmentCostPreparationPage = () => {
         tool_id: PREVENTIVE_COST_TOOL_ID,
         stage_id: "plan",
       });
+      trackGrowthEvent("cost_prep_completed", { entry_surface: "healthcare_cost", action_id: "plan" });
     }
     window.setTimeout(() => resultRef.current?.focus(), 0);
   };

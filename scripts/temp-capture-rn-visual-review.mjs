@@ -39,6 +39,7 @@ for (const scenario of scenarios) {
   const guideResponse = await page.goto(`${baseUrl}/patients-families/hospital-guide`, {
     waitUntil: "networkidle",
   });
+  const guideTitle = await page.title();
 
   await page.screenshot({
     path: `${outputDir}/${scenario.name}-guide-full.jpg`,
@@ -47,15 +48,18 @@ for (const scenario of scenarios) {
     fullPage: true,
   });
 
-  const principlesHeading = page.getByText("RN operating principles", { exact: true });
+  const firstPrinciple = page.getByText(
+    "Identify the destination and payment barriers early",
+    { exact: true },
+  );
   await captureViewport(
     page,
-    principlesHeading,
+    firstPrinciple,
     `${outputDir}/${scenario.name}-guide-principles.jpg`,
   );
 
   const assessmentHeading = page.getByText(
-    "Find the nonmedical barriers before they become a last-minute delay",
+    "Find the barriers that can keep a medically ready patient from leaving safely",
     { exact: true },
   );
   await captureViewport(
@@ -99,6 +103,7 @@ for (const scenario of scenarios) {
     `${baseUrl}/articles/from-the-bedside-long-term-care-medicaid-hospital-delay`,
     { waitUntil: "networkidle" },
   );
+  const articlePageTitle = await page.title();
 
   await page.screenshot({
     path: `${outputDir}/${scenario.name}-article-full.jpg`,
@@ -107,10 +112,9 @@ for (const scenario of scenarios) {
     fullPage: true,
   });
 
-  const articleTitle = page.getByText(
-    "From the Bedside: Long-Term Care Medicaid Should Not Wait Until a Crisis",
-    { exact: true },
-  );
+  const articleTitle = page
+    .getByRole("heading", { name: /Long-Term Care Medicaid Should Not Wait Until a Crisis/ })
+    .first();
   await captureViewport(
     page,
     articleTitle,
@@ -141,8 +145,8 @@ for (const scenario of scenarios) {
     scenario: scenario.name,
     viewport: scenario.viewport,
     guideStatus: guideResponse?.status(),
-    guideTitle: await page.title(),
-    rnPrinciplesVisible: (await principlesHeading.count()) === 1,
+    guideTitle,
+    rnPrinciplesVisible: (await firstPrinciple.count()) === 1,
     barrierCounts,
     questionListUpdated:
       guideText.includes("2 possible barriers to resolve") &&
@@ -151,6 +155,7 @@ for (const scenario of scenarios) {
     guideOverflow,
     guideBrokenImages,
     articleStatus: articleResponse?.status(),
+    articlePageTitle,
     articleIncludesFunctionalDecline: articleText.toLowerCase().includes("functional decline"),
     articleIncludesMobilityGuidance: articleText.toLowerCase().includes("mobility"),
     articleIncludesCaregiverTraining: articleText.toLowerCase().includes("caregiver training"),

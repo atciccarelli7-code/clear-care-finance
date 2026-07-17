@@ -68,11 +68,11 @@ export const FROM_BEDSIDE_ARTICLES: FromBedsideArticle[] = [
     title: "From the Bedside: Long-Term Care Medicaid Should Not Wait Until a Crisis",
     category: "Medicaid",
     specialTag: "From the Bedside",
-    readTime: "6 min read",
-    promise: "A bedside look at why older adults can get stuck in the hospital while families scramble for long-term care Medicaid and nursing home placement.",
+    readTime: "7 min read",
+    promise: "A bedside look at why older adults can get stuck in the hospital while families scramble for long-term care Medicaid, nursing home placement, and a plan to preserve function.",
     audience: "Older adults, caregivers, adult children, discharge planners, and healthcare workers trying to understand long-term care planning before a hospital crisis.",
     summary:
-      "In one recent week at the bedside, I saw multiple older adults who no longer had a safe discharge plan. Their families could not provide the level of care they needed at home, short-term rehab was hesitant because there was no realistic plan after rehab, and everyone was waiting on long-term care Medicaid so the patient could be placed safely. The painful lesson is simple: Medicare is not long-term custodial care coverage. Medicaid may help pay for long-term services and supports for people who qualify under state rules, but waiting until the hospital discharge crisis can leave patients stuck in the wrong place for far too long.",
+      "In one recent week at the bedside, I saw multiple older adults who no longer had a safe discharge plan. Their families could not provide the level of care they needed at home, short-term rehab was hesitant because there was no realistic plan after rehab, and everyone was waiting on long-term care Medicaid so the patient could be placed safely. The painful lesson is simple: Medicare is not long-term custodial care coverage. Medicaid may help pay for long-term services and supports for people who qualify under state rules, but waiting until the hospital discharge crisis can leave patients stuck in the wrong place while their mobility and independence may also worsen.",
     body: [
       "In one recent week at the bedside, I saw the same problem more than once: an older adult was medically past the acute emergency, but still could not safely leave the hospital.",
       "The reason was not that nobody cared. The family cared. The care team cared. Case management cared. The problem was that the patient needed more help than the family could safely provide, and there was no funded long-term care plan ready when the crisis arrived.",
@@ -80,6 +80,8 @@ export const FROM_BEDSIDE_ARTICLES: FromBedsideArticle[] = [
       "Skilled nursing facility care is different. Medicare Part A can cover skilled nursing facility care only for a limited time when the patient meets specific rules, including a qualifying inpatient hospital stay, need for daily skilled care, and admission to a Medicare-certified skilled nursing facility. That is rehab-level coverage, not open-ended nursing home coverage.",
       "This matters because short-term rehab needs a discharge plan too. If a patient needs therapy but has no safe plan after rehab, a facility may worry that the patient will have nowhere to go when the rehab stay ends. That can delay acceptance, create placement barriers, and leave the patient waiting in the hospital even after the hospital is no longer the right setting.",
       "From the bedside, this is one of the saddest financial planning failures because it does not look like a spreadsheet problem. It looks like a patient losing time, privacy, normal sleep, mobility, and dignity while everyone waits for paperwork and placement.",
+      "The waiting period can also change the discharge problem itself. Older adults are at risk for hospital-associated functional decline, and longer stays, immobility, frailty, and delirium are recognized risk factors. A person who needed limited help at admission may become much harder for a family or receiving facility to support if safe mobility, self-care, therapy, and caregiver training are not actively protected while placement is pending.",
+      "That means an insurance or placement barrier should not remain only in a case-management note. Once the team knows a patient may wait, the daily plan should document baseline function, current function, safe mobility goals, therapy needs, and the exact support a caregiver would have to provide. Early identification can change what the team prioritizes today, even when the Medicaid or facility timeline cannot be accelerated.",
       "Medicaid is often the program families eventually discover in this situation. Medicaid.gov describes Medicaid as the primary payer across the nation for long-term care services, including services provided across institutional and community-based settings. But Medicaid is not automatic just because someone is older or sick. Eligibility depends on state rules, income, resources, medical need, and the specific long-term care program involved.",
       "That is why families should ask about long-term care Medicaid before the crisis, not after. If an older adult is declining, needing more hands-on help, falling frequently, needing supervision, or requiring care that family members can no longer safely provide, the conversation should start early with the state Medicaid agency, a hospital or community social worker, an elder law attorney, or a local aging-services organization.",
       "The goal is not to force someone into a nursing home. The goal is to know the options before a hospital stay becomes the application office, the waiting room, and the holding pattern all at once.",
@@ -107,6 +109,16 @@ export const FROM_BEDSIDE_ARTICLES: FromBedsideArticle[] = [
         watchOut: "Do not assume being 65+, having Medicare, or having a hospital stay means long-term nursing home care will be covered."
       },
       {
+        title: "Protect function while the paperwork catches up",
+        definition: "A delayed destination should trigger a plan to preserve mobility and independence, not passive waiting.",
+        keyPoints: [
+          "Ask the team to record the person's baseline function and what has changed during the stay.",
+          "Ask what the patient can safely do every day for mobility, transfers, self-care, breathing, nutrition, and recovery.",
+          "Ask whether physical therapy, occupational therapy, nursing mobility, and caregiver training need to be adjusted while placement remains unresolved."
+        ],
+        watchOut: "Medical stability does not guarantee functional stability. A patient can become harder to discharge safely while everyone waits for funding or placement."
+      },
+      {
         title: "When to start asking questions",
         definition: "Start before the family is in discharge crisis mode.",
         keyPoints: [
@@ -120,18 +132,19 @@ export const FROM_BEDSIDE_ARTICLES: FromBedsideArticle[] = [
     example: {
       title: "Why a hospital stay can turn into a waiting room for long-term care",
       body:
-        "Imagine an older adult who is no longer safe at home. The family cannot provide 24-hour support, but there is no long-term care payer in place. The patient may need rehab, but the rehab facility wants to know where the person can safely go after therapy ends. If long-term care Medicaid has not been applied for or approved, the discharge plan can stall. The patient is then stuck waiting in a hospital bed for a system that should have been discussed earlier."
+        "Imagine an older adult who is no longer safe at home. The family cannot provide 24-hour support, but there is no long-term care payer in place. The patient may need rehab, but the rehab facility wants to know where the person can safely go after therapy ends. If long-term care Medicaid has not been applied for or approved, the discharge plan can stall. While everyone waits, the family should also be asking what daily mobility and therapy plan is protecting the patient's current level of independence."
     },
     commonMistakes: [
       "Assuming Medicare pays for long-term nursing home care.",
       "Waiting until the hospital discharge crisis to ask about long-term care Medicaid.",
       "Assuming short-term rehab will accept a patient without a realistic plan after rehab.",
+      "Assuming a medically stable patient will remain functionally stable while waiting in the hospital.",
       "Thinking Medicaid eligibility is based only on age instead of state-specific income, resource, and care-need rules.",
       "Moving money, changing ownership, or giving assets away without qualified state-specific guidance.",
       "Treating caregiver burnout as a private family failure instead of a warning sign that a formal care plan may be needed."
     ],
     takeaway:
-      "If an older adult may need long-term custodial care, start the Medicaid and care-planning conversation before the hospital crisis. Medicare may cover limited skilled rehab when strict rules are met, but it generally does not pay for long-term custodial care. Medicaid may help people who qualify under state rules, and starting early can protect patients from being stuck in the wrong setting while everyone waits for paperwork, approval, and placement.",
+      "If an older adult may need long-term custodial care, start the Medicaid and care-planning conversation before the hospital crisis. Medicare may cover limited skilled rehab when strict rules are met, but it generally does not pay for long-term custodial care. Medicaid may help people who qualify under state rules. If placement is delayed, ask the care team to protect mobility and document baseline function, current needs, daily goals, and the exact support required at the next setting.",
     sources: [
       {
         name: "Medicare.gov",
@@ -150,6 +163,12 @@ export const FROM_BEDSIDE_ARTICLES: FromBedsideArticle[] = [
         pageTitle: "Long Term Services & Supports",
         url: "https://www.medicaid.gov/medicaid/long-term-services-supports",
         note: "Official Medicaid explanation that Medicaid is the primary payer across the nation for long-term care services across institutional and community-based settings."
+      },
+      {
+        name: "JAMA Internal Medicine / PubMed Central",
+        pageTitle: "Effect of Exercise Intervention on Functional Decline in Very Elderly Patients During Acute Hospitalization",
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6583412/",
+        note: "Randomized clinical trial showing that an individualized in-hospital exercise program improved functional outcomes compared with usual care in very old hospitalized adults."
       }
     ]
   }

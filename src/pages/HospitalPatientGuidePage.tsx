@@ -15,6 +15,7 @@ import {
   Stethoscope,
   type LucideIcon,
 } from "lucide-react";
+import DischargeReadinessSystem from "@/components/patients/DischargeReadinessSystem";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
@@ -233,6 +234,8 @@ const HospitalPatientGuidePage = () => (
           })}
         </div>
       </section>
+
+      <DischargeReadinessSystem />
 
       <section className="container space-y-12 py-12 md:space-y-16 md:py-20" aria-labelledby="journey-heading">
         <SectionHeading

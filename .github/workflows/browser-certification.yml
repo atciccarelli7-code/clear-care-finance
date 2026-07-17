@@ -30,27 +30,6 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run test:browser:journeys
-      - name: Start preview for visual review
-        run: |
-          npm run preview:test > /tmp/caf-preview.log 2>&1 &
-          for attempt in {1..60}; do
-            if curl --fail --silent http://127.0.0.1:4173/patients-families/hospital-guide > /dev/null; then
-              exit 0
-            fi
-            sleep 1
-          done
-          cat /tmp/caf-preview.log
-          exit 1
-      - name: Capture temporary visual review evidence
-        run: node scripts/temp-capture-rn-visual-review.mjs
-      - name: Upload visual review evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: rn-visual-review-${{ github.run_id }}
-          path: visual-review-artifacts/
-          retention-days: 3
-          if-no-files-found: warn
       - name: Upload failure evidence
         if: failure()
         uses: actions/upload-artifact@v4

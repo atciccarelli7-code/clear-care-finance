@@ -68,6 +68,55 @@ const practicalToolIds = new Set([
   "medical_bill_toolkit",
 ]);
 
+type RnInsight = {
+  id: string;
+  stageId: HospitalGuideStageId;
+  title: string;
+  body: string;
+  question: string;
+  route: string;
+  cta: string;
+};
+
+const rnInsights: RnInsight[] = [
+  {
+    id: "rn_discharge_handoff",
+    stageId: "discharge_recovery",
+    title: "Discharge is a handoff assembled by several people",
+    body: "The medication list, therapy recommendation, equipment plan, follow-up schedule, and insurance status may be updated by different clinicians at different times. A rushed or inconsistent instruction is not proof that nobody cared; it is a reason to compare the final written plan line by line before leaving.",
+    question: "Ask: What changed today, what is still pending, and which written document is the final plan for home?",
+    route: "/insurance/hospital-discharge-coverage",
+    cta: "Use the discharge guide",
+  },
+  {
+    id: "rn_therapy_documentation",
+    stageId: "discharge_recovery",
+    title: "Therapy participation helps show what level of care is safe",
+    body: "Physical and occupational therapy assessments often help support recommendations for short-term rehabilitation, home health, equipment, or a home discharge. The recommendation must reflect what the patient can actually do now, not only what was possible before the illness or on a better day.",
+    question: "Ask: Has function changed since the last assessment, and does the current therapy documentation match the proposed destination?",
+    route: "/articles/does-medicare-cover-rehab-after-hospital-stay",
+    cta: "Understand rehab coverage",
+  },
+  {
+    id: "rn_denial_documentation",
+    stageId: "bills_coverage",
+    title: "A denial may reflect the record the payer reviewed",
+    body: "Coverage decisions often depend on the clinical criteria, orders, therapy notes, nursing observations, and provider documentation submitted with the request. When the patient's condition or function changes, an updated assessment can matter. A verbal no should be translated into the written reason, the evidence used, and the available review path.",
+    question: "Ask: What exact criteria were not met, which notes were reviewed, and can updated documentation, peer-to-peer review, or an expedited appeal apply?",
+    route: "/tools/prior-authorization-next-step-guide",
+    cta: "Build a denial response",
+  },
+  {
+    id: "rn_medication_followup",
+    stageId: "medications_treatments",
+    title: "Questioning a medication is different from losing the follow-up plan",
+    body: "It is reasonable to ask why a medication is recommended, discuss alternatives, or decide to revisit the choice. The safety problem is leaving without knowing which laboratory test, symptom, home reading, or follow-up appointment will reopen the decision and who is responsible for it.",
+    question: "Ask: If we wait or decline today, what monitoring and follow-up keeps this decision from being forgotten?",
+    route: "/articles/why-did-the-hospital-stop-or-change-my-home-medications",
+    cta: "Prepare medication questions",
+  },
+];
+
 const HospitalPatientGuidePage = () => (
   <>
     <nav className="container py-4" aria-label="Breadcrumb">
@@ -83,7 +132,7 @@ const HospitalPatientGuidePage = () => (
     <PageHero
       eyebrow="Hospital & Patient Guide"
       title="Understand what is happening, what comes next, and what to ask."
-      description="Plain-English guidance for understanding your hospital stay, medications, discharge plan, insurance coverage, and medical bills."
+      description="RN-led, source-checked guidance for understanding a hospital stay, medications, discharge planning, insurance coverage, and medical bills."
     >
       <Button asChild variant="hero" size="lg">
         <a href="#during_stay" onClick={() => trackStage("during_stay")}>I am in the hospital now <ArrowRight className="h-4 w-4" /></a>
@@ -128,7 +177,7 @@ const HospitalPatientGuidePage = () => (
           <SectionHeading
             eyebrow="Start with the explanation"
             title="Two common bedside questions, answered carefully"
-            description="These new guides explain common hospital practice without making a patient-specific treatment recommendation."
+            description="These guides combine privacy-minimized bedside perspective with current authoritative sources without making a patient-specific treatment recommendation."
           />
           <div className="mt-7 grid gap-5 lg:grid-cols-2">
             {featuredResources.map((resource) => (
@@ -148,6 +197,40 @@ const HospitalPatientGuidePage = () => (
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="container py-12 md:py-16" aria-labelledby="rn-insights-heading">
+        <SectionHeading
+          centered
+          eyebrow="From the bedside"
+          title="Four system truths families often learn too late"
+          description="These privacy-minimized RN lessons explain where communication, documentation, participation, and follow-up change the practical outcome. They are prompts for better questions, not patient-specific conclusions."
+        />
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {rnInsights.map((insight) => {
+            const Icon = stageIcons[insight.stageId];
+            return (
+              <article key={insight.id} className="rounded-3xl border border-border bg-card p-6 shadow-card">
+                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-primary">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary-soft"><Icon className="h-5 w-5" aria-hidden="true" /></span>
+                  RN bedside lesson
+                </div>
+                <h2 className="mt-5 font-display text-2xl font-bold tracking-tight text-foreground">{insight.title}</h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">{insight.body}</p>
+                <div className="mt-4 rounded-2xl border border-primary/20 bg-primary-soft/25 p-4 text-sm font-semibold leading-relaxed text-foreground">
+                  {insight.question}
+                </div>
+                <Link
+                  to={insight.route}
+                  onClick={() => trackResource(insight.stageId, insight.id, insight.route)}
+                  className="mt-5 inline-flex items-center gap-2 rounded font-bold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {insight.cta} <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -263,7 +346,7 @@ const HospitalPatientGuidePage = () => (
             <div>
               <h2 className="font-display text-2xl font-bold">Nurse-led education, not a substitute for the bedside team</h2>
               <p className="mt-3 max-w-4xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                Written by Andrew Ciccarelli, BSN, RN, using bedside questions as topic inputs and current authoritative sources for factual claims. No physician or independent credentialed medical review is claimed for this release. Hospital policy, clinical judgment, payer rules, and patient circumstances can differ.
+                Written by Andrew Ciccarelli, BSN, RN, using privacy-minimized bedside and discharge patterns to identify the questions families most often need. Current authoritative sources support factual claims. No physician or independent credentialed medical review is claimed for this release. Hospital policy, clinical judgment, payer rules, and patient circumstances can differ.
               </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <Button asChild variant="soft"><Link to="/methodology"><BookOpenCheck className="h-4 w-4" /> Review the editorial method</Link></Button>

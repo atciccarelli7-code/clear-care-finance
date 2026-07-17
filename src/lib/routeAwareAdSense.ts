@@ -47,7 +47,6 @@ export const ensureAdSenseScript = (documentObject: Document = document) => {
   script.async = true;
   script.src = ADSENSE_SCRIPT_SRC;
   script.crossOrigin = "anonymous";
-  script.dataset.cafManaged = "true";
   documentObject.head.appendChild(script);
   return script;
 };

@@ -39,6 +39,7 @@ const DischargeReadinessSystem = () => {
     <section id="discharge-readiness" className="scroll-mt-24 border-y border-border/70 bg-muted/20" aria-labelledby="discharge-readiness-heading">
       <div className="container py-12 md:py-16">
         <SectionHeading
+          id="discharge-readiness-heading"
           centered
           eyebrow="Discharge readiness system"
           title="Find the nonmedical barriers before they become a last-minute delay"
@@ -145,6 +146,7 @@ const DischargeReadinessSystem = () => {
 
         <div className="mt-14" aria-labelledby="family-questions-heading">
           <SectionHeading
+            id="family-questions-heading"
             centered
             eyebrow="Family question checklist"
             title="Twelve questions to carry through the hospital stay"
@@ -173,6 +175,7 @@ const DischargeReadinessSystem = () => {
 
         <div className="mt-14" aria-labelledby="care-team-map-heading">
           <SectionHeading
+            id="care-team-map-heading"
             centered
             eyebrow="Who usually handles what?"
             title="The discharge plan is shared, but responsibility is not interchangeable"

@@ -88,6 +88,7 @@ describe("route-aware AdSense guard", () => {
     expect(script).not.toBeNull();
     expect(script).toHaveAttribute("src", ADSENSE_SCRIPT_SRC);
     expect(script).toHaveAttribute("crossorigin", "anonymous");
+    expect(script).not.toHaveAttribute("data-caf-managed");
     expect(document.querySelectorAll(`#${ADSENSE_SCRIPT_ID}`)).toHaveLength(1);
   });
 

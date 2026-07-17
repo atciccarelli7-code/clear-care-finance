@@ -15,6 +15,12 @@ export type DischargeBarrier = {
   teams: string[];
 };
 
+export type RnDischargePrinciple = {
+  id: string;
+  title: string;
+  description: string;
+};
+
 export type FamilyQuestionGroup = {
   id: string;
   title: string;
@@ -38,7 +44,7 @@ export const DISCHARGE_BARRIER_CATEGORIES = [
   {
     id: "coverage_authorization",
     title: "Coverage and authorization",
-    description: "A recommendation from the care team does not automatically mean the payer has approved the next level of care.",
+    description: "A recommendation from the care team does not automatically mean the payer has approved or funded the next level of care.",
   },
   {
     id: "equipment_medications",
@@ -52,15 +58,36 @@ export const DISCHARGE_BARRIER_CATEGORIES = [
   },
   {
     id: "caregiver_home_safety",
-    title: "Caregiver support and home safety",
-    description: "A patient can be medically ready to leave while the proposed home plan is still unrealistic or unsafe.",
+    title: "Caregiver support, function, and home safety",
+    description: "A patient can be medically ready to leave while the proposed home plan is still unrealistic, unsafe, or becoming harder as function declines.",
   },
   {
     id: "placement_capacity",
     title: "Facility and service availability",
-    description: "Facilities and agencies make their own acceptance decisions based on capacity, network, clinical needs, documentation, and available staffing.",
+    description: "Facilities and agencies make their own acceptance decisions based on capacity, network, clinical needs, documentation, funding, and available staffing.",
   },
 ] as const;
+
+export const RN_DISCHARGE_PRINCIPLES: RnDischargePrinciple[] = [
+  {
+    id: "identify_barriers_early",
+    title: "Identify the destination and payment barriers early",
+    description:
+      "Insurance, long-term care funding, caregiver capacity, and likely placement should be reviewed near the beginning of the stay. Finding the barrier late leaves less time to protect function or build a realistic alternative.",
+  },
+  {
+    id: "protect_function_while_waiting",
+    title: "Protect function while logistics catch up",
+    description:
+      "A medically stable patient can still lose mobility and independence while waiting. The team should document baseline function and set safe daily mobility, therapy, self-care, and caregiver-training goals.",
+  },
+  {
+    id: "separate_recommendation_coverage_acceptance",
+    title: "Separate recommendation, coverage, and acceptance",
+    description:
+      "Therapy may recommend a setting, an insurer may decide whether it is covered, and a facility may independently decide whether it can accept the patient. None of those steps guarantees the others.",
+  },
+];
 
 export const DISCHARGE_READINESS_BARRIERS: DischargeBarrier[] = [
   {
@@ -86,6 +113,16 @@ export const DISCHARGE_READINESS_BARRIERS: DischargeBarrier[] = [
     whyItMatters: "Rehabilitation, skilled nursing, home services, equipment, or transportation may require payer review before the receiving organization can proceed.",
     question: "What service is awaiting authorization, when was the complete request submitted, and who is following up today?",
     teams: ["Case management", "Provider team", "Payer", "Receiving organization"],
+  },
+  {
+    id: "long_term_care_funding_not_ready",
+    categoryId: "coverage_authorization",
+    title: "The long-term care payment path is not established",
+    whyItMatters:
+      "Medicare coverage for acute or limited skilled care does not automatically fund ongoing custodial care. A facility may not accept a referral until Medicaid, private-pay, or another payment source is confirmed.",
+    question:
+      "Does the patient need short-term skilled rehabilitation or ongoing custodial care, what payment source is being pursued, and what safe interim plan exists while eligibility or placement is pending?",
+    teams: ["Case management", "Social work", "Payer or state Medicaid agency", "Receiving facility", "Patient or caregiver"],
   },
   {
     id: "dme_order_incomplete",
@@ -128,6 +165,16 @@ export const DISCHARGE_READINESS_BARRIERS: DischargeBarrier[] = [
     teams: ["Patient and caregiver", "Nursing", "Therapy", "Case management"],
   },
   {
+    id: "functional_decline_during_delay",
+    categoryId: "caregiver_home_safety",
+    title: "Function is declining while discharge is delayed",
+    whyItMatters:
+      "A medically ready patient can lose mobility and independence while waiting. A person who previously needed limited help may become much harder for family or a receiving setting to support safely.",
+    question:
+      "What was the patient's baseline function, what can they safely do today, and what daily mobility, therapy, self-care, and caregiver-training plan is being used to prevent avoidable decline?",
+    teams: ["Nursing", "Physical therapy", "Occupational therapy", "Provider team", "Patient or caregiver"],
+  },
+  {
     id: "unsafe_without_covered_services",
     categoryId: "caregiver_home_safety",
     title: "The patient does not qualify for the requested service but may not be safe alone",
@@ -139,7 +186,7 @@ export const DISCHARGE_READINESS_BARRIERS: DischargeBarrier[] = [
     id: "no_accepting_facility",
     categoryId: "placement_capacity",
     title: "No facility or agency has accepted the referral",
-    whyItMatters: "A referral can be declined because of bed or staffing capacity, network status, care complexity, medication cost, equipment needs, documentation, geography, or other admission criteria.",
+    whyItMatters: "A referral can be declined because of bed or staffing capacity, network status, care complexity, medication cost, equipment needs, documentation, funding, geography, or other admission criteria.",
     question: "Which organizations were contacted, why did each decline or remain pending, and how is the search or backup plan changing?",
     teams: ["Case management", "Receiving facilities or agencies", "Payer", "Provider team"],
   },
@@ -211,14 +258,14 @@ export const CARE_TEAM_RESPONSIBILITY_MAP: CareTeamResponsibility[] = [
   {
     id: "therapy",
     role: "Physical and occupational therapy",
-    usuallyHandles: "Assessment of mobility, transfers, daily activities, equipment needs, caregiver training needs, and recommendations about the safest functional setting.",
+    usuallyHandles: "Assessment of baseline and current mobility, transfers, daily activities, equipment needs, caregiver training needs, and recommendations about the safest functional setting.",
     importantLimit: "A therapy recommendation supports planning but does not itself guarantee payer approval, facility acceptance, or service availability.",
   },
   {
     id: "case_management_social_work",
     role: "Case management and social work",
-    usuallyHandles: "Referrals, placement searches, authorization coordination, transportation and resource planning, and communication with payers, facilities, agencies, and families.",
-    importantLimit: "They coordinate the process but cannot force an insurer, facility, agency, shelter, supplier, or caregiver to approve or accept the plan.",
+    usuallyHandles: "Referrals, placement searches, authorization coordination, transportation and resource planning, and communication with payers, facilities, agencies, state programs, and families.",
+    importantLimit: "They coordinate the process but cannot force an insurer, state program, facility, agency, shelter, supplier, or caregiver to approve or accept the plan.",
   },
   {
     id: "pharmacy",
@@ -235,7 +282,7 @@ export const CARE_TEAM_RESPONSIBILITY_MAP: CareTeamResponsibility[] = [
   {
     id: "receiving_organization",
     role: "Facility, home-health agency, or equipment supplier",
-    usuallyHandles: "Its own referral review, capacity and staffing decision, network participation, admission or delivery requirements, and the services it can actually provide.",
+    usuallyHandles: "Its own referral review, capacity and staffing decision, network participation, payment requirements, admission or delivery requirements, and the services it can actually provide.",
     importantLimit: "A hospital referral is a request, not proof that the organization has accepted the patient or scheduled the service.",
   },
   {

@@ -12,10 +12,18 @@ await fs.rm(outputDir, { recursive: true, force: true });
 await fs.mkdir(outputDir, { recursive: true });
 const report = [];
 
+async function dismissConsent(page) {
+  const necessaryOnly = page.getByRole("button", { name: "Necessary only" });
+  if (await necessaryOnly.count()) {
+    await necessaryOnly.first().click();
+    await page.waitForTimeout(250);
+  }
+}
+
 async function captureViewport(page, locator, path) {
   await locator.first().scrollIntoViewIfNeeded();
   await page.waitForTimeout(250);
-  await page.screenshot({ path, type: "jpeg", quality: 72 });
+  await page.screenshot({ path, type: "jpeg", quality: 76 });
 }
 
 for (const scenario of scenarios) {
@@ -28,6 +36,7 @@ for (const scenario of scenarios) {
   const page = await context.newPage();
   const consoleMessages = [];
   const pageErrors = [];
+  const failedResponses = [];
 
   page.on("console", (message) => {
     if (["error", "warning"].includes(message.type())) {
@@ -35,16 +44,22 @@ for (const scenario of scenarios) {
     }
   });
   page.on("pageerror", (error) => pageErrors.push(error.message));
+  page.on("response", (response) => {
+    if (response.status() >= 400) {
+      failedResponses.push({ status: response.status(), url: response.url() });
+    }
+  });
 
   const guideResponse = await page.goto(`${baseUrl}/patients-families/hospital-guide`, {
     waitUntil: "networkidle",
   });
+  await dismissConsent(page);
   const guideTitle = await page.title();
 
   await page.screenshot({
     path: `${outputDir}/${scenario.name}-guide-full.jpg`,
     type: "jpeg",
-    quality: 48,
+    quality: 52,
     fullPage: true,
   });
 
@@ -52,6 +67,7 @@ for (const scenario of scenarios) {
     "Identify the destination and payment barriers early",
     { exact: true },
   );
+  const rnPrinciplesVisible = (await firstPrinciple.count()) === 1;
   await captureViewport(
     page,
     firstPrinciple,
@@ -69,7 +85,7 @@ for (const scenario of scenarios) {
   );
 
   const barrierTitles = [
-    "The long-term-care payment path is not established",
+    "The long-term care payment path is not established",
     "Function is declining while discharge is delayed",
   ];
 
@@ -99,6 +115,9 @@ for (const scenario of scenarios) {
       .map((image) => image.src),
   );
 
+  const guideFailedResponses = [...failedResponses];
+  failedResponses.length = 0;
+
   const articleResponse = await page.goto(
     `${baseUrl}/articles/from-the-bedside-long-term-care-medicaid-hospital-delay`,
     { waitUntil: "networkidle" },
@@ -108,7 +127,7 @@ for (const scenario of scenarios) {
   await page.screenshot({
     path: `${outputDir}/${scenario.name}-article-full.jpg`,
     type: "jpeg",
-    quality: 48,
+    quality: 52,
     fullPage: true,
   });
 
@@ -146,7 +165,7 @@ for (const scenario of scenarios) {
     viewport: scenario.viewport,
     guideStatus: guideResponse?.status(),
     guideTitle,
-    rnPrinciplesVisible: (await firstPrinciple.count()) === 1,
+    rnPrinciplesVisible,
     barrierCounts,
     questionListUpdated:
       guideText.includes("2 possible barriers to resolve") &&
@@ -154,6 +173,7 @@ for (const scenario of scenarios) {
       guideText.includes("What was the patient's baseline function"),
     guideOverflow,
     guideBrokenImages,
+    guideFailedResponses,
     articleStatus: articleResponse?.status(),
     articlePageTitle,
     articleIncludesFunctionalDecline: articleText.toLowerCase().includes("functional decline"),
@@ -161,6 +181,7 @@ for (const scenario of scenarios) {
     articleIncludesCaregiverTraining: articleText.toLowerCase().includes("caregiver training"),
     articleOverflow,
     articleBrokenImages,
+    articleFailedResponses: [...failedResponses],
     consoleMessages,
     pageErrors,
   });

@@ -15,7 +15,7 @@ export const EditorialTransparency = ({ author = AUTHOR_NAME, reviewer }: Editor
         <div>
           <div className="font-semibold text-foreground">Written by</div>
           <Link to="/about" className="font-medium text-primary underline-offset-4 hover:underline">{author}</Link>
-          <p className="mt-1 text-xs">Bedside-nursing perspective and plain-English education; not financial-planner, attorney, tax-preparer, insurer, or benefits-administrator credentials.</p>
+          <p className="mt-1 text-xs">RN perspective shaped by bedside, charge, and admissions-discharge-transfer work; not financial-planner, attorney, tax-preparer, insurer, or benefits-administrator credentials.</p>
         </div>
       </div>
       <div className="flex items-start gap-2.5">

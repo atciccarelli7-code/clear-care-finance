@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CheckCircle2, Shield } from "lucide-react";
+import { CheckCircle2, Shield, Stethoscope } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { CalculatorCard } from "@/components/shared/CalculatorCard";
 import { SourceList } from "@/components/shared/SourceList";
@@ -38,6 +38,24 @@ const OutOfPocketMaxEstimatorPage = () => {
       </PageHero>
 
       <div className="container space-y-16 py-12 md:py-16">
+        <section className="rounded-[2rem] border border-primary/20 bg-card p-5 shadow-card md:p-8" aria-labelledby="rn-cost-sharing-lesson">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+              <Stethoscope className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Why this calculator exists</div>
+              <h2 id="rn-cost-sharing-lesson" className="mt-2 font-display text-2xl font-bold tracking-tight">A monthly price does not always explain the full plan-year cost.</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                In a de-identified bedside experience, a patient was rationing important medication because the immediate price looked unaffordable. Reviewing the coverage raised a different set of questions: Was the drug covered, did its cost count toward the applicable out-of-pocket limit, how much had already accumulated, and was assistance available? This estimator helps organize that math. It does not confirm drug coverage or tell anyone to change, delay, or skip a medication.
+              </p>
+              <p className="mt-3 text-sm font-medium text-foreground">
+                Verify the formulary, pharmacy network, accumulator, and assistance options with the plan, pharmacist, and prescriber before acting.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <CalculatorCard
           icon={Shield}
           eyebrow="Estimate, then verify"

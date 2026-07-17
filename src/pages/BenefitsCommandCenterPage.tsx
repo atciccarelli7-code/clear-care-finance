@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BriefcaseBusiness, FileCheck2, LockKeyhole, ReceiptText, ShieldCheck } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, FileCheck2, PlayCircle, ReceiptText, Scale, ShieldCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
@@ -44,47 +44,67 @@ const BenefitsCommandCenterPage = () => (
       >
         <Button asChild size="lg">
           <Link
-            to={{ pathname: "/tools/benefits-command-center", hash: "#benefits-command-center-workspace" }}
+            to="/tools/benefits-command-center?mode=build#benefits-command-center-workspace"
             state={{ activation: "start_own", entrySurface: "command_center" }}
           >
             Build my package <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>
         <Button asChild size="lg" variant="outline">
-          <Link
-            to={{ pathname: "/tools/benefits-command-center", hash: "#benefits-command-center-workspace" }}
-            state={{ activation: "sample_receipt", entrySurface: "command_center" }}
-          >
-            Explore a sample Receipt
-          </Link>
+          <a href="#entry-modes">See all starting modes</a>
         </Button>
       </PageHero>
 
-      <section className="container min-w-0 py-10 md:py-14">
-        <div className="grid gap-4 md:grid-cols-3">
+      <section id="entry-modes" className="container min-w-0 scroll-mt-24 py-10 md:py-14" aria-labelledby="entry-modes-title">
+        <div className="mb-6 max-w-3xl">
+          <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Choose how to begin</div>
+          <h2 id="entry-modes-title" className="mt-2 font-display text-2xl font-bold md:text-3xl">Four distinct starting points—no blank detour.</h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Mode names are fixed and URL-safe. Package values and answers never enter the URL.</p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {[
             {
-              icon: ReceiptText,
-              title: "Benefits Receipt",
-              body: "Separate guaranteed cash, expected variable pay, employer contributions, employee costs, unvested value, estimates, and qualitative benefits.",
-            },
-            {
               icon: BriefcaseBusiness,
-              title: "Offer and enrollment comparison",
-              body: "Compare current work with a new offer or model multiple health plans without reducing the decision to salary alone.",
+              title: "Build my own package",
+              body: "Open a fresh local workspace in creation mode.",
+              href: "/tools/benefits-command-center?mode=build#benefits-command-center-workspace",
+              state: "start_own",
             },
             {
-              icon: LockKeyhole,
-              title: "Private local workspace",
-              body: "Packages remain in this browser. No account, bank connection, payroll connection, document upload, or server-side profile is required.",
+              icon: ReceiptText,
+              title: "Explore a sample Benefits Receipt",
+              body: "Open the fictional package and its completed Receipt.",
+              href: "/tools/benefits-command-center?mode=sample-receipt#benefits-command-center-workspace",
+              state: "sample_receipt",
             },
-          ].map(({ icon: Icon, title, body }) => (
-            <div key={title} className="rounded-2xl border border-border bg-card p-5 shadow-card">
+            {
+              icon: Scale,
+              title: "Compare two sample jobs",
+              body: "Open the fictional bedside and clinical-role comparison.",
+              href: "/tools/benefits-command-center?mode=compare-samples#benefits-command-center-workspace",
+              state: "sample_comparison",
+            },
+            {
+              icon: PlayCircle,
+              title: "Take the guided tour",
+              body: "Start the product tour at step one before entering data.",
+              href: "/tools/benefits-command-center?mode=tour#benefits-command-center-workspace",
+              state: "tour",
+            },
+          ].map(({ icon: Icon, title, body, href, state }) => (
+            <Link key={title} to={href} state={{ activation: state, entrySurface: "command_center" }} className="rounded-2xl border border-border bg-card p-5 shadow-card transition hover:border-primary/35 hover:shadow-hover">
               <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
-              <h2 className="mt-3 font-display text-lg font-bold">{title}</h2>
+              <h3 className="mt-3 font-display text-lg font-bold">{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
-            </div>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary">Open mode <ArrowRight className="h-4 w-4" /></span>
+            </Link>
           ))}
+        </div>
+        <div className="mt-6 grid gap-3 rounded-2xl border border-border bg-muted/20 p-5 text-sm leading-relaxed text-muted-foreground md:grid-cols-2">
+          <p><strong className="text-foreground">Have nearby:</strong> a written offer or compensation statement, benefits rates, an SBC, retirement match and vesting terms, and leave policies. Use broad estimates when documents are unavailable.</p>
+          <p><strong className="text-foreground">Do not enter:</strong> employer or plan names, account or member IDs, diagnoses, claims, documents, or other identifying details. Dollar estimates stay in this browser and can be cleared from the workspace.</p>
+          <p><strong className="text-foreground">Calculated:</strong> entered cash, selected employee costs, health-plan scenarios, retirement contributions, and reasonable known values.</p>
+          <p><strong className="text-foreground">Kept qualitative:</strong> schedule, flexibility, career trajectory, protection, family support, uncertainty, and anything not verified.</p>
         </div>
       </section>
     </div>
@@ -151,6 +171,27 @@ const BenefitsCommandCenterPage = () => (
                 <li>• Exact take-home pay or individualized insurance needs</li>
                 <li>• Future bonuses, overtime availability, or employer policy changes</li>
               </ul>
+            </div>
+          </div>
+
+          <div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Use the right level of detail</div>
+            <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">The Command Center integrates the decision; focused tools still do one job faster.</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {[
+                ["Benefits Blueprint", "Set a goal-first action order before collecting plan numbers.", "/tools/healthcare-worker-benefits-blueprint"],
+                ["Employer Benefits Action Plan", "Create a short post-offer or annual-review checklist.", "/tools/employer-benefits-action-plan"],
+                ["Benefits Change Detector", "Find what changed between two enrollment years.", "/tools/benefits-change-detector"],
+                ["Open Enrollment True Cost", "Compare health-plan premiums and care-cost exposure quickly.", "/tools/open-enrollment-true-cost-calculator"],
+                ["403(b) Paycheck Calculator", "Translate one contribution choice into paycheck and annual amounts.", "/tools/403b-paycheck-calculator"],
+                ["Total Compensation Comparison", "Run a fast two-job comparison before building full packages.", "/tools/healthcare-worker-total-compensation-comparison"],
+              ].map(([title, body, href]) => (
+                <Link key={href} to={href} className="rounded-2xl border border-border bg-card p-5 transition hover:border-primary/35 hover:shadow-card">
+                  <h3 className="font-display text-lg font-bold">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
+                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary">Open focused tool <ArrowRight className="h-4 w-4" /></span>
+                </Link>
+              ))}
             </div>
           </div>
 

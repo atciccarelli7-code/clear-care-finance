@@ -1,10 +1,33 @@
 import { trackSiteEvent } from "@/lib/analytics";
 
 export const GROWTH_EVENT_NAMES = [
+  "home_primary_cta_clicked",
+  "home_secondary_cta_clicked",
   "concierge_viewed",
   "concierge_started",
+  "concierge_category_selected",
   "concierge_completed",
   "concierge_destination_opened",
+  "flagship_journey_opened",
+  "bcc_landing_viewed",
+  "bcc_mode_selected",
+  "bcc_tour_started",
+  "bcc_package_started",
+  "bcc_section_completed",
+  "bcc_receipt_generated",
+  "bcc_comparison_generated",
+  "bcc_print_clicked",
+  "bcc_local_data_cleared",
+  "cost_prep_started",
+  "cost_prep_completed",
+  "prior_auth_guide_started",
+  "bill_review_started",
+  "bill_review_completed",
+  "official_source_opened",
+  "coverage_check_started",
+  "coverage_check_completed",
+  "discharge_checklist_started",
+  "official_program_resource_opened",
   "acquisition_tool_cta_selected",
   "article_to_tool_clicked",
   "article_to_related_article_clicked",
@@ -27,6 +50,11 @@ export const GROWTH_EVENT_NAMES = [
   "flagship_tool_result_action",
   "flagship_tool_handoff_opened",
   "organization_page_viewed",
+  "organization_program_opened",
+  "organization_brief_started",
+  "organization_brief_completed",
+  "organization_contact_opened",
+  "organization_trust_page_opened",
   "organization_pilot_details_viewed",
   "organization_demo_opened",
   "organization_contact_selected",
@@ -39,7 +67,7 @@ export const GROWTH_EVENT_NAMES = [
 ] as const;
 
 export type GrowthEventName = (typeof GROWTH_EVENT_NAMES)[number];
-export type GrowthEntrySurface = "home" | "start_here" | "tools" | "acquisition_article" | "article" | "hub" | "detector" | "receipt" | "organization";
+export type GrowthEntrySurface = "home" | "start_here" | "tools" | "acquisition_article" | "article" | "hub" | "detector" | "receipt" | "organization" | "command_center" | "healthcare_cost" | "medicare";
 export type GrowthCompletionBand = "started" | "partial" | "complete";
 export type GrowthReceiptAction = "view" | "copy" | "print" | "calendar" | "share" | "reset" | "delete";
 export type GrowthCtaType = "pilot_inquiry" | "pilot_scope" | "program_review" | "procurement_inquiry";

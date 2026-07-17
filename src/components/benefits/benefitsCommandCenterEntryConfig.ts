@@ -8,14 +8,6 @@ export interface BenefitsCommandCenterEntryConfig {
 }
 
 export const BENEFITS_COMMAND_CENTER_ENTRY_ROUTES: Record<string, BenefitsCommandCenterEntryConfig> = {
-  "/": {
-    eyebrow: "Flagship workplace-finance product",
-    title: "Know what your job is actually worth",
-    description: "Combine pay, health plans, employer retirement money, PTO, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs in one private decision workspace.",
-    buttonLabel: "Build my package",
-    sampleButtonLabel: "Explore a sample Receipt",
-    entrySurface: "homepage",
-  },
   "/start-here": {
     eyebrow: "Deep workplace-finance workspace",
     title: "Turn the Navigator plan into a complete Benefits Receipt",

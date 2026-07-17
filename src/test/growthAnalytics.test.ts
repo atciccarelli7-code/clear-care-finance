@@ -126,4 +126,39 @@ describe("privacy-safe growth analytics", () => {
       properties: { tool_id: "medicare_medicaid_eligibility", step_id: "results" },
     });
   });
+
+  it("measures consolidation journeys while stripping values, answers, and identities", () => {
+    expect(sanitizeGrowthEvent("bcc_receipt_generated", {
+      entry_surface: "command_center",
+      action_id: "receipt",
+      annual_pay: "92000",
+      package_label: "My hospital offer",
+      plan_name: "Example PPO",
+    })).toEqual({
+      name: "bcc_receipt_generated",
+      properties: { entry_surface: "command_center", action_id: "receipt" },
+    });
+
+    expect(sanitizeGrowthEvent("coverage_check_completed", {
+      entry_surface: "medicare",
+      action_id: "starting_point",
+      income: "1450",
+      household_size: "2",
+      diagnosis: "esrd",
+    })).toEqual({
+      name: "coverage_check_completed",
+      properties: { entry_surface: "medicare", action_id: "starting_point" },
+    });
+
+    expect(sanitizeGrowthEvent("organization_brief_completed", {
+      entry_surface: "organization",
+      action_id: "program_brief",
+      organization_name: "Example Health System",
+      buyer_email: "buyer@example.com",
+      planning_answer: "launch in thirty days",
+    })).toEqual({
+      name: "organization_brief_completed",
+      properties: { entry_surface: "organization", action_id: "program_brief" },
+    });
+  });
 });

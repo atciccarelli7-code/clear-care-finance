@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { trackSiteEvent } from "@/lib/analytics";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 import {
   buildPriorAuthorizationPlan,
   type PriorAuthorizationAnswers,
@@ -242,6 +243,7 @@ export default function PriorAuthorizationNextStepGuidePage() {
     if (!started.current) {
       started.current = true;
       trackSiteEvent("tool_start", { event_category: "tools", tool_id: TOOL_ID, tool_label: "Prior Authorization Next-Step Guide" });
+      trackGrowthEvent("prior_auth_guide_started", { entry_surface: "healthcare_cost", action_id: "guided_questions" });
     }
 
     setAnswers((current) => {

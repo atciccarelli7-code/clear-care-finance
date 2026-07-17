@@ -253,8 +253,28 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Contact Community Acquired Finance with feedback, corrections, topic suggestions, partnership questions, or accessibility concerns.",
   },
   "/for-organizations": {
+    title: "Healthcare Financial Education for Organizations",
+    description: "Evaluate privacy-minimized healthcare financial education programs for workforce benefits, patient costs, Medicare and discharge, healthcare careers, and broad navigation.",
+  },
+  "/for-organizations/programs": {
     title: "Healthcare Financial Education Programs for Organizations",
-    description: "Build a privacy-minimized healthcare financial education program for employees, patients, caregivers, members, or students using live decision tools, implementation plans, measurement boundaries, and procurement-ready safeguards.",
+    description: "Evaluate five live program pathways for workforce benefits, patient costs, Medicare and discharge, career decisions, and broad healthcare finance navigation.",
+  },
+  "/for-organizations/implementation": {
+    title: "Organization Program Implementation",
+    description: "Review the accountable five-gate implementation model for a privacy-minimized Community Acquired Finance organization program.",
+  },
+  "/for-organizations/measurement": {
+    title: "Organization Program Measurement",
+    description: "Define reach, consented engagement, usefulness, operations, and honest outcome boundaries for a Community Acquired Finance program.",
+  },
+  "/for-organizations/trust-procurement": {
+    title: "Organization Trust and Procurement",
+    description: "Review current capabilities, scoped-review items, services not offered, privacy boundaries, and procurement questions for Community Acquired Finance.",
+  },
+  "/for-organizations/faq": {
+    title: "Organization Buyer FAQ",
+    description: "Review buyer answers about product scope, privacy, data, certifications, outcomes, customization, pricing, reporting, and support.",
   },
   "/methodology": {
     title: "Research and Editorial Methodology",

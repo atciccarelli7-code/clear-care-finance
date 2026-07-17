@@ -32,7 +32,7 @@ export const BenefitsCommandCenterEntry = () => {
           <div className="flex flex-col gap-2 sm:flex-row lg:min-w-64 lg:flex-col">
             <Button asChild size="lg">
               <Link
-                to="/tools/benefits-command-center"
+                to="/tools/benefits-command-center?mode=build#benefits-command-center-workspace"
                 state={{ activation: "start_own", entrySurface: config.entrySurface }}
                 onClick={() => trackSiteEvent("benefits_command_center_entry_opened", {
                   event_category: "tools",
@@ -47,7 +47,7 @@ export const BenefitsCommandCenterEntry = () => {
             {config.sampleButtonLabel && (
               <Button asChild size="lg" variant="outline">
                 <Link
-                  to="/tools/benefits-command-center"
+                  to={`/tools/benefits-command-center?mode=${sampleActivation === "sample_comparison" ? "compare-samples" : "sample-receipt"}#benefits-command-center-workspace`}
                   state={{ activation: sampleActivation, entrySurface: config.entrySurface }}
                   onClick={() => trackSiteEvent(
                     sampleActivation === "sample_comparison" ? "benefits_command_center_sample_comparison_open" : "benefits_command_center_sample_open",

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AlertTriangle, ArrowRight, CheckCircle2, ClipboardCheck, Copy, FileSearch, FileText, HelpCircle, Phone, Printer, Receipt, ShieldCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSeo } from "@/lib/seo";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
 type DocumentType = "provider-bill" | "eob" | "msn" | "collection" | "not-sure";
 type Sender = "hospital" | "physician-group" | "lab" | "imaging" | "ambulance" | "facility-other" | "not-sure";
@@ -257,6 +258,22 @@ const MedicalBillReviewFlowPage = () => {
   const [affordability, setAffordability] = useState<Affordability>("not-sure");
   const [pressure, setPressure] = useState<Pressure>("not-sure");
   const [copied, setCopied] = useState(false);
+  const startedRef = useRef(false);
+  const completedRef = useRef(false);
+
+  const updateReview = <T,>(setter: (value: T) => void, value: T) => {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      trackGrowthEvent("bill_review_started", { entry_surface: "healthcare_cost", action_id: "fixed_questions" });
+    }
+    setter(value);
+  };
+
+  const markCompleted = () => {
+    if (completedRef.current) return;
+    completedRef.current = true;
+    trackGrowthEvent("bill_review_completed", { entry_surface: "healthcare_cost", action_id: "review_checklist" });
+  };
 
   useSeo({
     title: "Medical Bill Review Flow",
@@ -317,6 +334,7 @@ const MedicalBillReviewFlowPage = () => {
   }, [result]);
 
   const copyResults = async () => {
+    markCompleted();
     try {
       await navigator.clipboard.writeText(resultText);
       setCopied(true);
@@ -352,11 +370,11 @@ const MedicalBillReviewFlowPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <QuestionGroup title="1. What do you have?" options={documentOptions} value={documentType} onChange={setDocumentType} />
-              <QuestionGroup title="2. Who sent the bill?" options={senderOptions} value={sender} onChange={setSender} />
-              <QuestionGroup title="3. Does the amount match the EOB/MSN?" options={matchOptions} value={matchStatus} onChange={setMatchStatus} />
-              <QuestionGroup title="4. Is the bill unaffordable?" options={affordabilityOptions} value={affordability} onChange={setAffordability} />
-              <QuestionGroup title="5. Are you being pressured to pay now?" options={pressureOptions} value={pressure} onChange={setPressure} />
+              <QuestionGroup title="1. What do you have?" options={documentOptions} value={documentType} onChange={(value) => updateReview(setDocumentType, value)} />
+              <QuestionGroup title="2. Who sent the bill?" options={senderOptions} value={sender} onChange={(value) => updateReview(setSender, value)} />
+              <QuestionGroup title="3. Does the amount match the EOB/MSN?" options={matchOptions} value={matchStatus} onChange={(value) => updateReview(setMatchStatus, value)} />
+              <QuestionGroup title="4. Is the bill unaffordable?" options={affordabilityOptions} value={affordability} onChange={(value) => updateReview(setAffordability, value)} />
+              <QuestionGroup title="5. Are you being pressured to pay now?" options={pressureOptions} value={pressure} onChange={(value) => updateReview(setPressure, value)} />
             </CardContent>
           </Card>
 
@@ -394,7 +412,7 @@ const MedicalBillReviewFlowPage = () => {
                   <Copy className="h-4 w-4" />
                   {copied ? "Copied" : "Copy review flow"}
                 </Button>
-                <Button type="button" variant="outline" onClick={() => window.print()}>
+                <Button type="button" variant="outline" onClick={() => { markCompleted(); window.print(); }}>
                   <Printer className="h-4 w-4" />
                   Print review flow
                 </Button>

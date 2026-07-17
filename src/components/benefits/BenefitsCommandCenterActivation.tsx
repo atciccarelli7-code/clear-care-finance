@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackSiteEvent } from "@/lib/analytics";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 import {
   clearBenefitsWorkspace,
   HIDDEN_BENEFIT_LABELS,
@@ -245,7 +246,10 @@ const BenefitsCommandCenterActivation = () => {
   const location = useLocation();
   const locationState = (location.state ?? null) as ActivationLocationState | null;
   const initialWorkspaceRef = useRef(loadBenefitsWorkspace());
-  const [showWorkspace, setShowWorkspace] = useState(() => !isBenefitsWorkspacePristine(initialWorkspaceRef.current));
+  // Keep the first client render identical to the prerendered activation surface.
+  // Saved work is restored after hydration so local browser state cannot cause a
+  // production hydration mismatch.
+  const [showWorkspace, setShowWorkspace] = useState(false);
   const [previewMode, setPreviewMode] = useState<PreviewMode>(null);
   const [workspaceKey, setWorkspaceKey] = useState(0);
   const [tourOpen, setTourOpen] = useState(false);
@@ -257,6 +261,7 @@ const BenefitsCommandCenterActivation = () => {
     if (viewedRef.current) return;
     viewedRef.current = true;
     trackSiteEvent("benefits_command_center_view", buildBenefitsActivationEventProperties({ entrySurface, moduleId: "activation" }));
+    trackGrowthEvent("bcc_landing_viewed", { entry_surface: "command_center" });
   }, [entrySurface]);
 
   const openSample = (path: Exclude<BenefitsActivationPath, "start_own">) => {
@@ -268,22 +273,15 @@ const BenefitsCommandCenterActivation = () => {
     }
     setPreviewMode(path);
     setShowWorkspace(false);
+    trackGrowthEvent("bcc_mode_selected", {
+      entry_surface: "command_center",
+      action_id: path === "sample_comparison" ? "compare_samples" : "sample_receipt",
+    });
     trackSiteEvent(
       path === "sample_comparison" ? "benefits_command_center_sample_comparison_open" : "benefits_command_center_sample_open",
       buildBenefitsActivationEventProperties({ entrySurface, activationPath: path, moduleId: path === "sample_comparison" ? "comparison" : "receipt", packageCount: path === "sample_comparison" ? 2 : 1 }),
     );
   };
-
-  useEffect(() => {
-    if (locationState?.activation === "sample_receipt" || locationState?.activation === "sample_comparison") {
-      openSample(locationState.activation);
-    } else if (locationState?.activation === "start_own") {
-      setShowWorkspace(true);
-      setPreviewMode(null);
-    }
-    // React Router state changes are represented by a new location key.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.key]);
 
   const startOwn = () => {
     const existing = loadBenefitsWorkspace();
@@ -293,6 +291,8 @@ const BenefitsCommandCenterActivation = () => {
     }
     setPreviewMode(null);
     setShowWorkspace(true);
+    trackGrowthEvent("bcc_mode_selected", { entry_surface: "command_center", action_id: "build" });
+    trackGrowthEvent("bcc_package_started", { entry_surface: "command_center", action_id: "package_a" });
     trackSiteEvent("benefits_command_center_start_own", buildBenefitsActivationEventProperties({ entrySurface, activationPath: "start_own", moduleId: "workspace", packageCount: 1 }));
   };
 
@@ -302,13 +302,41 @@ const BenefitsCommandCenterActivation = () => {
     setWorkspaceKey((current) => current + 1);
     setPreviewMode(null);
     setShowWorkspace(true);
+    trackGrowthEvent("bcc_mode_selected", { entry_surface: "command_center", action_id: "build" });
+    trackGrowthEvent("bcc_package_started", { entry_surface: "command_center", action_id: "package_a" });
     trackSiteEvent("benefits_command_center_start_own", buildBenefitsActivationEventProperties({ entrySurface, activationPath: "start_own", moduleId: "workspace", packageCount: 1 }));
   };
 
   const openTour = () => {
     setTourOpen(true);
+    trackGrowthEvent("bcc_mode_selected", { entry_surface: "command_center", action_id: "tour" });
+    trackGrowthEvent("bcc_tour_started", { entry_surface: "command_center", action_id: "step_1" });
     trackSiteEvent("benefits_command_center_tour_start", buildBenefitsActivationEventProperties({ entrySurface, moduleId: "tour" }));
   };
+
+  useEffect(() => {
+    const requestedMode = new URLSearchParams(location.search).get("mode");
+    if (requestedMode === "sample-receipt") {
+      openSample("sample_receipt");
+    } else if (requestedMode === "compare-samples") {
+      openSample("sample_comparison");
+    } else if (requestedMode === "build") {
+      startOwn();
+    } else if (requestedMode === "tour") {
+      setShowWorkspace(false);
+      setPreviewMode(null);
+      openTour();
+    } else if (locationState?.activation === "sample_receipt" || locationState?.activation === "sample_comparison") {
+      openSample(locationState.activation);
+    } else if (locationState?.activation === "start_own") {
+      startOwn();
+    } else if (!isBenefitsWorkspacePristine(initialWorkspaceRef.current)) {
+      setShowWorkspace(true);
+    }
+    // Location keys represent a new activation request. The handlers intentionally
+    // stay outside the dependency list so unrelated workspace state cannot replay it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.key, location.search]);
 
   const skipTour = () => {
     setTourStatus(saveBenefitsTourStatus("skipped"));

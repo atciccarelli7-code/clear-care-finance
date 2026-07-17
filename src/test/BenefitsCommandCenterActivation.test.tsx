@@ -15,9 +15,9 @@ import {
 
 vi.mock("@/lib/analytics", () => ({ trackSiteEvent: vi.fn(() => true) }));
 
-const renderActivation = (state?: Record<string, unknown>) =>
+const renderActivation = (state?: Record<string, unknown>, search = "") =>
   render(
-    <MemoryRouter initialEntries={[{ pathname: "/tools/benefits-command-center", state }]}>
+    <MemoryRouter initialEntries={[{ pathname: "/tools/benefits-command-center", search, state }]}>
       <BenefitsCommandCenterActivation />
     </MemoryRouter>,
   );
@@ -65,6 +65,23 @@ describe("BenefitsCommandCenterActivation", () => {
     fireEvent.click(screen.getByRole("button", { name: /build my own package/i }));
     expect(await screen.findByRole("heading", { name: /build the package behind the paycheck/i })).toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: /workspace modules/i })).toBeInTheDocument();
+  });
+
+  it("supports reload-safe fixed query modes for each landing action", async () => {
+    const sample = renderActivation(undefined, "?mode=sample-receipt");
+    expect(await screen.findByRole("article", { name: /illustrative sample benefits receipt/i })).toBeInTheDocument();
+    sample.unmount();
+
+    const comparison = renderActivation(undefined, "?mode=compare-samples");
+    expect(await screen.findByRole("heading", { name: /bedside rn versus clinical specialist/i })).toBeInTheDocument();
+    comparison.unmount();
+
+    const workspace = renderActivation(undefined, "?mode=build");
+    expect(await screen.findByRole("heading", { name: /build the package behind the paycheck/i })).toBeInTheDocument();
+    workspace.unmount();
+
+    renderActivation(undefined, "?mode=tour");
+    expect(await screen.findByRole("dialog")).toBeInTheDocument();
   });
 
   it("does not overwrite an existing user-created package when opening a sample preview", async () => {

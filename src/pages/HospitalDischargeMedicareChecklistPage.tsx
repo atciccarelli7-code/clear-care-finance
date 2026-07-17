@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, ClipboardCheck, Copy, FileText, HelpCircle, Hospital, Phone, Printer, ShieldCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSeo } from "@/lib/seo";
+import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
 type Destination = "home" | "rehab-snf" | "long-term-care" | "not-sure";
 type Coverage = "original-medicare" | "medicare-advantage" | "medicaid" | "dual" | "not-sure";
@@ -237,6 +238,15 @@ const HospitalDischargeMedicareChecklistPage = () => {
   const [concern, setConcern] = useState<Concern>("denial");
   const [notice, setNotice] = useState<Notice>("not-sure");
   const [copied, setCopied] = useState(false);
+  const startedRef = useRef(false);
+
+  const updateChecklist = <T,>(setter: (value: T) => void, value: T) => {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      trackGrowthEvent("discharge_checklist_started", { entry_surface: "medicare", action_id: "fixed_questions" });
+    }
+    setter(value);
+  };
 
   useSeo({
     title: "Hospital Discharge Medicare Checklist Tool",
@@ -317,10 +327,10 @@ const HospitalDischargeMedicareChecklistPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <QuestionGroup title="1. Where is the patient going next?" options={destinationOptions} value={destination} onChange={setDestination} />
-              <QuestionGroup title="2. What coverage is involved?" options={coverageOptions} value={coverage} onChange={setCoverage} />
-              <QuestionGroup title="3. What is the biggest concern?" options={concernOptions} value={concern} onChange={setConcern} />
-              <QuestionGroup title="4. Is there a written notice, EOB, MSN, discharge paperwork, or bill?" options={noticeOptions} value={notice} onChange={setNotice} />
+              <QuestionGroup title="1. Where is the patient going next?" options={destinationOptions} value={destination} onChange={(value) => updateChecklist(setDestination, value)} />
+              <QuestionGroup title="2. What coverage is involved?" options={coverageOptions} value={coverage} onChange={(value) => updateChecklist(setCoverage, value)} />
+              <QuestionGroup title="3. What is the biggest concern?" options={concernOptions} value={concern} onChange={(value) => updateChecklist(setConcern, value)} />
+              <QuestionGroup title="4. Is there a written notice, EOB, MSN, discharge paperwork, or bill?" options={noticeOptions} value={notice} onChange={(value) => updateChecklist(setNotice, value)} />
             </CardContent>
           </Card>
 

@@ -7,14 +7,24 @@
     },
     "guideStatus": 200,
     "guideTitle": "Hospital & Patient Guide: Understand a Hospital Stay | Community Acquired Finance",
-    "rnPrinciplesVisible": false,
+    "rnPrinciplesVisible": true,
     "barrierCounts": {
-      "The long-term-care payment path is not established": 0,
+      "The long-term care payment path is not established": 1,
       "Function is declining while discharge is delayed": 1
     },
     "questionListUpdated": false,
     "guideOverflow": false,
     "guideBrokenImages": [],
+    "guideFailedResponses": [
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:4173/_vercel/insights/script.js"
+      },
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:4173/_vercel/speed-insights/script.js"
+      }
+    ],
     "articleStatus": 200,
     "articlePageTitle": "From the Bedside: Long-Term Care Medicaid Should Not Wait Until a Crisis | Community Acquired Finance",
     "articleIncludesFunctionalDecline": true,
@@ -22,6 +32,16 @@
     "articleIncludesCaregiverTraining": true,
     "articleOverflow": false,
     "articleBrokenImages": [],
+    "articleFailedResponses": [
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:4173/_vercel/insights/script.js"
+      },
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:4173/_vercel/speed-insights/script.js"
+      }
+    ],
     "consoleMessages": [
       {
         "type": "error",
@@ -50,14 +70,24 @@
     },
     "guideStatus": 200,
     "guideTitle": "Hospital & Patient Guide: Understand a Hospital Stay | Community Acquired Finance",
-    "rnPrinciplesVisible": false,
+    "rnPrinciplesVisible": true,
     "barrierCounts": {
-      "The long-term-care payment path is not established": 0,
+      "The long-term care payment path is not established": 1,
       "Function is declining while discharge is delayed": 1
     },
     "questionListUpdated": false,
     "guideOverflow": false,
     "guideBrokenImages": [],
+    "guideFailedResponses": [
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:4173/_vercel/insights/script.js"
+      },
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:4173/_vercel/speed-insights/script.js"
+      }
+    ],
     "articleStatus": 200,
     "articlePageTitle": "From the Bedside: Long-Term Care Medicaid Should Not Wait Until a Crisis | Community Acquired Finance",
     "articleIncludesFunctionalDecline": true,
@@ -65,6 +95,16 @@
     "articleIncludesCaregiverTraining": true,
     "articleOverflow": false,
     "articleBrokenImages": [],
+    "articleFailedResponses": [
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:4173/_vercel/insights/script.js"
+      },
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:4173/_vercel/speed-insights/script.js"
+      }
+    ],
     "consoleMessages": [
       {
         "type": "error",

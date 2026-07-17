@@ -8,8 +8,15 @@ const scenarios = [
   { name: "mobile", viewport: { width: 390, height: 844 }, isMobile: true },
 ];
 
+await fs.rm(outputDir, { recursive: true, force: true });
 await fs.mkdir(outputDir, { recursive: true });
 const report = [];
+
+async function captureViewport(page, locator, path) {
+  await locator.first().scrollIntoViewIfNeeded();
+  await page.waitForTimeout(250);
+  await page.screenshot({ path, type: "jpeg", quality: 72 });
+}
 
 for (const scenario of scenarios) {
   const browser = await chromium.launch();
@@ -32,10 +39,30 @@ for (const scenario of scenarios) {
   const guideResponse = await page.goto(`${baseUrl}/patients-families/hospital-guide`, {
     waitUntil: "networkidle",
   });
+
   await page.screenshot({
-    path: `${outputDir}/${scenario.name}-hospital-guide.png`,
+    path: `${outputDir}/${scenario.name}-guide-full.jpg`,
+    type: "jpeg",
+    quality: 48,
     fullPage: true,
   });
+
+  const principlesHeading = page.getByText("RN operating principles", { exact: true });
+  await captureViewport(
+    page,
+    principlesHeading,
+    `${outputDir}/${scenario.name}-guide-principles.jpg`,
+  );
+
+  const assessmentHeading = page.getByText(
+    "Find the nonmedical barriers before they become a last-minute delay",
+    { exact: true },
+  );
+  await captureViewport(
+    page,
+    assessmentHeading,
+    `${outputDir}/${scenario.name}-guide-assessment.jpg`,
+  );
 
   const barrierTitles = [
     "The long-term-care payment path is not established",
@@ -51,10 +78,12 @@ for (const scenario of scenarios) {
     }
   }
 
-  await page.screenshot({
-    path: `${outputDir}/${scenario.name}-hospital-guide-selected.png`,
-    fullPage: true,
-  });
+  const questionList = page.getByText("Your question list", { exact: true });
+  await captureViewport(
+    page,
+    questionList,
+    `${outputDir}/${scenario.name}-guide-selected-questions.jpg`,
+  );
 
   const guideText = await page.locator("body").innerText();
   const guideOverflow = await page.evaluate(
@@ -70,10 +99,33 @@ for (const scenario of scenarios) {
     `${baseUrl}/articles/from-the-bedside-long-term-care-medicaid-hospital-delay`,
     { waitUntil: "networkidle" },
   );
+
   await page.screenshot({
-    path: `${outputDir}/${scenario.name}-long-term-care-article.png`,
+    path: `${outputDir}/${scenario.name}-article-full.jpg`,
+    type: "jpeg",
+    quality: 48,
     fullPage: true,
   });
+
+  const articleTitle = page.getByText(
+    "From the Bedside: Long-Term Care Medicaid Should Not Wait Until a Crisis",
+    { exact: true },
+  );
+  await captureViewport(
+    page,
+    articleTitle,
+    `${outputDir}/${scenario.name}-article-top.jpg`,
+  );
+
+  const functionSection = page.getByText(
+    "Protect function while the paperwork catches up",
+    { exact: true },
+  );
+  await captureViewport(
+    page,
+    functionSection,
+    `${outputDir}/${scenario.name}-article-function-section.jpg`,
+  );
 
   const articleText = await page.locator("body").innerText();
   const articleOverflow = await page.evaluate(
@@ -90,7 +142,7 @@ for (const scenario of scenarios) {
     viewport: scenario.viewport,
     guideStatus: guideResponse?.status(),
     guideTitle: await page.title(),
-    rnPrinciplesVisible: guideText.includes("RN operating principles"),
+    rnPrinciplesVisible: (await principlesHeading.count()) === 1,
     barrierCounts,
     questionListUpdated:
       guideText.includes("2 possible barriers to resolve") &&

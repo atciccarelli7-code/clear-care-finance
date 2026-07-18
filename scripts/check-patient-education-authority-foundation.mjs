@@ -5,151 +5,148 @@ import process from "node:process";
 const root = process.cwd();
 const exists = (relativePath) => fs.existsSync(path.join(root, relativePath));
 const read = (relativePath) => fs.readFileSync(path.join(root, relativePath), "utf8");
+const readJson = (relativePath) => JSON.parse(read(relativePath));
 const errors = [];
 
-const legacyFoundationPath = "scripts/check-patient-education-foundation.mjs";
-if (!exists(legacyFoundationPath)) {
-  errors.push(`Missing legacy governed foundation gate: ${legacyFoundationPath}`);
-}
-
-const legacyIds = exists(legacyFoundationPath)
-  ? [...read(legacyFoundationPath).matchAll(/\bid:\s*"([a-z0-9-]+)"/g)].map((match) => match[1])
-  : [];
-if (new Set(legacyIds).size !== legacyIds.length) errors.push("Legacy foundation capability IDs are not unique.");
-if (legacyIds.length !== 38) errors.push(`Legacy governed foundation must contain 38 capabilities; found ${legacyIds.length}.`);
-
-const authorityCapabilities = [
-  {
-    id: "organization-lifecycle",
-    implementation: "src/lib/patientEducationOrganizationLifecycle.ts",
-    test: "src/test/patientEducationOrganizationLifecycle.test.ts",
-    exports: ["evaluatePatientEducationOrganizationReadiness", "patientEducationOrganizationOffboardingSchema"],
-    safetyPhrases: ["pilot-only entitlement", "offboarding action"],
-  },
-  {
-    id: "job-orchestration",
-    implementation: "src/lib/patientEducationJobOrchestration.ts",
-    test: "src/test/patientEducationJobOrchestration.test.ts",
-    exports: ["buildPatientEducationJobCommand", "evaluatePatientEducationJobState", "reconcilePatientEducationDuplicateCommands"],
-    safetyPhrases: ["exactly one logical result", "conflicting replay", "patient-level data"],
-  },
-  {
-    id: "institutional-authority-decision",
-    implementation: "src/lib/patientEducationInstitutionalAuthorityDecision.ts",
-    test: "src/test/patientEducationInstitutionalAuthorityDecision.test.ts",
-    exports: ["evaluatePatientEducationInstitutionalAuthority"],
-    safetyPhrases: ["withholds dispatch authorization", "active suspension, recall, or retirement notices", "compiler baseline is not conformant"],
-  },
-];
-
-for (const capability of authorityCapabilities) {
-  if (!exists(capability.implementation)) {
-    errors.push(`[${capability.id}] Missing implementation: ${capability.implementation}`);
-    continue;
-  }
-  const source = read(capability.implementation);
-  for (const exportName of capability.exports) {
-    if (!source.includes(exportName)) errors.push(`[${capability.id}] Missing export marker ${exportName}.`);
-  }
-  if (!exists(capability.test)) {
-    errors.push(`[${capability.id}] Missing adversarial test: ${capability.test}`);
-  } else {
-    const testSource = read(capability.test).toLowerCase();
-    for (const phrase of capability.safetyPhrases) {
-      if (!testSource.includes(phrase.toLowerCase())) errors.push(`[${capability.id}] Test no longer contains safety marker: ${phrase}`);
-    }
-  }
-}
-
-const combinedIds = [...legacyIds, ...authorityCapabilities.map((capability) => capability.id)];
-if (new Set(combinedIds).size !== combinedIds.length) errors.push("Authority-complete capability IDs are not unique.");
-if (combinedIds.length !== 41) errors.push(`Authority-complete foundation must contain 41 capabilities; found ${combinedIds.length}.`);
-
+const registryPath = "config/patient-education-capability-registry.json";
+const nonAuthorityRegistryPath = "config/patient-education-non-authority-modules.json";
+const authorityManifestPath = "public/patient-education/demo/synthetic-authority-conformance-manifest.json";
 const authorityConformanceTest = "src/test/patientEducationAuthorityConformance.test.ts";
-if (!exists(authorityConformanceTest)) errors.push(`Missing authority conformance test: ${authorityConformanceTest}`);
-else {
+const authorityTypecheckConfig = "tsconfig.patient-education-authority.json";
+
+for (const requiredPath of [registryPath, nonAuthorityRegistryPath, authorityManifestPath, authorityConformanceTest, authorityTypecheckConfig]) {
+  if (!exists(requiredPath)) errors.push(`Missing authority foundation file: ${requiredPath}`);
+}
+
+let registry;
+let nonAuthorityRegistry;
+let manifest;
+try {
+  if (exists(registryPath)) registry = readJson(registryPath);
+  if (exists(nonAuthorityRegistryPath)) nonAuthorityRegistry = readJson(nonAuthorityRegistryPath);
+  if (exists(authorityManifestPath)) manifest = readJson(authorityManifestPath);
+} catch (error) {
+  errors.push(`Unable to parse authority foundation JSON: ${error.message}`);
+}
+
+const capabilities = registry?.capabilities ?? [];
+const capabilityIds = capabilities.map((capability) => capability.id);
+const expectedCapabilityCount = capabilities.length;
+const expectedScenarioCount = expectedCapabilityCount * 2;
+
+if (registry?.schemaVersion !== "1.0.0") errors.push("Authority capability registry schemaVersion must be 1.0.0.");
+if (registry?.status !== "public_safe_architecture_registry") errors.push("Authority capability registry must preserve public-safe architecture status.");
+if (registry?.capabilityCount !== expectedCapabilityCount) errors.push(`Authority registry capabilityCount ${registry?.capabilityCount} does not equal ${expectedCapabilityCount}.`);
+if (registry?.scenarioCount !== expectedScenarioCount) errors.push(`Authority registry scenarioCount ${registry?.scenarioCount} does not equal ${expectedScenarioCount}.`);
+if (expectedCapabilityCount !== 44) errors.push(`Authority-complete foundation must contain 44 capabilities; found ${expectedCapabilityCount}.`);
+if (expectedScenarioCount !== 88) errors.push(`Authority-complete foundation must require 88 synthetic paths; found ${expectedScenarioCount}.`);
+if (new Set(capabilityIds).size !== capabilityIds.length) errors.push("Authority capability IDs are not unique.");
+
+const requiredCriticalCapabilities = [
+  "authority-policy",
+  "authority-contract",
+  "organization-isolation",
+  "tenant-isolation",
+  "signing-authority",
+  "review-workflow",
+  "governance-profile",
+  "private-authority-decision",
+  "organization-lifecycle",
+  "job-orchestration",
+  "institutional-authority-decision",
+  "continuity-contract",
+  "incident-response",
+  "resilience-retention",
+  "privacy-boundary",
+  "distribution-control",
+];
+for (const capabilityId of requiredCriticalCapabilities) {
+  const capability = capabilities.find((candidate) => candidate.id === capabilityId);
+  if (!capability) errors.push(`Authority registry missing critical capability: ${capabilityId}`);
+  else {
+    if (capability.status !== "authoritative") errors.push(`Critical capability ${capabilityId} is not authoritative.`);
+    if (capability.releaseCritical !== true) errors.push(`Critical capability ${capabilityId} must be releaseCritical.`);
+    if (!Array.isArray(capability.safetyMarkers) || capability.safetyMarkers.length === 0) errors.push(`Critical capability ${capabilityId} requires stable safety markers.`);
+  }
+}
+
+if (nonAuthorityRegistry?.status !== "public_safe_non_authority_registry") errors.push("Non-authority registry must preserve public-safe status.");
+for (const module of nonAuthorityRegistry?.modules ?? []) {
+  if (module.patientCareUseProhibited !== true || module.authorityDecisionUseProhibited !== true || module.privateDataUseProhibited !== true) {
+    errors.push(`Non-authority module ${module.path} does not enforce all prohibited-use flags.`);
+  }
+}
+
+if (manifest) {
+  if (manifest.schemaVersion !== "2.1.0") errors.push("Authority conformance manifest schemaVersion must be 2.1.0.");
+  if (manifest.status !== "public_safe_technical_proof") errors.push("Authority conformance manifest must preserve public-safe technical-proof status.");
+  if (manifest.capabilityCount !== expectedCapabilityCount || manifest.scenarioCount !== expectedScenarioCount) errors.push(`Authority conformance manifest must declare ${expectedCapabilityCount} capabilities and ${expectedScenarioCount} scenarios.`);
+  if (!Array.isArray(manifest.capabilities) || new Set(manifest.capabilities).size !== manifest.capabilities.length) errors.push("Authority conformance manifest capabilities must be a unique array.");
+  const missing = capabilityIds.filter((id) => !manifest.capabilities?.includes(id));
+  const unexpected = (manifest.capabilities ?? []).filter((id) => !capabilityIds.includes(id));
+  if (missing.length > 0) errors.push(`Authority conformance manifest missing capability IDs: ${missing.join(", ")}.`);
+  if (unexpected.length > 0) errors.push(`Authority conformance manifest contains unexpected capability IDs: ${unexpected.join(", ")}.`);
+  for (const [field, expected] of [
+    ["suitableForPatientCare", false],
+    ["containsClinicalPatientInstructions", false],
+    ["containsPatientData", false],
+    ["containsRealOrganizationData", false],
+    ["containsReviewerIdentity", false],
+  ]) {
+    if (manifest[field] !== expected) errors.push(`Authority conformance manifest ${field} must be ${expected}.`);
+  }
+  const requirements = manifest.executionRequirement ?? {};
+  for (const requirement of [
+    "allScenariosMustPass",
+    "executionEvidenceRequired",
+    "exactVersionBindingRequired",
+    "syntheticDataOnly",
+    "organizationLifecycleRequired",
+    "idempotentJobExecutionRequired",
+    "finalInstitutionalAuthorityRequired",
+    "authenticatedSessionScopeRequired",
+    "tenantResourceGuardRequired",
+    "verifiedContinuityRecoveryRequired",
+    "canonicalCapabilityRegistryRequired",
+  ]) {
+    if (requirements[requirement] !== true) errors.push(`Authority conformance manifest must require ${requirement}.`);
+  }
+}
+
+if (exists(authorityConformanceTest)) {
   const source = read(authorityConformanceTest);
-  for (const phrase of [
-    "requires all 41 governed capabilities",
-    "scenarioCount).toBe(82)",
+  for (const marker of [
+    "requires all 44 governed capabilities",
+    "toBe(44)",
+    "toBe(88)",
+    "authority-contract",
+    "tenant-isolation",
+    "continuity-contract",
     "organization-lifecycle",
     "job-orchestration",
     "institutional-authority-decision",
   ]) {
-    if (!source.includes(phrase)) errors.push(`Authority conformance test missing marker: ${phrase}`);
+    if (!source.includes(marker)) errors.push(`Authority conformance test missing marker: ${marker}`);
   }
 }
 
-const publicManifestPath = "public/patient-education/demo/synthetic-authority-conformance-manifest.json";
-if (!exists(publicManifestPath)) errors.push(`Missing public-safe authority conformance manifest: ${publicManifestPath}`);
-else {
-  try {
-    const manifest = JSON.parse(read(publicManifestPath));
-    if (manifest.schemaVersion !== "2.0.0") errors.push("Authority conformance manifest schemaVersion must be 2.0.0.");
-    if (manifest.status !== "public_safe_technical_proof") errors.push("Authority conformance manifest must preserve public-safe technical-proof status.");
-    if (manifest.capabilityCount !== 41 || manifest.scenarioCount !== 82) errors.push("Authority conformance manifest must declare 41 capabilities and 82 scenarios.");
-    if (!Array.isArray(manifest.capabilities) || new Set(manifest.capabilities).size !== manifest.capabilities.length) errors.push("Authority conformance manifest capabilities must be a unique array.");
-    const missing = combinedIds.filter((id) => !manifest.capabilities?.includes(id));
-    const unexpected = (manifest.capabilities ?? []).filter((id) => !combinedIds.includes(id));
-    if (missing.length > 0) errors.push(`Authority conformance manifest missing capability IDs: ${missing.join(", ")}.`);
-    if (unexpected.length > 0) errors.push(`Authority conformance manifest contains unexpected capability IDs: ${unexpected.join(", ")}.`);
-    for (const [field, expected] of [
-      ["suitableForPatientCare", false],
-      ["containsClinicalPatientInstructions", false],
-      ["containsPatientData", false],
-      ["containsRealOrganizationData", false],
-      ["containsReviewerIdentity", false],
-    ]) {
-      if (manifest[field] !== expected) errors.push(`Authority conformance manifest ${field} must be ${expected}.`);
-    }
-    const requirements = manifest.executionRequirement ?? {};
-    for (const requirement of [
-      "allScenariosMustPass",
-      "executionEvidenceRequired",
-      "exactVersionBindingRequired",
-      "syntheticDataOnly",
-      "organizationLifecycleRequired",
-      "idempotentJobExecutionRequired",
-      "finalInstitutionalAuthorityRequired",
-    ]) {
-      if (requirements[requirement] !== true) errors.push(`Authority conformance manifest must require ${requirement}.`);
-    }
-    const serialized = JSON.stringify(manifest).toLowerCase();
-    for (const prohibited of ["patient name", "medical record number", "private key", "reviewer email", "real hospital contact", "blood thinner dosage"]) {
-      if (serialized.includes(prohibited)) errors.push(`Authority conformance manifest contains prohibited public phrase: ${prohibited}.`);
-    }
-  } catch (error) {
-    errors.push(`Authority conformance manifest is invalid JSON: ${error.message}`);
-  }
-}
-
-for (const architectureFile of [
-  "docs/caf-patient-education-public-product-architecture.md",
-  "docs/caf-patient-education-governed-platform-foundation.md",
-  "docs/caf-patient-education-private-authority-blueprint.md",
-]) {
+for (const architectureFile of registry?.architectureDocuments ?? []) {
   if (!exists(architectureFile)) errors.push(`Missing required architecture document: ${architectureFile}`);
 }
+for (const proofArtifact of registry?.publicProofArtifacts ?? []) {
+  if (!exists(proofArtifact)) errors.push(`Missing required public-safe proof artifact: ${proofArtifact}`);
+}
 
-for (const implementation of [
-  "src/lib/patientEducationAuthorityPolicy.ts",
-  "src/lib/patientEducationOrganizationIsolation.ts",
-  "src/lib/patientEducationEvidenceFreshnessEngine.ts",
-  "src/lib/patientEducationExceptionPolicy.ts",
-  "src/lib/patientEducationReproducibilityManifest.ts",
-  "src/lib/patientEducationSigningAuthority.ts",
-  "src/lib/patientEducationSchemaMigration.ts",
-  "src/lib/patientEducationDependencyGraph.ts",
-  "src/lib/patientEducationOperationalObservability.ts",
-  "src/lib/patientEducationIncidentResponse.ts",
-  "src/lib/patientEducationResiliencePolicy.ts",
-  "src/lib/patientEducationAuditExport.ts",
-  "src/lib/patientEducationReviewWorkflow.ts",
-  "src/lib/patientEducationGovernanceProfile.ts",
-  "src/lib/patientEducationPrivateAuthorityDecision.ts",
-  "src/lib/patientEducationConformancePackage.ts",
+for (const workflowPath of [
+  ".github/workflows/patient-education-authority.yml",
+  ".github/workflows/patient-education-authority-typecheck.yml",
 ]) {
-  if (!exists(implementation)) errors.push(`Missing private-authority foundation implementation: ${implementation}`);
+  if (!exists(workflowPath)) errors.push(`Missing authority validation workflow: ${workflowPath}`);
+}
+
+const serialized = JSON.stringify({ registry, nonAuthorityRegistry, manifest }).toLowerCase();
+for (const prohibited of ["patient name", "medical record number", "private key", "reviewer email", "real hospital contact", "blood thinner dosage"]) {
+  if (serialized.includes(prohibited)) errors.push(`Authority public-safe registries contain prohibited phrase: ${prohibited}.`);
 }
 
 if (errors.length > 0) {
@@ -158,4 +155,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Patient Education authority foundation passed: ${combinedIds.length} governed capabilities, 82 synthetic paths, 3 architecture documents, and a public-safe authority conformance index.`);
+console.log(`Patient Education authority foundation passed: ${expectedCapabilityCount} governed capabilities, ${expectedScenarioCount} synthetic paths, ${registry.architectureDocuments.length} architecture documents, ${registry.publicProofArtifacts.length} public-safe proof artifacts, and ${nonAuthorityRegistry.modules.length} explicitly non-authority module(s).`);

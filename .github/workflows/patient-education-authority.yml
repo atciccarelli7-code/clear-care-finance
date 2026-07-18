@@ -1,0 +1,101 @@
+name: Patient Education Authority Certification
+
+on:
+  pull_request:
+    paths:
+      - "src/lib/patientEducation*.ts"
+      - "src/test/patientEducation*.test.ts"
+      - "scripts/check-patient-education-*.mjs"
+      - "public/patient-education/**"
+      - "docs/caf-patient-education-*.md"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/patient-education-authority.yml"
+  push:
+    branches:
+      - agent/caf-patient-education-product
+    paths:
+      - "src/lib/patientEducation*.ts"
+      - "src/test/patientEducation*.test.ts"
+      - "scripts/check-patient-education-*.mjs"
+      - "public/patient-education/**"
+      - "docs/caf-patient-education-*.md"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/patient-education-authority.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: patient-education-authority-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify-authority-foundation:
+    name: Certify 41-capability authority foundation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Validate public and institutional boundaries
+        run: |
+          npm run institutional:boundary-check
+          npm run patient-education:manifest-check
+          npm run patient-education:public-contracts-check
+
+      - name: Validate governed foundation inventories
+        run: |
+          node scripts/check-patient-education-foundation.mjs
+          node scripts/check-patient-education-conformance-manifest.mjs
+          node scripts/check-patient-education-authority-foundation.mjs
+
+      - name: Run complete patient education unit and adversarial suite
+        run: npx vitest run src/test/patientEducation*.test.ts --reporter=verbose
+
+      - name: Run production build
+        run: npm run build
+
+      - name: Preserve certification metadata
+        if: always()
+        run: |
+          mkdir -p artifacts/patient-education-authority
+          cat > artifacts/patient-education-authority/certification-metadata.json <<EOF
+          {
+            "schemaVersion": "1.0.0",
+            "workflow": "Patient Education Authority Certification",
+            "repository": "${GITHUB_REPOSITORY}",
+            "commitSha": "${GITHUB_SHA}",
+            "ref": "${GITHUB_REF}",
+            "runId": "${GITHUB_RUN_ID}",
+            "runAttempt": "${GITHUB_RUN_ATTEMPT}",
+            "governedCapabilityCount": 41,
+            "syntheticScenarioCount": 82,
+            "patientCareUse": "prohibited",
+            "claimsBoundary": "Engineering conformance only; no clinical approval, compliance certification, deployment, or patient outcomes."
+          }
+          EOF
+
+      - name: Upload certification metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: patient-education-authority-certification-${{ github.run_id }}
+          path: artifacts/patient-education-authority
+          if-no-files-found: error
+          retention-days: 30

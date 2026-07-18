@@ -11,6 +11,7 @@ const errors = [];
 const registryPath = "config/patient-education-capability-registry.json";
 const nonAuthorityRegistryPath = "config/patient-education-non-authority-modules.json";
 const dependencyGraphPath = "config/patient-education-capability-dependencies.json";
+const crossTrancheContractsPath = "config/patient-education-cross-tranche-contracts.json";
 const dependencyCheckPath = "scripts/check-patient-education-capability-dependencies.mjs";
 const authorityManifestPath = "public/patient-education/demo/synthetic-authority-conformance-manifest.json";
 const authorityConformanceTest = "src/test/patientEducationAuthorityConformance.test.ts";
@@ -21,6 +22,7 @@ for (const requiredPath of [
   registryPath,
   nonAuthorityRegistryPath,
   dependencyGraphPath,
+  crossTrancheContractsPath,
   dependencyCheckPath,
   authorityManifestPath,
   authorityConformanceTest,
@@ -33,11 +35,13 @@ for (const requiredPath of [
 let registry;
 let nonAuthorityRegistry;
 let dependencyGraph;
+let crossTrancheRegistry;
 let manifest;
 try {
   if (exists(registryPath)) registry = readJson(registryPath);
   if (exists(nonAuthorityRegistryPath)) nonAuthorityRegistry = readJson(nonAuthorityRegistryPath);
   if (exists(dependencyGraphPath)) dependencyGraph = readJson(dependencyGraphPath);
+  if (exists(crossTrancheContractsPath)) crossTrancheRegistry = readJson(crossTrancheContractsPath);
   if (exists(authorityManifestPath)) manifest = readJson(authorityManifestPath);
 } catch (error) {
   errors.push(`Unable to parse authority foundation JSON: ${error.message}`);
@@ -63,6 +67,16 @@ if (dependencyGraph) {
   if (Object.keys(dependencyGraph.dependencies ?? {}).length !== expectedCapabilityCount) errors.push(`Authority dependency graph must contain ${expectedCapabilityCount} dependency entries.`);
   if (dependencyGraph.requiredTerminalCapabilityId !== "conformance-package") errors.push("Authority dependency graph terminal capability must be conformance-package.");
   if (dependencyGraph.requiredDispatchCapabilityId !== "institutional-authority-decision") errors.push("Authority dependency graph dispatch capability must be institutional-authority-decision.");
+}
+
+if (crossTrancheRegistry) {
+  if (crossTrancheRegistry.schemaVersion !== "1.0.0") errors.push("Cross-tranche contract registry schemaVersion must be 1.0.0.");
+  if (crossTrancheRegistry.status !== "public_safe_cross_tranche_contract_registry") errors.push("Cross-tranche contract registry must preserve public-safe status.");
+  if (!Array.isArray(crossTrancheRegistry.contracts) || crossTrancheRegistry.contracts.length === 0) errors.push("Cross-tranche contract registry must contain explicit contract seams.");
+  for (const contract of crossTrancheRegistry.contracts ?? []) {
+    if (contract.runtimeImportProhibitedBeforeCompletion !== true) errors.push(`Cross-tranche contract ${contract.contractId} must prohibit runtime imports before completion.`);
+    if (contract.authorizationUseProhibitedBeforeCompletion !== true) errors.push(`Cross-tranche contract ${contract.contractId} must prohibit authorization use before completion.`);
+  }
 }
 
 const requiredCriticalCapabilities = [
@@ -180,7 +194,7 @@ for (const workflowPath of [
   if (!exists(workflowPath)) errors.push(`Missing authority validation workflow: ${workflowPath}`);
 }
 
-const serializedPublicAuthority = JSON.stringify({ registry, nonAuthorityRegistry, dependencyGraph, manifest });
+const serializedPublicAuthority = JSON.stringify({ registry, nonAuthorityRegistry, dependencyGraph, crossTrancheRegistry, manifest });
 const populatedSensitivePatterns = [
   /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
   /"(?:patientName|medicalRecordNumber|dateOfBirth|reviewerEmail|realHospitalContact|bloodThinnerDosage)"\s*:\s*"[^"\s][^"]*"/i,
@@ -196,4 +210,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Patient Education authority foundation passed: ${expectedCapabilityCount} governed capabilities, ${expectedScenarioCount} synthetic paths, six ordered reconstruction tranches, ${registry.architectureDocuments.length + 1} required architecture and reconstruction documents, ${registry.publicProofArtifacts.length} public-safe proof artifacts, and ${nonAuthorityRegistry.modules.length} explicitly non-authority module(s).`);
+console.log(`Patient Education authority foundation passed: ${expectedCapabilityCount} governed capabilities, ${expectedScenarioCount} synthetic paths, six ordered reconstruction tranches, ${(crossTrancheRegistry?.contracts ?? []).length} explicit cross-tranche contract seam(s), ${registry.architectureDocuments.length + 1} required architecture and reconstruction documents, ${registry.publicProofArtifacts.length} public-safe proof artifacts, and ${nonAuthorityRegistry.modules.length} explicitly non-authority module(s).`);

@@ -13,8 +13,9 @@ const nonAuthorityRegistryPath = "config/patient-education-non-authority-modules
 const authorityManifestPath = "public/patient-education/demo/synthetic-authority-conformance-manifest.json";
 const authorityConformanceTest = "src/test/patientEducationAuthorityConformance.test.ts";
 const authorityTypecheckConfig = "tsconfig.patient-education-authority.json";
+const reconstructionPlanPath = "docs/caf-patient-education-branch-reconstruction-and-merge-plan.md";
 
-for (const requiredPath of [registryPath, nonAuthorityRegistryPath, authorityManifestPath, authorityConformanceTest, authorityTypecheckConfig]) {
+for (const requiredPath of [registryPath, nonAuthorityRegistryPath, authorityManifestPath, authorityConformanceTest, authorityTypecheckConfig, reconstructionPlanPath]) {
   if (!exists(requiredPath)) errors.push(`Missing authority foundation file: ${requiredPath}`);
 }
 
@@ -130,6 +131,19 @@ if (exists(authorityConformanceTest)) {
   }
 }
 
+if (exists(reconstructionPlanPath)) {
+  const reconstructionPlan = read(reconstructionPlanPath);
+  for (const marker of [
+    "Tranche A",
+    "Tranche F",
+    "No force merge",
+    "PR #190 remains draft and unmerged",
+    "Final integrated certification",
+  ]) {
+    if (!reconstructionPlan.includes(marker)) errors.push(`Branch reconstruction plan missing required control marker: ${marker}`);
+  }
+}
+
 for (const architectureFile of registry?.architectureDocuments ?? []) {
   if (!exists(architectureFile)) errors.push(`Missing required architecture document: ${architectureFile}`);
 }
@@ -160,4 +174,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Patient Education authority foundation passed: ${expectedCapabilityCount} governed capabilities, ${expectedScenarioCount} synthetic paths, ${registry.architectureDocuments.length} architecture documents, ${registry.publicProofArtifacts.length} public-safe proof artifacts, and ${nonAuthorityRegistry.modules.length} explicitly non-authority module(s).`);
+console.log(`Patient Education authority foundation passed: ${expectedCapabilityCount} governed capabilities, ${expectedScenarioCount} synthetic paths, ${registry.architectureDocuments.length + 1} required architecture and reconstruction documents, ${registry.publicProofArtifacts.length} public-safe proof artifacts, and ${nonAuthorityRegistry.modules.length} explicitly non-authority module(s).`);

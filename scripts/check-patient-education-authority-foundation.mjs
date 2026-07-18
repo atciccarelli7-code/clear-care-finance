@@ -10,21 +10,34 @@ const errors = [];
 
 const registryPath = "config/patient-education-capability-registry.json";
 const nonAuthorityRegistryPath = "config/patient-education-non-authority-modules.json";
+const dependencyGraphPath = "config/patient-education-capability-dependencies.json";
+const dependencyCheckPath = "scripts/check-patient-education-capability-dependencies.mjs";
 const authorityManifestPath = "public/patient-education/demo/synthetic-authority-conformance-manifest.json";
 const authorityConformanceTest = "src/test/patientEducationAuthorityConformance.test.ts";
 const authorityTypecheckConfig = "tsconfig.patient-education-authority.json";
 const reconstructionPlanPath = "docs/caf-patient-education-branch-reconstruction-and-merge-plan.md";
 
-for (const requiredPath of [registryPath, nonAuthorityRegistryPath, authorityManifestPath, authorityConformanceTest, authorityTypecheckConfig, reconstructionPlanPath]) {
+for (const requiredPath of [
+  registryPath,
+  nonAuthorityRegistryPath,
+  dependencyGraphPath,
+  dependencyCheckPath,
+  authorityManifestPath,
+  authorityConformanceTest,
+  authorityTypecheckConfig,
+  reconstructionPlanPath,
+]) {
   if (!exists(requiredPath)) errors.push(`Missing authority foundation file: ${requiredPath}`);
 }
 
 let registry;
 let nonAuthorityRegistry;
+let dependencyGraph;
 let manifest;
 try {
   if (exists(registryPath)) registry = readJson(registryPath);
   if (exists(nonAuthorityRegistryPath)) nonAuthorityRegistry = readJson(nonAuthorityRegistryPath);
+  if (exists(dependencyGraphPath)) dependencyGraph = readJson(dependencyGraphPath);
   if (exists(authorityManifestPath)) manifest = readJson(authorityManifestPath);
 } catch (error) {
   errors.push(`Unable to parse authority foundation JSON: ${error.message}`);
@@ -42,6 +55,15 @@ if (registry?.scenarioCount !== expectedScenarioCount) errors.push(`Authority re
 if (expectedCapabilityCount !== 44) errors.push(`Authority-complete foundation must contain 44 capabilities; found ${expectedCapabilityCount}.`);
 if (expectedScenarioCount !== 88) errors.push(`Authority-complete foundation must require 88 synthetic paths; found ${expectedScenarioCount}.`);
 if (new Set(capabilityIds).size !== capabilityIds.length) errors.push("Authority capability IDs are not unique.");
+
+if (dependencyGraph) {
+  if (dependencyGraph.schemaVersion !== "1.0.0") errors.push("Authority dependency graph schemaVersion must be 1.0.0.");
+  if (dependencyGraph.status !== "public_safe_architecture_graph") errors.push("Authority dependency graph must preserve public-safe status.");
+  if (!Array.isArray(dependencyGraph.tranches) || dependencyGraph.tranches.length !== 6) errors.push("Authority dependency graph must define six reconstruction tranches.");
+  if (Object.keys(dependencyGraph.dependencies ?? {}).length !== expectedCapabilityCount) errors.push(`Authority dependency graph must contain ${expectedCapabilityCount} dependency entries.`);
+  if (dependencyGraph.requiredTerminalCapabilityId !== "conformance-package") errors.push("Authority dependency graph terminal capability must be conformance-package.");
+  if (dependencyGraph.requiredDispatchCapabilityId !== "institutional-authority-decision") errors.push("Authority dependency graph dispatch capability must be institutional-authority-decision.");
+}
 
 const requiredCriticalCapabilities = [
   "authority-policy",
@@ -158,7 +180,7 @@ for (const workflowPath of [
   if (!exists(workflowPath)) errors.push(`Missing authority validation workflow: ${workflowPath}`);
 }
 
-const serializedPublicAuthority = JSON.stringify({ registry, nonAuthorityRegistry, manifest });
+const serializedPublicAuthority = JSON.stringify({ registry, nonAuthorityRegistry, dependencyGraph, manifest });
 const populatedSensitivePatterns = [
   /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
   /"(?:patientName|medicalRecordNumber|dateOfBirth|reviewerEmail|realHospitalContact|bloodThinnerDosage)"\s*:\s*"[^"\s][^"]*"/i,
@@ -174,4 +196,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Patient Education authority foundation passed: ${expectedCapabilityCount} governed capabilities, ${expectedScenarioCount} synthetic paths, ${registry.architectureDocuments.length + 1} required architecture and reconstruction documents, ${registry.publicProofArtifacts.length} public-safe proof artifacts, and ${nonAuthorityRegistry.modules.length} explicitly non-authority module(s).`);
+console.log(`Patient Education authority foundation passed: ${expectedCapabilityCount} governed capabilities, ${expectedScenarioCount} synthetic paths, six ordered reconstruction tranches, ${registry.architectureDocuments.length + 1} required architecture and reconstruction documents, ${registry.publicProofArtifacts.length} public-safe proof artifacts, and ${nonAuthorityRegistry.modules.length} explicitly non-authority module(s).`);

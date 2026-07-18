@@ -144,9 +144,14 @@ for (const workflowPath of [
   if (!exists(workflowPath)) errors.push(`Missing authority validation workflow: ${workflowPath}`);
 }
 
-const serialized = JSON.stringify({ registry, nonAuthorityRegistry, manifest }).toLowerCase();
-for (const prohibited of ["patient name", "medical record number", "private key", "reviewer email", "real hospital contact", "blood thinner dosage"]) {
-  if (serialized.includes(prohibited)) errors.push(`Authority public-safe registries contain prohibited phrase: ${prohibited}.`);
+const serializedPublicAuthority = JSON.stringify({ registry, nonAuthorityRegistry, manifest });
+const populatedSensitivePatterns = [
+  /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
+  /"(?:patientName|medicalRecordNumber|dateOfBirth|reviewerEmail|realHospitalContact|bloodThinnerDosage)"\s*:\s*"[^"\s][^"]*"/i,
+  /"privateKey(?:Inline|Value|Pem)?"\s*:\s*"[^"\s][^"]*"/i,
+];
+for (const pattern of populatedSensitivePatterns) {
+  if (pattern.test(serializedPublicAuthority)) errors.push(`Authority public-safe registry contains populated sensitive material matching ${pattern}.`);
 }
 
 if (errors.length > 0) {

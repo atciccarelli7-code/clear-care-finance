@@ -52,3 +52,20 @@ jobs:
 
       - name: Production build, bundle budget, and prerender
         run: npm run build
+
+      - name: Install Chromium for institutional browser verification
+        run: npx playwright install --with-deps chromium
+
+      - name: Patient Education Systems browser and accessibility journey
+        run: npm run test:browser:patient-education
+
+      - name: Upload patient education browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: patient-education-browser-failure-${{ github.run_id }}
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
+          if-no-files-found: ignore

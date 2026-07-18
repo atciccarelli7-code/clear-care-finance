@@ -42,6 +42,7 @@ const loadNewsletter = () => import("./pages/Newsletter.tsx");
 const loadAbout = () => import("./pages/About.tsx");
 const loadContact = () => import("./pages/Contact.tsx");
 const loadForOrganizationsPage = () => import("./pages/ForOrganizationsPage.tsx");
+const loadPatientEducationSystemsPage = () => import("./pages/PatientEducationSystemsPage.tsx");
 const loadOrganizationDetailsPage = () => import("./pages/OrganizationDetailsPage.tsx");
 const loadOpenEnrollmentGuide = () => import("./pages/OpenEnrollmentGuide.tsx");
 const loadInsuranceBenefitsHub = () => import("./pages/InsuranceBenefitsHub.tsx");
@@ -97,6 +98,7 @@ const Newsletter = lazy(loadNewsletter);
 const About = lazy(loadAbout);
 const Contact = lazy(loadContact);
 const ForOrganizationsPage = lazy(loadForOrganizationsPage);
+const PatientEducationSystemsPage = lazy(loadPatientEducationSystemsPage);
 const OrganizationDetailsPage = lazy(loadOrganizationDetailsPage);
 const OpenEnrollmentGuide = lazy(loadOpenEnrollmentGuide);
 const InsuranceBenefitsHub = lazy(loadInsuranceBenefitsHub);
@@ -179,6 +181,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/about") return loadAbout;
   if (pathname === "/contact") return loadContact;
   if (pathname === "/for-organizations") return loadForOrganizationsPage;
+  if (pathname === "/for-organizations/patient-education-systems") return loadPatientEducationSystemsPage;
   if (pathname.startsWith("/for-organizations/")) return loadOrganizationDetailsPage;
   if (pathname === "/methodology") return loadMethodology;
   if (pathname === "/privacy-policy") return loadPrivacyPolicy;
@@ -310,6 +313,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/for-organizations" element={<ForOrganizationsPage />} />
+            <Route path="/for-organizations/patient-education-systems" element={<PatientEducationSystemsPage />} />
             <Route path="/for-organizations/programs" element={<OrganizationDetailsPage />} />
             <Route path="/for-organizations/implementation" element={<OrganizationDetailsPage />} />
             <Route path="/for-organizations/measurement" element={<OrganizationDetailsPage />} />

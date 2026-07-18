@@ -19,7 +19,10 @@ const isLiteralRoute = (source) =>
 
 // Product routes can be staged here while retaining one release-time route source for sitemap,
 // prerender, redirect reconciliation, and search-readiness validation.
-export const ADDITIONAL_INDEXABLE_ROUTES = ["/tools/benefits-command-center"];
+export const ADDITIONAL_INDEXABLE_ROUTES = [
+  "/tools/benefits-command-center",
+  "/for-organizations/patient-education-systems",
+];
 
 export const loadPermanentRedirects = async () => {
   const configPath = path.join(repositoryRoot, "vercel.json");

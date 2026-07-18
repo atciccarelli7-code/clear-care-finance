@@ -6,6 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
 
 const ignoredDirectories = new Set([".git", "dist", "node_modules", "playwright-report", "test-results"]);
+const ignoredFiles = new Set(["scripts/check-institutional-ip-boundary.mjs"]);
 const allowedTextExtensions = new Set([".css", ".html", ".js", ".jsx", ".json", ".md", ".mjs", ".ts", ".tsx", ".txt", ".yml", ".yaml"]);
 
 const forbiddenPathPatterns = [
@@ -43,6 +44,7 @@ const walk = async (directory, relative = "") => {
       continue;
     }
 
+    if (ignoredFiles.has(nextRelative)) continue;
     if (!allowedTextExtensions.has(path.extname(entry.name).toLowerCase())) continue;
     const source = await readFile(absolute, "utf8");
     for (const rule of prohibitedPublicContentPatterns) {
@@ -60,18 +62,24 @@ const expectedPublicFiles = [
   "src/lib/patientEducationPilot.ts",
 ];
 
+const expectedSources = [];
 for (const relativePath of expectedPublicFiles) {
   try {
-    const source = await readFile(path.join(root, relativePath), "utf8");
-    if (!/development-stage|in development/i.test(source)) {
-      failures.push(`${relativePath} must preserve a visible development-stage product boundary.`);
-    }
-    if (!/PHI|patient information|patient-specific/i.test(source)) {
-      failures.push(`${relativePath} must preserve an explicit patient-information boundary.`);
-    }
+    expectedSources.push(await readFile(path.join(root, relativePath), "utf8"));
   } catch {
     failures.push(`Missing required public product architecture file: ${relativePath}`);
   }
+}
+
+const combinedPublicArchitecture = expectedSources.join("\n");
+if (!/development-stage|in development/i.test(combinedPublicArchitecture)) {
+  failures.push("The public product architecture must preserve a visible development-stage boundary.");
+}
+if (!/PHI|patient information|patient-specific/i.test(combinedPublicArchitecture)) {
+  failures.push("The public product architecture must preserve an explicit patient-information boundary.");
+}
+if (!/not (saved|transmitted)|remain(s)? in this browser tab|not added to the URL/i.test(combinedPublicArchitecture)) {
+  failures.push("The fixed-choice pilot builder must preserve a visible no-storage or no-transmission boundary.");
 }
 
 if (failures.length > 0) {

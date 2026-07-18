@@ -81,6 +81,7 @@ jobs:
             public/patient-education/demo/synthetic-authority-conformance-manifest.json \
             scripts/check-patient-education-capability-registry.mjs \
             scripts/check-patient-education-authority-foundation.mjs \
+            docs/caf-patient-education-branch-reconstruction-and-merge-plan.md \
             tsconfig.patient-education-authority.json \
             > artifacts/patient-education-authority/source-digests.sha256
           cat > artifacts/patient-education-authority/certification-metadata.json <<EOF
@@ -96,6 +97,7 @@ jobs:
             "governedCapabilityCount": 44,
             "syntheticScenarioCount": 88,
             "explicitlyNonAuthorityModuleCount": 1,
+            "reconstructionPlanRequired": true,
             "patientCareUse": "prohibited",
             "claimsBoundary": "Engineering conformance only; no clinical approval, compliance certification, deployment, or patient outcomes."
           }
@@ -103,6 +105,7 @@ jobs:
           cp config/patient-education-capability-registry.json artifacts/patient-education-authority/
           cp config/patient-education-non-authority-modules.json artifacts/patient-education-authority/
           cp public/patient-education/demo/synthetic-authority-conformance-manifest.json artifacts/patient-education-authority/
+          cp docs/caf-patient-education-branch-reconstruction-and-merge-plan.md artifacts/patient-education-authority/
 
       - name: Upload certification evidence
         if: always()

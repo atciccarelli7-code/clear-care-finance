@@ -57,7 +57,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("Patient Education Systems builds a private pilot brief", async ({ page }, testInfo) => {
+test("Patient Education Systems builds a private pilot brief and exposes a safe technical proof registry", async ({ page }, testInfo) => {
   const watch = installHealthWatch(page);
   await page.goto("/for-organizations/patient-education-systems");
   await page.waitForFunction(() => document.body.innerText.includes("CAF Patient Education Systems"));
@@ -66,6 +66,23 @@ test("Patient Education Systems builds a private pilot brief", async ({ page }, 
   await expect(page.getByText(/Controlled preview—not a clinical handout/i)).toBeVisible();
   await expect(page.getByText(/No patient information and no free text/i)).toBeVisible();
   await expect(page.locator("#pilot-builder textarea, #pilot-builder input")).toHaveCount(0);
+
+  await expect(page.getByRole("heading", { name: /One governed source package, multiple controlled outputs/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Inspect current platform capabilities/i })).toHaveAttribute("href", "/patient-education/capability-manifest.json");
+  await expect(page.getByRole("link", { name: /Review the public package contract/i })).toHaveAttribute("href", "/patient-education/schemas/public-package-descriptor-v1.schema.json");
+  await expect(page.getByRole("link", { name: /Inspect a controlled preview bundle/i })).toHaveAttribute("href", "/patient-education/demo/controlled-preview-bundle.json");
+
+  const capabilityResponse = await page.request.get("/patient-education/capability-manifest.json");
+  expect(capabilityResponse.ok()).toBe(true);
+  const capability = await capabilityResponse.json();
+  expect(capability.engineCapabilities?.deterministicMultiChannelCompilation).toBe(true);
+  expect(capability.privacyPosture?.phiRequired).toBe(false);
+
+  const previewResponse = await page.request.get("/patient-education/demo/controlled-preview-bundle.json");
+  expect(previewResponse.ok()).toBe(true);
+  const preview = await previewResponse.json();
+  expect(preview.mode).toBe("controlled_preview");
+  expect(JSON.stringify(preview)).not.toMatch(/reviewerIdentityRef|patientName|medicalRecordNumber/i);
 
   const initialUrl = page.url();
   await page.getByLabel("Care setting").selectOption("acute_inpatient");

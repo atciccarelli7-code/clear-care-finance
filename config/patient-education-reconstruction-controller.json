@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "1.0.0",
+  "controllerId": "CAF-PE-RECONSTRUCTION-CONTROLLER",
+  "status": "active_development_control",
+  "sourceArchitecture": {
+    "pullRequest": 190,
+    "branch": "agent/caf-patient-education-product",
+    "mustRemainDraft": true,
+    "directMergeProhibited": true,
+    "requiredClosure": "superseded"
+  },
+  "tranches": [
+    {
+      "trancheId": "A",
+      "sequence": 1,
+      "title": "Public institutional product surface",
+      "state": "reconciled",
+      "dependsOn": [],
+      "branchCreationAuthorized": false,
+      "mergeRequired": false,
+      "mergeAuthorized": false,
+      "evidenceRefs": [
+        "path://config/patient-education-reconstruction-reconciliation.json",
+        "path://docs/caf-patient-education-tranche-a-reconciliation-addendum.md"
+      ],
+      "workItems": ["AND-20"],
+      "remainingGate": "Retain exact blob identity and pass final integrated build, browser, mobile, accessibility, privacy, and regression certification."
+    },
+    {
+      "trancheId": "B",
+      "sequence": 2,
+      "title": "Structured content and deterministic compilation core",
+      "state": "in_review",
+      "dependsOn": ["A"],
+      "branchCreationAuthorized": true,
+      "branch": "agent/caf-pe-tranche-b-integrity-privacy",
+      "pullRequest": 192,
+      "mergeRequired": true,
+      "mergeAuthorized": false,
+      "repositoryActionsCertified": false,
+      "localSnapshotEvidenceAvailable": true,
+      "evidenceRefs": [
+        "github-pr://192",
+        "linear://AND-21"
+      ],
+      "workItems": ["AND-21"],
+      "remainingGate": "Close provenance review findings and attach successful repository Actions, targeted tests, and production-build evidence to one exact commit."
+    },
+    {
+      "trancheId": "C",
+      "sequence": 3,
+      "title": "Quality, localization, organization overlay, and review workflow",
+      "state": "blocked",
+      "dependsOn": ["B"],
+      "branchCreationAuthorized": false,
+      "mergeRequired": true,
+      "mergeAuthorized": false,
+      "evidenceRefs": [
+        "path://config/patient-education-tranche-c-reconciliation.json",
+        "path://docs/caf-patient-education-tranche-c-reconciliation.md",
+        "linear://AND-22"
+      ],
+      "workItems": ["AND-22", "AND-11", "AND-15", "AND-17"],
+      "remainingGate": "Resolve and merge or supersede Tranche B, then rerun reconciliation from current main before creating a bounded branch."
+    },
+    {
+      "trancheId": "D",
+      "sequence": 4,
+      "title": "Release, authority, signing, and tenant isolation",
+      "state": "blocked",
+      "dependsOn": ["C"],
+      "branchCreationAuthorized": false,
+      "mergeRequired": true,
+      "mergeAuthorized": false,
+      "evidenceRefs": ["linear://AND-12", "linear://AND-16"],
+      "workItems": ["AND-12", "AND-16"],
+      "remainingGate": "Tranche C must merge and its exact integration commit must pass before authority reconstruction begins."
+    },
+    {
+      "trancheId": "E",
+      "sequence": 5,
+      "title": "Delivery, operations, continuity, and recall",
+      "state": "blocked",
+      "dependsOn": ["D"],
+      "branchCreationAuthorized": false,
+      "mergeRequired": true,
+      "mergeAuthorized": false,
+      "evidenceRefs": ["linear://AND-13", "linear://AND-14", "linear://AND-19"],
+      "workItems": ["AND-13", "AND-14", "AND-19"],
+      "remainingGate": "Tranche D must merge and exact release-authority, identity, signing, and isolation evidence must pass before delivery reconstruction."
+    },
+    {
+      "trancheId": "F",
+      "sequence": 6,
+      "title": "Canonical registry, conformance, and CI certification",
+      "state": "blocked",
+      "dependsOn": ["E"],
+      "branchCreationAuthorized": false,
+      "mergeRequired": true,
+      "mergeAuthorized": false,
+      "evidenceRefs": ["linear://AND-18", "linear://AND-20"],
+      "workItems": ["AND-18", "AND-20"],
+      "remainingGate": "Tranches B through E must be integrated before final registry, 88-path conformance, exact-head CI, and source-architecture closure."
+    }
+  ],
+  "allowedStates": [
+    "not_started",
+    "reconciled",
+    "blocked",
+    "branch_ready",
+    "in_review",
+    "changes_required",
+    "certified",
+    "merged",
+    "superseded",
+    "canceled"
+  ],
+  "transitionRules": [
+    {"from":"not_started","to":["reconciled","blocked","branch_ready","canceled"]},
+    {"from":"reconciled","to":["blocked","branch_ready","certified","canceled"]},
+    {"from":"blocked","to":["branch_ready","canceled"]},
+    {"from":"branch_ready","to":["in_review","canceled"]},
+    {"from":"in_review","to":["changes_required","certified","superseded","canceled"]},
+    {"from":"changes_required","to":["in_review","superseded","canceled"]},
+    {"from":"certified","to":["merged","changes_required","superseded"]},
+    {"from":"merged","to":[]},
+    {"from":"superseded","to":[]},
+    {"from":"canceled","to":[]}
+  ],
+  "globalGates": {
+    "noForceMerge": true,
+    "noDependentBranchBeforePrerequisiteMerge": true,
+    "exactCommitEvidenceRequired": true,
+    "repositoryActionsEvidenceRequired": true,
+    "productionBuildRequired": true,
+    "targetedTestsRequired": true,
+    "claimsBoundaryRequired": true,
+    "patientCareUseProhibited": true,
+    "pilotAuthorizationProhibited": true,
+    "productionDeliveryProhibited": true
+  },
+  "completionRule": "The reconstruction program is complete only after A remains reconciled, B through F are merged in dependency order from current main, one final integrated commit passes all authority, type, unit, build, browser, accessibility, privacy, and conformance gates, every PR 190 capability is accounted for, and PR 190 closes as superseded rather than merged.",
+  "claimsBoundary": [
+    "This controller governs reconstruction sequencing and evidence state only.",
+    "It contains no clinical guidance, patient data, organization configuration, reviewer identity, credential, signing secret, or approval.",
+    "A tranche state does not establish clinical approval, accessibility conformance, hospital deployment, pilot authorization, production readiness, compliance, or outcomes."
+  ]
+}

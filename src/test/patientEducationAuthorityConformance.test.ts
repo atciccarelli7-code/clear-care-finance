@@ -46,6 +46,9 @@ export const patientEducationAuthorityCapabilityIds = [
   "organization-lifecycle",
   "job-orchestration",
   "institutional-authority-decision",
+  "authority-contract",
+  "tenant-isolation",
+  "continuity-contract",
 ] as const;
 
 const scenarioTypeByCapability: Partial<Record<typeof patientEducationAuthorityCapabilityIds[number],
@@ -66,8 +69,10 @@ const scenarioTypeByCapability: Partial<Record<typeof patientEducationAuthorityC
   "signing-authority": "tamper_detection",
   "job-orchestration": "tamper_detection",
   "organization-isolation": "cross_organization_block",
+  "tenant-isolation": "cross_organization_block",
   "organization-lifecycle": "expired_or_stale_block",
   "evidence-freshness": "expired_or_stale_block",
+  "authority-contract": "expired_or_stale_block",
   "authority-policy": "separation_of_duties_block",
   "review-workflow": "separation_of_duties_block",
   "privacy-boundary": "privacy_block",
@@ -75,6 +80,7 @@ const scenarioTypeByCapability: Partial<Record<typeof patientEducationAuthorityC
   "incident-response": "incident_escalation",
   "distribution-control": "suspension_or_recall",
   "resilience-retention": "restore_failure",
+  "continuity-contract": "restore_failure",
   "schema-migration": "migration_failure",
   "governance-profile": "policy_drift_block",
   "private-authority-decision": "bundle_withheld",
@@ -125,7 +131,7 @@ const scenarios = patientEducationAuthorityCapabilityIds.flatMap((capabilityId) 
 const unsignedAuthorityPackage = {
   schemaVersion: "1.0.0" as const,
   conformancePackageId: "CAF-PE-CONFORMANCE-PACKAGE-AUTHORITY-COMPLETE",
-  conformanceVersion: "2.0.0",
+  conformanceVersion: "2.1.0",
   syntheticPackageId: "CAF-PE-SYNTHETIC-AUTHORITY-COMPLETE",
   syntheticOrganizationKey: "SYNTHETIC-HOSPITAL" as const,
   generatedAt: "2026-07-18T22:00:00.000Z",
@@ -179,7 +185,7 @@ const unsignedAuthorityPackage = {
 };
 
 describe("patientEducationAuthorityConformance", () => {
-  it("requires all 41 governed capabilities and two passed synthetic paths per capability", () => {
+  it("requires all 44 governed capabilities and two passed synthetic paths per capability", () => {
     const conformancePackage = buildPatientEducationConformancePackage(unsignedAuthorityPackage);
     const result = evaluatePatientEducationConformancePackage({
       conformancePackage,
@@ -187,14 +193,21 @@ describe("patientEducationAuthorityConformance", () => {
       evaluatedAt: "2026-07-18T23:00:00.000Z",
     });
     expect(result.decision).toBe("conformant");
-    expect(result.capabilityCount).toBe(41);
-    expect(result.scenarioCount).toBe(82);
-    expect(result.passedScenarioCount).toBe(82);
+    expect(result.capabilityCount).toBe(44);
+    expect(result.scenarioCount).toBe(88);
+    expect(result.passedScenarioCount).toBe(88);
     expect(result.findings).toEqual([]);
   });
 
-  it("blocks loss of organization lifecycle, job orchestration, or final dispatch authority", () => {
-    for (const criticalCapability of ["organization-lifecycle", "job-orchestration", "institutional-authority-decision"] as const) {
+  it("blocks loss of organization lifecycle, job orchestration, final dispatch authority, session authority, tenant isolation, or continuity recovery", () => {
+    for (const criticalCapability of [
+      "organization-lifecycle",
+      "job-orchestration",
+      "institutional-authority-decision",
+      "authority-contract",
+      "tenant-isolation",
+      "continuity-contract",
+    ] as const) {
       const conformancePackage = buildPatientEducationConformancePackage({
         ...unsignedAuthorityPackage,
         capabilities: unsignedAuthorityPackage.capabilities.filter((capability) => capability.capabilityId !== criticalCapability),

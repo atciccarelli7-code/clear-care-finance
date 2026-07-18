@@ -137,6 +137,102 @@ const capabilities = [
     tests: ["src/test/patientEducationPilotAnalyticsContract.test.ts"],
     requiredExports: ["patientEducationPilotAnalyticsBatchSchema", "calculatePatientEducationPilotRates"],
   },
+  {
+    id: "authority-policy",
+    implementation: "src/lib/patientEducationAuthorityPolicy.ts",
+    tests: ["src/test/patientEducationAuthorityPolicy.test.ts"],
+    requiredExports: ["evaluatePatientEducationAuthority", "assertPatientEducationAuthority"],
+  },
+  {
+    id: "organization-isolation",
+    implementation: "src/lib/patientEducationOrganizationIsolation.ts",
+    tests: ["src/test/patientEducationOrganizationIsolation.test.ts"],
+    requiredExports: ["evaluatePatientEducationOrganizationAccess", "assertPatientEducationOrganizationAccess"],
+  },
+  {
+    id: "evidence-freshness",
+    implementation: "src/lib/patientEducationEvidenceFreshnessEngine.ts",
+    tests: ["src/test/patientEducationEvidenceFreshnessEngine.test.ts"],
+    requiredExports: ["evaluatePatientEducationEvidenceFreshness", "assertPatientEducationEvidenceCurrent"],
+  },
+  {
+    id: "exception-policy",
+    implementation: "src/lib/patientEducationExceptionPolicy.ts",
+    tests: ["src/test/patientEducationExceptionPolicy.test.ts"],
+    requiredExports: ["evaluatePatientEducationException", "assertPatientEducationExceptionEffective"],
+  },
+  {
+    id: "reproducibility-manifest",
+    implementation: "src/lib/patientEducationReproducibilityManifest.ts",
+    tests: ["src/test/patientEducationReproducibilityManifest.test.ts"],
+    requiredExports: ["buildPatientEducationReproducibilityManifest", "verifyPatientEducationReproducibilityManifest"],
+  },
+  {
+    id: "signing-authority",
+    implementation: "src/lib/patientEducationSigningAuthority.ts",
+    tests: ["src/test/patientEducationSigningAuthority.test.ts"],
+    requiredExports: ["evaluatePatientEducationSignatures", "assertPatientEducationSignaturesTrusted"],
+  },
+  {
+    id: "schema-migration",
+    implementation: "src/lib/patientEducationSchemaMigration.ts",
+    tests: ["src/test/patientEducationSchemaMigration.test.ts"],
+    requiredExports: ["evaluatePatientEducationMigrationPlan", "verifyPatientEducationMigrationReceipt"],
+  },
+  {
+    id: "dependency-graph",
+    implementation: "src/lib/patientEducationDependencyGraph.ts",
+    tests: ["src/test/patientEducationDependencyGraph.test.ts"],
+    requiredExports: ["analyzePatientEducationBlastRadius"],
+  },
+  {
+    id: "operational-observability",
+    implementation: "src/lib/patientEducationOperationalObservability.ts",
+    tests: ["src/test/patientEducationOperationalObservability.test.ts"],
+    requiredExports: ["evaluatePatientEducationOperationalHealth"],
+  },
+  {
+    id: "incident-response",
+    implementation: "src/lib/patientEducationIncidentResponse.ts",
+    tests: ["src/test/patientEducationIncidentResponse.test.ts"],
+    requiredExports: ["evaluatePatientEducationIncident"],
+  },
+  {
+    id: "resilience-retention",
+    implementation: "src/lib/patientEducationResiliencePolicy.ts",
+    tests: ["src/test/patientEducationResiliencePolicy.test.ts"],
+    requiredExports: ["evaluatePatientEducationResilience", "evaluatePatientEducationDestruction"],
+  },
+  {
+    id: "audit-export",
+    implementation: "src/lib/patientEducationAuditExport.ts",
+    tests: ["src/test/patientEducationAuditExport.test.ts"],
+    requiredExports: ["buildPatientEducationAuditExport", "verifyPatientEducationAuditExport"],
+  },
+  {
+    id: "review-workflow",
+    implementation: "src/lib/patientEducationReviewWorkflow.ts",
+    tests: ["src/test/patientEducationReviewWorkflow.test.ts"],
+    requiredExports: ["evaluatePatientEducationReviewWorkflow", "reopenPatientEducationReviewTasks"],
+  },
+  {
+    id: "governance-profile",
+    implementation: "src/lib/patientEducationGovernanceProfile.ts",
+    tests: ["src/test/patientEducationGovernanceProfile.test.ts"],
+    requiredExports: ["buildPatientEducationGovernanceProfile", "evaluatePatientEducationGovernanceProfile"],
+  },
+  {
+    id: "private-authority-decision",
+    implementation: "src/lib/patientEducationPrivateAuthorityDecision.ts",
+    tests: ["src/test/patientEducationPrivateAuthorityDecision.test.ts"],
+    requiredExports: ["evaluatePatientEducationPrivateAuthority"],
+  },
+  {
+    id: "conformance-package",
+    implementation: "src/lib/patientEducationConformancePackage.ts",
+    tests: ["src/test/patientEducationConformancePackage.test.ts"],
+    requiredExports: ["buildPatientEducationConformancePackage", "evaluatePatientEducationConformancePackage"],
+  },
 ];
 
 const publicProofFiles = [
@@ -144,11 +240,13 @@ const publicProofFiles = [
   "public/patient-education/schemas/public-package-descriptor-v1.schema.json",
   "public/patient-education/schemas/controlled-preview-bundle-v1.schema.json",
   "public/patient-education/demo/controlled-preview-bundle.json",
+  "public/patient-education/demo/synthetic-governed-conformance-manifest.json",
 ];
 
 const architectureDocuments = [
   "docs/caf-patient-education-public-product-architecture.md",
   "docs/caf-patient-education-governed-platform-foundation.md",
+  "docs/caf-patient-education-private-authority-blueprint.md",
 ];
 
 const requiredSafetyTests = [
@@ -157,6 +255,22 @@ const requiredSafetyTests = [
   ["src/test/patientEducationDistributionControl.test.ts", ["recall", "revokes"]],
   ["src/test/patientEducationReleaseStateMachine.test.ts", ["jumping directly", "re-enter circulation"]],
   ["src/test/patientEducationLocalizationContract.test.ts", ["machine-only"]],
+  ["src/test/patientEducationAuthorityPolicy.test.ts", ["separation-of-duties violations"]],
+  ["src/test/patientEducationOrganizationIsolation.test.ts", ["cross-organization access"]],
+  ["src/test/patientEducationEvidenceFreshnessEngine.test.ts", ["controlling source for a critical claim is retracted"]],
+  ["src/test/patientEducationExceptionPolicy.test.ts", ["non-waivable controls"]],
+  ["src/test/patientEducationReproducibilityManifest.test.ts", ["tampering with source provenance"]],
+  ["src/test/patientEducationSigningAuthority.test.ts", ["revoked keys"]],
+  ["src/test/patientEducationSchemaMigration.test.ts", ["identifier loss"]],
+  ["src/test/patientEducationDependencyGraph.test.ts", ["controlling source change through every distributed artifact"]],
+  ["src/test/patientEducationOperationalObservability.test.ts", ["patient-level data"]],
+  ["src/test/patientEducationIncidentResponse.test.ts", ["distribution freeze"]],
+  ["src/test/patientEducationResiliencePolicy.test.ts", ["restore tests"]],
+  ["src/test/patientEducationAuditExport.test.ts", ["redacted organization-scoped export"]],
+  ["src/test/patientEducationReviewWorkflow.test.ts", ["reopens affected tasks"]],
+  ["src/test/patientEducationGovernanceProfile.test.ts", ["missing a required policy"]],
+  ["src/test/patientEducationPrivateAuthorityDecision.test.ts", ["withholds the distributable candidate"]],
+  ["src/test/patientEducationConformancePackage.test.ts", ["every governed capability"]],
 ];
 
 const errors = [];
@@ -200,6 +314,21 @@ for (const [testFile, phrases] of requiredSafetyTests) {
   }
 }
 
+const conformanceManifestPath = "public/patient-education/demo/synthetic-governed-conformance-manifest.json";
+if (exists(conformanceManifestPath)) {
+  try {
+    const conformanceManifest = JSON.parse(read(conformanceManifestPath));
+    const capabilityIds = capabilities.map((capability) => capability.id);
+    const missing = capabilityIds.filter((capabilityId) => !conformanceManifest.capabilities?.includes(capabilityId));
+    const unexpected = (conformanceManifest.capabilities ?? []).filter((capabilityId) => !capabilityIds.includes(capabilityId));
+    if (missing.length > 0) errors.push(`Public conformance manifest is missing foundation capabilities: ${missing.join(", ")}`);
+    if (unexpected.length > 0) errors.push(`Public conformance manifest contains capabilities absent from the foundation: ${unexpected.join(", ")}`);
+    if (conformanceManifest.capabilityCount !== capabilities.length) errors.push(`Public conformance manifest capabilityCount ${conformanceManifest.capabilityCount} does not equal foundation count ${capabilities.length}.`);
+  } catch (error) {
+    errors.push(`Unable to reconcile public conformance manifest: ${error.message}`);
+  }
+}
+
 const publicRoot = absolute("public/patient-education");
 if (fs.existsSync(publicRoot)) {
   const publicFiles = [];
@@ -221,8 +350,8 @@ if (fs.existsSync(publicRoot)) {
 }
 
 const testCount = new Set(capabilities.flatMap((capability) => capability.tests)).size;
-if (testCount < capabilities.length - 2) {
-  warnings.push(`Foundation has ${capabilities.length} capabilities but only ${testCount} unique capability test files.`);
+if (testCount !== capabilities.length) {
+  warnings.push(`Foundation has ${capabilities.length} capabilities and ${testCount} unique capability test files; one-to-one coverage is expected.`);
 }
 
 if (warnings.length > 0) {
@@ -236,4 +365,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Patient Education foundation check passed: ${capabilities.length} governed capabilities, ${testCount} capability test files, ${publicProofFiles.length} public-safe proof artifacts, and ${architectureDocuments.length} architecture documents.`);
+console.log(`Patient Education foundation check passed: ${capabilities.length} governed capabilities, ${testCount} capability test files, ${publicProofFiles.length} public-safe proof artifacts, ${architectureDocuments.length} architecture documents, and ${requiredSafetyTests.length} required safety scenarios.`);

@@ -41,6 +41,18 @@ describe("patient education content contract", () => {
     if (!result.success) expect(result.error.issues.map((issue) => issue.message).join(" ")).toMatch(/PHI-capable field/i);
   });
 
+  it("rejects emergency callouts without an explicit action", () => {
+    const value = {
+      ...patientEducationFullGuideDocumentFixture,
+      blocks: patientEducationFullGuideDocumentFixture.blocks.map((block) => (
+        block.type === "callout" ? { ...block, action: undefined } : block
+      )),
+    };
+    const result = validatePatientEducationContentDocument(value);
+    expect(result.success).toBe(false);
+    if (!result.success) expect(result.error.issues.map((issue) => issue.message).join(" ")).toMatch(/Emergency callout.*explicit action/i);
+  });
+
   it("rejects duplicate block identifiers", () => {
     const duplicate = patientEducationQuickStartDocumentFixture.blocks[0];
     const value = {

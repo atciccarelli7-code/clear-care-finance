@@ -6,8 +6,11 @@ import {
   Boxes,
   CheckCircle2,
   ClipboardCheck,
+  Code2,
   FileCheck2,
+  FileJson2,
   HeartHandshake,
+  Layers3,
   LockKeyhole,
   RefreshCcw,
   ShieldCheck,
@@ -42,6 +45,24 @@ const guideAnatomy = [
   ["4", "Your personal plan", "Fields for actual orders, schedules, contacts, refills, suppliers, and follow-up."],
   ["5", "How to do it", "Numbered steps, accurate visuals, show-me checks, and topic-specific troubleshooting."],
   ["6", "When the plan breaks", "Practical instructions for failed refills, delayed supplies, missing home health, weekends, and conflicting instructions."],
+] as const;
+
+const technicalCapabilities = [
+  {
+    icon: Code2,
+    title: "Typed content contract",
+    description: "Every heading, action, warning, procedure, teach-back prompt, troubleshooting branch, and personalization field is validated before compilation.",
+  },
+  {
+    icon: Layers3,
+    title: "Release bundle compiler",
+    description: "Package versions, source-dossier references, asset types, supported formats, output paths, checksums, and release states must reconcile.",
+  },
+  {
+    icon: FileJson2,
+    title: "Controlled proof registry",
+    description: "Public schemas and a nonclinical preview demonstrate the platform while reviewer provenance, clinical payloads, PHI-capable fields, and client material remain withheld.",
+  },
 ] as const;
 
 const PatientEducationSystemsPage = () => {
@@ -211,7 +232,49 @@ const PatientEducationSystemsPage = () => {
         </div>
       </section>
 
-      <section className="container max-w-7xl py-14 md:py-20" aria-labelledby="governance-title">
+      <section className="container max-w-7xl py-14 md:py-20" aria-labelledby="technical-platform-title">
+        <div className="rounded-[2rem] border border-primary/20 bg-primary-soft/15 p-6 shadow-card md:p-8">
+          <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+            <div>
+              <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Versioned technical platform</div>
+              <h2 id="technical-platform-title" className="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">One governed source package, multiple controlled outputs.</h2>
+              <p className="mt-4 leading-relaxed text-muted-foreground">The engine validates content structure, package metadata, versions, source-dossier references, release gates, distribution boundaries, and asset compatibility before producing any delivery bundle.</p>
+              <div className="mt-5 flex flex-wrap gap-2 text-xs font-bold">
+                {["Responsive HTML", "Print HTML", "Structured text", "AVS text", "Patient portal JSON"].map((target) => <span key={target} className="rounded-full border border-primary/20 bg-background px-3 py-1 text-primary">{target}</span>)}
+              </div>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {technicalCapabilities.map(({ icon: Icon, title, description }) => (
+                <article key={title} className="rounded-3xl border border-border bg-background p-5">
+                  <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+                  <h3 className="mt-4 font-display text-xl font-bold">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-4 border-t border-primary/15 pt-6 md:grid-cols-3">
+            <a href="/patient-education/capability-manifest.json" className="rounded-2xl border border-border bg-background p-5 transition hover:border-primary/40 hover:shadow-sm">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Capability registry</div>
+              <div className="mt-2 font-display text-lg font-bold">Inspect current platform capabilities</div>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Public-safe delivery phases, release gates, formats, privacy posture, and flagship status.</p>
+            </a>
+            <a href="/patient-education/schemas/public-package-descriptor-v1.schema.json" className="rounded-2xl border border-border bg-background p-5 transition hover:border-primary/40 hover:shadow-sm">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Versioned schema</div>
+              <div className="mt-2 font-display text-lg font-bold">Review the public package contract</div>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">A narrower contract that proves package and release semantics without exposing private governance records.</p>
+            </a>
+            <a href="/patient-education/demo/controlled-preview-bundle.json" className="rounded-2xl border border-border bg-background p-5 transition hover:border-primary/40 hover:shadow-sm">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Nonclinical demonstration</div>
+              <div className="mt-2 font-display text-lg font-bold">Inspect a controlled preview bundle</div>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Artifact metadata, paths, targets, checksums, release state, and withheld categories—without clinical payloads.</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="container max-w-7xl pb-14 md:pb-20" aria-labelledby="governance-title">
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Nonnegotiable release gates</div>

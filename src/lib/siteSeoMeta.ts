@@ -81,6 +81,35 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
   ],
 };
 
+const patientEducationSystemsMeta: SeoRouteMeta = {
+  title: "Hospital Patient Education Systems and Discharge Guides",
+  description:
+    "Review CAF Patient Education Systems: an RN-designed, clinically governed hospital-to-home education product with patient guides, teach-back, operational continuity, institutional customization, and measurable pilots.",
+  canonicalPath: "/for-organizations/patient-education-systems",
+  robots: "index, follow, max-image-preview:large",
+  jsonLd: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "For Organizations", item: `${SITE_URL}/for-organizations` },
+        { "@type": "ListItem", position: 3, name: "Patient Education Systems", item: `${SITE_URL}/for-organizations/patient-education-systems` },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: "CAF Patient Education Systems",
+      description:
+        "An RN-designed, clinically governed hospital-to-home education product with patient guides, teach-back, operational continuity, institutional customization, and measurable pilots.",
+      url: `${SITE_URL}/for-organizations/patient-education-systems`,
+      isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+      publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    },
+  ],
+};
+
 const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, description: string) =>
   jsonLd?.map((item) => {
     const type = item["@type"];
@@ -102,6 +131,7 @@ const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, descriptio
 export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
   const path = normalizePath(pathname);
   if (path === benefitsCommandCenterMeta.canonicalPath) return benefitsCommandCenterMeta;
+  if (path === patientEducationSystemsMeta.canonicalPath) return patientEducationSystemsMeta;
 
   const base = resolveSeoMeta(path);
   const override = overrides[path];

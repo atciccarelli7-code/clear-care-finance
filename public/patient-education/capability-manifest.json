@@ -4,7 +4,7 @@
   "productName": "CAF Patient Education Systems",
   "status": "development_stage",
   "publicClassification": "public_product_architecture",
-  "description": "RN-designed hospital-to-home patient education product architecture with governed content, workflow tools, operational continuity, and measurable pilots.",
+  "description": "RN-designed hospital-to-home patient education product architecture with governed content, workflow tools, operational continuity, measurable pilots, and a versioned multi-channel content engine.",
   "publicRoute": "/for-organizations/patient-education-systems",
   "privacyPosture": {
     "phiRequired": false,
@@ -13,16 +13,59 @@
     "answerLevelAnalytics": false,
     "patientSpecificPersonalizationLocation": "Healthcare organization approved environment"
   },
+  "engineCapabilities": {
+    "typedContentBlocks": true,
+    "deterministicMultiChannelCompilation": true,
+    "packageDocumentReferentialIntegrity": true,
+    "distributionModeRedaction": true,
+    "releaseGateEnforcement": true,
+    "artifactChecksums": true,
+    "versionedOutputPaths": true,
+    "supportedOutputTargets": [
+      "responsive_html",
+      "print_html",
+      "structured_text",
+      "avs_text",
+      "patient_portal_json"
+    ],
+    "plannedExternalProductionTargets": [
+      "print_pdf",
+      "accessible_pdf",
+      "video",
+      "audio",
+      "image"
+    ]
+  },
+  "contractRegistry": [
+    {
+      "id": "public_package_descriptor_v1",
+      "label": "Public package descriptor schema",
+      "path": "/patient-education/schemas/public-package-descriptor-v1.schema.json",
+      "classification": "public_product_architecture"
+    },
+    {
+      "id": "controlled_preview_bundle_v1",
+      "label": "Controlled preview bundle schema",
+      "path": "/patient-education/schemas/controlled-preview-bundle-v1.schema.json",
+      "classification": "public_product_architecture"
+    },
+    {
+      "id": "controlled_preview_demo_v1",
+      "label": "Nonclinical controlled preview demonstration bundle",
+      "path": "/patient-education/demo/controlled-preview-bundle.json",
+      "classification": "public_product_architecture"
+    }
+  ],
   "deliveryPhases": [
     {
       "id": "controlled_content",
       "label": "Controlled content delivery",
-      "formats": ["responsive_html", "print_pdf", "accessible_pdf", "structured_text", "json", "video", "audio"]
+      "formats": ["responsive_html", "print_html", "print_pdf", "accessible_pdf", "structured_text", "patient_portal_json", "video", "audio"]
     },
     {
       "id": "hospital_controlled_workflow",
       "label": "Hospital-controlled workflow",
-      "formats": ["patient_education_library", "avs", "patient_portal", "local_personalization", "local_documentation"]
+      "formats": ["patient_education_library", "avs_text", "patient_portal_json", "local_personalization", "local_documentation"]
     },
     {
       "id": "interoperable_delivery",

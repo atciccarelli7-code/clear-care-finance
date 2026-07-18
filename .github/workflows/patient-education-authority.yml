@@ -5,24 +5,32 @@ on:
     paths:
       - "src/lib/patientEducation*.ts"
       - "src/test/patientEducation*.test.ts"
+      - "src/test/fixtures/patientEducationEngineFixture.ts"
       - "scripts/check-patient-education-*.mjs"
+      - "config/patient-education-*.json"
       - "public/patient-education/**"
       - "docs/caf-patient-education-*.md"
+      - "tsconfig.patient-education-authority.json"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/patient-education-authority.yml"
+      - ".github/workflows/patient-education-authority-typecheck.yml"
   push:
     branches:
       - agent/caf-patient-education-product
     paths:
       - "src/lib/patientEducation*.ts"
       - "src/test/patientEducation*.test.ts"
+      - "src/test/fixtures/patientEducationEngineFixture.ts"
       - "scripts/check-patient-education-*.mjs"
+      - "config/patient-education-*.json"
       - "public/patient-education/**"
       - "docs/caf-patient-education-*.md"
+      - "tsconfig.patient-education-authority.json"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/patient-education-authority.yml"
+      - ".github/workflows/patient-education-authority-typecheck.yml"
   workflow_dispatch:
 
 permissions:
@@ -34,9 +42,9 @@ concurrency:
 
 jobs:
   certify-authority-foundation:
-    name: Certify 41-capability authority foundation
+    name: Certify 44-capability authority foundation
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Check out exact revision
@@ -53,17 +61,8 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
-      - name: Validate public and institutional boundaries
-        run: |
-          npm run institutional:boundary-check
-          npm run patient-education:manifest-check
-          npm run patient-education:public-contracts-check
-
-      - name: Validate governed foundation inventories
-        run: |
-          node scripts/check-patient-education-foundation.mjs
-          node scripts/check-patient-education-conformance-manifest.mjs
-          node scripts/check-patient-education-authority-foundation.mjs
+      - name: Validate complete patient education authority
+        run: npm run patient-education:verify
 
       - name: Run complete patient education unit and adversarial suite
         run: npx vitest run src/test/patientEducation*.test.ts --reporter=verbose
@@ -71,27 +70,41 @@ jobs:
       - name: Run production build
         run: npm run build
 
-      - name: Preserve certification metadata
+      - name: Preserve certification metadata and source digests
         if: always()
+        shell: bash
         run: |
           mkdir -p artifacts/patient-education-authority
+          sha256sum \
+            config/patient-education-capability-registry.json \
+            config/patient-education-non-authority-modules.json \
+            public/patient-education/demo/synthetic-authority-conformance-manifest.json \
+            scripts/check-patient-education-capability-registry.mjs \
+            scripts/check-patient-education-authority-foundation.mjs \
+            tsconfig.patient-education-authority.json \
+            > artifacts/patient-education-authority/source-digests.sha256
           cat > artifacts/patient-education-authority/certification-metadata.json <<EOF
           {
-            "schemaVersion": "1.0.0",
+            "schemaVersion": "2.1.0",
             "workflow": "Patient Education Authority Certification",
+            "registryId": "CAF-PE-CAPABILITY-REGISTRY-AUTHORITY-COMPLETE",
             "repository": "${GITHUB_REPOSITORY}",
             "commitSha": "${GITHUB_SHA}",
             "ref": "${GITHUB_REF}",
             "runId": "${GITHUB_RUN_ID}",
             "runAttempt": "${GITHUB_RUN_ATTEMPT}",
-            "governedCapabilityCount": 41,
-            "syntheticScenarioCount": 82,
+            "governedCapabilityCount": 44,
+            "syntheticScenarioCount": 88,
+            "explicitlyNonAuthorityModuleCount": 1,
             "patientCareUse": "prohibited",
             "claimsBoundary": "Engineering conformance only; no clinical approval, compliance certification, deployment, or patient outcomes."
           }
           EOF
+          cp config/patient-education-capability-registry.json artifacts/patient-education-authority/
+          cp config/patient-education-non-authority-modules.json artifacts/patient-education-authority/
+          cp public/patient-education/demo/synthetic-authority-conformance-manifest.json artifacts/patient-education-authority/
 
-      - name: Upload certification metadata
+      - name: Upload certification evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:

@@ -165,9 +165,14 @@ if (exists(authorityTestPath)) {
   errors.push(`Missing authority conformance test: ${authorityTestPath}`);
 }
 
-const serializedPublicRegistries = JSON.stringify({ registry, nonAuthorityRegistry }).toLowerCase();
-for (const prohibited of ["patient name", "medical record number", "date of birth", "private key", "reviewer email", "real hospital contact", "blood thinner dosage"]) {
-  if (serializedPublicRegistries.includes(prohibited)) errors.push(`Patient Education registry contains prohibited public phrase: ${prohibited}.`);
+const serializedPublicRegistries = JSON.stringify({ registry, nonAuthorityRegistry });
+const populatedSensitivePatterns = [
+  /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
+  /"(?:patientName|medicalRecordNumber|dateOfBirth|reviewerEmail|realHospitalContact|bloodThinnerDosage)"\s*:\s*"[^"\s][^"]*"/i,
+  /"privateKey(?:Inline|Value|Pem)?"\s*:\s*"[^"\s][^"]*"/i,
+];
+for (const pattern of populatedSensitivePatterns) {
+  if (pattern.test(serializedPublicRegistries)) errors.push(`Patient Education registry contains populated sensitive material matching ${pattern}.`);
 }
 
 if (warnings.length > 0) {

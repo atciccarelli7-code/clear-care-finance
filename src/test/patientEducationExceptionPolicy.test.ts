@@ -131,16 +131,26 @@ describe("patientEducationExceptionPolicy", () => {
     ]));
   });
 
-  it("blocks critical-risk exceptions", () => {
+  it("blocks critical-risk exceptions even when the base record is well formed", () => {
     const result = evaluatePatientEducationException({
       request: {
         ...approvedException,
         riskTier: "critical" as const,
-        expiresAt: approvedException.effectiveAt,
+        expiresAt: "2026-07-18T18:00:00.000Z",
+        approvals: [
+          approvedException.approvals[0],
+          {
+            ...approvedException.approvals[1],
+            roleId: "executive_accountable_owner",
+          },
+        ],
       },
       policy,
       evaluatedAt: "2026-07-18T17:00:00.000Z",
     });
     expect(result.decision).toBe("blocked");
+    expect(result.findings).toEqual(expect.arrayContaining([
+      expect.objectContaining({ code: "EXCEPTION-CRITICAL-RISK-PROHIBITED" }),
+    ]));
   });
 });

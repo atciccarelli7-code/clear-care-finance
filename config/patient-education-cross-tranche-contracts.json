@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "public_safe_cross_tranche_contract_registry",
+  "contracts": [
+    {
+      "contractId": "CAF-PE-CROSS-TRANCHE-EXCEPTION-AUTHORITY",
+      "capabilityId": "exception-policy",
+      "dependsOnCapabilityId": "authority-policy",
+      "introducedInTranche": "C",
+      "completedInTranche": "D",
+      "dependencyType": "conceptual_enforcement",
+      "runtimeImportProhibitedBeforeCompletion": true,
+      "authorizationUseProhibitedBeforeCompletion": true,
+      "reason": "The exception request and human-decision schema can be reviewed with quality and review controls, but production exception enforcement requires the later authority-policy tranche."
+    }
+  ],
+  "claimsBoundary": [
+    "Cross-tranche contracts document reconstruction seams only.",
+    "They do not waive dependencies, authorize incomplete controls, or permit production use before the completion tranche.",
+    "They contain no patient, organization, identity, credential, signing, approval, or clinical instruction records."
+  ]
+}

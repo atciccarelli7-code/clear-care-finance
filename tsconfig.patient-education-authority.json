@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": ["vitest/globals", "node"]
+  },
+  "include": [
+    "src/lib/patientEducation*.ts",
+    "src/test/patientEducation*.test.ts",
+    "src/test/fixtures/patientEducationEngineFixture.ts"
+  ]
+}

@@ -79,6 +79,7 @@ jobs:
             config/patient-education-capability-registry.json \
             config/patient-education-non-authority-modules.json \
             config/patient-education-capability-dependencies.json \
+            config/patient-education-cross-tranche-contracts.json \
             public/patient-education/demo/synthetic-authority-conformance-manifest.json \
             scripts/check-patient-education-capability-registry.mjs \
             scripts/check-patient-education-capability-dependencies.mjs \
@@ -101,6 +102,7 @@ jobs:
             "syntheticScenarioCount": 88,
             "reconstructionTrancheCount": 6,
             "explicitlyNonAuthorityModuleCount": 1,
+            "explicitCrossTrancheContractCount": 1,
             "dependencyDagRequired": true,
             "reconstructionPlanRequired": true,
             "patientCareUse": "prohibited",
@@ -110,6 +112,7 @@ jobs:
           cp config/patient-education-capability-registry.json artifacts/patient-education-authority/
           cp config/patient-education-non-authority-modules.json artifacts/patient-education-authority/
           cp config/patient-education-capability-dependencies.json artifacts/patient-education-authority/
+          cp config/patient-education-cross-tranche-contracts.json artifacts/patient-education-authority/
           cp public/patient-education/demo/synthetic-authority-conformance-manifest.json artifacts/patient-education-authority/
           cp docs/caf-patient-education-branch-reconstruction-and-merge-plan.md artifacts/patient-education-authority/
 

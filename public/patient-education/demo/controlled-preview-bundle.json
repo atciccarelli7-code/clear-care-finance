@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "1.0.0",
+  "bundleId": "CAF-PE-DEMO-PLATFORM-v1.0.0-controlled_preview",
+  "generatedAt": "2026-07-18T12:45:00.000Z",
+  "mode": "controlled_preview",
+  "packageDescriptor": {
+    "schemaVersion": "1.0.0",
+    "packageId": "CAF-PE-DEMO-PLATFORM",
+    "title": "CAF Patient Education Platform Demonstration",
+    "shortTitle": "Platform Demo",
+    "description": "A nonclinical package descriptor demonstrating versioning, release gates, output formats, artifact checksums, and public-private content boundaries.",
+    "clinicalDomains": ["Care transitions"],
+    "intendedAudiences": ["Hospital reviewers", "Clinical operations", "Informatics"],
+    "careSettings": ["Acute care", "Observation", "Post-acute care"],
+    "language": "en-US",
+    "riskTier": "high",
+    "status": "internal_review",
+    "version": "1.0.0",
+    "assets": [
+      {
+        "assetId": "CAF-PE-DEMO-PLATFORM-QUICK-START",
+        "type": "quick_start",
+        "title": "Nonclinical Platform Quick Start",
+        "audiences": ["patient", "caregiver", "nurse"],
+        "formats": ["responsive_html", "print_html", "structured_text", "patient_portal_json"],
+        "version": "1.0.0",
+        "publicPreviewAvailable": true
+      },
+      {
+        "assetId": "CAF-PE-DEMO-PLATFORM-FULL-GUIDE",
+        "type": "full_guide",
+        "title": "Restricted Full Guide Placeholder",
+        "audiences": ["patient", "caregiver"],
+        "formats": ["responsive_html", "print_html", "accessible_pdf", "patient_portal_json"],
+        "version": "1.0.0",
+        "publicPreviewAvailable": false
+      },
+      {
+        "assetId": "CAF-PE-DEMO-PLATFORM-AVS",
+        "type": "avs_summary",
+        "title": "Restricted AVS Placeholder",
+        "audiences": ["patient", "nurse"],
+        "formats": ["avs_text"],
+        "version": "1.0.0",
+        "publicPreviewAvailable": false
+      }
+    ],
+    "releaseGateSummary": [
+      { "gate": "evidence", "status": "in_progress" },
+      { "gate": "clinical_review", "status": "not_started" },
+      { "gate": "health_literacy", "status": "not_started" },
+      { "gate": "accessibility", "status": "in_progress" },
+      { "gate": "patient_testing", "status": "not_started" },
+      { "gate": "institutional_localization", "status": "not_started" }
+    ],
+    "claimsBoundary": [
+      "This demonstration describes software architecture and does not contain clinical instructions or patient-specific advice.",
+      "No package is represented as pilot-ready, released, or clinically validated until all required gates and reviews are complete."
+    ]
+  },
+  "artifactIndex": [
+    {
+      "assetId": "CAF-PE-DEMO-PLATFORM-QUICK-START",
+      "target": "responsive_html",
+      "path": "platform-demo/caf-pe-demo-platform-quick-start/v1.0.0/nonclinical-platform-quick-start.html",
+      "mimeType": "text/html; charset=utf-8",
+      "checksum": "fnv1a-37b2a91c",
+      "version": "1.0.0"
+    },
+    {
+      "assetId": "CAF-PE-DEMO-PLATFORM-QUICK-START",
+      "target": "print_html",
+      "path": "platform-demo/caf-pe-demo-platform-quick-start/v1.0.0/nonclinical-platform-quick-start.print.html",
+      "mimeType": "text/html; charset=utf-8",
+      "checksum": "fnv1a-61f04b2e",
+      "version": "1.0.0"
+    },
+    {
+      "assetId": "CAF-PE-DEMO-PLATFORM-QUICK-START",
+      "target": "structured_text",
+      "path": "platform-demo/caf-pe-demo-platform-quick-start/v1.0.0/nonclinical-platform-quick-start.txt",
+      "mimeType": "text/plain; charset=utf-8",
+      "checksum": "fnv1a-4ab8d102",
+      "version": "1.0.0"
+    },
+    {
+      "assetId": "CAF-PE-DEMO-PLATFORM-QUICK-START",
+      "target": "patient_portal_json",
+      "path": "platform-demo/caf-pe-demo-platform-quick-start/v1.0.0/nonclinical-platform-quick-start.portal.json",
+      "mimeType": "application/json; charset=utf-8",
+      "checksum": "fnv1a-c72e5109",
+      "version": "1.0.0"
+    }
+  ],
+  "withheldCategories": [
+    "restricted_clinical_instruction_assets",
+    "patient_specific_fields",
+    "phi_capable_fields",
+    "evidence_dossiers",
+    "reviewer_identity_records",
+    "hospital_customizations",
+    "contracts_and_pricing",
+    "client_deliverables"
+  ],
+  "claimsBoundary": [
+    "The controlled preview is nonclinical and cannot be used as a patient handout or substitute for approved discharge instructions.",
+    "Artifact metadata demonstrates the delivery model without publishing proprietary guide content."
+  ]
+}

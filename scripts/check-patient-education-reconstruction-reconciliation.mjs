@@ -7,18 +7,20 @@ const root = process.cwd();
 const reconciliationPath = "config/patient-education-reconstruction-reconciliation.json";
 const dependencyGraphPath = "config/patient-education-capability-dependencies.json";
 const nonAuthorityRegistryPath = "config/patient-education-non-authority-modules.json";
+const reconciliationAddendumPath = "docs/caf-patient-education-tranche-a-reconciliation-addendum.md";
 const errors = [];
 
 const absolute = (relativePath) => path.join(root, relativePath);
 const exists = (relativePath) => fs.existsSync(absolute(relativePath));
-const readJson = (relativePath) => JSON.parse(fs.readFileSync(absolute(relativePath), "utf8"));
+const read = (relativePath) => fs.readFileSync(absolute(relativePath), "utf8");
+const readJson = (relativePath) => JSON.parse(read(relativePath));
 const gitBlobSha = (buffer) => crypto
   .createHash("sha1")
   .update(Buffer.from(`blob ${buffer.length}\0`, "utf8"))
   .update(buffer)
   .digest("hex");
 
-for (const requiredPath of [reconciliationPath, dependencyGraphPath, nonAuthorityRegistryPath]) {
+for (const requiredPath of [reconciliationPath, dependencyGraphPath, nonAuthorityRegistryPath, reconciliationAddendumPath]) {
   if (!exists(requiredPath)) errors.push(`Missing reconstruction reconciliation input: ${requiredPath}`);
 }
 
@@ -86,6 +88,19 @@ const remaining = reconciliation?.remainingReconstructionTranches ?? [];
 if (JSON.stringify(remaining) !== JSON.stringify(["B", "C", "D", "E", "F"])) errors.push("Remaining reconstruction tranches must be exactly B through F.");
 if (!reconciliation?.completionRule?.includes("must not be recreated as a redundant merge pull request")) errors.push("Reconciliation completion rule must prohibit redundant Tranche A recreation.");
 if (!reconciliation?.completionRule?.includes("Any blob drift reopens Tranche A review")) errors.push("Reconciliation completion rule must reopen Tranche A on blob drift.");
+
+if (exists(reconciliationAddendumPath)) {
+  const addendum = read(reconciliationAddendumPath);
+  for (const marker of [
+    "fulfilled through reconciliation rather than recreation",
+    "Only Tranches B through F require new reconstruction pull requests",
+    "Exact file identity does not establish runtime certification",
+    "Any of the following reopens Tranche A",
+    "PR #190 is closed as superseded rather than merged",
+  ]) {
+    if (!addendum.includes(marker)) errors.push(`Tranche A reconciliation addendum missing required marker: ${marker}`);
+  }
+}
 
 const serialized = JSON.stringify(reconciliation);
 const populatedSensitivePatterns = [

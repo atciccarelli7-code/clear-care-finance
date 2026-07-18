@@ -80,10 +80,12 @@ jobs:
             config/patient-education-non-authority-modules.json \
             config/patient-education-capability-dependencies.json \
             config/patient-education-cross-tranche-contracts.json \
+            config/patient-education-reconstruction-reconciliation.json \
             config/patient-education-readiness-ledger.json \
             public/patient-education/demo/synthetic-authority-conformance-manifest.json \
             scripts/check-patient-education-capability-registry.mjs \
             scripts/check-patient-education-capability-dependencies.mjs \
+            scripts/check-patient-education-reconstruction-reconciliation.mjs \
             scripts/check-patient-education-readiness-ledger.mjs \
             scripts/check-patient-education-authority-foundation.mjs \
             docs/caf-patient-education-branch-reconstruction-and-merge-plan.md \
@@ -95,6 +97,7 @@ jobs:
             "workflow": "Patient Education Authority Certification",
             "registryId": "CAF-PE-CAPABILITY-REGISTRY-AUTHORITY-COMPLETE",
             "dependencyGraphId": "CAF-PE-CAPABILITY-DEPENDENCY-GRAPH-AUTHORITY-COMPLETE",
+            "reconciliationId": "CAF-PE-RECONCILIATION-TRANCHE-A-MAIN",
             "readinessLedgerId": "CAF-PE-READINESS-LEDGER-FOUNDATION",
             "repository": "${GITHUB_REPOSITORY}",
             "commitSha": "${GITHUB_SHA}",
@@ -104,11 +107,15 @@ jobs:
             "governedCapabilityCount": 44,
             "syntheticScenarioCount": 88,
             "reconstructionTrancheCount": 6,
+            "trancheAReconciledArtifactCount": 18,
+            "trancheAAdditionalMergeRequired": false,
+            "remainingReconstructionTranches": 5,
             "readinessDomainCount": 13,
             "openReadinessBlockerCount": 8,
             "explicitlyNonAuthorityModuleCount": 1,
             "explicitCrossTrancheContractCount": 1,
             "dependencyDagRequired": true,
+            "reconciliationRequired": true,
             "readinessLedgerRequired": true,
             "reconstructionPlanRequired": true,
             "patientCareUse": "prohibited",
@@ -119,6 +126,7 @@ jobs:
           cp config/patient-education-non-authority-modules.json artifacts/patient-education-authority/
           cp config/patient-education-capability-dependencies.json artifacts/patient-education-authority/
           cp config/patient-education-cross-tranche-contracts.json artifacts/patient-education-authority/
+          cp config/patient-education-reconstruction-reconciliation.json artifacts/patient-education-authority/
           cp config/patient-education-readiness-ledger.json artifacts/patient-education-authority/
           cp public/patient-education/demo/synthetic-authority-conformance-manifest.json artifacts/patient-education-authority/
           cp docs/caf-patient-education-branch-reconstruction-and-merge-plan.md artifacts/patient-education-authority/

@@ -65,10 +65,6 @@ const calloutBlockSchema = blockBaseSchema.extend({
   title: contentTextSchema.max(180),
   body: contentTextSchema,
   action: contentTextSchema.optional(),
-}).superRefine((value, context) => {
-  if (value.tone === "emergency" && !value.action) {
-    context.addIssue({ code: z.ZodIssueCode.custom, message: "Emergency callouts require an explicit action." });
-  }
 });
 
 const actionItemSchema = z.object({
@@ -206,6 +202,9 @@ export const patientEducationContentDocumentSchema = z.object({
   }
 
   for (const block of value.blocks) {
+    if (block.type === "callout" && block.tone === "emergency" && !block.action) {
+      context.addIssue({ code: z.ZodIssueCode.custom, message: `Emergency callout ${block.blockId} requires an explicit action.` });
+    }
     if (block.type === "personalization") {
       const phiField = block.fields.find((field) => field.phiCapability !== "none");
       if (phiField && value.distributionBoundary !== "institutional") {

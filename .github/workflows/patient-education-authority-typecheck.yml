@@ -6,7 +6,12 @@ on:
       - "src/lib/patientEducation*.ts"
       - "src/test/patientEducation*.test.ts"
       - "src/test/fixtures/patientEducationEngineFixture.ts"
+      - "config/patient-education-*.json"
+      - "scripts/check-patient-education-capability-registry.mjs"
+      - "scripts/check-patient-education-authority-foundation.mjs"
       - "tsconfig.patient-education-authority.json"
+      - "package.json"
+      - "package-lock.json"
       - ".github/workflows/patient-education-authority-typecheck.yml"
   push:
     branches:
@@ -15,7 +20,12 @@ on:
       - "src/lib/patientEducation*.ts"
       - "src/test/patientEducation*.test.ts"
       - "src/test/fixtures/patientEducationEngineFixture.ts"
+      - "config/patient-education-*.json"
+      - "scripts/check-patient-education-capability-registry.mjs"
+      - "scripts/check-patient-education-authority-foundation.mjs"
       - "tsconfig.patient-education-authority.json"
+      - "package.json"
+      - "package-lock.json"
       - ".github/workflows/patient-education-authority-typecheck.yml"
   workflow_dispatch:
 
@@ -30,11 +40,13 @@ jobs:
   type-certification:
     name: Type-check governed authority contracts
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: Check out exact revision
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -45,8 +57,11 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
-      - name: Type-check authority contracts and tests
-        run: npx tsc --noEmit -p tsconfig.patient-education-authority.json
+      - name: Validate canonical capability registry
+        run: npm run patient-education:registry-check
 
-      - name: Validate authority capability inventory
-        run: node scripts/check-patient-education-authority-foundation.mjs
+      - name: Validate authority foundation
+        run: npm run patient-education:authority-check
+
+      - name: Type-check authority contracts and tests
+        run: npm run patient-education:authority-typecheck

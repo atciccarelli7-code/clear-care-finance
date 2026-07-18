@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "manifestId": "CAF-PE-TRANCHE-B-INTEGRITY-PRIVACY",
+  "status": "public_safe_reconstruction_candidate",
+  "trancheId": "B",
+  "title": "Structured content and deterministic compilation core",
+  "baseline": {
+    "repository": "atciccarelli7-code/clear-care-finance",
+    "mainCommitSha": "4032e9535c85e94433daf4dd855228c86cbbf176",
+    "sourcePullRequest": 190,
+    "sourceBranch": "agent/caf-patient-education-product",
+    "reconstructionBranch": "agent/caf-pe-tranche-b-integrity-privacy"
+  },
+  "alreadyIntegratedCapabilities": [
+    {
+      "capabilityId": "content-contract",
+      "implementation": {"path":"src/lib/patientEducationContentContract.ts","blobSha":"6c506a4b4ac3a975e1b396f0f7d5bf4749783146"},
+      "test": {"path":"src/test/patientEducationContentContract.test.ts","blobSha":"2cb11b268643c012c0e213e37c66731f418193d0"}
+    },
+    {
+      "capabilityId": "package-contract",
+      "implementation": {"path":"src/lib/patientEducationPackageContract.ts","blobSha":"f00213b91ea7d8af77d4d4d781598a80ee57f8c9"},
+      "test": {"path":"src/test/patientEducationPackageContract.test.ts","blobSha":"b371f26c53079dce5fef0cb98bb6983e0a509da8"}
+    },
+    {
+      "capabilityId": "evidence-governance",
+      "implementation": {"path":"src/lib/patientEducationEvidenceContract.ts","blobSha":"a198d4c012fb91e6178343973fc67374406db17e"},
+      "test": {"path":"src/test/patientEducationEvidenceContract.test.ts","blobSha":"c1e7cb1922ac0e73e9b6d001a6fa1abae80f9884"}
+    },
+    {
+      "capabilityId": "asset-compiler",
+      "implementation": {"path":"src/lib/patientEducationAssetCompiler.ts","blobSha":"a2cad820d26e1f446e4c2af34bd20e90378cbfc8"},
+      "test": {"path":"src/test/patientEducationAssetCompiler.test.ts","blobSha":"7ec6406b5b6204c800a7df68322c91e5973ee00e"}
+    },
+    {
+      "capabilityId": "bundle-compiler",
+      "implementation": {"path":"src/lib/patientEducationBundleCompiler.ts","blobSha":"37c6a9443b0e0a74466ee68a7c40f8220bc9847a"},
+      "test": {"path":"src/test/patientEducationBundleCompiler.test.ts","blobSha":"d69fa4a793e2de0b619608b76be1b88701dc6b79"}
+    },
+    {
+      "capabilityId": "distribution-compiler",
+      "implementation": {"path":"src/lib/patientEducationDistribution.ts","blobSha":"dc7b713c1e5a7c9af95906393c9b28ac520954cb"},
+      "test": {"path":"src/test/patientEducationDistribution.test.ts","blobSha":"5ba7f107cbe7b5ec9426d0b7275f8ad4ca2ab98b"}
+    }
+  ],
+  "reconstructedCapabilities": [
+    {
+      "capabilityId": "integrity-manifest",
+      "implementation": {"path":"src/lib/patientEducationIntegrityManifest.ts","sourceBlobSha":"60738c1c1d03bfb918dc5a2b6d36e4fb110ee0ed"},
+      "test": {"path":"src/test/patientEducationIntegrityManifest.test.ts","sourceBlobSha":"b500fbcf55511f7d9133b9d02660d00b5c757f88"}
+    },
+    {
+      "capabilityId": "reproducibility-manifest",
+      "implementation": {"path":"src/lib/patientEducationReproducibilityManifest.ts","sourceBlobSha":"240770bc60f93aee82eb9bb8ef1580ffc646e67b"},
+      "test": {"path":"src/test/patientEducationReproducibilityManifest.test.ts","sourceBlobSha":"0e5f8e6dec708ff893ac06e42a29cf42c26f6bac"}
+    },
+    {
+      "capabilityId": "institution-overlay-contract",
+      "implementation": {"path":"src/lib/patientEducationInstitutionOverlay.ts","sourceBlobSha":"a43c11e1e90974736d35f71a2e3344fdd41e633a"},
+      "test": {"path":"src/test/patientEducationInstitutionOverlay.test.ts","sourceBlobSha":"7698d345c73bd1fd1d89a5da9ca6a7c50200a147"}
+    },
+    {
+      "capabilityId": "privacy-boundary",
+      "implementation": {"path":"src/lib/patientEducationPrivacyBoundary.ts","sourceBlobSha":"cdf40cab79f724ba44f970cc66205303722c597e"},
+      "test": {"path":"src/test/patientEducationPrivacyBoundary.test.ts","sourceBlobSha":"1396cd94f09934c91318c1417c5bca989c97c2d5"}
+    }
+  ],
+  "requiredExistingDependencies": [
+    "src/test/fixtures/patientEducationEngineFixture.ts",
+    "src/lib/patientEducationContentContract.ts",
+    "src/lib/patientEducationPackageContract.ts",
+    "src/lib/patientEducationEvidenceContract.ts",
+    "src/lib/patientEducationAssetCompiler.ts",
+    "src/lib/patientEducationBundleCompiler.ts",
+    "src/lib/patientEducationDistribution.ts"
+  ],
+  "acceptanceCommands": [
+    "node scripts/check-patient-education-tranche-b.mjs",
+    "npx vitest run src/test/patientEducationIntegrityManifest.test.ts src/test/patientEducationReproducibilityManifest.test.ts src/test/patientEducationInstitutionOverlay.test.ts src/test/patientEducationPrivacyBoundary.test.ts",
+    "npm run build"
+  ],
+  "claimsBoundary": [
+    "Tranche B adds deterministic integrity, reproducibility, non-PHI organization overlay, and defensive privacy-boundary controls only.",
+    "The privacy scanner is defense in depth and is not represented as comprehensive DLP, legal review, HIPAA compliance, or a substitute for organization security controls.",
+    "This tranche contains no clinical patient guide, real evidence dossier, patient data, hospital configuration, reviewer identity, credential, signing secret, contract, or production approval.",
+    "Passing Tranche B does not establish clinical approval, hospital deployment, accessibility conformance, pilot authorization, production readiness, or patient outcomes."
+  ]
+}

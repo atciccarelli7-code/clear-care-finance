@@ -12,7 +12,9 @@ const registryPath = "config/patient-education-capability-registry.json";
 const nonAuthorityRegistryPath = "config/patient-education-non-authority-modules.json";
 const dependencyGraphPath = "config/patient-education-capability-dependencies.json";
 const crossTrancheContractsPath = "config/patient-education-cross-tranche-contracts.json";
+const readinessLedgerPath = "config/patient-education-readiness-ledger.json";
 const dependencyCheckPath = "scripts/check-patient-education-capability-dependencies.mjs";
+const readinessCheckPath = "scripts/check-patient-education-readiness-ledger.mjs";
 const authorityManifestPath = "public/patient-education/demo/synthetic-authority-conformance-manifest.json";
 const authorityConformanceTest = "src/test/patientEducationAuthorityConformance.test.ts";
 const authorityTypecheckConfig = "tsconfig.patient-education-authority.json";
@@ -23,7 +25,9 @@ for (const requiredPath of [
   nonAuthorityRegistryPath,
   dependencyGraphPath,
   crossTrancheContractsPath,
+  readinessLedgerPath,
   dependencyCheckPath,
+  readinessCheckPath,
   authorityManifestPath,
   authorityConformanceTest,
   authorityTypecheckConfig,
@@ -36,12 +40,14 @@ let registry;
 let nonAuthorityRegistry;
 let dependencyGraph;
 let crossTrancheRegistry;
+let readinessLedger;
 let manifest;
 try {
   if (exists(registryPath)) registry = readJson(registryPath);
   if (exists(nonAuthorityRegistryPath)) nonAuthorityRegistry = readJson(nonAuthorityRegistryPath);
   if (exists(dependencyGraphPath)) dependencyGraph = readJson(dependencyGraphPath);
   if (exists(crossTrancheContractsPath)) crossTrancheRegistry = readJson(crossTrancheContractsPath);
+  if (exists(readinessLedgerPath)) readinessLedger = readJson(readinessLedgerPath);
   if (exists(authorityManifestPath)) manifest = readJson(authorityManifestPath);
 } catch (error) {
   errors.push(`Unable to parse authority foundation JSON: ${error.message}`);
@@ -77,6 +83,31 @@ if (crossTrancheRegistry) {
     if (contract.runtimeImportProhibitedBeforeCompletion !== true) errors.push(`Cross-tranche contract ${contract.contractId} must prohibit runtime imports before completion.`);
     if (contract.authorizationUseProhibitedBeforeCompletion !== true) errors.push(`Cross-tranche contract ${contract.contractId} must prohibit authorization use before completion.`);
   }
+}
+
+if (readinessLedger) {
+  if (readinessLedger.schemaVersion !== "1.0.0") errors.push("Readiness ledger schemaVersion must be 1.0.0.");
+  if (readinessLedger.status !== "development_only") errors.push("Readiness ledger must remain development_only.");
+  if (readinessLedger.draftPullRequest !== 190 || readinessLedger.mustRemainDraft !== true) errors.push("Readiness ledger must keep PR 190 in draft status.");
+  if (readinessLedger.authoritativeCapabilityCount !== expectedCapabilityCount) errors.push("Readiness ledger capability count must match the authority registry.");
+  if (readinessLedger.requiredSyntheticScenarioCount !== expectedScenarioCount) errors.push("Readiness ledger scenario count must match the authority registry.");
+  if (readinessLedger.reconstructionTrancheCount !== 6) errors.push("Readiness ledger must require six reconstruction tranches.");
+  for (const evidenceFlag of [
+    "exactHeadCertified",
+    "githubActionsEvidenceAvailable",
+    "vercelApplicationBuildResultAvailable",
+    "syntheticAuthorityPathsExecutedInProtectedRuntime",
+  ]) {
+    if (readinessLedger.executionEvidence?.[evidenceFlag] !== false) errors.push(`Readiness evidence flag ${evidenceFlag} must remain false until immutable evidence exists.`);
+  }
+  const productionDomain = readinessLedger.domains?.find((domain) => domain.id === "production_delivery");
+  const pilotDomain = readinessLedger.domains?.find((domain) => domain.id === "hospital_pilot");
+  if (productionDomain?.maturity !== "prohibited") errors.push("Readiness ledger must keep production delivery prohibited.");
+  if (pilotDomain?.maturity !== "not_authorized") errors.push("Readiness ledger must keep hospital pilot not authorized.");
+  const criticalBlockers = (readinessLedger.openBlockers ?? []).filter((blocker) => blocker.severity === "critical");
+  if (criticalBlockers.length < 5) errors.push("Readiness ledger must retain all critical evidence and operational blockers.");
+  if (!readinessLedger.prohibitedPublicClaims?.includes("production ready")) errors.push("Readiness ledger must prohibit production-ready claims.");
+  if (!readinessLedger.prohibitedPublicClaims?.includes("clinically approved")) errors.push("Readiness ledger must prohibit clinical-approval claims.");
 }
 
 const requiredCriticalCapabilities = [
@@ -194,7 +225,7 @@ for (const workflowPath of [
   if (!exists(workflowPath)) errors.push(`Missing authority validation workflow: ${workflowPath}`);
 }
 
-const serializedPublicAuthority = JSON.stringify({ registry, nonAuthorityRegistry, dependencyGraph, crossTrancheRegistry, manifest });
+const serializedPublicAuthority = JSON.stringify({ registry, nonAuthorityRegistry, dependencyGraph, crossTrancheRegistry, readinessLedger, manifest });
 const populatedSensitivePatterns = [
   /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
   /"(?:patientName|medicalRecordNumber|dateOfBirth|reviewerEmail|realHospitalContact|bloodThinnerDosage)"\s*:\s*"[^"\s][^"]*"/i,
@@ -210,4 +241,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Patient Education authority foundation passed: ${expectedCapabilityCount} governed capabilities, ${expectedScenarioCount} synthetic paths, six ordered reconstruction tranches, ${(crossTrancheRegistry?.contracts ?? []).length} explicit cross-tranche contract seam(s), ${registry.architectureDocuments.length + 1} required architecture and reconstruction documents, ${registry.publicProofArtifacts.length} public-safe proof artifacts, and ${nonAuthorityRegistry.modules.length} explicitly non-authority module(s).`);
+console.log(`Patient Education authority foundation passed: ${expectedCapabilityCount} governed capabilities, ${expectedScenarioCount} synthetic paths, six ordered reconstruction tranches, ${(crossTrancheRegistry?.contracts ?? []).length} explicit cross-tranche contract seam(s), ${(readinessLedger?.domains ?? []).length} evidence-bounded readiness domains, ${registry.architectureDocuments.length + 1} required architecture and reconstruction documents, ${registry.publicProofArtifacts.length} public-safe proof artifacts, and ${nonAuthorityRegistry.modules.length} explicitly non-authority module(s).`);

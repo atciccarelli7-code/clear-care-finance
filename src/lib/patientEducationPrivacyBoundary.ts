@@ -181,12 +181,12 @@ export const scanPatientEducationDocumentPrivacy = (
   for (const block of document.blocks) {
     if (block.type !== "personalization") continue;
     for (const field of block.fields) {
-      if (context !== "institutional_delivery" && field.phiCapability !== "none") {
+      if (context === "controlled_preview" && field.phiCapability !== "none") {
         findings.push(finding(
-          "PRIVACY-PHI-CAPABLE-FIELD-OUTSIDE-INSTITUTION",
+          "PRIVACY-PHI-CAPABLE-FIELD-IN-PREVIEW",
           "blocking",
-          `PHI-capable field ${field.fieldId} exists outside an institutional-delivery scan context.`,
-          "Keep the field definition and all patient-specific values inside the healthcare organization's approved clinical system.",
+          `PHI-capable field ${field.fieldId} remains in controlled-preview content.`,
+          "Remove the field through the controlled-preview sanitizer before publication.",
           `block:${block.blockId}:field:${field.fieldId}`,
         ));
       }

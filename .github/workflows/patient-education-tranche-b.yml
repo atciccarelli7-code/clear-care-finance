@@ -1,0 +1,106 @@
+name: Patient Education Tranche B Certification
+
+on:
+  pull_request:
+    paths:
+      - "src/lib/patientEducationIntegrityManifest.ts"
+      - "src/lib/patientEducationReproducibilityManifest.ts"
+      - "src/lib/patientEducationInstitutionOverlay.ts"
+      - "src/lib/patientEducationPrivacyBoundary.ts"
+      - "src/test/patientEducationIntegrityManifest.test.ts"
+      - "src/test/patientEducationReproducibilityManifest.test.ts"
+      - "src/test/patientEducationInstitutionOverlay.test.ts"
+      - "src/test/patientEducationPrivacyBoundary.test.ts"
+      - "config/patient-education-tranche-b-manifest.json"
+      - "scripts/check-patient-education-tranche-b.mjs"
+      - "docs/caf-patient-education-tranche-b-integrity-privacy.md"
+      - ".github/workflows/patient-education-tranche-b.yml"
+  push:
+    branches:
+      - agent/caf-pe-tranche-b-integrity-privacy
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: patient-education-tranche-b-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify-tranche-b:
+    name: Certify bounded integrity and privacy tranche
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Validate exact tranche scope and provenance
+        run: node scripts/check-patient-education-tranche-b.mjs
+
+      - name: Run Tranche B unit and adversarial tests
+        run: npx vitest run src/test/patientEducationIntegrityManifest.test.ts src/test/patientEducationReproducibilityManifest.test.ts src/test/patientEducationInstitutionOverlay.test.ts src/test/patientEducationPrivacyBoundary.test.ts --reporter=verbose
+
+      - name: Run production build
+        run: npm run build
+
+      - name: Preserve Tranche B certification evidence
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/patient-education-tranche-b
+          sha256sum \
+            config/patient-education-tranche-b-manifest.json \
+            scripts/check-patient-education-tranche-b.mjs \
+            docs/caf-patient-education-tranche-b-integrity-privacy.md \
+            src/lib/patientEducationIntegrityManifest.ts \
+            src/lib/patientEducationReproducibilityManifest.ts \
+            src/lib/patientEducationInstitutionOverlay.ts \
+            src/lib/patientEducationPrivacyBoundary.ts \
+            src/test/patientEducationIntegrityManifest.test.ts \
+            src/test/patientEducationReproducibilityManifest.test.ts \
+            src/test/patientEducationInstitutionOverlay.test.ts \
+            src/test/patientEducationPrivacyBoundary.test.ts \
+            > artifacts/patient-education-tranche-b/source-digests.sha256
+          cat > artifacts/patient-education-tranche-b/certification-metadata.json <<EOF
+          {
+            "schemaVersion": "1.0.0",
+            "workflow": "Patient Education Tranche B Certification",
+            "repository": "${GITHUB_REPOSITORY}",
+            "commitSha": "${GITHUB_SHA}",
+            "ref": "${GITHUB_REF}",
+            "runId": "${GITHUB_RUN_ID}",
+            "runAttempt": "${GITHUB_RUN_ATTEMPT}",
+            "trancheId": "B",
+            "alreadyIntegratedCapabilityCount": 6,
+            "reconstructedCapabilityCount": 4,
+            "reconstructedImplementationCount": 4,
+            "reconstructedTestCount": 4,
+            "patientCareUse": "prohibited",
+            "claimsBoundary": "Engineering controls only; no clinical approval, compliance certification, deployment, production readiness, or patient outcomes."
+          }
+          EOF
+          cp config/patient-education-tranche-b-manifest.json artifacts/patient-education-tranche-b/
+          cp docs/caf-patient-education-tranche-b-integrity-privacy.md artifacts/patient-education-tranche-b/
+
+      - name: Upload Tranche B certification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: patient-education-tranche-b-certification-${{ github.run_id }}
+          path: artifacts/patient-education-tranche-b
+          if-no-files-found: error
+          retention-days: 30

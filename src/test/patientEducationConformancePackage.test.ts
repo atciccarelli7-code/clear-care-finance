@@ -71,11 +71,11 @@ const scenarioTypeByCapability: Partial<Record<typeof governedPatientEducationCa
   "private-authority-decision": "bundle_withheld",
 };
 
-const suffix = (capabilityId: string) => capabilityId.replaceAll("-", "_").toUpperCase();
+const suffix = (capabilityId: string) => capabilityId.toUpperCase();
 
 const capabilities = governedPatientEducationCapabilityIds.map((capabilityId) => ({
   capabilityId,
-  implementationRef: `src/lib/patientEducation${suffix(capabilityId).replaceAll("_", "")}.ts`,
+  implementationRef: `src/lib/patientEducation${suffix(capabilityId).replaceAll("-", "")}.ts`,
   testRef: `src/test/${capabilityId}.test.ts`,
   sourceClassification: "public_safe_contract" as const,
   positiveScenarioIds: [`CAF-PE-CONFORMANCE-SCENARIO-${suffix(capabilityId)}-SUCCESS`],

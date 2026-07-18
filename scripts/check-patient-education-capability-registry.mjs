@@ -4,6 +4,7 @@ import process from "node:process";
 
 const root = process.cwd();
 const registryPath = "config/patient-education-capability-registry.json";
+const nonAuthorityRegistryPath = "config/patient-education-non-authority-modules.json";
 const authorityManifestPath = "public/patient-education/demo/synthetic-authority-conformance-manifest.json";
 const authorityTestPath = "src/test/patientEducationAuthorityConformance.test.ts";
 const errors = [];
@@ -14,34 +15,46 @@ const exists = (relativePath) => fs.existsSync(absolute(relativePath));
 const read = (relativePath) => fs.readFileSync(absolute(relativePath), "utf8");
 const readJson = (relativePath) => JSON.parse(read(relativePath));
 
-if (!exists(registryPath)) {
-  console.error(`Patient Education capability registry missing: ${registryPath}`);
-  process.exit(1);
-}
+const loadRequiredJson = (relativePath, label) => {
+  if (!exists(relativePath)) {
+    console.error(`${label} missing: ${relativePath}`);
+    process.exit(1);
+  }
+  try {
+    return readJson(relativePath);
+  } catch (error) {
+    console.error(`${label} is invalid JSON: ${error.message}`);
+    process.exit(1);
+  }
+};
 
-let registry;
-try {
-  registry = readJson(registryPath);
-} catch (error) {
-  console.error(`Patient Education capability registry is invalid JSON: ${error.message}`);
-  process.exit(1);
-}
+const registry = loadRequiredJson(registryPath, "Patient Education capability registry");
+const nonAuthorityRegistry = loadRequiredJson(nonAuthorityRegistryPath, "Patient Education non-authority registry");
 
 if (registry.schemaVersion !== "1.0.0") errors.push("Capability registry schemaVersion must be 1.0.0.");
 if (registry.status !== "public_safe_architecture_registry") errors.push("Capability registry status must preserve the public-safe architecture boundary.");
 if (!Array.isArray(registry.claimsBoundary) || registry.claimsBoundary.length < 3) errors.push("Capability registry requires an explicit claims boundary.");
 if (!Array.isArray(registry.capabilities) || registry.capabilities.length === 0) errors.push("Capability registry must contain capabilities.");
+if (nonAuthorityRegistry.schemaVersion !== "1.0.0") errors.push("Non-authority registry schemaVersion must be 1.0.0.");
+if (nonAuthorityRegistry.status !== "public_safe_non_authority_registry") errors.push("Non-authority registry status must preserve the public-safe boundary.");
+if (!Array.isArray(nonAuthorityRegistry.modules)) errors.push("Non-authority registry modules must be an array.");
 
 const capabilities = Array.isArray(registry.capabilities) ? registry.capabilities : [];
+const excludedModules = Array.isArray(nonAuthorityRegistry.modules) ? nonAuthorityRegistry.modules : [];
 const ids = capabilities.map((capability) => capability.id);
 const implementations = capabilities.map((capability) => capability.implementation);
 const testPaths = capabilities.flatMap((capability) => capability.tests ?? []);
+const excludedPaths = excludedModules.map((module) => module.path);
 
 if (registry.capabilityCount !== capabilities.length) errors.push(`Registry capabilityCount ${registry.capabilityCount} does not equal ${capabilities.length}.`);
 if (registry.scenarioCount !== capabilities.length * 2) errors.push(`Registry scenarioCount ${registry.scenarioCount} must equal two scenarios per capability (${capabilities.length * 2}).`);
 if (new Set(ids).size !== ids.length) errors.push("Capability IDs must be unique.");
 if (new Set(implementations).size !== implementations.length) errors.push("Capability implementation paths must be unique.");
 if (new Set(testPaths).size !== testPaths.length) errors.push("Every authoritative capability must have a unique primary test file.");
+if (new Set(excludedPaths).size !== excludedPaths.length) errors.push("Non-authority module paths must be unique.");
+for (const excludedPath of excludedPaths) {
+  if (implementations.includes(excludedPath)) errors.push(`Module cannot be both authoritative and excluded: ${excludedPath}`);
+}
 
 const validLayers = new Set(["content", "evidence", "compilation", "localization", "organization", "quality", "release", "integrity", "governance", "privacy", "delivery", "analytics", "authority", "platform", "operations", "audit", "review", "conformance"]);
 
@@ -80,6 +93,23 @@ for (const capability of capabilities) {
   }
 }
 
+for (const module of excludedModules) {
+  const prefix = `[non-authority:${module.path ?? "unknown"}]`;
+  if (!module.path?.startsWith("src/lib/patientEducation") || !module.path.endsWith(".ts")) errors.push(`${prefix} Invalid excluded module path.`);
+  if (!exists(module.path)) errors.push(`${prefix} Excluded module does not exist.`);
+  if (!module.reason || module.reason.length < 40) errors.push(`${prefix} Exclusion requires a specific architectural rationale.`);
+  for (const requiredFlag of ["patientCareUseProhibited", "authorityDecisionUseProhibited", "privateDataUseProhibited"]) {
+    if (module[requiredFlag] !== true) errors.push(`${prefix} ${requiredFlag} must be true.`);
+  }
+  const moduleSource = exists(module.path) ? read(module.path) : "";
+  for (const exportName of module.requiredExports ?? []) {
+    if (!moduleSource.includes(exportName)) errors.push(`${prefix} Missing declared export ${exportName}.`);
+  }
+  for (const testPath of module.tests ?? []) {
+    if (!exists(testPath)) errors.push(`${prefix} Missing non-authority module test ${testPath}.`);
+  }
+}
+
 for (const documentPath of registry.architectureDocuments ?? []) {
   if (!exists(documentPath)) errors.push(`Missing required architecture document: ${documentPath}`);
 }
@@ -88,6 +118,7 @@ for (const artifactPath of registry.publicProofArtifacts ?? []) {
 }
 
 const registeredImplementations = new Set(implementations.map((item) => item.replaceAll(path.sep, "/")));
+const explicitExclusions = new Set(excludedPaths.map((item) => item.replaceAll(path.sep, "/")));
 const libDirectory = absolute("src/lib");
 if (fs.existsSync(libDirectory)) {
   const discovered = fs.readdirSync(libDirectory)
@@ -95,11 +126,15 @@ if (fs.existsSync(libDirectory)) {
     .map((name) => `src/lib/${name}`)
     .sort();
   for (const discoveredPath of discovered) {
-    if (!registeredImplementations.has(discoveredPath)) errors.push(`Ungoverned patient-education implementation is not registered: ${discoveredPath}`);
+    if (!registeredImplementations.has(discoveredPath) && !explicitExclusions.has(discoveredPath)) errors.push(`Ungoverned patient-education implementation is neither authoritative nor explicitly excluded: ${discoveredPath}`);
   }
   for (const registeredPath of registeredImplementations) {
     if (!discovered.includes(registeredPath)) errors.push(`Registry references an implementation outside the discovered patient-education module inventory: ${registeredPath}`);
   }
+  for (const excludedPath of explicitExclusions) {
+    if (!discovered.includes(excludedPath)) errors.push(`Non-authority registry references a module outside the discovered inventory: ${excludedPath}`);
+  }
+  if (discovered.length !== registeredImplementations.size + explicitExclusions.size) errors.push("Discovered patient-education module count does not reconcile to authoritative plus explicitly excluded modules.");
 }
 
 if (exists(authorityManifestPath)) {
@@ -130,9 +165,9 @@ if (exists(authorityTestPath)) {
   errors.push(`Missing authority conformance test: ${authorityTestPath}`);
 }
 
-const serializedRegistry = JSON.stringify(registry).toLowerCase();
+const serializedPublicRegistries = JSON.stringify({ registry, nonAuthorityRegistry }).toLowerCase();
 for (const prohibited of ["patient name", "medical record number", "date of birth", "private key", "reviewer email", "real hospital contact", "blood thinner dosage"]) {
-  if (serializedRegistry.includes(prohibited)) errors.push(`Capability registry contains prohibited public phrase: ${prohibited}.`);
+  if (serializedPublicRegistries.includes(prohibited)) errors.push(`Patient Education registry contains prohibited public phrase: ${prohibited}.`);
 }
 
 if (warnings.length > 0) {
@@ -145,4 +180,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Patient Education capability registry passed: ${capabilities.length} authoritative capabilities, ${registry.scenarioCount} required synthetic scenarios, ${registry.architectureDocuments.length} architecture documents, and ${registry.publicProofArtifacts.length} public-safe proof artifacts.`);
+console.log(`Patient Education capability registry passed: ${capabilities.length} authoritative capabilities, ${excludedModules.length} explicitly non-authority module(s), ${registry.scenarioCount} required synthetic scenarios, ${registry.architectureDocuments.length} architecture documents, and ${registry.publicProofArtifacts.length} public-safe proof artifacts.`);

@@ -52,3 +52,9 @@ jobs:
 
       - name: Production build, bundle budget, and prerender
         run: npm run build
+
+      - name: Install Chromium for institutional browser verification
+        run: npx playwright install --with-deps chromium
+
+      - name: Patient Education Systems browser and accessibility journey
+        run: npm run test:browser:patient-education

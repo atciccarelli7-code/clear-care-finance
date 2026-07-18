@@ -59,10 +59,11 @@ test.beforeEach(async ({ page }) => {
 
 test("Patient Education Systems builds a private pilot brief and exposes a safe technical proof registry", async ({ page }, testInfo) => {
   const watch = installHealthWatch(page);
-  await page.goto("/for-organizations/patient-education-systems");
-  await page.waitForFunction(() => document.body.innerText.includes("CAF Patient Education Systems"));
+  await page.goto("/for-organizations/patient-education-systems", { waitUntil: "domcontentloaded" });
 
-  await expect(page.getByRole("heading", { level: 1, name: /Hospital-to-home education designed around what patients actually have to do next/i })).toBeVisible();
+  const pageHeading = page.getByRole("heading", { level: 1, name: /Hospital-to-home education designed around what patients actually have to do next/i });
+  await expect(pageHeading).toBeVisible();
+  await expect(page.getByLabel("Care setting")).toBeEnabled();
   await expect(page.getByText(/Controlled preview—not a clinical handout/i)).toBeVisible();
   await expect(page.getByText(/No patient information and no free text/i)).toBeVisible();
   await expect(page.locator("#pilot-builder textarea, #pilot-builder input")).toHaveCount(0);

@@ -2,7 +2,6 @@ import { z } from "zod";
 import {
   patientEducationDeliveryEnvelopeSchema,
   patientEducationDeliveryReceiptSchema,
-  type PatientEducationDeliveryEnvelope,
   type PatientEducationDeliveryReceipt,
 } from "@/lib/patientEducationDeliveryAdapterContract";
 import {
@@ -31,11 +30,14 @@ export const patientEducationDistributionRecordSchema = z.object({
   if (value.envelope.organizationKey !== value.organizationKey) {
     context.addIssue({ code: z.ZodIssueCode.custom, message: "Distribution organizationKey must match its envelope." });
   }
-  if (value.receipt.status === "accepted" && value.currentStatus !== "active") {
-    context.addIssue({ code: z.ZodIssueCode.custom, message: "Accepted delivery receipts initially require active distribution status." });
+  if (value.receipt.status === "accepted" && value.currentStatus === "rejected") {
+    context.addIssue({ code: z.ZodIssueCode.custom, message: "An originally accepted delivery cannot later be classified as rejected." });
   }
   if (value.receipt.status === "rejected" && value.currentStatus !== "rejected") {
     context.addIssue({ code: z.ZodIssueCode.custom, message: "Rejected delivery receipts require rejected distribution status." });
+  }
+  if (value.receipt.status === "revoked" && !["revoked", "superseded"].includes(value.currentStatus)) {
+    context.addIssue({ code: z.ZodIssueCode.custom, message: "Revoked delivery receipts require revoked or superseded distribution status." });
   }
 });
 
@@ -153,6 +155,9 @@ export const buildPatientEducationDistributionControlNotice = ({
     || action === "disable_existing_artifacts"
     || action === "replace_with_approved_version"
     || action === "confirm_removal";
+  if (acknowledgmentRequired && !acknowledgmentDeadline) {
+    throw new Error("Distribution control action requires an acknowledgment deadline.");
+  }
 
   return patientEducationDistributionControlNoticeSchema.parse({
     schemaVersion: "1.0.0",
@@ -210,12 +215,14 @@ export const revokePatientEducationDistributions = ({
       reasonCode,
       destinationReceiptRef: `control-notice://${notice.noticeId}`,
     });
+    const currentStatus = notice.releaseStatus === "retired" ? "superseded" as const : "revoked" as const;
+    const updatedDistribution = patientEducationDistributionRecordSchema.parse({
+      ...distribution,
+      currentStatus,
+    });
 
     return {
-      distribution: {
-        ...distribution,
-        currentStatus: notice.releaseStatus === "retired" ? "superseded" as const : "revoked" as const,
-      },
+      distribution: updatedDistribution,
       revocationReceipt,
     };
   });

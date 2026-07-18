@@ -19,7 +19,18 @@ This branch reconstructs only the Tranche B controls that are absent from `main`
 - Distribution compiler
 - Their six primary unit and adversarial test files
 
-The Tranche B validator recomputes the Git blob SHA for each integrated file and fails if the branch modifies one of those controlling foundations.
+The Tranche B validator recomputes the Git blob SHA for each integrated file and fails if the branch modifies one of those controlling foundations. The manifest binds these files to the exact reconstruction baseline on `main`, not to stale pre-review identities from the draft source branch.
+
+## Source provenance and reviewed deviations
+
+The reconstruction manifest binds source comparison to exact PR #190 commit `9738570a207d6506ae771acef11468dc44d28d0c`. Each reconstructed artifact records both its source blob and reviewed reconstruction blob.
+
+Two files intentionally differ from the draft source after test review:
+
+- The reproducibility schema now extends a plain Zod object before applying shared refinements, avoiding the invalid attempt to call `.extend()` on `ZodEffects`.
+- The privacy test uses the integrated content-document contract and a local non-PHI overlay fixture. The draft test referenced removed fixture fields and an export not present on the reconstruction baseline.
+
+All other reconstructed implementation and test files remain byte-identical to the exact PR #190 source commit.
 
 ## Reconstructed in this branch
 
@@ -100,7 +111,7 @@ npm run build
 Reviewers should confirm:
 
 1. No already-integrated capability was modified.
-2. Every reconstructed file remains exact to the PR #190 source blob.
+2. Every reconstructed file matches its manifest-bound reviewed reconstruction blob, with any source deviation documented and fail-closed.
 3. Integrity and reproducibility hashes are canonical and deterministic.
 4. Privacy scanning fails closed for obvious populated identifiers.
 5. Institution overlays remain non-PHI and cannot change clinical structure.

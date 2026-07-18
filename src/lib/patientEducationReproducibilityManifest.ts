@@ -36,7 +36,7 @@ export const patientEducationReproducibilitySourceObjectSchema = z.object({
   classification: z.enum(["public", "caf_internal", "caf_confidential", "organization_confidential", "restricted_clinical_source"]),
 });
 
-export const patientEducationReproducibilityManifestUnsignedSchema = z.object({
+const patientEducationReproducibilityManifestBaseSchema = z.object({
   schemaVersion: z.literal("1.0.0"),
   manifestId: z.string().regex(/^CAF-PE-REPRO-[A-Z0-9-]+$/),
   packageId: z.string().regex(/^CAF-PE-[A-Z0-9-]+$/),
@@ -70,7 +70,12 @@ export const patientEducationReproducibilityManifestUnsignedSchema = z.object({
   prohibitedInlineSecrets: z.literal(true),
   outputIntegrityManifestId: z.string().regex(/^CAF-PE-INTEGRITY-[A-Z0-9-]+$/),
   outputBundleSha256: sha256Schema,
-}).superRefine((value, context) => {
+});
+
+const validatePatientEducationReproducibilityManifest = (
+  value: z.infer<typeof patientEducationReproducibilityManifestBaseSchema>,
+  context: z.RefinementCtx,
+) => {
   const objectKeys = value.sourceObjects.map((object) => `${object.objectType}:${object.objectId}:${object.version ?? ""}`);
   if (new Set(objectKeys).size !== objectKeys.length) {
     context.addIssue({ code: z.ZodIssueCode.custom, message: "Reproducibility source objects must be unique by type, ID, and version." });
@@ -81,11 +86,15 @@ export const patientEducationReproducibilityManifestUnsignedSchema = z.object({
   if (new Set(value.environmentVariableNames).size !== value.environmentVariableNames.length) {
     context.addIssue({ code: z.ZodIssueCode.custom, message: "Environment-variable names must be unique." });
   }
-});
+};
 
-export const patientEducationReproducibilityManifestSchema = patientEducationReproducibilityManifestUnsignedSchema.extend({
-  manifestSha256: sha256Schema,
-});
+export const patientEducationReproducibilityManifestUnsignedSchema =
+  patientEducationReproducibilityManifestBaseSchema.superRefine(validatePatientEducationReproducibilityManifest);
+
+export const patientEducationReproducibilityManifestSchema =
+  patientEducationReproducibilityManifestBaseSchema
+    .extend({ manifestSha256: sha256Schema })
+    .superRefine(validatePatientEducationReproducibilityManifest);
 
 export type PatientEducationReproducibilityManifestUnsigned = z.infer<typeof patientEducationReproducibilityManifestUnsignedSchema>;
 export type PatientEducationReproducibilityManifest = z.infer<typeof patientEducationReproducibilityManifestSchema>;

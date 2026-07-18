@@ -28,6 +28,7 @@
         "distribution-compiler",
         "integrity-manifest",
         "reproducibility-manifest",
+        "institution-overlay-contract",
         "privacy-boundary"
       ],
       "nonAuthorityModulePaths": []
@@ -38,7 +39,6 @@
       "title": "Quality, localization, organization overlay, and review workflow",
       "authoritativeCapabilityIds": [
         "localization-contract",
-        "institution-overlay-contract",
         "institution-overlay-compiler",
         "quality-contract",
         "quality-engine",

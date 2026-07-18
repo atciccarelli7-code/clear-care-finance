@@ -1,8 +1,23 @@
 import { z } from "zod";
 import {
-  patientEducationEvidenceDossierSchema,
-  type PatientEducationEvidenceDossier,
+  patientEducationEvidenceClaimSchema,
+  patientEducationEvidenceSourceSchema,
+  patientEducationUpdateTriggerSchema,
 } from "@/lib/patientEducationEvidenceContract";
+
+export const patientEducationEvidenceFreshnessSnapshotSchema = z.object({
+  schemaVersion: z.literal("1.0.0"),
+  dossierId: z.string().regex(/^DOSSIER-[A-Z0-9-]+$/),
+  packageId: z.string().regex(/^CAF-PE-[A-Z0-9-]+$/),
+  packageVersion: z.string().regex(/^\d+\.\d+\.\d+$/),
+  title: z.string().trim().min(1).max(500),
+  status: z.enum(["not_started", "researching", "internal_review", "external_review", "complete", "needs_update", "suspended", "retired"]),
+  sources: z.array(patientEducationEvidenceSourceSchema).min(1),
+  claims: z.array(patientEducationEvidenceClaimSchema).min(1),
+  updateTriggers: z.array(patientEducationUpdateTriggerSchema).min(1),
+  lastReviewedAt: z.string().datetime().optional(),
+  nextReviewAt: z.string().datetime().optional(),
+});
 
 export const patientEducationEvidenceFreshnessPolicySchema = z.object({
   schemaVersion: z.literal("1.0.0"),
@@ -59,6 +74,7 @@ export const patientEducationEvidenceFreshnessResultSchema = z.object({
   openTriggerIds: z.array(z.string()),
 });
 
+export type PatientEducationEvidenceFreshnessSnapshot = z.infer<typeof patientEducationEvidenceFreshnessSnapshotSchema>;
 export type PatientEducationEvidenceFreshnessPolicy = z.infer<typeof patientEducationEvidenceFreshnessPolicySchema>;
 export type PatientEducationObservedEvidenceTrigger = z.infer<typeof patientEducationObservedEvidenceTriggerSchema>;
 export type PatientEducationEvidenceFreshnessResult = z.infer<typeof patientEducationEvidenceFreshnessResultSchema>;
@@ -81,7 +97,7 @@ const actionSeverity = (action: string): "warning" | "blocking" | "critical" => 
   return "warning";
 };
 
-const actionForTrigger = (action: PatientEducationEvidenceDossier["updateTriggers"][number]["action"]) => {
+const actionForTrigger = (action: PatientEducationEvidenceFreshnessSnapshot["updateTriggers"][number]["action"]) => {
   if (action === "recall") return "recall_assessment" as const;
   return action;
 };
@@ -97,7 +113,7 @@ export const evaluatePatientEducationEvidenceFreshness = ({
   observedTriggers?: unknown[];
   evaluatedAt?: string;
 }): PatientEducationEvidenceFreshnessResult => {
-  const dossier = patientEducationEvidenceDossierSchema.parse(rawDossier);
+  const dossier = patientEducationEvidenceFreshnessSnapshotSchema.parse(rawDossier);
   const policy = patientEducationEvidenceFreshnessPolicySchema.parse(rawPolicy);
   const observedTriggers = rawObservedTriggers.map((trigger) => patientEducationObservedEvidenceTriggerSchema.parse(trigger));
   const findings: z.infer<typeof patientEducationEvidenceFreshnessFindingSchema>[] = [];

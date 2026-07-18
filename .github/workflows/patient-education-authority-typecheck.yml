@@ -1,0 +1,52 @@
+name: Patient Education Authority Type Certification
+
+on:
+  pull_request:
+    paths:
+      - "src/lib/patientEducation*.ts"
+      - "src/test/patientEducation*.test.ts"
+      - "src/test/fixtures/patientEducationEngineFixture.ts"
+      - "tsconfig.patient-education-authority.json"
+      - ".github/workflows/patient-education-authority-typecheck.yml"
+  push:
+    branches:
+      - agent/caf-patient-education-product
+    paths:
+      - "src/lib/patientEducation*.ts"
+      - "src/test/patientEducation*.test.ts"
+      - "src/test/fixtures/patientEducationEngineFixture.ts"
+      - "tsconfig.patient-education-authority.json"
+      - ".github/workflows/patient-education-authority-typecheck.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: patient-education-authority-typecheck-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  type-certification:
+    name: Type-check governed authority contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Type-check authority contracts and tests
+        run: npx tsc --noEmit -p tsconfig.patient-education-authority.json
+
+      - name: Validate authority capability inventory
+        run: node scripts/check-patient-education-authority-foundation.mjs

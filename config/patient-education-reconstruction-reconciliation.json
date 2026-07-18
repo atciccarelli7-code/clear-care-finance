@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0.0",
+  "reconciliationId": "CAF-PE-RECONCILIATION-TRANCHE-A-MAIN",
+  "status": "exact_blob_reconciled",
+  "baseline": {
+    "repository": "atciccarelli7-code/clear-care-finance",
+    "mainCommitSha": "4032e9535c85e94433daf4dd855228c86cbbf176",
+    "draftPullRequest": 190,
+    "sourceBranch": "agent/caf-patient-education-product",
+    "verifiedBy": "github_contents_blob_sha_comparison",
+    "verifiedAt": "2026-07-18T16:35:00.000Z"
+  },
+  "tranches": [
+    {
+      "trancheId": "A",
+      "title": "Public institutional product surface",
+      "reconciliationStatus": "already_integrated_exact_blob_match",
+      "newMergePullRequestRequired": false,
+      "runtimeCertificationStillRequired": true,
+      "artifactCount": 18,
+      "artifacts": [
+        {"path":"src/pages/PatientEducationSystemsPage.tsx","mainBlobSha":"0c6388e6a34d7d59e7866b423edf565ab73e1aa4"},
+        {"path":"src/components/organizations/PatientEducationPilotBuilder.tsx","mainBlobSha":"1ef5eac2886ad3222ae09cd5fc247ef60f4a6f2f"},
+        {"path":"src/data/patientEducationOffering.ts","mainBlobSha":"fd2cb714ec70a95c6a9d281a5ea1476d52546ca2"},
+        {"path":"e2e/patient-education-systems.spec.ts","mainBlobSha":"1b4a00325eef79cfb1814f45ffca17e1d7af79ce"},
+        {"path":"src/App.tsx","mainBlobSha":"1cb757001bb0d18d53cab3bc4413d2170e360246"},
+        {"path":"src/pages/ForOrganizationsPage.tsx","mainBlobSha":"1add2d0cbf1fc32b3aecb2ebd9fcfad490f4d9c1"},
+        {"path":"src/lib/siteSeoMeta.ts","mainBlobSha":"016074a95e8cfaf6f4860ad56724d4160242a38e"},
+        {"path":"src/lib/patientEducationPilot.ts","mainBlobSha":"b0286f183b566b2ad4796cb67cfbd55e38a03fcb"},
+        {"path":"src/test/patientEducationPilot.test.ts","mainBlobSha":"45090adc3391d60459ade645b3bf1884d2a0805e"},
+        {"path":"public/patient-education/capability-manifest.json","mainBlobSha":"eb4b1d5a40c25b6c7a969effb5f17de2e771a2cb"},
+        {"path":"public/patient-education/schemas/public-package-descriptor-v1.schema.json","mainBlobSha":"5925bed73fc608b904a75bf1d9e800822b5bb79a"},
+        {"path":"public/patient-education/schemas/controlled-preview-bundle-v1.schema.json","mainBlobSha":"45d1f9dd70dece27b9fd69b22a66569c77450d84"},
+        {"path":"scripts/check-institutional-ip-boundary.mjs","mainBlobSha":"5f2177774fc82e3bae5f5dc66d3b5f8b509a40cf"},
+        {"path":"public/patient-education/demo/controlled-preview-bundle.json","mainBlobSha":"eb03462b7c51b9fc12c3fceb0d62de1ab8baebf7"},
+        {"path":"scripts/check-patient-education-public-contracts.mjs","mainBlobSha":"a3b99911794f0b8b34229b57b24e67ff75c270a0"},
+        {"path":"scripts/check-patient-education-capability-manifest.mjs","mainBlobSha":"ccb7dccbb2df0a4735d432b2b128a68c075aff59"},
+        {"path":"scripts/seo-route-utils.mjs","mainBlobSha":"658bec8b2a770d868c5603f65925b156e72984e8"},
+        {"path":"scripts/check-comprehensive-roadmap-routes.mjs","mainBlobSha":"1a713719fa36bb0c834927fd4872684ea95845a8"}
+      ],
+      "claimsBoundary": [
+        "Exact blob reconciliation proves file identity for the listed artifacts only.",
+        "It does not prove an exact-head runtime build, browser execution, accessibility conformance, clinical approval, hospital deployment, or patient outcomes.",
+        "Tranche A remains subject to integrated regression testing after Tranches B through F are reconstructed."
+      ]
+    }
+  ],
+  "remainingReconstructionTranches": ["B", "C", "D", "E", "F"],
+  "completionRule": "Tranche A must not be recreated as a redundant merge pull request while every listed blob matches this baseline. Any blob drift reopens Tranche A review. Tranches B through F remain reconstruction work from current main."
+}

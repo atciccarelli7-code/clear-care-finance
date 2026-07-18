@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "public_safe_non_authority_registry",
+  "modules": [
+    {
+      "path": "src/lib/patientEducationPilot.ts",
+      "classification": "public_fixed_choice_planning_helper",
+      "reason": "Builds an in-browser, nonbinding pilot starting brief from fixed enum selections. It does not compile clinical content, approve releases, sign artifacts, access organization records, deliver patient education, or process patient identifiers.",
+      "tests": ["src/test/patientEducationPilot.test.ts"],
+      "requiredExports": ["buildPatientEducationPilotPlan", "patientEducationPilotPlanToText"],
+      "patientCareUseProhibited": true,
+      "authorityDecisionUseProhibited": true,
+      "privateDataUseProhibited": true
+    }
+  ]
+}

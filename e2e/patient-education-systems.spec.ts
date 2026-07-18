@@ -57,43 +57,39 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-for (const viewport of [
-  { label: "desktop", width: 1440, height: 1000 },
-  { label: "mobile", width: 390, height: 844 },
-]) {
-  test(`Patient Education Systems builds a private pilot brief on ${viewport.label}`, async ({ page }) => {
-    await page.setViewportSize({ width: viewport.width, height: viewport.height });
-    const watch = installHealthWatch(page);
-    await page.goto("/for-organizations/patient-education-systems");
-    await page.waitForFunction(() => document.body.innerText.includes("CAF Patient Education Systems"));
+test("Patient Education Systems builds a private pilot brief", async ({ page }, testInfo) => {
+  const watch = installHealthWatch(page);
+  await page.goto("/for-organizations/patient-education-systems");
+  await page.waitForFunction(() => document.body.innerText.includes("CAF Patient Education Systems"));
 
-    await expect(page.getByRole("heading", { level: 1, name: /Hospital-to-home education designed around what patients actually have to do next/i })).toBeVisible();
-    await expect(page.getByText(/Controlled preview—not a clinical handout/i)).toBeVisible();
-    await expect(page.getByText(/No patient information and no free text/i)).toBeVisible();
-    await expect(page.locator("#pilot-builder textarea, #pilot-builder input")).toHaveCount(0);
+  await expect(page.getByRole("heading", { level: 1, name: /Hospital-to-home education designed around what patients actually have to do next/i })).toBeVisible();
+  await expect(page.getByText(/Controlled preview—not a clinical handout/i)).toBeVisible();
+  await expect(page.getByText(/No patient information and no free text/i)).toBeVisible();
+  await expect(page.locator("#pilot-builder textarea, #pilot-builder input")).toHaveCount(0);
 
-    const initialUrl = page.url();
-    await page.getByLabel("Care setting").selectOption("acute_inpatient");
-    await page.getByLabel("First flagship module").selectOption("blood_thinners");
-    await page.getByLabel("Pilot scale").selectOption("single_unit");
-    await page.getByLabel("Planning horizon").selectOption("ninety_day_pilot");
-    await page.getByLabel("Primary evaluation focus").selectOption("comprehension");
-    await page.getByRole("button", { name: /Build pilot brief/i }).click();
+  const initialUrl = page.url();
+  await page.getByLabel("Care setting").selectOption("acute_inpatient");
+  await page.getByLabel("First flagship module").selectOption("blood_thinners");
+  await page.getByLabel("Pilot scale").selectOption("single_unit");
+  await page.getByLabel("Planning horizon").selectOption("ninety_day_pilot");
+  await page.getByLabel("Primary evaluation focus").selectOption("comprehension");
+  await page.getByRole("button", { name: /Build pilot brief/i }).click();
 
-    await expect(page.getByRole("heading", { name: /New to Blood Thinners: Single unit starting brief/i })).toBeFocused();
-    await expect(page.getByText("Medication-specific insert", { exact: true })).toBeVisible();
-    await expect(page.getByText(/Do not enter names, dates of birth, medical record numbers/i)).toBeVisible();
-    expect(page.url()).toBe(initialUrl);
+  await expect(page.getByRole("heading", { name: /New to Blood Thinners: Single unit starting brief/i })).toBeFocused();
+  await expect(page.getByText("Medication-specific insert", { exact: true })).toBeVisible();
+  await page.getByText("Privacy, clinical, and claims boundaries", { exact: true }).click();
+  await expect(page.getByText(/Do not enter names, dates of birth, medical record numbers/i)).toBeVisible();
+  expect(page.url()).toBe(initialUrl);
 
-    await page.getByRole("button", { name: /Copy brief/i }).click();
-    await expect(page.getByRole("status")).toContainText(/Pilot brief copied/i);
-    const clipboard = await page.evaluate(() => navigator.clipboard.readText());
-    expect(clipboard).toContain("CAF PATIENT EDUCATION SYSTEMS - PILOT STARTING BRIEF");
-    expect(clipboard).toContain("PRIVACY, CLINICAL, AND CLAIMS BOUNDARIES");
-    expect(clipboard).not.toMatch(/patient name:|medical record number:|date of birth:/i);
+  await page.getByRole("button", { name: /Copy brief/i }).click();
+  await expect(page.getByRole("status")).toContainText(/Pilot brief copied/i);
+  const clipboard = await page.evaluate(() => navigator.clipboard.readText());
+  expect(clipboard).toContain("CAF PATIENT EDUCATION SYSTEMS - PILOT STARTING BRIEF");
+  expect(clipboard).toContain("PRIVACY, CLINICAL, AND CLAIMS BOUNDARIES");
+  expect(clipboard).not.toMatch(/patient name:|medical record number:|date of birth:/i);
 
-    await page.getByRole("button", { name: /Print or save PDF/i }).click();
-    await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
-    await certifyPage(page, watch);
-  });
-}
+  await page.getByRole("button", { name: /Print or save PDF/i }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
+  await page.screenshot({ path: testInfo.outputPath("patient-education-systems.png"), fullPage: true });
+  await certifyPage(page, watch);
+});

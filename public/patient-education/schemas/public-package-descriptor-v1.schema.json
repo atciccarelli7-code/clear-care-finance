@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://communityacquiredfinance.com/patient-education/schemas/public-package-descriptor-v1.schema.json",
+  "title": "CAF Patient Education Public Package Descriptor",
+  "description": "Public-safe metadata for a CAF Patient Education package. This schema intentionally excludes clinical content, evidence dossiers, reviewer identity records, hospital customizations, contracts, pricing, and patient information.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "packageId",
+    "title",
+    "shortTitle",
+    "description",
+    "clinicalDomains",
+    "intendedAudiences",
+    "careSettings",
+    "language",
+    "riskTier",
+    "status",
+    "version",
+    "assets",
+    "releaseGateSummary",
+    "claimsBoundary"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "packageId": { "type": "string", "pattern": "^CAF-PE-[A-Z0-9-]+$" },
+    "title": { "type": "string", "minLength": 5 },
+    "shortTitle": { "type": "string", "minLength": 2 },
+    "description": { "type": "string", "minLength": 20 },
+    "clinicalDomains": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 2 } },
+    "intendedAudiences": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 2 } },
+    "careSettings": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 2 } },
+    "language": { "type": "string", "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$" },
+    "riskTier": { "enum": ["low", "moderate", "high", "critical"] },
+    "status": { "enum": ["proposed", "researching", "drafting", "internal_review", "external_review", "patient_testing", "pilot_ready", "released", "suspended", "retired"] },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assetId", "type", "title", "audiences", "formats", "version", "publicPreviewAvailable"],
+        "properties": {
+          "assetId": { "type": "string", "pattern": "^CAF-PE-[A-Z0-9-]+$" },
+          "type": { "enum": ["full_guide", "quick_start", "avs_summary", "personalized_plan", "daily_tracker", "troubleshooting", "red_flags", "caregiver_guide", "teach_back", "show_me", "clinician_reference", "implementation_workflow", "feedback_tool", "video", "audio", "wallet_card"] },
+          "title": { "type": "string", "minLength": 3 },
+          "audiences": { "type": "array", "minItems": 1, "items": { "enum": ["patient", "caregiver", "nurse", "clinician", "reviewer", "instructor", "administrator"] } },
+          "formats": { "type": "array", "minItems": 1, "items": { "enum": ["responsive_html", "print_html", "print_pdf", "accessible_pdf", "structured_text", "avs_text", "patient_portal_json", "json", "csv", "video", "audio", "image"] } },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+          "publicPreviewAvailable": { "type": "boolean" }
+        }
+      }
+    },
+    "releaseGateSummary": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["gate", "status"],
+        "properties": {
+          "gate": { "enum": ["evidence", "clinical_review", "health_literacy", "accessibility", "patient_testing", "institutional_localization"] },
+          "status": { "enum": ["not_started", "in_progress", "passed", "failed", "expired"] }
+        }
+      }
+    },
+    "claimsBoundary": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 10 } }
+  }
+}

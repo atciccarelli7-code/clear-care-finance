@@ -78,8 +78,10 @@ jobs:
           sha256sum \
             config/patient-education-capability-registry.json \
             config/patient-education-non-authority-modules.json \
+            config/patient-education-capability-dependencies.json \
             public/patient-education/demo/synthetic-authority-conformance-manifest.json \
             scripts/check-patient-education-capability-registry.mjs \
+            scripts/check-patient-education-capability-dependencies.mjs \
             scripts/check-patient-education-authority-foundation.mjs \
             docs/caf-patient-education-branch-reconstruction-and-merge-plan.md \
             tsconfig.patient-education-authority.json \
@@ -89,6 +91,7 @@ jobs:
             "schemaVersion": "2.1.0",
             "workflow": "Patient Education Authority Certification",
             "registryId": "CAF-PE-CAPABILITY-REGISTRY-AUTHORITY-COMPLETE",
+            "dependencyGraphId": "CAF-PE-CAPABILITY-DEPENDENCY-GRAPH-AUTHORITY-COMPLETE",
             "repository": "${GITHUB_REPOSITORY}",
             "commitSha": "${GITHUB_SHA}",
             "ref": "${GITHUB_REF}",
@@ -96,7 +99,9 @@ jobs:
             "runAttempt": "${GITHUB_RUN_ATTEMPT}",
             "governedCapabilityCount": 44,
             "syntheticScenarioCount": 88,
+            "reconstructionTrancheCount": 6,
             "explicitlyNonAuthorityModuleCount": 1,
+            "dependencyDagRequired": true,
             "reconstructionPlanRequired": true,
             "patientCareUse": "prohibited",
             "claimsBoundary": "Engineering conformance only; no clinical approval, compliance certification, deployment, or patient outcomes."
@@ -104,6 +109,7 @@ jobs:
           EOF
           cp config/patient-education-capability-registry.json artifacts/patient-education-authority/
           cp config/patient-education-non-authority-modules.json artifacts/patient-education-authority/
+          cp config/patient-education-capability-dependencies.json artifacts/patient-education-authority/
           cp public/patient-education/demo/synthetic-authority-conformance-manifest.json artifacts/patient-education-authority/
           cp docs/caf-patient-education-branch-reconstruction-and-merge-plan.md artifacts/patient-education-authority/
 

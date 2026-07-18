@@ -230,7 +230,7 @@ export const RUNTIME_ARTICLE_SEO_META = [
   {
     "slug": "from-the-bedside-long-term-care-medicaid-hospital-delay",
     "title": "From the Bedside: Long-Term Care Medicaid Should Not Wait Until a Crisis",
-    "description": "A bedside look at why older adults can get stuck in the hospital while families scramble for long-term care Medicaid and nursing home placement.",
+    "description": "A bedside look at why older adults can get stuck in the hospital while families scramble for long-term care Medicaid, nursing home placement, and a plan to preserve function.",
     "category": "Medicaid"
   },
   {
@@ -239,7 +239,7 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "description": "A plain-English explanation of why hospitals use blood thinners, what common options do differently, and what to ask before accepting or declining a dose.",
     "category": "Hospital Stay",
     "publishedAt": "2026-07-16",
-    "lastReviewedAt": "2026-07-16"
+    "lastReviewedAt": "2026-07-17"
   },
   {
     "slug": "why-did-the-hospital-stop-or-change-my-home-medications",
@@ -247,7 +247,7 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "description": "A plain-English guide to temporary medication holds, substitutions, timing changes, and the questions that prevent confusion at discharge.",
     "category": "Hospital Stay",
     "publishedAt": "2026-07-16",
-    "lastReviewedAt": "2026-07-16"
+    "lastReviewedAt": "2026-07-17"
   },
   {
     "slug": "how-healthcare-workers-should-compare-job-offers",

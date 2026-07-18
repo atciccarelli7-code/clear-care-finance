@@ -9,7 +9,7 @@ import { trackGrowthEvent } from "@/lib/growthAnalytics";
 import { useSeo } from "@/lib/seo";
 
 const dueDiligencePages = [
-  ["Patient Education Systems", "/for-organizations/patient-education-systems", "RN-designed discharge education, clinical governance, pilot scoping, and product boundaries."],
+  ["Hospital & Patient Guide", "/for-organizations/patient-education-systems", "RN-developed discharge guidance, caregiver support, clinical governance, pilot scoping, and product boundaries."],
   ["Programs", "/for-organizations/programs", "Participant pathways and organization deliverables."],
   ["Implementation", "/for-organizations/implementation", "Owners, review, launch, support, and learning gates."],
   ["Measurement", "/for-organizations/measurement", "Decision-grade aggregate evidence and claims boundaries."],
@@ -33,10 +33,10 @@ const ForOrganizationsPage = () => {
       <PageHero
         eyebrow="For healthcare organizations, employers, schools, plans, and community programs"
         title="Healthcare education people can use without handing over their private information."
-        description="Evaluate public financial-education programs or review the development-stage CAF Patient Education Systems product for hospital-to-home education, clinical governance, and controlled institutional pilots."
+        description="Evaluate public financial-education programs or review the development-stage Hospital & Patient Guide for hospital-to-home education, caregiver support, clinical governance, and controlled institutional pilots."
       >
         <Button asChild variant="hero" size="lg"><a href="#program-builder">Build a program brief <ArrowRight className="h-4 w-4" /></a></Button>
-        <Button asChild variant="outline" size="lg"><Link to="/for-organizations/patient-education-systems" onClick={() => trackGrowthEvent("organization_program_opened", { entry_surface: "organization", destination_id: "patient_education_systems" })}>Patient Education Systems</Link></Button>
+        <Button asChild variant="outline" size="lg"><Link to="/for-organizations/patient-education-systems" onClick={() => trackGrowthEvent("organization_program_opened", { entry_surface: "organization", destination_id: "patient_education_systems" })}>Hospital & Patient Guide</Link></Button>
         <Button asChild variant="ghost" size="lg"><Link to="/contact" onClick={() => trackGrowthEvent("organization_contact_opened", { entry_surface: "organization", action_id: "hero" })}>Contact CAF</Link></Button>
       </PageHero>
 
@@ -45,7 +45,7 @@ const ForOrganizationsPage = () => {
           <div className="grid gap-8 p-6 md:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-primary"><Stethoscope className="h-4 w-4" /> New institutional product line</div>
-              <h2 id="institutional-product-title" className="mt-4 font-display text-3xl font-bold tracking-tight md:text-4xl">CAF Patient Education Systems</h2>
+              <h2 id="institutional-product-title" className="mt-4 font-display text-3xl font-bold tracking-tight md:text-4xl">Hospital & Patient Guide</h2>
               <p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">A proprietary, RN-designed hospital-to-home education system combining patient guides, personalized plans, teach-back, skill verification, operational troubleshooting, refill and supply continuity, clinical governance, and measurable implementation.</p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Button asChild variant="hero"><Link to="/for-organizations/patient-education-systems">Review the product architecture <ArrowRight className="h-4 w-4" /></Link></Button>
@@ -80,7 +80,7 @@ const ForOrganizationsPage = () => {
 
       <section className="border-y border-border bg-card/25 py-14 md:py-20" aria-labelledby="programs-title">
         <div className="container max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center"><div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Five public program categories</div><h2 id="programs-title" className="mt-2 font-display text-3xl font-bold tracking-tight">Focused pathways built from products buyers can open today.</h2><p className="mt-3 leading-relaxed text-muted-foreground">These public financial-education programs remain distinct from the proprietary Patient Education Systems library. A program adds approved launch materials, accountable roles, support, review, and measurement.</p></div>
+          <div className="mx-auto max-w-3xl text-center"><div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Five public program categories</div><h2 id="programs-title" className="mt-2 font-display text-3xl font-bold tracking-tight">Focused pathways built from products buyers can open today.</h2><p className="mt-3 leading-relaxed text-muted-foreground">These public financial-education programs remain distinct from the proprietary Hospital & Patient Guide library. A program adds approved launch materials, accountable roles, support, review, and measurement.</p></div>
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             {organizationPrograms.map((program) => <article key={program.id} className="flex flex-col rounded-2xl border border-border bg-card p-5 shadow-sm"><div className="text-xs font-bold uppercase tracking-[0.14em] text-secondary">{program.eyebrow}</div><h3 className="mt-2 font-display text-xl font-bold">{program.title}</h3><p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{program.summary}</p><Link to="/for-organizations/programs" onClick={() => trackGrowthEvent("organization_program_opened", { entry_surface: "organization", destination_id: program.id })} className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary">Review program <ArrowRight className="h-4 w-4" /></Link></article>)}
           </div>

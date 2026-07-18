@@ -4,7 +4,6 @@ import {
   ArrowRight,
   BookOpenCheck,
   Boxes,
-  CheckCircle2,
   ClipboardCheck,
   Code2,
   FileCheck2,
@@ -18,12 +17,12 @@ import {
   Workflow,
 } from "lucide-react";
 import { PatientEducationPilotBuilder } from "@/components/organizations/PatientEducationPilotBuilder";
+import { HospitalGuidePilotShowcase } from "@/components/organizations/HospitalGuidePilotShowcase";
 import { PageHero } from "@/components/shared/PageHero";
 import { Button } from "@/components/ui/button";
 import {
   patientEducationClaimsBoundary,
   patientEducationContinuityLayers,
-  patientEducationModules,
   patientEducationPackageAssets,
   patientEducationReleaseGates,
 } from "@/data/patientEducationOffering";
@@ -67,9 +66,9 @@ const technicalCapabilities = [
 
 const PatientEducationSystemsPage = () => {
   useSeo({
-    title: "Hospital Patient Education Systems and Discharge Guides",
+    title: "Hospital & Patient Guide for Health Systems",
     description:
-      "Review CAF Patient Education Systems: an RN-designed, clinically governed hospital-to-home education product with patient guides, teach-back, operational continuity, institutional customization, and measurable pilots.",
+      "Review the Community Acquired Finance Hospital & Patient Guide: five RN-developed discharge-support packages, teach-back tools, caregiver support, customization, governance, and a conservative pilot model.",
     canonicalPath: "/for-organizations/patient-education-systems",
   });
 
@@ -80,12 +79,12 @@ const PatientEducationSystemsPage = () => {
   return (
     <>
       <PageHero
-        eyebrow="CAF Patient Education Systems · Institutional product in development"
-        title="Hospital-to-home education designed around what patients actually have to do next."
-        description="A proprietary, RN-designed product system that combines clear patient instructions, personalized plans, teach-back, skill verification, operational troubleshooting, refill and supply continuity, clinical governance, and measurable implementation."
+        eyebrow="Hospital & Patient Guide · Institutional product in development"
+        title="Hospital-to-home guidance designed around what patients and caregivers actually have to do next."
+        description="An RN-developed, evidence-supported guide system that connects practical patient instructions, caregiver responsibilities, teach-back, medication and equipment continuity, insurance barriers, clinical review, and measurable implementation."
       >
-        <Button asChild variant="hero" size="lg"><a href="#pilot-builder">Build a pilot brief <ArrowRight className="h-4 w-4" /></a></Button>
-        <Button asChild variant="outline" size="lg"><Link to="/for-organizations/trust-procurement">Review trust and procurement</Link></Button>
+        <Button asChild variant="hero" size="lg"><a href="#pilot-packages">Review the five-package demo <ArrowRight className="h-4 w-4" /></a></Button>
+        <Button asChild variant="outline" size="lg"><a href="#pilot-builder">Build a pilot brief</a></Button>
         <Button asChild variant="ghost" size="lg"><Link to="/contact" onClick={() => trackGrowthEvent("organization_contact_opened", { entry_surface: "patient_education_systems", action_id: "hero" })}>Contact CAF</Link></Button>
       </PageHero>
 
@@ -93,13 +92,13 @@ const PatientEducationSystemsPage = () => {
         <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
           <article className="rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 shadow-card md:p-8">
             <div className="inline-flex items-center gap-2 rounded-full bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-primary"><Stethoscope className="h-4 w-4" /> Product status</div>
-            <h2 id="product-status-title" className="mt-4 font-display text-3xl font-bold tracking-tight">Building the clinical operating system before selling the library.</h2>
+            <h2 id="product-status-title" className="mt-4 font-display text-3xl font-bold tracking-tight">A complete five-package pilot demonstration with release gates still visible.</h2>
             <p className="mt-4 leading-relaxed text-muted-foreground">
-              The full guides, evidence dossiers, reviewer records, hospital customizations, and clinician tools are private. The public site shows the architecture, governance, pilot model, and controlled product shape without releasing the deployable institutional library.
+              Full guide candidates, claim-level source dossiers, reviewer records, hospital customizations, and internal commercial materials stay private. The public demo shows enough real patient, caregiver, nurse, warning, and customization content to evaluate the product without releasing the deployable institutional library.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {[
-                ["5", "flagship modules"],
+                ["5", "coherent guide packages"],
                 ["15", "coordinated assets per topic"],
                 ["6", "required release gates"],
               ].map(([value, label]) => <div key={label} className="rounded-2xl border border-border bg-background/85 p-4"><div className="font-display text-3xl font-bold text-primary">{value}</div><div className="mt-1 text-sm font-semibold text-muted-foreground">{label}</div></div>)}
@@ -163,38 +162,7 @@ const PatientEducationSystemsPage = () => {
         </div>
       </section>
 
-      <section className="border-y border-border bg-card/30 py-14 md:py-20" aria-labelledby="flagship-title">
-        <div className="container max-w-7xl">
-          <div className="max-w-3xl">
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Initial flagship portfolio</div>
-            <h2 id="flagship-title" className="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">Five modules selected to prove the system across different discharge risks.</h2>
-            <p className="mt-4 leading-relaxed text-muted-foreground">The first module is in evidence development. The remaining modules are planned and will not bypass qualified review or patient testing.</p>
-          </div>
-          <div className="mt-8 grid gap-5 lg:grid-cols-2">
-            {patientEducationModules.map((module, index) => (
-              <article key={module.id} className={`rounded-3xl border bg-background p-6 shadow-sm ${index === 0 ? "border-primary/40 lg:col-span-2" : "border-border"}`}>
-                <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
-                  <span className="rounded-full bg-primary-soft px-3 py-1 text-primary">{module.status}</span>
-                  <span className="rounded-full border border-border px-3 py-1">{module.riskTier} risk</span>
-                  {module.clinicalDomains.map((domain) => <span key={domain} className="rounded-full border border-border px-3 py-1 text-muted-foreground">{domain}</span>)}
-                </div>
-                <h3 className="mt-4 font-display text-2xl font-bold">{module.title}</h3>
-                <p className="mt-3 leading-relaxed text-muted-foreground">{module.purpose}</p>
-                <div className="mt-5 grid gap-5 md:grid-cols-2">
-                  <div>
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-primary">What it proves</div>
-                    <ul className="mt-3 space-y-2">{module.proves.map((item) => <li key={item} className="flex gap-2 text-sm"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{item}</li>)}</ul>
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Required review disciplines</div>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{module.requiredReviewers.join(" · ")}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HospitalGuidePilotShowcase />
 
       <section className="container max-w-7xl py-14 md:py-20" aria-labelledby="package-title">
         <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">

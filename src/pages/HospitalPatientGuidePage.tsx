@@ -354,6 +354,7 @@ const HospitalPatientGuidePage = () => (
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <Button asChild variant="soft"><Link to="/methodology"><BookOpenCheck className="h-4 w-4" /> Review the editorial method</Link></Button>
                 <Button asChild variant="outline"><Link to="/patients-families">Back to all patient pathways</Link></Button>
+                <Button asChild variant="outline"><Link to="/for-organizations/patient-education-systems" onClick={() => trackSiteEvent("patient_guide_institutional_demo_selected", { item_id: "hospital_patient_guide_pilot" })}>Hospital leader? Review the five-package demo <ArrowRight className="h-4 w-4" /></Link></Button>
               </div>
             </div>
           </div>

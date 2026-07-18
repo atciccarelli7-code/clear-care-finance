@@ -20,6 +20,7 @@ import {
   type PatientEducationPilotInput,
 } from "@/lib/patientEducationPilot";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
+import { trackSiteEvent } from "@/lib/analytics";
 
 type PilotDraft = Partial<PatientEducationPilotInput>;
 
@@ -205,7 +206,7 @@ export const PatientEducationPilotBuilder = () => {
 
           <div className="mt-8 flex flex-col gap-4 rounded-2xl bg-primary-soft/35 p-5 sm:flex-row sm:items-center sm:justify-between print:hidden">
             <p className="max-w-2xl text-sm leading-relaxed"><strong>Ready for a controlled discovery conversation?</strong> Share this brief internally, identify the accountable sponsor and required reviewers, then contact CAF without patient, employee, plan, or case-specific information.</p>
-            <Button asChild variant="hero" className="shrink-0"><Link to="/contact" onClick={() => trackGrowthEvent("organization_contact_opened", { entry_surface: "patient_education_systems", action_id: "pilot_brief" })}>Request pilot review <ArrowRight className="h-4 w-4" /></Link></Button>
+            <Button asChild variant="hero" className="shrink-0"><Link to="/contact" onClick={() => { trackGrowthEvent("organization_contact_opened", { entry_surface: "patient_education_systems", action_id: "pilot_brief" }); trackSiteEvent("pilot_inquiry_selected", { item_id: submitted.module }); }}>Request pilot review <ArrowRight className="h-4 w-4" /></Link></Button>
           </div>
         </div>
       )}

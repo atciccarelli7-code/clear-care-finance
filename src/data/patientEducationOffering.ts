@@ -1,9 +1,9 @@
 export type PatientEducationModuleId =
+  | "copd_recovery"
+  | "heart_failure"
   | "blood_thinners"
-  | "enteral_feeding"
   | "home_oxygen"
-  | "opioids_naloxone"
-  | "falls_walker";
+  | "first_72_hours";
 
 export type PatientEducationSettingId =
   | "acute_inpatient"
@@ -31,7 +31,7 @@ export type PatientEducationModule = {
   proves: string[];
   requiredReviewers: string[];
   riskTier: "High" | "Critical";
-  status: "Evidence development" | "Planned";
+  status: "Evidence development" | "Clinical review candidate" | "Planned";
 };
 
 export const patientEducationSettings: PatientEducationOption<PatientEducationSettingId>[] = [
@@ -63,26 +63,37 @@ export const patientEducationFocuses: PatientEducationOption<PatientEducationFoc
 
 export const patientEducationModules: PatientEducationModule[] = [
   {
+    id: "copd_recovery",
+    title: "COPD Exacerbation and Recovery at Home",
+    shortTitle: "COPD recovery",
+    clinicalDomains: ["Pulmonary", "Medication and device safety", "Care transitions"],
+    purpose: "Coordinate rescue and maintenance inhalers, nebulizer continuity, short-course medicines, oxygen or positive-airway-pressure context, recovery activity, warning levels, and access barriers.",
+    proves: ["Respiratory device education", "Medication and equipment continuity", "Pulmonary recovery support", "Caregiver escalation planning"],
+    requiredReviewers: ["RN clinical editor", "Pulmonology clinician", "Respiratory therapist", "Clinical pharmacist", "Health-literacy reviewer", "Accessibility reviewer", "Patient and caregiver reviewers"],
+    riskTier: "Critical",
+    status: "Evidence development",
+  },
+  {
+    id: "heart_failure",
+    title: "Heart Failure Discharge and Daily Management",
+    shortTitle: "Heart failure",
+    clinicalDomains: ["Cardiac", "Medication safety", "Daily monitoring"],
+    purpose: "Connect daily weights and symptoms, medication categories, individualized sodium and fluid instructions, follow-up ownership, action zones, and access continuity without inventing thresholds.",
+    proves: ["Individualized action-zone architecture", "Medication and laboratory continuity", "Daily self-management support", "Caregiver monitoring"],
+    requiredReviewers: ["RN clinical editor", "Heart-failure clinician", "Clinical pharmacist", "Dietitian", "Health-literacy reviewer", "Accessibility reviewer", "Patient and caregiver reviewers"],
+    riskTier: "Critical",
+    status: "Evidence development",
+  },
+  {
     id: "blood_thinners",
-    title: "New to Blood Thinners",
+    title: "Blood Thinner Safety",
     shortTitle: "Blood thinners",
     clinicalDomains: ["Medication safety", "Care transitions"],
     purpose: "Build a general anticoagulant guide plus medication-specific inserts, a personal plan, refill continuity, procedure planning, and emergency escalation.",
     proves: ["High-risk medication education", "Medication-specific architecture", "Refill and interruption planning", "Caregiver teach-back"],
     requiredReviewers: ["RN clinical editor", "Clinical pharmacist", "Anticoagulation physician or APP", "Health-literacy reviewer", "Accessibility reviewer", "Patient and caregiver reviewers"],
     riskTier: "Critical",
-    status: "Evidence development",
-  },
-  {
-    id: "enteral_feeding",
-    title: "New to a PEG Tube or Enteral Feeding",
-    shortTitle: "PEG tube and enteral feeding",
-    clinicalDomains: ["Nutrition", "Device care", "Care transitions"],
-    purpose: "Explain feeding methods, hydration, medication administration, site care, supply continuity, daily tracking, and escalation.",
-    proves: ["Device and nutrition education", "Daily schedule support", "Supply continuity", "Caregiver competency"],
-    requiredReviewers: ["RN clinical editor", "Registered dietitian", "Gastroenterology clinician", "Clinical pharmacist", "Enteral supplier representative", "Patient and caregiver reviewers"],
-    riskTier: "Critical",
-    status: "Planned",
+    status: "Clinical review candidate",
   },
   {
     id: "home_oxygen",
@@ -93,29 +104,18 @@ export const patientEducationModules: PatientEducationModule[] = [
     proves: ["DME education", "Safety-critical instruction", "Supplier continuity", "Travel and backup planning"],
     requiredReviewers: ["RN clinical editor", "Respiratory therapist", "Pulmonology clinician", "Home oxygen supplier representative", "Fire-safety reviewer", "Patient and caregiver reviewers"],
     riskTier: "Critical",
-    status: "Planned",
+    status: "Evidence development",
   },
   {
-    id: "opioids_naloxone",
-    title: "Going Home With Opioid Pain Medicine and Naloxone",
-    shortTitle: "Opioids and naloxone",
-    clinicalDomains: ["Medication safety", "Home safety", "Care transitions"],
-    purpose: "Cover prescribed use, sedation, breathing risk, naloxone response, storage, disposal, constipation prevention, driving, alcohol, and refill expectations.",
-    proves: ["Overdose prevention", "Caregiver response", "Medication storage and disposal", "High-risk warning design"],
-    requiredReviewers: ["RN clinical editor", "Clinical pharmacist", "Pain or prescribing clinician", "Substance-use specialist", "Health-literacy reviewer", "Patient and caregiver reviewers"],
-    riskTier: "Critical",
-    status: "Planned",
-  },
-  {
-    id: "falls_walker",
-    title: "Home Safety After a Fall or With a New Walker",
-    shortTitle: "Falls and walker safety",
-    clinicalDomains: ["Mobility", "Home safety", "DME"],
-    purpose: "Separate general fall prevention from prescribed weight-bearing, transfer, brace, walker, caregiver, and therapy instructions.",
-    proves: ["Mobility education", "Home-preparation checklist", "Caregiver support", "Therapy-specific personalization"],
-    requiredReviewers: ["RN clinical editor", "Physical therapist", "Occupational therapist", "Geriatric or primary-care clinician", "DME representative", "Patient and caregiver reviewers"],
+    id: "first_72_hours",
+    title: "Safe Hospital Discharge and the First 72 Hours at Home",
+    shortTitle: "First 72 hours",
+    clinicalDomains: ["Universal discharge", "Medication reconciliation", "Home readiness"],
+    purpose: "Make the first night, first 24 hours, and first 72 hours workable across medicines, appointments, pending tests, mobility, equipment, home services, caregivers, insurance, and warning signs.",
+    proves: ["Universal discharge readiness", "Medication reconciliation", "Home and caregiver handoff", "Follow-up and pending-result ownership"],
+    requiredReviewers: ["RN clinical editor", "Transitions-of-care clinician", "Clinical pharmacist", "Case management or social work", "Therapy representative", "Health-literacy reviewer", "Accessibility reviewer", "Patient and caregiver reviewers"],
     riskTier: "High",
-    status: "Planned",
+    status: "Evidence development",
   },
 ];
 

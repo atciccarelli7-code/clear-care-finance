@@ -57,16 +57,23 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("Patient Education Systems builds a private pilot brief and exposes a safe technical proof registry", async ({ page }, testInfo) => {
+test("Hospital & Patient Guide demonstrates five packages, builds a private pilot brief, and exposes a safe technical proof registry", async ({ page }, testInfo) => {
   const watch = installHealthWatch(page);
   await page.goto("/for-organizations/patient-education-systems", { waitUntil: "domcontentloaded" });
 
-  const pageHeading = page.getByRole("heading", { level: 1, name: /Hospital-to-home education designed around what patients actually have to do next/i });
+  const pageHeading = page.getByRole("heading", { level: 1, name: /Hospital-to-home guidance designed around what patients and caregivers actually have to do next/i });
   await expect(pageHeading).toBeVisible();
   await expect(page.getByLabel("Care setting")).toBeEnabled();
   await expect(page.getByText(/Controlled preview—not a clinical handout/i)).toBeVisible();
   await expect(page.getByText(/No patient information and no free text/i)).toBeVisible();
   await expect(page.locator("#pilot-builder textarea, #pilot-builder input")).toHaveCount(0);
+
+  await page.getByRole("button", { name: /Package 2 Heart failure/i }).click();
+  await expect(page.getByRole("heading", { name: /Heart Failure Discharge and Daily Management/i })).toBeVisible();
+  await page.getByRole("tab", { name: /Caregiver sees/i }).click();
+  await expect(page.getByRole("tabpanel", { name: /Caregiver sees/i })).toContainText(/medication and laboratory continuity/i);
+  await expect(page.getByText("Routine self-management", { exact: true })).toBeVisible();
+  await expect(page.getByText("Call 911 / emergency services", { exact: true })).toBeVisible();
 
   await expect(page.getByRole("heading", { name: /One governed source package, multiple controlled outputs/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Inspect current platform capabilities/i })).toHaveAttribute("href", "/patient-education/capability-manifest.json");
@@ -93,7 +100,7 @@ test("Patient Education Systems builds a private pilot brief and exposes a safe 
   await page.getByLabel("Primary evaluation focus").selectOption("comprehension");
   await page.getByRole("button", { name: /Build pilot brief/i }).click();
 
-  await expect(page.getByRole("heading", { name: /New to Blood Thinners: Single unit starting brief/i })).toBeFocused();
+  await expect(page.getByRole("heading", { name: /Blood Thinner Safety: Single unit starting brief/i })).toBeFocused();
   await expect(page.getByText("Medication-specific insert", { exact: true })).toBeVisible();
   await page.getByText("Privacy, clinical, and claims boundaries", { exact: true }).click();
   await expect(page.getByText(/Do not enter names, dates of birth, medical record numbers/i)).toBeVisible();
@@ -102,7 +109,7 @@ test("Patient Education Systems builds a private pilot brief and exposes a safe 
   await page.getByRole("button", { name: /Copy brief/i }).click();
   await expect(page.getByRole("status")).toContainText(/Pilot brief copied/i);
   const clipboard = await page.evaluate(() => navigator.clipboard.readText());
-  expect(clipboard).toContain("CAF PATIENT EDUCATION SYSTEMS - PILOT STARTING BRIEF");
+  expect(clipboard).toContain("CAF HOSPITAL & PATIENT GUIDE - PILOT STARTING BRIEF");
   expect(clipboard).toContain("PRIVACY, CLINICAL, AND CLAIMS BOUNDARIES");
   expect(clipboard).not.toMatch(/patient name:|medical record number:|date of birth:/i);
 

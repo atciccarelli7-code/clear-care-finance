@@ -20,10 +20,10 @@ describe("patient education pilot builder", () => {
     expect(plan.measures.join(" ")).toMatch(/emergency warning signs/i);
   });
 
-  it("changes the package and measures for enteral feeding continuity", () => {
+  it("changes the package and measures for heart failure continuity", () => {
     const input = {
       setting: "post_acute",
-      module: "enteral_feeding",
+      module: "heart_failure",
       scale: "service_line",
       timeline: "phased_launch",
       focus: "continuity",
@@ -31,10 +31,10 @@ describe("patient education pilot builder", () => {
 
     const plan = buildPatientEducationPilotPlan(input);
 
-    expect(plan.packageAssets).toContain("Feeding and hydration tracker");
-    expect(plan.packageAssets).toContain("Supply reorder plan");
+    expect(plan.packageAssets).toContain("Daily weight and symptom tracker");
+    expect(plan.packageAssets).toContain("Medication and laboratory follow-up card");
     expect(plan.measures.join(" ")).toMatch(/DME, home-health, or pharmacy handoff failures/i);
-    expect(plan.stakeholders.join(" ")).toMatch(/registered dietitian/i);
+    expect(plan.stakeholders.join(" ")).toMatch(/dietitian/i);
   });
 
   it("exports a non-identifying planning brief with explicit boundaries", () => {
@@ -49,7 +49,7 @@ describe("patient education pilot builder", () => {
     const plan = buildPatientEducationPilotPlan(input);
     const text = patientEducationPilotPlanToText(input, plan);
 
-    expect(text).toContain("CAF PATIENT EDUCATION SYSTEMS - PILOT STARTING BRIEF");
+    expect(text).toContain("CAF HOSPITAL & PATIENT GUIDE - PILOT STARTING BRIEF");
     expect(text).toContain("PRIVACY, CLINICAL, AND CLAIMS BOUNDARIES");
     expect(text).toMatch(/do not enter names, dates of birth, medical record numbers/i);
     expect(text).toMatch(/development-stage, nonbinding starting brief/i);

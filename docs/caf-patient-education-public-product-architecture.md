@@ -1,4 +1,4 @@
-# CAF Patient Education Systems — Public Product Architecture
+# Hospital & Patient Guide — Public Product Architecture
 
 **Status:** Development-stage public architecture  
 **Repository:** Public Community Acquired Finance web application  
@@ -39,7 +39,7 @@ The route provides:
 1. development-stage product status;
 2. five-layer product architecture;
 3. recognizable guide anatomy;
-4. five initial flagship modules;
+4. five initial pilot packages: COPD recovery, heart failure, blood thinner safety, home oxygen and nebulizer use, and the first 72 hours after discharge;
 5. the coordinated asset package;
 6. operational-continuity differentiation;
 7. six release gates;
@@ -63,7 +63,7 @@ Analytics receive only fixed event and action identifiers already allowed by the
 
 ## Private operating system
 
-Private product development remains outside this repository and should eventually be divided across:
+Private product development remains outside this repository and is divided across:
 
 - **Notion:** strategy, guide registry, evidence-dossier records, reviewer workflow, decision logs, and pilot operations;
 - **Private source repository:** structured guide content, schemas, automated QA, export tooling, version manifests, and non-PHI fixtures;
@@ -118,4 +118,8 @@ The public architecture may be deployed when:
 - the fixed-choice builder passes unit tests;
 - the institutional IP boundary gate passes;
 - no development-stage statement implies clinical approval or hospital deployment;
-- no public content contains actionable medication, device, emergency, or individualized treatment instructions from private modules.
+- no public content contains medication-specific dosing rules, device settings, patient-specific thresholds, local emergency policy, or individualized treatment instructions from private modules.
+
+## Pilot status
+
+The public route is a controlled product demonstration. The private repository contains version 0.4 review candidates and print-ready HTML exports for all five packages. Those assets remain blocked from patient use until topic-specific clinical review, health-literacy review, accessibility evaluation, patient/caregiver testing, and institutional localization are complete.

@@ -82,9 +82,9 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
 };
 
 const patientEducationSystemsMeta: SeoRouteMeta = {
-  title: "Hospital Patient Education Systems and Discharge Guides",
+  title: "Hospital & Patient Guide for Health Systems",
   description:
-    "Review CAF Patient Education Systems: an RN-designed, clinically governed hospital-to-home education product with patient guides, teach-back, operational continuity, institutional customization, and measurable pilots.",
+    "Review the Community Acquired Finance Hospital & Patient Guide: five RN-developed discharge-support packages, teach-back, caregiver support, customization, governance, and a conservative pilot model.",
   canonicalPath: "/for-organizations/patient-education-systems",
   robots: "index, follow, max-image-preview:large",
   jsonLd: [
@@ -94,15 +94,15 @@ const patientEducationSystemsMeta: SeoRouteMeta = {
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
         { "@type": "ListItem", position: 2, name: "For Organizations", item: `${SITE_URL}/for-organizations` },
-        { "@type": "ListItem", position: 3, name: "Patient Education Systems", item: `${SITE_URL}/for-organizations/patient-education-systems` },
+        { "@type": "ListItem", position: 3, name: "Hospital & Patient Guide", item: `${SITE_URL}/for-organizations/patient-education-systems` },
       ],
     },
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      name: "CAF Patient Education Systems",
+      name: "Hospital & Patient Guide",
       description:
-        "An RN-designed, clinically governed hospital-to-home education product with patient guides, teach-back, operational continuity, institutional customization, and measurable pilots.",
+        "Five RN-developed hospital-to-home guide packages with patient education, caregiver support, teach-back, access continuity, institutional customization, and a conservative pilot model.",
       url: `${SITE_URL}/for-organizations/patient-education-systems`,
       isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
       publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },

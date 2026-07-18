@@ -52,11 +52,11 @@ const packageAssetsFor = (moduleId: PatientEducationModuleId) => {
     "Patient and staff feedback tools",
   ];
 
+  if (moduleId === "copd_recovery") return [...shared, "Inhaler and spacer show-me card", "Nebulizer and supply continuity plan", "Pulmonary recovery action zones"];
+  if (moduleId === "heart_failure") return [...shared, "Daily weight and symptom tracker", "Individualized action-zone sheet", "Medication and laboratory follow-up card"];
   if (moduleId === "blood_thinners") return [...shared, "Medication-specific insert", "Refill and procedure-planning card", "Medication wallet card"];
-  if (moduleId === "enteral_feeding") return [...shared, "Feeding and hydration tracker", "Supply reorder plan", "Caregiver show-me checklist"];
   if (moduleId === "home_oxygen") return [...shared, "Equipment and supplier card", "Fire-safety checklist", "Travel and backup plan"];
-  if (moduleId === "opioids_naloxone") return [...shared, "Naloxone caregiver response card", "Safe storage and disposal sheet", "Pain-medicine schedule"];
-  return [...shared, "Home-safety checklist", "Walker and transfer show-me checklist", "Therapy follow-up plan"];
+  return [...shared, "First-night, 24-hour, and 72-hour checklist", "Caregiver handoff", "Pending-result and follow-up register"];
 };
 
 const phasesFor = (timeline: PatientEducationTimelineId) => {
@@ -132,7 +132,7 @@ export const buildPatientEducationPilotPlan = (input: PatientEducationPilotInput
 };
 
 export const patientEducationPilotPlanToText = (input: PatientEducationPilotInput, plan: PatientEducationPilotPlan) => [
-  "CAF PATIENT EDUCATION SYSTEMS - PILOT STARTING BRIEF",
+  "CAF HOSPITAL & PATIENT GUIDE - PILOT STARTING BRIEF",
   "",
   `Care setting: ${optionLabel(patientEducationSettings, input.setting)}`,
   `First module: ${plan.module.title}`,

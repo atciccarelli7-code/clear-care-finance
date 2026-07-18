@@ -1,10 +1,11 @@
 {
   "schemaVersion": "1.0.0",
   "productId": "CAF-PES",
-  "productName": "CAF Patient Education Systems",
+  "productName": "Hospital & Patient Guide",
+  "internalReference": "CAF Patient Education Systems",
   "status": "development_stage",
   "publicClassification": "public_product_architecture",
-  "description": "RN-designed hospital-to-home patient education product architecture with governed content, workflow tools, operational continuity, measurable pilots, and a versioned multi-channel content engine.",
+  "description": "RN-developed hospital-to-home guide system with five controlled pilot packages, caregiver and teach-back tools, governed content, operational continuity, conservative measurement, and a versioned multi-channel content engine.",
   "publicRoute": "/for-organizations/patient-education-systems",
   "privacyPosture": {
     "phiRequired": false,
@@ -100,39 +101,39 @@
   ],
   "flagshipModules": [
     {
+      "id": "copd_recovery",
+      "title": "COPD Exacerbation and Recovery at Home",
+      "riskTier": "critical",
+      "status": "evidence_development",
+      "clinicalDomains": ["pulmonary", "medication_and_device_safety", "care_transitions"]
+    },
+    {
+      "id": "heart_failure",
+      "title": "Heart Failure Discharge and Daily Management",
+      "riskTier": "critical",
+      "status": "evidence_development",
+      "clinicalDomains": ["cardiac", "medication_safety", "daily_monitoring"]
+    },
+    {
       "id": "blood_thinners",
-      "title": "New to Blood Thinners",
+      "title": "Blood Thinner Safety",
       "riskTier": "critical",
       "status": "evidence_development",
       "clinicalDomains": ["medication_safety", "care_transitions"]
     },
     {
-      "id": "enteral_feeding",
-      "title": "New to a PEG Tube or Enteral Feeding",
-      "riskTier": "critical",
-      "status": "planned",
-      "clinicalDomains": ["nutrition", "device_care", "care_transitions"]
-    },
-    {
       "id": "home_oxygen",
-      "title": "New to Home Oxygen",
+      "title": "New Home Oxygen and Nebulizer Use",
       "riskTier": "critical",
-      "status": "planned",
+      "status": "evidence_development",
       "clinicalDomains": ["respiratory", "dme", "home_safety"]
     },
     {
-      "id": "opioids_naloxone",
-      "title": "Going Home With Opioid Pain Medicine and Naloxone",
-      "riskTier": "critical",
-      "status": "planned",
-      "clinicalDomains": ["medication_safety", "home_safety", "care_transitions"]
-    },
-    {
-      "id": "falls_walker",
-      "title": "Home Safety After a Fall or With a New Walker",
+      "id": "first_72_hours",
+      "title": "Safe Hospital Discharge and the First 72 Hours at Home",
       "riskTier": "high",
-      "status": "planned",
-      "clinicalDomains": ["mobility", "home_safety", "dme"]
+      "status": "evidence_development",
+      "clinicalDomains": ["universal_discharge", "medication_reconciliation", "home_readiness"]
     }
   ],
   "claimsBoundary": [

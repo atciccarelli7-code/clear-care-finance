@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.0.0",
+  "productId": "CAF-PES",
+  "productName": "CAF Patient Education Systems",
+  "status": "development_stage",
+  "publicClassification": "public_product_architecture",
+  "description": "RN-designed hospital-to-home patient education product architecture with governed content, workflow tools, operational continuity, and measurable pilots.",
+  "publicRoute": "/for-organizations/patient-education-systems",
+  "privacyPosture": {
+    "phiRequired": false,
+    "patientAccountRequired": false,
+    "freeTextPilotIntake": false,
+    "answerLevelAnalytics": false,
+    "patientSpecificPersonalizationLocation": "Healthcare organization approved environment"
+  },
+  "deliveryPhases": [
+    {
+      "id": "controlled_content",
+      "label": "Controlled content delivery",
+      "formats": ["responsive_html", "print_pdf", "accessible_pdf", "structured_text", "json", "video", "audio"]
+    },
+    {
+      "id": "hospital_controlled_workflow",
+      "label": "Hospital-controlled workflow",
+      "formats": ["patient_education_library", "avs", "patient_portal", "local_personalization", "local_documentation"]
+    },
+    {
+      "id": "interoperable_delivery",
+      "label": "Interoperable delivery after validated demand and security readiness",
+      "formats": ["api", "fhir_document_reference", "smart_on_fhir_review", "ehr_interface", "content_connector"]
+    }
+  ],
+  "releaseGates": [
+    "evidence",
+    "clinical_review",
+    "health_literacy",
+    "accessibility",
+    "patient_testing",
+    "institutional_localization"
+  ],
+  "packageAssetTypes": [
+    "full_guide",
+    "quick_start",
+    "avs_summary",
+    "personalized_plan",
+    "daily_tracker",
+    "troubleshooting",
+    "red_flags",
+    "caregiver_guide",
+    "teach_back",
+    "show_me",
+    "clinician_reference",
+    "evidence_dossier",
+    "version_record",
+    "implementation_workflow",
+    "feedback_tool"
+  ],
+  "flagshipModules": [
+    {
+      "id": "blood_thinners",
+      "title": "New to Blood Thinners",
+      "riskTier": "critical",
+      "status": "evidence_development",
+      "clinicalDomains": ["medication_safety", "care_transitions"]
+    },
+    {
+      "id": "enteral_feeding",
+      "title": "New to a PEG Tube or Enteral Feeding",
+      "riskTier": "critical",
+      "status": "planned",
+      "clinicalDomains": ["nutrition", "device_care", "care_transitions"]
+    },
+    {
+      "id": "home_oxygen",
+      "title": "New to Home Oxygen",
+      "riskTier": "critical",
+      "status": "planned",
+      "clinicalDomains": ["respiratory", "dme", "home_safety"]
+    },
+    {
+      "id": "opioids_naloxone",
+      "title": "Going Home With Opioid Pain Medicine and Naloxone",
+      "riskTier": "critical",
+      "status": "planned",
+      "clinicalDomains": ["medication_safety", "home_safety", "care_transitions"]
+    },
+    {
+      "id": "falls_walker",
+      "title": "Home Safety After a Fall or With a New Walker",
+      "riskTier": "high",
+      "status": "planned",
+      "clinicalDomains": ["mobility", "home_safety", "dme"]
+    }
+  ],
+  "claimsBoundary": [
+    "No module is represented as hospital-approved, clinically validated, pilot-ready, or released until its documented release gates are complete.",
+    "The product does not diagnose, prescribe, determine coverage, replace discharge orders, or provide emergency or individual clinical support.",
+    "Engagement and satisfaction data alone do not establish reductions in readmissions, adverse events, costs, calls, or other outcomes."
+  ],
+  "prohibitedPublicPayloads": [
+    "patient_identifiers",
+    "case_narratives",
+    "patient_orders",
+    "hospital_customizations",
+    "reviewer_identity_records",
+    "evidence_dossiers",
+    "client_deliverables",
+    "contracts"
+  ]
+}

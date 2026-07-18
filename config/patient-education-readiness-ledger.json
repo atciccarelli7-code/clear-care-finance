@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "1.0.0",
+  "ledgerId": "CAF-PE-READINESS-LEDGER-FOUNDATION",
+  "status": "development_only",
+  "asOf": "2026-07-18T16:15:00.000Z",
+  "draftPullRequest": 190,
+  "mustRemainDraft": true,
+  "authoritativeCapabilityCount": 44,
+  "requiredSyntheticScenarioCount": 88,
+  "reconstructionTrancheCount": 6,
+  "executionEvidence": {
+    "exactHeadCertified": false,
+    "githubActionsEvidenceAvailable": false,
+    "vercelApplicationBuildResultAvailable": false,
+    "vercelConstraint": "account_build_rate_limit",
+    "syntheticAuthorityPathsExecutedInProtectedRuntime": false
+  },
+  "domains": [
+    {
+      "id": "public_institutional_surface",
+      "maturity": "implemented_public_safe",
+      "evidenceRefs": ["path://src/pages/PatientEducationSystemsPage.tsx", "path://e2e/patient-education-systems.spec.ts"],
+      "remainingGate": "Reconstruct as Tranche A from current main and obtain exact-head browser and accessibility evidence."
+    },
+    {
+      "id": "structured_content_compilation",
+      "maturity": "implemented_public_safe",
+      "evidenceRefs": ["registry://content-contract", "registry://bundle-compiler", "registry://integrity-manifest"],
+      "remainingGate": "Reconstruct as Tranche B and certify deterministic outputs on the integrated commit."
+    },
+    {
+      "id": "quality_localization_review",
+      "maturity": "implemented_public_safe",
+      "evidenceRefs": ["registry://quality-engine", "registry://localization-contract", "registry://review-workflow"],
+      "remainingGate": "Deploy protected human-review operations and obtain qualified review evidence."
+    },
+    {
+      "id": "release_authority_isolation",
+      "maturity": "implemented_public_safe",
+      "evidenceRefs": ["registry://release-authorization", "registry://authority-contract", "registry://tenant-isolation"],
+      "remainingGate": "Deploy authenticated identity, managed signing, organization-isolated persistence, and immutable approval retention."
+    },
+    {
+      "id": "delivery_operations_continuity",
+      "maturity": "implemented_public_safe",
+      "evidenceRefs": ["registry://governed-delivery-pipeline", "registry://incident-response", "registry://continuity-contract"],
+      "remainingGate": "Operate destination, incident, recovery, recall, and acknowledgment drills in the protected environment."
+    },
+    {
+      "id": "canonical_registry_dependency_dag",
+      "maturity": "implemented_public_safe",
+      "evidenceRefs": ["path://config/patient-education-capability-registry.json", "path://config/patient-education-capability-dependencies.json"],
+      "remainingGate": "Pass registry and dependency validation on the exact reconstructed integration commit."
+    },
+    {
+      "id": "synthetic_authority_conformance",
+      "maturity": "declared_not_executed",
+      "evidenceRefs": ["path://public/patient-education/demo/synthetic-authority-conformance-manifest.json"],
+      "remainingGate": "Execute and retain immutable evidence for all 44 positive and 44 adversarial paths in the protected authority."
+    },
+    {
+      "id": "exact_head_ci_certification",
+      "maturity": "evidence_unavailable",
+      "evidenceRefs": ["path://.github/workflows/patient-education-authority.yml", "path://.github/workflows/patient-education-authority-typecheck.yml"],
+      "remainingGate": "Obtain successful authority, type, unit, build, and browser runs attached to one exact commit."
+    },
+    {
+      "id": "branch_integration",
+      "maturity": "blocked_reconstruction_required",
+      "evidenceRefs": ["path://docs/caf-patient-education-branch-reconstruction-and-merge-plan.md", "linear://AND-20"],
+      "remainingGate": "Merge Tranches A through F from current main and close PR 190 as superseded rather than merged."
+    },
+    {
+      "id": "clinical_content_release",
+      "maturity": "not_represented_publicly",
+      "evidenceRefs": [],
+      "remainingGate": "Complete private evidence, drafting, qualified review, testing, and exact-version approval."
+    },
+    {
+      "id": "accessibility_conformance",
+      "maturity": "not_certified",
+      "evidenceRefs": [],
+      "remainingGate": "Complete human accessibility review and output-specific conformance testing."
+    },
+    {
+      "id": "hospital_pilot",
+      "maturity": "not_authorized",
+      "evidenceRefs": [],
+      "remainingGate": "Complete protected runtime, organization onboarding, contracts, security, clinical governance, implementation, support, and controlled pilot approval."
+    },
+    {
+      "id": "production_delivery",
+      "maturity": "prohibited",
+      "evidenceRefs": [],
+      "remainingGate": "All pilot, operational, review, security, continuity, support, and release evidence must be complete before production consideration."
+    }
+  ],
+  "openBlockers": [
+    {
+      "id": "CAF-PE-BLOCKER-EXACT-HEAD-EVIDENCE",
+      "severity": "critical",
+      "ownerWorkItem": "AND-18",
+      "condition": "No exact-head GitHub Actions certification is attached and Vercel reports an account build-rate limit rather than an application result.",
+      "requiredResolution": "Produce successful exact-commit authority, type, unit, build, and browser evidence."
+    },
+    {
+      "id": "CAF-PE-BLOCKER-BRANCH-RECONSTRUCTION",
+      "severity": "critical",
+      "ownerWorkItem": "AND-20",
+      "condition": "Draft PR 190 overlaps with the current main lineage and is not an acceptable merge unit.",
+      "requiredResolution": "Reconstruct and merge six bounded tranches from current main."
+    },
+    {
+      "id": "CAF-PE-BLOCKER-PROTECTED-RUNTIME",
+      "severity": "critical",
+      "ownerWorkItem": "AND-16",
+      "condition": "Identity, managed signing, tenant persistence, audit retention, and recovery are represented by contracts rather than deployed evidence.",
+      "requiredResolution": "Deploy and independently test the protected authority runtime."
+    },
+    {
+      "id": "CAF-PE-BLOCKER-HUMAN-REVIEW",
+      "severity": "critical",
+      "ownerWorkItem": "AND-17",
+      "condition": "Qualified clinical, pharmacy, health-literacy, accessibility, privacy, security, and implementation approval evidence is not present.",
+      "requiredResolution": "Operate the protected review workflow with authenticated human reviewers."
+    },
+    {
+      "id": "CAF-PE-BLOCKER-CLINICAL-CONTENT",
+      "severity": "critical",
+      "ownerWorkItem": "AND-5",
+      "condition": "No complete clinical module is represented as released by the public engineering foundation.",
+      "requiredResolution": "Complete the private evidence-to-release lifecycle for each clinical module."
+    },
+    {
+      "id": "CAF-PE-BLOCKER-ACCESSIBILITY",
+      "severity": "high",
+      "ownerWorkItem": "AND-10",
+      "condition": "Automated checks do not establish accessible PDF, print, portal, or assistive-technology conformance.",
+      "requiredResolution": "Complete output-specific automated and human accessibility testing."
+    },
+    {
+      "id": "CAF-PE-BLOCKER-INTEGRATION",
+      "severity": "high",
+      "ownerWorkItem": "AND-13",
+      "condition": "No real hospital destination has completed authentication, conformance, monitoring, retry, support, and controlled deployment testing.",
+      "requiredResolution": "Validate each concrete destination under an approved organization environment."
+    },
+    {
+      "id": "CAF-PE-BLOCKER-ORGANIZATION-OPERATIONS",
+      "severity": "high",
+      "ownerWorkItem": "AND-19",
+      "condition": "Organization onboarding, entitlement, destination, incident, recall, support, and offboarding operations are not deployed.",
+      "requiredResolution": "Complete organization lifecycle operations and evidence."
+    }
+  ],
+  "allowedPublicClaims": [
+    "CAF has developed a public-safe governed engineering architecture for structured patient education.",
+    "The architecture defines 44 authoritative capabilities and 88 required synthetic conformance paths.",
+    "The public repository contains nonclinical synthetic fixtures and explicit privacy and claims boundaries.",
+    "PR 190 is a draft architecture source that requires reconstruction and exact-head certification."
+  ],
+  "prohibitedPublicClaims": [
+    "clinically approved",
+    "hospital deployed",
+    "HIPAA compliant",
+    "accessibility compliant",
+    "EHR integrated",
+    "production ready",
+    "pilot ready",
+    "improves outcomes",
+    "reduces readmissions",
+    "reduces emergency visits",
+    "reduces costs",
+    "prevents adverse events"
+  ],
+  "completionRule": "No readiness domain may be promoted beyond its evidence. Production delivery remains prohibited until all critical blockers are closed with immutable, exact-version evidence."
+}

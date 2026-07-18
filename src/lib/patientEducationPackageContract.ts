@@ -23,9 +23,12 @@ export const patientEducationAssetTypeSchema = z.enum([
 
 export const patientEducationAssetFormatSchema = z.enum([
   "responsive_html",
+  "print_html",
   "print_pdf",
   "accessible_pdf",
   "structured_text",
+  "avs_text",
+  "patient_portal_json",
   "json",
   "csv",
   "video",

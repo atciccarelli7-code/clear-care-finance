@@ -146,6 +146,11 @@ const publicProofFiles = [
   "public/patient-education/demo/controlled-preview-bundle.json",
 ];
 
+const architectureDocuments = [
+  "docs/caf-patient-education-public-product-architecture.md",
+  "docs/caf-patient-education-governed-platform-foundation.md",
+];
+
 const requiredSafetyTests = [
   ["src/test/patientEducationPrivacyBoundary.test.ts", ["patient identifiers", "PHI-capable"]],
   ["src/test/patientEducationGovernedDeliveryPipeline.test.ts", ["tampered", "no distributable bundle"]],
@@ -179,6 +184,10 @@ for (const capability of capabilities) {
 
 for (const proofFile of publicProofFiles) {
   if (!exists(proofFile)) errors.push(`Missing public-safe technical proof: ${proofFile}`);
+}
+
+for (const documentFile of architectureDocuments) {
+  if (!exists(documentFile)) errors.push(`Missing patient education architecture document: ${documentFile}`);
 }
 
 for (const [testFile, phrases] of requiredSafetyTests) {
@@ -227,4 +236,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Patient Education foundation check passed: ${capabilities.length} governed capabilities, ${testCount} capability test files, and ${publicProofFiles.length} public-safe proof artifacts.`);
+console.log(`Patient Education foundation check passed: ${capabilities.length} governed capabilities, ${testCount} capability test files, ${publicProofFiles.length} public-safe proof artifacts, and ${architectureDocuments.length} architecture documents.`);

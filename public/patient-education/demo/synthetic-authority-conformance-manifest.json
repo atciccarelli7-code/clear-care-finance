@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0.0",
+  "schemaVersion": "2.1.0",
   "manifestId": "CAF-PE-PUBLIC-CONFORMANCE-AUTHORITY-COMPLETE",
   "title": "CAF Patient Education Systems Synthetic Authority Conformance Index",
   "status": "public_safe_technical_proof",
@@ -11,8 +11,8 @@
   "containsPatientData": false,
   "containsRealOrganizationData": false,
   "containsReviewerIdentity": false,
-  "capabilityCount": 41,
-  "scenarioCount": 82,
+  "capabilityCount": 44,
+  "scenarioCount": 88,
   "capabilities": [
     "content-contract",
     "package-contract",
@@ -54,7 +54,10 @@
     "conformance-package",
     "organization-lifecycle",
     "job-orchestration",
-    "institutional-authority-decision"
+    "institutional-authority-decision",
+    "authority-contract",
+    "tenant-isolation",
+    "continuity-contract"
   ],
   "requiredScenarioTypes": [
     "success",
@@ -80,12 +83,16 @@
     "syntheticDataOnly": true,
     "organizationLifecycleRequired": true,
     "idempotentJobExecutionRequired": true,
-    "finalInstitutionalAuthorityRequired": true
+    "finalInstitutionalAuthorityRequired": true,
+    "authenticatedSessionScopeRequired": true,
+    "tenantResourceGuardRequired": true,
+    "verifiedContinuityRecoveryRequired": true,
+    "canonicalCapabilityRegistryRequired": true
   },
   "publicClaimsBoundary": [
     "This index describes public-safe software contracts and synthetic authority-conformance requirements only.",
     "It does not publish proprietary clinical guidance, real evidence dossiers, personal reviewer identities, hospital configuration, patient information, credentials, private signing keys, contracts, or customer records.",
     "Authority conformance does not establish clinical approval, HIPAA compliance, accessibility conformance, hospital deployment, live EHR integration, or improved patient outcomes.",
-    "The complete executed fixture bundle, trusted identities, policy signatures, and organization configuration belong only in the private CAF Patient Education authority."
+    "The complete executed fixture bundle, trusted identities, policy signatures, organization configuration, continuity evidence, and runtime authorization records belong only in the private CAF Patient Education authority."
   ]
 }

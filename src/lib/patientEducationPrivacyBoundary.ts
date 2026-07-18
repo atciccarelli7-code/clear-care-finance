@@ -48,7 +48,7 @@ const obviousIdentifierPatterns: Array<{
   },
   {
     code: "PRIVACY-PATIENT-NAME-DETECTED",
-    pattern: /\bpatient(?:'s)?\s+name\s*[:#-]?\s*[A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3}\b/,
+    pattern: /\bpatient(?:'s)?\s+name\s*[:#-]?\s*[A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3}\b/i,
     message: "A possible patient name is present.",
   },
   {

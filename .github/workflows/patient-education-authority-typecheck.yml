@@ -9,6 +9,7 @@ on:
       - "config/patient-education-*.json"
       - "scripts/check-patient-education-capability-registry.mjs"
       - "scripts/check-patient-education-capability-dependencies.mjs"
+      - "scripts/check-patient-education-readiness-ledger.mjs"
       - "scripts/check-patient-education-authority-foundation.mjs"
       - "docs/caf-patient-education-branch-reconstruction-and-merge-plan.md"
       - "tsconfig.patient-education-authority.json"
@@ -25,6 +26,7 @@ on:
       - "config/patient-education-*.json"
       - "scripts/check-patient-education-capability-registry.mjs"
       - "scripts/check-patient-education-capability-dependencies.mjs"
+      - "scripts/check-patient-education-readiness-ledger.mjs"
       - "scripts/check-patient-education-authority-foundation.mjs"
       - "docs/caf-patient-education-branch-reconstruction-and-merge-plan.md"
       - "tsconfig.patient-education-authority.json"
@@ -66,6 +68,9 @@ jobs:
 
       - name: Validate capability dependency DAG
         run: npm run patient-education:dependency-check
+
+      - name: Validate evidence-bounded readiness ledger
+        run: npm run patient-education:readiness-check
 
       - name: Validate authority foundation
         run: npm run patient-education:authority-check

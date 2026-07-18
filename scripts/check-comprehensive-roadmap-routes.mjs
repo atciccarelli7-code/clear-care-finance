@@ -4,7 +4,8 @@ import { repositoryRoot } from "./seo-route-utils.mjs";
 
 const distDir = path.join(repositoryRoot, "dist");
 const routes = [
-  { path: "/for-organizations", heading: "Healthcare financial education people can use without handing over their private information." },
+  { path: "/for-organizations", heading: "Healthcare education people can use without handing over their private information." },
+  { path: "/for-organizations/patient-education-systems", heading: "Hospital-to-home education designed around what patients actually have to do next." },
   { path: "/tools/benefits-change-detector", heading: "Find the benefit changes that deserve your attention before you re-enroll." },
   { path: "/tools/state-medicaid-long-term-care-router", heading: "State Medicaid and Long-Term Care Program Router" },
   { path: "/tools/childcare-benefits-decision-guide", heading: "Dependent Care FSA and Childcare Benefits Decision Guide" },

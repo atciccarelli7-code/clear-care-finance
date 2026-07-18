@@ -8,7 +8,9 @@ on:
       - "src/test/fixtures/patientEducationEngineFixture.ts"
       - "config/patient-education-*.json"
       - "scripts/check-patient-education-capability-registry.mjs"
+      - "scripts/check-patient-education-capability-dependencies.mjs"
       - "scripts/check-patient-education-authority-foundation.mjs"
+      - "docs/caf-patient-education-branch-reconstruction-and-merge-plan.md"
       - "tsconfig.patient-education-authority.json"
       - "package.json"
       - "package-lock.json"
@@ -22,7 +24,9 @@ on:
       - "src/test/fixtures/patientEducationEngineFixture.ts"
       - "config/patient-education-*.json"
       - "scripts/check-patient-education-capability-registry.mjs"
+      - "scripts/check-patient-education-capability-dependencies.mjs"
       - "scripts/check-patient-education-authority-foundation.mjs"
+      - "docs/caf-patient-education-branch-reconstruction-and-merge-plan.md"
       - "tsconfig.patient-education-authority.json"
       - "package.json"
       - "package-lock.json"
@@ -59,6 +63,9 @@ jobs:
 
       - name: Validate canonical capability registry
         run: npm run patient-education:registry-check
+
+      - name: Validate capability dependency DAG
+        run: npm run patient-education:dependency-check
 
       - name: Validate authority foundation
         run: npm run patient-education:authority-check

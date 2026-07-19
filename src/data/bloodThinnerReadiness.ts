@@ -163,9 +163,11 @@ export const teachBackTasks = [
 export type TeachBackTaskId = (typeof teachBackTasks)[number]["id"];
 
 export const bloodThinnerProof = {
-  candidateId: "CAF-PE-ANTICOAG-ADULT-EN-PACKAGE-001-V0.3-RC1",
-  version: "0.3-RC1",
+  candidateId: "CAF-PE-ANTICOAG-ADULT-EN-PACKAGE-001-V1.0-RC1",
+  version: "1.0-RC1",
   lastEvidenceReview: "2026-07-18",
+  sourceBundleSha256: "c04c961344f82a4359f1b149836b34a302e459300f02e263fe4358a8096d3248",
+  sourceBundleDistribution: "private_controlled",
   releaseStatus: "clinical_review_required",
   patientUseStatus: "NOT APPROVED FOR PATIENT USE",
   generalClaimIds: ["BT-COM-001", "BT-COM-002", "BT-COM-003", "BT-COM-004", "BT-COM-005", "BT-COM-006", "BT-COM-007"],

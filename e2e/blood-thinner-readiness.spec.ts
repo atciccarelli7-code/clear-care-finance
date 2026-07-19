@@ -35,7 +35,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("exact medication, teach-back, barrier, handoff, proof, and print states work", async ({ page }) => {
+test("exact medication, teach-back, barriers, buyer brief, proof, and print states work", async ({ page }) => {
   const watch = installHealthWatch(page);
   await page.goto("/for-organizations/patient-education-systems/blood-thinner-readiness", { waitUntil: "networkidle" });
 
@@ -52,7 +52,8 @@ test("exact medication, teach-back, barrier, handoff, proof, and print states wo
 
   await page.getByRole("button", { name: /Plan/i }).click();
   await expect(page.getByRole("heading", { name: "Rivaroxaban" })).toBeVisible();
-  await expect(page.getByText(/Two 15 mg tablets may be taken together/i).first()).toBeVisible();
+  await expect(page.getByText(/exact regimen-specific instruction is withheld/i)).toBeVisible();
+  await expect(page.getByText(/Two 15 mg tablets may be taken together/i)).toHaveCount(0);
 
   await page.getByRole("button", { name: /Teach-back/i }).click();
   for (const prompt of ["exact medicine", "matching medicine card", "approved bleeding", "who owns refills"]) {
@@ -74,9 +75,25 @@ test("exact medication, teach-back, barrier, handoff, proof, and print states wo
   const proofResponse = await page.request.get("/patient-education/demo/blood-thinner-readiness-proof.json");
   expect(proofResponse.ok()).toBe(true);
   const proof = await proofResponse.json();
+  expect(proof.candidate_id).toBe("CAF-PE-ANTICOAG-ADULT-EN-PACKAGE-001-V1.0-RC1");
+  expect(proof.source_bundle.sha256).toBe("c04c961344f82a4359f1b149836b34a302e459300f02e263fe4358a8096d3248");
   expect(proof.patient_use_status).toBe("NOT APPROVED FOR PATIENT USE");
+  expect(proof.governance.external_human_approvals_complete).toBe(false);
+  expect(proof.governance.pilot_ready).toBe(false);
   expect(proof.governance.open_decision_ids).toHaveLength(12);
   expect(JSON.stringify(proof)).not.toMatch(/reviewerIdentity|patientName|medicalRecordNumber/i);
+
+  await page.getByLabel("Organization type").selectOption("hospital_health_system");
+  await page.getByLabel("Your role").selectOption("nursing_operations");
+  await page.getByLabel("First setting").selectOption("acute_inpatient_unit");
+  await page.getByLabel("Primary decision problem").selectOption("workflow_consistency");
+  await page.getByLabel("Current review stage").selectOption("design_partner");
+  await page.getByLabel("Internal owner coverage").selectOption("cross_functional");
+  await page.getByLabel("Privacy boundary").selectOption("confirmed");
+  await page.getByRole("button", { name: /Build controlled review brief/i }).click();
+  await expect(page.getByRole("heading", { name: /Design-partner pathway can be evaluated/i })).toBeVisible();
+  await expect(page.getByText(/does not authorize clinical use, patient use, discharge, procurement, or a hospital pilot/i)).toBeVisible();
+  await expect(page.getByRole("link", { name: /Request controlled review/i })).toHaveAttribute("href", "/contact#organization-review");
 
   await page.emulateMedia({ media: "print" });
   await expect(page.getByRole("article", { name: /Blood thinner safety plan printable review sample/i })).toBeVisible();

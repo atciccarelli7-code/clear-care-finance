@@ -110,6 +110,14 @@ const patientEducationSystemsMeta: SeoRouteMeta = {
   ],
 };
 
+const bloodThinnerReadinessMeta: SeoRouteMeta = {
+  title: "Blood Thinner Discharge Readiness Pilot",
+  description: "A controlled institutional review of exact-medication teaching, teach-back, barrier resolution, safe-stop logic, and a governed discharge handoff.",
+  canonicalPath: "/for-organizations/patient-education-systems/blood-thinner-readiness",
+  robots: "noindex, nofollow",
+  jsonLd: [],
+};
+
 const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, description: string) =>
   jsonLd?.map((item) => {
     const type = item["@type"];
@@ -132,6 +140,7 @@ export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
   const path = normalizePath(pathname);
   if (path === benefitsCommandCenterMeta.canonicalPath) return benefitsCommandCenterMeta;
   if (path === patientEducationSystemsMeta.canonicalPath) return patientEducationSystemsMeta;
+  if (path === bloodThinnerReadinessMeta.canonicalPath) return bloodThinnerReadinessMeta;
 
   const base = resolveSeoMeta(path);
   const override = overrides[path];

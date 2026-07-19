@@ -307,6 +307,14 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
   },
 };
 
+const NON_INDEXABLE_PAGE_META: Record<string, StaticPageMeta> = {
+  "/for-organizations/patient-education-systems/blood-thinner-readiness": {
+    title: "Blood Thinner Discharge Readiness Pilot",
+    description: "A controlled institutional review of exact-medication teaching, teach-back, barrier resolution, safe-stop logic, and a governed discharge handoff.",
+    kind: "tool",
+  },
+};
+
 export const STATIC_INDEXABLE_ROUTES = Object.keys(STATIC_PAGE_META);
 
 const GENERIC_TOOL_META = new Map(
@@ -385,6 +393,17 @@ export const getIndexableRoutes = () => {
 
 export const resolveSeoMeta = (pathname: string): SeoRouteMeta => {
   const path = normalizePath(pathname);
+
+  const controlledMeta = NON_INDEXABLE_PAGE_META[path];
+  if (controlledMeta) {
+    return {
+      title: controlledMeta.title,
+      description: controlledMeta.description,
+      canonicalPath: path,
+      robots: "noindex, nofollow",
+      jsonLd: [],
+    };
+  }
 
   if (path.startsWith("/articles/")) {
     const slug = path.slice("/articles/".length);

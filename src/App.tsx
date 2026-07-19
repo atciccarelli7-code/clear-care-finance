@@ -43,6 +43,7 @@ const loadAbout = () => import("./pages/About.tsx");
 const loadContact = () => import("./pages/Contact.tsx");
 const loadForOrganizationsPage = () => import("./pages/ForOrganizationsPage.tsx");
 const loadPatientEducationSystemsPage = () => import("./pages/PatientEducationSystemsPage.tsx");
+const loadBloodThinnerReadinessPage = () => import("./pages/BloodThinnerReadinessPage.tsx");
 const loadOrganizationDetailsPage = () => import("./pages/OrganizationDetailsPage.tsx");
 const loadOpenEnrollmentGuide = () => import("./pages/OpenEnrollmentGuide.tsx");
 const loadInsuranceBenefitsHub = () => import("./pages/InsuranceBenefitsHub.tsx");
@@ -99,6 +100,7 @@ const About = lazy(loadAbout);
 const Contact = lazy(loadContact);
 const ForOrganizationsPage = lazy(loadForOrganizationsPage);
 const PatientEducationSystemsPage = lazy(loadPatientEducationSystemsPage);
+const BloodThinnerReadinessPage = lazy(loadBloodThinnerReadinessPage);
 const OrganizationDetailsPage = lazy(loadOrganizationDetailsPage);
 const OpenEnrollmentGuide = lazy(loadOpenEnrollmentGuide);
 const InsuranceBenefitsHub = lazy(loadInsuranceBenefitsHub);
@@ -182,6 +184,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/contact") return loadContact;
   if (pathname === "/for-organizations") return loadForOrganizationsPage;
   if (pathname === "/for-organizations/patient-education-systems") return loadPatientEducationSystemsPage;
+  if (pathname === "/for-organizations/patient-education-systems/blood-thinner-readiness") return loadBloodThinnerReadinessPage;
   if (pathname.startsWith("/for-organizations/")) return loadOrganizationDetailsPage;
   if (pathname === "/methodology") return loadMethodology;
   if (pathname === "/privacy-policy") return loadPrivacyPolicy;
@@ -314,6 +317,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/contact" element={<Contact />} />
             <Route path="/for-organizations" element={<ForOrganizationsPage />} />
             <Route path="/for-organizations/patient-education-systems" element={<PatientEducationSystemsPage />} />
+            <Route path="/for-organizations/patient-education-systems/blood-thinner-readiness" element={<BloodThinnerReadinessPage />} />
             <Route path="/for-organizations/programs" element={<OrganizationDetailsPage />} />
             <Route path="/for-organizations/implementation" element={<OrganizationDetailsPage />} />
             <Route path="/for-organizations/measurement" element={<OrganizationDetailsPage />} />

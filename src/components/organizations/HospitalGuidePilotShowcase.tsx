@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { CheckCircle2, ClipboardCheck, HeartHandshake, Printer, Settings2, Stethoscope, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { hospitalGuidePilotPreviews, type HospitalGuidePilotId } from "@/data/hospitalGuidePilot";
@@ -141,6 +142,14 @@ export const HospitalGuidePilotShowcase = () => {
               <p className="mt-4 text-xs leading-relaxed text-muted-foreground">Version 0.4 review · Last reviewed July 18, 2026 · Not approved for patient use · Full claim records and reviewer materials withheld from the public site.</p>
             </section>
           </div>
+          {preview.id === "blood_thinners" && (
+            <div className="mt-6 rounded-2xl border border-primary/30 bg-primary-soft/20 p-5 print:hidden">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Working flagship pilot</div>
+              <h4 className="mt-2 font-display text-xl font-bold">Do more than preview a handout.</h4>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Run the exact-medication, teach-back, barrier-resolution, completion, and handoff workflow using synthetic choices.</p>
+              <Button asChild className="mt-4"><Link to="/for-organizations/patient-education-systems/blood-thinner-readiness">Open Blood Thinner Discharge Readiness</Link></Button>
+            </div>
+          )}
         </article>
       </div>
     </section>

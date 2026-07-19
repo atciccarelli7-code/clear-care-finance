@@ -24,6 +24,12 @@ export const ADDITIONAL_INDEXABLE_ROUTES = [
   "/for-organizations/patient-education-systems",
 ];
 
+// Controlled product reviews need route-matched HTML to avoid hydration errors, but must not
+// enter the sitemap or search index before their release gates are complete.
+export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [
+  "/for-organizations/patient-education-systems/blood-thinner-readiness",
+];
+
 export const loadPermanentRedirects = async () => {
   const configPath = path.join(repositoryRoot, "vercel.json");
   const config = JSON.parse(await readFile(configPath, "utf8"));

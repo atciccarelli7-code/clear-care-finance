@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { BloodThinnerReadinessWorkflow } from "@/components/organizations/BloodThinnerReadinessWorkflow";
+import { CareReadinessBuyerBrief } from "@/components/organizations/CareReadinessBuyerBrief";
 import { PageHero } from "@/components/shared/PageHero";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
@@ -8,7 +9,7 @@ import { useSeo } from "@/lib/seo";
 const BloodThinnerReadinessPage = () => {
   useSeo({
     title: "Blood Thinner Discharge Readiness Pilot",
-    description: "Review a clinically governed, staff-guided blood thinner discharge readiness workflow with exact medication branching, teach-back, barrier resolution, and a controlled patient handout.",
+    description: "Review a clinically governed, staff-guided blood thinner discharge readiness workflow with exact medication branching, teach-back, barrier resolution, a controlled patient handout, and a no-PHI hospital review brief.",
     canonicalPath: "/for-organizations/patient-education-systems/blood-thinner-readiness",
     noindex: true,
   });
@@ -21,16 +22,7 @@ const BloodThinnerReadinessPage = () => {
       </PageHero>
     </div>
     <section className="container pt-8 md:pt-12"><BloodThinnerReadinessWorkflow /></section>
-    <section className="container pb-16 print:hidden">
-      <div className="mx-auto flex max-w-5xl flex-col gap-5 rounded-3xl border border-primary/20 bg-primary-soft/45 p-6 md:flex-row md:items-center md:justify-between md:p-8">
-        <div className="max-w-2xl">
-          <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Controlled buyer review</div>
-          <h2 className="mt-2 font-display text-2xl font-bold text-foreground">Evaluate the workflow without requesting patient use.</h2>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Hospital nursing, pharmacy, patient education, quality, and innovation leaders can request a bounded review of the product architecture, implementation model, evidence controls, and pilot requirements. Full medication instructions and private governance records are not distributed through this public demonstration.</p>
-        </div>
-        <Button asChild size="lg" className="shrink-0"><Link to="/contact"><Mail className="h-4 w-4" /> Request a controlled review</Link></Button>
-      </div>
-    </section>
+    <section className="container pb-16 print:hidden"><CareReadinessBuyerBrief /></section>
   </>;
 };
 

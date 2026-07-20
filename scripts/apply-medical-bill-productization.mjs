@@ -1,3 +1,4 @@
+// Triggered after the branch workflow was committed so GitHub can apply the source migration.
 import { readFileSync, writeFileSync } from "node:fs";
 
 const read = (path) => readFileSync(path, "utf8");

@@ -11,7 +11,6 @@ type ApiResult = {
   ok?: boolean;
   saved?: boolean;
   emailDelivered?: boolean;
-  sequenceScheduled?: boolean;
   warning?: string;
   error?: string;
 };
@@ -27,11 +26,6 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMessage("");
-    trackSiteEvent("premium_interest_submit", {
-      event_category: "medical_bill_product",
-      source,
-      offer_id: "expanded_medical_bill_response_workbook",
-    });
 
     const cleanEmail = email.trim().toLowerCase();
     if (!emailPattern.test(cleanEmail)) {
@@ -47,9 +41,14 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
     }
 
     setStatus("loading");
+    trackSiteEvent("premium_interest_submit", {
+      event_category: "medical_bill_product",
+      source,
+      offer_id: "expanded_medical_bill_response_workbook",
+    });
 
     try {
-      const response = await fetch("/api/medical-bill-interest", {
+      const response = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -58,6 +57,7 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
           consent,
           website,
           source,
+          type: "medical-bill-product-interest",
         }),
       });
 
@@ -69,20 +69,9 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
       setStatus("success");
       setMessage(
         result.emailDelivered === false
-          ? "You’re on the early-access list. Email delivery is still being finalized, but your interest was saved."
-          : result.sequenceScheduled
-            ? "You’re on the list. Check your inbox for the first medical-bill organization email."
-            : "You’re on the early-access list. Check your inbox for the first update.",
+          ? "Your interest was saved. Email delivery is still being finalized."
+          : "You’re on the workbook early-access list. No payment was collected.",
       );
-      trackSiteEvent("free_pack_email_signup", {
-        event_category: "medical_bill_product",
-        source,
-      });
-      trackSiteEvent("medical_bill_email_sequence_start", {
-        event_category: "medical_bill_product",
-        source,
-        sequence_id: "medical_bill_foundation_v1",
-      });
       setEmail("");
       setFirstName("");
       setConsent(false);

@@ -128,11 +128,18 @@ test("Benefits Change Detector completes a Receipt and exposes safe result actio
   await certifyPage(page, watch);
 });
 
-test("Medical Bill Review Toolkit exposes the correct action and official rights source", async ({ page }) => {
+test("Medical Bill Response System routes documents to the correct action and official source", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/insurance/medical-bill-review-toolkit");
-  await expect(page.getByRole("link", { name: /Estimate or good-faith estimate.*Check official rights/i })).toHaveAttribute("href", "https://www.cms.gov/medical-bill-rights");
-  await page.getByRole("link", { name: /Medical bill.*Review the bill/i }).click();
+
+  await page.getByRole("button", { name: /No document yet/i }).click();
+  await expect(page.getByRole("link", { name: /CMS estimate guide/i })).toHaveAttribute(
+    "href",
+    "https://www.cms.gov/medical-bill-rights/help/guides/good-faith-estimate",
+  );
+
+  await page.getByRole("button", { name: /Hospital or facility bill/i }).click();
+  await page.getByRole("link", { name: /Start the bill review/i }).click();
   await expect(page).toHaveURL(/\/tools\/medical-bill-review-flow$/);
   await page.goBack();
   await expect(page).toHaveURL(/\/insurance\/medical-bill-review-toolkit$/);

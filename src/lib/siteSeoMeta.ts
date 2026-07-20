@@ -10,50 +10,41 @@ const normalizePath = (pathname: string) => {
 const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
   "/": {
     title: "Financial Clarity from Retirement to Healthcare Costs",
-    description:
-      "Plain-English guides and calculators for retirement, investing, workplace benefits, insurance, medical bills, Medicare, and Medicaid—with an RN's healthcare perspective.",
+    description: "Plain-English guides and calculators for retirement, investing, workplace benefits, insurance, medical bills, Medicare, and Medicaid—with an RN's healthcare perspective.",
   },
   "/start-here": {
     title: "Financial Navigator and Financial Foundation Checkup",
-    description:
-      "Build a private financial action plan, measure cash resilience, debt, retirement capture, savings consistency, and protection, and track progress over time.",
+    description: "Build a private financial action plan, measure cash resilience, debt, retirement capture, savings consistency, and protection, and track progress over time.",
   },
   "/build-wealth": {
     title: "Financial Independence, Retirement, and Investing",
-    description:
-      "Build a practical plan for cash, debt, retirement contributions, diversified investing, and long-term financial independence.",
+    description: "Build a practical plan for cash, debt, retirement contributions, diversified investing, and long-term financial independence.",
   },
   "/open-enrollment": {
     title: "Open Enrollment and Workplace Benefits Guide",
-    description:
-      "Compare premiums, deductibles, networks, prescriptions, HSAs, FSAs, supplemental benefits, retirement options, and paycheck impact before choosing benefits.",
+    description: "Compare premiums, deductibles, networks, prescriptions, HSAs, FSAs, supplemental benefits, retirement options, and paycheck impact before choosing benefits.",
   },
   "/tools": {
     title: "Financial Calculators and Decision Tools",
-    description:
-      "Use free calculators and guided tools for retirement contributions, workplace benefits, insurance costs, medical bills, Medicare, and hospital discharge decisions.",
+    description: "Use free calculators and guided tools for retirement contributions, workplace benefits, insurance costs, medical bills, Medicare, and hospital discharge decisions.",
   },
   "/articles": {
     title: "Financial Education Articles",
-    description:
-      "Browse source-backed articles about retirement, investing, credit, workplace benefits, insurance, medical bills, Medicare, Medicaid, and healthcare finances.",
+    description: "Browse source-backed articles about retirement, investing, credit, workplace benefits, insurance, medical bills, Medicare, Medicaid, and healthcare finances.",
   },
   "/topics": {
     title: "Financial and Healthcare Topic Guides",
-    description:
-      "Explore organized guides for retirement accounts, workplace benefits, health insurance, medical costs, Medicare, Medicaid, and hospital economics.",
+    description: "Explore organized guides for retirement accounts, workplace benefits, health insurance, medical costs, Medicare, Medicaid, and hospital economics.",
   },
   "/newsletter": {
     title: "Community Acquired Finance Newsletter",
-    description:
-      "Get practical, low-frequency updates on retirement, workplace benefits, insurance, medical bills, Medicare, Medicaid, and new financial tools.",
+    description: "Get practical, low-frequency updates on retirement, workplace benefits, insurance, medical bills, Medicare, Medicaid, and new financial tools.",
   },
 };
 
 const benefitsCommandCenterMeta: SeoRouteMeta = {
   title: "Benefits Command Center: Compare Pay and Workplace Benefits",
-  description:
-    "Preview a sample Benefits Receipt, then build and compare pay, health plans, retirement benefits, PTO, employer contributions, vesting, and hidden benefits privately.",
+  description: "Preview a sample Benefits Receipt, then build and compare pay, health plans, retirement benefits, PTO, employer contributions, vesting, and hidden benefits privately.",
   canonicalPath: "/tools/benefits-command-center",
   robots: "index, follow, max-image-preview:large",
   jsonLd: [
@@ -70,8 +61,7 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       name: "Benefits Command Center: Compare Pay and Workplace Benefits",
-      description:
-        "Preview a sample Benefits Receipt, then build and compare pay, health plans, retirement benefits, PTO, employer contributions, vesting, and hidden benefits privately.",
+      description: "Preview a sample Benefits Receipt, then build and compare pay, health plans, retirement benefits, PTO, employer contributions, vesting, and hidden benefits privately.",
       url: `${SITE_URL}/tools/benefits-command-center`,
       applicationCategory: "FinanceApplication",
       operatingSystem: "Any",
@@ -81,74 +71,19 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
   ],
 };
 
-const patientEducationSystemsMeta: SeoRouteMeta = {
-  title: "Hospital & Patient Guide for Health Systems",
-  description:
-    "Review the Community Acquired Finance Hospital & Patient Guide: five RN-developed discharge-support packages, teach-back, caregiver support, customization, governance, and a conservative pilot model.",
-  canonicalPath: "/for-organizations/patient-education-systems",
-  robots: "index, follow, max-image-preview:large",
-  jsonLd: [
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "For Organizations", item: `${SITE_URL}/for-organizations` },
-        { "@type": "ListItem", position: 3, name: "Hospital & Patient Guide", item: `${SITE_URL}/for-organizations/patient-education-systems` },
-      ],
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      name: "Hospital & Patient Guide",
-      description:
-        "Five RN-developed hospital-to-home guide packages with patient education, caregiver support, teach-back, access continuity, institutional customization, and a conservative pilot model.",
-      url: `${SITE_URL}/for-organizations/patient-education-systems`,
-      isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
-      publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-    },
-  ],
-};
-
-const bloodThinnerReadinessMeta: SeoRouteMeta = {
-  title: "Blood Thinner Discharge Readiness Pilot",
-  description: "A controlled institutional review of exact-medication teaching, teach-back, barrier resolution, safe-stop logic, and a governed discharge handoff.",
-  canonicalPath: "/for-organizations/patient-education-systems/blood-thinner-readiness",
-  robots: "noindex, nofollow",
-  jsonLd: [],
-};
-
 const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, description: string) =>
   jsonLd?.map((item) => {
     const type = item["@type"];
-    if (type === "WebSite") {
-      return {
-        ...item,
-        description:
-          "Plain-English financial education for everyone, with specialized clarity around healthcare costs, insurance, Medicare, and Medicaid.",
-      };
-    }
-
-    if (type === "CollectionPage" || type === "WebPage" || type === "WebApplication") {
-      return { ...item, name: title, description };
-    }
-
+    if (type === "WebSite") return { ...item, description: "Plain-English financial education for everyone, with specialized clarity around healthcare costs, insurance, Medicare, and Medicaid." };
+    if (type === "CollectionPage" || type === "WebPage" || type === "WebApplication") return { ...item, name: title, description };
     return item;
   });
 
 export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
   const path = normalizePath(pathname);
   if (path === benefitsCommandCenterMeta.canonicalPath) return benefitsCommandCenterMeta;
-  if (path === patientEducationSystemsMeta.canonicalPath) return patientEducationSystemsMeta;
-  if (path === bloodThinnerReadinessMeta.canonicalPath) return bloodThinnerReadinessMeta;
-
   const base = resolveSeoMeta(path);
   const override = overrides[path];
   if (!override) return base;
-
-  return {
-    ...base,
-    ...override,
-    jsonLd: updateJsonLd(base.jsonLd, override.title, override.description),
-  };
+  return { ...base, ...override, jsonLd: updateJsonLd(base.jsonLd, override.title, override.description) };
 };

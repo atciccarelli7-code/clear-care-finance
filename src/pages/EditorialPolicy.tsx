@@ -10,115 +10,74 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
   </section>
 );
 
-const EditorialPolicy = () => {
-  return (
-    <>
-      <PageHero
-        eyebrow="Editorial standards"
-        title="Editorial Policy"
-        description="How Community Acquired Finance approaches sources, accuracy, conflicts, advertising, and educational boundaries."
-      />
+const EditorialPolicy = () => (
+  <>
+    <PageHero eyebrow="Editorial standards" title="Editorial Policy" description="How CAF approaches sources, clinical risk, author and reviewer claims, corrections, privacy, advertising, and educational boundaries." />
 
-      <div className="container max-w-3xl py-12 md:py-16 space-y-6">
-        <p className="text-sm text-muted-foreground">Effective date: June 19, 2026</p>
+    <div className="container max-w-3xl space-y-6 py-12 md:py-16">
+      <p className="text-sm text-muted-foreground">Effective date: July 19, 2026</p>
 
-        <Section title="Purpose">
-          <p>
-            Community Acquired Finance explains healthcare money topics in plain English for healthcare workers, patients, and caregivers. The goal is clarity, not fear, clicks, product sales, or pretending that a complex plan-specific decision has one universal answer.
-          </p>
-        </Section>
+      <Section title="Purpose and audience">
+        <p>CAF explains financial and practical decisions surrounding healthcare, employment, insurance, hospitalization, benefits, and recovery in plain English. The audience is the general public, with specialized clarity from an RN perspective.</p>
+        <p>Content should assume the reader is capable but may be busy, stressed, ill, caregiving, or unfamiliar with healthcare and financial terminology.</p>
+      </Section>
 
-        <Section title="Audience">
-          <p>
-            The site is written for general education. Readers may include nurses, healthcare workers, patients, caregivers, families, and people comparing benefits or bills. Articles should assume the reader is smart but busy, stressed, and not trained in insurance or finance terminology.
-          </p>
-        </Section>
+      <Section title="Source standard">
+        <p>CAF prefers controlling and primary sources: federal and state agencies, official program and plan documents, drug labeling, National Library of Medicine resources, recognized clinical guidelines, and original research when a claim requires it.</p>
+        <p>Secondary sources may add context but should not replace the controlling source for a time-sensitive, clinical, coverage, legal, or financial claim.</p>
+        <p>Founder nursing experience informs practical framing, common failure points, and questions to ask. It is not the sole evidence for clinical facts.</p>
+      </Section>
 
-        <Section title="Source standards">
-          <p>
-            We prefer primary and high-quality sources: Medicare.gov, Medicaid.gov, CMS, IRS, BLS, HealthCare.gov, Federal Reserve, state agencies, plan documents, and reputable nonpartisan research organizations.
-          </p>
-          <p>
-            When a topic depends on plan-specific rules, state rules, employer policies, current law, or individual facts, articles should say so instead of pretending one answer applies to everyone.
-          </p>
-        </Section>
+      <Section title="Clinical content risk tiers">
+        <p><strong>Tier 1 — General education:</strong> hospital roles, communication, organization, and question preparation. Requires source and editorial review.</p>
+        <p><strong>Tier 2 — Coverage and workflow:</strong> observation status, rehabilitation, home health, bills, and prior authorization. Requires current official sources and explicit plan, state, facility, and date qualifications.</p>
+        <p><strong>Tier 3 — Clinical safety education:</strong> blood thinners, COPD, heart failure, oxygen, and medication changes. Requires conservative wording, authoritative medical sources, visible review status, no personalized recommendation, and ad-free safety sections.</p>
+        <p><strong>Tier 4 — Withheld individualized instruction:</strong> exact dosing, missed-dose rules, treatment changes, oxygen settings, procedure hold timing, universal emergency thresholds, and personalized symptom decisions. These are not published without appropriate qualified review and explicit future authorization.</p>
+      </Section>
 
-        <Section title="Article structure">
-          <p>
-            Articles should be practical and scannable. Preferred structure includes a clear promise, audience, short summary, plain-English definitions, fact-sheet sections, examples, common mistakes, takeaway, related calculator when useful, and source notes.
-          </p>
-          <p>
-            Content should avoid filler, keyword stuffing, copied content, exaggerated claims, and generic finance material that does not help healthcare workers, patients, or caregivers make sense of a real decision.
-          </p>
-        </Section>
+      <Section title="Author and reviewer claims">
+        <p>Andrew Ciccarelli may be identified accurately as Andrew Ciccarelli, BSN, RN. RN authorship does not imply physician, pharmacist, specialist, hospital, or independent clinical review.</p>
+        <p>CAF claims independent review only when a qualified reviewer assessed the exact version and the record is documented. Drafts, referrals, outreach, discussions, automated tests, and source checks do not constitute medical review or approval.</p>
+      </Section>
 
-        <Section title="Educational boundaries">
-          <p>
-            Articles and calculators are educational. They should help readers ask better questions, understand terms, compare documents, and recognize common mistakes. They should not tell a reader what plan, investment, treatment, legal strategy, tax move, insurance decision, or billing dispute strategy is right for their specific situation.
-          </p>
-        </Section>
+      <Section title="Health and medication boundaries">
+        <p>Health content should help readers understand concepts, prepare questions, organize written information, and identify the responsible care-team contact. It should not diagnose, prescribe, determine urgency, or tell a reader to start, stop, skip, double, restart, substitute, split, mix, or independently change treatment.</p>
+        <p>Medication pages must not create a universal dose, missed-dose rule, procedure plan, bleeding threshold, or restart instruction. Oxygen and device pages must not create a universal setting or equipment instruction that overrides the prescription and manufacturer guidance.</p>
+      </Section>
 
-        <Section title="YMYL care standard">
-          <p>
-            Healthcare finance can affect medical access, insurance coverage, retirement decisions, taxes, debt, and family caregiving. Content should therefore be careful, modest, source-backed, and transparent about uncertainty. The site should not use urgency, fear, shame, or unrealistic promises to push readers into decisions.
-          </p>
-        </Section>
+      <Section title="Page-level trust requirements">
+        <p>Health-related guides should display the author, accurate credentials, publication date, reviewed or updated date, review scope, review status, authoritative sources, educational boundary, related resources, and a correction route.</p>
+        <p>Pages should distinguish what is generally true, what varies, what must be verified, and which controlling person or document decides the actual result.</p>
+      </Section>
 
-        <Section title="Corrections and updates">
-          <p>
-            Healthcare finance rules change. If a page is updated, the goal is to improve accuracy, clarity, source quality, usefulness, or readability. Readers should still verify important decisions with official sources and qualified professionals.
-          </p>
-          <p>
-            If a material error is discovered, the page should be corrected promptly. When appropriate, the article should explain that the rule, number, or interpretation changed.
-          </p>
-        </Section>
+      <Section title="Privacy and analytics">
+        <p>Consumer guide tools should use fixed choices instead of free-text health collection whenever possible. They should not request patient records, identifying health information, medication lists, doses, symptom narratives, hospital names tied to care, provider names, member IDs, claim numbers, or uploaded discharge documents.</p>
+        <p>Analytics should be consent-gated and limited to sanitized fixed identifiers such as page, guide, action, and destination IDs. Health answer values must not be sent to advertising or analytics systems.</p>
+      </Section>
 
-        <Section title="Advertising and conflicts">
-          <p>
-            Ads, sponsorships, affiliate links, and paid partnerships should not control article conclusions, calculator logic, source selection, rankings, or recommendations. If monetization relationships are added, they should be disclosed clearly and kept separate from educational content.
-          </p>
-          <p>
-            Ads should be distinguishable from content and navigation. The site should not ask users to click ads, suggest that ad clicks support a cause, label ads deceptively, or place ads where they could be mistaken for menu links, downloads, calculators, source citations, or recommended articles.
-          </p>
-        </Section>
+      <Section title="Advertising and monetization">
+        <p>Trust and usefulness come before advertising volume. Ads must be clearly labeled and separate from navigation, editorial recommendations, official sources, safety warnings, medication content, checklists, and corrections.</p>
+        <p>Blood-thinner, oxygen, emergency, high-risk device, and interactive patient-guide surfaces are ad-free by default. Advertisers, affiliates, and sponsors cannot control clinical, insurance, financial, or editorial conclusions.</p>
+      </Section>
 
-        <Section title="Affiliate and sponsorship review">
-          <p>
-            If affiliate links or sponsored content are added in the future, the relationship should be disclosed near the relevant content in plain language. Sponsored content should still meet the site's source, clarity, and reader-safety standards.
-          </p>
-        </Section>
+      <Section title="Corrections, suspension, and updates">
+        <p>Material errors should be corrected promptly and significant changes should be documented when useful. A page should be suspended when a safety-critical claim, source, or boundary cannot be verified.</p>
+        <p>Time-sensitive pages should have a review cadence appropriate to their risk. Dates must not be updated solely to appear fresh.</p>
+      </Section>
 
-        <Section title="AI-assisted workflow">
-          <p>
-            Drafting, editing, coding, formatting, and research organization may be assisted by AI tools. Content should still be reviewed for accuracy, plain-English usefulness, source quality, and alignment with the site's educational purpose before publication.
-          </p>
-          <p>
-            AI-assisted drafting should not be used to create unsupported facts, fake citations, copied material, fabricated personal experience, or articles designed mainly to satisfy search engines or ad networks.
-          </p>
-        </Section>
+      <Section title="AI-assisted workflow">
+        <p>AI may assist drafting, research organization, coding, testing, formatting, and editing. Human judgment remains responsible for source quality, safety boundaries, credentials, practical usefulness, and final publication decisions.</p>
+        <p>AI must not invent citations, experience, credentials, reviewer findings, approvals, patient stories, outcomes, or certainty.</p>
+      </Section>
 
-        <Section title="Reader safety">
-          <p>
-            Pages should avoid scare tactics, exaggerated promises, misleading certainty, or pressure-based language. Healthcare money decisions can be stressful enough without making readers feel trapped, ashamed, or manipulated.
-          </p>
-        </Section>
+      <Section title="Independence">
+        <p>CAF is independent educational content. It is not an official hospital, employer, insurer, Medicare, Medicaid, regulator, brokerage, bank, insurance agency, law firm, or government service. No endorsement is implied unless clearly documented.</p>
+      </Section>
 
-        <Section title="Independence">
-          <p>
-            Community Acquired Finance is independent educational content unless a future page clearly states otherwise. It is not an official Medicare, Medicaid, hospital, insurer, employer, brokerage, bank, or government website.
-          </p>
-        </Section>
-
-        <DisclaimerBox />
-
-        <div className="pt-4">
-          <Button asChild variant="soft">
-            <Link to="/about">Back to About / Sources</Link>
-          </Button>
-        </div>
-      </div>
-    </>
-  );
-};
+      <DisclaimerBox />
+      <div className="pt-4"><Button asChild variant="soft"><Link to="/disclosures">Review Disclosures &amp; Disclaimers</Link></Button></div>
+    </div>
+  </>
+);
 
 export default EditorialPolicy;

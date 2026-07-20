@@ -1,3 +1,4 @@
+import { createHmac } from "node:crypto";
 import { Resend } from "resend";
 
 type ApiRequest = { method?: string; body?: unknown };
@@ -17,10 +18,15 @@ type InterestBody = {
 
 type ResendResult = { data?: { id?: string } | null; error?: unknown };
 
+type SequenceMessage = {
+  subject: string;
+  html: string;
+  scheduledAt?: string;
+};
+
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const fallbackFromEmail = "Community Acquired Finance <onboarding@resend.dev>";
 const audienceId = process.env.RESEND_AUDIENCE_ID?.trim();
-const unsubscribeUrl = "https://communityacquiredfinance.com/unsubscribe.html";
 
 const parseBody = (body: unknown): InterestBody => {
   if (!body) return {};
@@ -55,12 +61,27 @@ const isDuplicate = (message: string) => /already exists|duplicate|conflict/i.te
 const isDeliverySetupError = (message: string) =>
   /only send testing emails|verify a domain|verified domain|onboarding@resend\.dev|domain is not verified|sender/i.test(message);
 
-const getFromEmail = () => {
-  const configured = process.env.RESEND_FROM_EMAIL?.trim();
-  return configured || fallbackFromEmail;
+const getFromEmail = () => process.env.RESEND_FROM_EMAIL?.trim() || fallbackFromEmail;
+const getUnsubscribeSecret = () =>
+  process.env.EMAIL_UNSUBSCRIBE_SECRET?.trim() || process.env.RESEND_API_KEY?.trim() || "";
+
+const buildUnsubscribeUrl = (email: string) => {
+  const secret = getUnsubscribeSecret();
+  if (!secret) return "https://communityacquiredfinance.com/contact";
+  const encodedEmail = Buffer.from(email, "utf8").toString("base64url");
+  const signature = createHmac("sha256", secret).update(encodedEmail).digest("base64url");
+  return `https://communityacquiredfinance.com/api/unsubscribe?token=${encodedEmail}.${signature}`;
 };
 
-const emailShell = (title: string, intro: string, body: string, ctaLabel: string, ctaHref: string, firstName?: string) => {
+const emailShell = (
+  title: string,
+  intro: string,
+  body: string,
+  ctaLabel: string,
+  ctaHref: string,
+  unsubscribeUrl: string,
+  firstName?: string,
+) => {
   const greeting = firstName?.trim() ? `Hi ${escapeHtml(firstName.trim())},` : "Hi,";
   return `
     <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${escapeHtml(intro)}</div>
@@ -87,56 +108,62 @@ const emailShell = (title: string, intro: string, body: string, ctaLabel: string
   `;
 };
 
-const sequence = (firstName?: string) => [
-  {
-    subject: "Start with the medical-bill document, not the balance",
-    scheduledAt: undefined,
-    html: emailShell(
-      "Identify the document first",
-      "Before making a payment or beginning a long call, identify whether you have an EOB, provider bill, denial notice, assistance form, or collection notice.",
-      `<ol style="padding-left:22px;margin:0;"><li style="margin-bottom:10px;">Match the service date and billing entity.</li><li style="margin-bottom:10px;">Check whether the payer says the claim is pending, processed, adjusted, or denied.</li><li>Write down the next deadline and the organization that owns the next action.</li></ol>`,
-      "Open the Medical Bill Response System",
-      "https://communityacquiredfinance.com/insurance/medical-bill-review-toolkit",
-      firstName,
-    ),
-  },
-  {
-    subject: "How to compare an EOB with a provider bill",
-    scheduledAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
-    html: emailShell(
-      "Compare only matching claim lines",
-      "An EOB is generally not a bill. Compare documents only when the service date and billing entity refer to the same claim.",
-      `<ul style="padding-left:22px;margin:0;"><li style="margin-bottom:10px;">Find billed charge, allowed amount, plan payment, and patient responsibility.</li><li style="margin-bottom:10px;">Confirm the provider balance matches the payer explanation.</li><li>A mismatch needs an explanation; it does not automatically prove an error.</li></ul>`,
-      "Use the EOB-to-Bill Match Checker",
-      "https://communityacquiredfinance.com/tools/eob-to-bill-match-checker",
-      firstName,
-    ),
-  },
-  {
-    subject: "Organize calls, assistance, denials, and deadlines",
-    scheduledAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
-    html: emailShell(
-      "Create one record of the process",
-      "The value of organization is not proving that a bill is wrong. It is preventing lost deadlines, repeated calls, and conflicting promises.",
-      `<ul style="padding-left:22px;margin:0;"><li style="margin-bottom:10px;">Record the representative, reference number, request, and follow-up date.</li><li style="margin-bottom:10px;">Request written policies and explanations when available.</li><li>Check hospital financial assistance before accepting a long payment plan.</li></ul>`,
-      "Open the free Response Pack",
-      "https://communityacquiredfinance.com/downloads/medical-bill-response-pack.html",
-      firstName,
-    ),
-  },
-  {
-    subject: "Preview the expanded medical-bill organization workbook",
-    scheduledAt: new Date(Date.now() + 9 * 24 * 60 * 60 * 1000).toISOString(),
-    html: emailShell(
-      "A deeper organization system is being tested",
-      "Community Acquired Finance has built a 32-page workbook foundation for document inventories, EOB comparisons, call logs, assistance, denials, collections, deadlines, and caregiver coordination. Checkout is not active while usefulness and audience demand are validated.",
-      `<p style="margin:0;">The free guidance remains free. The expanded workbook is being evaluated as a future one-time organizational product, not a bill-negotiation or advice service.</p>`,
-      "Preview sample workbook pages",
-      "https://communityacquiredfinance.com/downloads/expanded-medical-bill-response-workbook-preview.html",
-      firstName,
-    ),
-  },
-];
+const sequence = (email: string, firstName?: string): SequenceMessage[] => {
+  const unsubscribeUrl = buildUnsubscribeUrl(email);
+  return [
+    {
+      subject: "Start with the medical-bill document, not the balance",
+      html: emailShell(
+        "Identify the document first",
+        "Before making a payment or beginning a long call, identify whether you have an EOB, provider bill, denial notice, assistance form, or collection notice.",
+        `<ol style="padding-left:22px;margin:0;"><li style="margin-bottom:10px;">Match the service date and billing entity.</li><li style="margin-bottom:10px;">Check whether the payer says the claim is pending, processed, adjusted, or denied.</li><li>Write down the next deadline and the organization that owns the next action.</li></ol>`,
+        "Open the Medical Bill Response System",
+        "https://communityacquiredfinance.com/insurance/medical-bill-review-toolkit",
+        unsubscribeUrl,
+        firstName,
+      ),
+    },
+    {
+      subject: "How to compare an EOB with a provider bill",
+      scheduledAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+      html: emailShell(
+        "Compare only matching claim lines",
+        "An EOB is generally not a bill. Compare documents only when the service date and billing entity refer to the same claim.",
+        `<ul style="padding-left:22px;margin:0;"><li style="margin-bottom:10px;">Find billed charge, allowed amount, plan payment, and patient responsibility.</li><li style="margin-bottom:10px;">Confirm the provider balance matches the payer explanation.</li><li>A mismatch needs an explanation; it does not automatically prove an error.</li></ul>`,
+        "Use the EOB-to-Bill Match Checker",
+        "https://communityacquiredfinance.com/tools/eob-to-bill-match-checker",
+        unsubscribeUrl,
+        firstName,
+      ),
+    },
+    {
+      subject: "Organize calls, assistance, denials, and deadlines",
+      scheduledAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+      html: emailShell(
+        "Create one record of the process",
+        "The value of organization is not proving that a bill is wrong. It is preventing lost deadlines, repeated calls, and conflicting promises.",
+        `<ul style="padding-left:22px;margin:0;"><li style="margin-bottom:10px;">Record the representative, reference number, request, and follow-up date.</li><li style="margin-bottom:10px;">Request written policies and explanations when available.</li><li>Check hospital financial assistance before accepting a long payment plan.</li></ul>`,
+        "Open the free Response Pack",
+        "https://communityacquiredfinance.com/downloads/medical-bill-response-pack.html",
+        unsubscribeUrl,
+        firstName,
+      ),
+    },
+    {
+      subject: "Preview the expanded medical-bill organization workbook",
+      scheduledAt: new Date(Date.now() + 9 * 24 * 60 * 60 * 1000).toISOString(),
+      html: emailShell(
+        "A deeper organization system is being tested",
+        "Community Acquired Finance has built a 32-page workbook foundation for document inventories, EOB comparisons, call logs, assistance, denials, collections, deadlines, and caregiver coordination. Checkout is not active while usefulness and audience demand are validated.",
+        `<p style="margin:0;">The free guidance remains free. The expanded workbook is being evaluated as a future one-time organizational product, not a bill-negotiation or advice service.</p>`,
+        "Preview sample workbook pages",
+        "https://communityacquiredfinance.com/downloads/expanded-medical-bill-response-workbook-preview.html",
+        unsubscribeUrl,
+        firstName,
+      ),
+    },
+  ];
+};
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Allow", "POST");
@@ -178,21 +205,22 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       });
     }
 
-    const messages = sequence(firstName);
+    const unsubscribeUrl = buildUnsubscribeUrl(email);
+    const messages = sequence(email, firstName);
     const results: ResendResult[] = [];
     for (const message of messages) {
-      results.push(
-        (await resend.emails.send({
-          from,
-          to: [email],
-          subject: message.subject,
-          html: message.html,
-          scheduledAt: message.scheduledAt,
-          headers: {
-            "List-Unsubscribe": `<${unsubscribeUrl}>`,
-          },
-        })) as ResendResult,
-      );
+      const payload = {
+        from,
+        to: [email],
+        subject: message.subject,
+        html: message.html,
+        headers: {
+          "List-Unsubscribe": `<${unsubscribeUrl}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        },
+        ...(message.scheduledAt ? { scheduledAt: message.scheduledAt } : {}),
+      };
+      results.push((await resend.emails.send(payload)) as ResendResult);
     }
 
     const failures = results.filter((result) => result.error);

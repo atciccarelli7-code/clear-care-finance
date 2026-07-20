@@ -6,6 +6,11 @@ import { Label } from "@/components/ui/label";
 import { trackSiteEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
+type NewsletterEmailType =
+  | "newsletter"
+  | "medical-bill-sequence"
+  | "medical-bill-product-interest";
+
 type NewsletterSignupProps = {
   className?: string;
   compact?: boolean;
@@ -13,22 +18,32 @@ type NewsletterSignupProps = {
   title?: string;
   description?: string;
   buttonLabel?: string;
+  emailType?: NewsletterEmailType;
+  successMessage?: string;
+  limitedSuccessMessage?: string;
 };
 
 type NewsletterSignupResult = {
   ok?: boolean;
   saved?: boolean;
   emailDelivered?: boolean;
+  sequenceStatus?: "not_applicable" | "first_email_only" | "provider_automation_required";
   warning?: string;
   error?: string;
 };
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const trackNewsletterEvent = (eventName: string, source: string) =>
+const trackNewsletterEvent = (
+  eventName: string,
+  source: string,
+  emailType: NewsletterEmailType,
+) =>
   trackSiteEvent(eventName, {
-    event_category: "newsletter",
+    event_category:
+      emailType === "newsletter" ? "newsletter" : "medical_bill_product",
     source,
+    email_type: emailType,
   });
 
 export function NewsletterSignup({
@@ -38,6 +53,9 @@ export function NewsletterSignup({
   title = "Get the Monthly Money Map",
   description = "One practical monthly email for healthcare workers and patients trying to make better decisions about paychecks, benefits, insurance, debt, and healthcare costs.",
   buttonLabel = "Join the monthly list",
+  emailType = "newsletter",
+  successMessage,
+  limitedSuccessMessage,
 }: NewsletterSignupProps) {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -46,24 +64,25 @@ export function NewsletterSignup({
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const displayDescription = description.replace(/\bweekly\b/gi, "monthly");
+  const emailLabel = emailType === "newsletter" ? "Monthly email" : "Medical-bill email";
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMessage("");
-    trackNewsletterEvent("newsletter_signup_submit", source);
+    trackNewsletterEvent("newsletter_signup_submit", source, emailType);
 
     const cleanEmail = email.trim().toLowerCase();
     if (!emailPattern.test(cleanEmail)) {
       setStatus("error");
       setMessage("Enter a valid email address.");
-      trackNewsletterEvent("newsletter_signup_error", source);
+      trackNewsletterEvent("newsletter_signup_error", source, emailType);
       return;
     }
 
     if (!consent) {
       setStatus("error");
       setMessage("Check the consent box before signing up.");
-      trackNewsletterEvent("newsletter_signup_error", source);
+      trackNewsletterEvent("newsletter_signup_error", source, emailType);
       return;
     }
 
@@ -79,7 +98,7 @@ export function NewsletterSignup({
           consent,
           website,
           source,
-          type: "newsletter",
+          type: emailType,
         }),
       });
 
@@ -90,19 +109,51 @@ export function NewsletterSignup({
       }
 
       setStatus("success");
+      const defaultSuccess =
+        emailType === "medical-bill-sequence"
+          ? "You are on the medical-bill list. Check your inbox for the first response-system email."
+          : emailType === "medical-bill-product-interest"
+            ? "You are on the workbook launch list. No payment was collected."
+            : "You are in. Check your inbox for the Healthcare Worker Money Map.";
+      const defaultLimited =
+        emailType === "medical-bill-product-interest"
+          ? "Your workbook interest was saved. Email delivery is still pending external sender verification."
+          : "You are on the list. Welcome email delivery is still being finalized.";
+
       setMessage(
         result.emailDelivered === false
-          ? "You’re on the list. Welcome email delivery is still being finalized."
-          : "You’re in. Check your inbox for the Healthcare Worker Money Map.",
+          ? limitedSuccessMessage ?? defaultLimited
+          : successMessage ?? defaultSuccess,
       );
-      trackNewsletterEvent("newsletter_signup_success", source);
+      trackNewsletterEvent("newsletter_signup_success", source, emailType);
+
+      if (emailType === "medical-bill-sequence") {
+        trackSiteEvent("free_pack_email_signup", {
+          event_category: "medical_bill_product",
+          source_surface: source,
+        });
+        trackSiteEvent("medical_bill_email_sequence_start", {
+          event_category: "medical_bill_product",
+          source_surface: source,
+          sequence_status: result.sequenceStatus ?? "first_email_only",
+        });
+      }
+
+      if (emailType === "medical-bill-product-interest") {
+        trackSiteEvent("premium_interest_submit", {
+          event_category: "medical_bill_product",
+          source_surface: source,
+          product_id: "expanded_medical_bill_response_workbook",
+        });
+      }
+
       setEmail("");
       setFirstName("");
       setConsent(false);
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Signup failed. Try again in a minute.");
-      trackNewsletterEvent("newsletter_signup_error", source);
+      trackNewsletterEvent("newsletter_signup_error", source, emailType);
     }
   };
 
@@ -119,7 +170,7 @@ export function NewsletterSignup({
         <div className="min-w-0 space-y-3">
           <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.16em] text-primary">
             <Mail className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Monthly email</span>
+            <span>{emailLabel}</span>
           </div>
           <h2 id={`newsletter-signup-${source}`} className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
             {title}

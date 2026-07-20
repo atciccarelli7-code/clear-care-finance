@@ -1,154 +1,57 @@
 {
-  "schemaVersion": "1.0.0",
-  "productId": "CAF-PES",
-  "productName": "Hospital & Patient Guide",
-  "internalReference": "CAF Patient Education Systems",
-  "status": "development_stage",
-  "publicClassification": "public_product_architecture",
-  "description": "RN-developed hospital-to-home guide system with five controlled pilot packages, caregiver and teach-back tools, governed content, operational continuity, conservative measurement, and a versioned multi-channel content engine.",
-  "publicRoute": "/for-organizations/patient-education-systems",
-  "privacyPosture": {
-    "phiRequired": false,
-    "patientAccountRequired": false,
-    "freeTextPilotIntake": false,
-    "answerLevelAnalytics": false,
-    "patientSpecificPersonalizationLocation": "Healthcare organization approved environment"
-  },
-  "engineCapabilities": {
-    "typedContentBlocks": true,
-    "deterministicMultiChannelCompilation": true,
-    "packageDocumentReferentialIntegrity": true,
-    "distributionModeRedaction": true,
-    "releaseGateEnforcement": true,
-    "artifactChecksums": true,
-    "versionedOutputPaths": true,
-    "supportedOutputTargets": [
-      "responsive_html",
-      "print_html",
-      "structured_text",
-      "avs_text",
-      "patient_portal_json"
-    ],
-    "plannedExternalProductionTargets": [
-      "print_pdf",
-      "accessible_pdf",
-      "video",
-      "audio",
-      "image"
+  "schemaVersion": "2.0.0",
+  "programId": "CAF-PES",
+  "programName": "CAF Patient Education Systems",
+  "status": "paused_future_option",
+  "publicClassification": "institutional_archive_boundary",
+  "activeConsumerProgram": {
+    "name": "CAF Hospital & Patient Guide",
+    "route": "/patients-families/hospital-guide",
+    "model": "free consumer education",
+    "guideFamilies": [
+      "Safe Hospital Discharge and the First 72 Hours",
+      "Blood Thinner Safety: What to Verify Before Going Home",
+      "COPD Recovery After a Hospital Visit",
+      "Heart Failure: Understanding the Plan After Discharge",
+      "New Home Oxygen and Nebulizer Guide"
     ]
   },
-  "contractRegistry": [
-    {
-      "id": "public_package_descriptor_v1",
-      "label": "Public package descriptor schema",
-      "path": "/patient-education/schemas/public-package-descriptor-v1.schema.json",
-      "classification": "public_product_architecture"
-    },
-    {
-      "id": "controlled_preview_bundle_v1",
-      "label": "Controlled preview bundle schema",
-      "path": "/patient-education/schemas/controlled-preview-bundle-v1.schema.json",
-      "classification": "public_product_architecture"
-    },
-    {
-      "id": "controlled_preview_demo_v1",
-      "label": "Nonclinical controlled preview demonstration bundle",
-      "path": "/patient-education/demo/controlled-preview-bundle.json",
-      "classification": "public_product_architecture"
-    }
+  "institutionalAsset": {
+    "candidate": "CAF-PE-ANTICOAG-ADULT-EN-PACKAGE-001-V1.0-RC1",
+    "controlledSourceBundleSha256": "c04c961344f82a4359f1b149836b34a302e459300f02e263fe4358a8096d3248",
+    "patientUseApproved": false,
+    "pilotReady": false,
+    "externalHumanApprovalsComplete": false,
+    "activeSales": false,
+    "activeBuyerIntake": false,
+    "activeReviewerRecruitment": false,
+    "futureRestartConditions": [
+      "meaningful traffic and sustainable revenue",
+      "employment and intellectual-property clarity",
+      "appropriate legal guidance and insurance",
+      "funded independent clinical, health-literacy, accessibility, and user review",
+      "documented institutional demand and release authority"
+    ]
+  },
+  "publicSafetyBoundary": {
+    "phiCollected": false,
+    "patientAccountRequired": false,
+    "personalizedClinicalAdvice": false,
+    "exactMedicationDosingPublished": false,
+    "productSpecificMissedDoseRulesPublished": false,
+    "personalizedEmergencyTriagePublished": false,
+    "hospitalApprovalClaimed": false,
+    "independentMedicalReviewClaimed": false
+  },
+  "preservedPrivateAssets": [
+    "controlled clinical source bundle",
+    "evidence and claim maps",
+    "reviewer and buyer packets",
+    "hospital localization materials",
+    "professional vendor-selection records",
+    "founder evidence records",
+    "legal and insurance preparation",
+    "version, correction, suspension, release, and recall systems"
   ],
-  "deliveryPhases": [
-    {
-      "id": "controlled_content",
-      "label": "Controlled content delivery",
-      "formats": ["responsive_html", "print_html", "print_pdf", "accessible_pdf", "structured_text", "patient_portal_json", "video", "audio"]
-    },
-    {
-      "id": "hospital_controlled_workflow",
-      "label": "Hospital-controlled workflow",
-      "formats": ["patient_education_library", "avs_text", "patient_portal_json", "local_personalization", "local_documentation"]
-    },
-    {
-      "id": "interoperable_delivery",
-      "label": "Interoperable delivery after validated demand and security readiness",
-      "formats": ["api", "fhir_document_reference", "smart_on_fhir_review", "ehr_interface", "content_connector"]
-    }
-  ],
-  "releaseGates": [
-    "evidence",
-    "clinical_review",
-    "health_literacy",
-    "accessibility",
-    "patient_testing",
-    "institutional_localization"
-  ],
-  "packageAssetTypes": [
-    "full_guide",
-    "quick_start",
-    "avs_summary",
-    "personalized_plan",
-    "daily_tracker",
-    "troubleshooting",
-    "red_flags",
-    "caregiver_guide",
-    "teach_back",
-    "show_me",
-    "clinician_reference",
-    "evidence_dossier",
-    "version_record",
-    "implementation_workflow",
-    "feedback_tool"
-  ],
-  "flagshipModules": [
-    {
-      "id": "copd_recovery",
-      "title": "COPD Exacerbation and Recovery at Home",
-      "riskTier": "critical",
-      "status": "evidence_development",
-      "clinicalDomains": ["pulmonary", "medication_and_device_safety", "care_transitions"]
-    },
-    {
-      "id": "heart_failure",
-      "title": "Heart Failure Discharge and Daily Management",
-      "riskTier": "critical",
-      "status": "evidence_development",
-      "clinicalDomains": ["cardiac", "medication_safety", "daily_monitoring"]
-    },
-    {
-      "id": "blood_thinners",
-      "title": "Blood Thinner Safety",
-      "riskTier": "critical",
-      "status": "evidence_development",
-      "clinicalDomains": ["medication_safety", "care_transitions"]
-    },
-    {
-      "id": "home_oxygen",
-      "title": "New Home Oxygen and Nebulizer Use",
-      "riskTier": "critical",
-      "status": "evidence_development",
-      "clinicalDomains": ["respiratory", "dme", "home_safety"]
-    },
-    {
-      "id": "first_72_hours",
-      "title": "Safe Hospital Discharge and the First 72 Hours at Home",
-      "riskTier": "high",
-      "status": "evidence_development",
-      "clinicalDomains": ["universal_discharge", "medication_reconciliation", "home_readiness"]
-    }
-  ],
-  "claimsBoundary": [
-    "No module is represented as hospital-approved, clinically validated, pilot-ready, or released until its documented release gates are complete.",
-    "The product does not diagnose, prescribe, determine coverage, replace discharge orders, or provide emergency or individual clinical support.",
-    "Engagement and satisfaction data alone do not establish reductions in readmissions, adverse events, costs, calls, or other outcomes."
-  ],
-  "prohibitedPublicPayloads": [
-    "patient_identifiers",
-    "case_narratives",
-    "patient_orders",
-    "hospital_customizations",
-    "reviewer_identity_records",
-    "evidence_dossiers",
-    "client_deliverables",
-    "contracts"
-  ]
+  "statement": "The institutional program is paused, not abandoned. Public consumer guides reuse only source-backed, non-personalized, public-safe education. Private clinical and commercial assets remain controlled and are not approved for patient or hospital use."
 }

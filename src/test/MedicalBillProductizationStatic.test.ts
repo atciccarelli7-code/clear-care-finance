@@ -17,7 +17,7 @@ describe("medical bill productization static contracts", () => {
     expect(productPage).toContain("$24");
     expect(productPage).toContain("Checkout is not active");
     expect(productPage).toContain("does not create a purchase or payment obligation");
-    expect(productPage).not.toMatch(/save thousands|guaranteed savings|limited time|normally \$|countdown/i);
+    expect(productPage).not.toMatch(/save thousands|limited time|normally \$|only today|ends tonight/i);
   });
 
   it("publishes representative previews without exposing or embedding the private master", () => {
@@ -53,7 +53,8 @@ describe("medical bill productization static contracts", () => {
     expect(emailApi).toContain("createUnsubscribeToken");
     expect(unsubscribeApi).toContain("timingSafeEqual");
     expect(unsubscribeApi).toContain("unsubscribed: true");
-    expect(enhancement).toContain('type: "medical-bill-sequence"');
+    expect(enhancement).toContain('"medical-bill-sequence"');
+    expect(enhancement).toContain('"medical-bill-product-interest"');
     expect(enhancement).not.toMatch(/diagnosisDetails|claimNumber|memberId|billAmount|providerName/);
   });
 });

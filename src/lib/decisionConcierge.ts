@@ -207,16 +207,16 @@ export const CONCIERGE_ROUTING_MAP: Record<ConciergeProblemCategory, ConciergeRo
     secondaryLabel: "Review nonfinancial tradeoffs",
   },
   help_family: {
-    label: "Patient and Caregiver Decision Hub",
+    label: "Hospital & Patient Guide",
     journeyId: "hospital-discharge",
-    destinationPath: "/patients-families",
-    reason: "Start with the care situation, coverage document, or bill that needs the next practical action.",
-    haveAvailable: ["The main question", "Relevant notice or benefit document", "Any deadline"],
-    effort: "About 3 minutes to choose the right pathway",
+    destinationPath: "/patients-families/hospital-guide",
+    reason: "Choose the hospital or discharge issue once, then finish one focused plan without returning to a broad patient-resource hub.",
+    haveAvailable: ["The main hospital or discharge question", "Relevant notice or benefit document", "Any deadline"],
+    effort: "About 3–6 minutes to identify and complete the first plan",
     canSaveReceipt: false,
     myPlanActionId: "cost_toolkit",
     secondaryPath: "/insurance/hospital-discharge-coverage",
-    secondaryLabel: "Prepare for hospital discharge",
+    secondaryLabel: "Review detailed discharge coverage",
   },
   not_sure: {
     label: "Financial Navigator",
@@ -262,6 +262,7 @@ export const validateConciergeRoutingMap = () => {
     "/build-wealth",
     "/insurance",
     "/patients-families",
+    "/patients-families/hospital-guide",
     "/medicare-care-costs",
     ...tools.map(getToolHref),
     ...DECISION_JOURNEYS.flatMap((journey) => [journey.canonicalPath, ...journey.relatedPaths, ...journey.toolPaths]),
@@ -276,7 +277,7 @@ export const validateConciergeRoutingMap = () => {
     const journey = getDecisionJourney(route.journeyId);
     if (!journey) errors.push(`${problem}: unknown journey ${route.journeyId}`);
     if (!knownPaths.has(route.destinationPath)) errors.push(`${problem}: unknown destination ${route.destinationPath}`);
-    if (journey && ![journey.canonicalPath, ...journey.relatedPaths, ...journey.toolPaths, "/start-here", "/tools/benefits-change-detector", "/tools/roth-vs-traditional-decision-helper", "/tools/debt-vs-retirement-router", "/tools/403b-paycheck-calculator", "/insurance", "/patients-families"].includes(route.destinationPath)) {
+    if (journey && ![journey.canonicalPath, ...journey.relatedPaths, ...journey.toolPaths, "/start-here", "/tools/benefits-change-detector", "/tools/roth-vs-traditional-decision-helper", "/tools/debt-vs-retirement-router", "/tools/403b-paycheck-calculator", "/insurance", "/patients-families", "/patients-families/hospital-guide"].includes(route.destinationPath)) {
       errors.push(`${problem}: destination is outside its canonical journey`);
     }
     if (!getNavigatorRecommendation(route.myPlanActionId)) errors.push(`${problem}: unknown My Plan action ${route.myPlanActionId}`);

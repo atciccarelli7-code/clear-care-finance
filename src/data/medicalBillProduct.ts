@@ -1,9 +1,8 @@
 export const MEDICAL_BILL_PRODUCT = {
   id: "expanded_medical_bill_response_workbook",
   name: "Expanded Medical Bill Response Workbook",
-  status: "foundation" as const,
+  status: "audience_validation" as const,
   version: "1.0",
-  plannedPrice: 24,
   paymentEnabled: false,
   previewPath: "/downloads/expanded-medical-bill-response-workbook-preview.html",
   freeSystemPath: "/insurance/medical-bill-review-toolkit",

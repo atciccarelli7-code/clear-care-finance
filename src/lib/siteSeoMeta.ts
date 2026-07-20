@@ -40,6 +40,10 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
     title: "Community Acquired Finance Newsletter",
     description: "Get practical, low-frequency updates on retirement, workplace benefits, insurance, medical bills, Medicare, Medicaid, and new financial tools.",
   },
+  "/insurance/medical-bill-review-toolkit": {
+    title: "Medical Bill Response System",
+    description: "Identify an EOB, medical bill, denial, financial-assistance form, or collection notice and follow an RN-led, privacy-minimized review sequence before paying.",
+  },
 };
 
 const benefitsCommandCenterMeta: SeoRouteMeta = {

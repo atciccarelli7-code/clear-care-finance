@@ -4,8 +4,13 @@ import { repositoryRoot } from "./seo-route-utils.mjs";
 
 const distDir = path.join(repositoryRoot, "dist");
 const routes = [
-  { path: "/for-organizations", heading: "Healthcare education people can use without handing over their private information." },
-  { path: "/for-organizations/patient-education-systems", heading: "Hospital-to-home guidance designed around what patients and caregivers actually have to do next." },
+  { path: "/for-organizations", heading: "Healthcare financial education without private records." },
+  { path: "/patients-families/hospital-guide", heading: "Know what to verify, what to ask, and what needs an owner before you go home." },
+  { path: "/articles/safe-hospital-discharge-first-72-hours", heading: "Safe Hospital Discharge and the First 72 Hours at Home" },
+  { path: "/articles/blood-thinner-safety-before-going-home", heading: "Blood Thinner Safety: What to Verify Before Going Home" },
+  { path: "/articles/copd-recovery-after-hospital", heading: "COPD Recovery After a Hospital Visit" },
+  { path: "/articles/heart-failure-plan-after-discharge", heading: "Heart Failure: Understanding the Plan After Discharge" },
+  { path: "/articles/new-home-oxygen-nebulizer-guide", heading: "New Home Oxygen and Nebulizer Guide" },
   { path: "/tools/benefits-change-detector", heading: "Find the benefit changes that deserve your attention before you re-enroll." },
   { path: "/tools/state-medicaid-long-term-care-router", heading: "State Medicaid and Long-Term Care Program Router" },
   { path: "/tools/childcare-benefits-decision-guide", heading: "Dependent Care FSA and Childcare Benefits Decision Guide" },
@@ -28,11 +33,8 @@ for (const route of routes) {
     continue;
   }
 
-  assert(html.includes(`<h1`) && html.includes(route.heading), `${route.path} must prerender its visible H1.`);
-  assert(
-    html.includes(`<link rel="canonical" href="https://communityacquiredfinance.com${route.path}"`),
-    `${route.path} must use the production canonical URL.`,
-  );
+  assert(html.includes("<h1") && html.includes(route.heading), `${route.path} must prerender its visible H1.`);
+  assert(html.includes(`<link rel="canonical" href="https://communityacquiredfinance.com${route.path}"`), `${route.path} must use the production canonical URL.`);
   assert(/<meta name="robots" content="index, follow, max-image-preview:large"/i.test(html), `${route.path} must remain indexable.`);
   assert(/application\/ld\+json/.test(html), `${route.path} must include visible-content-supported structured data.`);
   assert(!html.includes("googlesyndication.com/pagead"), `${route.path} must remain ad-free in prerendered output.`);

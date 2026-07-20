@@ -4,7 +4,8 @@ import { describe, expect, it } from "vitest";
 const read = (path: string) => readFileSync(path, "utf8");
 
 const productPage = read("public/products/expanded-medical-bill-response-workbook.html");
-const enhancement = read("public/medical-bill-productization.js");
+const productEnhancement = read("public/medical-bill-productization.js");
+const spaEnhancement = read("public/medical-bill-productization-spa.js");
 const appShell = read("index.html");
 const productConfig = read("api/product-config.ts");
 const emailApi = read("api/send.ts");
@@ -28,14 +29,19 @@ describe("medical bill productization static contracts", () => {
     expect(productPage).not.toContain("download the full workbook");
   });
 
-  it("loads the first-party enhancement layer on the application shell and product page", () => {
-    expect(appShell).toContain('<script defer src="/medical-bill-productization.js"></script>');
+  it("separates the static product runtime from hydration-safe SPA enhancement", () => {
+    expect(appShell).toContain('<script defer src="/medical-bill-productization-spa.js"></script>');
+    expect(appShell).not.toContain('<script defer src="/medical-bill-productization.js"></script>');
     expect(productPage).toContain('<script defer src="/medical-bill-productization.js"></script>');
-    expect(enhancement).toContain("/insurance/medical-bill-review-toolkit");
-    expect(enhancement).toContain("/patients-families");
-    expect(enhancement).toContain("/articles/how-to-read-an-eob");
-    expect(enhancement).toContain("free_to_premium_click");
-    expect(enhancement).toContain("premium_interest_submit");
+    expect(spaEnhancement).toContain("window.addEventListener(\"load\", boot");
+    expect(spaEnhancement).not.toContain("MutationObserver");
+    expect(spaEnhancement).toContain("window.setTimeout(enhanceRoute, 350)");
+    expect(spaEnhancement).toContain("window.setTimeout(enhanceRoute, 1200)");
+    expect(spaEnhancement).toContain("/insurance/medical-bill-review-toolkit");
+    expect(spaEnhancement).toContain("/patients-families");
+    expect(spaEnhancement).toContain("/articles/how-to-read-an-eob");
+    expect(spaEnhancement).toContain("free_to_premium_click");
+    expect(productEnhancement).toContain("premium_interest_submit");
   });
 
   it("enables checkout only through a secure server-side hosted URL gate", () => {
@@ -53,8 +59,9 @@ describe("medical bill productization static contracts", () => {
     expect(emailApi).toContain("createUnsubscribeToken");
     expect(unsubscribeApi).toContain("timingSafeEqual");
     expect(unsubscribeApi).toContain("unsubscribed: true");
-    expect(enhancement).toContain('"medical-bill-sequence"');
-    expect(enhancement).toContain('"medical-bill-product-interest"');
-    expect(enhancement).not.toMatch(/diagnosisDetails|claimNumber|memberId|billAmount|providerName/);
+    expect(spaEnhancement).toContain('type: "medical-bill-sequence"');
+    expect(productEnhancement).toContain('"medical-bill-product-interest"');
+    expect(spaEnhancement).not.toMatch(/diagnosisDetails|claimNumber|memberId|billAmount|providerName/);
+    expect(productEnhancement).not.toMatch(/diagnosisDetails|claimNumber|memberId|billAmount|providerName/);
   });
 });

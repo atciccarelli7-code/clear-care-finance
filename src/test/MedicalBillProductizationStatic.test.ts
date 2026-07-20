@@ -10,21 +10,27 @@ const appShell = read("index.html");
 const productConfig = read("api/product-config.ts");
 const emailApi = read("api/send.ts");
 const unsubscribeApi = read("api/unsubscribe.ts");
+const samplePreview = read("public/downloads/expanded-medical-bill-response-workbook-preview.html");
 
 describe("medical bill productization static contracts", () => {
-  it("keeps essential guidance free and exposes a truthful $24 interest-only default", () => {
+  it("keeps essential guidance free and hard-disables payment during audience validation", () => {
     expect(productPage).toContain("The free system stays complete");
-    expect(productPage).toContain("Essential rights and official-source links");
-    expect(productPage).toContain("$24");
-    expect(productPage).toContain("Checkout is not active");
-    expect(productPage).toContain("does not create a purchase or payment obligation");
-    expect(productPage).not.toMatch(/save thousands|limited time|normally \$|only today|ends tonight/i);
+    expect(productPage).toContain("Official sources remain free");
+    expect(productPage).toContain("Built, not for sale");
+    expect(productPage).toContain("No payment");
+    expect(productPage).not.toContain("$24");
+    expect(productPage).not.toMatch(/buy now|purchase now|checkout now|save thousands|limited time|normally \$|only today|ends tonight/i);
+    expect(spaEnhancement).toContain("Free product laboratory");
+    expect(spaEnhancement).toContain("No payment");
+    expect(spaEnhancement).not.toContain("$24 one-time");
   });
 
   it("publishes representative previews without exposing or embedding the private master", () => {
-    expect(productPage.match(/data-preview-page=/g)).toHaveLength(6);
-    expect(productPage.match(/class="cell"/g)).toHaveLength(54);
-    expect(productPage).not.toContain("repeat(9)");
+    expect(productPage.match(/data-preview-page=/g)).toHaveLength(3);
+    expect(productPage).toContain("/downloads/expanded-medical-bill-response-workbook-preview.html");
+    expect(samplePreview).toContain("Sample workbook pages");
+    expect(samplePreview).toContain("No checkout is active");
+    expect(samplePreview).not.toMatch(/expanded-medical-bill-response-workbook-v1\.(pdf|docx)/i);
     expect(productPage).not.toMatch(/expanded-medical-bill-response-workbook-v1\.(pdf|docx)/i);
     expect(productPage).not.toContain("download the full workbook");
   });
@@ -33,21 +39,23 @@ describe("medical bill productization static contracts", () => {
     expect(appShell).toContain('<script defer src="/medical-bill-productization-spa.js"></script>');
     expect(appShell).not.toContain('<script defer src="/medical-bill-productization.js"></script>');
     expect(productPage).toContain('<script defer src="/medical-bill-productization.js"></script>');
-    expect(spaEnhancement).toContain("window.addEventListener(\"load\", boot");
+    expect(spaEnhancement).toContain('window.addEventListener("load", boot');
     expect(spaEnhancement).not.toContain("MutationObserver");
     expect(spaEnhancement).toContain("window.setTimeout(enhanceRoute, 350)");
     expect(spaEnhancement).toContain("window.setTimeout(enhanceRoute, 1200)");
     expect(spaEnhancement).toContain("/insurance/medical-bill-review-toolkit");
     expect(spaEnhancement).toContain("/patients-families");
     expect(spaEnhancement).toContain("/articles/how-to-read-an-eob");
-    expect(spaEnhancement).toContain("free_to_premium_click");
+    expect(spaEnhancement).toContain("supporting_page_to_product");
     expect(productEnhancement).toContain("premium_interest_submit");
   });
 
-  it("enables checkout only through a secure server-side hosted URL gate", () => {
-    expect(productConfig).toContain("MEDICAL_BILL_WORKBOOK_CHECKOUT_URL");
-    expect(productConfig).toContain('parsed.protocol === "https:"');
-    expect(productConfig).toContain("checkoutEnabled: Boolean(checkoutUrl)");
+  it("exposes only an interest-only server contract with checkout hard-disabled", () => {
+    expect(productConfig).toContain("checkoutEnabled: false");
+    expect(productConfig).toContain('checkoutUrl: ""');
+    expect(productConfig).toContain('deliveryMode: "interest_only"');
+    expect(productConfig).toContain('productStatus: "audience_validation"');
+    expect(productConfig).not.toContain("MEDICAL_BILL_WORKBOOK_CHECKOUT_URL");
     expect(productPage).not.toContain("stripe");
     expect(productPage).not.toContain("card number");
   });

@@ -5,8 +5,11 @@ describe("blood thinner consumer checklist boundary", () => {
   it("routes decisions back to the responsible care team", () => {
     const guide = CONSUMER_PATIENT_GUIDE_ARTICLES.find((article) => article.slug === "blood-thinner-safety-before-going-home");
     const text = JSON.stringify(guide);
-    expect(text).toContain("responsible treating team");
+
+    expect(guide).toBeDefined();
+    expect(text).toContain("responsible team");
     expect(text).toContain("missed-dose");
     expect(text).toContain("does not provide product-specific doses");
+    expect(text).toContain("does not supply dosing");
   });
 });

@@ -17,12 +17,11 @@ const isLiteralRoute = (source) =>
   !source.includes("*") &&
   !source.includes("(");
 
-// Product routes can be staged here while retaining one release-time route source for sitemap,
-// prerender, redirect reconciliation, and search-readiness validation.
-export const ADDITIONAL_INDEXABLE_ROUTES = [
-  "/tools/benefits-command-center",
-  "/for-organizations/patient-education-systems",
-];
+// New consumer guide articles are registered through the article runtime manifest.
+// Preserve the existing Benefits Command Center release exception.
+// Paused institutional patient-education routes are redirects and never enter the sitemap.
+export const ADDITIONAL_INDEXABLE_ROUTES = ["/tools/benefits-command-center"];
+export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [];
 
 export const loadPermanentRedirects = async () => {
   const configPath = path.join(repositoryRoot, "vercel.json");
@@ -39,14 +38,7 @@ export const loadPermanentRedirects = async () => {
 
 export const getCanonicalRoutes = async (getIndexableRoutes) => {
   const permanentRedirects = await loadPermanentRedirects();
-  const registryRoutes = Array.from(
-    new Set([...getIndexableRoutes(), ...ADDITIONAL_INDEXABLE_ROUTES].map(normalizeRoute)),
-  );
+  const registryRoutes = Array.from(new Set([...getIndexableRoutes(), ...ADDITIONAL_INDEXABLE_ROUTES].map(normalizeRoute)));
   const canonicalRoutes = registryRoutes.filter((route) => !permanentRedirects.has(route));
-
-  return {
-    permanentRedirects,
-    registryRoutes,
-    canonicalRoutes: Array.from(new Set(canonicalRoutes)),
-  };
+  return { permanentRedirects, registryRoutes, canonicalRoutes: Array.from(new Set(canonicalRoutes)) };
 };

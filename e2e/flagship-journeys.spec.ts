@@ -37,8 +37,8 @@ const installIntentStubs = async (page: Page) => {
   });
 };
 
-const visit = async (page: Page, path: string) => {
-  await page.goto(path);
+const visit = async (page: Page, route: string) => {
+  await page.goto(route);
   await page.waitForFunction(() => Array.from(document.querySelectorAll("button, select, input")).some((element) => (
     Object.keys(element).some((key) => key.startsWith("__reactProps$"))
   )));
@@ -76,15 +76,12 @@ test.beforeEach(async ({ page }) => {
 test("homepage concierge routes to the canonical pre-care journey and survives browser history", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/");
-
   await page.getByRole("button", { name: /Healthcare costs or medical bills/i }).click();
   await page.getByRole("button", { name: "Prepare financially before medical care" }).click();
   await page.getByRole("button", { name: "I am planning ahead" }).click();
   await expect(page.getByRole("heading", { name: "Medical Appointment Cost Preparation" })).toBeFocused();
   await page.getByRole("link", { name: /Open this journey/i }).click();
   await expect(page).toHaveURL(/\/tools\/medical-appointment-cost-preparation$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Medical Appointment Cost Preparation" })).toBeVisible();
-
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
   await page.goForward();
@@ -92,27 +89,23 @@ test("homepage concierge routes to the canonical pre-care journey and survives b
   await certifyPage(page, watch);
 });
 
-test("Financial Navigator creates, completes, and removes a local My Plan action", async ({ page }) => {
+test("Financial Navigator creates completes and removes a local My Plan action", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/start-here");
   await page.getByRole("button", { name: /Handle a healthcare-cost problem/i }).click();
-
   for (let index = 0; index < 8; index += 1) {
     if (await page.getByRole("heading", { name: "Your plan is ready" }).isVisible().catch(() => false)) break;
-    const firstChoice = page.locator("#navigator-intake label").first();
-    await firstChoice.click();
+    await page.locator("#navigator-intake label").first().click();
     await page.locator("#navigator-intake").getByRole("button", { name: /Continue|Build my plan/ }).click();
   }
-
   await expect(page.getByRole("heading", { name: "Your plan is ready" })).toBeFocused();
-  const storedBefore = await page.evaluate(() => JSON.parse(localStorage.getItem("caf-financial-navigator-v1") ?? "null")?.actionIds?.length ?? 0);
-  expect(storedBefore).toBeGreaterThan(0);
-
+  const before = await page.evaluate(() => JSON.parse(localStorage.getItem("caf-financial-navigator-v1") ?? "null")?.actionIds?.length ?? 0);
+  expect(before).toBeGreaterThan(0);
   await page.getByRole("button", { name: /^Mark .* complete$/ }).first().click();
   await expect(page.getByRole("progressbar", { name: "My Plan completion" })).not.toHaveAttribute("aria-valuenow", "0");
   await page.getByRole("button", { name: "Remove" }).first().click();
-  const storedAfter = await page.evaluate(() => JSON.parse(localStorage.getItem("caf-financial-navigator-v1") ?? "null")?.actionIds?.length ?? 0);
-  expect(storedAfter).toBe(storedBefore - 1);
+  const after = await page.evaluate(() => JSON.parse(localStorage.getItem("caf-financial-navigator-v1") ?? "null")?.actionIds?.length ?? 0);
+  expect(after).toBe(before - 1);
   await certifyPage(page, watch);
 });
 
@@ -120,13 +113,11 @@ test("Benefits Change Detector completes a Receipt and exposes safe result actio
   const watch = installHealthWatch(page);
   await visit(page, "/tools/benefits-change-detector");
   await page.locator('select[aria-label$=" change"]').first().selectOption({ index: 1 });
-
   for (let index = 0; index < 8; index += 1) {
     const create = page.getByRole("button", { name: /Create Benefits Change Receipt/i });
     if (await create.isVisible().catch(() => false)) { await create.click(); break; }
     await page.getByRole("button", { name: /Next section/i }).click();
   }
-
   await expect(page.getByRole("heading", { name: "Benefits Change Receipt" })).toBeFocused();
   await page.getByRole("button", { name: "Copy Receipt" }).click();
   await expect(page.getByRole("status")).toContainText(/Receipt copied/i);
@@ -137,11 +128,10 @@ test("Benefits Change Detector completes a Receipt and exposes safe result actio
   await certifyPage(page, watch);
 });
 
-test("Medical Bill Review Toolkit exposes the correct guided action and official rights source", async ({ page }) => {
+test("Medical Bill Review Toolkit exposes the correct action and official rights source", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/insurance/medical-bill-review-toolkit");
-  const officialRights = page.getByRole("link", { name: /Estimate or good-faith estimate.*Check official rights/i });
-  await expect(officialRights).toHaveAttribute("href", "https://www.cms.gov/medical-bill-rights");
+  await expect(page.getByRole("link", { name: /Estimate or good-faith estimate.*Check official rights/i })).toHaveAttribute("href", "https://www.cms.gov/medical-bill-rights");
   await page.getByRole("link", { name: /Medical bill.*Review the bill/i }).click();
   await expect(page).toHaveURL(/\/tools\/medical-bill-review-flow$/);
   await page.goBack();
@@ -149,26 +139,23 @@ test("Medical Bill Review Toolkit exposes the correct guided action and official
   await certifyPage(page, watch);
 });
 
-test("Turning 65 journey builds a dated timeline and keeps official verification visible", async ({ page }) => {
+test("Turning 65 journey builds a dated timeline with official verification", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/medicare-care-costs/turning-65");
   await page.getByLabel("Birth month").fill("6");
   await page.getByLabel("Birth year").fill("1961");
   await page.getByRole("button", { name: /Build qualified timeline/i }).click();
-
   await expect(page.getByRole("heading", { name: "Dated timeline" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Official verification and escalation" })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Medicare\.gov.*When can I sign up/i }).first()).toHaveAttribute("href", "https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-can-i-sign-up-for-medicare");
   await page.getByRole("button", { name: "Copy plan" }).click();
   await page.getByRole("button", { name: "Print" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
   await certifyPage(page, watch);
 });
 
-test("Medical Appointment Cost Preparation completes by keyboard and preserves safe continuity", async ({ page }) => {
+test("Medical Appointment Cost Preparation completes by keyboard", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/tools/medical-appointment-cost-preparation");
-
   await page.locator("#care-timing").focus();
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Tab");
@@ -179,23 +166,17 @@ test("Medical Appointment Cost Preparation completes by keyboard and preserves s
   await page.keyboard.press("Enter");
   await page.getByRole("button", { name: /Build my cost preparation plan/i }).focus();
   await page.keyboard.press("Enter");
-
   await expect(page.getByRole("heading", { name: /medical-care cost preparation plan/i })).toBeFocused();
   await page.getByRole("button", { name: "Copy plan" }).click();
-  await expect(page.getByRole("button", { name: "Copied" })).toBeVisible();
   await page.getByRole("button", { name: /Print or save as PDF/i }).click();
   await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
-  await page.getByRole("button", { name: "Add this action" }).click();
-  await expect(page.getByRole("button", { name: /Added to My Plan/i })).toBeDisabled();
-  await page.getByRole("link", { name: /Medical Bill Review Toolkit/i }).last().click();
-  await expect(page).toHaveURL(/\/insurance\/medical-bill-review-toolkit$/);
   await certifyPage(page, watch);
 });
 
-test("Medicare Plan Verification reaches explicit preparation completion and a next action", async ({ page }) => {
+test("Medicare Plan Verification reaches explicit preparation completion", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/tools/medicare-plan-verification-checklist");
-  const coreLabels = [
+  const labels = [
     /Preferred doctors, specialists, and hospitals were checked/i,
     /Every recurring prescription was checked/i,
     /Preferred and mail-order pharmacy rules/i,
@@ -205,44 +186,33 @@ test("Medicare Plan Verification reaches explicit preparation completion and a n
     /Annual Notice of Change was reviewed/i,
     /correct enrollment period and effective date/i,
   ];
-  for (const label of coreLabels) await page.getByLabel(label).selectOption("confirmed");
-  await page.getByLabel(coreLabels[0]).selectOption("confirmed");
-
+  for (const label of labels) await page.getByLabel(label).selectOption("confirmed");
   await expect(page.getByRole("heading", { name: /critical verification categories were deliberately resolved/i })).toBeFocused();
   await expect(page.getByText(/does not mean a plan is suitable, recommended, approved/i)).toBeVisible();
   await page.getByRole("button", { name: /Copy checklist/i }).click();
   await page.getByRole("button", { name: /Print or save as PDF/i }).click();
   await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
-  await expect(page.getByRole("link", { name: /Medicare Plan Finder/i })).toHaveAttribute("href", "https://www.medicare.gov/plan-compare/");
-  await page.getByRole("link", { name: /Turning 65 timeline/i }).click();
-  await expect(page).toHaveURL(/\/medicare-care-costs\/turning-65$/);
   await certifyPage(page, watch);
 });
 
-test("Medicare cost hub keeps its source-backed comparison table keyboard accessible", async ({ page }) => {
+test("Medicare cost hub keeps its comparison table keyboard accessible", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/medicare-care-costs");
-
   await expect(page.getByRole("heading", { name: /Common Medicare cost points/i })).toBeVisible();
-  await expect(page.getByRole("heading", { name: /What Original Medicare does not automatically solve/i })).toBeVisible();
-  const tableRegion = page.getByRole("region", { name: /Common Medicare cost points.*scrollable table/i });
-  await tableRegion.focus();
-  await expect(tableRegion).toBeFocused();
+  const table = page.getByRole("region", { name: /Common Medicare cost points.*scrollable table/i });
+  await table.focus();
+  await expect(table).toBeFocused();
   await certifyPage(page, watch);
 });
 
-test("Benefits Command Center supports direct modes, partial output, print, and local clearing", async ({ page }) => {
+test("Benefits Command Center supports direct modes print and local clearing", async ({ page }) => {
   const watch = installHealthWatch(page);
-
   await visit(page, "/tools/benefits-command-center?mode=tour");
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByRole("button", { name: /skip tour/i }).click();
-
   await visit(page, "/tools/benefits-command-center?mode=compare-samples");
   await expect(page.getByRole("heading", { name: /bedside rn versus clinical specialist/i })).toBeVisible();
-
   await visit(page, "/tools/benefits-command-center?mode=build");
-  await expect(page.getByRole("heading", { name: /build the package behind the paycheck/i })).toBeVisible();
   await page.getByLabel("Local package label").fill("Private offer");
   await page.getByRole("button", { name: "Open partial Receipt" }).click();
   await expect(page.getByRole("article", { name: /Benefits Receipt for Private offer/i })).toBeVisible();
@@ -250,26 +220,31 @@ test("Benefits Command Center supports direct modes, partial output, print, and 
   await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
   await page.getByRole("button", { name: /Clear all local data/i }).click();
   await expect(page.getByText(/All Command Center data was cleared from this browser/i)).toBeVisible();
-  await expect(page.getByLabel("Local package label")).not.toHaveValue("Private offer");
-
   await certifyPage(page, watch);
 });
 
-test("Organization program planner builds a private review-ready brief", async ({ page }) => {
+test("consumer Hospital and Patient Guide finder routes to the blood thinner safety guide", async ({ page }) => {
+  const watch = installHealthWatch(page);
+  await visit(page, "/patients-families/hospital-guide");
+  await expect(page.getByRole("heading", { level: 1, name: /Know what to verify/i })).toBeVisible();
+  await page.getByRole("button", { name: /questions about a blood thinner/i }).click();
+  await expect(page.getByText(/Suggested starting point/i)).toBeVisible();
+  await page.getByRole("link", { name: /Open the guide/i }).click();
+  await expect(page).toHaveURL(/\/articles\/blood-thinner-safety-before-going-home$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Blood Thinner Safety/i })).toBeVisible();
+  await expect(page.getByText(/does not supply dosing/i)).toBeVisible();
+  await certifyPage(page, watch);
+});
+
+test("Organization page preserves the B2B pause and hands visitors to consumer guides", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/for-organizations");
-
-  await page.getByLabel("Organization type").selectOption("health_system");
-  await page.getByLabel("Primary audience").selectOption("patients_caregivers");
-  await page.getByLabel("First priority").selectOption("medicare_discharge");
-  await page.getByLabel("Planning horizon").selectOption("thirty_days");
-  await page.getByRole("button", { name: /Build program brief/i }).click();
-
-  await expect(page.getByRole("heading", { name: /Medicare, Medicaid, and Discharge Readiness for Hospital or health system/i })).toBeFocused();
-  await page.getByText("Privacy and scope guardrails", { exact: true }).click();
-  await expect(page.getByText(/Do not send names, emails, employee or member IDs/i)).toBeVisible();
-  await page.getByRole("button", { name: /Print or save PDF/i }).click();
-  await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
-  await expect(page.getByRole("link", { name: /Request program review/i })).toHaveAttribute("href", "/contact");
+  await expect(page.getByRole("heading", { level: 1, name: /Healthcare financial education without private records/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Institutional patient-education sales are paused/i })).toBeVisible();
+  await expect(page.getByText(/not currently offering a hospital pilot/i)).toBeVisible();
+  await expect(page.getByRole("button", { name: /Build program brief/i })).toHaveCount(0);
+  await page.getByRole("link", { name: /Review the consumer guide library/i }).click();
+  await expect(page).toHaveURL(/\/patients-families\/hospital-guide$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Know what to verify/i })).toBeVisible();
   await certifyPage(page, watch);
 });

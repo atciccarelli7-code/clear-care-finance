@@ -3,77 +3,49 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const manifestPath = path.join(root, "public/patient-education/capability-manifest.json");
+const manifest = JSON.parse(await readFile(path.join(root, "public/patient-education/capability-manifest.json"), "utf8"));
 const failures = [];
-const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+const assert = (condition, message) => { if (!condition) failures.push(message); };
 
-const assert = (condition, message) => {
-  if (!condition) failures.push(message);
-};
+assert(manifest.schemaVersion === "2.0.0", "Capability manifest must use schemaVersion 2.0.0.");
+assert(manifest.programId === "CAF-PES", "Capability manifest must use the CAF-PES program identifier.");
+assert(manifest.status === "paused_future_option", "Institutional patient education must remain paused_future_option.");
+assert(manifest.publicClassification === "institutional_archive_boundary", "Manifest must be classified as an institutional archive boundary.");
+assert(manifest.activeConsumerProgram?.route === "/patients-families/hospital-guide", "Manifest must identify the canonical consumer guide hub.");
+assert(manifest.activeConsumerProgram?.guideFamilies?.length === 5, "Manifest must identify exactly five consumer guide families.");
 
-assert(manifest.schemaVersion === "1.0.0", "Capability manifest must use schemaVersion 1.0.0.");
-assert(manifest.productId === "CAF-PES", "Capability manifest must use the CAF-PES product identifier.");
-assert(manifest.status === "development_stage", "Capability manifest must preserve development-stage status.");
-assert(manifest.publicClassification === "public_product_architecture", "Capability manifest must remain classified as public product architecture.");
-assert(manifest.privacyPosture?.phiRequired === false, "Capability manifest must state that PHI is not required.");
-assert(manifest.privacyPosture?.patientAccountRequired === false, "Capability manifest must state that patient accounts are not required.");
-assert(manifest.privacyPosture?.freeTextPilotIntake === false, "Capability manifest must keep public pilot intake free-text disabled.");
-assert(manifest.privacyPosture?.answerLevelAnalytics === false, "Capability manifest must keep answer-level analytics disabled.");
+const institutional = manifest.institutionalAsset ?? {};
+assert(institutional.activeSales === false, "Institutional sales must be inactive.");
+assert(institutional.activePilot === false || institutional.activePilot === undefined, "Institutional pilot activity must be inactive.");
+assert(institutional.activeBuyerIntake === false, "Institutional buyer intake must be inactive.");
+assert(institutional.activeReviewerRecruitment === false, "Institutional reviewer recruitment must be inactive.");
+assert(institutional.patientUseApproved === false, "Institutional patient use must remain unapproved.");
+assert(institutional.pilotReady === false, "Institutional package must not be pilot-ready.");
+assert(institutional.externalHumanApprovalsComplete === false, "External human approvals must remain incomplete.");
+assert(/^caf-pe-/i.test(institutional.candidate ?? ""), "Controlled candidate identifier is missing.");
+assert(/^[a-f0-9]{64}$/.test(institutional.controlledSourceBundleSha256 ?? ""), "Controlled source-bundle SHA-256 is invalid.");
 
-const expectedGates = [
-  "evidence",
-  "clinical_review",
-  "health_literacy",
-  "accessibility",
-  "patient_testing",
-  "institutional_localization",
-];
-assert(JSON.stringify(manifest.releaseGates) === JSON.stringify(expectedGates), "Capability manifest release gates must remain complete and ordered.");
-
-assert(Array.isArray(manifest.flagshipModules) && manifest.flagshipModules.length === 5, "Capability manifest must contain exactly five initial flagship modules.");
-const moduleIds = manifest.flagshipModules?.map((module) => module.id) ?? [];
-assert(new Set(moduleIds).size === moduleIds.length, "Capability manifest flagship module IDs must be unique.");
-assert(manifest.flagshipModules?.some((module) => module.id === "blood_thinners" && module.status === "evidence_development"), "Blood thinners must remain the evidence-development flagship module.");
-assert(manifest.flagshipModules?.every((module) => ["high", "critical"].includes(module.riskTier)), "Initial flagship modules must retain high or critical risk classification.");
-
-assert(Array.isArray(manifest.packageAssetTypes) && manifest.packageAssetTypes.length >= 15, "Capability manifest must expose the coordinated multi-asset package model.");
-assert(Array.isArray(manifest.claimsBoundary) && manifest.claimsBoundary.length >= 3, "Capability manifest must include explicit claims boundaries.");
-assert(Array.isArray(manifest.prohibitedPublicPayloads) && manifest.prohibitedPublicPayloads.includes("patient_identifiers"), "Capability manifest must prohibit patient identifiers.");
-assert(manifest.prohibitedPublicPayloads?.includes("evidence_dossiers"), "Capability manifest must keep evidence dossiers out of the public payload.");
-assert(manifest.prohibitedPublicPayloads?.includes("hospital_customizations"), "Capability manifest must keep hospital customizations out of the public payload.");
+const safety = manifest.publicSafetyBoundary ?? {};
+for (const key of [
+  "phiCollected",
+  "patientAccountRequired",
+  "personalizedClinicalAdvice",
+  "exactMedicationDosingPublished",
+  "productSpecificMissedDoseRulesPublished",
+  "personalizedEmergencyTriagePublished",
+  "hospitalApprovalClaimed",
+  "independentMedicalReviewClaimed",
+]) assert(safety[key] === false, `Public safety boundary ${key} must remain false.`);
 
 const serialized = JSON.stringify(manifest);
-const forbiddenKeyPatterns = [
-  /patientName/i,
-  /dateOfBirth/i,
-  /medicalRecordNumber/i,
-  /mrn/i,
-  /reviewerName/i,
-  /reviewerEmail/i,
-  /hospitalPhone/i,
-  /clientName/i,
-  /contractValue/i,
-];
-for (const pattern of forbiddenKeyPatterns) {
-  assert(!pattern.test(serialized), `Capability manifest contains a forbidden public data key matching ${pattern}.`);
+for (const pattern of [/patientName/i, /dateOfBirth/i, /medicalRecordNumber/i, /reviewerEmail/i, /contractValue/i]) {
+  assert(!pattern.test(serialized), `Capability manifest contains forbidden public data matching ${pattern}.`);
 }
 
-const clinicalInstructionPatterns = [
-  /take \d+/i,
-  /mg (?:once|twice|three times|daily)/i,
-  /call 911 if/i,
-  /increase (?:the )?oxygen/i,
-  /flush (?:the )?tube with \d+/i,
-  /skip (?:the )?dose/i,
-];
-for (const pattern of clinicalInstructionPatterns) {
-  assert(!pattern.test(serialized), `Capability manifest contains actionable clinical instruction content matching ${pattern}.`);
-}
-
-if (failures.length > 0) {
-  console.error("Patient Education Systems capability manifest checks failed:\n");
+if (failures.length) {
+  console.error("Patient education capability manifest checks failed:\n");
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
 
-console.log("Patient Education Systems capability manifest checks passed.");
+console.log("Paused institutional manifest and active consumer guide capability checks passed.");

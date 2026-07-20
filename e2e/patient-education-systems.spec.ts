@@ -1,113 +1,39 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test, type Page, type Request } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-type HealthWatch = {
-  consoleErrors: string[];
-  pageErrors: string[];
-  requestFailures: string[];
-  httpErrors: string[];
-};
+const guideRoutes = [
+  "/articles/safe-hospital-discharge-first-72-hours",
+  "/articles/blood-thinner-safety-before-going-home",
+  "/articles/copd-recovery-after-hospital",
+  "/articles/heart-failure-plan-after-discharge",
+  "/articles/new-home-oxygen-nebulizer-guide",
+];
 
-const installHealthWatch = (page: Page): HealthWatch => {
-  const watch: HealthWatch = { consoleErrors: [], pageErrors: [], requestFailures: [], httpErrors: [] };
-  page.on("console", (message) => {
-    if (message.type() === "error") watch.consoleErrors.push(`${message.text()} @ ${message.location().url || "unknown"}`);
+test.describe("consumer Hospital & Patient Guide", () => {
+  test("shows the fixed-choice guide finder and five guide families", async ({ page }) => {
+    await page.goto("/patients-families/hospital-guide");
+    await expect(page.getByRole("heading", { name: /Know what to verify/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /questions about a blood thinner/i })).toBeVisible();
+    await expect(page.getByText(/Five-guide consumer library/i)).toBeVisible();
+
+    await page.getByRole("button", { name: /questions about a blood thinner/i }).click();
+    await expect(page.getByText(/Suggested starting point/i)).toBeVisible();
+    await expect(page.getByRole("link", { name: /Open the guide/i })).toHaveAttribute("href", "/articles/blood-thinner-safety-before-going-home");
+
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations.filter((violation) => violation.impact === "critical")).toEqual([]);
   });
-  page.on("pageerror", (error) => watch.pageErrors.push(error.message));
-  page.on("requestfailed", (request: Request) => {
-    const url = new URL(request.url());
-    const failure = request.failure()?.errorText ?? "unknown failure";
-    if (url.origin === "http://127.0.0.1:4173" && !failure.includes("ERR_ABORTED")) {
-      watch.requestFailures.push(`${request.method()} ${url.pathname}: ${failure}`);
-    }
+
+  for (const route of guideRoutes) {
+    test(`loads ${route}`, async ({ page }) => {
+      const response = await page.goto(route);
+      expect(response?.status()).toBe(200);
+      await expect(page.locator("main")).toBeVisible();
+    });
+  }
+
+  test("redirects the former institutional overview", async ({ page }) => {
+    await page.goto("/for-organizations/patient-education-systems");
+    await expect(page).toHaveURL(/\/patients-families\/hospital-guide$/);
   });
-  page.on("response", (response) => {
-    const url = new URL(response.url());
-    if (url.origin === "http://127.0.0.1:4173" && response.status() >= 400) {
-      watch.httpErrors.push(`${response.status()} ${url.pathname}`);
-    }
-  });
-  return watch;
-};
-
-const certifyPage = async (page: Page, watch: HealthWatch) => {
-  await expect(page.locator("main")).toHaveCount(1);
-  await expect(page.locator("h1")).toHaveCount(1);
-  await expect(page.locator("vite-error-overlay, [data-error-overlay]")).toHaveCount(0);
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  expect(overflow).toBeLessThanOrEqual(1);
-
-  const accessibility = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
-  const severe = accessibility.violations.filter((violation) => violation.impact === "serious" || violation.impact === "critical");
-  expect(severe, severe.map((item) => `${item.id}: ${item.help}`).join("\n")).toEqual([]);
-  expect(watch.httpErrors, watch.httpErrors.join("\n")).toEqual([]);
-  expect(watch.consoleErrors, watch.consoleErrors.join("\n")).toEqual([]);
-  expect(watch.pageErrors, watch.pageErrors.join("\n")).toEqual([]);
-  expect(watch.requestFailures, watch.requestFailures.join("\n")).toEqual([]);
-};
-
-test.beforeEach(async ({ page }) => {
-  await page.route("**/_vercel/**", async (route) => {
-    const isScript = new URL(route.request().url()).pathname.endsWith(".js");
-    await route.fulfill(isScript ? { status: 200, contentType: "application/javascript", body: "" } : { status: 204, body: "" });
-  });
-  await page.addInitScript(() => {
-    localStorage.setItem("caf-privacy-consent-v1", "necessary");
-    window.print = () => { document.documentElement.dataset.printIntent = "true"; };
-  });
-});
-
-test("Patient Education Systems builds a private pilot brief and exposes a safe technical proof registry", async ({ page }, testInfo) => {
-  const watch = installHealthWatch(page);
-  await page.goto("/for-organizations/patient-education-systems", { waitUntil: "domcontentloaded" });
-
-  const pageHeading = page.getByRole("heading", { level: 1, name: /Hospital-to-home education designed around what patients actually have to do next/i });
-  await expect(pageHeading).toBeVisible();
-  await expect(page.getByLabel("Care setting")).toBeEnabled();
-  await expect(page.getByText(/Controlled preview—not a clinical handout/i)).toBeVisible();
-  await expect(page.getByText(/No patient information and no free text/i)).toBeVisible();
-  await expect(page.locator("#pilot-builder textarea, #pilot-builder input")).toHaveCount(0);
-
-  await expect(page.getByRole("heading", { name: /One governed source package, multiple controlled outputs/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Inspect current platform capabilities/i })).toHaveAttribute("href", "/patient-education/capability-manifest.json");
-  await expect(page.getByRole("link", { name: /Review the public package contract/i })).toHaveAttribute("href", "/patient-education/schemas/public-package-descriptor-v1.schema.json");
-  await expect(page.getByRole("link", { name: /Inspect a controlled preview bundle/i })).toHaveAttribute("href", "/patient-education/demo/controlled-preview-bundle.json");
-
-  const capabilityResponse = await page.request.get("/patient-education/capability-manifest.json");
-  expect(capabilityResponse.ok()).toBe(true);
-  const capability = await capabilityResponse.json();
-  expect(capability.engineCapabilities?.deterministicMultiChannelCompilation).toBe(true);
-  expect(capability.privacyPosture?.phiRequired).toBe(false);
-
-  const previewResponse = await page.request.get("/patient-education/demo/controlled-preview-bundle.json");
-  expect(previewResponse.ok()).toBe(true);
-  const preview = await previewResponse.json();
-  expect(preview.mode).toBe("controlled_preview");
-  expect(JSON.stringify(preview)).not.toMatch(/reviewerIdentityRef|patientName|medicalRecordNumber/i);
-
-  const initialUrl = page.url();
-  await page.getByLabel("Care setting").selectOption("acute_inpatient");
-  await page.getByLabel("First flagship module").selectOption("blood_thinners");
-  await page.getByLabel("Pilot scale").selectOption("single_unit");
-  await page.getByLabel("Planning horizon").selectOption("ninety_day_pilot");
-  await page.getByLabel("Primary evaluation focus").selectOption("comprehension");
-  await page.getByRole("button", { name: /Build pilot brief/i }).click();
-
-  await expect(page.getByRole("heading", { name: /New to Blood Thinners: Single unit starting brief/i })).toBeFocused();
-  await expect(page.getByText("Medication-specific insert", { exact: true })).toBeVisible();
-  await page.getByText("Privacy, clinical, and claims boundaries", { exact: true }).click();
-  await expect(page.getByText(/Do not enter names, dates of birth, medical record numbers/i)).toBeVisible();
-  expect(page.url()).toBe(initialUrl);
-
-  await page.getByRole("button", { name: /Copy brief/i }).click();
-  await expect(page.getByRole("status")).toContainText(/Pilot brief copied/i);
-  const clipboard = await page.evaluate(() => navigator.clipboard.readText());
-  expect(clipboard).toContain("CAF PATIENT EDUCATION SYSTEMS - PILOT STARTING BRIEF");
-  expect(clipboard).toContain("PRIVACY, CLINICAL, AND CLAIMS BOUNDARIES");
-  expect(clipboard).not.toMatch(/patient name:|medical record number:|date of birth:/i);
-
-  await page.getByRole("button", { name: /Print or save PDF/i }).click();
-  await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
-  await page.screenshot({ path: testInfo.outputPath("patient-education-systems.png"), fullPage: true });
-  await certifyPage(page, watch);
 });

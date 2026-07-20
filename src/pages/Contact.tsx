@@ -36,17 +36,17 @@ const Contact = () => {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-primary/20 bg-primary-soft/25 p-6 shadow-card">
+        <section id="organization-review" className="scroll-mt-28 rounded-2xl border border-primary/20 bg-primary-soft/25 p-6 shadow-card">
           <div className="flex items-start gap-4">
             <Building2 className="mt-1 h-7 w-7 shrink-0 text-primary" />
             <div>
               <h2 className="font-display text-xl font-bold">For an organization program review</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Build the fixed-choice brief first. In your email, include only the non-sensitive planning context needed to route the conversation:</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Build a fixed-choice brief first. If you reached this page from a controlled CAF review experience, copy that brief before opening the inquiry. In your email, include only the non-sensitive planning context needed to route the conversation:</p>
               <ul className="mt-4 grid gap-2 text-sm leading-relaxed sm:grid-cols-2">
                 {["Organization name and public website", "Your role and accountable program owner", "Broad audience: employees, patients/caregivers, members/students, or mixed", "First decision priority and planning horizon", "Expected internal reviewers and procurement requirements", "The specific question you need the program review to resolve"].map((item) => <li key={item} className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{item}</li>)}
               </ul>
-              <p className="mt-4 text-sm font-semibold">Do not attach participant lists, plan files, claims, screenshots, medical records, account records, case notes, or confidential contracts.</p>
-              <Button asChild variant="outline" className="mt-5"><Link to="/for-organizations#program-builder">Build the organization brief</Link></Button>
+              <p className="mt-4 text-sm font-semibold">Do not attach participant lists, plan files, claims, screenshots, medical records, account records, case notes, medication orders, or confidential contracts.</p>
+              <Button asChild variant="outline" className="mt-5"><Link to="/for-organizations#program-builder">Build the general organization brief</Link></Button>
             </div>
           </div>
         </section>

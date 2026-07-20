@@ -3,24 +3,11 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "header", "key": "host", "value": "communityaqcuiredfinance.com" }],
-      "destination": "https://communityacquiredfinance.com/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "has": [{ "type": "header", "key": "host", "value": "www.communityaqcuiredfinance.com" }],
-      "destination": "https://communityacquiredfinance.com/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "has": [{ "type": "header", "key": "host", "value": "www.communityacquiredfinance.com" }],
-      "destination": "https://communityacquiredfinance.com/:path*",
-      "permanent": true
-    },
+    { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "communityaqcuiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityaqcuiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityacquiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
+    { "source": "/for-organizations/patient-education-systems", "destination": "/patients-families/hospital-guide", "permanent": true },
+    { "source": "/for-organizations/patient-education-systems/blood-thinner-readiness", "destination": "/articles/blood-thinner-safety-before-going-home", "permanent": true },
     { "source": "/tools/403b-contribution", "destination": "/tools/403b-paycheck-calculator", "permanent": true },
     { "source": "/insurance/plan-types", "destination": "/insurance/health-insurance-plan-types", "permanent": true },
     { "source": "/insurance/summary-of-benefits-and-coverage", "destination": "/insurance/how-to-read-an-sbc", "permanent": true },
@@ -44,15 +31,13 @@
     { "source": "/policies", "destination": "/privacy-policy", "permanent": true },
     { "source": "/legal", "destination": "/privacy-policy", "permanent": true }
   ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" }
-      ]
-    }
-  ]
+  "headers": [{
+    "source": "/(.*)",
+    "headers": [
+      { "key": "X-Content-Type-Options", "value": "nosniff" },
+      { "key": "X-Frame-Options", "value": "DENY" },
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+      { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" }
+    ]
+  }]
 }

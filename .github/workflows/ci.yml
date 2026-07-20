@@ -34,8 +34,50 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Publication, content, and unit tests
-        run: npm test
+      - name: Publication readiness
+        run: npm run trust:check
+
+      - name: Institutional archive boundary
+        run: npm run institutional:boundary-check
+
+      - name: Patient guide capability manifest
+        run: npm run patient-education:manifest-check
+
+      - name: Consumer patient guide public contract
+        run: npm run patient-education:public-contracts-check
+
+      - name: Content freshness
+        run: npm run content:freshness-check
+
+      - name: Long-form guide content
+        run: npm run guide:content-check
+
+      - name: Quick guide content
+        run: npm run guide:quick-content-check
+
+      - name: Consumer article registry tests
+        run: npx vitest run src/data/consumerPatientGuideArticles.test.ts
+
+      - name: Consumer medication boundary test
+        run: npx vitest run src/test/BloodThinnerReadinessWorkflow.test.tsx
+
+      - name: Consumer guide library test
+        run: npx vitest run src/test/HospitalGuidePilotShowcase.test.tsx
+
+      - name: Paused institutional manifest test
+        run: npx vitest run src/test/careReadinessBuyerBrief.test.ts
+
+      - name: Consumer checklist boundary test
+        run: npx vitest run src/test/bloodThinnerReadiness.test.ts
+
+      - name: Five guide conversion test
+        run: npx vitest run src/test/hospitalGuidePilot.test.ts
+
+      - name: Consumer finder contract test
+        run: npx vitest run src/test/patientEducationPilot.test.ts
+
+      - name: Full unit test suite
+        run: npx vitest run
 
       - name: All quick guide content checks
         run: npm run guide:quick-content-check:all
@@ -53,17 +95,17 @@ jobs:
       - name: Production build, bundle budget, and prerender
         run: npm run build
 
-      - name: Install Chromium for institutional browser verification
+      - name: Install Chromium for consumer guide browser verification
         run: npx playwright install --with-deps chromium
 
-      - name: Patient Education Systems browser and accessibility journey
+      - name: Consumer patient guide browser and accessibility journey
         run: npm run test:browser:patient-education
 
-      - name: Upload patient education browser failure evidence
+      - name: Upload patient guide browser failure evidence
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: patient-education-browser-failure-${{ github.run_id }}
+          name: patient-guide-browser-failure-${{ github.run_id }}
           path: |
             test-results/
             playwright-report/

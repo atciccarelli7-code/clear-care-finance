@@ -7,12 +7,15 @@ import { trackSiteEvent } from "@/lib/analytics";
 vi.mock("@/lib/analytics", () => ({ trackSiteEvent: vi.fn() }));
 
 describe("Medical Bill Product Foundation", () => {
+  const openMock = vi.fn();
+
   beforeEach(() => {
     vi.clearAllMocks();
     vi.stubGlobal("fetch", vi.fn());
+    vi.stubGlobal("open", openMock);
   });
 
-  it("keeps checkout disabled and routes users to free resources and sample pages", () => {
+  it("keeps checkout disabled and routes users to free resources and sample actions", () => {
     render(
       <MemoryRouter>
         <MedicalBillProductFoundation />
@@ -24,17 +27,27 @@ describe("Medical Bill Product Foundation", () => {
     expect(screen.queryByRole("button", { name: /buy|purchase|checkout|pay/i })).not.toBeInTheDocument();
     expect(screen.queryByText(/^\$24$/)).not.toBeInTheDocument();
 
-    expect(screen.getByRole("link", { name: /preview sample pages/i })).toHaveAttribute(
-      "href",
+    fireEvent.click(screen.getByRole("button", { name: /preview sample pages/i }));
+    expect(openMock).toHaveBeenCalledWith(
       "/downloads/expanded-medical-bill-response-workbook-preview.html",
+      "_blank",
+      "noopener,noreferrer",
     );
+    expect(trackSiteEvent).toHaveBeenCalledWith(
+      "premium_product_preview",
+      expect.objectContaining({ offer_id: "expanded_medical_bill_response_workbook" }),
+    );
+
     expect(screen.getByRole("link", { name: /use the free response system/i })).toHaveAttribute(
       "href",
       "/insurance/medical-bill-review-toolkit",
     );
-    expect(screen.getByRole("link", { name: /open the free pack/i })).toHaveAttribute(
-      "href",
+
+    fireEvent.click(screen.getByRole("button", { name: /open the free pack/i }));
+    expect(openMock).toHaveBeenCalledWith(
       "/downloads/medical-bill-response-pack.html",
+      "_blank",
+      "noopener,noreferrer",
     );
     expect(screen.getByText(/do not send bills, account numbers, diagnoses, member IDs, claim numbers/i)).toBeInTheDocument();
   });

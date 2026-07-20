@@ -1,3 +1,4 @@
+import { createHmac } from "node:crypto";
 import { Resend } from "resend";
 
 type ApiRequest = {
@@ -27,13 +28,19 @@ type Estimate403b = {
   estimatedTaxSavings?: string;
 };
 
+type EmailType =
+  | "newsletter"
+  | "403b-estimate"
+  | "medical-bill-sequence"
+  | "medical-bill-product-interest";
+
 type SendBody = {
   email?: string;
   firstName?: string;
   consent?: boolean;
   website?: string;
   source?: string;
-  type?: "newsletter" | "403b-estimate";
+  type?: EmailType;
   estimate?: Estimate403b;
 };
 
@@ -51,8 +58,9 @@ type NewsletterContactResult = {
 };
 
 const fallbackFromEmail = "Community Acquired Finance <onboarding@resend.dev>";
-const notifyEmail = process.env.RESEND_NOTIFY_EMAIL;
+const notifyEmail = process.env.RESEND_NOTIFY_EMAIL?.trim();
 const audienceId = process.env.RESEND_AUDIENCE_ID?.trim();
+const siteUrl = (process.env.PUBLIC_SITE_URL?.trim() || "https://communityacquiredfinance.com").replace(/\/$/, "");
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const namedEmailPattern = /^[^<>]+<[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+>$/;
@@ -115,72 +123,138 @@ function isDeliverySetupError(message: string) {
   return /only send testing emails|verify a domain|verified domain|onboarding@resend\.dev|domain is not verified|sender/i.test(message);
 }
 
-function buildHealthcareWorkerMoneyMapEmail(firstName?: string) {
-  const greeting = firstName?.trim() ? `Hi ${escapeHtml(firstName.trim())},` : "Hi,";
+function createUnsubscribeToken(email: string) {
+  const secret = process.env.EMAIL_UNSUBSCRIBE_SECRET?.trim() || process.env.RESEND_API_KEY?.trim();
+  if (!secret) return "";
+  const encoded = Buffer.from(email.toLowerCase()).toString("base64url");
+  const signature = createHmac("sha256", secret).update(encoded).digest("base64url");
+  return `${encoded}.${signature}`;
+}
 
+function getUnsubscribeUrl(email: string) {
+  const token = createUnsubscribeToken(email);
+  return token ? `${siteUrl}/api/unsubscribe?token=${encodeURIComponent(token)}` : "";
+}
+
+function emailFrame({
+  preheader,
+  title,
+  greeting,
+  body,
+  ctaLabel,
+  ctaHref,
+  unsubscribeUrl,
+}: {
+  preheader: string;
+  title: string;
+  greeting: string;
+  body: string;
+  ctaLabel: string;
+  ctaHref: string;
+  unsubscribeUrl?: string;
+}) {
   return `
-    <div style="display: none; max-height: 0; overflow: hidden; opacity: 0; color: transparent;">
-      A practical starting point for healthcare-worker money decisions.
-    </div>
-    <div style="margin: 0; padding: 24px 12px; background: #f6f8f5; font-family: Arial, sans-serif; color: #183326;">
-      <div style="max-width: 640px; margin: 0 auto; background: #ffffff; border: 1px solid #d8ded3; border-radius: 22px; overflow: hidden;">
-        <div style="background: #004022; color: #ffffff; padding: 28px 24px;">
-          <p style="margin: 0 0 10px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #c8f5dd; font-weight: 700;">Community Acquired Finance</p>
-          <h1 style="margin: 0; color: #ffffff; font-size: 30px; line-height: 1.15;">Your Healthcare Worker Money Map</h1>
-          <p style="margin: 16px 0 0; color: #e5f3ec; font-size: 16px; line-height: 1.55;">A plain-English starting point for paychecks, benefits, insurance, debt, cash flow, and investing.</p>
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${escapeHtml(preheader)}</div>
+    <div style="margin:0;padding:24px 12px;background:#f6f8f5;font-family:Arial,sans-serif;color:#183326;">
+      <div style="max-width:640px;margin:0 auto;background:#fff;border:1px solid #d8ded3;border-radius:22px;overflow:hidden;">
+        <div style="background:#004022;color:#fff;padding:28px 24px;">
+          <p style="margin:0 0 10px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#c8f5dd;font-weight:700;">Community Acquired Finance</p>
+          <h1 style="margin:0;color:#fff;font-size:30px;line-height:1.15;">${escapeHtml(title)}</h1>
         </div>
-        <div style="padding: 28px 24px; font-size: 16px; line-height: 1.65;">
-          <p style="margin: 0 0 18px;">${greeting}</p>
-          <p style="margin: 0 0 18px;">Thanks for signing up. This site is built for healthcare workers and patients who want clear financial explanations without spam, popups, or generic finance noise.</p>
-          <div style="background: #f6f8f5; border: 1px solid #d8ded3; border-radius: 18px; padding: 20px; margin: 24px 0;">
-            <p style="margin: 0 0 12px; color: #004022; font-weight: 700;">Use this as your first pass:</p>
-            <ol style="margin: 0; padding-left: 22px;">
-              <li style="margin: 0 0 10px;">Build a cash buffer before over-optimizing.</li>
-              <li style="margin: 0 0 10px;">Get the employer retirement match when available.</li>
-              <li style="margin: 0 0 10px;">Compare Roth vs. Traditional contributions before assuming one is best.</li>
-              <li style="margin: 0 0 10px;">Understand HSA and FSA tradeoffs during open enrollment.</li>
-              <li style="margin: 0 0 10px;">Separate federal student loan strategies from private loan payoff decisions.</li>
-              <li style="margin: 0 0 10px;">Compare health insurance by total risk, not only premium.</li>
-              <li style="margin: 0 0 10px;">Keep investing simple enough to sustain during stressful work seasons.</li>
-              <li style="margin: 0;">Protect yourself from burnout-driven financial decisions.</li>
-            </ol>
-          </div>
-          <p style="margin: 0 0 22px;">Start with the healthcare-worker hub. It groups the highest-impact topics first instead of making you search through scattered articles.</p>
-          <p style="margin: 0 0 26px;"><a href="https://communityacquiredfinance.com/healthcare-workers" style="display: inline-block; background: #005c38; color: #ffffff; text-decoration: none; font-weight: 700; padding: 14px 18px; border-radius: 999px;">Open the Healthcare Worker Money Hub</a></p>
-          <p style="margin: 0 0 22px;">When you want numbers instead of theory, use the <a href="https://communityacquiredfinance.com/tools" style="color: #005c38; font-weight: 700;">Community Acquired Finance calculators</a>.</p>
-          <div style="border-left: 4px solid #7ccca2; padding-left: 14px; margin: 24px 0; color: #314439;">
-            <p style="margin: 0;">What you will get: practical explainers, calculator updates, and healthcare-specific money notes. No individualized advice.</p>
-          </div>
-          <hr style="border: 0; border-top: 1px solid #d8ded3; margin: 26px 0;" />
-          <p style="margin: 0 0 10px; color: #53645a; font-size: 13px; line-height: 1.55;">Educational only. This email is not individualized financial, legal, tax, insurance, investment, or medical advice.</p>
-          <p style="margin: 0; color: #53645a; font-size: 13px; line-height: 1.55;">You can unsubscribe anytime by replying with “unsubscribe.”</p>
+        <div style="padding:28px 24px;font-size:16px;line-height:1.65;">
+          <p style="margin:0 0 18px;">${greeting}</p>
+          ${body}
+          <p style="margin:26px 0;"><a href="${ctaHref}" style="display:inline-block;background:#005c38;color:#fff;text-decoration:none;font-weight:700;padding:14px 18px;border-radius:999px;">${escapeHtml(ctaLabel)}</a></p>
+          <hr style="border:0;border-top:1px solid #d8ded3;margin:26px 0;" />
+          <p style="margin:0 0 10px;color:#53645a;font-size:13px;line-height:1.55;">Educational only. This email is not individualized medical, legal, tax, insurance, billing, credit, or financial advice.</p>
+          ${unsubscribeUrl ? `<p style="margin:0;color:#53645a;font-size:13px;line-height:1.55;"><a href="${unsubscribeUrl}" style="color:#005c38;">Unsubscribe</a> from Community Acquired Finance educational emails.</p>` : ""}
         </div>
       </div>
     </div>
   `;
 }
 
+function greeting(firstName?: string) {
+  return firstName?.trim() ? `Hi ${escapeHtml(firstName.trim())},` : "Hi,";
+}
+
+function buildHealthcareWorkerMoneyMapEmail(firstName: string | undefined, unsubscribeUrl: string) {
+  return emailFrame({
+    preheader: "A practical starting point for healthcare-worker money decisions.",
+    title: "Your Healthcare Worker Money Map",
+    greeting: greeting(firstName),
+    body: `
+      <p style="margin:0 0 18px;">Thanks for signing up. Community Acquired Finance organizes healthcare-worker paychecks, benefits, insurance, debt, healthcare costs, and investing without spam or generic finance noise.</p>
+      <div style="background:#f6f8f5;border:1px solid #d8ded3;border-radius:18px;padding:20px;margin:24px 0;">
+        <p style="margin:0 0 12px;color:#004022;font-weight:700;">Use this first-pass order:</p>
+        <ol style="margin:0;padding-left:22px;">
+          <li style="margin-bottom:8px;">Protect cash flow and maintain an emergency buffer.</li>
+          <li style="margin-bottom:8px;">Capture valuable employer retirement and benefit dollars.</li>
+          <li style="margin-bottom:8px;">Compare insurance by total risk, not only premium.</li>
+          <li>Keep investing simple enough to sustain during stressful work seasons.</li>
+        </ol>
+      </div>
+      <p style="margin:0;">Expect low-frequency, practical explanations and tool updates.</p>`,
+    ctaLabel: "Open the Healthcare Worker Hub",
+    ctaHref: `${siteUrl}/healthcare-workers`,
+    unsubscribeUrl,
+  });
+}
+
+function buildMedicalBillStartEmail(firstName: string | undefined, unsubscribeUrl: string) {
+  return emailFrame({
+    preheader: "Identify the document and reduce the billing problem to one next action.",
+    title: "Start with the document, not the dollar amount",
+    greeting: greeting(firstName),
+    body: `
+      <p style="margin:0 0 18px;">This is the first medical-bill response email you requested. Do not reply with bill details, diagnoses, account numbers, claim numbers, member IDs, or other protected information.</p>
+      <div style="background:#f6f8f5;border:1px solid #d8ded3;border-radius:18px;padding:20px;margin:24px 0;">
+        <p style="margin:0 0 12px;color:#004022;font-weight:700;">Your first 15 minutes:</p>
+        <ol style="margin:0;padding-left:22px;">
+          <li style="margin-bottom:8px;">Identify whether you have an EOB, provider bill, denial, assistance form, or collection notice.</li>
+          <li style="margin-bottom:8px;">Match the service date and billing entity.</li>
+          <li style="margin-bottom:8px;">Check whether the payer says the claim is pending, processed, adjusted, or denied.</li>
+          <li style="margin-bottom:8px;">Copy every written deadline exactly.</li>
+          <li>Assign one organization and one specific next request.</li>
+        </ol>
+      </div>
+      <p style="margin:0 0 18px;">An EOB is generally not a bill. A mismatch is a reason to reconcile the records, not proof that a charge is wrong.</p>
+      <p style="margin:0;color:#53645a;font-size:14px;">The remaining three educational emails are prepared but will not be scheduled through direct transactional email until a provider-side automation is configured to honor unsubscribe changes before each send.</p>`,
+    ctaLabel: "Open the Medical Bill Response System",
+    ctaHref: `${siteUrl}/insurance/medical-bill-review-toolkit`,
+    unsubscribeUrl,
+  });
+}
+
+function buildProductInterestEmail(firstName: string | undefined, unsubscribeUrl: string) {
+  return emailFrame({
+    preheader: "Your interest in the Expanded Medical Bill Response Workbook was saved.",
+    title: "You are on the workbook launch list",
+    greeting: greeting(firstName),
+    body: `
+      <p style="margin:0 0 18px;">Your interest in the Expanded Medical Bill Response Workbook was saved. No payment was collected and no purchase obligation was created.</p>
+      <div style="background:#f6f8f5;border:1px solid #d8ded3;border-radius:18px;padding:20px;margin:24px 0;">
+        <p style="margin:0 0 10px;color:#004022;font-weight:700;">Planned product boundary</p>
+        <p style="margin:0;">Essential rights, official sources, document identification, and the free response pack remain free. The $24 one-time workbook adds reusable organization, scripts, worksheets, deadlines, and caregiver coordination.</p>
+      </div>
+      <p style="margin:0;">You will receive a launch notice only after secure hosted checkout and delivery are authorized and verified.</p>`,
+    ctaLabel: "Preview the Workbook",
+    ctaHref: `${siteUrl}/products/expanded-medical-bill-response-workbook`,
+    unsubscribeUrl,
+  });
+}
+
 function row(label: string, value?: string) {
-  return `
-    <tr>
-      <td style="padding: 10px 12px; border-bottom: 1px solid #d8ded3; color: #53645a;">${escapeHtml(label)}</td>
-      <td style="padding: 10px 12px; border-bottom: 1px solid #d8ded3; color: #183326; font-weight: 700; text-align: right;">${safe(value)}</td>
-    </tr>
-  `;
+  return `<tr><td style="padding:10px 12px;border-bottom:1px solid #d8ded3;color:#53645a;">${escapeHtml(label)}</td><td style="padding:10px 12px;border-bottom:1px solid #d8ded3;color:#183326;font-weight:700;text-align:right;">${safe(value)}</td></tr>`;
 }
 
 function build403bEstimateEmail(firstName: string | undefined, estimate: Estimate403b = {}) {
-  const greeting = firstName?.trim() ? `Hi ${escapeHtml(firstName.trim())},` : "Hi,";
-
   return `
-    <div style="font-family: Arial, sans-serif; color: #183326; line-height: 1.55; max-width: 680px;">
-      <p>${greeting}</p>
-      <h1 style="color: #004022; font-size: 28px; line-height: 1.2;">Your 403(b) paycheck estimate</h1>
-      <p>
-        Here is the estimate you requested from the Community Acquired Finance 403(b) Paycheck Contribution Calculator.
-        Use it as a planning snapshot, then verify your actual deductions in your employer benefits or payroll portal.
-      </p>
-      <table style="width: 100%; border-collapse: collapse; background: #ffffff; border: 1px solid #d8ded3; border-radius: 12px; overflow: hidden;">
+    <div style="font-family:Arial,sans-serif;color:#183326;line-height:1.55;max-width:680px;">
+      <p>${greeting(firstName)}</p>
+      <h1 style="color:#004022;font-size:28px;line-height:1.2;">Your 403(b) paycheck estimate</h1>
+      <p>Use this planning snapshot, then verify actual deductions in your employer benefits or payroll portal.</p>
+      <table style="width:100%;border-collapse:collapse;background:#fff;border:1px solid #d8ded3;">
         ${row("Hourly wage", estimate.hourly)}
         ${row("Hours per week", estimate.hoursWeek)}
         ${row("Pay frequency", estimate.payFrequency)}
@@ -195,16 +269,9 @@ function build403bEstimateEmail(firstName: string | undefined, estimate: Estimat
         ${row("Estimated taxable income reduction", estimate.taxableReduction)}
         ${estimate.estimatedTaxSavings ? row("Estimated tax savings", estimate.estimatedTaxSavings) : ""}
       </table>
-      <p style="margin-top: 20px;">
-        Next step: <a href="https://communityacquiredfinance.com/tools#403b" style="color: #005c38; font-weight: 700;">reopen the 403(b) calculator</a>
-        or use the <a href="https://communityacquiredfinance.com/healthcare-workers" style="color: #005c38; font-weight: 700;">Healthcare Worker Money Hub</a>.
-      </p>
-      <hr style="border: 0; border-top: 1px solid #d8ded3; margin: 24px 0;" />
-      <p style="color: #53645a; font-size: 13px;">
-        Educational only. This estimate is not individualized financial, legal, tax, insurance, investment, or medical advice.
-      </p>
-    </div>
-  `;
+      <p style="margin-top:20px;"><a href="${siteUrl}/tools/403b-paycheck-calculator" style="color:#005c38;font-weight:700;">Reopen the 403(b) calculator</a>.</p>
+      <p style="color:#53645a;font-size:13px;">Educational estimate only. Verify plan rules, limits, payroll timing, and tax treatment.</p>
+    </div>`;
 }
 
 async function saveNewsletterContact(resend: InstanceType<typeof Resend>, email: string, source = "site"): Promise<NewsletterContactResult> {
@@ -234,42 +301,60 @@ async function saveNewsletterContact(resend: InstanceType<typeof Resend>, email:
   return { ok: false, skipped: false, error: message, duplicate: false };
 }
 
+function emailPayload(type: EmailType, firstName: string | undefined, estimate: Estimate403b | undefined, unsubscribeUrl: string) {
+  if (type === "403b-estimate") {
+    return {
+      subject: "Your 403(b) paycheck estimate",
+      html: build403bEstimateEmail(firstName, estimate),
+      sequenceStatus: "not_applicable" as const,
+    };
+  }
+  if (type === "medical-bill-sequence") {
+    return {
+      subject: "Medical bill first step: identify the document",
+      html: buildMedicalBillStartEmail(firstName, unsubscribeUrl),
+      sequenceStatus: "first_email_only" as const,
+    };
+  }
+  if (type === "medical-bill-product-interest") {
+    return {
+      subject: "Expanded Medical Bill Workbook launch list",
+      html: buildProductInterestEmail(firstName, unsubscribeUrl),
+      sequenceStatus: "provider_automation_required" as const,
+    };
+  }
+  return {
+    subject: "Welcome — your Healthcare Worker Money Map",
+    html: buildHealthcareWorkerMoneyMapEmail(firstName, unsubscribeUrl),
+    sequenceStatus: "not_applicable" as const,
+  };
+}
+
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Allow", "POST");
+  res.setHeader("Cache-Control", "no-store");
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
-  if (!process.env.RESEND_API_KEY) {
-    return res.status(503).json({ error: "Email service is not configured yet." });
-  }
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+  if (!process.env.RESEND_API_KEY) return res.status(503).json({ error: "Email service is not configured yet." });
 
   const body = parseBody(req.body);
   const email = body.email?.trim().toLowerCase();
   const firstName = body.firstName?.trim();
-  const emailType = body.type ?? "newsletter";
+  const emailType: EmailType = body.type ?? "newsletter";
   const source = body.source ?? "site";
   const activeFromEmail = getFromEmail();
   const usesFallbackSender = activeFromEmail === fallbackFromEmail;
 
-  if (body.website?.trim()) {
-    return res.status(200).json({ ok: true, saved: false, emailDelivered: false });
-  }
-
-  if (!email || !emailPattern.test(email)) {
-    return res.status(400).json({ error: "Enter a valid email address." });
-  }
-
-  if (body.consent !== true) {
-    return res.status(400).json({ error: "Consent is required before sending email." });
-  }
+  if (body.website?.trim()) return res.status(200).json({ ok: true, saved: false, emailDelivered: false });
+  if (!email || !emailPattern.test(email)) return res.status(400).json({ error: "Enter a valid email address." });
+  if (body.consent !== true) return res.status(400).json({ error: "Consent is required before sending email." });
 
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const is403bEstimate = emailType === "403b-estimate";
-    const isNewsletterSignup = emailType === "newsletter";
-    const contactResult = isNewsletterSignup ? await saveNewsletterContact(resend, email, source) : null;
+    const contactResult = is403bEstimate ? null : await saveNewsletterContact(resend, email, source);
+    const unsubscribeUrl = is403bEstimate ? "" : getUnsubscribeUrl(email);
+    const payload = emailPayload(emailType, firstName, body.estimate, unsubscribeUrl);
 
     if (usesFallbackSender) {
       console.warn("Resend email delivery skipped until a verified sender is configured", {
@@ -278,12 +363,13 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         contactSaved: contactResult?.ok ?? false,
       });
 
-      if (isNewsletterSignup) {
+      if (!is403bEstimate) {
         return res.status(200).json({
           ok: true,
           saved: contactResult?.ok ?? false,
           emailDelivered: false,
-          warning: "Subscribed, but welcome email delivery requires verified sender configuration.",
+          sequenceStatus: payload.sequenceStatus,
+          warning: "Contact saved, but email delivery requires verified sender configuration.",
           contactWarning: contactResult && !contactResult.ok ? "Contact sync skipped or failed." : undefined,
         });
       }
@@ -291,36 +377,40 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       return res.status(503).json({ error: "Email delivery is not fully configured yet." });
     }
 
+    const headers = unsubscribeUrl
+      ? {
+          "List-Unsubscribe": `<${unsubscribeUrl}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        }
+      : undefined;
+
     const sent = (await resend.emails.send({
       from: activeFromEmail,
       to: [email],
-      subject: is403bEstimate ? "Your 403(b) paycheck estimate" : "Welcome — your Healthcare Worker Money Map",
-      html: is403bEstimate ? build403bEstimateEmail(firstName, body.estimate) : buildHealthcareWorkerMoneyMapEmail(firstName),
+      subject: payload.subject,
+      html: payload.html,
+      headers,
     })) as ResendActionResult;
 
     if (sent.error) {
       const message = getResendErrorMessage(sent.error);
-
       if (isDeliverySetupError(message)) {
         console.warn("Resend primary send skipped until verified sender configuration is complete", {
           type: emailType,
           message,
           contactSaved: contactResult?.ok ?? false,
         });
-
-        if (isNewsletterSignup) {
+        if (!is403bEstimate) {
           return res.status(200).json({
             ok: true,
             saved: contactResult?.ok ?? false,
             emailDelivered: false,
-            warning: "Subscribed, but welcome email delivery requires verified sender configuration.",
-            contactWarning: contactResult && !contactResult.ok ? "Contact sync skipped or failed." : undefined,
+            sequenceStatus: payload.sequenceStatus,
+            warning: "Contact saved, but email delivery requires verified sender configuration.",
           });
         }
-
         return res.status(503).json({ error: "Email delivery is not fully configured yet." });
       }
-
       console.error("Resend primary send error", { type: emailType, message, contactSaved: contactResult?.ok ?? false });
       return res.status(500).json({ error: "Email could not be sent. Try again in a minute." });
     }
@@ -329,25 +419,25 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       const notification = (await resend.emails.send({
         from: activeFromEmail,
         to: [notifyEmail],
-        subject: is403bEstimate ? "New 403(b) estimate email signup" : "New Community Acquired Finance newsletter signup",
-        text: `New signup: ${email}\nType: ${emailType}\nSource: ${source}\nContact saved: ${contactResult?.ok ?? false}`,
+        subject: `New Community Acquired Finance ${emailType} signup`,
+        text: `New consented signup\nType: ${emailType}\nSource: ${source}\nContact saved: ${contactResult?.ok ?? false}`,
       })) as ResendActionResult;
-
       if (notification.error) {
-        const message = getResendErrorMessage(notification.error);
-        const logNotificationIssue = isDeliverySetupError(message) ? console.warn : console.error;
-        logNotificationIssue("Resend notification send issue", {
-          type: emailType,
-          message,
-        });
+        console.warn("Resend notification send issue", { type: emailType, message: getResendErrorMessage(notification.error) });
       }
     }
 
-    console.info("Resend primary send accepted", { type: emailType, id: sent.data?.id, contactSaved: contactResult?.ok ?? false });
+    console.info("Resend primary send accepted", {
+      type: emailType,
+      id: sent.data?.id,
+      contactSaved: contactResult?.ok ?? false,
+    });
+
     return res.status(200).json({
       ok: true,
-      saved: contactResult?.ok ?? false,
+      saved: is403bEstimate ? true : contactResult?.ok ?? false,
       emailDelivered: true,
+      sequenceStatus: payload.sequenceStatus,
       id: sent.data?.id,
       contactWarning: contactResult && !contactResult.ok ? "Contact sync skipped or failed." : undefined,
     });

@@ -1,104 +1,58 @@
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const loadJson = async (relativePath) => JSON.parse(await readFile(path.join(root, relativePath), "utf8"));
 const failures = [];
+const load = (relativePath) => readFile(path.join(root, relativePath), "utf8");
 
-const files = {
-  capability: "public/patient-education/capability-manifest.json",
-  descriptorSchema: "public/patient-education/schemas/public-package-descriptor-v1.schema.json",
-  bundleSchema: "public/patient-education/schemas/controlled-preview-bundle-v1.schema.json",
-  demoBundle: "public/patient-education/demo/controlled-preview-bundle.json",
-};
-
-const [capability, descriptorSchema, bundleSchema, demoBundle] = await Promise.all(Object.values(files).map(loadJson));
-
-const prohibitedKeys = new Set([
-  "reviewerIdentityRef",
-  "reviewerName",
-  "reviewerEmail",
-  "patientName",
-  "dateOfBirth",
-  "medicalRecordNumber",
-  "diagnosis",
-  "medication",
-  "patientOrder",
-  "hospitalCustomization",
-  "contract",
-  "price",
-  "pricing",
+const [manifestText, guideData, hubPage, redirects] = await Promise.all([
+  load("public/patient-education/capability-manifest.json"),
+  load("src/data/consumerPatientGuideArticles.ts"),
+  load("src/pages/HospitalPatientGuidePage.tsx"),
+  load("vercel.json"),
 ]);
 
-const inspectKeys = (value, location = "root") => {
-  if (Array.isArray(value)) {
-    value.forEach((item, index) => inspectKeys(item, `${location}[${index}]`));
-    return;
-  }
-  if (!value || typeof value !== "object") return;
-  for (const [key, child] of Object.entries(value)) {
-    if (prohibitedKeys.has(key)) failures.push(`${location}.${key} is prohibited in public patient-education contracts.`);
-    inspectKeys(child, `${location}.${key}`);
-  }
-};
+const manifest = JSON.parse(manifestText);
+const redirectConfig = JSON.parse(redirects);
+const assert = (condition, message) => { if (!condition) failures.push(message); };
 
-for (const [label, value] of Object.entries({ capability, descriptorSchema, bundleSchema, demoBundle })) {
-  if (value.schemaVersion && value.schemaVersion !== "1.0.0") failures.push(`${label} must use schemaVersion 1.0.0.`);
-  inspectKeys(value, label);
-}
+assert(manifest.status === "paused_future_option", "Institutional program must remain paused_future_option.");
+assert((guideData.match(/slug: "/g) ?? []).length === 5, "Consumer guide data must contain exactly five guide articles.");
+assert(hubPage.includes("Private guide finder"), "Consumer hub must include the fixed-choice guide finder.");
+assert(hubPage.includes("Nothing is submitted, stored on a server"), "Guide finder must state its no-submission boundary.");
+assert(!hubPage.includes("Build a pilot"), "Consumer hub must not include an institutional pilot CTA.");
+assert(!hubPage.includes("design partner"), "Consumer hub must not include a design-partner CTA.");
 
-if (descriptorSchema.$schema !== "https://json-schema.org/draft/2020-12/schema") failures.push("Public package descriptor must use JSON Schema 2020-12.");
-if (!descriptorSchema.$id?.endsWith("/patient-education/schemas/public-package-descriptor-v1.schema.json")) failures.push("Public package descriptor has an unexpected $id.");
-if (!bundleSchema.$id?.endsWith("/patient-education/schemas/controlled-preview-bundle-v1.schema.json")) failures.push("Controlled preview bundle has an unexpected $id.");
-if (bundleSchema.properties?.packageDescriptor?.$ref !== "./public-package-descriptor-v1.schema.json") failures.push("Controlled preview schema must reference the public package descriptor schema.");
-
-if (demoBundle.schemaVersion !== "1.0.0") failures.push("Demo bundle must use schemaVersion 1.0.0.");
-if (demoBundle.mode !== "controlled_preview") failures.push("Demo bundle must remain controlled_preview only.");
-if (!/^CAF-PE-[A-Z0-9-]+-v\d+\.\d+\.\d+-controlled_preview$/.test(demoBundle.bundleId ?? "")) failures.push("Demo bundleId is invalid.");
-if (!/^CAF-PE-[A-Z0-9-]+$/.test(demoBundle.packageDescriptor?.packageId ?? "")) failures.push("Demo packageId is invalid.");
-if (demoBundle.packageDescriptor?.status === "pilot_ready" || demoBundle.packageDescriptor?.status === "released") failures.push("Public demo bundle must not imply pilot-ready or released status.");
-
-const gates = demoBundle.packageDescriptor?.releaseGateSummary ?? [];
-const requiredGates = new Set(["evidence", "clinical_review", "health_literacy", "accessibility", "patient_testing", "institutional_localization"]);
-if (gates.length !== requiredGates.size || gates.some((gate) => !requiredGates.has(gate.gate))) failures.push("Demo bundle must contain exactly the six public release gates.");
-
-const artifactIndex = demoBundle.artifactIndex ?? [];
-if (artifactIndex.length === 0) failures.push("Demo bundle must include at least one artifact metadata entry.");
-const artifactPaths = artifactIndex.map((artifact) => artifact.path);
-const checksums = artifactIndex.map((artifact) => artifact.checksum);
-if (new Set(artifactPaths).size !== artifactPaths.length) failures.push("Demo artifact paths must be unique.");
-if (new Set(checksums).size !== checksums.length) failures.push("Demo artifact checksums must be unique.");
-if (checksums.some((checksum) => !/^fnv1a-[a-f0-9]{8}$/.test(checksum))) failures.push("Demo artifact checksums must use fnv1a-xxxxxxxx format.");
-
-const previewAssetIds = new Set((demoBundle.packageDescriptor?.assets ?? []).filter((asset) => asset.publicPreviewAvailable).map((asset) => asset.assetId));
-if (artifactIndex.some((artifact) => !previewAssetIds.has(artifact.assetId))) failures.push("Demo artifacts may reference only assets marked publicPreviewAvailable.");
-
-const requiredWithheld = [
-  "restricted_clinical_instruction_assets",
-  "patient_specific_fields",
-  "phi_capable_fields",
-  "evidence_dossiers",
-  "reviewer_identity_records",
-  "hospital_customizations",
-  "contracts_and_pricing",
-  "client_deliverables",
-];
-if (requiredWithheld.some((category) => !demoBundle.withheldCategories?.includes(category))) failures.push("Demo bundle is missing one or more required withheld categories.");
-
-const registryPaths = new Set((capability.contractRegistry ?? []).map((entry) => entry.path));
-for (const requiredPath of [
-  "/patient-education/schemas/public-package-descriptor-v1.schema.json",
-  "/patient-education/schemas/controlled-preview-bundle-v1.schema.json",
-  "/patient-education/demo/controlled-preview-bundle.json",
+for (const required of [
+  "/for-organizations/patient-education-systems",
+  "/for-organizations/patient-education-systems/blood-thinner-readiness",
 ]) {
-  if (!registryPaths.has(requiredPath)) failures.push(`Capability manifest must register ${requiredPath}.`);
+  assert(redirectConfig.redirects?.some((entry) => entry.source === required && entry.permanent === true), `Missing permanent redirect for ${required}.`);
 }
 
-if (failures.length > 0) {
-  console.error("Patient education public contract checks failed:\n");
+for (const pattern of [
+  /exact medication dosing/i,
+  /product-specific missed-dose instructions/i,
+  /do not change oxygen flow/i,
+  /no independent physician or pharmacist review is claimed/i,
+]) assert(pattern.test(guideData), `Consumer guide public contract is missing boundary ${pattern}.`);
+
+for (const pattern of [/patientName/i, /dateOfBirth/i, /medicalRecordNumber/i, /memberId/i, /claimNumber/i]) {
+  assert(!pattern.test(hubPage), `Consumer hub contains prohibited patient-data field matching ${pattern}.`);
+}
+
+try {
+  await access(path.join(root, "public/patient-education/demo/blood-thinner-readiness-proof.json"));
+  failures.push("Public institutional blood-thinner proof payload must be removed.");
+} catch {
+  // Expected: controlled proof payload is no longer public.
+}
+
+if (failures.length) {
+  console.error("Consumer patient education public contract checks failed:\n");
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
 
-console.log(`Patient education public contract checks passed for ${artifactIndex.length} demo artifact entries.`);
+console.log("Consumer patient guide public contract checks passed.");

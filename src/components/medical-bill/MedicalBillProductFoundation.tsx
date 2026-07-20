@@ -12,6 +12,16 @@ export function MedicalBillProductFoundation() {
       offer_id: MEDICAL_BILL_PRODUCT.id,
       product_status: MEDICAL_BILL_PRODUCT.status,
     });
+    window.open(MEDICAL_BILL_PRODUCT.previewPath, "_blank", "noopener,noreferrer");
+  };
+
+  const openFreePack = () => {
+    trackSiteEvent("free_pack_download", {
+      event_category: "medical_bill_product",
+      asset_id: "medical_bill_response_pack",
+      source: "newsletter_product_foundation",
+    });
+    window.open(MEDICAL_BILL_PRODUCT.freePackPath, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -52,20 +62,16 @@ export function MedicalBillProductFoundation() {
             </div>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Button asChild variant="hero" onClick={openPreview}>
-                <a href={MEDICAL_BILL_PRODUCT.previewPath} target="_blank" rel="noreferrer">
-                  <Eye className="h-4 w-4" /> Preview sample pages
-                </a>
+              <Button type="button" variant="hero" onClick={openPreview}>
+                <Eye className="h-4 w-4" /> Preview sample pages
               </Button>
               <Button asChild variant="outline">
                 <Link to={MEDICAL_BILL_PRODUCT.freeSystemPath}>
                   Use the free response system <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline">
-                <a href={MEDICAL_BILL_PRODUCT.freePackPath} target="_blank" rel="noreferrer">
-                  Open the free pack
-                </a>
+              <Button type="button" variant="outline" onClick={openFreePack}>
+                Open the free pack
               </Button>
             </div>
 

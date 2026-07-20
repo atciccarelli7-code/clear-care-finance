@@ -22,6 +22,7 @@ describe("Medical Bill Product Foundation", () => {
     expect(screen.getByRole("heading", { name: /expanded medical bill response workbook/i })).toBeInTheDocument();
     expect(screen.getByText(/checkout is intentionally disabled/i)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /buy|purchase|checkout|pay/i })).not.toBeInTheDocument();
+    expect(screen.queryByText(/^\$24$/)).not.toBeInTheDocument();
 
     expect(screen.getByRole("link", { name: /preview sample pages/i })).toHaveAttribute(
       "href",
@@ -38,11 +39,11 @@ describe("Medical Bill Product Foundation", () => {
     expect(screen.getByText(/do not send bills, account numbers, diagnoses, member IDs, claim numbers/i)).toBeInTheDocument();
   });
 
-  it("requires consent and submits only email-list fields", async () => {
+  it("requires consent and submits only early-access fields through the established API", async () => {
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockResolvedValue({
       ok: true,
-      json: async () => ({ ok: true, saved: true, emailDelivered: false, sequenceScheduled: false }),
+      json: async () => ({ ok: true, saved: true, emailDelivered: false }),
     } as Response);
 
     render(
@@ -60,22 +61,24 @@ describe("Medical Bill Product Foundation", () => {
     fireEvent.click(screen.getByRole("button", { name: /join early access/i }));
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
-    const [, request] = fetchMock.mock.calls[0];
+    const [url, request] = fetchMock.mock.calls[0];
+    expect(url).toBe("/api/send");
     const payload = JSON.parse(String((request as RequestInit).body));
     expect(payload).toEqual(
       expect.objectContaining({
         email: "reader@example.com",
         consent: true,
         source: "newsletter-medical-bill-workbook",
+        type: "medical-bill-product-interest",
       }),
     );
     expect(payload).not.toHaveProperty("claim");
     expect(payload).not.toHaveProperty("amount");
     expect(payload).not.toHaveProperty("diagnosis");
-    expect(await screen.findByText(/you’re on the early-access list/i)).toBeInTheDocument();
+    expect(await screen.findByText(/your interest was saved/i)).toBeInTheDocument();
     expect(trackSiteEvent).toHaveBeenCalledWith(
-      "medical_bill_email_sequence_start",
-      expect.objectContaining({ sequence_id: "medical_bill_foundation_v1" }),
+      "premium_interest_submit",
+      expect.objectContaining({ offer_id: "expanded_medical_bill_response_workbook" }),
     );
   });
 });

@@ -1,15 +1,17 @@
-# Medical Bill Productization + Revenue Validation — Implementation Record
+# Medical Bill Product Foundation + Audience Validation — Implementation Record
 
 Date: 2026-07-20  
 Status: Feature branch implementation awaiting pull-request certification  
 Product: Expanded Medical Bill Response Workbook v1.0  
-Price test: $24 one time
+Commercial status: Built, not for sale
 
 ## Strategic decision
 
-Community Acquired Finance will test direct consumer revenue through an optional execution workbook attached to the free Medical Bill Response System. Essential rights, official-source routing, document identification, and the free Medical Bill Response Pack remain available without purchase.
+Community Acquired Finance will not activate payment collection for the Expanded Medical Bill Response Workbook during this release.
 
-The paid value is organization and reusable execution support:
+The immediate objective is to build a durable product, email, analytics, trust, and distribution backbone while the site develops consistent non-founder traffic and repeat readership. The free Medical Bill Response System and free Medical Bill Response Pack remain fully available.
+
+The workbook foundation adds organization and reusable execution support:
 
 - Document, visit, claim, and bill mapping
 - EOB-to-bill comparison worksheets
@@ -23,42 +25,48 @@ The product does not determine what a person owes, review coding, negotiate a bi
 
 ## Product asset
 
-The private master contains 32 pages and was created in:
+The private master contains 32 pages and exists as:
 
 - Printer-ready PDF
 - Editable DOCX
 - Versioned Markdown source
 - Six-page public sample PDF
+- Public browser sample
 
-The full master is intentionally absent from the public repository. The production page contains representative browser previews only.
+The full master is intentionally absent from the public repository. The website contains representative previews only.
 
 ## Production architecture
 
-### Product route
+### Product-laboratory route
 
 `/products/expanded-medical-bill-response-workbook`
 
-The route is a first-party static HTML page in `public/products`. It has an independent canonical URL, metadata, accessible mobile layout, representative previews, a local browser companion, an interest form, source links, and a clear free-versus-paid boundary.
+The route is a first-party static HTML page with:
 
-### Checkout gate
+- Independent canonical URL and metadata
+- Accessible mobile layout
+- Representative previews
+- A local browser companion
+- An early-access interest form
+- Free-system and free-pack routing
+- Explicit no-payment status
+- Clear privacy and scope limitations
 
-`api/product-config.ts` exposes only:
+### Payment boundary
 
-- Product ID
-- Price
-- Whether checkout is enabled
-- A validated HTTPS hosted-checkout URL
-- Delivery mode
+`api/product-config.ts` hard-disables commerce and returns:
 
-Checkout is disabled unless the server environment contains:
+- `productStatus: audience_validation`
+- `checkoutEnabled: false`
+- Empty checkout URL
+- `deliveryMode: interest_only`
+- Payment decision deferred until traffic and operational gates are met
 
-`MEDICAL_BILL_WORKBOOK_CHECKOUT_URL=https://...`
+No payment SDK is installed. CAF does not collect card information. No environment variable can silently activate checkout in this release.
 
-No payment SDK is installed. CAF does not collect card information. A hosted provider must own payment, receipt, secure delivery, refund processing, and purchase-completion records.
+### Conversion and distribution layer
 
-### Conversion layer
-
-`public/medical-bill-productization.js` is loaded from the application shell and product page. It adds restrained product pathways to:
+The productization scripts add restrained product-laboratory pathways to:
 
 - Medical Bill Response System
 - Patients and Families gateway
@@ -69,7 +77,7 @@ No payment SDK is installed. CAF does not collect card information. A hosted pro
 - Large-medical-bill checklist
 - Medical-bill collections explainer
 
-The hub also receives a consented medical-bill email entry point. The layer does not request names beyond optional first name, bill amounts, diagnoses, claim details, provider names, insurer names, account numbers, or other PHI.
+The hub also receives a consented medical-bill email entry point. These interfaces do not request bill amounts, diagnoses, claim details, provider names, insurer names, account numbers, document uploads, or other protected information.
 
 ### Email lifecycle
 
@@ -78,7 +86,7 @@ The hub also receives a consented medical-bill email entry point. The layer does
 - Generic newsletter
 - 403(b) estimate
 - Medical-bill sequence entry
-- Medical-bill product interest
+- Medical-bill workbook interest
 
 The API creates signed unsubscribe URLs and sends `List-Unsubscribe` headers. `api/unsubscribe.ts` verifies the token and updates the Resend audience contact to `unsubscribed: true`.
 
@@ -100,14 +108,16 @@ The privacy-safe funnel emits fixed events only:
 - `free_pack_download`
 - `free_pack_email_signup`
 - `free_to_premium_click`
+- `supporting_page_to_product`
 - `premium_product_preview`
-- `premium_checkout_start`
 - `premium_interest_submit`
 - `medical_bill_email_sequence_start`
 - `official_source_click`
 - `print_or_save_action`
 
-Purchase completion, cancellation, refunds, revenue, and product delivery events cannot be truthfully implemented until a hosted payment and delivery provider is authorized.
+Some event names retain the word `premium` for historical continuity, but no purchase or checkout is active. Event properties do not contain email addresses, bill amounts, provider names, insurer names, claim data, diagnoses, or document contents.
+
+Purchase, cancellation, refund, revenue, and paid-delivery events are intentionally absent because no commercial transaction exists.
 
 ## Pre-launch baseline
 
@@ -132,77 +142,58 @@ Analytics snapshot available in the monetization tracker:
 - 459 pageviews
 - 2.54 views per visitor
 
-These are baselines, not evidence of product performance.
-
-## External operational gates
-
-### Gate 1 — Hosted payment and delivery
-
-The founder must authorize one secure hosted provider and configure:
-
-- $24 one-time product
-- Receipt and tax behavior
-- Secure customer delivery
-- Refund policy
-- Duplicate-purchase handling
-- Checkout success and cancellation destinations
-- Production checkout URL in Vercel
-
-Until then, the live site displays an honest interest-only state.
-
-### Gate 2 — Resend sender verification
-
-The production sending domain and sender must be verified. The existing API can save consented contacts even when sender verification prevents delivery, and the UI states that limitation accurately.
-
-### Gate 3 — Provider-side lifecycle automation
-
-Emails 2–4 must be configured in Resend Automations/Broadcasts or an equivalent consent-aware provider workflow. They must not be scheduled as independent Vercel transactional sends.
+These figures are baselines, not evidence of product performance or willingness to pay.
 
 ## Thirty-day validation checkpoint
 
 Review after 30 full days of stable production exposure:
 
-- Product-page sessions
-- Unique product-preview engagement
-- Free-to-product click rate
-- Launch-list signups
-- Medical-bill email signups
-- Email 1 delivery and unsubscribe rate
-- Supporting-page-to-hub and supporting-page-to-product clicks
-- Free pack downloads
-- Qualitative feedback
-- Mobile and accessibility issues
+- Medical-bill search impressions and non-branded clicks
+- Product-laboratory page sessions
+- Public-sample engagement
+- Medical Bill Response System use
+- Router starts and completions
+- Free-pack opens
+- Early-access contact saves
+- Email delivery and unsubscribe status
+- Supporting-page-to-system and supporting-page-to-product clicks
+- Returning users
+- Qualitative feedback that contains no protected information
+- Mobile and accessibility defects
 
-Decision rule:
+Decision rules:
 
-- Continue toward checkout authorization if the product receives repeated qualified interest from more than one acquisition source and the free system continues to be used.
-- Revise the offer or product language if product views occur without preview engagement or interest signups.
-- Do not infer willingness to pay from traffic alone.
+- Continue free audience development when the system receives useful traffic but limited early-access interest.
+- Revise product language or structure when product views occur without sample engagement.
+- Refine the workbook from repeated user questions and observed workflow usage.
+- Do not infer willingness to pay from traffic or isolated signups.
+- Do not enable payment at the 30-day checkpoint.
 
 ## Sixty-day decision checkpoint
 
-After checkout is authorized and 60 days of measurable exposure are available, review:
+Payment may be considered only when all of the following are true:
 
-- Checkout starts
-- Completed purchases
-- Gross revenue
-- Refunds
-- Download success
-- Free-to-paid conversion
-- Email-assisted conversion
-- Source-page conversion
-- Support burden
-- Product corrections
-- Customer feedback on actual use
+1. Resend sender verification, audience persistence, delivery, and unsubscribe are verified in production.
+2. The medical-bill cluster receives consistent non-founder traffic across multiple weeks.
+3. Public-sample and early-access engagement are repeatable rather than isolated.
+4. The site has documented digital-product support, refund, tax, privacy, licensing, and delivery processes.
+5. A secure hosted payment provider can be used without CAF collecting card information.
+6. The full workbook has completed final accessibility, source, and editorial review.
+7. Founder approval is recorded before any purchase control is introduced.
 
-Decision rule:
+Meeting these conditions permits a separate commerce implementation review; it does not require monetization. The workbook may remain a free authority and audience-growth asset if that produces greater strategic value.
 
-- Scale only if purchases come from non-founder users, delivery works reliably, refunds and support remain manageable, and the free product retains trust and usage.
-- Improve the Medical Bill cluster before building another paid product if search and free-pack demand grow but purchase evidence remains weak.
-- Select the next paid product only from observed demand. The provisional candidates are the Discharge and Post-Acute Care Planner and Healthcare Worker Benefits Review Workbook, but neither is approved by this implementation.
+## Deferred operational layer
 
-## Deferred by design
-
+- Payment processor
+- Checkout page and purchase button
+- Webhooks
+- Paid delivery authorization
+- Refund processing
+- Sales-tax configuration
+- Purchase receipts
+- Customer-support workflow
+- Paid-product terms activation
 - Subscriptions
 - User accounts
 - Bill uploads or OCR
@@ -213,5 +204,13 @@ Decision rule:
 - Advertisements
 - State-by-state page expansion
 - Hospital B2B procurement
-- Automated emails 2–4 without consent-aware provider automation
-- Public hosting of the premium master file
+- Automated Emails 2–4 without consent-aware provider automation
+- Public hosting of the complete master workbook
+
+## Recommended growth work after release
+
+1. Refresh the strongest medical-bill supporting pages using Search Console evidence.
+2. Build repeatable distribution around EOB, facility-fee, financial-assistance, and prior-authorization workflows.
+3. Verify Resend sender, audience, delivery, and unsubscribe behavior.
+4. Review the audience-validation funnel at 30 and 60 days.
+5. Use actual traffic and workflow evidence to decide whether the next major system should be the Discharge and Post-Acute Care Planner or another higher-demand pathway.

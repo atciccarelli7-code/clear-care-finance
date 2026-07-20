@@ -32,8 +32,8 @@ for (const required of [
 }
 
 for (const pattern of [
-  /exact medication dosing/i,
-  /product-specific missed-dose instructions/i,
+  /does not provide product-specific doses/i,
+  /does not supply dosing/i,
   /do not change oxygen flow/i,
   /no independent physician or pharmacist review is claimed/i,
 ]) assert(pattern.test(guideData), `Consumer guide public contract is missing boundary ${pattern}.`);

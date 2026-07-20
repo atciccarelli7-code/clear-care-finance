@@ -1,115 +1,22 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test, type Page, type Request } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-type HealthWatch = { consoleErrors: string[]; pageErrors: string[]; requestFailures: string[]; httpErrors: string[] };
+test.describe("consumer blood thinner safety guide", () => {
+  test("publishes a source-backed preparation guide without pilot or dosing claims", async ({ page }) => {
+    await page.goto("/articles/blood-thinner-safety-before-going-home");
+    await expect(page).toHaveTitle(/Blood Thinner Safety/i);
+    await expect(page.getByRole("heading", { name: /Blood Thinner Safety: What to Verify Before Going Home/i })).toBeVisible();
+    await expect(page.getByText(/does not supply dosing/i)).toBeVisible();
+    await expect(page.getByText(/No independent physician or pharmacist review is claimed/i)).toBeVisible();
+    await expect(page.getByText(/Build a pilot/i)).toHaveCount(0);
+    await expect(page.getByText(/design partner/i)).toHaveCount(0);
 
-const installHealthWatch = (page: Page): HealthWatch => {
-  const watch: HealthWatch = { consoleErrors: [], pageErrors: [], requestFailures: [], httpErrors: [] };
-  page.on("console", (message) => { if (message.type() === "error") watch.consoleErrors.push(message.text()); });
-  page.on("pageerror", (error) => watch.pageErrors.push(error.message));
-  page.on("requestfailed", (request: Request) => {
-    const url = new URL(request.url());
-    const failure = request.failure()?.errorText ?? "unknown failure";
-    if (url.origin === "http://127.0.0.1:4173" && !failure.includes("ERR_ABORTED")) watch.requestFailures.push(`${request.method()} ${url.pathname}: ${failure}`);
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations.filter((violation) => violation.impact === "critical")).toEqual([]);
   });
-  page.on("response", (response) => {
-    const url = new URL(response.url());
-    if (url.origin === "http://127.0.0.1:4173" && response.status() >= 400) watch.httpErrors.push(`${response.status()} ${url.pathname}`);
+
+  test("redirects the former institutional route", async ({ page }) => {
+    await page.goto("/for-organizations/patient-education-systems/blood-thinner-readiness");
+    await expect(page).toHaveURL(/\/articles\/blood-thinner-safety-before-going-home$/);
   });
-  return watch;
-};
-
-const chooseSelect = async (page: Page, label: RegExp, option: RegExp) => {
-  await page.getByRole("combobox", { name: label }).click();
-  await page.getByRole("option", { name: option }).click();
-};
-
-test.beforeEach(async ({ page }) => {
-  await page.route("**/_vercel/**", async (route) => {
-    const isScript = new URL(route.request().url()).pathname.endsWith(".js");
-    await route.fulfill(isScript ? { status: 200, contentType: "application/javascript", body: "" } : { status: 204, body: "" });
-  });
-  await page.addInitScript(() => {
-    localStorage.setItem("caf-privacy-consent-v1", "necessary");
-    window.print = () => { document.documentElement.dataset.printIntent = "true"; };
-  });
-});
-
-test("exact medication, teach-back, barriers, buyer brief, proof, and print states work", async ({ page }) => {
-  const watch = installHealthWatch(page);
-  await page.goto("/for-organizations/patient-education-systems/blood-thinner-readiness", { waitUntil: "networkidle" });
-
-  await expect(page.getByRole("heading", { level: 1, name: /Turn blood thinner education into a verifiable discharge handoff/i })).toBeVisible();
-  await expect(page.getByText("Readiness checks not started", { exact: true })).toBeVisible();
-  await expect(page.locator("input, textarea")).toHaveCount(0);
-  await expect(page.getByText(/Synthetic review only/i)).toBeVisible();
-
-  await page.getByRole("button", { name: /Rivaroxaban tablet/i }).click();
-  await expect(page.getByText(/missed-dose branches differ/i)).toBeVisible();
-  await chooseSelect(page, /Select the exact rivaroxaban regimen/i, /15 mg twice daily during the initial treatment period/i);
-  await page.getByRole("checkbox", { name: /exact medicine, strength, reason/i }).click();
-  await page.getByRole("checkbox", { name: /organization-approved bleeding/i }).click();
-
-  await page.getByRole("button", { name: /Plan/i }).click();
-  await expect(page.getByRole("heading", { name: "Rivaroxaban" })).toBeVisible();
-  await expect(page.getByText(/exact regimen-specific instruction is withheld/i)).toBeVisible();
-  await expect(page.getByText(/Two 15 mg tablets may be taken together/i)).toHaveCount(0);
-
-  await page.getByRole("button", { name: /Teach-back/i }).click();
-  for (const prompt of ["exact medicine", "matching medicine card", "approved bleeding", "who owns refills"]) {
-    await chooseSelect(page, new RegExp(`Result for .*${prompt}`, "i"), /Passed without prompting/i);
-  }
-
-  await page.getByRole("button", { name: /Barriers/i }).click();
-  await page.getByRole("checkbox", { name: /Cost, coverage, or authorization problem/i }).click();
-  await chooseSelect(page, /Status for Cost, coverage, or authorization problem/i, /Unresolved - stop discharge handoff/i);
-  await expect(page.getByText("Discharge handoff blocked", { exact: true })).toBeVisible();
-  await chooseSelect(page, /Status for Cost, coverage, or authorization problem/i, /Open with safe named backup/i);
-  await expect(page.getByText("Readiness demonstrated in this review workflow", { exact: true })).toBeVisible();
-
-  await page.getByRole("button", { name: /Handoff/i }).click();
-  await expect(page.getByText(/No modeled blocker remains/i)).toBeVisible();
-  await page.getByRole("button", { name: /Print patient-facing review sample/i }).click();
-  await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
-
-  const proofResponse = await page.request.get("/patient-education/demo/blood-thinner-readiness-proof.json");
-  expect(proofResponse.ok()).toBe(true);
-  const proof = await proofResponse.json();
-  expect(proof.candidate_id).toBe("CAF-PE-ANTICOAG-ADULT-EN-PACKAGE-001-V1.0-RC1");
-  expect(proof.source_bundle.sha256).toBe("c04c961344f82a4359f1b149836b34a302e459300f02e263fe4358a8096d3248");
-  expect(proof.patient_use_status).toBe("NOT APPROVED FOR PATIENT USE");
-  expect(proof.governance.external_human_approvals_complete).toBe(false);
-  expect(proof.governance.pilot_ready).toBe(false);
-  expect(proof.governance.open_decision_ids).toHaveLength(12);
-  expect(JSON.stringify(proof)).not.toMatch(/reviewerIdentity|patientName|medicalRecordNumber/i);
-
-  await page.getByLabel("Organization type").selectOption("hospital_health_system");
-  await page.getByLabel("Your role").selectOption("nursing_operations");
-  await page.getByLabel("First setting").selectOption("acute_inpatient_unit");
-  await page.getByLabel("Primary decision problem").selectOption("workflow_consistency");
-  await page.getByLabel("Current review stage").selectOption("design_partner");
-  await page.getByLabel("Internal owner coverage").selectOption("cross_functional");
-  await page.getByLabel("Privacy boundary").selectOption("confirmed");
-  await page.getByRole("button", { name: /Build controlled review brief/i }).click();
-  await expect(page.getByRole("heading", { name: /Design-partner pathway can be evaluated/i })).toBeVisible();
-  await expect(page.getByText(/does not authorize clinical use, patient use, discharge, procurement, or a hospital pilot/i)).toBeVisible();
-  await expect(page.getByRole("link", { name: /Request controlled review/i })).toHaveAttribute("href", "/contact#organization-review");
-
-  await page.emulateMedia({ media: "print" });
-  await expect(page.getByRole("article", { name: /Blood thinner safety plan printable review sample/i })).toBeVisible();
-  await expect(page.getByText(/REVIEW SAMPLE · NOT APPROVED FOR PATIENT USE/i)).toBeVisible();
-  await expect(page.getByTestId("readiness-status")).toBeHidden();
-  await page.emulateMedia({ media: "screen" });
-  await page.waitForTimeout(1200);
-
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  expect(overflow).toBeLessThanOrEqual(1);
-  const accessibility = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
-  const severe = accessibility.violations.filter((item) => item.impact === "serious" || item.impact === "critical");
-  expect(severe, severe.map((item) => `${item.id}: ${item.help}`).join("\n")).toEqual([]);
-  expect(page.locator("vite-error-overlay, [data-error-overlay]")).toHaveCount(0);
-  expect(watch.consoleErrors).toEqual([]);
-  expect(watch.pageErrors).toEqual([]);
-  expect(watch.requestFailures).toEqual([]);
-  expect(watch.httpErrors).toEqual([]);
 });

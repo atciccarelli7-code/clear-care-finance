@@ -122,17 +122,17 @@
     section.innerHTML = `
       <div class="caf-product-offer__grid">
         <div>
-          <div class="caf-product-offer__eyebrow">Optional organization upgrade</div>
+          <div class="caf-product-offer__eyebrow">Free product laboratory</div>
           <h2>Expanded Medical Bill Response Workbook</h2>
-          <p>The free system explains the next step. The 32-page workbook helps organize bills, EOBs, calls, deadlines, assistance records, written requests, and caregiver handoffs in one reusable system.</p>
+          <p>The complete 32-page workbook foundation is built. Community Acquired Finance is validating usefulness and audience demand before considering payment.</p>
           <div class="caf-product-offer__chips">
-            <span class="caf-product-offer__chip">$24 one-time</span>
-            <span class="caf-product-offer__chip">No subscription</span>
+            <span class="caf-product-offer__chip">No payment</span>
+            <span class="caf-product-offer__chip">Public sample</span>
             <span class="caf-product-offer__chip">No PHI requested</span>
           </div>
         </div>
         <div>
-          <a class="caf-product-offer__button" href="${PRODUCT_ROUTE}" data-caf-product-link>Preview the workbook →</a>
+          <a class="caf-product-offer__button" href="${PRODUCT_ROUTE}" data-caf-product-link>Preview the foundation →</a>
           <p class="caf-product-offer__small">Essential guidance, official sources, and the free Response Pack remain free.</p>
         </div>
       </div>
@@ -151,7 +151,7 @@
     `;
 
     section.querySelector("[data-caf-product-link]")?.addEventListener("click", () => {
-      track("free_to_premium_click", { source_surface: path, product_id: PRODUCT_ID });
+      track("supporting_page_to_product", { source_surface: path, product_id: PRODUCT_ID });
     });
 
     const form = section.querySelector("[data-caf-medical-bill-sequence]");

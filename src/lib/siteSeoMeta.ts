@@ -40,6 +40,10 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
     title: "Community Acquired Finance Newsletter",
     description: "Get practical, low-frequency updates on retirement, workplace benefits, insurance, medical bills, Medicare, Medicaid, and new financial tools.",
   },
+  "/insurance/medical-bill-review-toolkit": {
+    title: "Medical Bill Response System",
+    description: "Identify an EOB, medical bill, denial, financial-assistance form, or collection notice and follow an RN-led, privacy-minimized review sequence before paying.",
+  },
 };
 
 const benefitsCommandCenterMeta: SeoRouteMeta = {
@@ -75,6 +79,15 @@ const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, descriptio
   jsonLd?.map((item) => {
     const type = item["@type"];
     if (type === "WebSite") return { ...item, description: "Plain-English financial education for everyone, with specialized clarity around healthcare costs, insurance, Medicare, and Medicaid." };
+    if (type === "BreadcrumbList" && Array.isArray(item.itemListElement)) {
+      const entries = item.itemListElement as Array<Record<string, unknown>>;
+      return {
+        ...item,
+        itemListElement: entries.map((entry, index) =>
+          index === entries.length - 1 ? { ...entry, name: title } : entry,
+        ),
+      };
+    }
     if (type === "CollectionPage" || type === "WebPage" || type === "WebApplication") return { ...item, name: title, description };
     return item;
   });

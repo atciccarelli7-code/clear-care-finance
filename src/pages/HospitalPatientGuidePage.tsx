@@ -56,7 +56,7 @@ const HospitalPatientGuidePage = () => {
         title="Know what to verify, what to ask, and what needs an owner before you go home."
         description="RN-led, source-backed consumer guides for discharge, medicines, COPD recovery, heart failure, home oxygen, follow-up, insurance, and the first days at home."
       >
-        <Button asChild variant="hero" size="lg"><a href="#guide-finder">Find the right guide <ArrowRight className="h-4 w-4" /></a></Button>
+        <Button asChild variant="hero" size="lg" className="bg-foreground text-background hover:bg-foreground/90"><a href="#guide-finder">Find the right guide <ArrowRight className="h-4 w-4" /></a></Button>
         <Button asChild variant="outline" size="lg"><a href="#guide-library">Browse all five guides</a></Button>
       </PageHero>
 

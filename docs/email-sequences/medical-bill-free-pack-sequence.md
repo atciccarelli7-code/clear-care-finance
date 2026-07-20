@@ -10,7 +10,8 @@ Do not schedule Emails 2–4 as independent transactional sends from Vercel. A p
 - Do not request replies containing diagnoses, bill images, claim numbers, account numbers, member IDs, provider names, dollar amounts, or other protected or identifying information.
 - Every message must include the signed `/api/unsubscribe` link and `List-Unsubscribe` headers.
 - Essential guidance and official sources remain free.
-- No guaranteed savings, negotiation claims, legal conclusions, or artificial urgency.
+- No guaranteed savings, negotiation claims, legal conclusions, artificial urgency, or purchase pressure.
+- The workbook is in audience validation and is not for sale during this release.
 
 ## Email 1 — Identify the document
 
@@ -92,27 +93,27 @@ Keep a dated call log and save every portal message, form, letter, and delivery 
 **Primary CTA:** Open the relevant guided workflow  
 `https://communityacquiredfinance.com/patients-families`
 
-## Email 4 — Optional expanded workbook
+## Email 4 — Workbook product laboratory
 
 **Suggested timing:** 4 days after Email 3, only while subscribed  
-**Subject:** An optional way to organize the full medical-bill process  
-**Preheader:** The free system explains the next step. The expanded workbook helps document it.
+**Subject:** Preview the expanded medical-bill organization workbook  
+**Preheader:** The free system explains the next step. The workbook foundation shows how the full process can be organized.
 
-The free Medical Bill Response System, official-source links, and ten-page Response Pack remain available without purchase.
+The free Medical Bill Response System, official-source links, and ten-page Response Pack remain available without payment.
 
-The optional Expanded Medical Bill Response Workbook adds:
+Community Acquired Finance has built a 32-page Expanded Medical Bill Response Workbook foundation with:
 
-- 32 pages of reusable worksheets
-- Visit, claim, and bill mapping
+- Reusable document and visit maps
+- EOB-to-bill comparison worksheets
 - Provider and insurer call preparation
 - Itemized-bill and written-request templates
 - Denial, prior-authorization, financial-assistance, and collections organizers
 - Caregiver coordination and deadline control
 - Scenario pathways for common billing problems
 
-Planned price: $24 one time. No subscription. No guaranteed savings. No personalized bill review.
+The workbook is currently a no-payment product laboratory. Early-access interest helps determine whether the system is useful enough to justify deeper investment. It does not create a purchase obligation and no checkout is active.
 
-**Primary CTA:** Preview the workbook  
+**Primary CTA:** Preview the workbook foundation  
 `https://communityacquiredfinance.com/products/expanded-medical-bill-response-workbook`
 
 ## Activation checklist
@@ -125,3 +126,4 @@ Planned price: $24 one time. No subscription. No guaranteed savings. No personal
 - [ ] Non-owner inbox delivery verified
 - [ ] Unsubscribe suppresses future sequence messages
 - [ ] No email address, bill data, or PHI appears in analytics
+- [ ] No payment or checkout language is introduced without a separate approved commerce release

@@ -55,7 +55,28 @@ jobs:
       - name: Quick guide content
         run: npm run guide:quick-content-check
 
-      - name: Unit tests
+      - name: Consumer article registry tests
+        run: npx vitest run src/data/consumerPatientGuideArticles.test.ts
+
+      - name: Consumer medication boundary test
+        run: npx vitest run src/test/BloodThinnerReadinessWorkflow.test.tsx
+
+      - name: Consumer guide library test
+        run: npx vitest run src/test/HospitalGuidePilotShowcase.test.tsx
+
+      - name: Paused institutional manifest test
+        run: npx vitest run src/test/careReadinessBuyerBrief.test.ts
+
+      - name: Consumer checklist boundary test
+        run: npx vitest run src/test/bloodThinnerReadiness.test.ts
+
+      - name: Five guide conversion test
+        run: npx vitest run src/test/hospitalGuidePilot.test.ts
+
+      - name: Consumer finder contract test
+        run: npx vitest run src/test/patientEducationPilot.test.ts
+
+      - name: Full unit test suite
         run: npx vitest run
 
       - name: All quick guide content checks

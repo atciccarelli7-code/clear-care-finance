@@ -40,7 +40,7 @@ const PatientsFamilies = () => <>
     </div>
     <div className="mt-8 rounded-2xl border border-border bg-muted/25 p-5 text-sm leading-relaxed text-muted-foreground">
       <Shield className="mr-2 inline h-4 w-4 text-primary" aria-hidden="true" />
-      Andrew Ciccarelli, BSN, RN contributes bedside and discharge perspective; authoritative sources support factual claims. These pathways provide general education and question prompts. They do not determine diagnosis, treatment, coverage, eligibility, appeal rights, or what a patient owes.
+      Andrew Ciccarelli, RN, BSN contributes bedside and discharge perspective; authoritative sources support factual claims. These pathways provide general education and question prompts. They do not determine diagnosis, treatment, coverage, eligibility, appeal rights, or what a patient owes.
     </div>
   </section>
 </>;

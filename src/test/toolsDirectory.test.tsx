@@ -28,22 +28,27 @@ describe("tools directory", () => {
     }
   });
 
-  it("filters the compact directory without rendering every calculator", () => {
+  it("keeps the directory secondary, then filters it without rendering calculator interfaces", () => {
     render(
       <MemoryRouter>
         <Tools />
       </MemoryRouter>,
     );
 
-    expect(screen.getByText(`Showing ${completeTools.length} of ${completeTools.length} tools`)).toBeInTheDocument();
+    const directory = document.getElementById("all-tools-directory");
+    expect(directory).toHaveAttribute("hidden");
     expect(screen.queryByLabelText(/hourly pay/i)).not.toBeInTheDocument();
 
-    fireEvent.change(screen.getByRole("searchbox", { name: /search tools/i }), { target: { value: "PSLF" } });
+    fireEvent.click(screen.getByRole("button", { name: /browse all tools/i }));
+    expect(directory).not.toHaveAttribute("hidden");
+    expect(screen.getByText(`Showing ${completeTools.length} of ${completeTools.length} tools for all decisions`)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByRole("searchbox", { name: /search all CAF tools/i }), { target: { value: "PSLF" } });
     expect(screen.getByRole("heading", { name: "PSLF Progress Estimator" })).toBeInTheDocument();
-    expect(screen.getByText(`Showing 1 of ${completeTools.length} tools`)).toBeInTheDocument();
+    expect(screen.getByText(`Showing 1 of ${completeTools.length} tools for all decisions`)).toBeInTheDocument();
   });
 
-  it("preserves a legacy hash by highlighting its directory card", () => {
+  it("preserves a legacy hash by opening and highlighting its directory card", () => {
     window.history.replaceState(null, "", "/tools#403b");
     render(
       <MemoryRouter>
@@ -51,6 +56,7 @@ describe("tools directory", () => {
       </MemoryRouter>,
     );
 
+    expect(document.getElementById("all-tools-directory")).not.toHaveAttribute("hidden");
     expect(document.getElementById("tool-403b-paycheck-calculator")).toHaveClass("ring-2");
   });
 });

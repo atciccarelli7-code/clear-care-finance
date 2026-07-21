@@ -37,27 +37,36 @@ const ResultList = ({
   );
 };
 
-export const decisionResultToText = (result: DecisionResult, officialNote?: string) => [
-  "YOUR RESULT",
-  result.direction,
-  result.summary,
-  "",
-  "WHY YOU RECEIVED THIS RESULT",
-  ...result.reasons.map((item) => `- ${item}`),
-  "",
-  "YOUR NEXT THREE ACTIONS",
-  ...result.doNow.slice(0, 3).map((item) => `- ${item}`),
-  "",
-  "WHAT TO VERIFY OR GATHER",
-  ...result.verify.map((item) => `- ${item}`),
-  "",
-  "OPTIONAL LEARNING",
-  ...result.learnLater.map((item) => `- ${item}`),
-  "",
-  "IMPORTANT LIMITS",
-  ...result.cautions.map((item) => `- ${item}`),
-  officialNote ? `\n${officialNote}` : "",
-].filter(Boolean).join("\n");
+const nextActionTitle = (count: number) => {
+  if (count >= 3) return "Your next three actions";
+  if (count === 2) return "Your next two actions";
+  return "Your next action";
+};
+
+export const decisionResultToText = (result: DecisionResult, officialNote?: string) => {
+  const primaryActions = result.doNow.slice(0, 3);
+  return [
+    "YOUR RESULT",
+    result.direction,
+    result.summary,
+    "",
+    "WHY YOU RECEIVED THIS RESULT",
+    ...result.reasons.map((item) => `- ${item}`),
+    "",
+    nextActionTitle(primaryActions.length).toUpperCase(),
+    ...primaryActions.map((item) => `- ${item}`),
+    "",
+    "WHAT TO VERIFY OR GATHER",
+    ...result.verify.map((item) => `- ${item}`),
+    "",
+    "OPTIONAL LEARNING",
+    ...result.learnLater.map((item) => `- ${item}`),
+    "",
+    "IMPORTANT LIMITS",
+    ...result.cautions.map((item) => `- ${item}`),
+    officialNote ? `\n${officialNote}` : "",
+  ].filter(Boolean).join("\n");
+};
 
 export const DecisionResultPanel = ({
   result,
@@ -78,6 +87,7 @@ export const DecisionResultPanel = ({
   const journeyId = getReadinessJourneyId(location.pathname);
   const handoffs = journeyId ? READINESS_JOURNEY_HANDOFFS[journeyId] : [];
   const completionTrackedRef = useRef(false);
+  const primaryActions = result.doNow.slice(0, 3);
 
   useEffect(() => {
     if (!journeyId || completionTrackedRef.current) return;
@@ -113,7 +123,7 @@ export const DecisionResultPanel = ({
 
         <div className="p-5 md:p-7">
           <ResultList title="Why you received this result" items={result.reasons} />
-          <ResultList title="Your next three actions" items={result.doNow.slice(0, 3)} emphasis="primary" />
+          <ResultList title={nextActionTitle(primaryActions.length)} items={primaryActions} emphasis="primary" />
           <ResultList title="What to verify or gather" items={result.verify} />
 
           <section className="surface-caution mt-5 rounded-2xl p-4 md:p-5">

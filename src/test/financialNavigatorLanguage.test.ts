@@ -1,9 +1,9 @@
 import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 const source = readFileSync(
-  fileURLToPath(new URL("../components/navigator/FinancialNavigator.tsx", import.meta.url)),
+  path.resolve(process.cwd(), "src/components/navigator/FinancialNavigator.tsx"),
   "utf8",
 );
 

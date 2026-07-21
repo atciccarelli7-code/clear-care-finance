@@ -1,5 +1,6 @@
 name: Browser certification
 
+# Retain real Letter and A4 PDFs so print certification is based on rendered artifacts, not print-button intent.
 on:
   pull_request:
     paths:

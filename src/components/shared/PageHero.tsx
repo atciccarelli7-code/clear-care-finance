@@ -12,7 +12,7 @@ interface PageHeroProps {
 export const PageHero = ({ eyebrow, title, description, children, className }: PageHeroProps) => (
   <section className={cn("relative w-full min-w-0 overflow-hidden border-b border-border/70 bg-card/30", className)}>
     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent" />
-    <div className="container relative mx-auto max-w-4xl min-w-0 space-y-4 py-14 text-center animate-fade-up md:space-y-5 md:py-20">
+    <div className="container relative mx-auto max-w-4xl min-w-0 space-y-4 py-14 text-center md:space-y-5 md:py-20">
       {eyebrow && (
         <div className="flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-primary">
           <span className="h-px w-7 bg-primary/35" aria-hidden="true" />

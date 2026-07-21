@@ -90,7 +90,7 @@ export default function Turning65MedicarePage() {
         <div className="md:col-span-2 flex flex-col gap-3 sm:flex-row"><Button type="button" variant="hero" onClick={buildPlan}>Build qualified timeline <ArrowRight className="h-4 w-4" /></Button><Button type="button" variant="outline" onClick={reset}><RotateCcw className="h-4 w-4" />Reset</Button></div>
       </CardContent></Card>}
 
-      {showResult && <section ref={resultRef} tabIndex={-1} className="space-y-6 outline-none" aria-live="polite">
+      {showResult && <section id="turning-65-print-result" ref={resultRef} tabIndex={-1} className="space-y-6 outline-none" aria-live="polite">
         <ImmediateAnswer title={plan.headline}>{plan.immediateAnswer}</ImmediateAnswer>
         <div className="flex flex-col gap-3 sm:flex-row print:hidden"><Button type="button" variant="hero" onClick={copy}><Copy className="h-4 w-4" />{copied ? "Copied" : "Copy plan"}</Button><Button type="button" variant="outline" onClick={() => window.print()}><Printer className="h-4 w-4" />Print</Button><SaveToMyPlanAction onSave={save} saved={saved} /><Button type="button" variant="ghost" onClick={() => setShowResult(false)}>Review answers</Button></div>
         <ActionPlanSection items={plan.doNow} />

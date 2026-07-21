@@ -1,0 +1,275 @@
+@media print {
+  html,
+  body,
+  #root,
+  main {
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #111827 !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  header,
+  footer,
+  nav[aria-label="Primary mobile navigation"],
+  a[href="#main-content"],
+  [role="region"][aria-label^="Notifications"],
+  section[aria-label^="Notifications"] {
+    display: none !important;
+  }
+
+  .container {
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  button,
+  [role="button"] {
+    display: none !important;
+  }
+
+  a {
+    color: #111827 !important;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  table {
+    width: 100% !important;
+    min-width: 0 !important;
+    border-collapse: collapse !important;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr,
+  fieldset,
+  article,
+  [class*="rounded-2xl"],
+  [class*="rounded-3xl"] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  svg {
+    print-color-adjust: exact;
+  }
+
+  /* Medical Bill Response System: print only the selected document result. */
+  body:has(#document-result) main > :not(div.container),
+  body:has(#document-result) main > div.container > :not(#document-router),
+  body:has(#document-result) #document-router > :not(#document-result) {
+    display: none !important;
+  }
+
+  body:has(#document-result) main > div.container,
+  body:has(#document-result) #document-router,
+  body:has(#document-result) #document-result {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  body:has(#document-result) #document-result {
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body:has(#document-result) #document-result::before {
+    content: "COMMUNITY ACQUIRED FINANCE\A MEDICAL BILL RESPONSE SYSTEM - DOCUMENT RESULT";
+    display: block;
+    margin-bottom: 18pt;
+    padding-bottom: 8pt;
+    border-bottom: 1px solid #64748b;
+    color: #0f172a;
+    font-size: 9pt;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    white-space: pre-line;
+  }
+
+  body:has(#document-result) #document-result a[href^="/"] {
+    display: none !important;
+  }
+
+  body:has(#document-result) #document-result a[href^="http"]::after {
+    content: "\A" attr(href);
+    display: block;
+    margin-top: 3pt;
+    font-size: 8pt;
+    font-weight: 400;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  /* Hospital & Patient Guide: print only the selected action plan. */
+  body:has(#mode-actions-heading) main > :not(#help-mode-selector),
+  body:has(#mode-actions-heading) #help-mode-selector > :not(article) {
+    display: none !important;
+  }
+
+  body:has(#mode-actions-heading) #help-mode-selector,
+  body:has(#mode-actions-heading) #help-mode-selector article {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  body:has(#mode-actions-heading) #help-mode-selector article {
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body:has(#mode-actions-heading) #help-mode-selector article a {
+    display: none !important;
+  }
+
+  body:has(#mode-actions-heading) #help-mode-selector article::before {
+    content: "COMMUNITY ACQUIRED FINANCE\A HOSPITAL & PATIENT GUIDE - ACTION PLAN";
+    display: block;
+    margin-bottom: 18pt;
+    padding-bottom: 8pt;
+    border-bottom: 1px solid #64748b;
+    color: #0f172a;
+    font-size: 9pt;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    white-space: pre-line;
+  }
+
+  body:has(#mode-actions-heading) #help-mode-selector article::after {
+    content: "The treating team's written discharge instructions and medication list control. This is general education, not personalized medical instructions.\A https://communityacquiredfinance.com/patients-families/hospital-guide";
+    display: block;
+    margin-top: 18pt;
+    padding-top: 8pt;
+    border-top: 1px solid #94a3b8;
+    color: #475569;
+    font-size: 8pt;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+  }
+
+  /* Healthcare job comparison: keep the result and written verification plan. */
+  body:has(#comparison-results):has(#offer-verification-title) main > :not(:has(#comparison-results)):not(:has(#offer-verification-title)) {
+    display: none !important;
+  }
+
+  body:has(#comparison-results):has(#offer-verification-title) main > :has(#comparison-results),
+  body:has(#comparison-results):has(#offer-verification-title) main > :has(#offer-verification-title) {
+    margin: 0 0 20pt !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  body:has(#comparison-results) #comparison-results,
+  body:has(#offer-verification-title) section[aria-labelledby="offer-verification-title"] {
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body:has(#comparison-results) #comparison-results::before {
+    content: "COMMUNITY ACQUIRED FINANCE\A HEALTHCARE WORKER TOTAL COMPENSATION COMPARISON";
+    display: block;
+    margin-bottom: 18pt;
+    padding-bottom: 8pt;
+    border-bottom: 1px solid #64748b;
+    color: #0f172a;
+    font-size: 9pt;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    white-space: pre-line;
+  }
+
+  body:has(#comparison-results) #comparison-results .overflow-x-auto {
+    overflow: visible !important;
+  }
+
+  body:has(#comparison-results) #comparison-results table {
+    min-width: 0 !important;
+    font-size: 8.5pt !important;
+  }
+
+  body:has(#comparison-results) #comparison-results th,
+  body:has(#comparison-results) #comparison-results td {
+    padding: 6pt !important;
+  }
+
+  body:has(#offer-verification-title) section[aria-labelledby="offer-verification-title"]::after {
+    content: "Official verification references:\A U.S. Department of Labor overtime guidance - https://www.dol.gov/agencies/whd/overtime\A Internal Revenue Service retirement contribution guidance - https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-contributions\A HealthCare.gov total health-cost guidance - https://www.healthcare.gov/choose-a-plan/your-total-costs/\A Educational estimate and planning aid only. Employer documents and final written offer terms control.";
+    display: block;
+    margin-top: 18pt;
+    padding-top: 8pt;
+    border-top: 1px solid #94a3b8;
+    color: #475569;
+    font-size: 8pt;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+  }
+
+  /* Turning 65: print only the generated timeline and official verification. */
+  body:has(#turning-65-print-result) main > :not(div.container),
+  body:has(#turning-65-print-result) main > div.container > :not(#turning-65-print-result) {
+    display: none !important;
+  }
+
+  body:has(#turning-65-print-result) main > div.container,
+  body:has(#turning-65-print-result) #turning-65-print-result {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  body:has(#turning-65-print-result) #turning-65-print-result::before {
+    content: "COMMUNITY ACQUIRED FINANCE\A TURNING 65 MEDICARE ENROLLMENT TIMELINE";
+    display: block;
+    margin-bottom: 18pt;
+    padding-bottom: 8pt;
+    border-bottom: 1px solid #64748b;
+    color: #0f172a;
+    font-size: 9pt;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    white-space: pre-line;
+  }
+
+  body:has(#turning-65-print-result) #turning-65-print-result a[href^="http"]::after {
+    content: "\A" attr(href);
+    display: block;
+    margin-top: 3pt;
+    font-size: 8pt;
+    font-weight: 400;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  body:has(#turning-65-print-result) #turning-65-print-result::after {
+    content: "Educational planning only. Medicare, Social Security, employer plan documents, state agencies, and written notices control.\A https://communityacquiredfinance.com/medicare-care-costs/turning-65";
+    display: block;
+    margin-top: 18pt;
+    padding-top: 8pt;
+    border-top: 1px solid #94a3b8;
+    color: #475569;
+    font-size: 8pt;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+  }
+}

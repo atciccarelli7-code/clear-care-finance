@@ -8,7 +8,7 @@ const trustItems = [
 ];
 
 export const SiteTrustBar = () => (
-  <aside className="border-b border-border/70 bg-background/65" aria-label="Site trust standards">
+  <aside className="border-b border-border/70 bg-background/65 print:hidden" aria-label="Site trust standards">
     <div className="container flex min-w-0 flex-col gap-2.5 py-3 text-xs text-muted-foreground lg:flex-row lg:items-center lg:justify-between">
       <div className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-2">
         {trustItems.map(({ icon: Icon, label, helper }) => (

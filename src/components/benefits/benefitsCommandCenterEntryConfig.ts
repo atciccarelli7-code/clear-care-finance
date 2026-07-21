@@ -16,14 +16,6 @@ export const BENEFITS_COMMAND_CENTER_ENTRY_ROUTES: Record<string, BenefitsComman
     sampleButtonLabel: "Preview a completed Receipt",
     entrySurface: "start_here",
   },
-  "/tools": {
-    eyebrow: "Flagship workplace tool",
-    title: "Build the entire package—not another isolated calculation",
-    description: "Combine offer comparison, open enrollment, employer contributions, hidden benefits, and verification questions into one decision workspace.",
-    buttonLabel: "Build my benefits package",
-    sampleButtonLabel: "See the sample first",
-    entrySurface: "tools",
-  },
   "/insurance": {
     eyebrow: "Connect coverage to compensation",
     title: "Put the health plan inside the complete benefits package",

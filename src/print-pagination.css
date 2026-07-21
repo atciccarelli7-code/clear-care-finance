@@ -1,0 +1,7 @@
+@media print {
+  body:has(#document-result) #document-router,
+  body:has(#document-result) #document-result {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+}

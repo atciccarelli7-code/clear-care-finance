@@ -234,20 +234,22 @@ test("Benefits Command Center supports direct modes print and local clearing", a
   await certifyPage(page, watch);
 });
 
-test("consumer Hospital and Patient Guide finder routes to the blood thinner safety guide", async ({ page }) => {
+test("Hospital and Patient Guide mode routes to blood thinner and oxygen safety guides", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/patients-families/hospital-guide");
-  await expect(page.getByRole("heading", { level: 1, name: /Know what to verify/i })).toBeVisible();
-  await page.getByRole("button", { name: /questions about a blood thinner/i }).click();
-  await expect(page.getByText(/Suggested starting point/i)).toBeVisible();
-  await page.getByRole("link", { name: /Open the guide/i }).click();
+  await expect(page.getByRole("heading", { level: 1, name: /What do you need help with right now/i })).toBeVisible();
+  await expect(page.getByText(/No name, diagnosis, policy number, claim detail, or free-text medical information is requested/i)).toBeVisible();
+  await page.getByRole("button", { name: /Medicines or equipment/i }).click();
+  await expect(page.getByText(/Use the exact written prescription, label, equipment order/i)).toBeVisible();
+  await expect(page.getByRole("link", { name: /Blood Thinner Safety/i })).toHaveAttribute("href", "/articles/blood-thinner-safety-before-going-home");
+  await page.getByRole("link", { name: /Blood Thinner Safety/i }).click();
   await expect(page).toHaveURL(/\/articles\/blood-thinner-safety-before-going-home$/);
   await expect(page.getByRole("heading", { level: 1, name: /Blood Thinner Safety/i })).toBeVisible();
   await expect(page.getByText(/does not supply dosing/i)).toBeVisible();
   await certifyPage(page, watch);
 });
 
-test("Organization page preserves the B2B pause and hands visitors to consumer guides", async ({ page }) => {
+test("Organization page preserves the B2B pause and hands visitors to the immediate-need guide", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/for-organizations");
   await expect(page.getByRole("heading", { level: 1, name: /Healthcare financial education without private records/i })).toBeVisible();
@@ -256,6 +258,6 @@ test("Organization page preserves the B2B pause and hands visitors to consumer g
   await expect(page.getByRole("button", { name: /Build program brief/i })).toHaveCount(0);
   await page.getByRole("link", { name: /Review the consumer guide library/i }).click();
   await expect(page).toHaveURL(/\/patients-families\/hospital-guide$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Know what to verify/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /What do you need help with right now/i })).toBeVisible();
   await certifyPage(page, watch);
 });

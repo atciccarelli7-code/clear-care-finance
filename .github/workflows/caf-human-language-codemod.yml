@@ -1,0 +1,54 @@
+name: CAF human language codemod
+
+on:
+  push:
+    branches:
+      - agent/caf-human-language-production-fix
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply-focused-correction:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/caf-human-language-production-fix
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Replace institutional language and add regression contract
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          component = Path('src/components/navigator/FinancialNavigator.tsx')
+          source = component.read_text()
+          replacements = {
+              'Deterministic recommendations': 'Consistent plan rules',
+              'The same choices produce the same plan. Recommendations come from reviewable rules rather than opaque generated advice.': 'The same choices produce the same plan. Every recommendation follows a reviewable rule instead of a hidden or improvised answer.',
+              '>Local workspace</span>': '>Saved on this device</span>',
+          }
+          for old, new in replacements.items():
+              if old not in source:
+                  raise SystemExit(f'Expected source phrase not found: {old}')
+              source = source.replace(old, new, 1)
+          component.write_text(source)
+
+          test = Path('src/test/financialNavigatorLanguage.test.ts')
+          test.write_text('''import { readFileSync } from "node:fs";\nimport { fileURLToPath } from "node:url";\nimport { describe, expect, it } from "vitest";\n\nconst source = readFileSync(\n  fileURLToPath(new URL("../components/navigator/FinancialNavigator.tsx", import.meta.url)),\n  "utf8",\n);\n\ndescribe("Financial Navigator public language", () => {\n  it("uses human labels for plan rules and device-only saved progress", () => {\n    expect(source).toContain("Consistent plan rules");\n    expect(source).toContain("Saved on this device");\n    expect(source).toContain("Every recommendation follows a reviewable rule instead of a hidden or improvised answer.");\n    expect(source).not.toContain("Deterministic recommendations");\n    expect(source).not.toContain(">Local workspace</span>");\n    expect(source).not.toContain("opaque generated advice");\n  });\n});\n''')
+          PY
+
+      - name: Remove temporary codemod workflow
+        run: git rm .github/workflows/caf-human-language-codemod.yml
+
+      - name: Commit focused correction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/navigator/FinancialNavigator.tsx src/test/financialNavigatorLanguage.test.ts
+          git commit -m "fix: humanize Financial Navigator public language"
+          git push origin HEAD:agent/caf-human-language-production-fix

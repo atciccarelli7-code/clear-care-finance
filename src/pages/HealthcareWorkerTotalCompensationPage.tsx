@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calculator, FileCheck2, ShieldCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
@@ -6,6 +6,7 @@ import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
 
 const TotalCompensationComparison = lazy(() => import("@/components/calculators/TotalCompensationComparison"));
+const HealthcareOfferDecisionChecklist = lazy(() => import("@/components/calculators/HealthcareOfferDecisionChecklist"));
 
 const sources = [
   {
@@ -61,12 +62,50 @@ const relatedResources = [
   },
 ];
 
+const LoadingPanel = ({ label }: { label: string }) => (
+  <div className="flex min-h-[320px] items-center justify-center rounded-3xl border border-border bg-card text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">
+    {label}
+  </div>
+);
+
+const AccessibleCompensationComparison = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const makeTablesKeyboardAccessible = () => {
+      container.querySelectorAll<HTMLElement>("div.overflow-x-auto").forEach((region) => {
+        const table = region.querySelector("table");
+        if (!table) return;
+        const caption = table.querySelector("caption")?.textContent?.trim() || "Compensation comparison table";
+        region.tabIndex = 0;
+        region.setAttribute("role", "region");
+        region.setAttribute("aria-label", `${caption}. Scroll horizontally to review all columns.`);
+        region.classList.add("focus:outline-none", "focus:ring-2", "focus:ring-primary/30", "focus:ring-offset-2");
+      });
+    };
+
+    makeTablesKeyboardAccessible();
+    const observer = new MutationObserver(makeTablesKeyboardAccessible);
+    observer.observe(container, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef}>
+      <TotalCompensationComparison />
+    </div>
+  );
+};
+
 const HealthcareWorkerTotalCompensationPage = () => (
   <>
     <PageHero
       eyebrow="Healthcare worker job offers"
       title="Compare two jobs by total compensation — not salary alone."
-      description="Estimate cash pay, overtime, differentials, employer benefits, insurance premiums, commuting costs, effective hourly value, and the base pay needed to break even."
+      description="Estimate cash pay, overtime, differentials, employer benefits, insurance premiums, commuting costs, and effective hourly value—then build the written verification plan to use before you resign."
     >
       <Button asChild variant="outline" size="lg">
         <Link to="/articles/how-healthcare-workers-should-compare-job-offers">Read the comparison guide <ArrowRight className="h-4 w-4" /></Link>
@@ -102,8 +141,14 @@ const HealthcareWorkerTotalCompensationPage = () => (
     </section>
 
     <section className="container min-w-0 pb-12 md:pb-16">
-      <Suspense fallback={<div className="flex min-h-[420px] items-center justify-center rounded-3xl border border-border bg-card text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading comparison tool…</div>}>
-        <TotalCompensationComparison />
+      <Suspense fallback={<LoadingPanel label="Loading comparison tool…" />}>
+        <AccessibleCompensationComparison />
+      </Suspense>
+    </section>
+
+    <section className="container min-w-0 pb-14 md:pb-20">
+      <Suspense fallback={<LoadingPanel label="Loading offer verification plan…" />}>
+        <HealthcareOfferDecisionChecklist />
       </Suspense>
     </section>
 

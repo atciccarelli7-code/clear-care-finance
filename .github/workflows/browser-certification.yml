@@ -39,6 +39,7 @@ jobs:
         with:
           name: browser-certification-${{ github.run_id }}
           path: |
+            healthcare-offer-verification-*.png
             test-results/
             playwright-report/
           retention-days: 14

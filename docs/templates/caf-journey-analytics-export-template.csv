@@ -1,0 +1,4 @@
+event_name,journey_key,surface,phase,step_index,variant,session_journey_id,event_count,date,event_timestamp
+journey_viewed,decision_concierge,home,name_question,0,,caf-example-001,1,2026-07-21,2026-07-21T12:00:00Z
+journey_started,decision_concierge,home,narrow_answer,1,medical_bill,caf-example-001,1,2026-07-21,2026-07-21T12:00:10Z
+journey_result_reached,decision_concierge,home,result,3,medical_bill,caf-example-001,1,2026-07-21,2026-07-21T12:00:30Z

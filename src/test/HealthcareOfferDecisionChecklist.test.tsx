@@ -60,13 +60,23 @@ describe("HealthcareOfferDecisionChecklist", () => {
     expect(vi.mocked(navigator.clipboard.writeText).mock.calls[0][0]).toContain("[x] The written offer is final before notice is given");
   });
 
-  it("clears saved progress only after confirmation", () => {
+  it("keeps saved progress when reset is declined and clears it after confirmation", () => {
     renderChecklist();
-    fireEvent.click(screen.getByRole("checkbox", { name: /Base pay and pay frequency are in writing/ }));
-    fireEvent.click(screen.getByRole("button", { name: "Clear local plan" }));
+    const basePayItem = screen.getByRole("checkbox", { name: /Base pay and pay frequency are in writing/ });
+    const clearButton = screen.getByRole("button", { name: "Clear local plan" });
+    const confirmMock = vi.mocked(window.confirm);
 
-    expect(window.confirm).toHaveBeenCalledTimes(1);
-    expect(screen.getAllByRole("checkbox").every((checkbox) => !checkbox.hasAttribute("checked"))).toBe(true);
+    fireEvent.click(basePayItem);
+    expect(basePayItem).toBeChecked();
+
+    confirmMock.mockReturnValueOnce(false);
+    fireEvent.click(clearButton);
+    expect(basePayItem).toBeChecked();
+    expect(screen.getByRole("progressbar", { name: "Healthcare offer verification progress" })).toHaveAttribute("aria-valuenow", "1");
+
+    confirmMock.mockReturnValueOnce(true);
+    fireEvent.click(clearButton);
+    expect(basePayItem).not.toBeChecked();
     expect(screen.getByRole("progressbar", { name: "Healthcare offer verification progress" })).toHaveAttribute("aria-valuenow", "0");
   });
 });

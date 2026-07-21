@@ -18,6 +18,18 @@ export type PaidProduct = {
   limitations: string;
 };
 
+export type PaidProductBundle = {
+  id: string;
+  name: string;
+  includedProductIds: string[];
+  standardPrice: number;
+  launchPrice: number;
+  status: PaidProductStatus;
+  checkoutEnabled: boolean;
+  checkoutUrl: string;
+  checkoutEnvKey: string;
+};
+
 export const PAID_PRODUCT_LAUNCH_GATES = [
   "Consistent non-founder traffic and repeated use of the related free tools",
   "Qualified early-access interest for the specific product",
@@ -139,13 +151,13 @@ export const PAID_PRODUCTS: PaidProduct[] = [
   },
 ];
 
-export const PAID_PRODUCT_BUNDLE = {
+export const PAID_PRODUCT_BUNDLE: PaidProductBundle = {
   id: "healthcare_money_decision_library",
   name: "Healthcare Money Decision Library",
   includedProductIds: PAID_PRODUCTS.map((product) => product.id),
   standardPrice: 59,
   launchPrice: 39,
-  status: "private_ready" as const,
+  status: "private_ready",
   checkoutEnabled: false,
   checkoutUrl: "",
   checkoutEnvKey: "VITE_LEMON_SQUEEZY_PRODUCT_BUNDLE_URL",

@@ -58,7 +58,7 @@ test("captures a standardized answer-first decision result", async ({ page }, te
   await page.getByRole("button", { name: /Compare contribution factors/i }).click();
   const resultLabel = page.getByText(/Your result/i).first();
   await expect(resultLabel).toBeVisible();
-  await expect(page.getByText(/Your next three actions/i).first()).toBeVisible();
+  await expect(page.getByText(/Your next two actions/i).first()).toBeVisible();
   await capture(page, testInfo, "answer-first-result", resultLabel);
 });
 

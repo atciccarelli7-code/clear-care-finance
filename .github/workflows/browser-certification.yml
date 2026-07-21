@@ -33,6 +33,9 @@ jobs:
       - name: Capture representative desktop and mobile product visuals
         if: success()
         run: npx playwright test e2e/professional-product-visuals.spec.ts
+      - name: Generate representative Letter and A4 print PDFs
+        if: success()
+        run: npx playwright test e2e/print-pdf-certification.spec.ts --project=desktop-chromium
       - name: Upload browser certification and visual evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -40,6 +43,7 @@ jobs:
           name: browser-certification-${{ github.run_id }}
           path: |
             healthcare-offer-verification-*.png
+            print-certification/**/*.pdf
             test-results/
             playwright-report/
           retention-days: 14

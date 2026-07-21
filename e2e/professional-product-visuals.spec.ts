@@ -54,17 +54,8 @@ test("captures Hospital Guide before and after an immediate need is selected", a
 });
 
 test("captures a standardized answer-first decision result", async ({ page }, testInfo) => {
-  await preparePage(page, "/tools/medical-appointment-cost-preparation");
-  await page.locator("#care-timing").focus();
-  await page.keyboard.press("ArrowDown");
-  await page.keyboard.press("Tab");
-  await page.keyboard.press("Tab");
-  await page.getByRole("button", { name: /Continue/i }).focus();
-  await page.keyboard.press("Enter");
-  await page.getByRole("button", { name: /Continue/i }).focus();
-  await page.keyboard.press("Enter");
-  await page.getByRole("button", { name: /Build my cost preparation plan/i }).focus();
-  await page.keyboard.press("Enter");
+  await preparePage(page, "/tools/roth-vs-traditional-decision-helper");
+  await page.getByRole("button", { name: /Compare contribution factors/i }).click();
   const resultLabel = page.getByText(/Your result/i).first();
   await expect(resultLabel).toBeVisible();
   await expect(page.getByText(/Your next three actions/i).first()).toBeVisible();

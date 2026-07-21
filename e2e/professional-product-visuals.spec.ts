@@ -47,10 +47,16 @@ test("captures Hospital Guide before and after an immediate need is selected", a
 
 test("captures a standardized answer-first decision result", async ({ page }, testInfo) => {
   await preparePage(page, "/tools/medical-appointment-cost-preparation");
-  await page.locator("#care-timing").selectOption({ index: 1 });
-  await page.getByRole("button", { name: /Continue/i }).click();
-  await page.getByRole("button", { name: /Continue/i }).click();
-  await page.getByRole("button", { name: /Build my cost preparation plan/i }).click();
+  await page.locator("#care-timing").focus();
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
+  await page.getByRole("button", { name: /Continue/i }).focus();
+  await page.keyboard.press("Enter");
+  await page.getByRole("button", { name: /Continue/i }).focus();
+  await page.keyboard.press("Enter");
+  await page.getByRole("button", { name: /Build my cost preparation plan/i }).focus();
+  await page.keyboard.press("Enter");
   await expect(page.getByText(/Your result/i).first()).toBeVisible();
   await expect(page.getByText(/Your next three actions/i).first()).toBeVisible();
   await capture(page, testInfo, "answer-first-result", true);

@@ -24,10 +24,26 @@ const visit = async (page: Page, route: string) => {
   await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 };
 
-const exportPdfPair = async (page: Page, slug: string) => {
+const assertGovernedPrintSurface = async (page: Page, expectedText: RegExp, isStandalonePack = false) => {
+  await expect(page.locator("body")).toContainText(expectedText);
+
+  if (!isStandalonePack) {
+    await expect(page.locator("header")).toBeHidden();
+    await expect(page.locator("footer")).toBeHidden();
+    await expect(page.locator('aside[aria-label="Site trust standards"]')).toBeHidden();
+    await expect(page.locator('nav[aria-label="Primary mobile navigation"]')).toBeHidden();
+    await expect(page.locator("button:visible, [role=button]:visible")).toHaveCount(0);
+  }
+
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(1);
+};
+
+const exportPdfPair = async (page: Page, slug: string, expectedText: RegExp, isStandalonePack = false) => {
   await mkdir(ARTIFACT_DIR, { recursive: true });
   await page.emulateMedia({ media: "print" });
   await page.evaluate(() => document.fonts.ready.then(() => undefined));
+  await assertGovernedPrintSurface(page, expectedText, isStandalonePack);
 
   const baseOptions = {
     printBackground: true,
@@ -59,11 +75,11 @@ test("generate Medical Bill Response System result and printable pack PDFs", asy
   await visit(page, "/insurance/medical-bill-review-toolkit");
   await page.getByRole("button", { name: /Hospital or facility bill/i }).click();
   await expect(page.locator("#document-result")).toContainText("Safest next action");
-  await exportPdfPair(page, "medical-bill-response-result");
+  await exportPdfPair(page, "medical-bill-response-result", /Hospital or facility bill/i);
 
   await page.goto("/downloads/medical-bill-response-pack.html", { waitUntil: "networkidle" });
   await expect(page.locator("body")).toContainText(/Medical Bill Response Pack/i);
-  await exportPdfPair(page, "medical-bill-response-pack");
+  await exportPdfPair(page, "medical-bill-response-pack", /Medical Bill Response Pack/i, true);
 });
 
 test("generate Hospital and Patient Guide action plan PDFs", async ({ page }) => {
@@ -71,7 +87,7 @@ test("generate Hospital and Patient Guide action plan PDFs", async ({ page }) =>
   await page.getByRole("button", { name: "Leaving the hospital" }).click();
   await expect(page.getByText("Your next three actions")).toBeVisible();
   await expect(page.getByText("Verify before acting")).toBeVisible();
-  await exportPdfPair(page, "hospital-discharge-action-plan");
+  await exportPdfPair(page, "hospital-discharge-action-plan", /Your next three actions/i);
 });
 
 test("generate healthcare offer verification PDFs", async ({ page }) => {
@@ -80,7 +96,7 @@ test("generate healthcare offer verification PDFs", async ({ page }) => {
     if (!await checkbox.isChecked()) await checkbox.check();
   }
   await expect(page.getByRole("heading", { name: "All verification items are marked complete" })).toBeVisible();
-  await exportPdfPair(page, "healthcare-offer-verification-plan");
+  await exportPdfPair(page, "healthcare-offer-verification-plan", /All verification items are marked complete/i);
 });
 
 test("generate Turning 65 Medicare timeline PDFs", async ({ page }) => {
@@ -101,5 +117,5 @@ test("generate Turning 65 Medicare timeline PDFs", async ({ page }) => {
   await page.getByRole("button", { name: /Build qualified timeline/i }).click();
   await expect(page.getByRole("heading", { name: "Dated timeline" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Official verification and escalation" })).toBeVisible();
-  await exportPdfPair(page, "turning-65-medicare-timeline");
+  await exportPdfPair(page, "turning-65-medicare-timeline", /Official verification and escalation/i);
 });

@@ -159,7 +159,9 @@ const eventCount = (record) => {
 export const inspectJourneyHeaders = (records) => {
   if (records.length === 0) return { columns: [], forbiddenColumns: [], unknownColumns: [] };
   const columns = Object.keys(records[0]).filter((key) => key !== "__row");
-  const forbiddenColumns = columns.filter((column) => FORBIDDEN_HEADER_PATTERNS.some((pattern) => pattern.test(column)));
+  const forbiddenColumns = columns.filter(
+    (column) => !ALLOWED_JOURNEY_COLUMNS.has(column) && FORBIDDEN_HEADER_PATTERNS.some((pattern) => pattern.test(column)),
+  );
   const unknownColumns = columns.filter((column) => !ALLOWED_JOURNEY_COLUMNS.has(column));
   return { columns, forbiddenColumns, unknownColumns };
 };

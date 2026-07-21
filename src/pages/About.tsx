@@ -143,7 +143,7 @@ const About = () => {
             <div>
               <h2 id="credential-boundary-heading" className="font-display text-2xl font-bold">Credential and editorial boundary</h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                Andrew’s RN and BSN credentials support the bedside and healthcare-navigation perspective. They do not make him a CFP professional, attorney, tax preparer, insurance producer, Medicare representative, fiduciary, benefits administrator, physician, or pharmacist. Pages identify sources and review status; no independent professional review is implied unless a qualified reviewer is named.
+                My RN and BSN credentials support the bedside and healthcare-navigation perspective. They do not make me a CFP professional, attorney, tax preparer, insurance producer, Medicare representative, fiduciary, benefits administrator, physician, or pharmacist. Pages identify sources and review status; no independent professional review is implied unless a qualified reviewer is named.
               </p>
               <ul className="mt-5 grid gap-3 text-sm leading-relaxed text-muted-foreground md:grid-cols-2">
                 <li className="border-l-2 border-border pl-3">Use official and reputable sources for program rules, taxes, retirement accounts, insurance, and healthcare costs.</li>

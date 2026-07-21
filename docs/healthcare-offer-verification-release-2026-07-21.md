@@ -2,7 +2,7 @@
 
 Date: 2026-07-21  
 Linear: AND-83  
-Canonical route: `/tools/healthcare-worker-total-compensation`
+Canonical route: `/tools/healthcare-worker-total-compensation-comparison`
 
 ## Current-state decision
 

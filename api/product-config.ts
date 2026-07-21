@@ -8,6 +8,37 @@ type ApiResponse = {
   setHeader: (name: string, value: string) => void;
 };
 
+const products = [
+  {
+    productId: "healthcare_worker_career_benefits_decision_system",
+    productStatus: "private_ready",
+    standardPrice: 39,
+    launchPrice: 29,
+    checkoutEnabled: false,
+    checkoutUrl: "",
+    deliveryMode: "private_master_not_hosted",
+  },
+  {
+    productId: "medical_bill_response_resolution_system",
+    productStatus: "private_ready",
+    standardPrice: 29,
+    launchPrice: 19,
+    checkoutEnabled: false,
+    checkoutUrl: "",
+    deliveryMode: "private_master_not_hosted",
+  },
+] as const;
+
+const bundle = {
+  productId: "healthcare_money_decision_library",
+  productStatus: "private_ready",
+  standardPrice: 59,
+  launchPrice: 39,
+  checkoutEnabled: false,
+  checkoutUrl: "",
+  deliveryMode: "private_master_not_hosted",
+} as const;
+
 export default function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Allow", "GET");
   res.setHeader("Cache-Control", "public, max-age=0, s-maxage=300, stale-while-revalidate=3600");
@@ -18,11 +49,20 @@ export default function handler(req: ApiRequest, res: ApiResponse) {
   }
 
   return res.status(200).json({
-    productId: "expanded_medical_bill_response_workbook",
-    productStatus: "audience_validation",
-    checkoutEnabled: false,
-    checkoutUrl: "",
-    deliveryMode: "interest_only",
+    portfolioStatus: "private_ready",
+    commerceEnabled: false,
+    paymentProvider: "lemon_squeezy_planned",
+    hostingPlanRequiredForLaunch: "vercel_pro",
+    products,
+    bundle,
     paymentDecision: "deferred_until_traffic_and_operational_gates",
+    activationRequires: [
+      "founder_approval",
+      "vercel_pro",
+      "lemon_squeezy_verified",
+      "hosted_delivery_tested",
+      "refund_and_support_ready",
+      "privacy_safe_analytics_verified",
+    ],
   });
 }

@@ -2,6 +2,7 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import "./print.css";
+import "./print-pagination.css";
 import { AppErrorBoundary } from "./components/system/AppErrorBoundary";
 import { installRouteAwareAdSense } from "./lib/routeAwareAdSense";
 

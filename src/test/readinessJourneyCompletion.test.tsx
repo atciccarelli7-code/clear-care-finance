@@ -30,7 +30,7 @@ describe("priority decision journey completion", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /compare contribution factors/i }));
 
-    expect(screen.getByRole("heading", { name: /use the next tool that matches what remains unresolved/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /continue only if this result leaves another question unresolved/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /estimate the paycheck contribution/i })).toHaveAttribute("href", "/tools/403b-paycheck-calculator");
     expect(screen.getByRole("link", { name: /review retirement inside the full benefits package/i })).toHaveAttribute("href", "/tools/benefits-command-center");
   });

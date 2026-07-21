@@ -68,7 +68,7 @@
   }
 
   /* Medical Bill Response System: print only the selected document result. */
-  body:has(#document-result) main > section,
+  body:has(#document-result) main > :not(div.container),
   body:has(#document-result) main > div.container > :not(#document-router),
   body:has(#document-result) #document-router > :not(#document-result) {
     display: none !important;
@@ -113,19 +113,6 @@
     font-weight: 400;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
-  }
-
-  body:has(#document-result) #document-result::after {
-    content: "Educational planning aid only. Confirm claim processing, coverage, billing liability, deadlines, and payment instructions with the controlling payer, provider, written notice, or qualified professional.\A https://communityacquiredfinance.com/insurance/medical-bill-review-toolkit";
-    display: block;
-    margin-top: 18pt;
-    padding-top: 8pt;
-    border-top: 1px solid #94a3b8;
-    color: #475569;
-    font-size: 8pt;
-    line-height: 1.45;
-    overflow-wrap: anywhere;
-    white-space: pre-line;
   }
 
   /* Hospital & Patient Guide: print only the selected action plan. */

@@ -25,9 +25,10 @@ describe("One-Minute Decision Concierge routing", () => {
     expect(result.destinationPath).toBe("/tools/benefits-change-detector");
   });
 
-  it("routes an uncertain patient or caregiver into the existing patient journey", () => {
+  it("routes an uncertain patient or caregiver directly into the canonical hospital guide", () => {
     const result = getConciergeResult({ problem: "not_sure", audience: "patient_caregiver" });
     expect(result.problem).toBe("help_family");
-    expect(result.destinationPath).toBe("/patients-families");
+    expect(result.label).toBe("Hospital & Patient Guide");
+    expect(result.destinationPath).toBe("/patients-families/hospital-guide");
   });
 });

@@ -1,8 +1,6 @@
 import { useEffect, useRef, type PropsWithChildren } from "react";
-import {
-  trackReadinessJourneyEvent,
-  type ReadinessJourneyId,
-} from "@/lib/decisionJourneyAnalytics";
+import type { ReadinessJourneyId } from "@/lib/decisionJourneyAnalytics";
+import { trackJourneyEvent } from "@/lib/journeyAnalytics";
 
 export const DecisionJourneyAnalyticsBoundary = ({
   journeyId,
@@ -17,7 +15,12 @@ export const DecisionJourneyAnalyticsBoundary = ({
   const markStarted = () => {
     if (startedRef.current) return;
     startedRef.current = true;
-    trackReadinessJourneyEvent("decision_journey_started", { journey_id: journeyId });
+    trackJourneyEvent("journey_started", {
+      journey_key: journeyId,
+      surface: "destination",
+      phase: "name_question",
+      step_index: 0,
+    });
   };
 
   return (

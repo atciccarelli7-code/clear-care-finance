@@ -60,6 +60,11 @@ export const SeoCompoundingPathway = ({ pathway, currentPath, surface, contained
 };
 
 export const RouteSeoCompoundingPathway = ({ pathname }: RouteSeoCompoundingPathwayProps) => {
+  // The Tools page already provides one guided chooser and one complete directory.
+  // Re-injecting the hub pathway below it recreates the duplicate featured-tool and
+  // Benefits promotions that the professional product architecture intentionally removed.
+  if (pathname === "/tools") return null;
+
   const articleSlug = pathname.startsWith("/articles/") ? pathname.slice("/articles/".length) : "";
   const articlePathway = articleSlug ? getArticleCompoundingPathway(articleSlug) : null;
 

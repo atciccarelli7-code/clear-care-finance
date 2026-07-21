@@ -44,7 +44,7 @@ const PrivatePaidProductsLabPage = () => (
       </Button>
     </PageHero>
 
-    <main className="container min-w-0 space-y-12 py-10 md:space-y-16 md:py-16">
+    <div className="container min-w-0 space-y-12 py-10 md:space-y-16 md:py-16">
       <section className="grid gap-4 md:grid-cols-4" aria-label="Private product safeguards">
         {[
           {
@@ -225,7 +225,7 @@ const PrivatePaidProductsLabPage = () => (
       </section>
 
       <DisclaimerBox />
-    </main>
+    </div>
   </>
 );
 

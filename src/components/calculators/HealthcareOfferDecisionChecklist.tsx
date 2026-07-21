@@ -131,9 +131,10 @@ const buildPlanText = (completedIds: string[]) => {
 };
 
 export const HealthcareOfferDecisionChecklist = () => {
-  const [completedIds, setCompletedIds] = useState<string[]>(readStoredPlan);
+  const [completedIds, setCompletedIds] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
-  const startedRef = useRef(completedIds.length > 0);
+  const [storageLoaded, setStorageLoaded] = useState(false);
+  const startedRef = useRef(false);
   const completedTrackedRef = useRef(false);
   const completedSet = useMemo(() => new Set(completedIds), [completedIds]);
   const completionPercent = Math.round((completedIds.length / verificationItems.length) * 100);
@@ -147,7 +148,10 @@ export const HealthcareOfferDecisionChecklist = () => {
       variant: "fixed_verification_checklist",
     });
 
-    if (completedIds.length > 0) {
+    const storedPlan = readStoredPlan();
+    if (storedPlan.length > 0) {
+      startedRef.current = true;
+      setCompletedIds(storedPlan);
       trackJourneyEvent("journey_resume_clicked", {
         journey_key: JOURNEY_KEY,
         surface: "destination",
@@ -155,11 +159,12 @@ export const HealthcareOfferDecisionChecklist = () => {
         variant: "saved_on_device",
       });
     }
-    // Initial state is intentionally captured once to avoid duplicate view events.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setStorageLoaded(true);
   }, []);
 
   useEffect(() => {
+    if (!storageLoaded) return;
+
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, completed: completedIds }));
     } catch {
@@ -177,7 +182,7 @@ export const HealthcareOfferDecisionChecklist = () => {
     }
 
     if (!allComplete) completedTrackedRef.current = false;
-  }, [allComplete, completedIds]);
+  }, [allComplete, completedIds, storageLoaded]);
 
   const toggleItem = (item: VerificationItem, index: number) => {
     const willComplete = !completedSet.has(item.id);

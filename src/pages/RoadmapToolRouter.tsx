@@ -9,6 +9,7 @@ const MedicaidRouter = lazy(() => import("@/pages/CareDecisionToolsBundle").then
 const ObservationGuide = lazy(() => import("@/pages/CareDecisionToolsBundle").then((module) => ({ default: module.ObservationInpatientStatusGuidePage })));
 const MedicareChecklist = lazy(() => import("@/pages/CareDecisionToolsBundle").then((module) => ({ default: module.MedicarePlanVerificationChecklistPage })));
 const MedicalCostPreparation = lazy(() => import("@/pages/MedicalAppointmentCostPreparationPage"));
+const PrivatePaidProductsLab = lazy(() => import("@/pages/PrivatePaidProductsLabPage"));
 
 const Loading = () => (
   <div className="container flex min-h-[45vh] items-center justify-center py-16" role="status" aria-live="polite">
@@ -41,6 +42,7 @@ export const RoadmapToolRouter = ({ slug }: { slug: string }) => {
       case "observation-vs-inpatient-status-guide": return <ObservationGuide />;
       case "medicare-plan-verification-checklist": return <MedicareChecklist />;
       case "medical-appointment-cost-preparation": return <MedicalCostPreparation />;
+      case "private-paid-product-lab": return <PrivatePaidProductsLab />;
       default: return null;
     }
   })();

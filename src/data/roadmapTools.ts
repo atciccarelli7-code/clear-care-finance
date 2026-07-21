@@ -1,5 +1,7 @@
 import type { ToolDefinition } from "@/data/tools";
 
+const privateProductLabEnabled = import.meta.env.VITE_ENABLE_PRIVATE_PRODUCT_LAB === "true";
+
 export const roadmapTools: ToolDefinition[] = [
   {
     slug: "medical-appointment-cost-preparation",
@@ -91,4 +93,21 @@ export const roadmapTools: ToolDefinition[] = [
     href: "/tools/debt-vs-retirement-router",
     relatedArticle: { label: "Student Loans Section", href: "/student-loans" },
   },
+  ...(privateProductLabEnabled
+    ? [
+        {
+          slug: "private-paid-product-lab",
+          title: "Private Paid Product Laboratory",
+          shortTitle: "Private Product Lab",
+          category: "Internal product development",
+          audience: "Founder only",
+          description: "Review the two feature-gated paid product systems, planned pricing, free-versus-paid boundaries, and release gates without enabling checkout.",
+          estimatedUseTime: "10–15 min",
+          icon: "shield",
+          featured: false,
+          href: "/tools/private-paid-product-lab",
+          relatedArticle: { label: "Public tools directory", href: "/tools" },
+        } satisfies ToolDefinition,
+      ]
+    : []),
 ];

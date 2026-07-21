@@ -50,11 +50,14 @@ describe("medical bill productization static contracts", () => {
     expect(productEnhancement).toContain("premium_interest_submit");
   });
 
-  it("exposes only an interest-only server contract with checkout hard-disabled", () => {
-    expect(productConfig).toContain("checkoutEnabled: false");
-    expect(productConfig).toContain('checkoutUrl: ""');
-    expect(productConfig).toContain('deliveryMode: "interest_only"');
-    expect(productConfig).toContain('productStatus: "audience_validation"');
+  it("keeps the expanded portfolio private with every checkout hard-disabled", () => {
+    expect(productConfig).toContain('portfolioStatus: "private_ready"');
+    expect(productConfig).toContain("commerceEnabled: false");
+    expect(productConfig).toContain('productId: "medical_bill_response_resolution_system"');
+    expect(productConfig).toContain('productStatus: "private_ready"');
+    expect(productConfig).toContain('deliveryMode: "private_master_not_hosted"');
+    expect(productConfig.match(/checkoutEnabled: false/g)?.length).toBeGreaterThanOrEqual(3);
+    expect(productConfig.match(/checkoutUrl: ""/g)?.length).toBeGreaterThanOrEqual(3);
     expect(productConfig).not.toContain("MEDICAL_BILL_WORKBOOK_CHECKOUT_URL");
     expect(productPage).not.toContain("stripe");
     expect(productPage).not.toContain("card number");

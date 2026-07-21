@@ -9,17 +9,20 @@ import { getToolBySlug, getToolHref, tools } from "@/data/tools";
 import { useSeo } from "@/lib/seo";
 import { RoadmapToolRouter } from "@/pages/RoadmapToolRouter";
 
+const PRIVATE_TOOL_SLUGS = new Set(["private-paid-product-lab"]);
+
 const ToolPage = () => {
   const { slug = "" } = useParams();
   const coreTool = getToolBySlug(slug);
   const roadmapTool = roadmapTools.find((candidate) => candidate.slug === slug);
   const tool = coreTool ?? roadmapTool;
+  const isPrivateTool = PRIVATE_TOOL_SLUGS.has(slug);
 
   useSeo({
     title: tool?.title ?? "Tool Not Found",
     description: tool?.description ?? "Browse Community Acquired Finance calculators and decision tools.",
     canonicalPath: tool ? `/tools/${tool.slug}` : "/tools",
-    robots: tool ? "index, follow, max-image-preview:large" : "noindex, nofollow",
+    robots: tool && !isPrivateTool ? "index, follow, max-image-preview:large" : "noindex, nofollow",
   });
 
   if (!tool) return <Navigate to="/tools" replace />;

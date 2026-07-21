@@ -1,13 +1,21 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { ArrowRight, ClipboardCheck } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { FinancialNavigator } from "@/components/navigator/FinancialNavigator";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
 
 const FinancialFoundationCheckup = lazy(() => import("@/components/calculators/FinancialFoundationCheckup"));
 
+const OPTIONAL_CHECKUP_HASH = "#financial-foundation-checkup";
+
 const StartHere = () => {
-  const [showOptionalCheckup, setShowOptionalCheckup] = useState(false);
+  const location = useLocation();
+  const [showOptionalCheckup, setShowOptionalCheckup] = useState(location.hash === OPTIONAL_CHECKUP_HASH);
+
+  useEffect(() => {
+    if (location.hash === OPTIONAL_CHECKUP_HASH) setShowOptionalCheckup(true);
+  }, [location.hash]);
 
   useSeo({
     title: "Financial Navigator: Build Your Next Money Action Plan",
@@ -18,7 +26,11 @@ const StartHere = () => {
   return (
     <>
       <FinancialNavigator />
-      <section className="border-t border-border bg-card/35 py-14 print:hidden" aria-labelledby="optional-foundation-checkup-heading">
+      <section
+        id="financial-foundation-checkup"
+        className="scroll-mt-24 border-t border-border bg-card/35 py-14 print:hidden"
+        aria-labelledby="optional-foundation-checkup-heading"
+      >
         <div className="container max-w-4xl">
           <div className="rounded-3xl border border-border bg-background p-6 shadow-card md:p-8">
             <div className="flex items-start gap-4">

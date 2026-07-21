@@ -1,4 +1,5 @@
 import { trackSiteEvent } from "@/lib/analytics";
+import { trackJourneyEvent, type JourneySurface } from "@/lib/journeyAnalytics";
 
 export const GROWTH_EVENT_NAMES = [
   "home_primary_cta_clicked",
@@ -115,8 +116,35 @@ export const sanitizeGrowthEvent = (name: string, properties: Record<string, unk
   return { name: name as GrowthEventName, properties: cleaned };
 };
 
+const normalizeConciergeEvent = (name: GrowthEventName, properties: GrowthEventProperties) => {
+  if (!name.startsWith("concierge_")) return null;
+  const surface = properties.entry_surface;
+  if (surface !== "home" && surface !== "tools" && surface !== "start_here") return false;
+  const shared = {
+    journey_key: "decision_concierge",
+    surface: surface as JourneySurface,
+  } as const;
+
+  switch (name) {
+    case "concierge_viewed":
+      return trackJourneyEvent("journey_viewed", { ...shared, phase: "name_question", step_index: 0 });
+    case "concierge_started":
+      return trackJourneyEvent("journey_started", { ...shared, phase: "name_question", step_index: 0, variant: properties.problem_category });
+    case "concierge_category_selected":
+      return trackJourneyEvent("journey_step_completed", { ...shared, phase: "name_question", step_index: 1, variant: properties.problem_category });
+    case "concierge_completed":
+      return trackJourneyEvent("journey_step_completed", { ...shared, phase: "narrow_answer", step_index: 3, variant: properties.destination_id });
+    case "concierge_destination_opened":
+      return trackJourneyEvent("journey_handoff_opened", { ...shared, phase: "handoff", variant: properties.destination_id });
+    default:
+      return false;
+  }
+};
+
 export const trackGrowthEvent = (name: GrowthEventName, properties: GrowthEventProperties = {}) => {
   const event = sanitizeGrowthEvent(name, properties);
   if (!event) return false;
+  const normalized = normalizeConciergeEvent(event.name, event.properties);
+  if (normalized !== null) return normalized;
   return trackSiteEvent(event.name, event.properties);
 };

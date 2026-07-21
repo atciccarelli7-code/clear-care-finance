@@ -48,7 +48,7 @@ describe("Header mobile navigation", () => {
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
     const firstLink = within(mobileNav).getByRole("link", { name: "Start Here" });
-    const lastLink = within(mobileNav).getByRole("link", { name: "Join newsletter" });
+    const lastLink = within(mobileNav).getByRole("link", { name: "Monthly email" });
 
     lastLink.focus();
     fireEvent.keyDown(document, { key: "Tab" });

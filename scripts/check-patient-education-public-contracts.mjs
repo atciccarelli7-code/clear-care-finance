@@ -19,8 +19,8 @@ const assert = (condition, message) => { if (!condition) failures.push(message);
 
 assert(manifest.status === "paused_future_option", "Institutional program must remain paused_future_option.");
 assert((guideData.match(/slug: "/g) ?? []).length === 5, "Consumer guide data must contain exactly five guide articles.");
-assert(hubPage.includes("Private guide finder"), "Consumer hub must include the fixed-choice guide finder.");
-assert(hubPage.includes("Nothing is submitted, stored on a server"), "Guide finder must state its no-submission boundary.");
+assert(hubPage.includes("Choose one immediate need"), "Consumer hub must include the fixed-choice immediate-need selector.");
+assert(hubPage.includes("fixed choices stay in this browser session") && hubPage.includes("No name, diagnosis, policy number, claim detail, or free-text medical information is requested"), "Guide selector must state local-session behavior and its no-sensitive-input boundary.");
 assert(!hubPage.includes("Build a pilot"), "Consumer hub must not include an institutional pilot CTA.");
 assert(!hubPage.includes("design partner"), "Consumer hub must not include a design-partner CTA.");
 

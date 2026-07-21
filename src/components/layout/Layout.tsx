@@ -28,6 +28,13 @@ const RouteSeoCompoundingPathway = lazy(() =>
 );
 
 const continuityRoutes = new Set(["/", "/start-here", "/tools"]);
+const contextualTrustRoutes = new Set([
+  "/",
+  "/start-here",
+  "/tools",
+  "/patients-families/hospital-guide",
+  "/about",
+]);
 
 export const Layout = () => {
   const location = useLocation();
@@ -35,6 +42,7 @@ export const Layout = () => {
   const showBenefitsCommandCenterEntry = hasBenefitsCommandCenterEntry(location.pathname);
   const showContinuity = continuityRoutes.has(location.pathname);
   const showJourneyDirectory = location.pathname === "/start-here";
+  const showGlobalTrustBar = !contextualTrustRoutes.has(location.pathname);
 
   useEffect(() => {
     if (!location.hash) return undefined;
@@ -47,7 +55,7 @@ export const Layout = () => {
         Skip to main content
       </a>
       <Header />
-      <SiteTrustBar />
+      {showGlobalTrustBar && <SiteTrustBar />}
       <RouteFreshness />
       <main id="main-content" className="flex-1 w-full min-w-0 outline-none" tabIndex={-1}>
         {showContinuity && (

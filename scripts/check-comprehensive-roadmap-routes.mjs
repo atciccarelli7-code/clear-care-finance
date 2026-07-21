@@ -5,7 +5,7 @@ import { repositoryRoot } from "./seo-route-utils.mjs";
 const distDir = path.join(repositoryRoot, "dist");
 const routes = [
   { path: "/for-organizations", heading: "Healthcare financial education without private records." },
-  { path: "/patients-families/hospital-guide", heading: "Know what to verify, what to ask, and what needs an owner before you go home." },
+  { path: "/patients-families/hospital-guide", heading: "What do you need help with right now?" },
   { path: "/articles/safe-hospital-discharge-first-72-hours", heading: "Safe Hospital Discharge and the First 72 Hours at Home" },
   { path: "/articles/blood-thinner-safety-before-going-home", heading: "Blood Thinner Safety: What to Verify Before Going Home" },
   { path: "/articles/copd-recovery-after-hospital", heading: "COPD Recovery After a Hospital Visit" },

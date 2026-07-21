@@ -58,7 +58,7 @@ const manifest = sources["public/patient-education/capability-manifest.json"] ??
 
 if (!/PAUSED — FUTURE OPTION|paused future option|paused_future_option/i.test(`${archive}\n${manifest}`)) failures.push("Institutional program must preserve an explicit paused future-option state.");
 if (!/not currently offering a hospital pilot/i.test(organizationPage)) failures.push("Organization page must state that the hospital pilot is not currently offered.");
-if (!/Nothing is submitted, stored on a server/i.test(hub)) failures.push("Consumer guide finder must preserve a visible no-submission boundary.");
+if (!/fixed choices stay in this browser session/i.test(hub) || !/No name, diagnosis, policy number, claim detail, or free-text medical information is requested/i.test(hub)) failures.push("Consumer guide mode selector must visibly state local-session behavior and prohibited sensitive inputs.");
 if (!/No hospital, reviewer, clinician, insurer, attorney, employer, or regulator has approved/i.test(organizationPage)) failures.push("Organization page must preserve the no-approval boundary.");
 
 if (failures.length) {

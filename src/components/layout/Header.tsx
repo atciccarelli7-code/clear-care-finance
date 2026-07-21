@@ -108,7 +108,7 @@ export const Header = () => {
         >
           <LogoMark />
           <span className="hidden whitespace-nowrap text-base md:inline">Community Acquired Finance</span>
-          <span className="whitespace-nowrap text-base md:hidden">Finance</span>
+          <span className="whitespace-nowrap text-base md:hidden">CAF</span>
         </Link>
 
         <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 2xl:flex" aria-label="Primary navigation">
@@ -164,8 +164,8 @@ export const Header = () => {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          <Button asChild variant="hero" size="sm" className="hidden whitespace-nowrap md:inline-flex">
-            <Link to="/newsletter">Newsletter</Link>
+          <Button asChild variant="outline" size="sm" className="hidden whitespace-nowrap md:inline-flex">
+            <Link to="/newsletter">Monthly email</Link>
           </Button>
           <button
             ref={menuButtonRef}
@@ -222,9 +222,9 @@ export const Header = () => {
               </NavLink>
             ))}
 
-            <Button asChild variant="hero" className="mt-2 md:hidden">
+            <Button asChild variant="outline" className="mt-2 md:hidden">
               <Link to="/newsletter" onClick={() => setOpen(false)}>
-                Join newsletter
+                Monthly email
               </Link>
             </Button>
           </nav>

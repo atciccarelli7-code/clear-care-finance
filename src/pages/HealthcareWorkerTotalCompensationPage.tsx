@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calculator, FileCheck2, ShieldCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
@@ -68,6 +68,38 @@ const LoadingPanel = ({ label }: { label: string }) => (
   </div>
 );
 
+const AccessibleCompensationComparison = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const makeTablesKeyboardAccessible = () => {
+      container.querySelectorAll<HTMLElement>("div.overflow-x-auto").forEach((region) => {
+        const table = region.querySelector("table");
+        if (!table) return;
+        const caption = table.querySelector("caption")?.textContent?.trim() || "Compensation comparison table";
+        region.tabIndex = 0;
+        region.setAttribute("role", "region");
+        region.setAttribute("aria-label", `${caption}. Scroll horizontally to review all columns.`);
+        region.classList.add("focus:outline-none", "focus:ring-2", "focus:ring-primary/30", "focus:ring-offset-2");
+      });
+    };
+
+    makeTablesKeyboardAccessible();
+    const observer = new MutationObserver(makeTablesKeyboardAccessible);
+    observer.observe(container, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef}>
+      <TotalCompensationComparison />
+    </div>
+  );
+};
+
 const HealthcareWorkerTotalCompensationPage = () => (
   <>
     <PageHero
@@ -110,7 +142,7 @@ const HealthcareWorkerTotalCompensationPage = () => (
 
     <section className="container min-w-0 pb-12 md:pb-16">
       <Suspense fallback={<LoadingPanel label="Loading comparison tool…" />}>
-        <TotalCompensationComparison />
+        <AccessibleCompensationComparison />
       </Suspense>
     </section>
 

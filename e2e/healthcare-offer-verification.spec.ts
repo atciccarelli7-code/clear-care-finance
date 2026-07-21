@@ -78,7 +78,7 @@ test("healthcare worker offer comparison continues into a private verified actio
   await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
 
   await page.screenshot({
-    path: `test-results/healthcare-offer-verification-${testInfo.project.name}.png`,
+    path: `healthcare-offer-verification-${testInfo.project.name}.png`,
     fullPage: true,
   });
 

@@ -6,6 +6,7 @@ import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
 
 const TotalCompensationComparison = lazy(() => import("@/components/calculators/TotalCompensationComparison"));
+const HealthcareOfferDecisionChecklist = lazy(() => import("@/components/calculators/HealthcareOfferDecisionChecklist"));
 
 const sources = [
   {
@@ -61,12 +62,18 @@ const relatedResources = [
   },
 ];
 
+const LoadingPanel = ({ label }: { label: string }) => (
+  <div className="flex min-h-[320px] items-center justify-center rounded-3xl border border-border bg-card text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">
+    {label}
+  </div>
+);
+
 const HealthcareWorkerTotalCompensationPage = () => (
   <>
     <PageHero
       eyebrow="Healthcare worker job offers"
       title="Compare two jobs by total compensation — not salary alone."
-      description="Estimate cash pay, overtime, differentials, employer benefits, insurance premiums, commuting costs, effective hourly value, and the base pay needed to break even."
+      description="Estimate cash pay, overtime, differentials, employer benefits, insurance premiums, commuting costs, and effective hourly value—then build the written verification plan to use before you resign."
     >
       <Button asChild variant="outline" size="lg">
         <Link to="/articles/how-healthcare-workers-should-compare-job-offers">Read the comparison guide <ArrowRight className="h-4 w-4" /></Link>
@@ -102,8 +109,14 @@ const HealthcareWorkerTotalCompensationPage = () => (
     </section>
 
     <section className="container min-w-0 pb-12 md:pb-16">
-      <Suspense fallback={<div className="flex min-h-[420px] items-center justify-center rounded-3xl border border-border bg-card text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading comparison tool…</div>}>
+      <Suspense fallback={<LoadingPanel label="Loading comparison tool…" />}>
         <TotalCompensationComparison />
+      </Suspense>
+    </section>
+
+    <section className="container min-w-0 pb-14 md:pb-20">
+      <Suspense fallback={<LoadingPanel label="Loading offer verification plan…" />}>
+        <HealthcareOfferDecisionChecklist />
       </Suspense>
     </section>
 

@@ -25,8 +25,8 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
     description: "Compare premiums, deductibles, networks, prescriptions, HSAs, FSAs, supplemental benefits, retirement options, and paycheck impact before choosing benefits.",
   },
   "/tools": {
-    title: "Financial Calculators and Decision Tools",
-    description: "Use free calculators and guided tools for retirement contributions, workplace benefits, insurance costs, medical bills, Medicare, and hospital discharge decisions.",
+    title: "Financial Calculators, Checklists, and Decision Tools",
+    description: "Choose a guided financial starting point or browse calculators, checklists, comparisons, and guides for benefits, medical bills, Medicare, student loans, retirement, and everyday money.",
   },
   "/articles": {
     title: "Financial Education Articles",

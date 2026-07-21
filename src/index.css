@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Community Acquired Finance theme
-   Clean clinical canvas with restrained dark-sage finance accents. */
+/* Community Acquired Finance semantic design system.
+   Warm neutral canvas, blue forward action, teal trust, green completion,
+   amber verification, red genuine risk, and gray optional/supporting content. */
 
 @layer base {
   :root {
     color-scheme: light;
 
-    /* Surfaces: neutral off-white canvas with subtle sage depth, not a full green wash */
     --background: 42 30% 98%;
     --background-soft: 150 20% 96%;
     --section-bg: 150 14% 94%;
@@ -22,12 +22,41 @@
     --popover: 0 0% 100%;
     --popover-foreground: 158 28% 11%;
 
-    /* Brand sage: darker app-like accent, used for CTAs, links, highlights, and focus states */
-    --primary: 154 38% 23%;
+    /* Primary is an action semantic, not a generic decorative brand wash. */
+    --primary: 216 74% 40%;
     --primary-foreground: 0 0% 100%;
-    --primary-soft: 150 24% 91%;
+    --primary-soft: 214 88% 95%;
+    --action: 216 74% 40%;
+    --action-foreground: 0 0% 100%;
+    --action-soft: 214 88% 95%;
 
-    /* Warm finance accent stays quiet and secondary */
+    --trust: 174 63% 28%;
+    --trust-foreground: 0 0% 100%;
+    --trust-soft: 170 48% 93%;
+
+    --success: 142 62% 31%;
+    --success-foreground: 0 0% 100%;
+    --success-soft: 140 55% 94%;
+
+    --caution: 36 86% 38%;
+    --caution-foreground: 36 92% 12%;
+    --caution-soft: 43 96% 91%;
+
+    --danger: 0 72% 42%;
+    --danger-foreground: 0 0% 100%;
+    --danger-soft: 0 78% 95%;
+
+    --neutral: 215 18% 36%;
+    --neutral-foreground: 0 0% 100%;
+    --neutral-soft: 210 24% 96%;
+
+    --optional: 215 13% 45%;
+    --optional-foreground: 0 0% 100%;
+    --optional-soft: 210 16% 95%;
+
+    --disabled: 215 12% 82%;
+    --disabled-foreground: 215 12% 38%;
+
     --secondary: 38 36% 39%;
     --secondary-foreground: 158 28% 11%;
     --secondary-soft: 40 38% 92%;
@@ -35,25 +64,25 @@
     --muted: 150 12% 92%;
     --muted-foreground: 154 10% 30%;
 
-    --accent: 154 38% 23%;
+    --accent: 216 74% 40%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 45%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: var(--danger);
+    --destructive-foreground: var(--danger-foreground);
 
     --border: 150 12% 84%;
     --input: 150 12% 84%;
-    --ring: 154 38% 23%;
+    --ring: 216 74% 40%;
 
     --radius: 0.875rem;
 
     --shadow-soft: 0 8px 24px -18px hsl(158 24% 18% / 0.15);
     --shadow-card: 0 5px 16px -14px hsl(158 24% 18% / 0.13);
-    --shadow-hover: 0 14px 32px -22px hsl(154 38% 18% / 0.24);
+    --shadow-hover: 0 14px 32px -22px hsl(216 54% 22% / 0.22);
 
-    --gradient-hero: radial-gradient(ellipse at top, hsl(var(--primary-soft) / 0.58) 0%, hsl(var(--background)) 60%, hsl(var(--section-bg)) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(154 38% 25%), hsl(154 38% 19%));
-    --gradient-accent: linear-gradient(135deg, hsl(154 30% 31%), hsl(154 34% 22%));
+    --gradient-hero: radial-gradient(ellipse at top, hsl(var(--action-soft) / 0.58) 0%, hsl(var(--background)) 60%, hsl(var(--section-bg)) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(216 74% 44%), hsl(216 74% 34%));
+    --gradient-accent: linear-gradient(135deg, hsl(174 54% 35%), hsl(174 60% 25%));
 
     --transition-smooth: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -69,25 +98,57 @@
     --card-foreground: 45 18% 94%;
     --popover: 158 14% 9%;
     --popover-foreground: 45 18% 94%;
-    --primary: 145 28% 58%;
-    --primary-foreground: 160 20% 8%;
-    --primary-soft: 154 20% 16%;
+
+    --primary: 214 86% 68%;
+    --primary-foreground: 218 38% 10%;
+    --primary-soft: 216 38% 17%;
+    --action: 214 86% 68%;
+    --action-foreground: 218 38% 10%;
+    --action-soft: 216 38% 17%;
+
+    --trust: 170 58% 61%;
+    --trust-foreground: 174 40% 8%;
+    --trust-soft: 174 28% 15%;
+
+    --success: 142 52% 58%;
+    --success-foreground: 145 32% 8%;
+    --success-soft: 142 28% 15%;
+
+    --caution: 42 90% 62%;
+    --caution-foreground: 38 40% 9%;
+    --caution-soft: 40 32% 15%;
+
+    --danger: 0 82% 68%;
+    --danger-foreground: 0 35% 9%;
+    --danger-soft: 0 30% 16%;
+
+    --neutral: 214 18% 70%;
+    --neutral-foreground: 215 28% 9%;
+    --neutral-soft: 215 15% 15%;
+
+    --optional: 215 14% 66%;
+    --optional-foreground: 215 28% 9%;
+    --optional-soft: 215 12% 14%;
+
+    --disabled: 215 10% 24%;
+    --disabled-foreground: 215 8% 58%;
+
     --secondary: 40 30% 78%;
     --secondary-foreground: 160 20% 8%;
     --secondary-soft: 40 18% 14%;
     --muted: 158 10% 15%;
     --muted-foreground: 100 8% 68%;
-    --accent: 145 28% 58%;
-    --accent-foreground: 160 20% 8%;
+    --accent: 214 86% 68%;
+    --accent-foreground: 218 38% 10%;
     --border: 158 10% 19%;
     --input: 158 10% 19%;
-    --ring: 145 28% 58%;
+    --ring: 214 86% 68%;
     --shadow-soft: 0 4px 20px -10px hsl(160 30% 2% / 0.52);
     --shadow-card: 0 2px 10px -5px hsl(160 30% 2% / 0.45);
-    --shadow-hover: 0 12px 32px -18px hsl(145 50% 30% / 0.38);
-    --gradient-hero: radial-gradient(ellipse at top, hsl(145 30% 14% / 0.44) 0%, hsl(var(--background)) 66%);
-    --gradient-primary: linear-gradient(135deg, hsl(145 30% 52%), hsl(145 30% 46%));
-    --gradient-accent: linear-gradient(135deg, hsl(145 28% 38%), hsl(145 28% 32%));
+    --shadow-hover: 0 12px 32px -18px hsl(214 60% 34% / 0.34);
+    --gradient-hero: radial-gradient(ellipse at top, hsl(var(--action-soft) / 0.56) 0%, hsl(var(--background)) 66%);
+    --gradient-primary: linear-gradient(135deg, hsl(214 86% 70%), hsl(214 76% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(170 48% 43%), hsl(170 52% 34%));
   }
 }
 
@@ -101,7 +162,7 @@
     text-rendering: optimizeLegibility;
     font-feature-settings: "cv11", "ss01";
     background-image:
-      radial-gradient(ellipse 58% 30% at 50% -12%, hsl(var(--primary-soft) / 0.34), transparent 74%),
+      radial-gradient(ellipse 58% 30% at 50% -12%, hsl(var(--action-soft) / 0.3), transparent 74%),
       linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--background-soft)) 58%, hsl(var(--section-bg)) 100%);
     background-attachment: fixed;
   }
@@ -114,7 +175,19 @@
   p, li, a, span, dd, dt { overflow-wrap: anywhere; }
   img, video, canvas, svg { max-width: 100%; }
   button, input, select, textarea { max-width: 100%; }
-  ::selection { background: hsl(var(--primary) / 0.18); }
+  button, [role="button"], input, select, textarea { touch-action: manipulation; }
+  :disabled, [aria-disabled="true"] { cursor: not-allowed; }
+  ::selection { background: hsl(var(--action) / 0.18); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer components {
@@ -127,6 +200,14 @@
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
+  .surface-trust { @apply border border-trust/25 bg-trust-soft text-foreground; }
+  .surface-success { @apply border border-success/25 bg-success-soft text-foreground; }
+  .surface-caution { @apply border border-caution/35 bg-caution-soft text-foreground; }
+  .surface-danger { @apply border border-danger/30 bg-danger-soft text-foreground; }
+  .surface-neutral { @apply border border-border bg-neutral-soft text-foreground; }
+  .surface-optional { @apply border border-optional/20 bg-optional-soft text-foreground; }
+  .semantic-label { @apply text-xs font-bold uppercase tracking-[0.14em]; }
 
   @screen sm {
     .container {

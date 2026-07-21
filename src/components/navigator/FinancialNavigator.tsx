@@ -351,9 +351,9 @@ export const FinancialNavigator = () => {
           </div>
           <div className="rounded-3xl border border-border bg-card p-5 shadow-card">
             <ClipboardCheck className="h-6 w-6 text-primary" />
-            <h2 className="mt-4 font-display text-lg font-bold">Deterministic recommendations</h2>
+            <h2 className="mt-4 font-display text-lg font-bold">Consistent plan rules</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              The same choices produce the same plan. Recommendations come from reviewable rules rather than opaque generated advice.
+              The same choices produce the same plan. Every recommendation follows a reviewable rule instead of a hidden or improvised answer.
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-card p-5 shadow-card">
@@ -534,7 +534,7 @@ export const FinancialNavigator = () => {
         <section id="my-plan" className="scroll-mt-24 rounded-[2rem] border border-border bg-muted/25 p-5 shadow-card print:border-0 print:bg-white print:p-0 print:shadow-none md:p-8 lg:p-10" aria-labelledby="my-plan-heading">
           <div className="flex flex-col gap-6 border-b border-border pb-7 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <span className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">Local workspace</span>
+              <span className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">Saved on this device</span>
               <h2 id="my-plan-heading" className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">My Plan</h2>
               <p className="mt-3 max-w-3xl leading-relaxed text-muted-foreground">
                 Saved actions remain in this browser. There is no account, cloud sync, or server-side plan storage.

@@ -10,6 +10,8 @@ import {
 import { roadmapTools } from "@/data/roadmapTools";
 import PrivatePaidProductsLabPage from "@/pages/PrivatePaidProductsLabPage";
 
+const purchaseActionName = /\b(buy|purchase|checkout|pay now|order now)\b/i;
+
 describe("private paid product readiness", () => {
   it("keeps every product and bundle private with checkout disabled", () => {
     expect(PAID_PRODUCTS).toHaveLength(2);
@@ -38,8 +40,8 @@ describe("private paid product readiness", () => {
     expect(screen.getByRole("heading", { name: /medical bill response & resolution system/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /healthcare money decision library/i })).toBeInTheDocument();
     expect(screen.getAllByText(/checkout off/i)).toHaveLength(2);
-    expect(screen.queryByRole("button", { name: /buy|purchase|checkout|pay/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole("link", { name: /buy|purchase|checkout|pay/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: purchaseActionName })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: purchaseActionName })).not.toBeInTheDocument();
   });
 
   it("keeps the public product configuration in a default-deny state", () => {

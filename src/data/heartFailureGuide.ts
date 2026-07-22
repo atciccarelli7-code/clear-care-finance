@@ -37,7 +37,7 @@ export const HEART_FAILURE_GUIDE = {
   updatedAt: "2026-07-22",
   nextReviewAt: "2026-08-22",
   reviewScope:
-    "Adult heart-failure definition, types, causes, diagnostic evaluation, treatment goals, medication purpose, devices, home monitoring, warning signs, and care-team questions. Independent clinical review is still pending.",
+    "Adult heart-failure definition, ejection-fraction phenotype, stage, functional class, causes, diagnostic evaluation, treatment goals, medication purpose, devices, home monitoring, warning signs, and care-team questions. Independent clinical review is still pending.",
   audience:
     "Adults who have been told they have heart failure, congestive heart failure, HFrEF, HFpEF, or improved ejection fraction, plus family members and caregivers.",
   boundary:
@@ -98,6 +98,25 @@ export const HEART_FAILURE_GUIDE = {
   ],
   typeNote:
     "Current 2026 professional consensus groups heart failure into reduced, preserved, and improved ejection-fraction categories rather than treating one rigid number as the complete diagnosis. Some reports and older resources may also use mildly reduced ejection fraction or left-sided and right-sided labels.",
+  classificationSystems: [
+    {
+      name: "Type or phenotype",
+      examples: "HFrEF, HFpEF, or HFimpEF",
+      questionAnswered: "How is the heart filling or pumping, and how has ejection fraction changed over time?",
+    },
+    {
+      name: "Stage",
+      examples: "A, B, C, or D",
+      questionAnswered: "Where is the person in the heart-failure continuum, from risk through advanced disease?",
+    },
+    {
+      name: "Functional class",
+      examples: "NYHA class I, II, III, or IV",
+      questionAnswered: "How much do current symptoms limit ordinary physical activity?",
+    },
+  ],
+  classificationNote:
+    "These systems are related but not interchangeable. A person can have one ejection-fraction phenotype, an A-to-D stage, and an NYHA functional class at the same time. Ask the care team which labels apply and what each one changes about the plan.",
   causes: [
     {
       title: "Reduced blood flow or heart-muscle injury",
@@ -163,26 +182,11 @@ export const HEART_FAILURE_GUIDE = {
     },
   ] satisfies HeartFailureTest[],
   treatmentGoals: [
-    {
-      title: "Relieve congestion",
-      explanation: "Reduce extra fluid so breathing, swelling, sleep, and activity may improve.",
-    },
-    {
-      title: "Reduce the heart's workload",
-      explanation: "Lower harmful pressure or hormone signals and make it easier for the heart to move blood.",
-    },
-    {
-      title: "Protect the heart over time",
-      explanation: "Use evidence-based treatment to slow progression and reduce the chance of hospitalization or other complications when appropriate.",
-    },
-    {
-      title: "Treat the cause and related conditions",
-      explanation: "Address blocked arteries, valve disease, blood pressure, rhythm problems, diabetes, kidney disease, sleep apnea, or another contributor.",
-    },
-    {
-      title: "Preserve function and quality of life",
-      explanation: "Support safe activity, rehabilitation, sleep, nutrition, emotional health, and the person's goals of care.",
-    },
+    { title: "Relieve congestion", explanation: "Reduce extra fluid so breathing, swelling, sleep, and activity may improve." },
+    { title: "Reduce the heart's workload", explanation: "Lower harmful pressure or hormone signals and make it easier for the heart to move blood." },
+    { title: "Protect the heart over time", explanation: "Use evidence-based treatment to slow progression and reduce the chance of hospitalization or other complications when appropriate." },
+    { title: "Treat the cause and related conditions", explanation: "Address blocked arteries, valve disease, blood pressure, rhythm problems, diabetes, kidney disease, sleep apnea, or another contributor." },
+    { title: "Preserve function and quality of life", explanation: "Support safe activity, rehabilitation, sleep, nutrition, emotional health, and the person's goals of care." },
   ],
   reducedEfFoundation:
     "For many eligible people with reduced ejection fraction, guideline-directed therapy includes four heart-protective medication groups: an ARNI, ACE inhibitor, or ARB; an evidence-based beta blocker; a mineralocorticoid receptor antagonist; and an SGLT2 inhibitor. A diuretic may be added when fluid retention is present. This is a framework, not a medication recommendation for an individual reader.",
@@ -284,56 +288,20 @@ export const HEART_FAILURE_GUIDE = {
     },
   ] satisfies HeartFailureMedicationGroup[],
   procedures: [
-    {
-      name: "Treat blocked arteries or valve disease",
-      explanation: "Angioplasty, bypass surgery, or valve repair or replacement may treat a cause or major contributor when testing supports it.",
-    },
-    {
-      name: "Implantable cardioverter-defibrillator (ICD)",
-      explanation: "Monitors for dangerous rhythms and can deliver therapy or a shock. It prevents certain rhythm-related deaths but does not directly remove fluid or make every person feel better.",
-    },
-    {
-      name: "Cardiac resynchronization therapy (CRT)",
-      explanation: "Coordinates the lower chambers when electrical delay causes them to squeeze out of sync. Only selected people meet the criteria.",
-    },
-    {
-      name: "Ventricular assist device or heart transplant",
-      explanation: "Advanced options for selected people with severe heart failure after specialized evaluation.",
-    },
-    {
-      name: "Palliative care",
-      explanation: "Can be added at any serious stage to improve symptoms, decision support, and quality of life; it is not limited to the final days of life.",
-    },
+    { name: "Treat blocked arteries or valve disease", explanation: "Angioplasty, bypass surgery, or valve repair or replacement may treat a cause or major contributor when testing supports it." },
+    { name: "Implantable cardioverter-defibrillator (ICD)", explanation: "Monitors for dangerous rhythms and can deliver therapy or a shock. It prevents certain rhythm-related deaths but does not directly remove fluid or make every person feel better." },
+    { name: "Cardiac resynchronization therapy (CRT)", explanation: "Coordinates the lower chambers when electrical delay causes them to squeeze out of sync. Only selected people meet the criteria." },
+    { name: "Ventricular assist device or heart transplant", explanation: "Advanced options for selected people with severe heart failure after specialized evaluation." },
+    { name: "Palliative care", explanation: "Can be added at any serious stage to improve symptoms, decision support, and quality of life; it is not limited to the final days of life." },
   ],
   dailyPlan: [
-    {
-      title: "Take the written medication plan literally",
-      details: "Use the current medication list and pharmacy labels. Ask why every medicine was started, stopped, held, or changed.",
-    },
-    {
-      title: "Track weight consistently",
-      details: "Use the same scale and a consistent time and clothing routine. Follow the weight threshold provided by the care team rather than inventing a dose change.",
-    },
-    {
-      title: "Watch breathing, swelling, sleep, activity, appetite, and thinking",
-      details: "Small changes can be easier to recognize when they are written down. A caregiver may notice confusion or functional decline first.",
-    },
-    {
-      title: "Know the individualized sodium and fluid plan",
-      details: "Too much sodium can worsen fluid retention, but the correct sodium and fluid limits differ. Ask for actual daily targets instead of assuming everyone needs the same restriction.",
-    },
-    {
-      title: "Build safe activity back into life",
-      details: "Ask what activity is safe now and whether cardiac rehabilitation or a structured walking plan is appropriate.",
-    },
-    {
-      title: "Check nonprescription medicines and supplements",
-      details: "Some pain medicines, supplements, and salt substitutes can worsen heart failure or interact with treatment. Review them with a clinician or pharmacist.",
-    },
-    {
-      title: "Raise practical barriers early",
-      details: "Tell the team about cost, transportation, pharmacy access, mobility, food, scale access, caregiver capacity, depression, or difficulty following the plan.",
-    },
+    { title: "Take the written medication plan literally", details: "Use the current medication list and pharmacy labels. Ask why every medicine was started, stopped, held, or changed." },
+    { title: "Track weight consistently", details: "Use the same scale and a consistent time and clothing routine. Follow the weight threshold provided by the care team rather than inventing a dose change." },
+    { title: "Watch breathing, swelling, sleep, activity, appetite, and thinking", details: "Small changes can be easier to recognize when they are written down. A caregiver may notice confusion or functional decline first." },
+    { title: "Know the individualized sodium and fluid plan", details: "Too much sodium can worsen fluid retention, but the correct sodium and fluid limits differ. Ask for actual daily targets instead of assuming everyone needs the same restriction." },
+    { title: "Build safe activity back into life", details: "Ask what activity is safe now and whether cardiac rehabilitation or a structured walking plan is appropriate." },
+    { title: "Check nonprescription medicines and supplements", details: "Some pain medicines, supplements, and salt substitutes can worsen heart failure or interact with treatment. Review them with a clinician or pharmacist." },
+    { title: "Raise practical barriers early", details: "Tell the team about cost, transportation, pharmacy access, mobility, food, scale access, caregiver capacity, depression, or difficulty following the plan." },
   ],
   actionPlan: [
     {
@@ -346,7 +314,7 @@ export const HEART_FAILURE_GUIDE = {
         "A rapid or irregular heartbeat together with shortness of breath, chest pain, or fainting",
         "Sudden, severe shortness of breath with white or pink foamy mucus",
       ],
-      verification: "Emergency guidance is based on Mayo Clinic's heart-failure warning signs. Local emergency services and the treating team control the response.",
+      verification: "Emergency guidance is anchored to American Heart Association warning-sign education. Local emergency services and the treating team control the response.",
     },
     {
       id: "same-day",
@@ -360,7 +328,7 @@ export const HEART_FAILURE_GUIDE = {
         "New confusion, marked dizziness, worsening appetite, or a major drop in usual activity",
         "A medication, refill, cost, or side-effect problem that prevents the written plan from being followed",
       ],
-      verification: "The care team should provide the exact symptom, weight, blood-pressure, heart-rate, and after-hours instructions for the individual patient.",
+      verification: "American Heart Association patient guidance supports tracking symptom and weight changes, but the care team must provide the exact thresholds and after-hours instructions for the individual patient.",
     },
     {
       id: "steady",
@@ -377,6 +345,7 @@ export const HEART_FAILURE_GUIDE = {
   ] satisfies HeartFailureActionLevel[],
   questions: [
     "What type of heart failure do I have, and what does my ejection fraction mean in context?",
+    "What stage and NYHA functional class apply to me, and what does each label change about the plan?",
     "What do you think caused or contributed to my heart failure?",
     "Which medicines are mainly removing fluid, and which are protecting my heart over time?",
     "What exact weight, breathing, swelling, blood-pressure, or heart-rate change should make me call?",
@@ -389,7 +358,8 @@ export const HEART_FAILURE_GUIDE = {
   ],
   teachBack: [
     "I can explain heart failure without saying the heart has stopped.",
-    "I know my heart-failure type and what my ejection fraction does and does not tell me.",
+    "I know my heart-failure type, stage, and functional class—or I know which of those questions remain unanswered.",
+    "I can explain what my ejection fraction does and does not tell me.",
     "I can explain the job of each medication in my own words.",
     "I know what I am supposed to track at home.",
     "I know which changes require a prompt call and which require 911.",
@@ -400,13 +370,31 @@ export const HEART_FAILURE_GUIDE = {
       name: "American Heart Association, American College of Cardiology, European Society of Cardiology, and World Heart Federation",
       pageTitle: "Second Universal Definition of Heart Failure (2026)",
       url: "https://professional.heart.org/en/science-news/expert-consensus-document-second-universal-definition-of-heart-failure-2026",
-      note: "Current professional framework for heart-failure definition, staging, causes, and reduced, preserved, and improved ejection-fraction categories.",
+      note: "Primary professional framework for heart-failure definition, the A-to-D continuum, and reduced, preserved, and improved ejection-fraction categories.",
     },
     {
       name: "American Heart Association / American College of Cardiology / Heart Failure Society of America",
       pageTitle: "2022 Guideline for the Management of Heart Failure",
       url: "https://professional.heart.org/en/science-news/2022-guideline-for-the-management-of-heart-failure",
-      note: "Professional guideline supporting treatment goals and the four foundational medication classes used for eligible people with reduced ejection fraction.",
+      note: "Primary professional guideline supporting staging, treatment goals, medication classes, devices, and disease-management principles.",
+    },
+    {
+      name: "American College of Cardiology",
+      pageTitle: "2024 Expert Consensus Decision Pathway for Treatment of HFrEF",
+      url: "https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2024/03/06/19/22/2024-acc-expert-consensus-hfref",
+      note: "Current practical pathway supporting the four foundational medication groups and sequencing for eligible people with reduced ejection fraction.",
+    },
+    {
+      name: "American College of Cardiology",
+      pageTitle: "2023 Expert Consensus Decision Pathway on Management of HFpEF",
+      url: "https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2023/04/17/16/40/2023-acc-expert-consensus-on-hfpef",
+      note: "Primary practical pathway for preserved-ejection-fraction diagnosis, comorbidity management, and current treatment framing.",
+    },
+    {
+      name: "American Heart Association",
+      pageTitle: "Classes and Stages of Heart Failure",
+      url: "https://www.heart.org/en/health-topics/heart-failure/what-is-heart-failure/classes-of-heart-failure",
+      note: "Patient-facing distinction between A-to-D stage and NYHA functional class; last reviewed May 21, 2025.",
     },
     {
       name: "American Heart Association",
@@ -418,19 +406,19 @@ export const HEART_FAILURE_GUIDE = {
       name: "American Heart Association",
       pageTitle: "Heart Failure Signs and Symptoms",
       url: "https://www.heart.org/en/health-topics/heart-failure/warning-signs-of-heart-failure",
-      note: "Symptoms, why they occur, home monitoring, and common weight-change thresholds.",
+      note: "Primary patient-facing support for warning signs, symptom tracking, and common weight-change thresholds.",
     },
     {
       name: "National Heart, Lung, and Blood Institute",
       pageTitle: "Heart Failure: Treatment and Living With Heart Failure",
       url: "https://www.nhlbi.nih.gov/health/heart-failure/treatment",
-      note: "Federal patient information on treatment, lifestyle, comorbidities, medicines, support, and when to seek help.",
+      note: "Supplemental federal lifestyle and living-with information. Because the page was last updated in 2022, it is not used as the authority for current medication or HFpEF treatment claims.",
     },
     {
       name: "Mayo Clinic",
       pageTitle: "Heart failure: Diagnosis and treatment",
       url: "https://www.mayoclinic.org/diseases-conditions/heart-failure/diagnosis-treatment/drc-20373148",
-      note: "Comprehensive patient reference used as a coverage benchmark for tests, medication categories, devices, home care, and appointment preparation.",
+      note: "Secondary patient reference used as an external coverage benchmark for tests, medications, devices, home care, and appointment preparation.",
     },
   ] satisfies Source[],
 };

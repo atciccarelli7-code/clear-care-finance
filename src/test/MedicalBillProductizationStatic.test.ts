@@ -5,8 +5,11 @@ const read = (path: string) => readFileSync(path, "utf8");
 
 const productPage = read("public/products/expanded-medical-bill-response-workbook.html");
 const productEnhancement = read("public/medical-bill-productization.js");
-const spaEnhancement = read("public/medical-bill-productization-spa.js");
 const appShell = read("index.html");
+const appLayout = read("src/components/layout/Layout.tsx");
+const productPathway = read("src/components/medical-bill/MedicalBillProductPathway.tsx");
+const pathwayConfig = read("src/components/medical-bill/medicalBillProductPathwayConfig.ts");
+const interestForm = read("src/components/medical-bill/MedicalBillInterestForm.tsx");
 const productConfig = read("api/product-config.ts");
 const emailApi = read("api/send.ts");
 const unsubscribeApi = read("api/unsubscribe.ts");
@@ -20,9 +23,9 @@ describe("medical bill productization static contracts", () => {
     expect(productPage).toContain("No payment");
     expect(productPage).not.toContain("$24");
     expect(productPage).not.toMatch(/buy now|purchase now|checkout now|save thousands|limited time|normally \$|only today|ends tonight/i);
-    expect(spaEnhancement).toContain("Free product laboratory");
-    expect(spaEnhancement).toContain("No payment");
-    expect(spaEnhancement).not.toContain("$24 one-time");
+    expect(productPathway).toContain("No payment");
+    expect(productPathway).toContain("Free system stays complete");
+    expect(productPathway).not.toContain("$24 one-time");
   });
 
   it("publishes representative previews without exposing or embedding the private master", () => {
@@ -35,18 +38,19 @@ describe("medical bill productization static contracts", () => {
     expect(productPage).not.toContain("download the full workbook");
   });
 
-  it("separates the static product runtime from hydration-safe SPA enhancement", () => {
-    expect(appShell).toContain('<script defer src="/medical-bill-productization-spa.js"></script>');
+  it("renders supporting offers through governed React routes instead of a global DOM injector", () => {
+    expect(appShell).not.toContain("medical-bill-productization-spa.js");
     expect(appShell).not.toContain('<script defer src="/medical-bill-productization.js"></script>');
     expect(productPage).toContain('<script defer src="/medical-bill-productization.js"></script>');
-    expect(spaEnhancement).toContain('window.addEventListener("load", boot');
-    expect(spaEnhancement).not.toContain("MutationObserver");
-    expect(spaEnhancement).toContain("window.setTimeout(enhanceRoute, 350)");
-    expect(spaEnhancement).toContain("window.setTimeout(enhanceRoute, 1200)");
-    expect(spaEnhancement).toContain("/insurance/medical-bill-review-toolkit");
-    expect(spaEnhancement).toContain("/patients-families");
-    expect(spaEnhancement).toContain("/articles/how-to-read-an-eob");
-    expect(spaEnhancement).toContain("supporting_page_to_product");
+    expect(appLayout).toContain("hasMedicalBillProductPathway");
+    expect(appLayout).toContain("<MedicalBillProductPathway pathname={location.pathname} />");
+    expect(pathwayConfig).toContain("/insurance/medical-bill-review-toolkit");
+    expect(pathwayConfig).toContain("/patients-families");
+    expect(pathwayConfig).toContain("/articles/how-to-read-an-eob");
+    expect(pathwayConfig).toContain("/articles/why-one-hospital-visit-can-create-multiple-bills");
+    expect(productPathway).toContain("supporting_page_to_product");
+    expect(productPathway).not.toContain("history.pushState");
+    expect(productPathway).not.toContain("setTimeout");
     expect(productEnhancement).toContain("premium_interest_submit");
   });
 
@@ -70,9 +74,10 @@ describe("medical bill productization static contracts", () => {
     expect(emailApi).toContain("createUnsubscribeToken");
     expect(unsubscribeApi).toContain("timingSafeEqual");
     expect(unsubscribeApi).toContain("unsubscribed: true");
-    expect(spaEnhancement).toContain('type: "medical-bill-sequence"');
+    expect(interestForm).toContain('type: isSequence ? "medical-bill-sequence" : "medical-bill-product-interest"');
+    expect(interestForm).toContain("medical_bill_email_sequence_start");
     expect(productEnhancement).toContain('"medical-bill-product-interest"');
-    expect(spaEnhancement).not.toMatch(/diagnosisDetails|claimNumber|memberId|billAmount|providerName/);
+    expect(interestForm).not.toMatch(/diagnosisDetails|claimNumber|memberId|billAmount|providerName/);
     expect(productEnhancement).not.toMatch(/diagnosisDetails|claimNumber|memberId|billAmount|providerName/);
   });
 });

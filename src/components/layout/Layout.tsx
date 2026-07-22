@@ -9,6 +9,7 @@ import { RouteFreshness } from "@/components/shared/RouteFreshness";
 import { DecisionJourneyDirectory } from "@/components/shared/DecisionJourneyDirectory";
 import { hasNavigatorContextAction } from "@/components/navigator/navigatorContextConfig";
 import { hasBenefitsCommandCenterEntry } from "@/components/benefits/benefitsCommandCenterEntryConfig";
+import { hasMedicalBillProductPathway } from "@/components/medical-bill/medicalBillProductPathwayConfig";
 import { scrollToHashTarget } from "@/lib/routeScroll";
 
 const NavigatorContextAction = lazy(() =>
@@ -26,6 +27,9 @@ const JourneyContinuityBanner = lazy(() =>
 const RouteSeoCompoundingPathway = lazy(() =>
   import("@/components/growth/SeoCompoundingPathway").then((module) => ({ default: module.RouteSeoCompoundingPathway })),
 );
+const MedicalBillProductPathway = lazy(() =>
+  import("@/components/medical-bill/MedicalBillProductPathway").then((module) => ({ default: module.MedicalBillProductPathway })),
+);
 
 const continuityRoutes = new Set(["/", "/start-here", "/tools"]);
 const contextualTrustRoutes = new Set([
@@ -40,6 +44,7 @@ export const Layout = () => {
   const location = useLocation();
   const showNavigatorContext = hasNavigatorContextAction(location.pathname);
   const showBenefitsCommandCenterEntry = hasBenefitsCommandCenterEntry(location.pathname);
+  const showMedicalBillProductPathway = hasMedicalBillProductPathway(location.pathname);
   const showContinuity = continuityRoutes.has(location.pathname);
   const showJourneyDirectory = location.pathname === "/start-here";
   const showGlobalTrustBar = !contextualTrustRoutes.has(location.pathname);
@@ -67,6 +72,11 @@ export const Layout = () => {
           <JourneyContinuityBanner />
         </Suspense>
         <Outlet />
+        {showMedicalBillProductPathway && (
+          <Suspense fallback={null}>
+            <MedicalBillProductPathway pathname={location.pathname} />
+          </Suspense>
+        )}
         <Suspense fallback={null}>
           <RouteSeoCompoundingPathway pathname={location.pathname} />
         </Suspense>

@@ -8,9 +8,12 @@ import { trackSiteEvent } from "@/lib/analytics";
 vi.mock("@/lib/analytics", () => ({ trackSiteEvent: vi.fn() }));
 
 describe("MedicalBillProductPathway", () => {
+  const openMock = vi.fn();
+
   beforeEach(() => {
     vi.clearAllMocks();
     vi.stubGlobal("fetch", vi.fn());
+    vi.stubGlobal("open", openMock);
   });
 
   it("only claims routes with a direct medical-bill relationship", () => {
@@ -21,7 +24,7 @@ describe("MedicalBillProductPathway", () => {
     expect(hasMedicalBillProductPathway("/")).toBe(false);
   });
 
-  it("renders a crawlable supporting handoff without a duplicate email form", () => {
+  it("renders a native supporting handoff without a duplicate email form", () => {
     render(
       <MemoryRouter>
         <MedicalBillProductPathway pathname="/articles/how-to-read-an-eob" />
@@ -29,9 +32,11 @@ describe("MedicalBillProductPathway", () => {
     );
 
     expect(screen.getByRole("heading", { name: /turn this explanation into a working medical-bill file/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /preview sample pages/i })).toHaveAttribute(
-      "href",
+    fireEvent.click(screen.getByRole("button", { name: /preview sample pages/i }));
+    expect(openMock).toHaveBeenCalledWith(
       "/downloads/expanded-medical-bill-response-workbook-preview.html",
+      "_blank",
+      "noopener,noreferrer",
     );
     expect(screen.getByRole("link", { name: /use the free response system/i })).toHaveAttribute(
       "href",

@@ -32,7 +32,7 @@ export const DIAGNOSIS_EXPLAINED_ARTICLE: Article = {
     title: section.title,
     definition: section.purpose,
     keyPoints: [...section.prompts],
-    ...(section.safetyBoundary ? { watchOut: section.safetyBoundary } : {}),
+    ...("safetyBoundary" in section ? { watchOut: section.safetyBoundary } : {}),
   })),
   example: {
     title: `First pilot in development: ${heartFailurePilot.diagnosis}`,

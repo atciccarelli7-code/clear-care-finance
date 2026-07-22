@@ -28,8 +28,15 @@ describe("COPD, Explained product", () => {
     expect(COPD_GUIDE.tests.some((test) => test.name === "Spirometry")).toBe(true);
     expect(COPD_GUIDE.treatmentGoals.length).toBeGreaterThanOrEqual(5);
     expect(COPD_GUIDE.dailyPlan.length).toBeGreaterThanOrEqual(7);
-    expect(COPD_GUIDE.questions.length).toBeGreaterThanOrEqual(10);
-    expect(COPD_GUIDE.teachBack.length).toBeGreaterThanOrEqual(6);
+    expect(COPD_GUIDE.questions.length).toBeGreaterThanOrEqual(11);
+    expect(COPD_GUIDE.teachBack.length).toBeGreaterThanOrEqual(7);
+  });
+
+  it("makes one-time alpha-1 testing explicit", () => {
+    const alphaOneTest = COPD_GUIDE.tests.find((test) => test.name === "Alpha-1 antitrypsin testing");
+    expect(alphaOneTest?.whatToKnow).toContain("at least one");
+    expect(alphaOneTest?.whatToKnow).toContain("regardless of age or ethnicity");
+    expect(COPD_GUIDE.questions.join(" ")).toContain("one-time alpha-1 antitrypsin deficiency test");
   });
 
   it("requires every medication card to explain purpose, monitoring, questions, and a boundary", () => {
@@ -41,6 +48,7 @@ describe("COPD, Explained product", () => {
       expect(medication.questionsToAsk.length).toBeGreaterThanOrEqual(4);
       expect(medication.importantBoundary.length).toBeGreaterThan(30);
     }
+    expect(COPD_GUIDE.medications.at(-1)?.name).toBe("Less-common specialist medicines");
   });
 
   it("makes inhaler technique and oxygen safety explicit", () => {
@@ -61,11 +69,15 @@ describe("COPD, Explained product", () => {
     }
   });
 
-  it("uses current professional and federal COPD sources", () => {
+  it("uses current professional, regulatory, and federal COPD sources", () => {
     expect(sourceText).toContain("2026 GOLD Report and Pocket Guide");
+    expect(sourceText).toContain("Pulmonary Rehabilitation for Adults with Chronic Respiratory Disease");
+    expect(sourceText).toContain("Home Oxygen Therapy for Adults with Chronic Lung Disease");
+    expect(sourceText).toContain("Alpha-1 Antitrypsin Deficiency");
+    expect(sourceText).toContain("OHTUVAYRE");
     expect(sourceText).toContain("COPD Diagnosis");
-    expect(sourceText).toContain("COPD Treatment");
     expect(sourceText).toContain("COPD Action Plan");
+    expect(sourceText).toContain("Mayo Clinic");
   });
 
   it("does not collect personal health information or provide individualized dosing", () => {

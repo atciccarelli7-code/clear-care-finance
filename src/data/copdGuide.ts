@@ -38,7 +38,7 @@ export const COPD_GUIDE = {
   updatedAt: "2026-07-22",
   nextReviewAt: "2026-08-22",
   reviewScope:
-    "Adult COPD meaning, common disease patterns, risk factors, spirometry and other evaluation, treatment goals, inhaler purpose, inhaler technique, pulmonary rehabilitation, oxygen therapy, flare-up planning, warning signs, and care-team questions. Independent clinical review is still pending.",
+    "Adult COPD meaning, common disease patterns, risk factors, spirometry and other evaluation, alpha-1 antitrypsin testing, treatment goals, inhaler purpose, inhaler technique, pulmonary rehabilitation, oxygen therapy, flare-up planning, warning signs, and care-team questions. Independent clinical review is still pending.",
   audience:
     "Adults who have been told they have chronic obstructive pulmonary disease, emphysema, chronic bronchitis, or COPD, plus family members and caregivers.",
   boundary:
@@ -177,7 +177,7 @@ export const COPD_GUIDE = {
       questionAnswered:
         "Could alpha-1 antitrypsin deficiency be contributing to lung disease?",
       whatToKnow:
-        "Testing is especially important to discuss with the care team when COPD occurs younger than expected, runs in the family, has limited exposure history, or occurs with liver disease.",
+        "Guidelines recommend at least one alpha-1 antitrypsin deficiency test for people diagnosed with COPD, regardless of age or ethnicity. The discussion is especially important when COPD begins young, occurs with limited smoke exposure, runs in the family, or is accompanied by liver disease.",
     },
     {
       name: "Walking or exercise assessment",
@@ -313,9 +313,14 @@ export const COPD_GUIDE = {
     },
     {
       id: "selected-add-on-therapies",
-      name: "Selected add-on medicines",
-      commonName: "Specialist or phenotype-directed options",
-      examples: ["Ensifentrine", "Roflumilast", "Selected long-term antibiotic strategies", "Selected biologic therapy"],
+      name: "Less-common specialist medicines",
+      commonName: "Phenotype-directed or add-on options",
+      examples: [
+        "Ensifentrine",
+        "Roflumilast",
+        "Selected long-term antibiotic strategies",
+        "Selected biologic treatment for eosinophilic COPD",
+      ],
       job:
         "Target persistent symptoms, inflammation, mucus, or repeated flare-ups when standard inhaled treatment is not enough for a carefully selected patient.",
       whyItMayBeUsed:
@@ -333,7 +338,7 @@ export const COPD_GUIDE = {
         "What would make us stop or change the plan?",
       ],
       importantBoundary:
-        "These are selected therapies, not a checklist of medicines every person with COPD should receive. A qualified prescriber must determine eligibility and monitoring.",
+        "These are specialist-selected therapies, not a checklist of medicines every person with COPD should receive. A qualified prescriber must determine eligibility and monitoring.",
     },
   ] satisfies CopdMedicationGroup[],
   supportiveTreatments: [
@@ -469,7 +474,7 @@ export const COPD_GUIDE = {
     "What is my written flare-up plan, including whom to call after hours and when to call 911?",
     "Do I qualify for pulmonary rehabilitation, and how can I access it?",
     "Do I need oxygen? Which measurements support it, and exactly when and at what prescribed flow should I use it?",
-    "Should I be tested for alpha-1 antitrypsin deficiency or another contributor?",
+    "Have I had a one-time alpha-1 antitrypsin deficiency test, and what do the results mean?",
     "Which vaccines and exposure-reduction steps apply to me?",
     "What cost, pharmacy, transportation, electricity, housing, mobility, mood, or caregiver barriers should we solve now?",
   ],
@@ -479,6 +484,7 @@ export const COPD_GUIDE = {
     "I can demonstrate the correct technique for each inhaler, spacer, or nebulizer I use.",
     "I can describe my usual breathing baseline and the changes that require a prompt call or emergency help.",
     "If I use oxygen, I know the prescribed setting, when to use it, fire-safety rules, supplier contact, and backup plan.",
+    "I know whether alpha-1 antitrypsin testing has been completed or remains a question for my care team.",
     "I know which questions remain unanswered and which practical barriers could make the plan fail at home.",
   ],
   sources: [
@@ -486,7 +492,7 @@ export const COPD_GUIDE = {
       name: "Global Initiative for Chronic Obstructive Lung Disease (GOLD)",
       pageTitle: "2026 GOLD Report and Pocket Guide",
       url: "https://goldcopd.org/2026-gold-report-and-pocket-guide/",
-      note: "Current evidence-based strategy for COPD diagnosis, assessment, pharmacologic and nonpharmacologic management, exacerbations, and patient education.",
+      note: "Primary current evidence-based strategy for COPD diagnosis, assessment, pharmacologic and nonpharmacologic management, exacerbations, and patient education.",
     },
     {
       name: "National Heart, Lung, and Blood Institute",
@@ -498,13 +504,31 @@ export const COPD_GUIDE = {
       name: "National Heart, Lung, and Blood Institute",
       pageTitle: "COPD Treatment",
       url: "https://www.nhlbi.nih.gov/health/copd/treatment",
-      note: "Federal patient guidance on bronchodilators, anti-inflammatory treatment, inhaler technique, pulmonary rehabilitation, oxygen, and selected procedures.",
+      note: "Federal patient guidance on bronchodilators, anti-inflammatory treatment, inhaler technique, rehabilitation, oxygen, and selected procedures.",
     },
     {
-      name: "National Heart, Lung, and Blood Institute",
-      pageTitle: "Pulmonary Rehabilitation",
-      url: "https://www.nhlbi.nih.gov/health/pulmonary-rehabilitation",
-      note: "Federal overview of supervised exercise, breathing strategies, education, nutrition, and psychological support.",
+      name: "American Thoracic Society",
+      pageTitle: "Pulmonary Rehabilitation for Adults with Chronic Respiratory Disease (2023)",
+      url: "https://www.thoracic.org/statements/guideline-implementation-tools/matrix-guidelines-and-derivatives-pulmonary-rehab-in-adults-08-23-23.php",
+      note: "Primary professional guideline strongly recommending pulmonary rehabilitation for stable COPD and following hospitalization for a COPD exacerbation.",
+    },
+    {
+      name: "American Thoracic Society",
+      pageTitle: "Home Oxygen Therapy for Adults with Chronic Lung Disease",
+      url: "https://www.thoracic.org/statements/guideline-implementation-tools/home-oxygen-therapy-for-adults.php",
+      note: "Primary professional guideline for long-term and ambulatory oxygen decisions and essential patient and caregiver oxygen education.",
+    },
+    {
+      name: "COPD Foundation and Alpha-1 Foundation",
+      pageTitle: "The Diagnosis and Management of Alpha-1 Antitrypsin Deficiency in the Adult",
+      url: "https://journal.copdfoundation.org/jcopdf/id/1115/The-Diagnosis-and-Management-of-Alpha-1-Antitrypsin-Deficiency-in-the-Adult",
+      note: "Clinical practice guideline recommending alpha-1 antitrypsin deficiency testing for all individuals with COPD regardless of age or ethnicity.",
+    },
+    {
+      name: "U.S. Food and Drug Administration",
+      pageTitle: "Drug Trials Snapshot: OHTUVAYRE (ensifentrine)",
+      url: "https://www.fda.gov/drugs/drug-approvals-and-databases/drug-trials-snapshots-ohtuvayre",
+      note: "Regulatory source confirming ensifentrine's adult COPD maintenance indication and nebulized route; the guide does not provide selection or dosing instructions.",
     },
     {
       name: "Centers for Disease Control and Prevention",
@@ -516,7 +540,13 @@ export const COPD_GUIDE = {
       name: "American Lung Association",
       pageTitle: "COPD Action Plan and Management Tools",
       url: "https://www.lung.org/lung-health-diseases/lung-disease-lookup/copd/living-with-copd/copd-management-tools",
-      note: "Patient-facing green, yellow, and red action-plan structure and escalation examples; updated January 20, 2026.",
+      note: "Secondary patient-facing green, yellow, and red action-plan structure and escalation examples; updated January 20, 2026.",
+    },
+    {
+      name: "Mayo Clinic",
+      pageTitle: "COPD: Diagnosis and treatment",
+      url: "https://www.mayoclinic.org/diseases-conditions/copd/diagnosis-treatment/drc-20353685",
+      note: "Secondary patient reference used as an external coverage benchmark for tests, inhalers, rehabilitation, oxygen, and advanced treatment options.",
     },
   ] satisfies Source[],
 };

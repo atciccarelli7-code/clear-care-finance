@@ -28,7 +28,7 @@ const assertGovernedPrintSurface = async (page: Page, expectedText: RegExp, isSt
   await expect(page.locator("body")).toContainText(expectedText);
 
   if (!isStandalonePack) {
-    await expect(page.locator("header")).toBeHidden();
+    await expect(page.locator("header.sticky")).toBeHidden();
     await expect(page.locator("footer")).toBeHidden();
     await expect(page.locator('aside[aria-label="Site trust standards"]')).toBeHidden();
     await expect(page.locator('nav[aria-label="Primary mobile navigation"]')).toBeHidden();
@@ -39,11 +39,20 @@ const assertGovernedPrintSurface = async (page: Page, expectedText: RegExp, isSt
   expect(overflow).toBeLessThanOrEqual(1);
 };
 
-const exportPdfPair = async (page: Page, slug: string, expectedText: RegExp, isStandalonePack = false) => {
+const exportPdfPair = async (
+  page: Page,
+  slug: string,
+  expectedText: RegExp,
+  isStandalonePack = false,
+  requiredVisibleSelector?: string,
+) => {
   await mkdir(ARTIFACT_DIR, { recursive: true });
   await page.emulateMedia({ media: "print" });
   await page.evaluate(() => document.fonts.ready.then(() => undefined));
   await assertGovernedPrintSurface(page, expectedText, isStandalonePack);
+  if (requiredVisibleSelector) {
+    await expect(page.locator(requiredVisibleSelector)).toBeVisible();
+  }
 
   const baseOptions = {
     printBackground: true,
@@ -88,6 +97,38 @@ test("generate Hospital and Patient Guide action plan PDFs", async ({ page }) =>
   await expect(page.getByText("Your next three actions")).toBeVisible();
   await expect(page.getByText("Verify before acting")).toBeVisible();
   await exportPdfPair(page, "hospital-discharge-action-plan", /Your next three actions/i);
+});
+
+test("generate diagnosis-explained concise handout PDFs", async ({ page }) => {
+  await visit(page, "/patients-families/diagnosis-explained/heart-failure");
+  await expect(page.locator('section[aria-label="Concise heart failure handout"]')).toContainText(
+    "Independent clinical review is pending",
+  );
+  await expect(page.locator('section[aria-label="Concise heart failure handout"]')).toContainText(
+    "Do not change medicine doses",
+  );
+  await exportPdfPair(
+    page,
+    "heart-failure-concise-handout",
+    /Heart Failure: concise care handout/i,
+    false,
+    'section[aria-label="Concise heart failure handout"] header',
+  );
+
+  await visit(page, "/patients-families/diagnosis-explained/copd");
+  await expect(page.locator('section[aria-label="Concise COPD handout"]')).toContainText(
+    "Independent clinical review is pending",
+  );
+  await expect(page.locator('section[aria-label="Concise COPD handout"]')).toContainText(
+    "Do not change inhaler doses",
+  );
+  await exportPdfPair(
+    page,
+    "copd-concise-handout",
+    /COPD: concise care handout/i,
+    false,
+    'section[aria-label="Concise COPD handout"] header',
+  );
 });
 
 test("generate healthcare offer verification PDFs", async ({ page }) => {

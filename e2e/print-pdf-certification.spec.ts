@@ -90,6 +90,26 @@ test("generate Hospital and Patient Guide action plan PDFs", async ({ page }) =>
   await exportPdfPair(page, "hospital-discharge-action-plan", /Your next three actions/i);
 });
 
+test("generate diagnosis-explained concise handout PDFs", async ({ page }) => {
+  await visit(page, "/patients-families/diagnosis-explained/heart-failure");
+  await expect(page.locator('section[aria-label="Concise heart failure handout"]')).toContainText(
+    "Independent clinical review is pending",
+  );
+  await expect(page.locator('section[aria-label="Concise heart failure handout"]')).toContainText(
+    "Do not change medicine doses",
+  );
+  await exportPdfPair(page, "heart-failure-concise-handout", /Heart Failure: concise care handout/i);
+
+  await visit(page, "/patients-families/diagnosis-explained/copd");
+  await expect(page.locator('section[aria-label="Concise COPD handout"]')).toContainText(
+    "Independent clinical review is pending",
+  );
+  await expect(page.locator('section[aria-label="Concise COPD handout"]')).toContainText(
+    "Do not change inhaler doses",
+  );
+  await exportPdfPair(page, "copd-concise-handout", /COPD: concise care handout/i);
+});
+
 test("generate healthcare offer verification PDFs", async ({ page }) => {
   await visit(page, "/tools/healthcare-worker-total-compensation-comparison");
   for (const checkbox of await page.getByRole("checkbox").all()) {

@@ -21,7 +21,9 @@ const isLiteralRoute = (source) =>
 // Preserve the existing Benefits Command Center release exception.
 // Paused institutional patient-education routes are redirects and never enter the sitemap.
 export const ADDITIONAL_INDEXABLE_ROUTES = ["/tools/benefits-command-center"];
-export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [];
+export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [
+  "/patients-families/diagnosis-explained/heart-failure",
+];
 
 export const loadPermanentRedirects = async () => {
   const configPath = path.join(repositoryRoot, "vercel.json");

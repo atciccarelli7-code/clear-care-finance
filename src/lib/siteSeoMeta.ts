@@ -48,6 +48,10 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
     title: "Heart Failure, Explained: Clinical-Review Preview",
     description: "A structured, plain-English heart-failure guide covering types, causes, tests, treatment goals, medication purpose, home monitoring, warning signs, and care-team questions. Independent clinical review is pending.",
   },
+  "/patients-families/diagnosis-explained/copd": {
+    title: "COPD, Explained: Clinical-Review Preview",
+    description: "A structured, plain-English COPD guide covering spirometry, lung-disease patterns, inhaler purpose and technique, pulmonary rehabilitation, oxygen, flare-ups, warning signs, and care-team questions. Independent clinical review is pending.",
+  },
 };
 
 const benefitsCommandCenterMeta: SeoRouteMeta = {

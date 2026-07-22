@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { TopicCard } from "@/components/shared/TopicCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PageHero } from "@/components/shared/PageHero";
-import { AlertTriangle, ArrowRight, BookOpen, ClipboardCheck, HeartPulse, Home, Pill, Receipt, Scale, Shield } from "lucide-react";
+import { AlertTriangle, ArrowRight, BookOpen, ClipboardCheck, HeartPulse, Home, Pill, Receipt, Scale, Shield, Wind } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { PATIENT_GATEWAY_JOURNEYS } from "@/data/hospitalPatientGuide";
 import { DIAGNOSIS_EXPLAINED_ROUTE } from "@/data/diagnosisGuideFramework";
 import { HEART_FAILURE_GUIDE_ROUTE } from "@/data/heartFailureGuide";
+import { COPD_GUIDE_ROUTE } from "@/data/copdGuide";
 import { trackSiteEvent } from "@/lib/analytics";
 
 const journeyIcons: Record<(typeof PATIENT_GATEWAY_JOURNEYS)[number]["id"], LucideIcon> = {
@@ -27,54 +28,34 @@ const PatientsFamilies = () => <>
   </PageHero>
 
   <section className="container pt-10 md:pt-14">
-    <div className="overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary-soft/75 via-card to-card shadow-card">
-      <div className="grid gap-6 p-6 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:p-8">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm" aria-hidden="true">
-          <BookOpen className="h-7 w-7" />
-        </div>
-        <div className="min-w-0">
-          <div className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">Diagnosis, Explained · First complete preview</div>
-          <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Heart Failure, Explained</h2>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-            Bring a diagnosis you already received. The new guide explains what heart failure means, major types, possible causes, tests, treatment goals, why medication groups may be prescribed, home monitoring, warning signs, and questions for the care team.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-muted-foreground">
-            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">No symptom checker</span>
-            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">No personal health data</span>
-            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">No medication changes</span>
-            <span className="rounded-full border border-warning/30 bg-warning-soft/60 px-3 py-1.5">Independent clinical review pending</span>
-          </div>
-        </div>
-        <div className="flex w-full flex-col gap-3 md:w-auto">
-          <Button asChild variant="accent" size="lg" className="w-full md:w-auto">
-            <Link
-              to={HEART_FAILURE_GUIDE_ROUTE}
-              onClick={() => trackSiteEvent("patient_guide_resource_selected", { item_id: "heart_failure_guide_preview", stage_id: "understand_diagnosis", destination_path: HEART_FAILURE_GUIDE_ROUTE })}
-            >
-              Open the preview <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
-          <Button asChild variant="ghost" size="sm" className="w-full md:w-auto">
-            <Link to={DIAGNOSIS_EXPLAINED_ROUTE}>View guide standards</Link>
-          </Button>
-        </div>
-      </div>
+    <SectionHeading centered eyebrow="Diagnosis, Explained" title="Bring the diagnosis. Leave with a clearer mental model." description="Complete source-checked previews are available while independent clinical review remains pending. They do not diagnose symptoms, collect health details, or direct medication changes." />
+    <div className="mt-8 grid gap-6 lg:grid-cols-2">
+      <article className="overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary-soft/75 via-card to-card p-6 shadow-card md:p-8">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground" aria-hidden="true"><HeartPulse className="h-6 w-6" /></div>
+        <div className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-primary">First complete preview</div>
+        <h2 className="mt-2 font-display text-2xl font-bold tracking-tight">Heart Failure, Explained</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">Understand what heart failure means, major types, possible causes, tests, treatment goals, why medication groups may be prescribed, home monitoring, warning signs, and questions for the care team.</p>
+        <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-muted-foreground"><span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Purpose-first medicines</span><span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Three-level action plan</span><span className="rounded-full border border-warning/30 bg-warning-soft/60 px-3 py-1.5">Clinical review pending</span></div>
+        <Button asChild variant="accent" size="lg" className="mt-6 w-full sm:w-auto"><Link to={HEART_FAILURE_GUIDE_ROUTE} onClick={() => trackSiteEvent("patient_guide_resource_selected", { item_id: "heart_failure_guide_preview", stage_id: "understand_diagnosis", destination_path: HEART_FAILURE_GUIDE_ROUTE })}>Open heart-failure preview <ArrowRight className="h-4 w-4" /></Link></Button>
+      </article>
+
+      <article className="overflow-hidden rounded-3xl border border-secondary/20 bg-gradient-to-br from-secondary-soft/65 via-card to-card p-6 shadow-card md:p-8">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground" aria-hidden="true"><Wind className="h-6 w-6" /></div>
+        <div className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-secondary">New complete preview</div>
+        <h2 className="mt-2 font-display text-2xl font-bold tracking-tight">COPD, Explained</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">Understand spirometry, common lung-disease patterns, rescue versus maintenance inhalers, device technique, pulmonary rehabilitation, oxygen, flare-up planning, warning signs, and care-team questions.</p>
+        <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-muted-foreground"><span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Inhaler technique</span><span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Oxygen safety</span><span className="rounded-full border border-warning/30 bg-warning-soft/60 px-3 py-1.5">Clinical review pending</span></div>
+        <Button asChild variant="accent" size="lg" className="mt-6 w-full sm:w-auto"><Link to={COPD_GUIDE_ROUTE} onClick={() => trackSiteEvent("patient_guide_resource_selected", { item_id: "copd_guide_preview", stage_id: "understand_diagnosis", destination_path: COPD_GUIDE_ROUTE })}>Open COPD preview <ArrowRight className="h-4 w-4" /></Link></Button>
+      </article>
     </div>
+    <div className="mt-5 flex justify-center"><Button asChild variant="ghost" size="sm"><Link to={DIAGNOSIS_EXPLAINED_ROUTE}><BookOpen className="h-4 w-4" /> View guide standards</Link></Button></div>
   </section>
 
   <section className="container py-16 md:py-20">
     <SectionHeading centered eyebrow="Choose the situation" title="Go directly to the decision you need to make" description="Each starting point connects privacy-minimized bedside insight, plain-English explanation, a guided tool or checklist, practical actions, and official verification." />
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {PATIENT_GATEWAY_JOURNEYS.map((journey, index) => (
-        <TopicCard
-          key={journey.id}
-          icon={journeyIcons[journey.id]}
-          title={journey.title}
-          description={journey.description}
-          href={journey.href}
-          cta={journey.cta}
-          accent={index % 2 === 0 ? "green" : undefined}
-        />
+        <TopicCard key={journey.id} icon={journeyIcons[journey.id]} title={journey.title} description={journey.description} href={journey.href} cta={journey.cta} accent={index % 2 === 0 ? "green" : undefined} />
       ))}
     </div>
     <div className="mt-8 rounded-2xl border border-border bg-muted/25 p-5 text-sm leading-relaxed text-muted-foreground">

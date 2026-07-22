@@ -1,3 +1,4 @@
+import { COPD_GUIDE_ROUTE } from "./copdGuide";
 import { HEART_FAILURE_GUIDE_ROUTE } from "./heartFailureGuide";
 
 export const DIAGNOSIS_EXPLAINED_ROUTE = "/articles/diagnosis-explained";
@@ -173,5 +174,13 @@ export const DIAGNOSIS_GUIDE_PILOTS = [
     intendedAudience: "Adults who have received a heart-failure diagnosis, plus family members and caregivers.",
     scope: "A complete source-checked preview covering meaning, major types, possible causes, evaluation, treatment goals, medication purpose, home monitoring, warning signs, devices, questions, and teach-back. Independent clinical review remains pending.",
     route: HEART_FAILURE_GUIDE_ROUTE,
+  },
+  {
+    slug: "copd",
+    diagnosis: "COPD",
+    status: "clinical-review",
+    intendedAudience: "Adults who have received a COPD diagnosis, plus family members and caregivers.",
+    scope: "A complete source-checked preview covering meaning, lung-disease patterns, possible contributors, spirometry and related evaluation, treatment goals, inhaler purpose and technique, pulmonary rehabilitation, oxygen, flare-up planning, warning signs, questions, and teach-back. Independent clinical review remains pending.",
+    route: COPD_GUIDE_ROUTE,
   },
 ] as const satisfies readonly DiagnosisGuidePilot[];

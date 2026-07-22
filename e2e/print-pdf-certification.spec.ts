@@ -26,6 +26,7 @@ const visit = async (page: Page, route: string) => {
 
 const assertGovernedPrintSurface = async (page: Page, expectedText: RegExp, isStandalonePack = false) => {
   await expect(page.locator("body")).toContainText(expectedText);
+  await expect(page.getByText(expectedText).first()).toBeVisible();
 
   if (!isStandalonePack) {
     await expect(page.locator("header.sticky")).toBeHidden();

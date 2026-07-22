@@ -25,12 +25,17 @@ describe("Heart Failure, Explained product", () => {
     expect(HEART_FAILURE_GUIDE.types.map((item) => item.abbreviation)).toEqual(
       expect.arrayContaining(["HFrEF", "HFpEF", "HFimpEF"]),
     );
+    expect(HEART_FAILURE_GUIDE.classificationSystems.map((item) => item.name)).toEqual([
+      "Type or phenotype",
+      "Stage",
+      "Functional class",
+    ]);
     expect(HEART_FAILURE_GUIDE.causes.length).toBeGreaterThanOrEqual(6);
     expect(HEART_FAILURE_GUIDE.tests.length).toBeGreaterThanOrEqual(6);
     expect(HEART_FAILURE_GUIDE.treatmentGoals.length).toBeGreaterThanOrEqual(5);
     expect(HEART_FAILURE_GUIDE.dailyPlan.length).toBeGreaterThanOrEqual(7);
-    expect(HEART_FAILURE_GUIDE.questions.length).toBeGreaterThanOrEqual(10);
-    expect(HEART_FAILURE_GUIDE.teachBack.length).toBeGreaterThanOrEqual(6);
+    expect(HEART_FAILURE_GUIDE.questions.length).toBeGreaterThanOrEqual(11);
+    expect(HEART_FAILURE_GUIDE.teachBack.length).toBeGreaterThanOrEqual(7);
   });
 
   it("requires every medication card to explain purpose, monitoring, questions, and a boundary", () => {
@@ -50,12 +55,18 @@ describe("Heart Failure, Explained product", () => {
       expect(level.signs.length).toBeGreaterThanOrEqual(4);
       expect(level.verification.length).toBeGreaterThan(40);
     }
+    expect(HEART_FAILURE_GUIDE.actionPlan[0].verification).toContain("American Heart Association");
   });
 
-  it("uses professional guidance and Mayo as an external coverage benchmark", () => {
+  it("uses current professional guidance and treats institutional pages as secondary support", () => {
     expect(sourceText).toContain("Second Universal Definition of Heart Failure");
     expect(sourceText).toContain("2022 Guideline for the Management of Heart Failure");
+    expect(sourceText).toContain("2024 Expert Consensus Decision Pathway for Treatment of HFrEF");
+    expect(sourceText).toContain("2023 Expert Consensus Decision Pathway on Management of HFpEF");
+    expect(sourceText).toContain("Classes and Stages of Heart Failure");
     expect(sourceText).toContain("Mayo Clinic");
+    const nhlbiSource = HEART_FAILURE_GUIDE.sources.find((source) => source.name === "National Heart, Lung, and Blood Institute");
+    expect(nhlbiSource?.note).toContain("not used as the authority");
   });
 
   it("does not collect personal health information or provide dosing instructions", () => {

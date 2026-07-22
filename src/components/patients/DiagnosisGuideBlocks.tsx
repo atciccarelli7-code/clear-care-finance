@@ -55,7 +55,7 @@ export const TestCard = ({ test }: { test: HeartFailureTest }) => (
 );
 
 export const MedicationCard = ({ medication, defaultOpen = false }: { medication: HeartFailureMedicationGroup; defaultOpen?: boolean }) => (
-  <details className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm" open={undefined} data-default-open={defaultOpen || undefined}>
+  <details className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm" open={defaultOpen}>
     <summary className="flex cursor-pointer list-none items-start justify-between gap-4 p-5 md:p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset">
       <div className="flex min-w-0 items-start gap-4">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary">

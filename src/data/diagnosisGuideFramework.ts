@@ -1,4 +1,5 @@
 import { COPD_GUIDE_ROUTE } from "./copdGuide";
+import { ADDITIONAL_DIAGNOSIS_GUIDES } from "./conditionGuideCatalog";
 import { HEART_FAILURE_GUIDE_ROUTE } from "./heartFailureGuide";
 
 export const DIAGNOSIS_EXPLAINED_ROUTE = "/articles/diagnosis-explained";
@@ -166,7 +167,7 @@ export const DIAGNOSIS_GUIDE_EDITORIAL_GATES = [
   "The page requests no symptoms, laboratory values, medication list, diagnosis history, or other personal health information.",
 ] as const;
 
-export const DIAGNOSIS_GUIDE_PILOTS = [
+export const DIAGNOSIS_GUIDE_PILOTS: readonly DiagnosisGuidePilot[] = [
   {
     slug: "heart-failure",
     diagnosis: "Heart failure",
@@ -183,4 +184,12 @@ export const DIAGNOSIS_GUIDE_PILOTS = [
     scope: "A complete source-checked preview covering meaning, lung-disease patterns, possible contributors, spirometry and related evaluation, treatment goals, inhaler purpose and technique, pulmonary rehabilitation, oxygen, flare-up planning, warning signs, questions, and teach-back. Independent clinical review remains pending.",
     route: COPD_GUIDE_ROUTE,
   },
-] as const satisfies readonly DiagnosisGuidePilot[];
+  ...ADDITIONAL_DIAGNOSIS_GUIDES.map((guide) => ({
+    slug: guide.slug,
+    diagnosis: guide.diagnosis,
+    status: "clinical-review" as const,
+    intendedAudience: guide.intendedAudience,
+    scope: `${guide.scope} Independent clinical review remains pending.`,
+    route: guide.route,
+  })),
+];

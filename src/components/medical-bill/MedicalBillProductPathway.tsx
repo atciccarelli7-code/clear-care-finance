@@ -24,13 +24,14 @@ export function MedicalBillProductPathway({ pathname }: { pathname: string }) {
 
   const isHub = pathway.variant === "hub";
 
-  const trackPreview = () => {
+  const openPreview = () => {
     trackSiteEvent("premium_product_preview", {
       event_category: "medical_bill_product",
       offer_id: MEDICAL_BILL_PRODUCT.id,
       product_status: MEDICAL_BILL_PRODUCT.status,
       source: pathway.source,
     });
+    window.open(MEDICAL_BILL_PRODUCT.previewPath, "_blank", "noopener,noreferrer");
   };
 
   const trackHandoff = (destination: string) => {
@@ -40,6 +41,11 @@ export function MedicalBillProductPathway({ pathname }: { pathname: string }) {
       source: pathway.source,
       destination,
     });
+  };
+
+  const openFreePack = () => {
+    trackHandoff("free_response_pack");
+    window.open(MEDICAL_BILL_PRODUCT.freePackPath, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -65,26 +71,12 @@ export function MedicalBillProductPathway({ pathname }: { pathname: string }) {
             </div>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Button asChild variant="hero">
-                <a
-                  href={MEDICAL_BILL_PRODUCT.previewPath}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={trackPreview}
-                >
-                  <Eye className="h-4 w-4" /> Preview sample pages
-                </a>
+              <Button type="button" variant="hero" onClick={openPreview}>
+                <Eye className="h-4 w-4" /> Preview sample pages
               </Button>
               {isHub ? (
-                <Button asChild variant="outline">
-                  <a
-                    href={MEDICAL_BILL_PRODUCT.freePackPath}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackHandoff("free_response_pack")}
-                  >
-                    Open the free Response Pack <ArrowRight className="h-4 w-4" />
-                  </a>
+                <Button type="button" variant="outline" onClick={openFreePack}>
+                  Open the free Response Pack <ArrowRight className="h-4 w-4" />
                 </Button>
               ) : (
                 <Button asChild variant="outline">

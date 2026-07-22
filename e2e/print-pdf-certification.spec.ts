@@ -28,7 +28,7 @@ const assertGovernedPrintSurface = async (page: Page, expectedText: RegExp, isSt
   await expect(page.locator("body")).toContainText(expectedText);
 
   if (!isStandalonePack) {
-    await expect(page.locator("header")).toBeHidden();
+    await expect(page.locator("header.sticky")).toBeHidden();
     await expect(page.locator("footer")).toBeHidden();
     await expect(page.locator('aside[aria-label="Site trust standards"]')).toBeHidden();
     await expect(page.locator('nav[aria-label="Primary mobile navigation"]')).toBeHidden();

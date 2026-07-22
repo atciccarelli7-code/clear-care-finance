@@ -12,6 +12,7 @@ import { OPEN_ENROLLMENT_ARTICLES } from "./openEnrollmentArticles";
 import { FROM_BEDSIDE_ARTICLES } from "./fromBedsideArticles";
 import { HOSPITAL_PATIENT_ARTICLES } from "./hospitalPatientArticles";
 import { CONSUMER_PATIENT_GUIDE_ARTICLES } from "./consumerPatientGuideArticles";
+import { DIAGNOSIS_EXPLAINED_ARTICLE } from "./diagnosisExplainedArticle";
 import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
 import { SEARCH_MOAT_ARTICLES } from "./searchMoatArticles";
@@ -40,6 +41,7 @@ const BASE_ARTICLES = [
   ...FROM_BEDSIDE_ARTICLES,
   ...HOSPITAL_PATIENT_ARTICLES,
   ...CONSUMER_PATIENT_GUIDE_ARTICLES,
+  DIAGNOSIS_EXPLAINED_ARTICLE,
   TOTAL_COMPENSATION_ARTICLE,
   ...HEALTHCARE_CONFUSION_ARTICLES,
   INSURANCE_FUTURE_PLANNING_ARTICLE,

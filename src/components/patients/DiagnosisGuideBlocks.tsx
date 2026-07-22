@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import {
   AlertTriangle,
+  BadgeCheck,
   CheckCircle2,
   ChevronDown,
   CircleHelp,
   Droplets,
   Pill,
+  Stethoscope,
 } from "lucide-react";
 import type {
   HeartFailureActionLevel,
@@ -112,23 +114,33 @@ const actionClasses = {
   steady: "border-success/35 bg-success-soft/40",
 } as const;
 
-export const ActionPlanCard = ({ level }: { level: HeartFailureActionLevel }) => (
-  <article className={`rounded-3xl border p-6 md:p-8 ${actionClasses[level.id]}`}>
-    <div className="flex items-start gap-4">
-      <AlertTriangle className="mt-1 h-6 w-6 shrink-0 text-primary" aria-hidden="true" />
-      <div className="min-w-0 flex-1">
-        <h3 className="font-display text-2xl font-bold">{level.label}</h3>
-        <p className="mt-2 font-medium leading-relaxed text-foreground/90">{level.instruction}</p>
-        <ul className="mt-5 grid gap-3 md:grid-cols-2">
-          {level.signs.map((sign) => (
-            <li key={sign} className="flex items-start gap-3 rounded-xl border border-border/70 bg-background/70 p-4 text-sm leading-relaxed text-muted-foreground">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-              <span>{sign}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-5 text-xs leading-relaxed text-muted-foreground"><strong className="text-foreground">Verify: </strong>{level.verification}</p>
+const actionIcons = {
+  emergency: AlertTriangle,
+  "same-day": Stethoscope,
+  steady: BadgeCheck,
+} as const;
+
+export const ActionPlanCard = ({ level }: { level: HeartFailureActionLevel }) => {
+  const Icon = actionIcons[level.id];
+
+  return (
+    <article className={`rounded-3xl border p-6 md:p-8 ${actionClasses[level.id]}`}>
+      <div className="flex items-start gap-4">
+        <Icon className="mt-1 h-6 w-6 shrink-0 text-primary" aria-hidden="true" />
+        <div className="min-w-0 flex-1">
+          <h3 className="font-display text-2xl font-bold">{level.label}</h3>
+          <p className="mt-2 font-medium leading-relaxed text-foreground/90">{level.instruction}</p>
+          <ul className="mt-5 grid gap-3 md:grid-cols-2">
+            {level.signs.map((sign) => (
+              <li key={sign} className="flex items-start gap-3 rounded-xl border border-border/70 bg-background/70 p-4 text-sm leading-relaxed text-muted-foreground">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                <span>{sign}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-xs leading-relaxed text-muted-foreground"><strong className="text-foreground">Verify: </strong>{level.verification}</p>
+        </div>
       </div>
-    </div>
-  </article>
-);
+    </article>
+  );
+};

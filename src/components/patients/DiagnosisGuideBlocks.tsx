@@ -10,10 +10,10 @@ import {
   Stethoscope,
 } from "lucide-react";
 import type {
-  HeartFailureActionLevel,
-  HeartFailureMedicationGroup,
-  HeartFailureTest,
-} from "@/data/heartFailureGuide";
+  ConditionGuideActionLevel,
+  ConditionGuideMedicationGroup,
+  ConditionGuideTest,
+} from "@/data/conditionGuideTypes";
 
 export const GuideSection = ({
   id,
@@ -38,7 +38,7 @@ export const GuideSection = ({
   </section>
 );
 
-export const TestCard = ({ test }: { test: HeartFailureTest }) => (
+export const TestCard = ({ test }: { test: ConditionGuideTest }) => (
   <article className="grid gap-4 rounded-2xl border border-border bg-card p-5 md:grid-cols-[0.7fr_1fr_1fr] md:p-6">
     <div>
       <div className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Test or evaluation</div>
@@ -56,7 +56,7 @@ export const TestCard = ({ test }: { test: HeartFailureTest }) => (
   </article>
 );
 
-export const MedicationCard = ({ medication, defaultOpen = false }: { medication: HeartFailureMedicationGroup; defaultOpen?: boolean }) => (
+export const MedicationCard = ({ medication, defaultOpen = false }: { medication: ConditionGuideMedicationGroup; defaultOpen?: boolean }) => (
   <details className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm" open={defaultOpen}>
     <summary className="flex cursor-pointer list-none items-start justify-between gap-4 p-5 md:p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset">
       <div className="flex min-w-0 items-start gap-4">
@@ -120,7 +120,7 @@ const actionIcons = {
   steady: BadgeCheck,
 } as const;
 
-export const ActionPlanCard = ({ level }: { level: HeartFailureActionLevel }) => {
+export const ActionPlanCard = ({ level }: { level: ConditionGuideActionLevel }) => {
   const Icon = actionIcons[level.id];
 
   return (

@@ -71,7 +71,7 @@ const HeartFailureGuidePage = () => {
         </nav>
       </section>
 
-      <main className="container max-w-5xl space-y-20 py-12 md:py-16">
+      <div className="container max-w-5xl space-y-20 py-12 md:py-16">
         <GuideSection id="meaning" eyebrow="Start here" title="What heart failure actually means" description="One usable mental model before the acronyms, tests, and medication names.">
           <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <article className="rounded-3xl border border-primary/25 bg-gradient-to-br from-primary-soft/75 via-card to-card p-6 shadow-card md:p-8">
@@ -130,7 +130,7 @@ const HeartFailureGuidePage = () => {
           <div className="grid gap-6 lg:grid-cols-[1fr_0.7fr]"><SourceList sources={guide.sources} /><div className="space-y-4"><aside className="rounded-2xl border border-warning/30 bg-warning-soft/35 p-5 text-sm leading-relaxed text-muted-foreground"><div className="font-bold text-foreground">Clinical-review gate</div><p className="mt-2">The product will not be marked clinically final or opened to search indexing until an independent qualified reviewer is named and the review scope is recorded.</p></aside><Button asChild variant="outline" className="w-full justify-between"><a href="https://www.mayoclinic.org/diseases-conditions/heart-failure/diagnosis-treatment/drc-20373148" target="_blank" rel="noopener noreferrer">View the Mayo benchmark <ExternalLink className="h-4 w-4" /></a></Button><Button asChild variant="soft" className="w-full justify-between"><Link to={DIAGNOSIS_EXPLAINED_ROUTE}>How this guide is governed <ArrowRight className="h-4 w-4" /></Link></Button></div></div>
           <div className="mt-8"><DisclaimerBox /></div>
         </GuideSection>
-      </main>
+      </div>
     </>
   );
 };

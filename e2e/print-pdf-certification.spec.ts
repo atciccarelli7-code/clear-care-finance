@@ -137,7 +137,7 @@ test("generate diagnosis-explained concise handout PDFs", async ({ page }) => {
     { route: "/patients-families/diagnosis-explained/bowel-obstruction", slug: "bowel-obstruction", aria: "Concise bowel obstruction handout", title: /Bowel Obstruction, Explained: concise care handout/i },
     { route: "/patients-families/diagnosis-explained/hypertension", slug: "hypertension", aria: "Concise hypertension handout", title: /High Blood Pressure, Explained: concise care handout/i },
     { route: "/patients-families/diagnosis-explained/dyslipidemia", slug: "dyslipidemia", aria: "Concise dyslipidemia or hyperlipidemia handout", title: /High Cholesterol, Explained: concise care handout/i },
-    { route: "/patients-families/diagnosis-explained/kidney-failure", slug: "kidney-failure", aria: "Concise kidney failure \(ESKD or ESRD\) handout", title: /Kidney Failure, Explained: concise care handout/i },
+    { route: "/patients-families/diagnosis-explained/kidney-failure", slug: "kidney-failure", aria: "Concise kidney failure (ESKD or ESRD) handout", title: /Kidney Failure, Explained: concise care handout/i },
   ] as const;
 
   for (const guide of additionalGuides) {

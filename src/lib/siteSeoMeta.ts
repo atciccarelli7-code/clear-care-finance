@@ -1,3 +1,4 @@
+import { ADDITIONAL_DIAGNOSIS_GUIDES } from "@/data/conditionGuideCatalog";
 import { resolveSeoMeta, type SeoJsonLd, type SeoRouteMeta } from "@/lib/seoRegistry";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
@@ -6,6 +7,16 @@ const normalizePath = (pathname: string) => {
   const clean = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "");
   return clean || "/";
 };
+
+const diagnosisGuideOverrides = Object.fromEntries(
+  ADDITIONAL_DIAGNOSIS_GUIDES.map((guide) => [
+    guide.route,
+    {
+      title: `${guide.shortTitle}: Clinical-Review Preview`,
+      description: `${guide.scope} Independent clinical review is pending.`,
+    },
+  ]),
+) as Record<string, Pick<SeoRouteMeta, "title" | "description">>;
 
 const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
   "/": {
@@ -52,6 +63,7 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
     title: "COPD, Explained: Clinical-Review Preview",
     description: "A structured, plain-English COPD guide covering spirometry, lung-disease patterns, inhaler purpose and technique, pulmonary rehabilitation, oxygen, flare-ups, warning signs, and care-team questions. Independent clinical review is pending.",
   },
+  ...diagnosisGuideOverrides,
 };
 
 const benefitsCommandCenterMeta: SeoRouteMeta = {

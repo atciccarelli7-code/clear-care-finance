@@ -129,6 +129,24 @@ test("generate diagnosis-explained concise handout PDFs", async ({ page }) => {
     false,
     'section[aria-label="Concise COPD handout"] header',
   );
+
+  const additionalGuides = [
+    { route: "/patients-families/diagnosis-explained/acute-kidney-injury", slug: "acute-kidney-injury", aria: "Concise acute kidney injury handout", title: /AKI, Explained: concise care handout/i },
+    { route: "/patients-families/diagnosis-explained/atrial-fibrillation", slug: "atrial-fibrillation", aria: "Concise atrial fibrillation handout", title: /AFib, Explained: concise care handout/i },
+    { route: "/patients-families/diagnosis-explained/gastrointestinal-bleeding", slug: "gastrointestinal-bleeding", aria: "Concise gastrointestinal bleeding handout", title: /GI Bleeding, Explained: concise care handout/i },
+    { route: "/patients-families/diagnosis-explained/bowel-obstruction", slug: "bowel-obstruction", aria: "Concise bowel obstruction handout", title: /Bowel Obstruction, Explained: concise care handout/i },
+    { route: "/patients-families/diagnosis-explained/hypertension", slug: "hypertension", aria: "Concise hypertension handout", title: /High Blood Pressure, Explained: concise care handout/i },
+    { route: "/patients-families/diagnosis-explained/dyslipidemia", slug: "dyslipidemia", aria: "Concise dyslipidemia or hyperlipidemia handout", title: /High Cholesterol, Explained: concise care handout/i },
+    { route: "/patients-families/diagnosis-explained/kidney-failure", slug: "kidney-failure", aria: "Concise kidney failure (ESKD or ESRD) handout", title: /Kidney Failure, Explained: concise care handout/i },
+  ] as const;
+
+  for (const guide of additionalGuides) {
+    await visit(page, guide.route);
+    const handout = page.locator(`section[aria-label="${guide.aria}"]`);
+    await expect(handout).toContainText("Independent clinical review is pending");
+    await expect(handout).toContainText("Do not");
+    await exportPdfPair(page, `${guide.slug}-concise-handout`, guide.title, false, `section[aria-label="${guide.aria}"] header`);
+  }
 });
 
 test("generate healthcare offer verification PDFs", async ({ page }) => {

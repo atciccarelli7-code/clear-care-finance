@@ -24,6 +24,13 @@ export const ADDITIONAL_INDEXABLE_ROUTES = ["/tools/benefits-command-center"];
 export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [
   "/patients-families/diagnosis-explained/heart-failure",
   "/patients-families/diagnosis-explained/copd",
+  "/patients-families/diagnosis-explained/acute-kidney-injury",
+  "/patients-families/diagnosis-explained/atrial-fibrillation",
+  "/patients-families/diagnosis-explained/gastrointestinal-bleeding",
+  "/patients-families/diagnosis-explained/bowel-obstruction",
+  "/patients-families/diagnosis-explained/hypertension",
+  "/patients-families/diagnosis-explained/dyslipidemia",
+  "/patients-families/diagnosis-explained/kidney-failure",
 ];
 
 export const loadPermanentRedirects = async () => {

@@ -23,6 +23,7 @@ const isLiteralRoute = (source) =>
 export const ADDITIONAL_INDEXABLE_ROUTES = ["/tools/benefits-command-center"];
 export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [
   "/patients-families/diagnosis-explained/heart-failure",
+  "/patients-families/diagnosis-explained/copd",
 ];
 
 export const loadPermanentRedirects = async () => {

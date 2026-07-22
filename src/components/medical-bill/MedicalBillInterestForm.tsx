@@ -11,17 +11,27 @@ type ApiResult = {
   ok?: boolean;
   saved?: boolean;
   emailDelivered?: boolean;
+  sequenceStatus?: string;
   warning?: string;
   error?: string;
 };
 
-export function MedicalBillInterestForm({ source = "medical-bill-product-foundation" }: { source?: string }) {
+type MedicalBillInterestFormProps = {
+  source?: string;
+  mode?: "interest" | "sequence";
+};
+
+export function MedicalBillInterestForm({
+  source = "medical-bill-product-foundation",
+  mode = "interest",
+}: MedicalBillInterestFormProps) {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [consent, setConsent] = useState(false);
   const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const isSequence = mode === "sequence";
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,12 +46,16 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
 
     if (!consent) {
       setStatus("error");
-      setMessage("Check the consent box before joining the early-access list.");
+      setMessage(
+        isSequence
+          ? "Check the consent box before starting the email path."
+          : "Check the consent box before joining the early-access list.",
+      );
       return;
     }
 
     setStatus("loading");
-    trackSiteEvent("premium_interest_submit", {
+    trackSiteEvent(isSequence ? "medical_bill_email_sequence_submit" : "premium_interest_submit", {
       event_category: "medical_bill_product",
       source,
       offer_id: "expanded_medical_bill_response_workbook",
@@ -57,7 +71,7 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
           consent,
           website,
           source,
-          type: "medical-bill-product-interest",
+          type: isSequence ? "medical-bill-sequence" : "medical-bill-product-interest",
         }),
       });
 
@@ -67,11 +81,28 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
       }
 
       setStatus("success");
-      setMessage(
-        result.emailDelivered === false
-          ? "Your interest was saved. Email delivery is still being finalized."
-          : "You’re on the workbook early-access list. No payment was collected.",
-      );
+      if (isSequence) {
+        setMessage(
+          result.emailDelivered === false
+            ? "Your signup was saved. Email delivery is still being finalized."
+            : "You are on the medical-bill list. Check your inbox for the first response email.",
+        );
+        trackSiteEvent("free_pack_email_signup", {
+          event_category: "medical_bill_product",
+          source,
+        });
+        trackSiteEvent("medical_bill_email_sequence_start", {
+          event_category: "medical_bill_product",
+          source,
+          sequence_status: result.sequenceStatus ?? "first_email_only",
+        });
+      } else {
+        setMessage(
+          result.emailDelivered === false
+            ? "Your interest was saved. Email delivery is still being finalized."
+            : "You’re on the workbook early-access list. No payment was collected.",
+        );
+      }
       setEmail("");
       setFirstName("");
       setConsent(false);
@@ -88,8 +119,14 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
           <Mail className="h-5 w-5" aria-hidden="true" />
         </div>
         <div>
-          <h3 className="font-display text-xl font-bold">Join the workbook early-access list</h3>
-          <p className="text-sm text-muted-foreground">No payment. No document upload. No individualized advice.</p>
+          <h3 className="font-display text-xl font-bold">
+            {isSequence ? "Keep the response sequence for your next billing call" : "Join the workbook early-access list"}
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            {isSequence
+              ? "Educational emails only. No payment and no document upload."
+              : "No payment. No document upload. No individualized advice."}
+          </p>
         </div>
       </div>
 
@@ -137,7 +174,9 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
           className="mt-0.5 h-4 w-4 rounded border-border text-primary"
         />
         <span>
-          I agree to receive educational medical-bill organization emails and product-development updates from Community Acquired Finance. I can unsubscribe anytime.
+          {isSequence
+            ? "I agree to receive educational medical-bill emails from Community Acquired Finance. I can unsubscribe anytime."
+            : "I agree to receive educational medical-bill organization emails and product-development updates from Community Acquired Finance. I can unsubscribe anytime."}
         </span>
       </label>
 
@@ -147,7 +186,7 @@ export function MedicalBillInterestForm({ source = "medical-bill-product-foundat
       </div>
 
       <Button type="submit" variant="hero" className="w-full" disabled={status === "loading"}>
-        {status === "loading" ? "Joining…" : "Join early access"}
+        {status === "loading" ? "Joining…" : isSequence ? "Start the medical-bill email path" : "Join early access"}
       </Button>
 
       {message && (

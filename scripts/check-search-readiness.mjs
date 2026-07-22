@@ -1,7 +1,12 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createServer } from "vite";
-import { getCanonicalRoutes, normalizeRoute, repositoryRoot } from "./seo-route-utils.mjs";
+import {
+  ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES,
+  getCanonicalRoutes,
+  normalizeRoute,
+  repositoryRoot,
+} from "./seo-route-utils.mjs";
 
 const siteUrl = (process.env.VITE_SITE_URL || "https://communityacquiredfinance.com").replace(/\/$/, "");
 const distDir = path.join(repositoryRoot, "dist");
@@ -68,9 +73,14 @@ try {
 
   const { permanentRedirects, registryRoutes, canonicalRoutes } = await getCanonicalRoutes(getIndexableRoutes);
   const expectedRoutes = new Set(canonicalRoutes);
+  const expectedControlledRoutes = new Set(ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES.map(normalizeRoute));
+  const knownHtmlRoutes = new Set([...expectedRoutes, ...expectedControlledRoutes]);
 
   if (canonicalRoutes.length !== expectedRoutes.size) errors.push("Canonical route list contains duplicates.");
   if (!expectedRoutes.has("/")) errors.push("Canonical route list does not contain the homepage.");
+  for (const route of expectedControlledRoutes) {
+    if (expectedRoutes.has(route)) errors.push(`Controlled noindex route is incorrectly canonical: ${route}`);
+  }
 
   const sitemapXml = await readFile(path.join(repositoryRoot, "public", "sitemap.xml"), "utf8");
   const sitemapUrls = extractAll(sitemapXml, /<loc>([\s\S]*?)<\/loc>/gi).map((value) => decodeHtml(value.trim()));
@@ -82,6 +92,9 @@ try {
   });
   if (sitemapRoutes.length !== new Set(sitemapRoutes).size) errors.push("Sitemap contains duplicate URLs.");
   compareSets("Sitemap", new Set(sitemapRoutes), expectedRoutes);
+  for (const route of expectedControlledRoutes) {
+    if (sitemapRoutes.includes(route)) errors.push(`Controlled noindex route appears in sitemap: ${route}`);
+  }
 
   const robots = await readFile(path.join(repositoryRoot, "public", "robots.txt"), "utf8");
   if (!/User-agent:\s*\*/i.test(robots)) errors.push("robots.txt is missing the general user-agent group.");
@@ -91,6 +104,11 @@ try {
 
   const manifest = JSON.parse(await readFile(path.join(distDir, "prerender-manifest.json"), "utf8"));
   compareSets("Prerender manifest", new Set((manifest.routes ?? []).map(normalizeRoute)), expectedRoutes);
+  compareSets(
+    "Controlled noindex prerender manifest",
+    new Set((manifest.nonIndexableRoutes ?? []).map(normalizeRoute)),
+    expectedControlledRoutes,
+  );
 
   for (const redirectSource of permanentRedirects.keys()) {
     if (expectedRoutes.has(redirectSource)) errors.push(`Permanent redirect is incorrectly treated as canonical: ${redirectSource}`);
@@ -169,7 +187,7 @@ try {
         errors.push(`${route} links internally through permanent redirect ${target}; link directly to ${permanentRedirects.get(target)}.`);
         continue;
       }
-      if (!expectedRoutes.has(target)) {
+      if (!knownHtmlRoutes.has(target)) {
         errors.push(`${route} links to an unknown internal HTML route: ${target}`);
         continue;
       }
@@ -185,6 +203,30 @@ try {
       jsonLdCount: jsonLdValues.length,
       internalTargets: [...internalTargets].sort(),
     });
+  }
+
+  for (const route of expectedControlledRoutes) {
+    const outputPath = outputPathForRoute(route);
+    try {
+      await access(outputPath);
+    } catch {
+      errors.push(`Missing controlled noindex HTML for ${route}: ${path.relative(repositoryRoot, outputPath)}`);
+      continue;
+    }
+
+    const html = await readFile(outputPath, "utf8");
+    const meta = resolveSiteSeoMeta(route);
+    const robotsValue = decodeHtml(extractFirst(html, /<meta\s+name=["']robots["'][^>]*content=["']([^"']*)["'][^>]*>/i) ?? "");
+    const googlebotValue = decodeHtml(extractFirst(html, /<meta\s+name=["']googlebot["'][^>]*content=["']([^"']*)["'][^>]*>/i) ?? "");
+    const title = decodeHtml(extractFirst(html, /<title>([\s\S]*?)<\/title>/i) ?? "");
+    const expectedTitle = expectedFullTitle(meta.title);
+
+    if (!/noindex/i.test(robotsValue)) errors.push(`${route} controlled preview is missing noindex robots metadata.`);
+    if (!/noindex/i.test(googlebotValue)) errors.push(`${route} controlled preview is missing noindex googlebot metadata.`);
+    if (title !== expectedTitle) errors.push(`${route} controlled preview title does not match its SEO metadata.`);
+    if (!/<h1\b/i.test(html)) errors.push(`${route} controlled preview is missing an H1.`);
+    if (!/<main\b[^>]*id=["']main-content["']/i.test(html)) errors.push(`${route} controlled preview is missing the primary main-content landmark.`);
+    if (/<div\s+id=["']root["']>\s*<\/div>/i.test(html)) errors.push(`${route} controlled preview contains an empty application root.`);
   }
 
   for (const [title, owners] of titleOwners) {
@@ -208,6 +250,7 @@ try {
     siteUrl,
     registryRouteCount: registryRoutes.length,
     canonicalRouteCount: canonicalRoutes.length,
+    controlledNoindexRouteCount: expectedControlledRoutes.size,
     sitemapRouteCount: sitemapRoutes.length,
     prerenderRouteCount: manifest.routes?.length ?? 0,
     permanentRedirectCount: permanentRedirects.size,
@@ -227,7 +270,7 @@ try {
   }
 
   console.log(
-    `Search readiness passed: ${canonicalRoutes.length} canonical routes, ${sitemapRoutes.length} sitemap URLs, ${permanentRedirects.size} permanent redirects, ${warnings.length} warning(s).`,
+    `Search readiness passed: ${canonicalRoutes.length} canonical routes, ${expectedControlledRoutes.size} controlled noindex route, ${sitemapRoutes.length} sitemap URLs, ${permanentRedirects.size} permanent redirects, ${warnings.length} warning(s).`,
   );
 } finally {
   await vite.close();

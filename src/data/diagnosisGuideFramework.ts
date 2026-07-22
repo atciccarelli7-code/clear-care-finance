@@ -1,3 +1,5 @@
+import { HEART_FAILURE_GUIDE_ROUTE } from "./heartFailureGuide";
+
 export const DIAGNOSIS_EXPLAINED_ROUTE = "/articles/diagnosis-explained";
 
 export type DiagnosisGuideStatus = "planned" | "drafting" | "clinical-review" | "published";
@@ -16,6 +18,7 @@ export type DiagnosisGuidePilot = {
   status: DiagnosisGuideStatus;
   intendedAudience: string;
   scope: string;
+  route?: string;
 };
 
 export const DIAGNOSIS_GUIDE_SECTIONS = [
@@ -166,8 +169,9 @@ export const DIAGNOSIS_GUIDE_PILOTS = [
   {
     slug: "heart-failure",
     diagnosis: "Heart failure",
-    status: "drafting",
+    status: "clinical-review",
     intendedAudience: "Adults who have received a heart-failure diagnosis, plus family members and caregivers.",
-    scope: "Plain-English meaning, major types, possible contributing causes, common evaluation, treatment goals, medication purpose, home monitoring, warning signs, and care-team questions.",
+    scope: "A complete source-checked preview covering meaning, major types, possible causes, evaluation, treatment goals, medication purpose, home monitoring, warning signs, devices, questions, and teach-back. Independent clinical review remains pending.",
+    route: HEART_FAILURE_GUIDE_ROUTE,
   },
 ] as const satisfies readonly DiagnosisGuidePilot[];

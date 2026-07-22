@@ -4,6 +4,7 @@ import {
   DIAGNOSIS_GUIDE_PILOTS,
   DIAGNOSIS_GUIDE_SECTIONS,
 } from "./diagnosisGuideFramework";
+import { HEART_FAILURE_GUIDE_ROUTE } from "./heartFailureGuide";
 
 const heartFailurePilot = DIAGNOSIS_GUIDE_PILOTS[0];
 
@@ -16,17 +17,17 @@ export const DIAGNOSIS_EXPLAINED_ARTICLE: Article = {
   lastReviewedAt: "2026-07-22",
   nextReviewAt: "2026-10-22",
   timeSensitive: false,
-  reviewScope: "Editorial and safety framework only. No condition-specific clinical guidance is published on this page.",
+  reviewScope: "Editorial and safety framework, plus the current development status of the complete Heart Failure, Explained clinical-review preview.",
   author: "Andrew Ciccarelli, BSN, RN",
-  promise: "See the exact format Community Acquired Finance will use to explain diagnoses clearly without becoming a symptom checker or attempting to diagnose the reader.",
-  description: "A transparent preview of the RN-designed format, clinical-review gates, and first heart-failure pilot for future plain-English diagnosis guides.",
+  promise: "See the exact format Community Acquired Finance uses to explain diagnoses clearly without becoming a symptom checker or attempting to diagnose the reader.",
+  description: "The RN-designed format, publication gates, and current heart-failure clinical-review preview for future plain-English diagnosis guides.",
   audience: "Patients and caregivers who already received a diagnosis and want a clearer explanation before their next conversation with the care team.",
-  summary: "Diagnosis, Explained will be a library of carefully sourced patient-education guides. The reader brings the diagnosis. Each guide will explain what it means, what it does not automatically mean, possible contributing causes, common evaluation, treatment goals, why medications may be prescribed, daily monitoring, warning signs, and questions to ask. The system will not collect symptoms, interpret test results, recommend a diagnosis, or direct an individual treatment plan.",
+  summary: "Diagnosis, Explained is a governed patient-education system. The reader brings the diagnosis. Each guide explains what it means, what it does not automatically mean, possible contributing causes, common evaluation, treatment goals, why medications may be prescribed, daily monitoring, warning signs, and questions to ask. The system does not collect symptoms, interpret individual test results, recommend a diagnosis, or direct an individual treatment plan. The first complete product preview—Heart Failure, Explained—is built and source-checked but remains noindex and ad-free while independent clinical review is pending.",
   body: [
     "A diagnosis can be medically accurate and still leave a patient or family member confused. The purpose of Diagnosis, Explained is to close that understanding gap without replacing the clinician who made the diagnosis.",
     "This is deliberately not a symptom checker. Readers should arrive with a diagnosis they were already given. The guide then provides a calm, organized explanation they can read, print, discuss with family, and use to prepare questions for their own care team.",
-    "The foundation is being published before the condition library so the standard is visible. Every future diagnosis guide must use the same structure, sourcing rules, medication boundaries, emergency-language rules, authorship details, review dates, and clinical-review requirements.",
-    "The first pilot is heart failure. That guide is in drafting and will not be represented as clinically complete until its claims, medication explanations, warning signs, and source set have completed the required review process.",
+    "Every diagnosis guide uses the same structure, sourcing rules, medication boundaries, emergency-language rules, authorship details, review dates, and clinical-review requirements.",
+    "The first complete product preview is Heart Failure, Explained. Its definitions, classifications, tests, medication-purpose cards, daily plan, warning signs, and source set are built. It remains clearly labeled as a clinical-review preview and will not be opened to search indexing until an independent qualified reviewer verifies the condition-specific content.",
   ],
   sections: DIAGNOSIS_GUIDE_SECTIONS.map((section) => ({
     title: section.title,
@@ -35,9 +36,10 @@ export const DIAGNOSIS_EXPLAINED_ARTICLE: Article = {
     ...("safetyBoundary" in section ? { watchOut: section.safetyBoundary } : {}),
   })),
   example: {
-    title: `First pilot in development: ${heartFailurePilot.diagnosis}`,
-    body: `${heartFailurePilot.intendedAudience} Planned scope: ${heartFailurePilot.scope} Current status: ${heartFailurePilot.status}. The final guide will remain unpublished until condition-specific sourcing and clinical review are complete.`,
+    title: `First complete preview: ${heartFailurePilot.diagnosis}`,
+    body: `${heartFailurePilot.intendedAudience} Scope: ${heartFailurePilot.scope} Current status: ${heartFailurePilot.status}. The preview is available for product and clinical review, but it is not represented as a finalized clinical handout.`,
   },
+  relatedCalculator: { label: "Open Heart Failure, Explained", href: HEART_FAILURE_GUIDE_ROUTE },
   commonMistakes: [
     "Starting with a symptom quiz that encourages the site to infer a diagnosis.",
     "Using generic medication lists without explaining why the exact treatment differs by type, severity, comorbidities, and test results.",
@@ -46,7 +48,7 @@ export const DIAGNOSIS_EXPLAINED_ARTICLE: Article = {
     "Publishing a medically polished page without visible sources, author information, review dates, or a named clinical-review process.",
     "Using a disclaimer to excuse individualized or prescriptive language that should not be on the page in the first place.",
   ],
-  questionsHeading: "What every future guide must help the reader ask",
+  questionsHeading: "What every guide must help the reader ask",
   questionsToAsk: [
     "What type, stage, or severity of this diagnosis do I have?",
     "What do you think caused or contributed to it in my situation?",

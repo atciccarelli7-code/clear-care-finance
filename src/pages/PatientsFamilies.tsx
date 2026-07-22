@@ -7,6 +7,7 @@ import { AlertTriangle, ArrowRight, BookOpen, ClipboardCheck, HeartPulse, Home, 
 import type { LucideIcon } from "lucide-react";
 import { PATIENT_GATEWAY_JOURNEYS } from "@/data/hospitalPatientGuide";
 import { DIAGNOSIS_EXPLAINED_ROUTE } from "@/data/diagnosisGuideFramework";
+import { HEART_FAILURE_GUIDE_ROUTE } from "@/data/heartFailureGuide";
 import { trackSiteEvent } from "@/lib/analytics";
 
 const journeyIcons: Record<(typeof PATIENT_GATEWAY_JOURNEYS)[number]["id"], LucideIcon> = {
@@ -32,26 +33,31 @@ const PatientsFamilies = () => <>
           <BookOpen className="h-7 w-7" />
         </div>
         <div className="min-w-0">
-          <div className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">New patient-education foundation</div>
-          <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Diagnosis, Explained</h2>
+          <div className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">Diagnosis, Explained · First complete preview</div>
+          <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Heart Failure, Explained</h2>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-            Bring a diagnosis you already received. These future guides will explain what it means, what it does not automatically mean, possible contributing causes, common evaluation, treatment goals, medication purpose, warning signs, and questions for your care team—without attempting to diagnose you.
+            Bring a diagnosis you already received. The new guide explains what heart failure means, major types, possible causes, tests, treatment goals, why medication groups may be prescribed, home monitoring, warning signs, and questions for the care team.
           </p>
           <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-muted-foreground">
             <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">No symptom checker</span>
             <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">No personal health data</span>
-            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Clinical review required</span>
-            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Heart failure pilot in development</span>
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">No medication changes</span>
+            <span className="rounded-full border border-warning/30 bg-warning-soft/60 px-3 py-1.5">Independent clinical review pending</span>
           </div>
         </div>
-        <Button asChild variant="accent" size="lg" className="w-full md:w-auto">
-          <Link
-            to={DIAGNOSIS_EXPLAINED_ROUTE}
-            onClick={() => trackSiteEvent("patient_guide_resource_selected", { item_id: "diagnosis_explained_foundation", stage_id: "understand_diagnosis", destination_path: DIAGNOSIS_EXPLAINED_ROUTE })}
-          >
-            Preview the guide system <ArrowRight className="h-4 w-4" />
-          </Link>
-        </Button>
+        <div className="flex w-full flex-col gap-3 md:w-auto">
+          <Button asChild variant="accent" size="lg" className="w-full md:w-auto">
+            <Link
+              to={HEART_FAILURE_GUIDE_ROUTE}
+              onClick={() => trackSiteEvent("patient_guide_resource_selected", { item_id: "heart_failure_guide_preview", stage_id: "understand_diagnosis", destination_path: HEART_FAILURE_GUIDE_ROUTE })}
+            >
+              Open the preview <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button asChild variant="ghost" size="sm" className="w-full md:w-auto">
+            <Link to={DIAGNOSIS_EXPLAINED_ROUTE}>View guide standards</Link>
+          </Button>
+        </div>
       </div>
     </div>
   </section>

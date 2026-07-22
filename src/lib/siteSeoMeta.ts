@@ -44,6 +44,10 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
     title: "Medical Bill Response System",
     description: "Identify an EOB, medical bill, denial, financial-assistance form, or collection notice and follow an RN-led, privacy-minimized review sequence before paying.",
   },
+  "/patients-families/diagnosis-explained/heart-failure": {
+    title: "Heart Failure, Explained: Clinical-Review Preview",
+    description: "A structured, plain-English heart-failure guide covering types, causes, tests, treatment goals, medication purpose, home monitoring, warning signs, and care-team questions. Independent clinical review is pending.",
+  },
 };
 
 const benefitsCommandCenterMeta: SeoRouteMeta = {

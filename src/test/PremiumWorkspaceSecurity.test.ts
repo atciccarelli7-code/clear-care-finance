@@ -1,19 +1,19 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { premiumProduct, premiumModules } from "../../api/_lib/premiumProduct";
+import { premiumModuleManifest, premiumProductManifest } from "../../api/_lib/premiumProduct";
 import { addTwelveMonths, resolveEntitlementStatus } from "../../api/premium-webhook";
 import { sanitizeProgress } from "../../api/premium-workspace";
 
 describe("premium workspace product contract", () => {
-  it("uses the canonical fourteen-module v3 source model", () => {
-    expect(premiumProduct.sourceVersion).toBe("3.0");
-    expect(premiumProduct.version).toBe("3.0-web.1");
-    expect(premiumProduct.purchaseModel.type).toBe("one_time");
-    expect(premiumProduct.purchaseModel.automaticRenewal).toBe(false);
-    expect(premiumProduct.purchaseModel.ads).toBe(false);
-    expect(premiumModules).toHaveLength(14);
-    expect(new Set(premiumModules.map((module) => module.id)).size).toBe(14);
-    expect(premiumModules.at(-1)?.id).toBe("integrated-decision");
+  it("uses the canonical fourteen-module v3 public manifest", () => {
+    expect(premiumProductManifest.sourceVersion).toBe("3.0");
+    expect(premiumProductManifest.version).toBe("3.0-web.1");
+    expect(premiumProductManifest.purchaseModel.type).toBe("one_time");
+    expect(premiumProductManifest.purchaseModel.automaticRenewal).toBe(false);
+    expect(premiumProductManifest.purchaseModel.ads).toBe(false);
+    expect(premiumModuleManifest).toHaveLength(14);
+    expect(new Set(premiumModuleManifest.map((module) => module.id)).size).toBe(14);
+    expect(premiumModuleManifest.at(-1)?.id).toBe("integrated-decision");
   });
 
   it("grants entitlement only for paid order states and revokes it for refunds", () => {
@@ -52,12 +52,14 @@ describe("premium workspace exposure boundaries", () => {
     expect(vercel).toContain('"value": "private, no-store, max-age=0"');
   });
 
-  it("returns the product model only after server-side entitlement verification", () => {
+  it("returns private content only after server-side entitlement verification", () => {
     const endpoint = readFileSync("api/premium-workspace.ts", "utf8");
     expect(endpoint.indexOf("requireActiveEntitlement(req)")).toBeGreaterThan(-1);
-    expect(endpoint.indexOf("product: premiumProduct")).toBeGreaterThan(endpoint.indexOf("requireActiveEntitlement(req)"));
+    expect(endpoint.indexOf("getPremiumProductContent()")).toBeGreaterThan(endpoint.indexOf("requireActiveEntitlement(req)"));
+    expect(endpoint.indexOf("product,")).toBeGreaterThan(endpoint.indexOf("getPremiumProductContent()"));
     expect(endpoint).toContain('access.reason === "signed_out" ? 401');
     expect(endpoint).toContain('access.reason === "purchase_required" ? 403');
+    expect(endpoint).toContain('error: "content_not_configured"');
   });
 
   it("keeps payment and storage credentials server-only", () => {
@@ -68,12 +70,17 @@ describe("premium workspace exposure boundaries", () => {
     expect(env).not.toContain("VITE_UPSTASH_REDIS_REST_TOKEN");
   });
 
-  it("keeps substantive module content behind the protected API rather than the client route", () => {
+  it("keeps substantive paid content out of public repository source and client bundles", () => {
     const client = readFileSync("src/pages/PremiumHealthcareBenefitsWorkspacePage.tsx", "utf8");
-    const server = readFileSync("api/_lib/premiumProduct.ts", "utf8");
+    const manifest = readFileSync("api/_lib/premiumProduct.ts", "utf8");
+    const loader = readFileSync("api/_lib/premiumContent.ts", "utf8");
+    const gitignore = readFileSync(".gitignore", "utf8");
     expect(client).toContain('fetch("/api/premium-workspace"');
-    expect(client).not.toContain("Career fit & employment risk");
-    expect(server).toContain("Career fit & employment risk");
-    expect(server).toContain("My healthcare compensation & benefits elections");
+    expect(client).not.toContain("What compensation is guaranteed in writing?");
+    expect(manifest).not.toContain("What compensation is guaranteed in writing?");
+    expect(manifest).not.toContain("My healthcare compensation & benefits elections");
+    expect(loader).toContain("getJson<unknown>(PREMIUM_CONTENT_STORE_KEY)");
+    expect(loader).toContain("isValidPremiumProductContent(content)");
+    expect(gitignore).toContain("private-product-content/");
   });
 });

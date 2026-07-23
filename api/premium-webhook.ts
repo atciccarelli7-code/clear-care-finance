@@ -35,10 +35,16 @@ async function readRawBody(req: PremiumRequest & AsyncIterable<Uint8Array>) {
   return "";
 }
 
-function addTwelveMonths(isoDate: string) {
+export function addTwelveMonths(isoDate: string) {
   const date = new Date(isoDate);
   date.setUTCFullYear(date.getUTCFullYear() + 1);
   return date.toISOString();
+}
+
+export function resolveEntitlementStatus(eventName: string, orderStatus?: string, refundedAt?: string | null): PremiumEntitlement["status"] | null {
+  if (eventName === "order_refunded" || orderStatus === "refunded" || Boolean(refundedAt)) return "refunded";
+  if ((eventName === "order_created" || eventName === "order_updated") && orderStatus === "paid") return "active";
+  return null;
 }
 
 function eventIdentity(payload: WebhookPayload, eventName: string) {
@@ -51,7 +57,7 @@ function matchesConfiguredProduct(payload: WebhookPayload) {
   if (customProduct && customProduct !== PREMIUM_PRODUCT_ID) return false;
   const expectedVariant = process.env.LEMON_SQUEEZY_HEALTHCARE_VARIANT_ID?.trim();
   const actualVariant = String(payload.data?.attributes?.variant_id ?? "");
-  return !expectedVariant || actualVariant === expectedVariant;
+  return Boolean(expectedVariant && actualVariant === expectedVariant);
 }
 
 export default async function handler(req: PremiumRequest & AsyncIterable<Uint8Array>, res: PremiumResponse) {
@@ -73,7 +79,7 @@ export default async function handler(req: PremiumRequest & AsyncIterable<Uint8A
 
   const eventName = payload.meta?.event_name || String(req.headers?.["x-event-name"] || "");
   if (!eventName || !payload.data?.id) return res.status(400).json({ error: "Incomplete webhook payload" });
-  if (!matchesConfiguredProduct(payload)) return res.status(200).json({ accepted: true, ignored: "different_product" });
+  if (!matchesConfiguredProduct(payload)) return res.status(200).json({ accepted: true, ignored: "different_or_unconfigured_product" });
 
   const identity = eventIdentity(payload, eventName);
   if (await getJson(eventKey(identity))) return res.status(200).json({ accepted: true, duplicate: true });
@@ -82,17 +88,14 @@ export default async function handler(req: PremiumRequest & AsyncIterable<Uint8A
   const email = normalizeEmail(attributes.user_email);
   if (!email) return res.status(400).json({ error: "Order email missing" });
 
-  const isRefund = eventName === "order_refunded" || attributes.status === "refunded" || Boolean(attributes.refunded_at);
-  const isPaidOrder = eventName === "order_created" && (!attributes.status || attributes.status === "paid");
-  const isOrderUpdate = eventName === "order_updated";
-
-  if (isPaidOrder || isOrderUpdate || isRefund) {
+  const entitlementStatus = resolveEntitlementStatus(eventName, attributes.status, attributes.refunded_at);
+  if (entitlementStatus) {
     const existing = await getJson<PremiumEntitlement>(entitlementKey(email));
     const purchasedAt = existing?.purchasedAt || attributes.created_at || new Date().toISOString();
     const entitlement: PremiumEntitlement = {
       productId: PREMIUM_PRODUCT_ID,
       email,
-      status: isRefund ? "refunded" : "active",
+      status: entitlementStatus,
       orderId: String(payload.data.id),
       orderIdentifier: attributes.identifier || existing?.orderIdentifier,
       purchasedAt,
@@ -103,8 +106,11 @@ export default async function handler(req: PremiumRequest & AsyncIterable<Uint8A
       updatedAt: new Date().toISOString(),
     };
     await setJson(entitlementKey(email), entitlement);
+    console.info("caf_premium_event", { event: entitlementStatus === "active" ? "purchase_completed" : "purchase_refunded", productId: PREMIUM_PRODUCT_ID, testMode: Boolean(attributes.test_mode) });
+  } else {
+    console.info("caf_premium_event", { event: "payment_event_ignored", productId: PREMIUM_PRODUCT_ID, orderStatus: attributes.status || "unknown", eventName });
   }
 
   await setJson(eventKey(identity), { processedAt: new Date().toISOString(), eventName }, { expiresInSeconds: 400 * 24 * 60 * 60 });
-  return res.status(200).json({ accepted: true });
+  return res.status(200).json({ accepted: true, entitlementChanged: Boolean(entitlementStatus) });
 }

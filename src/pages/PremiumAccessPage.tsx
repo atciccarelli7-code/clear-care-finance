@@ -101,7 +101,7 @@ export default function PremiumAccessPage() {
   };
 
   return (
-    <main className="bg-[#f4f6f2] py-10 md:py-16">
+    <section className="bg-[#f4f6f2] py-10 md:py-16" aria-label="Premium product access">
       <div className="container max-w-6xl">
         <div className="mb-8 flex items-center justify-between gap-4">
           <Link to="/products/healthcare-worker-benefits-decision-pack" className="text-sm font-semibold text-primary hover:underline">← Product overview</Link>
@@ -157,6 +157,6 @@ export default function PremiumAccessPage() {
           </section>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

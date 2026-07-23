@@ -250,6 +250,54 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "lastReviewedAt": "2026-07-17"
   },
   {
+    "slug": "safe-hospital-discharge-first-72-hours",
+    "title": "Safe Hospital Discharge and the First 72 Hours at Home",
+    "description": "Use one practical plan to verify medicines, follow-up, equipment, home support, and unresolved questions before the first night at home.",
+    "category": "Hospital & Patient Guide",
+    "publishedAt": "2026-07-19",
+    "lastReviewedAt": "2026-07-19"
+  },
+  {
+    "slug": "blood-thinner-safety-before-going-home",
+    "title": "Blood Thinner Safety: What to Verify Before Going Home",
+    "description": "Prepare the exact questions and written information needed to use a prescribed blood thinner safely without guessing at medicine-specific rules.",
+    "category": "Hospital & Patient Guide",
+    "publishedAt": "2026-07-19",
+    "lastReviewedAt": "2026-07-19"
+  },
+  {
+    "slug": "copd-recovery-after-hospital",
+    "title": "COPD Recovery After a Hospital Visit",
+    "description": "Organize the medicines, inhalers, equipment, recovery plan, follow-up, and access questions that matter after a COPD-related hospital visit.",
+    "category": "Hospital & Patient Guide",
+    "publishedAt": "2026-07-19",
+    "lastReviewedAt": "2026-07-19"
+  },
+  {
+    "slug": "heart-failure-plan-after-discharge",
+    "title": "Heart Failure: Understanding the Plan After Discharge",
+    "description": "Turn a complicated heart-failure discharge plan into a clear list of medicines, daily tracking, follow-up, and questions for the treating team.",
+    "category": "Hospital & Patient Guide",
+    "publishedAt": "2026-07-19",
+    "lastReviewedAt": "2026-07-19"
+  },
+  {
+    "slug": "new-home-oxygen-nebulizer-guide",
+    "title": "New Home Oxygen and Nebulizer Guide",
+    "description": "Prepare the equipment, safety, supplier, backup-power, cleaning, and follow-up questions needed before the first night with home oxygen or a nebulizer.",
+    "category": "Hospital & Patient Guide",
+    "publishedAt": "2026-07-19",
+    "lastReviewedAt": "2026-07-19"
+  },
+  {
+    "slug": "diagnosis-explained",
+    "title": "Diagnosis, Explained: Our Plain-English Guide System",
+    "description": "The RN-designed format, publication gates, and current heart-failure clinical-review preview for future plain-English diagnosis guides.",
+    "category": "Patients & Caregivers",
+    "publishedAt": "2026-07-22",
+    "lastReviewedAt": "2026-07-22"
+  },
+  {
     "slug": "how-healthcare-workers-should-compare-job-offers",
     "title": "How Healthcare Workers Should Compare Two Job Offers",
     "description": "Compare salary, overtime, differentials, benefits, PTO, insurance premiums, commute burden, and schedule tradeoffs before accepting a healthcare job.",

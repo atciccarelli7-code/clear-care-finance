@@ -16,6 +16,11 @@ export type PaidProduct = {
   includedAssets: string[];
   premiumModules: string[];
   limitations: string;
+  validationOffer?: {
+    name: string;
+    route: string;
+    status: "paid_pilot_interest";
+  };
 };
 
 export type PaidProductBundle = {
@@ -93,6 +98,11 @@ export const PAID_PRODUCTS: PaidProduct[] = [
     ],
     limitations:
       "The system organizes user-supplied facts and estimates. It does not recommend an employer, determine legal overtime status, predict taxes, interpret plan documents as legal advice, or guarantee negotiation outcomes.",
+    validationOffer: {
+      name: "Healthcare Worker Benefits Decision Pack",
+      route: "/products/healthcare-worker-benefits-decision-pack",
+      status: "paid_pilot_interest",
+    },
   },
   {
     id: "medical_bill_response_resolution_system",

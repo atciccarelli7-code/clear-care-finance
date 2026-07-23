@@ -17,6 +17,12 @@ const products = [
     checkoutEnabled: false,
     checkoutUrl: "",
     deliveryMode: "private_master_not_hosted",
+    validationOffer: {
+      productId: "healthcare_worker_benefits_decision_pack",
+      route: "/products/healthcare-worker-benefits-decision-pack",
+      price: 29,
+      mode: "paid_pilot_interest_only",
+    },
   },
   {
     productId: "medical_bill_response_resolution_system",

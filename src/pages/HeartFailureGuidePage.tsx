@@ -177,7 +177,7 @@ const HeartFailureGuidePage = () => {
       <section className="hidden print:block print:p-0" aria-label="Concise heart failure handout">
         <header className="border-b-2 border-black pb-3">
           <div className="text-xs font-bold uppercase tracking-wider">Community Acquired Finance · Published guide</div>
-          <h1 className="mt-2 text-3xl font-bold">Heart Failure: concise care handout</h1>
+          <h2 className="mt-2 text-3xl font-bold">Heart Failure: concise care handout</h2>
           <p className="mt-2 text-sm">Source-checked, nurse-reviewed educational handout. The treating team's written plan controls.</p>
         </header>
 

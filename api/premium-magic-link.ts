@@ -1,21 +1,28 @@
 import { assertSameOrigin, consumeMagicLink, createMagicLink, createSession, getEntitlement, noStore, normalizeEmail, parseBody, rateLimitAccessRequest, sendPremiumAccessEmail, setSessionCookie, siteUrl, type PremiumRequest, type PremiumResponse } from "./_lib/premiumAuth";
 import { isPremiumStoreConfigured } from "./_lib/premiumStore";
 
+function redirect(res: PremiumResponse, destination: string) {
+  res.status(302);
+  res.setHeader("Location", destination);
+  res.end?.();
+}
+
 export default async function handler(req: PremiumRequest, res: PremiumResponse) {
   noStore(res);
   res.setHeader("Allow", "GET, POST");
 
   if (req.method === "GET") {
-    const requestUrl = new URL((req as PremiumRequest & { url?: string }).url || "/api/premium-magic-link", siteUrl());
+    const requestUrl = new URL(req.url || "/api/premium-magic-link", siteUrl());
     const token = requestUrl.searchParams.get("token") || "";
-    if (!isPremiumStoreConfigured()) return res.redirect?.(302, "/premium/access?state=unavailable");
+    if (!isPremiumStoreConfigured()) return redirect(res, "/premium/access?state=unavailable");
 
     const record = await consumeMagicLink(token);
-    if (!record?.email) return res.redirect?.(302, "/premium/access?state=expired");
+    if (!record?.email) return redirect(res, "/premium/access?state=expired");
     const session = await createSession(record.email);
     setSessionCookie(res, session.token);
     const entitlement = await getEntitlement(record.email);
-    return res.redirect?.(302, entitlement?.status === "active" ? "/premium/healthcare-compensation-benefits" : "/premium/access?state=purchase-required");
+    console.info("caf_premium_event", { event: "account_activated", productId: entitlement?.productId || "none", hasAccess: entitlement?.status === "active" });
+    return redirect(res, entitlement?.status === "active" ? "/premium/healthcare-compensation-benefits?activated=1" : "/premium/access?state=purchase-required");
   }
 
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
@@ -32,8 +39,12 @@ export default async function handler(req: PremiumRequest, res: PremiumResponse)
 
   const entitlement = await getEntitlement(email);
   if (entitlement?.status === "active") {
-    const accessUrl = await createMagicLink(email);
-    await sendPremiumAccessEmail(email, accessUrl);
+    try {
+      const accessUrl = await createMagicLink(email);
+      await sendPremiumAccessEmail(email, accessUrl);
+    } catch (error) {
+      console.error("caf_premium_event", { event: "access_email_failed", productId: entitlement.productId, errorType: error instanceof Error ? error.name : "unknown" });
+    }
   }
 
   return res.status(202).json({

@@ -19,9 +19,10 @@ const isLiteralRoute = (source) =>
 
 // New consumer guide articles are registered through the article runtime manifest.
 // Preserve the existing Benefits Command Center release exception.
+// Published Diagnosis, Explained guides are explicitly included after nurse review.
 // Paused institutional patient-education routes are redirects and never enter the sitemap.
-export const ADDITIONAL_INDEXABLE_ROUTES = ["/tools/benefits-command-center"];
-export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [
+export const ADDITIONAL_INDEXABLE_ROUTES = [
+  "/tools/benefits-command-center",
   "/patients-families/diagnosis-explained/heart-failure",
   "/patients-families/diagnosis-explained/copd",
   "/patients-families/diagnosis-explained/acute-kidney-injury",
@@ -32,6 +33,7 @@ export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [
   "/patients-families/diagnosis-explained/dyslipidemia",
   "/patients-families/diagnosis-explained/kidney-failure",
 ];
+export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [];
 
 export const loadPermanentRedirects = async () => {
   const configPath = path.join(repositoryRoot, "vercel.json");

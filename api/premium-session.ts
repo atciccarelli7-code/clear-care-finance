@@ -1,4 +1,5 @@
-import { clearSessionCookie, destroySession, getEntitlement, getSession, isPremiumStoreConfigured, noStore, type PremiumRequest, type PremiumResponse } from "./_lib/premiumAuth";
+import { clearSessionCookie, destroySession, getEntitlement, getSession, noStore, type PremiumRequest, type PremiumResponse } from "./_lib/premiumAuth";
+import { isPremiumStoreConfigured } from "./_lib/premiumStore";
 
 export default async function handler(req: PremiumRequest, res: PremiumResponse) {
   noStore(res);

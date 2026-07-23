@@ -33,10 +33,10 @@ describe("Diagnosis, Explained framework", () => {
     expect(medicationSection && "safetyBoundary" in medicationSection ? medicationSection.safetyBoundary : "").toContain("Never tell readers");
   });
 
-  it("keeps the heart-failure pilot out of published status until review is complete", () => {
-    const heartFailure = DIAGNOSIS_GUIDE_PILOTS.find((pilot) => pilot.slug === "heart-failure");
-    expect(heartFailure).toBeDefined();
-    expect(heartFailure?.status).not.toBe("published");
+  it("publishes every pilot after the completed nurse reviews", () => {
+    expect(DIAGNOSIS_GUIDE_PILOTS).toHaveLength(9);
+    expect(DIAGNOSIS_GUIDE_PILOTS.every((pilot) => pilot.status === "published")).toBe(true);
+    expect(DIAGNOSIS_GUIDE_PILOTS.every((pilot) => Boolean(pilot.route))).toBe(true);
   });
 
   it("registers the public framework article at the expected route", () => {

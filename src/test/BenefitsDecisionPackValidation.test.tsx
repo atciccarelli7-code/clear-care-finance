@@ -26,10 +26,10 @@ describe("Healthcare Compensation & Benefits Decision Workspace sales page", () 
     expect(screen.getByText(/secure customer account/i)).toBeInTheDocument();
     expect(screen.getAllByText(/no automatic renewal/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/(12|twelve) months of (product )?updates/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/medical insurance/i)).toBeInTheDocument();
-    expect(screen.getByText(/retirement contribution election/i)).toBeInTheDocument();
-    expect(screen.getByText(/career fit & employment risk/i)).toBeInTheDocument();
-    expect(screen.getByText(/integrated decision board/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/medical insurance/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/retirement contribution election/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/career fit & employment risk/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/integrated decision board/i).length).toBeGreaterThan(0);
   });
 
   it("preserves the existing privacy-safe validation event allowlist", () => {

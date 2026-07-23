@@ -12,13 +12,14 @@ const diagnosisGuideOverrides = Object.fromEntries(
   ADDITIONAL_DIAGNOSIS_GUIDES.map((guide) => [
     guide.route,
     {
-      title: `${guide.shortTitle}: Clinical-Review Preview`,
-      description: `${guide.scope} Independent clinical review is pending.`,
+      title: guide.shortTitle,
+      description: `${guide.scope} Source checked and nurse reviewed.`,
+      robots: "index, follow, max-image-preview:large",
     },
   ]),
-) as Record<string, Pick<SeoRouteMeta, "title" | "description">>;
+) as Record<string, Pick<SeoRouteMeta, "title" | "description" | "robots">>;
 
-const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
+const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "robots">> = {
   "/": {
     title: "Financial Clarity from Retirement to Healthcare Costs",
     description: "Plain-English guides and calculators for retirement, investing, workplace benefits, insurance, medical bills, Medicare, and Medicaid—with an RN's healthcare perspective.",
@@ -56,12 +57,14 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description">> = {
     description: "Identify an EOB, medical bill, denial, financial-assistance form, or collection notice and follow an RN-led, privacy-minimized review sequence before paying.",
   },
   "/patients-families/diagnosis-explained/heart-failure": {
-    title: "Heart Failure, Explained: Clinical-Review Preview",
-    description: "A structured, plain-English heart-failure guide covering types, causes, tests, treatment goals, medication purpose, home monitoring, warning signs, and care-team questions. Independent clinical review is pending.",
+    title: "Heart Failure, Explained",
+    description: "A structured, plain-English, nurse-reviewed heart-failure guide covering types, causes, tests, treatment goals, medication purpose, home monitoring, warning signs, and care-team questions.",
+    robots: "index, follow, max-image-preview:large",
   },
   "/patients-families/diagnosis-explained/copd": {
-    title: "COPD, Explained: Clinical-Review Preview",
-    description: "A structured, plain-English COPD guide covering spirometry, lung-disease patterns, inhaler purpose and technique, pulmonary rehabilitation, oxygen, flare-ups, warning signs, and care-team questions. Independent clinical review is pending.",
+    title: "COPD, Explained",
+    description: "A structured, plain-English, nurse-reviewed COPD guide covering spirometry, lung-disease patterns, inhaler purpose and technique, pulmonary rehabilitation, oxygen, flare-ups, warning signs, and care-team questions.",
+    robots: "index, follow, max-image-preview:large",
   },
   ...diagnosisGuideOverrides,
 };
@@ -95,6 +98,35 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
   ],
 };
 
+const diagnosisGuideJsonLd = (path: string, title: string, description: string): SeoJsonLd[] => [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Patients & Caregivers", item: `${SITE_URL}/patients-families` },
+      { "@type": "ListItem", position: 3, name: title, item: `${SITE_URL}${path}` },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    name: title,
+    headline: title,
+    description,
+    url: `${SITE_URL}${path}`,
+    mainEntityOfPage: `${SITE_URL}${path}`,
+    audience: { "@type": "Patient" },
+    author: {
+      "@type": "Person",
+      name: "Andrew Ciccarelli, BSN, RN",
+      url: `${SITE_URL}/about`,
+      jobTitle: "Registered Nurse",
+    },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+  },
+];
+
 const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, description: string) =>
   jsonLd?.map((item) => {
     const type = item["@type"];
@@ -118,5 +150,12 @@ export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
   const base = resolveSeoMeta(path);
   const override = overrides[path];
   if (!override) return base;
-  return { ...base, ...override, jsonLd: updateJsonLd(base.jsonLd, override.title, override.description) };
+  const isDiagnosisGuide = path.startsWith("/patients-families/diagnosis-explained/");
+  return {
+    ...base,
+    ...override,
+    jsonLd: isDiagnosisGuide
+      ? diagnosisGuideJsonLd(path, override.title, override.description)
+      : updateJsonLd(base.jsonLd, override.title, override.description),
+  };
 };

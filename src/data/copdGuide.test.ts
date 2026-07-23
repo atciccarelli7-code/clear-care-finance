@@ -6,18 +6,17 @@ import { resolveSiteSeoMeta } from "@/lib/siteSeoMeta";
 const sourceText = COPD_GUIDE.sources.map((source) => `${source.name} ${source.pageTitle}`).join(" ");
 
 describe("COPD, Explained product", () => {
-  it("keeps the product in clinical review and out of search indexing", () => {
-    expect(COPD_GUIDE.status).toBe("clinical-review");
+  it("publishes the reviewed route for search indexing", () => {
     expect(resolveSiteSeoMeta(COPD_GUIDE_ROUTE)).toMatchObject({
       canonicalPath: COPD_GUIDE_ROUTE,
-      robots: "noindex, nofollow",
-      title: "COPD, Explained: Clinical-Review Preview",
+      robots: "index, follow, max-image-preview:large",
+      title: "COPD, Explained",
     });
   });
 
-  it("connects the registered pilot to the product route", () => {
+  it("connects the published pilot to the product route", () => {
     const pilot = DIAGNOSIS_GUIDE_PILOTS.find((item) => item.slug === "copd");
-    expect(pilot).toMatchObject({ status: "clinical-review", route: COPD_GUIDE_ROUTE });
+    expect(pilot).toMatchObject({ status: "published", route: COPD_GUIDE_ROUTE });
   });
 
   it("covers the required diagnosis education domains", () => {

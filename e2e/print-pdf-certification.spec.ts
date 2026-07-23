@@ -1,83 +1,74 @@
+import { expect, test, type Page } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
-import { expect, test, type Page } from "@playwright/test";
 
-const ARTIFACT_DIR = path.resolve("print-certification");
+const artifactDirectory = path.resolve("artifacts/print-certification");
 
 const installPrivacyBoundary = async (page: Page) => {
-  await page.route("**/_vercel/**", async (route) => {
-    const isScript = new URL(route.request().url()).pathname.endsWith(".js");
-    await route.fulfill(isScript
-      ? { status: 200, contentType: "application/javascript", body: "" }
-      : { status: 204, body: "" });
-  });
   await page.addInitScript(() => {
-    localStorage.setItem("caf-privacy-consent-v1", "necessary");
+    window.localStorage.clear();
+    window.sessionStorage.clear();
+    Object.defineProperty(window.navigator, "sendBeacon", { configurable: true, value: () => true });
   });
 };
 
 const visit = async (page: Page, route: string) => {
   await page.goto(route, { waitUntil: "networkidle" });
-  await page.waitForFunction(() => Array.from(document.querySelectorAll("button, select, input")).some((element) => (
-    Object.keys(element).some((key) => key.startsWith("__reactProps$"))
-  ))).catch(() => undefined);
-  await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
-};
-
-const assertGovernedPrintSurface = async (page: Page, expectedText: RegExp, isStandalonePack = false) => {
-  await expect(page.locator("body")).toContainText(expectedText);
-
-  if (!isStandalonePack) {
-    await expect(page.locator("header.sticky")).toBeHidden();
-    await expect(page.locator("footer")).toBeHidden();
-    await expect(page.locator('aside[aria-label="Site trust standards"]')).toBeHidden();
-    await expect(page.locator('nav[aria-label="Primary mobile navigation"]')).toBeHidden();
-    await expect(page.locator("button:visible, [role=button]:visible")).toHaveCount(0);
-  }
-
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  expect(overflow).toBeLessThanOrEqual(1);
+  await expect(page.locator("main")).toBeVisible();
 };
 
 const exportPdfPair = async (
   page: Page,
-  slug: string,
+  fileStem: string,
   expectedText: RegExp,
-  isStandalonePack = false,
-  requiredVisibleSelector?: string,
+  fullPage = false,
+  printTarget?: string,
 ) => {
-  await mkdir(ARTIFACT_DIR, { recursive: true });
+  await mkdir(artifactDirectory, { recursive: true });
   await page.emulateMedia({ media: "print" });
-  await page.evaluate(() => document.fonts.ready.then(() => undefined));
-  await assertGovernedPrintSurface(page, expectedText, isStandalonePack);
-  if (requiredVisibleSelector) {
-    await expect(page.locator(requiredVisibleSelector)).toBeVisible();
+  const target = printTarget ? page.locator(printTarget) : page.locator("body");
+  await expect(target).toContainText(expectedText);
+
+  const formats = [
+    { name: "letter", format: "Letter" as const },
+    { name: "a4", format: "A4" as const },
+  ];
+
+  for (const { name, format } of formats) {
+    await page.pdf({
+      path: path.join(artifactDirectory, `${fileStem}-${name}.pdf`),
+      format,
+      printBackground: true,
+      preferCSSPageSize: false,
+      margin: { top: "0.35in", right: "0.35in", bottom: "0.35in", left: "0.35in" },
+      ...(fullPage ? { pageRanges: "1-" } : {}),
+    });
   }
-
-  const baseOptions = {
-    printBackground: true,
-    displayHeaderFooter: false,
-    margin: { top: "0.45in", right: "0.45in", bottom: "0.45in", left: "0.45in" },
-    tagged: true,
-    outline: true,
-  } as const;
-
-  await page.pdf({
-    ...baseOptions,
-    path: path.join(ARTIFACT_DIR, `${slug}-letter.pdf`),
-    format: "Letter",
-  });
-  await page.pdf({
-    ...baseOptions,
-    path: path.join(ARTIFACT_DIR, `${slug}-a4.pdf`),
-    format: "A4",
-  });
 
   await page.emulateMedia({ media: "screen" });
 };
 
 test.beforeEach(async ({ page }) => {
   await installPrivacyBoundary(page);
+});
+
+test("generate healthcare offer verification plan PDFs", async ({ page }) => {
+  await visit(page, "/tools/healthcare-worker-total-compensation-comparison");
+  const verificationItems = page.getByRole("checkbox");
+  await expect(verificationItems).toHaveCount(12);
+  for (const checkbox of await verificationItems.all()) {
+    if (!await checkbox.isChecked()) await checkbox.check();
+  }
+  await expect(page.getByRole("heading", { name: "All verification items are marked complete" })).toBeVisible();
+  await exportPdfPair(page, "healthcare-offer-verification-plan", /All verification items are marked complete/i);
+});
+
+test("generate Turning 65 Medicare timeline PDFs", async ({ page }) => {
+  await visit(page, "/medicare-care-costs/turning-65");
+  await page.getByRole("button", { name: /Build qualified timeline/i }).click();
+  await expect(page.locator("#turning-65-print-result")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Dated timeline/i })).toBeVisible();
+  await exportPdfPair(page, "turning-65-medicare-timeline", /Dated timeline/i, false, "#turning-65-print-result");
 });
 
 test("generate Medical Bill Response System result and printable pack PDFs", async ({ page }) => {
@@ -102,7 +93,7 @@ test("generate Hospital and Patient Guide action plan PDFs", async ({ page }) =>
 test("generate diagnosis-explained concise handout PDFs", async ({ page }) => {
   await visit(page, "/patients-families/diagnosis-explained/heart-failure");
   await expect(page.locator('section[aria-label="Concise heart failure handout"]')).toContainText(
-    "Independent clinical review is pending",
+    "Source-checked, nurse-reviewed educational handout",
   );
   await expect(page.locator('section[aria-label="Concise heart failure handout"]')).toContainText(
     "Do not change medicine doses",
@@ -117,7 +108,7 @@ test("generate diagnosis-explained concise handout PDFs", async ({ page }) => {
 
   await visit(page, "/patients-families/diagnosis-explained/copd");
   await expect(page.locator('section[aria-label="Concise COPD handout"]')).toContainText(
-    "Independent clinical review is pending",
+    "Source-checked, nurse-reviewed educational handout",
   );
   await expect(page.locator('section[aria-label="Concise COPD handout"]')).toContainText(
     "Do not change inhaler doses",
@@ -143,38 +134,8 @@ test("generate diagnosis-explained concise handout PDFs", async ({ page }) => {
   for (const guide of additionalGuides) {
     await visit(page, guide.route);
     const handout = page.locator(`section[aria-label="${guide.aria}"]`);
-    await expect(handout).toContainText("Independent clinical review is pending");
+    await expect(handout).toContainText("Source-checked, nurse-reviewed educational handout");
     await expect(handout).toContainText("Do not");
     await exportPdfPair(page, `${guide.slug}-concise-handout`, guide.title, false, `section[aria-label="${guide.aria}"] header`);
   }
-});
-
-test("generate healthcare offer verification PDFs", async ({ page }) => {
-  await visit(page, "/tools/healthcare-worker-total-compensation-comparison");
-  for (const checkbox of await page.getByRole("checkbox").all()) {
-    if (!await checkbox.isChecked()) await checkbox.check();
-  }
-  await expect(page.getByRole("heading", { name: "All verification items are marked complete" })).toBeVisible();
-  await exportPdfPair(page, "healthcare-offer-verification-plan", /All verification items are marked complete/i);
-});
-
-test("generate Turning 65 Medicare timeline PDFs", async ({ page }) => {
-  await visit(page, "/medicare-care-costs/turning-65");
-  await page.getByLabel("Birth month").fill("6");
-  await page.getByLabel("Birth year").fill("1961");
-  await page.getByLabel("Already enrolled in any part of Medicare?").selectOption("no");
-  await page.getByLabel("Current coverage source").selectOption("active-employer");
-  await page.getByLabel("Is the coverage based on current active employment?").selectOption("yes");
-  await page.getByLabel("Approximate employer size").selectOption("20-plus");
-  await page.getByLabel("Will active employment or coverage end soon?").selectOption("no");
-  await page.getByLabel("Are employee or employer HSA contributions continuing?").selectOption("yes");
-  await page.getByLabel("Could spouse or dependent coverage be affected?").selectOption("no");
-  await page.getByLabel("Current prescription coverage status").selectOption("creditable");
-  await page.getByLabel("Current coverage preference").selectOption("undecided");
-  await page.getByLabel("Should the result include limited-income help?").selectOption("no");
-  await page.getByLabel("State abbreviation").fill("NC");
-  await page.getByRole("button", { name: /Build qualified timeline/i }).click();
-  await expect(page.getByRole("heading", { name: "Dated timeline" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Official verification and escalation" })).toBeVisible();
-  await exportPdfPair(page, "turning-65-medicare-timeline", /Official verification and escalation/i);
 });

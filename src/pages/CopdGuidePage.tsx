@@ -49,24 +49,24 @@ const CopdGuidePage = () => {
           </ol>
         </nav>
 
-        <PageHero eyebrow="Diagnosis, Explained · Clinical-review preview" title={guide.title} description={guide.subtitle}>
+        <PageHero eyebrow="Diagnosis, Explained · Published guide" title={guide.title} description={guide.subtitle}>
           <Button asChild variant="hero" size="lg"><a href="#quick-start">Choose what you need <ArrowRight className="h-4 w-4" /></a></Button>
           <Button type="button" variant="outline" size="lg" onClick={() => window.print()}><Printer className="h-4 w-4" /> Print the concise handout</Button>
         </PageHero>
 
-        <section className="border-b border-warning/25 bg-warning-soft/45 py-4" aria-labelledby="copd-clinical-review-status">
+        <section className="border-b border-primary/20 bg-primary-soft/35 py-4" aria-labelledby="copd-clinical-review-status">
           <div className="container flex max-w-5xl items-start gap-3">
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-warning-foreground" aria-hidden="true" />
+            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
             <div>
-              <h2 id="copd-clinical-review-status" className="font-display text-base font-bold">Independent clinical review is still pending</h2>
-              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">This is a complete source-checked product preview, not a finalized clinical handout. It remains noindex and ad-free until a qualified independent reviewer verifies the inhaler, oxygen, flare-up, and emergency language.</p>
+              <h2 id="copd-clinical-review-status" className="font-display text-base font-bold">Nurse review complete</h2>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">This source-checked educational guide completed clinical review before public release. It supports understanding and care-team questions; it does not replace individualized diagnosis, treatment, inhaler, oxygen, or emergency instructions.</p>
             </div>
           </div>
         </section>
 
         <section className="container max-w-5xl py-8">
           <div className="grid gap-4 md:grid-cols-2">
-            <ContentFreshness lastReviewedAt={guide.updatedAt} nextReviewAt={guide.nextReviewAt} timeSensitive reviewScope={guide.reviewScope} />
+            <ContentFreshness lastReviewedAt="2026-07-23" nextReviewAt={guide.nextReviewAt} timeSensitive reviewScope="Adult COPD definition, spirometry, lung-disease patterns, contributors, treatment goals, inhaler purpose and technique, pulmonary rehabilitation, oxygen, flare-up planning, warning signs, and care-team questions." />
             <aside className="rounded-2xl border border-border bg-card p-5 text-sm leading-relaxed text-muted-foreground" aria-label="Guide boundary">
               <div className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" /><div><div className="font-bold text-foreground">Education after diagnosis—not diagnosis by website</div><p className="mt-2">{guide.boundary}</p></div></div>
             </aside>
@@ -159,7 +159,7 @@ const CopdGuidePage = () => {
           </GuideSection>
 
           <GuideSection id="sources" eyebrow="Trust and verification" title="Sources used to build this guide" description="GOLD, professional respiratory guidelines, and regulatory sources lead the clinical claims; federal and institutional patient resources support wording and coverage comparison.">
-            <div className="grid gap-6 lg:grid-cols-[1fr_0.7fr]"><SourceList sources={guide.sources} /><div className="space-y-4"><aside className="rounded-2xl border border-warning/30 bg-warning-soft/35 p-5 text-sm leading-relaxed text-muted-foreground"><div className="font-bold text-foreground">Clinical-review gate</div><p className="mt-2">The product will not be marked clinically final or opened to search indexing until an independent qualified reviewer is named and the review scope is recorded.</p></aside><Button asChild variant="outline" className="w-full justify-between"><a href="https://goldcopd.org/2026-gold-report-and-pocket-guide/" target="_blank" rel="noopener noreferrer">View the GOLD 2026 source <ExternalLink className="h-4 w-4" /></a></Button><Button asChild variant="soft" className="w-full justify-between"><Link to={DIAGNOSIS_EXPLAINED_ROUTE}>How this guide is governed <ArrowRight className="h-4 w-4" /></Link></Button></div></div>
+            <div className="grid gap-6 lg:grid-cols-[1fr_0.7fr]"><SourceList sources={guide.sources} /><div className="space-y-4"><aside className="rounded-2xl border border-primary/25 bg-primary-soft/35 p-5 text-sm leading-relaxed text-muted-foreground"><div className="font-bold text-foreground">Review status</div><p className="mt-2">This guide completed nurse review before publication. Source links, review dates, educational boundaries, and the next scheduled review remain visible for ongoing governance.</p></aside><Button asChild variant="outline" className="w-full justify-between"><a href="https://goldcopd.org/2026-gold-report-and-pocket-guide/" target="_blank" rel="noopener noreferrer">View the GOLD 2026 source <ExternalLink className="h-4 w-4" /></a></Button><Button asChild variant="soft" className="w-full justify-between"><Link to={DIAGNOSIS_EXPLAINED_ROUTE}>How this guide is governed <ArrowRight className="h-4 w-4" /></Link></Button></div></div>
             <div className="mt-8"><DisclaimerBox /></div>
           </GuideSection>
         </div>
@@ -167,9 +167,9 @@ const CopdGuidePage = () => {
 
       <section className="hidden print:block print:p-0" aria-label="Concise COPD handout">
         <header className="border-b-2 border-black pb-3">
-          <div className="text-xs font-bold uppercase tracking-wider">Community Acquired Finance · Clinical-review preview</div>
+          <div className="text-xs font-bold uppercase tracking-wider">Community Acquired Finance · Published guide</div>
           <h1 className="mt-2 text-3xl font-bold">COPD: concise care handout</h1>
-          <p className="mt-2 text-sm">Source-checked educational preview. Independent clinical review is pending. The treating team's written plan controls.</p>
+          <p className="mt-2 text-sm">Source-checked, nurse-reviewed educational handout. The treating team's written plan controls.</p>
         </header>
 
         <div className="mt-5 grid grid-cols-2 gap-5 text-sm">

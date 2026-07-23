@@ -53,19 +53,22 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("generate healthcare offer verification plan PDFs", async ({ page }) => {
-  await visit(page, "/healthcare-workers/offer-verification");
-  await page.getByRole("button", { name: /Start verification/i }).click();
-  await page.getByLabel(/Base pay/i).fill("40");
-  await page.getByRole("button", { name: /Continue/i }).click();
-  await expect(page.getByText("Your verification plan")).toBeVisible();
-  await exportPdfPair(page, "healthcare-offer-verification-plan", /Your verification plan/i);
+  await visit(page, "/tools/healthcare-worker-total-compensation-comparison");
+  const verificationItems = page.getByRole("checkbox");
+  await expect(verificationItems).toHaveCount(12);
+  for (const checkbox of await verificationItems.all()) {
+    if (!await checkbox.isChecked()) await checkbox.check();
+  }
+  await expect(page.getByRole("heading", { name: "All verification items are marked complete" })).toBeVisible();
+  await exportPdfPair(page, "healthcare-offer-verification-plan", /All verification items are marked complete/i);
 });
 
 test("generate Turning 65 Medicare timeline PDFs", async ({ page }) => {
-  await visit(page, "/medicare/turning-65");
-  await page.getByRole("button", { name: /Build my timeline/i }).click();
-  await expect(page.getByText(/Your Medicare enrollment timeline/i)).toBeVisible();
-  await exportPdfPair(page, "turning-65-medicare-timeline", /Your Medicare enrollment timeline/i);
+  await visit(page, "/medicare-care-costs/turning-65");
+  await page.getByRole("button", { name: /Build qualified timeline/i }).click();
+  await expect(page.locator("#turning-65-print-result")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Dated timeline/i })).toBeVisible();
+  await exportPdfPair(page, "turning-65-medicare-timeline", /Dated timeline/i, false, "#turning-65-print-result");
 });
 
 test("generate Medical Bill Response System result and printable pack PDFs", async ({ page }) => {

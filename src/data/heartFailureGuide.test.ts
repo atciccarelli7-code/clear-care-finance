@@ -6,18 +6,17 @@ import { resolveSiteSeoMeta } from "@/lib/siteSeoMeta";
 const sourceText = HEART_FAILURE_GUIDE.sources.map((source) => `${source.name} ${source.pageTitle}`).join(" ");
 
 describe("Heart Failure, Explained product", () => {
-  it("keeps the product in clinical review and out of search indexing", () => {
-    expect(HEART_FAILURE_GUIDE.status).toBe("clinical-review");
+  it("publishes the reviewed route for search indexing", () => {
     expect(resolveSiteSeoMeta(HEART_FAILURE_GUIDE_ROUTE)).toMatchObject({
       canonicalPath: HEART_FAILURE_GUIDE_ROUTE,
-      robots: "noindex, nofollow",
-      title: "Heart Failure, Explained: Clinical-Review Preview",
+      robots: "index, follow, max-image-preview:large",
+      title: "Heart Failure, Explained",
     });
   });
 
-  it("connects the registered pilot to the product route", () => {
+  it("connects the published pilot to the product route", () => {
     const pilot = DIAGNOSIS_GUIDE_PILOTS.find((item) => item.slug === "heart-failure");
-    expect(pilot).toMatchObject({ status: "clinical-review", route: HEART_FAILURE_GUIDE_ROUTE });
+    expect(pilot).toMatchObject({ status: "published", route: HEART_FAILURE_GUIDE_ROUTE });
   });
 
   it("covers the required diagnosis education domains", () => {

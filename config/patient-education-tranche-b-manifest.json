@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0.0",
+  "manifestId": "CAF-PE-TRANCHE-B-INTEGRITY-PRIVACY",
+  "status": "public_safe_reconstruction_candidate",
+  "trancheId": "B",
+  "title": "Structured content and deterministic compilation core",
+  "baseline": {
+    "repository": "atciccarelli7-code/clear-care-finance",
+    "mainCommitSha": "4032e9535c85e94433daf4dd855228c86cbbf176",
+    "sourcePullRequest": 190,
+    "sourceBranch": "agent/caf-patient-education-product",
+    "sourceCommitSha": "9738570a207d6506ae771acef11468dc44d28d0c",
+    "reconstructionBranch": "agent/caf-pe-tranche-b-integrity-privacy"
+  },
+  "alreadyIntegratedCapabilities": [
+    {
+      "capabilityId": "content-contract",
+      "implementation": {"path":"src/lib/patientEducationContentContract.ts","blobSha":"e19723bb5df2067fa92ee0c6281e3dd3a4f5a191"},
+      "test": {"path":"src/test/patientEducationContentContract.test.ts","blobSha":"938fce30831967007d5b9e9aa54bc997a5d3670d"}
+    },
+    {
+      "capabilityId": "package-contract",
+      "implementation": {"path":"src/lib/patientEducationPackageContract.ts","blobSha":"927df4a1098e4fd19bc383ca601ea1752e031f39"},
+      "test": {"path":"src/test/patientEducationPackageContract.test.ts","blobSha":"058adc1e8619565bbfddf97030809755f88dd3a5"}
+    },
+    {
+      "capabilityId": "evidence-governance",
+      "implementation": {"path":"src/lib/patientEducationEvidenceContract.ts","blobSha":"a561cf391caa037e3c8cd76013c85b5f32bd2382"},
+      "test": {"path":"src/test/patientEducationEvidenceContract.test.ts","blobSha":"735226f5700027584e83e7f5af14c5e28a8a5e80"}
+    },
+    {
+      "capabilityId": "asset-compiler",
+      "implementation": {"path":"src/lib/patientEducationAssetCompiler.ts","blobSha":"0731c317abc205a23dbb2377b6e9907b136a6c26"},
+      "test": {"path":"src/test/patientEducationAssetCompiler.test.ts","blobSha":"2936f96994e06991d5dd3335a320bba201d6b498"}
+    },
+    {
+      "capabilityId": "bundle-compiler",
+      "implementation": {"path":"src/lib/patientEducationBundleCompiler.ts","blobSha":"8527f46d965df204751d501c83f09e4e3db4db8e"},
+      "test": {"path":"src/test/patientEducationBundleCompiler.test.ts","blobSha":"294565cf6646bd54092d1f6860cc2f802b63f1f4"}
+    },
+    {
+      "capabilityId": "distribution-compiler",
+      "implementation": {"path":"src/lib/patientEducationDistribution.ts","blobSha":"66948e548bd948d732010faa9d7d5c520f6c0916"},
+      "test": {"path":"src/test/patientEducationDistribution.test.ts","blobSha":"68c9b3cc950d3e50157d92c4a2c466b04517c73c"}
+    }
+  ],
+  "reconstructedCapabilities": [
+    {
+      "capabilityId": "integrity-manifest",
+      "implementation": {"path":"src/lib/patientEducationIntegrityManifest.ts","sourceBlobSha":"f39945190f6940f87558cfa88a06ba779406a870","reconstructionBlobSha":"f39945190f6940f87558cfa88a06ba779406a870"},
+      "test": {"path":"src/test/patientEducationIntegrityManifest.test.ts","sourceBlobSha":"64f7d7e8e38afdcc5590b3da240c2efc0dc86803","reconstructionBlobSha":"64f7d7e8e38afdcc5590b3da240c2efc0dc86803"}
+    },
+    {
+      "capabilityId": "reproducibility-manifest",
+      "implementation": {"path":"src/lib/patientEducationReproducibilityManifest.ts","sourceBlobSha":"355bd81541c4e4c06db0306869623529d1773a32","reconstructionBlobSha":"c629e69dc442905aa8a7f5995110a9effffd088d","correctnessDeviation":"Apply shared refinements to both the unsigned base object and the signed extension; ZodEffects cannot be extended."},
+      "test": {"path":"src/test/patientEducationReproducibilityManifest.test.ts","sourceBlobSha":"266335b81fd4024c6cdd01ea41113b329d8c3f04","reconstructionBlobSha":"266335b81fd4024c6cdd01ea41113b329d8c3f04"}
+    },
+    {
+      "capabilityId": "institution-overlay-contract",
+      "implementation": {"path":"src/lib/patientEducationInstitutionOverlay.ts","sourceBlobSha":"109ff458782f7df9b165d38445156239dbc82050","reconstructionBlobSha":"109ff458782f7df9b165d38445156239dbc82050"},
+      "test": {"path":"src/test/patientEducationInstitutionOverlay.test.ts","sourceBlobSha":"7e64145bf2ad7899506339422954fd140d89142d","reconstructionBlobSha":"7e64145bf2ad7899506339422954fd140d89142d"}
+    },
+    {
+      "capabilityId": "privacy-boundary",
+      "implementation": {"path":"src/lib/patientEducationPrivacyBoundary.ts","sourceBlobSha":"47dea9585f4b7da797b49b5ec43609f406948db6","reconstructionBlobSha":"47dea9585f4b7da797b49b5ec43609f406948db6"},
+      "test": {"path":"src/test/patientEducationPrivacyBoundary.test.ts","sourceBlobSha":"ec9ca3db2c95a049c43ea031cd2369e5d8e84731","reconstructionBlobSha":"225caff4ab4403bf3f6aad2e4587436cc63d7452","correctnessDeviation":"Use the integrated content fixture contract and a local non-PHI overlay fixture so the privacy tests are self-contained on main."}
+    }
+  ],
+  "requiredExistingDependencies": [
+    "src/test/fixtures/patientEducationEngineFixture.ts",
+    "src/lib/patientEducationContentContract.ts",
+    "src/lib/patientEducationPackageContract.ts",
+    "src/lib/patientEducationEvidenceContract.ts",
+    "src/lib/patientEducationAssetCompiler.ts",
+    "src/lib/patientEducationBundleCompiler.ts",
+    "src/lib/patientEducationDistribution.ts"
+  ],
+  "acceptanceCommands": [
+    "node scripts/check-patient-education-tranche-b.mjs",
+    "npx vitest run src/test/patientEducationIntegrityManifest.test.ts src/test/patientEducationReproducibilityManifest.test.ts src/test/patientEducationInstitutionOverlay.test.ts src/test/patientEducationPrivacyBoundary.test.ts",
+    "npm run build"
+  ],
+  "claimsBoundary": [
+    "Tranche B adds deterministic integrity, reproducibility, non-PHI organization overlay, and defensive privacy-boundary controls only.",
+    "The privacy scanner is defense in depth and is not represented as comprehensive DLP, legal review, HIPAA compliance, or a substitute for organization security controls.",
+    "This tranche contains no clinical patient guide, real evidence dossier, patient data, hospital configuration, reviewer identity, credential, signing secret, contract, or production approval.",
+    "Passing Tranche B does not establish clinical approval, hospital deployment, accessibility conformance, pilot authorization, production readiness, or patient outcomes."
+  ]
+}

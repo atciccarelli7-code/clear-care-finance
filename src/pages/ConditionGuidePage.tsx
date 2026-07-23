@@ -120,7 +120,7 @@ const ConditionGuidePage = () => {
       </div>
 
       <section className="hidden print:block print:p-0" aria-label={`Concise ${guide.diagnosisName} handout`}>
-        <header className="border-b-2 border-black pb-3"><div className="text-xs font-bold uppercase tracking-wider">Community Acquired Finance · Published guide</div><h1 className="mt-2 text-3xl font-bold">{guide.shortTitle}: concise care handout</h1><p className="mt-2 text-sm">Source-checked, nurse-reviewed educational handout. The treating team’s written plan controls.</p></header>
+        <header className="border-b-2 border-black pb-3"><div className="text-xs font-bold uppercase tracking-wider">Community Acquired Finance · Published guide</div><h2 className="mt-2 text-3xl font-bold">{guide.shortTitle}: concise care handout</h2><p className="mt-2 text-sm">Source-checked, nurse-reviewed educational handout. The treating team’s written plan controls.</p></header>
         <div className="mt-5 grid grid-cols-2 gap-5 text-sm">
           <section className="col-span-2 rounded border border-black p-4"><h2 className="text-lg font-bold">Diagnosis in one sentence</h2><p className="mt-2">{guide.quickExplanation.repeatBack}</p></section>
           <section><h2 className="text-lg font-bold">Labels to confirm</h2><ul className="mt-2 space-y-2">{guide.patterns.map((item) => <li key={item.name}><strong>{item.name}:</strong> {item.shortLabel}</li>)}</ul></section>

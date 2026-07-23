@@ -42,10 +42,14 @@ describe("private paid product readiness", () => {
 
   it("requires an explicit server switch and every secure dependency before commerce can activate", () => {
     const source = readFileSync("api/product-config.ts", "utf8");
+    const checkout = readFileSync("api/premium-checkout.ts", "utf8");
     expect(source).toContain('process.env.ENABLE_PREMIUM_COMMERCE === "true"');
-    expect(source).toContain("storeReady && checkoutReady && accessEmailReady");
+    expect(source).toContain("storeReady && checkoutReady && accessEmailReady && contentReady");
+    expect(source).toContain('process.env.PREMIUM_CONTENT_READY === "true"');
     expect(source).toContain('paymentProvider: "lemon_squeezy_one_time"');
     expect(source).toContain('productStatus: commerceEnabled ? "launch_ready" : "implementation_ready_default_deny"');
     expect(source).not.toContain("checkoutUrl:");
+    expect(checkout).toContain("getPremiumProductContent()");
+    expect(checkout).toContain('process.env.PREMIUM_CONTENT_READY !== "true"');
   });
 });

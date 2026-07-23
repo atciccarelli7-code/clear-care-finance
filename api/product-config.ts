@@ -5,7 +5,8 @@ const configured = (name: string) => Boolean(process.env[name]?.trim());
 const storeReady = (configured("UPSTASH_REDIS_REST_URL") && configured("UPSTASH_REDIS_REST_TOKEN")) || (configured("KV_REST_API_URL") && configured("KV_REST_API_TOKEN"));
 const checkoutReady = configured("LEMON_SQUEEZY_HEALTHCARE_PRODUCT_URL") && configured("LEMON_SQUEEZY_WEBHOOK_SECRET") && configured("LEMON_SQUEEZY_HEALTHCARE_VARIANT_ID");
 const accessEmailReady = configured("RESEND_API_KEY") && configured("RESEND_FROM_EMAIL") && configured("PUBLIC_SITE_URL");
-const commerceEnabled = process.env.ENABLE_PREMIUM_COMMERCE === "true" && storeReady && checkoutReady && accessEmailReady;
+const contentReady = process.env.PREMIUM_CONTENT_READY === "true";
+const commerceEnabled = process.env.ENABLE_PREMIUM_COMMERCE === "true" && storeReady && checkoutReady && accessEmailReady && contentReady;
 
 const products = [
   {
@@ -59,13 +60,14 @@ export default function handler(req: ApiRequest, res: ApiResponse) {
     entitlementModel: "server_verified_webhook_backed",
     progressModel: "minimal_account_progress_private_notes_local",
     hostingPlanRequiredForLaunch: "vercel_pro",
-    infrastructure: { storeReady, checkoutReady, accessEmailReady },
+    infrastructure: { storeReady, checkoutReady, accessEmailReady, contentReady },
     products,
     bundle,
     activationRequires: [
       "founder_approval",
       "vercel_pro",
       "upstash_redis_connected",
+      "premium_content_seeded_and_verified",
       "lemon_squeezy_merchant_and_variant_verified",
       "webhook_and_refund_test_passed",
       "resend_access_email_verified",

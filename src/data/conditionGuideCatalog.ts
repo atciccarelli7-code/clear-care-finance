@@ -50,7 +50,7 @@ export const ADDITIONAL_DIAGNOSIS_GUIDES = [
   {
     slug: "kidney-failure",
     diagnosis: "Kidney failure (ESKD/ESRD)",
-    shortTitle: "Kidney Failure, Explained",
+    shortTitle: "ESRD, Explained",
     route: "/patients-families/diagnosis-explained/kidney-failure",
     intendedAudience: "Adults who have been told they have kidney failure, end-stage kidney disease, or end-stage renal disease, plus family members and caregivers.",
     scope: "Kidney-failure terminology, symptoms and laboratory problems, hemodialysis, peritoneal dialysis, transplant and conservative management, access and infection safety, medicines and nutrition boundaries, warning signs, questions, and teach-back.",

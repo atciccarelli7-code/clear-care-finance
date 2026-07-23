@@ -174,7 +174,7 @@ export async function rateLimitAccessRequest(req: PremiumRequest, email: string)
 }
 
 function escapeHtml(value: string) {
-  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#039;");
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 
 export async function sendPremiumAccessEmail(email: string, accessUrl: string) {

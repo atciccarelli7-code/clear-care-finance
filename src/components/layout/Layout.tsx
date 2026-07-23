@@ -55,9 +55,9 @@ export const Layout = () => {
         <a href="#main-content" className="fixed left-4 top-4 z-[60] -translate-y-24 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-hover transition-transform focus:translate-y-0">
           Skip to main content
         </a>
-        <div id="main-content" className="min-h-screen w-full min-w-0 outline-none" tabIndex={-1}>
+        <main id="main-content" className="min-h-screen w-full min-w-0 outline-none" tabIndex={-1}>
           <Outlet />
-        </div>
+        </main>
         <PrivacyChoices />
       </div>
     );

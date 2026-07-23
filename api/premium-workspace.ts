@@ -1,6 +1,6 @@
 import { assertSameOrigin, noStore, parseBody, progressKey, requireActiveEntitlement, type PremiumRequest, type PremiumResponse } from "./_lib/premiumAuth";
 import { premiumProduct } from "./_lib/premiumProduct";
-import { getJson, setJson } from "./_lib/premiumStore";
+import { deleteKey, getJson, setJson } from "./_lib/premiumStore";
 
 type PremiumProgress = {
   completedModuleIds: string[];
@@ -12,7 +12,7 @@ type PremiumProgress = {
 const moduleIds = new Set(premiumProduct.modules.map((module) => module.id));
 const permittedTaskPattern = /^(module|document|decision|review|export):[a-z0-9-]{1,64}$/;
 
-function sanitizeProgress(input: Partial<PremiumProgress>): PremiumProgress {
+export function sanitizeProgress(input: Partial<PremiumProgress>): PremiumProgress {
   const completedModuleIds = Array.isArray(input.completedModuleIds)
     ? [...new Set(input.completedModuleIds.filter((value): value is string => typeof value === "string" && moduleIds.has(value)))].slice(0, premiumProduct.modules.length)
     : [];
@@ -29,8 +29,8 @@ function sanitizeProgress(input: Partial<PremiumProgress>): PremiumProgress {
 
 export default async function handler(req: PremiumRequest, res: PremiumResponse) {
   noStore(res);
-  res.setHeader("Allow", "GET, PATCH");
-  if (req.method !== "GET" && req.method !== "PATCH") return res.status(405).json({ error: "Method not allowed" });
+  res.setHeader("Allow", "GET, PATCH, DELETE");
+  if (req.method !== "GET" && req.method !== "PATCH" && req.method !== "DELETE") return res.status(405).json({ error: "Method not allowed" });
 
   const access = await requireActiveEntitlement(req);
   if (!access.ok) {
@@ -39,8 +39,18 @@ export default async function handler(req: PremiumRequest, res: PremiumResponse)
   }
 
   const key = progressKey(access.session.email);
-  if (req.method === "PATCH") {
+  if (req.method === "PATCH" || req.method === "DELETE") {
     try { assertSameOrigin(req); } catch { return res.status(403).json({ error: "Request could not be verified." }); }
+  }
+
+  if (req.method === "DELETE") {
+    await deleteKey(key);
+    const progress = sanitizeProgress({});
+    console.info("caf_premium_event", { event: "progress_deleted", productId: premiumProduct.id });
+    return res.status(200).json({ progress, deleted: true });
+  }
+
+  if (req.method === "PATCH") {
     const body = parseBody<Partial<PremiumProgress>>(req.body);
     const progress = sanitizeProgress(body);
     await setJson(key, progress);

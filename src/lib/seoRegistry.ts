@@ -58,6 +58,10 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Plain-English guidance for healthcare-worker paychecks, benefits, retirement accounts, burnout spending, career flexibility, and wealth building.",
     kind: "collection",
   },
+  "/products/healthcare-worker-benefits-decision-pack": {
+    title: "Healthcare Worker Benefits Decision Pack",
+    description: "Review the $29 paid-pilot scope for a healthcare-worker job-offer and benefits decision system. No payment is collected while checkout and delivery gates remain incomplete.",
+  },
   "/healthcare-workers/paycheck-tools": {
     title: "Healthcare Worker Paycheck Tools",
     description: "Use RN-focused paycheck, overtime, retirement contribution, and savings tools built for healthcare workers.",

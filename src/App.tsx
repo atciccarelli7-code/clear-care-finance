@@ -13,6 +13,7 @@ import { useSeo } from "@/lib/seo";
 const loadIndex = () => import("./pages/Index.tsx");
 const loadStartHere = () => import("./pages/StartHere.tsx");
 const loadHealthcareWorkers = () => import("./pages/HealthcareWorkers.tsx");
+const loadHealthcareWorkerBenefitsDecisionPackPage = () => import("./pages/HealthcareWorkerBenefitsDecisionPackPage.tsx");
 const loadBuildWealthHub = () => import("./pages/BuildWealthHub.tsx");
 const loadPatientsFamilies = () => import("./pages/PatientsFamilies.tsx");
 const loadHospitalPatientGuidePage = () => import("./pages/HospitalPatientGuidePage.tsx");
@@ -72,6 +73,7 @@ const loadNotFound = () => import("./pages/NotFound.tsx");
 const Index = lazy(loadIndex);
 const StartHere = lazy(loadStartHere);
 const HealthcareWorkers = lazy(loadHealthcareWorkers);
+const HealthcareWorkerBenefitsDecisionPackPage = lazy(loadHealthcareWorkerBenefitsDecisionPackPage);
 const BuildWealthHub = lazy(loadBuildWealthHub);
 const PatientsFamilies = lazy(loadPatientsFamilies);
 const HospitalPatientGuidePage = lazy(loadHospitalPatientGuidePage);
@@ -137,6 +139,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/") return loadIndex;
   if (pathname === "/start-here") return loadStartHere;
   if (pathname === "/healthcare-workers") return loadHealthcareWorkers;
+  if (pathname === "/products/healthcare-worker-benefits-decision-pack") return loadHealthcareWorkerBenefitsDecisionPackPage;
   if (pathname === "/healthcare-workers/paycheck-tools") return loadInsuranceDecisionToolsBundle;
   if (pathname === "/build-wealth") return loadBuildWealthHub;
   if (pathname === "/patients-families") return loadPatientsFamilies;
@@ -262,6 +265,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/" element={<Index />} />
             <Route path="/start-here" element={<StartHere />} />
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
+            <Route path="/products/healthcare-worker-benefits-decision-pack" element={<HealthcareWorkerBenefitsDecisionPackPage />} />
             <Route path="/build-wealth" element={<BuildWealthHub />} />
             <Route path="/healthcare-workers/career-decisions" element={<HealthcareCareerDecisionCenterPage />} />
             <Route path="/healthcare-workers/paycheck-tools" element={<HealthcareWorkerPaycheckTools />} />

@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 type NewsletterEmailType =
   | "newsletter"
   | "medical-bill-sequence"
-  | "medical-bill-product-interest";
+  | "medical-bill-product-interest"
+  | "benefits-pack-interest";
 
 type NewsletterSignupProps = {
   className?: string;
@@ -41,7 +42,11 @@ const trackNewsletterEvent = (
 ) =>
   trackSiteEvent(eventName, {
     event_category:
-      emailType === "newsletter" ? "newsletter" : "medical_bill_product",
+      emailType === "newsletter"
+        ? "newsletter"
+        : emailType === "benefits-pack-interest"
+          ? "benefits_pack_validation"
+          : "medical_bill_product",
     source,
     email_type: emailType,
   });
@@ -64,7 +69,11 @@ export function NewsletterSignup({
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const displayDescription = description.replace(/\bweekly\b/gi, "monthly");
-  const emailLabel = emailType === "newsletter" ? "Monthly email" : "Medical-bill email";
+  const emailLabel = emailType === "newsletter"
+    ? "Monthly email"
+    : emailType === "benefits-pack-interest"
+      ? "Paid-pilot updates"
+      : "Medical-bill email";
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -114,10 +123,14 @@ export function NewsletterSignup({
           ? "You are on the medical-bill list. Check your inbox for the first response-system email."
           : emailType === "medical-bill-product-interest"
             ? "You are on the workbook launch list. No payment was collected."
+            : emailType === "benefits-pack-interest"
+              ? "You are on the $29 paid-pilot list. No payment was collected."
             : "You are in. Check your inbox for the Healthcare Worker Money Map.";
       const defaultLimited =
         emailType === "medical-bill-product-interest"
           ? "Your workbook interest was saved. Email delivery is still pending external sender verification."
+          : emailType === "benefits-pack-interest"
+            ? "Your paid-pilot interest was saved. Email delivery is still pending external sender verification."
           : "You are on the list. Welcome email delivery is still being finalized.";
 
       setMessage(
@@ -144,6 +157,14 @@ export function NewsletterSignup({
           event_category: "medical_bill_product",
           source_surface: source,
           product_id: "expanded_medical_bill_response_workbook",
+        });
+      }
+
+      if (emailType === "benefits-pack-interest") {
+        trackSiteEvent("benefits_pack_interest_submit", {
+          event_category: "benefits_pack_validation",
+          source_surface: source,
+          product_id: "healthcare_worker_benefits_decision_pack",
         });
       }
 

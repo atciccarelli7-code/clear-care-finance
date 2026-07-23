@@ -32,7 +32,8 @@ type EmailType =
   | "newsletter"
   | "403b-estimate"
   | "medical-bill-sequence"
-  | "medical-bill-product-interest";
+  | "medical-bill-product-interest"
+  | "benefits-pack-interest";
 
 type SendBody = {
   email?: string;
@@ -244,6 +245,24 @@ function buildProductInterestEmail(firstName: string | undefined, unsubscribeUrl
   });
 }
 
+function buildBenefitsPackInterestEmail(firstName: string | undefined, unsubscribeUrl: string) {
+  return emailFrame({
+    preheader: "Your $29 Healthcare Worker Benefits Decision Pack paid-pilot interest was saved.",
+    title: "You are on the Benefits Decision Pack paid-pilot list",
+    greeting: greeting(firstName),
+    body: `
+      <p style="margin:0 0 18px;">Your interest in the $29 Healthcare Worker Benefits Decision Pack paid pilot was saved. No payment was collected and no purchase obligation was created.</p>
+      <div style="background:#f6f8f5;border:1px solid #d8ded3;border-radius:18px;padding:20px;margin:24px 0;">
+        <p style="margin:0 0 10px;color:#004022;font-weight:700;">What the pilot is testing</p>
+        <p style="margin:0;">Whether a focused PDF and spreadsheet system helps healthcare workers compare job offers, health plans, retirement benefits, schedule burden, student-loan assistance, HR questions, and a final written decision.</p>
+      </div>
+      <p style="margin:0;">You will receive a launch notice only after secure hosted checkout, delivery, refund, privacy, and support steps are authorized and verified.</p>`,
+    ctaLabel: "Review the Paid-Pilot Page",
+    ctaHref: `${siteUrl}/products/healthcare-worker-benefits-decision-pack`,
+    unsubscribeUrl,
+  });
+}
+
 function row(label: string, value?: string) {
   return `<tr><td style="padding:10px 12px;border-bottom:1px solid #d8ded3;color:#53645a;">${escapeHtml(label)}</td><td style="padding:10px 12px;border-bottom:1px solid #d8ded3;color:#183326;font-weight:700;text-align:right;">${safe(value)}</td></tr>`;
 }
@@ -320,6 +339,13 @@ function emailPayload(type: EmailType, firstName: string | undefined, estimate: 
     return {
       subject: "Expanded Medical Bill Workbook launch list",
       html: buildProductInterestEmail(firstName, unsubscribeUrl),
+      sequenceStatus: "provider_automation_required" as const,
+    };
+  }
+  if (type === "benefits-pack-interest") {
+    return {
+      subject: "$29 Healthcare Worker Benefits Decision Pack paid pilot",
+      html: buildBenefitsPackInterestEmail(firstName, unsubscribeUrl),
       sequenceStatus: "provider_automation_required" as const,
     };
   }

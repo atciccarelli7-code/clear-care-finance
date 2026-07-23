@@ -1,9 +1,10 @@
 import { FormEvent, useEffect, useState } from "react";
-import { ArrowRight, Check, KeyRound, LockKeyhole, Mail, RefreshCw, ShieldCheck } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ArrowRight, Check, KeyRound, LockKeyhole, Mail, RefreshCw, ShieldCheck, Trash2 } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { trackSiteEvent } from "@/lib/analytics";
 
+const PRODUCT_ID = "healthcare_compensation_benefits_decision_book";
 const states: Record<string, { title: string; message: string }> = {
   purchased: { title: "Payment received", message: "Your purchase is confirmed only after the secure payment webhook creates your entitlement. Enter the checkout email to receive a one-time access link." },
   expired: { title: "That access link expired", message: "Request a new one-time link below. Access links expire after 15 minutes and can be used once." },
@@ -15,7 +16,6 @@ type SessionState = { signedIn: boolean; hasAccess?: boolean; commerceReady?: bo
 
 export default function PremiumAccessPage() {
   const location = useLocation();
-  const navigate = useNavigate();
   const stateName = new URLSearchParams(location.search).get("state") || "";
   const notice = states[stateName];
   const [email, setEmail] = useState("");
@@ -23,6 +23,7 @@ export default function PremiumAccessPage() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [checkoutBusy, setCheckoutBusy] = useState(false);
+  const [resetBusy, setResetBusy] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.premiumRoute = "true";
@@ -30,14 +31,11 @@ export default function PremiumAccessPage() {
     robots.setAttribute("content", "noindex, nofollow, noarchive");
     void fetch("/api/premium-session", { credentials: "include", cache: "no-store" })
       .then((response) => response.json())
-      .then((payload: SessionState) => {
-        setSession(payload);
-        if (payload.hasAccess) navigate("/premium/healthcare-compensation-benefits", { replace: true });
-      })
+      .then((payload: SessionState) => setSession(payload))
       .catch(() => setSession({ signedIn: false, commerceReady: false }));
-    trackSiteEvent("premium_access_page_viewed", { event_category: "premium", product_id: "healthcare_compensation_benefits_decision_book" });
+    trackSiteEvent("premium_access_page_viewed", { event_category: "premium", product_id: PRODUCT_ID });
     return () => { delete document.documentElement.dataset.premiumRoute; };
-  }, [navigate]);
+  }, []);
 
   const requestAccess = async (event: FormEvent) => {
     event.preventDefault();
@@ -52,7 +50,7 @@ export default function PremiumAccessPage() {
       });
       const payload = await response.json();
       setMessage(payload.message || payload.error || "Check your email for a secure access link.");
-      trackSiteEvent("premium_access_recovery_attempted", { event_category: "premium", product_id: "healthcare_compensation_benefits_decision_book", output_type: response.ok ? "accepted" : "error" });
+      trackSiteEvent("premium_access_recovery_attempted", { event_category: "premium", product_id: PRODUCT_ID, output_type: response.ok ? "accepted" : "error" });
     } catch {
       setMessage("The access request could not be completed. Try again later.");
     } finally {
@@ -75,12 +73,30 @@ export default function PremiumAccessPage() {
         setMessage(payload.error || "Secure checkout is not active yet.");
         return;
       }
-      trackSiteEvent("premium_checkout_initiated", { event_category: "premium", product_id: "healthcare_compensation_benefits_decision_book" });
+      trackSiteEvent("premium_checkout_initiated", { event_category: "premium", product_id: PRODUCT_ID });
       window.location.assign(payload.checkoutUrl);
     } catch {
       setMessage("Secure checkout could not be opened.");
     } finally {
       setCheckoutBusy(false);
+    }
+  };
+
+  const resetWorkspaceData = async () => {
+    const confirmed = window.confirm("Delete synchronized module progress and private notes stored in this browser? Product access and purchase records will remain active.");
+    if (!confirmed) return;
+    setResetBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/premium-workspace", { method: "DELETE", credentials: "include" });
+      if (!response.ok) throw new Error();
+      Object.keys(window.localStorage).filter((key) => key.startsWith(`caf-premium-note:${PRODUCT_ID}:`) || key === `caf-premium-visit:${PRODUCT_ID}`).forEach((key) => window.localStorage.removeItem(key));
+      setMessage("Synchronized progress and this browser's private workspace notes were deleted. Purchase access was not changed.");
+      trackSiteEvent("premium_progress_deleted", { event_category: "premium", product_id: PRODUCT_ID });
+    } catch {
+      setMessage("Workspace data could not be deleted. Try again after signing in with active access.");
+    } finally {
+      setResetBusy(false);
     }
   };
 
@@ -109,6 +125,13 @@ export default function PremiumAccessPage() {
 
           <section className="rounded-[2rem] border border-border bg-white p-6 shadow-card md:p-8" aria-labelledby="access-heading">
             {notice && <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950"><div className="font-bold">{notice.title}</div><p className="mt-1 leading-relaxed">{notice.message}</p></div>}
+            {session?.hasAccess && (
+              <div className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+                <div className="font-bold text-emerald-950">Active access · {session.emailMasked}</div>
+                <p className="mt-2 text-sm leading-relaxed text-emerald-900">Your verified entitlement is active. Open the workspace or manage the minimal saved state below.</p>
+                <div className="mt-4 flex flex-col gap-2 sm:flex-row"><Button asChild><Link to="/premium/healthcare-compensation-benefits">Open workspace <ArrowRight className="h-4 w-4" /></Link></Button><Button variant="outline" onClick={resetWorkspaceData} disabled={resetBusy}>{resetBusy ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />} Delete saved progress</Button></div>
+              </div>
+            )}
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-soft text-primary"><KeyRound className="h-6 w-6" /></div>
             <h2 id="access-heading" className="mt-5 font-display text-3xl font-bold tracking-tight">Open or recover your workspace</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Use the exact email used at checkout. For privacy, the response is the same whether or not an account exists.</p>

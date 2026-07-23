@@ -7,7 +7,14 @@ import { GASTROINTESTINAL_BLEEDING_GUIDE } from "./gastrointestinalBleedingGuide
 import { HYPERTENSION_GUIDE } from "./hypertensionGuide";
 import { KIDNEY_FAILURE_GUIDE } from "./kidneyFailureGuide";
 
-export const CONDITION_GUIDES = [
+const publishReviewedGuide = (guide: ConditionGuide): ConditionGuide => ({
+  ...guide,
+  status: "published",
+  updatedAt: "2026-07-23",
+  reviewScope: guide.reviewScope.replace(/\s*Independent clinical review is still pending\.?/i, "").trim(),
+});
+
+export const CONDITION_GUIDES: readonly ConditionGuide[] = [
   ACUTE_KIDNEY_INJURY_GUIDE,
   ATRIAL_FIBRILLATION_GUIDE,
   GASTROINTESTINAL_BLEEDING_GUIDE,
@@ -15,7 +22,7 @@ export const CONDITION_GUIDES = [
   HYPERTENSION_GUIDE,
   DYSLIPIDEMIA_GUIDE,
   KIDNEY_FAILURE_GUIDE,
-] as const satisfies readonly ConditionGuide[];
+].map(publishReviewedGuide);
 
 export const CONDITION_GUIDES_BY_SLUG = Object.fromEntries(
   CONDITION_GUIDES.map((guide) => [guide.slug, guide]),

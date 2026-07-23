@@ -79,6 +79,14 @@ Before seeding, an authenticated entitled request to `/api/premium-workspace` mu
 
 After seeding, the same entitled request should return the validated product payload and minimal account progress. Signed-out users must receive 401; signed-in users without active entitlement must receive 403. Neither response may include module content.
 
+After preview validation and before checkout can activate, set the target environment's server-only readiness variable:
+
+```bash
+PREMIUM_CONTENT_READY=true
+```
+
+This flag is an operational assertion, not the content source itself. `/api/premium-checkout` still reads and validates the private Redis payload before returning a hosted checkout URL, so a stale or incorrect flag cannot sell an unavailable product. Keep `ENABLE_PREMIUM_COMMERCE=false` until the remaining payment, email, refund, support, and release gates also pass.
+
 ## Update procedure
 
 For every substantive update:
@@ -92,7 +100,8 @@ For every substantive update:
 7. Seed preview Redis first.
 8. Validate all modules, print outputs, authorization, and protected network responses.
 9. Seed production Redis only after approval.
-10. Notify customers whose included update period is active when the change meets the notification criteria.
+10. Set `PREMIUM_CONTENT_READY=true` only after the production read-back succeeds.
+11. Notify customers whose included update period is active when the change meets the notification criteria.
 
 ## Repository-history incident rule
 

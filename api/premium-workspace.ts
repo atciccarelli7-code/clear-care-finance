@@ -1,5 +1,6 @@
 import { assertSameOrigin, noStore, parseBody, progressKey, requireActiveEntitlement, type PremiumRequest, type PremiumResponse } from "./_lib/premiumAuth";
-import { premiumProduct } from "./_lib/premiumProduct";
+import { getPremiumProductContent } from "./_lib/premiumContent";
+import { PREMIUM_PRODUCT_ID, premiumModuleManifest } from "./_lib/premiumProduct";
 import { deleteKey, getJson, setJson } from "./_lib/premiumStore";
 
 type PremiumProgress = {
@@ -9,18 +10,18 @@ type PremiumProgress = {
   updatedAt: string;
 };
 
-const moduleIds = new Set(premiumProduct.modules.map((module) => module.id));
+const moduleIds = new Set<string>(premiumModuleManifest.map((module) => module.id));
 const permittedTaskPattern = /^(module|document|decision|review|export):[a-z0-9-]{1,64}$/;
 
 export function sanitizeProgress(input: Partial<PremiumProgress>): PremiumProgress {
   const completedModuleIds = Array.isArray(input.completedModuleIds)
-    ? [...new Set(input.completedModuleIds.filter((value): value is string => typeof value === "string" && moduleIds.has(value)))].slice(0, premiumProduct.modules.length)
+    ? [...new Set(input.completedModuleIds.filter((value): value is string => typeof value === "string" && moduleIds.has(value)))].slice(0, premiumModuleManifest.length)
     : [];
   const activeModuleId = typeof input.activeModuleId === "string" && moduleIds.has(input.activeModuleId)
     ? input.activeModuleId
-    : completedModuleIds.length < premiumProduct.modules.length
-      ? premiumProduct.modules.find((module) => !completedModuleIds.includes(module.id))?.id || premiumProduct.modules[0].id
-      : premiumProduct.modules[premiumProduct.modules.length - 1].id;
+    : completedModuleIds.length < premiumModuleManifest.length
+      ? premiumModuleManifest.find((module) => !completedModuleIds.includes(module.id))?.id || premiumModuleManifest[0].id
+      : premiumModuleManifest[premiumModuleManifest.length - 1].id;
   const completedTaskIds = Array.isArray(input.completedTaskIds)
     ? [...new Set(input.completedTaskIds.filter((value): value is string => typeof value === "string" && permittedTaskPattern.test(value)))].slice(0, 100)
     : [];
@@ -46,7 +47,7 @@ export default async function handler(req: PremiumRequest, res: PremiumResponse)
   if (req.method === "DELETE") {
     await deleteKey(key);
     const progress = sanitizeProgress({});
-    console.info("caf_premium_event", { event: "progress_deleted", productId: premiumProduct.id });
+    console.info("caf_premium_event", { event: "progress_deleted", productId: PREMIUM_PRODUCT_ID });
     return res.status(200).json({ progress, deleted: true });
   }
 
@@ -57,10 +58,16 @@ export default async function handler(req: PremiumRequest, res: PremiumResponse)
     return res.status(200).json({ progress });
   }
 
+  const product = await getPremiumProductContent();
+  if (!product) {
+    console.error("caf_premium_event", { event: "premium_content_unavailable", productId: PREMIUM_PRODUCT_ID });
+    return res.status(503).json({ error: "content_not_configured", protected: true });
+  }
+
   const stored = await getJson<PremiumProgress>(key);
   const progress = sanitizeProgress(stored || {});
   return res.status(200).json({
-    product: premiumProduct,
+    product,
     progress,
     access: {
       purchasedAt: access.entitlement.purchasedAt,

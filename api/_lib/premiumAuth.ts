@@ -6,6 +6,7 @@ import { deleteKey, getAndDeleteJson, getJson, incrementWithWindow, isPremiumSto
 export type PremiumRequest = {
   method?: string;
   body?: unknown;
+  url?: string;
   headers?: Record<string, string | string[] | undefined>;
 };
 
@@ -32,11 +33,7 @@ export type PremiumEntitlement = {
   updatedAt: string;
 };
 
-export type PremiumSession = {
-  email: string;
-  createdAt: string;
-  expiresAt: string;
-};
+export type PremiumSession = { email: string; createdAt: string; expiresAt: string };
 
 const SESSION_COOKIE = "caf_premium_session";
 const MAGIC_LINK_TTL_SECONDS = 15 * 60;
@@ -69,7 +66,7 @@ export const entitlementKey = (email: string, productId = PREMIUM_PRODUCT_ID) =>
 export const progressKey = (email: string, productId = PREMIUM_PRODUCT_ID) => `caf:premium:progress:${productId}:${stableHash(normalizeEmail(email))}`;
 export const eventKey = (eventId: string) => `caf:premium:webhook:${stableHash(eventId)}`;
 
-function header(req: PremiumRequest, name: string) {
+export function header(req: PremiumRequest, name: string) {
   const value = req.headers?.[name] ?? req.headers?.[name.toLowerCase()];
   return Array.isArray(value) ? value[0] || "" : value || "";
 }
@@ -89,11 +86,18 @@ export function getClientIp(req: PremiumRequest) {
   return header(req, "x-forwarded-for").split(",")[0].trim() || header(req, "x-real-ip") || "unknown";
 }
 
+export function getRequestOrigin(req: PremiumRequest) {
+  const host = header(req, "x-forwarded-host") || header(req, "host");
+  const protocol = (header(req, "x-forwarded-proto") || new URL(siteUrl()).protocol.replace(":", "")).split(",")[0].trim();
+  return host ? `${protocol}://${host}` : new URL(siteUrl()).origin;
+}
+
 export function assertSameOrigin(req: PremiumRequest) {
   const origin = header(req, "origin");
   if (!origin) return;
-  const allowed = new URL(siteUrl()).origin;
-  if (origin !== allowed && !origin.endsWith(".vercel.app")) throw new Error("Invalid request origin.");
+  const productionOrigin = new URL(siteUrl()).origin;
+  const requestOrigin = getRequestOrigin(req);
+  if (origin !== productionOrigin && origin !== requestOrigin) throw new Error("Invalid request origin.");
 }
 
 export function noStore(res: PremiumResponse) {

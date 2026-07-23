@@ -12,6 +12,7 @@ import { useSeo } from "@/lib/seo";
 
 const loadIndex = () => import("./pages/Index.tsx");
 const loadStartHere = () => import("./pages/StartHere.tsx");
+const loadProductStudioPage = () => import("./pages/ProductStudioPage.tsx");
 const loadHealthcareWorkers = () => import("./pages/HealthcareWorkers.tsx");
 const loadHealthcareWorkerBenefitsDecisionPackPage = () => import("./pages/HealthcareWorkerBenefitsDecisionPackPage.tsx");
 const loadBuildWealthHub = () => import("./pages/BuildWealthHub.tsx");
@@ -72,6 +73,7 @@ const loadNotFound = () => import("./pages/NotFound.tsx");
 
 const Index = lazy(loadIndex);
 const StartHere = lazy(loadStartHere);
+const ProductStudioPage = lazy(loadProductStudioPage);
 const HealthcareWorkers = lazy(loadHealthcareWorkers);
 const HealthcareWorkerBenefitsDecisionPackPage = lazy(loadHealthcareWorkerBenefitsDecisionPackPage);
 const BuildWealthHub = lazy(loadBuildWealthHub);
@@ -264,6 +266,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
             <Route path="/start-here" element={<StartHere />} />
+            <Route path="/products" element={<ProductStudioPage />} />
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
             <Route path="/products/healthcare-worker-benefits-decision-pack" element={<HealthcareWorkerBenefitsDecisionPackPage />} />
             <Route path="/build-wealth" element={<BuildWealthHub />} />

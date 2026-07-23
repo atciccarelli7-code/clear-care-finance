@@ -53,6 +53,11 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     title: "Start Here",
     description: "Choose a practical starting point for medical bills, healthcare-worker finances, insurance benefits, Medicare, Medicaid, or retirement decisions.",
   },
+  "/products": {
+    title: "Healthcare Finance Products and Decision Systems",
+    description: "Review Community Acquired Finance products, free decision systems, paid-pilot status, privacy boundaries, and the operating gates required before checkout.",
+    kind: "collection",
+  },
   "/healthcare-workers": {
     title: "Financial Guides for Healthcare Workers",
     description: "Plain-English guidance for healthcare-worker paychecks, benefits, retirement accounts, burnout spending, career flexibility, and wealth building.",

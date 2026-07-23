@@ -17,6 +17,7 @@ const linkGroups = [
     title: "Explore",
     links: [
       { to: "/start-here", label: "Start Here" },
+      { to: "/products", label: "Products" },
       { to: "/tools", label: "Financial Tools" },
       { to: "/build-wealth", label: "Money & Retirement" },
       { to: "/insurance", label: "Benefits & Insurance" },

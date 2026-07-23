@@ -20,6 +20,7 @@ const nav = [
 ];
 
 const secondaryNav = [
+  { to: "/products", label: "Products" },
   { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patients & Caregivers" },
   { to: "/topics", label: "Topic Guides" },

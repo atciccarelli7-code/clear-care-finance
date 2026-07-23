@@ -5,11 +5,20 @@ import { CONDITION_GUIDES } from "./conditionGuides";
 const requiredActionIds = ["emergency", "same-day", "steady"];
 
 describe("additional Diagnosis, Explained guides", () => {
-  it("registers seven complete clinical-review previews", () => {
+  it("registers seven complete published guides", () => {
     expect(CONDITION_GUIDES).toHaveLength(7);
     expect(ADDITIONAL_DIAGNOSIS_GUIDES).toHaveLength(7);
     expect(new Set(CONDITION_GUIDES.map((guide) => guide.slug)).size).toBe(7);
-    expect(CONDITION_GUIDES.every((guide) => guide.status === "clinical-review")).toBe(true);
+    expect(CONDITION_GUIDES.every((guide) => guide.status === "published")).toBe(true);
+    expect(CONDITION_GUIDES.every((guide) => !guide.reviewScope.toLowerCase().includes("review is still pending"))).toBe(true);
+  });
+
+  it("labels the kidney-failure discovery card as ESRD without changing the canonical route", () => {
+    const kidneyFailure = ADDITIONAL_DIAGNOSIS_GUIDES.find((guide) => guide.slug === "kidney-failure");
+    expect(kidneyFailure).toMatchObject({
+      shortTitle: "ESRD, Explained",
+      route: "/patients-families/diagnosis-explained/kidney-failure",
+    });
   });
 
   it.each(CONDITION_GUIDES)("keeps $shortTitle structurally complete", (guide) => {

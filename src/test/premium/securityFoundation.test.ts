@@ -5,6 +5,7 @@ import checkoutHandler from "../../../api/checkout";
 import contentHandler from "../../../api/premium/content";
 import webhookHandler from "../../../api/stripe/webhook";
 import { checkEntitlement, transitionEntitlement } from "../../../api/_lib/entitlements";
+import { sameOrigin } from "../../../api/_lib/http";
 import { getPremiumConfig } from "../../../api/_lib/premiumConfig";
 import { getProduct } from "../../../api/_lib/productRegistry";
 import { actionForStripeEvent, applyCheckoutEvent, claimStripeEvent } from "../../../api/_lib/stripeEvents";
@@ -54,6 +55,21 @@ describe("feature flags and default denial", () => {
   it("recognizes only the server-side product registry", () => {
     expect(getProduct("healthcare-worker-benefits-decision-system")?.expectedPriceUsd).toBe(29);
     expect(getProduct("client-supplied-product")).toBeNull();
+  });
+
+  it("allows configured preview origins without trusting arbitrary hosts in production", () => {
+    const request = (origin: string) => ({ method: "POST", headers: { origin } });
+    const canonical = "https://communityacquiredfinance.com";
+    const preview = "clear-care-finance-preview.vercel.app";
+
+    expect(sameOrigin(request(canonical), canonical)).toBe(true);
+    process.env.VERCEL_ENV = "preview";
+    process.env.VERCEL_URL = preview;
+    expect(sameOrigin(request(`https://${preview}`), canonical)).toBe(true);
+    expect(sameOrigin(request("https://attacker.example"), canonical)).toBe(false);
+
+    process.env.VERCEL_ENV = "production";
+    expect(sameOrigin(request(`https://${preview}`), canonical)).toBe(false);
   });
 });
 

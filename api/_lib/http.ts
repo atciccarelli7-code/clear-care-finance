@@ -62,7 +62,13 @@ export const sameOrigin = (req: ApiRequest, expectedOrigin: string) => {
   const origin = Array.isArray(raw) ? raw[0] : raw;
   if (!origin) return true;
   try {
-    return new URL(origin).origin === new URL(expectedOrigin).origin;
+    const allowed = new Set([new URL(expectedOrigin).origin]);
+    if (process.env.VERCEL_ENV === "preview") {
+      [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL]
+        .filter(Boolean)
+        .forEach((host) => allowed.add(new URL(`https://${host}`).origin));
+    }
+    return allowed.has(new URL(origin).origin);
   } catch {
     return false;
   }

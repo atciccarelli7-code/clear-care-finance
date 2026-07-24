@@ -4,7 +4,10 @@ import { expect, test } from "@playwright/test";
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem("caf-privacy-consent-v1", "necessary");
-    localStorage.removeItem("caf-premium-development-demo-workspace");
+    if (!sessionStorage.getItem("caf-premium-test-initialized")) {
+      localStorage.removeItem("caf-premium-development-demo-workspace");
+      sessionStorage.setItem("caf-premium-test-initialized", "true");
+    }
     window.print = () => { document.documentElement.dataset.printIntent = "true"; };
   });
 });

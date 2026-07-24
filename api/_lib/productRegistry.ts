@@ -1,4 +1,4 @@
-import { getPremiumConfig } from "./premiumConfig";
+import { getPremiumConfig } from "./premiumConfig.js";
 
 export const PREMIUM_PRODUCT_KEY = "healthcare-worker-benefits-decision-system";
 

@@ -1,10 +1,10 @@
 import { randomUUID } from "node:crypto";
-import { workspaceStateSchema, emptyWorkspaceState } from "../../src/premium/contracts";
-import { checkEntitlement } from "../_lib/entitlements";
-import { methodNotAllowed, parseJsonBody, safeError, sameOrigin, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http";
-import { getPremiumConfig } from "../_lib/premiumConfig";
-import { PREMIUM_PRODUCT_KEY } from "../_lib/productRegistry";
-import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser, UnauthorizedError } from "../_lib/supabase";
+import { workspaceStateSchema, emptyWorkspaceState } from "../../src/premium/contracts.js";
+import { checkEntitlement } from "../_lib/entitlements.js";
+import { methodNotAllowed, parseJsonBody, safeError, sameOrigin, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http.js";
+import { getPremiumConfig } from "../_lib/premiumConfig.js";
+import { PREMIUM_PRODUCT_KEY } from "../_lib/productRegistry.js";
+import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser, UnauthorizedError } from "../_lib/supabase.js";
 
 const mapWorkspace = (row: Record<string, unknown>) => ({
   id: row.id,

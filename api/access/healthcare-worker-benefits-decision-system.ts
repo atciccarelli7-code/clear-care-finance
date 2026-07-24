@@ -1,8 +1,8 @@
-import { checkEntitlement } from "../_lib/entitlements";
-import { methodNotAllowed, safeError, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http";
-import { getPremiumConfig } from "../_lib/premiumConfig";
-import { PREMIUM_PRODUCT_KEY } from "../_lib/productRegistry";
-import { ConfigurationUnavailableError, requireAuthenticatedUser, UnauthorizedError } from "../_lib/supabase";
+import { checkEntitlement } from "../_lib/entitlements.js";
+import { methodNotAllowed, safeError, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http.js";
+import { getPremiumConfig } from "../_lib/premiumConfig.js";
+import { PREMIUM_PRODUCT_KEY } from "../_lib/productRegistry.js";
+import { ConfigurationUnavailableError, requireAuthenticatedUser, UnauthorizedError } from "../_lib/supabase.js";
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   setPrivateHeaders(res);

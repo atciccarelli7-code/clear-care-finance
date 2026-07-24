@@ -1,9 +1,9 @@
 import Stripe from "stripe";
-import { applyPaymentEntitlement } from "./_lib/entitlements";
-import { methodNotAllowed, parseJsonBody, safeError, sameOrigin, setPrivateHeaders, type ApiRequest, type ApiResponse } from "./_lib/http";
-import { getPremiumConfig } from "./_lib/premiumConfig";
-import { getProduct, getServerPrice } from "./_lib/productRegistry";
-import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser, UnauthorizedError } from "./_lib/supabase";
+import { applyPaymentEntitlement } from "./_lib/entitlements.js";
+import { methodNotAllowed, parseJsonBody, safeError, sameOrigin, setPrivateHeaders, type ApiRequest, type ApiResponse } from "./_lib/http.js";
+import { getPremiumConfig } from "./_lib/premiumConfig.js";
+import { getProduct, getServerPrice } from "./_lib/productRegistry.js";
+import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser, UnauthorizedError } from "./_lib/supabase.js";
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   setPrivateHeaders(res);

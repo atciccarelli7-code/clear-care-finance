@@ -1,10 +1,10 @@
-import { calculateProgress } from "../../src/premium/calculations";
-import { workspaceStateSchema } from "../../src/premium/contracts";
-import { checkEntitlement } from "../_lib/entitlements";
-import { methodNotAllowed, parseJsonBody, safeError, sameOrigin, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http";
-import { getPremiumConfig } from "../_lib/premiumConfig";
-import { PREMIUM_PRODUCT_KEY } from "../_lib/productRegistry";
-import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser, UnauthorizedError } from "../_lib/supabase";
+import { calculateProgress } from "../../src/premium/calculations.js";
+import { workspaceStateSchema } from "../../src/premium/contracts.js";
+import { checkEntitlement } from "../_lib/entitlements.js";
+import { methodNotAllowed, parseJsonBody, safeError, sameOrigin, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http.js";
+import { getPremiumConfig } from "../_lib/premiumConfig.js";
+import { PREMIUM_PRODUCT_KEY } from "../_lib/productRegistry.js";
+import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser, UnauthorizedError } from "../_lib/supabase.js";
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const first = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] : value;

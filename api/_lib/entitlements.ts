@@ -1,7 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { getPremiumConfig } from "./premiumConfig";
-import { getProduct } from "./productRegistry";
-import { getSupabaseAdmin, ConfigurationUnavailableError } from "./supabase";
+import { getPremiumConfig } from "./premiumConfig.js";
+import { getProduct } from "./productRegistry.js";
+import { getSupabaseAdmin, ConfigurationUnavailableError } from "./supabase.js";
 
 export type EntitlementStatus = "active" | "processing" | "refunded" | "revoked" | "expired" | "test";
 

@@ -1,7 +1,7 @@
 import Stripe from "stripe";
-import { methodNotAllowed, readRawBody, safeError, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http";
-import { getPremiumConfig } from "../_lib/premiumConfig";
-import { getSupabaseAdmin } from "../_lib/supabase";
+import { methodNotAllowed, readRawBody, safeError, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http.js";
+import { getPremiumConfig } from "../_lib/premiumConfig.js";
+import { getSupabaseAdmin } from "../_lib/supabase.js";
 import {
   actionForStripeEvent,
   applyCheckoutEvent,
@@ -9,7 +9,7 @@ import {
   applyRefundEvent,
   claimStripeEvent,
   finishStripeEvent,
-} from "../_lib/stripeEvents";
+} from "../_lib/stripeEvents.js";
 
 export const config = { api: { bodyParser: false } };
 

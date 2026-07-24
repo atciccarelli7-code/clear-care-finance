@@ -1,4 +1,4 @@
-import { premiumModuleKeys, type PremiumModuleKey, type WorkspaceState } from "./contracts";
+import { premiumModuleKeys, type PremiumModuleKey, type WorkspaceState } from "./contracts.js";
 
 const finite = (value: unknown) => {
   const parsed = typeof value === "number" ? value : Number(value);

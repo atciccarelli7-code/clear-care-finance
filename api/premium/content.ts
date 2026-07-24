@@ -1,8 +1,8 @@
-import { checkEntitlement } from "../_lib/entitlements";
-import { methodNotAllowed, safeError, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http";
-import { getPremiumConfig } from "../_lib/premiumConfig";
-import { getProduct } from "../_lib/productRegistry";
-import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser, UnauthorizedError } from "../_lib/supabase";
+import { checkEntitlement } from "../_lib/entitlements.js";
+import { methodNotAllowed, safeError, setPrivateHeaders, type ApiRequest, type ApiResponse } from "../_lib/http.js";
+import { getPremiumConfig } from "../_lib/premiumConfig.js";
+import { getProduct } from "../_lib/productRegistry.js";
+import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser, UnauthorizedError } from "../_lib/supabase.js";
 
 const first = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] : value;
 

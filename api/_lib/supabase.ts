@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient, type User } from "@supabase/supabase-js";
-import { bearerToken, type ApiRequest } from "./http";
-import { getPremiumConfig } from "./premiumConfig";
+import { bearerToken, type ApiRequest } from "./http.js";
+import { getPremiumConfig } from "./premiumConfig.js";
 
 let adminClient: SupabaseClient | null = null;
 let authClient: SupabaseClient | null = null;

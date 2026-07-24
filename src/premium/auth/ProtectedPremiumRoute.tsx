@@ -2,9 +2,9 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AlertTriangle, LoaderCircle, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getAccessStatus, PremiumApiError } from "../apiClient";
-import type { AccessStatus } from "../contracts";
-import { usePremiumAuth } from "./AuthProvider";
+import { getAccessStatus, PremiumApiError } from "../apiClient.js";
+import type { AccessStatus } from "../contracts.js";
+import { usePremiumAuth } from "./AuthProvider.js";
 
 const StateCard = ({ icon: Icon, title, body, action }: { icon: typeof LockKeyhole; title: string; body: string; action?: ReactNode }) => (
   <main id="main-content" className="grid min-h-screen place-items-center bg-[#f3f7f4] px-4 py-12">

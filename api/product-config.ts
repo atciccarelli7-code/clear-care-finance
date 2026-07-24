@@ -1,6 +1,6 @@
-import { getPremiumConfig } from "./_lib/premiumConfig";
-import { productRegistry } from "./_lib/productRegistry";
-import { methodNotAllowed, type ApiRequest, type ApiResponse } from "./_lib/http";
+import { getPremiumConfig } from "./_lib/premiumConfig.js";
+import { productRegistry } from "./_lib/productRegistry.js";
+import { methodNotAllowed, type ApiRequest, type ApiResponse } from "./_lib/http.js";
 
 export default function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Cache-Control", "public, max-age=0, s-maxage=60, stale-while-revalidate=300");

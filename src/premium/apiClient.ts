@@ -8,7 +8,7 @@ import {
   type PremiumModuleKey,
   type WorkspaceRecord,
   type WorkspaceState,
-} from "./contracts";
+} from "./contracts.js";
 
 const jsonHeaders = { "Content-Type": "application/json" };
 

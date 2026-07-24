@@ -1,4 +1,4 @@
-import type { PremiumModuleDefinition } from "../contracts";
+import type { PremiumModuleDefinition } from "../contracts.js";
 
 export const DEVELOPMENT_CONTENT_SENTINEL = "CAF_PREMIUM_DEVELOPMENT_CONTENT_SENTINEL_84f6c1d9";
 

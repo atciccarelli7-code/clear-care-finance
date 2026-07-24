@@ -1,7 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type Stripe from "stripe";
-import { applyPaymentEntitlement, type EntitlementTransition } from "./entitlements";
-import { PREMIUM_PRODUCT_KEY } from "./productRegistry";
+import { applyPaymentEntitlement, type EntitlementTransition } from "./entitlements.js";
+import { PREMIUM_PRODUCT_KEY } from "./productRegistry.js";
 
 export type StripeEventAction =
   | { kind: "checkout"; transition: EntitlementTransition }

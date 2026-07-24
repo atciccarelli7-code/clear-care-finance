@@ -46,7 +46,7 @@ test("development demo completes all modules, saves progress, and prints the bri
   await page.getByRole("button", { name: /Mark module complete/i }).click();
   await expect(page.getByText("100% complete")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Demo benefits comparison" }).first()).toBeVisible();
-  await expect(page.getByText("Proceed with the alternative after written verification.")).toBeVisible();
+  await expect(page.locator("p").filter({ hasText: "Proceed with the alternative after written verification." })).toBeVisible();
 
   await page.getByRole("button", { name: "Print decision brief" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
@@ -65,7 +65,7 @@ test("development demo persists locally and mobile module navigation works", asy
   await page.getByLabel("Current role or offer").fill("Option A");
   await page.getByLabel("Alternative role or offer").fill("Option B");
   await page.getByLabel("Decision deadline").fill("2026-09-01");
-  await page.getByRole("button", { name: "Save" }).click();
+  await page.getByRole("button", { name: "Save", exact: true }).click();
   await page.reload();
   await expect(page.getByLabel("Current role or offer")).toHaveValue("Option A");
   await page.getByRole("button", { name: /Module 1 of 8/i }).click();

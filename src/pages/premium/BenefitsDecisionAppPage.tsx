@@ -799,7 +799,11 @@ const Workspace = ({ demo, token, workspaceId }: { demo: boolean; token?: string
                       ? <legend className="px-2 font-display text-2xl font-bold">{section.label}</legend>
                       : <legend className="sr-only">{definition.title} fields</legend>}
                     <div className="space-y-5">
-                      {definition.fields.filter((field) => field.group === "shared" || field.group === section.group).map((field) => {
+                      {definition.fields.filter((field) =>
+                        field.group === "shared"
+                        || field.group === section.group
+                        || (!comparative && activeKey === "define-decision"),
+                      ).map((field) => {
                         const group = comparative && field.group === "shared" ? section.group : field.group;
                         const key = answerKey(definition.key, group, field.id);
                         const id = `${definition.key}-${group}-${field.id}`;

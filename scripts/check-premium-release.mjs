@@ -5,6 +5,7 @@ const root = path.resolve(import.meta.dirname, "..");
 const read = (file) => readFileSync(path.join(root, file), "utf8");
 const app = read("src/App.tsx");
 const vercel = read("vercel.json");
+const vercelConfig = JSON.parse(vercel);
 const sitemap = read("public/sitemap.xml");
 const envExample = read(".env.example");
 const failures = [];
@@ -20,7 +21,14 @@ for (const name of Object.keys(process.env)) {
   if (/^VITE_.*(?:SECRET|SERVICE_ROLE|STRIPE_SECRET|WEBHOOK)/i.test(name)) failures.push(`Server-only secret variable uses a public VITE_ prefix: ${name}.`);
 }
 if (!app.includes("<ProtectedPremiumRoutes") || !app.includes('path="/app/benefits-decision"')) failures.push("Protected /app route wrapper is missing.");
-if (!vercel.includes('"source": "/app/(.*)"') || !vercel.includes("noindex, nofollow, noarchive")) failures.push("Private route noindex headers are missing.");
+const privateHeaderSources = ["/app", "/app/(.*)", "/account", "/sign-in", "/access-processing", "/api/(.*)"];
+const privateHeadersAreComplete = privateHeaderSources.every((source) => {
+  const entry = vercelConfig.headers?.find((candidate) => candidate.source === source);
+  const headers = new Map(entry?.headers?.map((header) => [header.key.toLowerCase(), header.value]));
+  return headers.get("cache-control") === "private, no-store, max-age=0"
+    && headers.get("x-robots-tag") === "noindex, nofollow, noarchive";
+});
+if (!privateHeadersAreComplete) failures.push("Private route noindex and no-store headers are missing.");
 if (sitemap.includes("/app") || sitemap.includes("/account") || sitemap.includes("/sign-in") || sitemap.includes("/access-processing")) failures.push("A private route appears in the public sitemap.");
 if (sitemap.includes("/products/healthcare-worker-benefits-decision-pack")) failures.push("The retired product route appears in the public sitemap.");
 if (!sitemap.includes("/products/healthcare-worker-benefits-decision-system")) failures.push("The canonical public product route is missing from the sitemap.");

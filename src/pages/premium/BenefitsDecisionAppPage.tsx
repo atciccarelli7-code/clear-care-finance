@@ -602,6 +602,7 @@ const DecisionBrief = ({ record, definitions }: { record: WorkspaceRecord; defin
 
 const Workspace = ({ demo, token, workspaceId }: { demo: boolean; token?: string; workspaceId: string }) => {
   const [record, setRecord] = useState<WorkspaceRecord | null>(null);
+  const recordRef = useRef<WorkspaceRecord | null>(null);
   const [definitions, setDefinitions] = useState<Record<string, PremiumModuleDefinition>>({});
   const definitionsRef = useRef<Record<string, PremiumModuleDefinition>>({});
   const [loadState, setLoadState] = useState<"loading" | "ready" | "error" | "deleted">("loading");
@@ -630,6 +631,7 @@ const Workspace = ({ demo, token, workspaceId }: { demo: boolean; token?: string
       try {
         const loaded = demo ? readDemoRecord() : token ? await getWorkspace(token, workspaceId) : null;
         if (!active || !loaded) return;
+        recordRef.current = loaded;
         setRecord(loaded);
         if (loaded.state.activeModuleKey === "verification-list" || loaded.state.activeModuleKey === "decision-brief") {
           await Promise.all(premiumModuleKeys.map(loadDefinition));
@@ -660,13 +662,15 @@ const Workspace = ({ demo, token, workspaceId }: { demo: boolean; token?: string
     setRecord((current) => {
       if (!current) return current;
       const state = workspaceStateSchema.parse(updater(current.state));
-      return { ...current, state, progressPercent: calculateProgress(state.completedModuleKeys), updatedAt: now() };
+      const nextRecord = { ...current, state, progressPercent: calculateProgress(state.completedModuleKeys), updatedAt: now() };
+      recordRef.current = nextRecord;
+      return nextRecord;
     });
     setSaveState("unsaved");
     setValidation("");
   };
 
-  const persist = async (recordToSave = record) => {
+  const persist = async (recordToSave = recordRef.current) => {
     if (!recordToSave) return false;
     setSaveState("saving");
     try {
@@ -676,6 +680,7 @@ const Workspace = ({ demo, token, workspaceId }: { demo: boolean; token?: string
           ? await saveWorkspace(token, recordToSave.id, recordToSave.state)
           : null;
       if (!saved) throw new Error();
+      recordRef.current = saved;
       setRecord(saved);
       setSaveState("saved");
       return true;
@@ -726,6 +731,7 @@ const Workspace = ({ demo, token, workspaceId }: { demo: boolean; token?: string
       progressPercent: calculateProgress(completed),
       updatedAt: now(),
     };
+    recordRef.current = nextRecord;
     setRecord(nextRecord);
     setSaveState("unsaved");
     const saved = await persist(nextRecord);
@@ -764,7 +770,7 @@ const Workspace = ({ demo, token, workspaceId }: { demo: boolean; token?: string
         <aside className={`premium-no-print border-r border-border bg-white p-4 md:sticky md:top-0 md:block md:h-[calc(100vh-4rem)] md:overflow-y-auto md:p-5 ${menuOpen ? "block" : "hidden"}`} aria-label="Decision modules">
           <Link to="/app/benefits-decision" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"><ArrowLeft className="h-4 w-4" /> All workspaces</Link>
           <h1 className="mt-5 font-display text-xl font-bold">{record.title}</h1>
-          <Progress className="mt-4 h-2" value={record.progressPercent} />
+          <Progress className="mt-4 h-2" value={record.progressPercent} aria-label={`Workflow progress: ${record.progressPercent}% complete`} />
           <div className="mt-2 text-xs font-semibold text-muted-foreground" aria-live="polite">{record.progressPercent}% complete</div>
           <nav className="mt-6 space-y-1">
             {moduleMeta.map((module, index) => {

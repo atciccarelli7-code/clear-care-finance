@@ -56,6 +56,11 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
     title: "Medical Bill Response System",
     description: "Identify an EOB, medical bill, denial, financial-assistance form, or collection notice and follow an RN-led, privacy-minimized review sequence before paying.",
   },
+  "/premium/access": {
+    title: "Secure Premium Workspace Access",
+    description: "Open, activate, or recover the Healthcare Compensation & Benefits Decision Workspace using the verified purchase email.",
+    robots: "noindex, nofollow, noarchive",
+  },
   "/patients-families/diagnosis-explained/heart-failure": {
     title: "Heart Failure, Explained",
     description: "A structured, plain-English, nurse-reviewed heart-failure guide covering types, causes, tests, treatment goals, medication purpose, home monitoring, warning signs, and care-team questions.",

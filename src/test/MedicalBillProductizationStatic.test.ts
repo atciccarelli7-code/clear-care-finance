@@ -54,15 +54,15 @@ describe("medical bill productization static contracts", () => {
     expect(productEnhancement).toContain("premium_interest_submit");
   });
 
-  it("keeps the expanded portfolio private with every checkout hard-disabled", () => {
-    expect(productConfig).toContain('portfolioStatus: "private_ready"');
-    expect(productConfig).toContain("commerceEnabled: false");
+  it("keeps the medical-bill product and portfolio bundle private while allowing a separate product to advance", () => {
+    expect(productConfig).toContain('portfolioStatus: commerceEnabled ? "one_product_launch_ready" : "implementation_ready_default_deny"');
     expect(productConfig).toContain('productId: "medical_bill_response_resolution_system"');
     expect(productConfig).toContain('productStatus: "private_ready"');
     expect(productConfig).toContain('deliveryMode: "private_master_not_hosted"');
-    expect(productConfig.match(/checkoutEnabled: false/g)?.length).toBeGreaterThanOrEqual(3);
-    expect(productConfig.match(/checkoutUrl: ""/g)?.length).toBeGreaterThanOrEqual(3);
+    expect(productConfig).toContain('productId: "healthcare_money_decision_library"');
+    expect(productConfig.match(/checkoutEnabled: false/g)?.length).toBeGreaterThanOrEqual(2);
     expect(productConfig).not.toContain("MEDICAL_BILL_WORKBOOK_CHECKOUT_URL");
+    expect(productConfig).not.toContain("VITE_LEMON_SQUEEZY_MEDICAL_BILL_PRODUCT_URL");
     expect(productPage).not.toContain("stripe");
     expect(productPage).not.toContain("card number");
   });

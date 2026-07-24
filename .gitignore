@@ -18,6 +18,9 @@ playwright-report/
 # Generated guide drafts
 docs/generated/
 
+# Paid product source payloads are seeded to private server storage and must never be committed.
+private-product-content/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

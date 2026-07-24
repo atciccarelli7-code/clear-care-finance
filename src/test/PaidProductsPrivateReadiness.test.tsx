@@ -2,18 +2,14 @@ import { readFileSync } from "node:fs";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import {
-  PAID_PRODUCT_BUNDLE,
-  PAID_PRODUCT_LAUNCH_GATES,
-  PAID_PRODUCTS,
-} from "@/data/paidProducts";
+import { PAID_PRODUCT_BUNDLE, PAID_PRODUCT_LAUNCH_GATES, PAID_PRODUCTS } from "@/data/paidProducts";
 import { roadmapTools } from "@/data/roadmapTools";
 import PrivatePaidProductsLabPage from "@/pages/PrivatePaidProductsLabPage";
 
 const purchaseActionName = /\b(buy|purchase|checkout|pay now|order now)\b/i;
 
 describe("private paid product readiness", () => {
-  it("keeps every product and bundle private with checkout disabled", () => {
+  it("keeps legacy private products and the bundle unavailable for direct client checkout", () => {
     expect(PAID_PRODUCTS).toHaveLength(2);
     expect(PAID_PRODUCTS.every((product) => product.status === "private_ready")).toBe(true);
     expect(PAID_PRODUCTS.every((product) => product.checkoutEnabled === false)).toBe(true);
@@ -44,11 +40,16 @@ describe("private paid product readiness", () => {
     expect(screen.queryByRole("link", { name: purchaseActionName })).not.toBeInTheDocument();
   });
 
-  it("keeps the public product configuration in a default-deny state", () => {
+  it("requires an explicit server switch and every secure dependency before commerce can activate", () => {
     const source = readFileSync("api/product-config.ts", "utf8");
-    expect(source).toContain('portfolioStatus: "private_ready"');
-    expect(source).toContain("commerceEnabled: false");
-    expect(source).toContain('paymentProvider: "lemon_squeezy_planned"');
-    expect(source).not.toContain("checkoutEnabled: true");
+    const checkout = readFileSync("api/premium-checkout.ts", "utf8");
+    expect(source).toContain('process.env.ENABLE_PREMIUM_COMMERCE === "true"');
+    expect(source).toContain("storeReady && checkoutReady && accessEmailReady && contentReady");
+    expect(source).toContain('process.env.PREMIUM_CONTENT_READY === "true"');
+    expect(source).toContain('paymentProvider: "lemon_squeezy_one_time"');
+    expect(source).toContain('productStatus: commerceEnabled ? "launch_ready" : "implementation_ready_default_deny"');
+    expect(source).not.toContain("checkoutUrl:");
+    expect(checkout).toContain("getPremiumProductContent()");
+    expect(checkout).toContain('process.env.PREMIUM_CONTENT_READY !== "true"');
   });
 });

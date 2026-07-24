@@ -33,7 +33,10 @@ export const ADDITIONAL_INDEXABLE_ROUTES = [
   "/patients-families/diagnosis-explained/dyslipidemia",
   "/patients-families/diagnosis-explained/kidney-failure",
 ];
-export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [];
+
+// Secure account entry has public-facing orientation but must remain noindex and outside the sitemap.
+// The authenticated workspace itself is runtime-only and cannot be prerendered without an entitlement.
+export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = ["/premium/access"];
 
 export const loadPermanentRedirects = async () => {
   const configPath = path.join(repositoryRoot, "vercel.json");

@@ -32,16 +32,11 @@ const MedicalBillProductPathway = lazy(() =>
 );
 
 const continuityRoutes = new Set(["/", "/start-here", "/tools"]);
-const contextualTrustRoutes = new Set([
-  "/",
-  "/start-here",
-  "/tools",
-  "/patients-families/hospital-guide",
-  "/about",
-]);
+const contextualTrustRoutes = new Set(["/", "/start-here", "/tools", "/patients-families/hospital-guide", "/about"]);
 
 export const Layout = () => {
   const location = useLocation();
+  const isPremiumRoute = location.pathname.startsWith("/premium/");
   const showNavigatorContext = hasNavigatorContextAction(location.pathname);
   const showBenefitsCommandCenterEntry = hasBenefitsCommandCenterEntry(location.pathname);
   const showMedicalBillProductPathway = hasMedicalBillProductPathway(location.pathname);
@@ -53,6 +48,20 @@ export const Layout = () => {
     if (!location.hash) return undefined;
     return scrollToHashTarget(location.hash);
   }, [location.hash, location.pathname]);
+
+  if (isPremiumRoute) {
+    return (
+      <div className="min-h-screen w-full min-w-0 bg-[#f4f6f2]">
+        <a href="#main-content" className="fixed left-4 top-4 z-[60] -translate-y-24 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-hover transition-transform focus:translate-y-0">
+          Skip to main content
+        </a>
+        <main id="main-content" className="min-h-screen w-full min-w-0 outline-none" tabIndex={-1}>
+          <Outlet />
+        </main>
+        <PrivacyChoices />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex w-full min-w-0 flex-col pb-[calc(5rem_+_env(safe-area-inset-bottom))] md:pb-0">
@@ -68,28 +77,18 @@ export const Layout = () => {
             <ContinueWhereYouLeftOff sourceRoute={location.pathname} />
           </Suspense>
         )}
-        <Suspense fallback={null}>
-          <JourneyContinuityBanner />
-        </Suspense>
+        <Suspense fallback={null}><JourneyContinuityBanner /></Suspense>
         <Outlet />
         {showMedicalBillProductPathway && (
-          <Suspense fallback={null}>
-            <MedicalBillProductPathway pathname={location.pathname} />
-          </Suspense>
+          <Suspense fallback={null}><MedicalBillProductPathway pathname={location.pathname} /></Suspense>
         )}
-        <Suspense fallback={null}>
-          <RouteSeoCompoundingPathway pathname={location.pathname} />
-        </Suspense>
+        <Suspense fallback={null}><RouteSeoCompoundingPathway pathname={location.pathname} /></Suspense>
         {showJourneyDirectory && <DecisionJourneyDirectory />}
         {showBenefitsCommandCenterEntry && (
-          <Suspense fallback={null}>
-            <BenefitsCommandCenterEntry />
-          </Suspense>
+          <Suspense fallback={null}><BenefitsCommandCenterEntry /></Suspense>
         )}
         {showNavigatorContext && (
-          <Suspense fallback={null}>
-            <NavigatorContextAction />
-          </Suspense>
+          <Suspense fallback={null}><NavigatorContextAction /></Suspense>
         )}
       </main>
       <Footer />

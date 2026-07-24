@@ -34,6 +34,10 @@
     { "source": "/policies", "destination": "/privacy-policy", "permanent": true },
     { "source": "/legal", "destination": "/privacy-policy", "permanent": true }
   ],
+  "rewrites": [
+    { "source": "/app", "destination": "/index.html" },
+    { "source": "/app/(.*)", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/app",

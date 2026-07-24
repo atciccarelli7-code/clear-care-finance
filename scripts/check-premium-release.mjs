@@ -29,6 +29,10 @@ const privateHeadersAreComplete = privateHeaderSources.every((source) => {
     && headers.get("x-robots-tag") === "noindex, nofollow, noarchive";
 });
 if (!privateHeadersAreComplete) failures.push("Private route noindex and no-store headers are missing.");
+const privateAppRewritesAreComplete = ["/app", "/app/(.*)"].every((source) =>
+  vercelConfig.rewrites?.some((rewrite) => rewrite.source === source && rewrite.destination === "/index.html"),
+);
+if (!privateAppRewritesAreComplete) failures.push("Private application SPA rewrites are missing.");
 if (sitemap.includes("/app") || sitemap.includes("/account") || sitemap.includes("/sign-in") || sitemap.includes("/access-processing")) failures.push("A private route appears in the public sitemap.");
 if (sitemap.includes("/products/healthcare-worker-benefits-decision-pack")) failures.push("The retired product route appears in the public sitemap.");
 if (!sitemap.includes("/products/healthcare-worker-benefits-decision-system")) failures.push("The canonical public product route is missing from the sitemap.");

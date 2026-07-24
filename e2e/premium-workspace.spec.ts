@@ -42,7 +42,7 @@ test("missing authentication configuration fails closed on every application ent
   }
   await page.goto("/sign-in");
   await expect(page.getByRole("heading", { name: "Secure account access" })).toBeVisible();
-  await expect(page.getByText("Access is not yet available")).toBeVisible();
+  await expect(page.getByText("Access is not yet available", { exact: true })).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow, noarchive");
   expect(await seriousAxeViolations(page)).toEqual([]);
 });

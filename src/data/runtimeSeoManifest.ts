@@ -292,10 +292,10 @@ export const RUNTIME_ARTICLE_SEO_META = [
   {
     "slug": "diagnosis-explained",
     "title": "Diagnosis, Explained: Our Plain-English Guide System",
-    "description": "The RN-designed format, publication gates, and current heart-failure clinical-review preview for future plain-English diagnosis guides.",
+    "description": "The RN-designed format, publication gates, and nurse-reviewed plain-English diagnosis guides available from Community Acquired Finance.",
     "category": "Patients & Caregivers",
     "publishedAt": "2026-07-22",
-    "lastReviewedAt": "2026-07-22"
+    "lastReviewedAt": "2026-07-23"
   },
   {
     "slug": "how-healthcare-workers-should-compare-job-offers",

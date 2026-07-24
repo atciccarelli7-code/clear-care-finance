@@ -6,6 +6,9 @@
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "communityaqcuiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityaqcuiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityacquiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
+    { "source": "/products/healthcare-worker-benefits-decision-pack", "destination": "/products/healthcare-worker-benefits-decision-system", "permanent": true },
+    { "source": "/premium/access", "destination": "/sign-in", "permanent": true },
+    { "source": "/premium/healthcare-compensation-benefits", "destination": "/app/benefits-decision", "permanent": true },
     { "source": "/for-organizations/patient-education-systems", "destination": "/patients-families/hospital-guide", "permanent": true },
     { "source": "/for-organizations/patient-education-systems/blood-thinner-readiness", "destination": "/articles/blood-thinner-safety-before-going-home", "permanent": true },
     { "source": "/tools/403b-contribution", "destination": "/tools/403b-paycheck-calculator", "permanent": true },
@@ -33,14 +36,42 @@
   ],
   "headers": [
     {
-      "source": "/premium/(.*)",
+      "source": "/app",
       "headers": [
         { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
       ]
     },
     {
-      "source": "/api/premium-(.*)",
+      "source": "/app/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
+    {
+      "source": "/account",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
+    {
+      "source": "/sign-in",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
+    {
+      "source": "/access-processing",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
@@ -52,7 +83,8 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" }
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" }
       ]
     }
   ]

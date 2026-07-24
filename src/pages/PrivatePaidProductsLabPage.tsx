@@ -37,7 +37,7 @@ const PrivatePaidProductsLabPage = () => (
     <PageHero
       eyebrow="Private product laboratory"
       title="Two complete paid systems, prepared without enabling commerce."
-      description="This feature-gated workspace contains the public-facing product architecture for Community Acquired Finance’s first direct-to-consumer offers. Checkout is hard-disabled. Full paid masters remain in the private Notion product hub and will be delivered through Lemon Squeezy only after launch approval."
+      description="This feature-gated workspace summarizes Community Acquired Finance’s direct-to-consumer foundations. Checkout is hard-disabled. The Benefits Decision System uses the repository’s Supabase and Stripe architecture; protected module content remains outside public assets."
     >
       <Button asChild variant="outline" size="lg">
         <Link to="/tools">Return to public tools</Link>
@@ -165,7 +165,7 @@ const PrivatePaidProductsLabPage = () => (
                     <div>
                       <h4 className="font-bold">Launch control</h4>
                       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        Checkout environment key: <code>{product.checkoutEnvKey}</code>. The current catalog keeps status at <code>{product.status}</code>, checkout disabled, and the checkout URL empty.
+                        Checkout configuration is server controlled. The current catalog keeps status at <code>{product.status}</code>, checkout disabled, and the checkout URL empty.
                       </p>
                     </div>
                   </div>
@@ -220,7 +220,7 @@ const PrivatePaidProductsLabPage = () => (
           ))}
         </ol>
         <div className="mt-6 rounded-2xl border border-amber-300/60 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950 dark:border-amber-800 dark:bg-amber-950/25 dark:text-amber-100">
-          <strong>Current decision:</strong> build and validate privately. Do not activate a Lemon Squeezy link, publish paid files, or switch either catalog status until viewership and operational readiness justify launch.
+          <strong>Current decision:</strong> build and validate privately. Do not enable Stripe checkout, seed active protected content, or switch either catalog status until authentication, entitlement, refund, privacy, support, and owner-authorization gates pass.
         </div>
       </section>
 

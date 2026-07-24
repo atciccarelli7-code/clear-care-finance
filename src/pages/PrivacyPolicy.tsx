@@ -16,7 +16,7 @@ const PrivacyPolicy = () => {
       <PageHero eyebrow="Privacy" title="Privacy Policy" description="How Community Acquired Finance handles guided-tool answers, customer accounts, purchases, analytics, advertising technology, cookies, and privacy choices." />
 
       <section className="container max-w-3xl py-12 md:py-16 space-y-6" aria-label="Privacy policy details">
-        <p className="text-sm text-muted-foreground">Effective date: July 23, 2026</p>
+        <p className="text-sm text-muted-foreground">Effective date: July 24, 2026</p>
 
         <Section title="Overview">
           <p>Community Acquired Finance is an independent educational website about personal finance, workplace benefits, healthcare costs, insurance, Medicare, Medicaid, and related money topics. We aim to collect as little personal information as reasonably possible while providing articles, calculators, guided decision tools, and source-backed explanations.</p>
@@ -34,19 +34,19 @@ const PrivacyPolicy = () => {
         </Section>
 
         <Section title="Guided tools and calculator answers">
-          <p>The Medicare and Medicaid Eligibility Check, Healthcare Worker Benefits Blueprint, Employer Benefits Action Plan, Healthcare Worker Total Compensation Comparison, paid workspace calculations, and similar tools are designed to keep answer values in local browser state unless a feature clearly says otherwise. Their answer values are not intentionally transmitted to or stored by Community Acquired Finance.</p>
+          <p>The Medicare and Medicaid Eligibility Check, Healthcare Worker Benefits Blueprint, Employer Benefits Action Plan, Healthcare Worker Total Compensation Comparison, and similar public tools are designed to keep answer values in local browser state unless a feature clearly says otherwise. When the account-based Healthcare Worker Benefits Decision System is activated, its workspace inputs will be stored in the user&apos;s access-controlled database record so progress can continue across supported devices.</p>
           <p>Copying, printing, downloading, sharing, or entering the same information into another website is controlled by the user and may create records outside this site. General page-view, device, performance, hosting, security, or consent-state information may still be processed as described below, but the site does not intentionally attach answer-level fields to analytics events.</p>
         </Section>
 
         <Section title="Premium purchases, customer accounts, and entitlements">
-          <p>When paid commerce is activated, checkout is processed by the identified third-party payment provider. Community Acquired Finance does not intentionally receive or store full payment-card numbers. The processor may provide the purchase email, order and variant identifiers, payment status, test-mode status, purchase and update timestamps, refund status, and other information needed to verify the transaction and provide access.</p>
-          <p>Premium access uses passwordless email links. One-time access tokens and session tokens are generated randomly; server-side storage uses hashed token identifiers. The browser receives an HTTP-only session cookie. Access links expire after 15 minutes and are designed for one use. Sessions currently expire after 30 days and can be ended by signing out.</p>
-          <p>The account store is limited to the product entitlement, purchase and update-period dates, access status, product version, completed module identifiers, last-viewed module, and generic checklist completion. It is not designed to store pay amounts, employer names, medical details, benefit values, free-text notes, uploaded documents, or personalized calculator inputs.</p>
-          <p>Free-text workspace notes and draft calculations stay in the browser&apos;s local storage. They remain on that device until the user clears them, deletes saved workspace data through the access page, clears browser data, or the browser removes them. Printing or saving a PDF creates a separate local file controlled by the user.</p>
+          <p>Paid commerce is not currently active. If later authorized, checkout will be processed by Stripe Checkout. Community Acquired Finance will not intentionally receive or store full payment-card numbers. Stripe may provide customer, checkout-session, payment-intent, payment-status, test-mode, refund, and other transaction information needed to verify a purchase and control access.</p>
+          <p>The intended account provider is Supabase Auth using email magic links. Supabase manages authentication sessions; Community Acquired Finance server functions validate the session token before checking product entitlement. Reaching a checkout return page, changing browser storage, or setting a client-side flag does not grant access.</p>
+          <p>The intended account database stores the profile, product entitlement, workspace title, completion state, validated workspace answers, assumptions, and final user-selected decision. It is not designed to store uploads, payment-card data, bank information, insurance member identifiers, medical records, diagnoses, claim documents, paystubs, full financial statements, protected health information, or confidential employer documents.</p>
+          <p>A development-only local demo may store non-production demo state in that browser when an explicit local flag is enabled. The production build rejects that flag. Browser printing creates a separate local output controlled by the user.</p>
         </Section>
 
         <Section title="Data deletion and reset">
-          <p>An authenticated premium customer can delete synchronized module progress and generic checklist state from the secure access page. That control also removes paid-workspace notes stored by this site in the current browser. Deleting progress does not delete the purchase record or revoke product access because the entitlement record is needed to honor the purchase, process refunds, prevent fraud, and maintain transaction records.</p>
+          <p>The production workspace foundation supports deletion of a user-owned workspace. Account deletion and any required transaction-record retention procedure must be finalized and tested before paid access opens. Deleting a workspace does not automatically delete a transaction record or revoke product access because certain records may be needed to process refunds, prevent fraud, and meet accounting or legal obligations.</p>
           <p>Requests concerning account email, purchase records, access, correction, or legally applicable deletion rights may be sent through the Contact page. Identity verification may be required. Some transaction records may need to be retained for tax, accounting, fraud-prevention, dispute, or legal reasons.</p>
         </Section>
 
@@ -83,7 +83,7 @@ const PrivacyPolicy = () => {
         </Section>
 
         <Section title="Service providers and sharing">
-          <p>Information may be processed by service providers used to host, secure, measure, email, store account state, process payments, and operate the site. The premium architecture currently anticipates Vercel for hosting, a Vercel Marketplace or Upstash Redis service for minimal account state, Resend for access-email delivery, and Lemon Squeezy for checkout and transaction status. A provider is not treated as active merely because it is named here; commerce remains disabled until the relevant integration is configured and validated.</p>
+          <p>Information may be processed by service providers used to host, secure, measure, email, store account state, process payments, and operate the site. The premium architecture anticipates Vercel for hosting and short-lived server functions, Supabase for authentication and PostgreSQL workspace storage, Stripe for hosted checkout and signed transaction events, and Resend for future access or support messages. A provider is not treated as active merely because it is named here; authentication and commerce remain unavailable until the relevant integrations are configured, reviewed, and validated.</p>
           <p>Information may also be disclosed when required by law, to protect users or the site, to enforce terms, to resolve disputes, or as part of a legitimate transfer of the website. Community Acquired Finance does not sell personal information directly. Some laws may define certain advertising or analytics disclosures as a sale or sharing even when no money is exchanged; applicable controls should be added before those activities are enabled where required.</p>
         </Section>
 

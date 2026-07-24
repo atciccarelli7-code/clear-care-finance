@@ -3,8 +3,6 @@ import { ArrowLeft, ArrowRight, BookOpenText, Calculator, Compass, HeartPulse, t
 import { Button } from "@/components/ui/button";
 import { isAdditionalDiagnosisGuideRoute } from "@/data/conditionGuideCatalog";
 import ConditionGuidePage from "@/pages/ConditionGuidePage";
-import PremiumAccessPage from "@/pages/PremiumAccessPage";
-import PremiumHealthcareBenefitsWorkspacePage from "@/pages/PremiumHealthcareBenefitsWorkspacePage";
 
 type RecoveryLink = {
   icon: LucideIcon;
@@ -22,12 +20,6 @@ const recoveryLinks: RecoveryLink[] = [
 
 const NotFound = () => {
   const location = useLocation();
-
-  // Premium content is deliberately absent from the public route manifest and preload map.
-  // The catch-all renders only a client shell; all substantive product content still requires
-  // a server-verified session and active entitlement from /api/premium-workspace.
-  if (location.pathname === "/premium/access") return <PremiumAccessPage />;
-  if (location.pathname === "/premium/healthcare-compensation-benefits") return <PremiumHealthcareBenefitsWorkspacePage />;
 
   if (isAdditionalDiagnosisGuideRoute(location.pathname)) {
     return (

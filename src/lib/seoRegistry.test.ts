@@ -62,6 +62,24 @@ describe("runtime SEO registry", () => {
     }
   });
 
+  it("publishes honest application structured data for the benefits decision system", () => {
+    const path = "/products/healthcare-worker-benefits-decision-system";
+    const meta = resolveSiteSeoMeta(path);
+    const serialized = JSON.stringify(meta.jsonLd);
+
+    expect(getIndexableRoutes()).toContain(path);
+    expect(meta).toMatchObject({
+      canonicalPath: path,
+      robots: "index, follow, max-image-preview:large",
+    });
+    expect(meta.jsonLd?.map((item) => item["@type"])).toEqual(
+      expect.arrayContaining(["WebApplication", "BreadcrumbList"]),
+    );
+    expect(serialized).not.toContain('"offers"');
+    expect(serialized).not.toContain('"review"');
+    expect(serialized).not.toContain('"aggregateRating"');
+  });
+
   it("preserves site overrides and noindexes unknown routes", () => {
     expect(resolveSiteSeoMeta("/tools").title).toBe("Financial Calculators, Checklists, and Decision Tools");
     expect(resolveSeoMeta("/for-organizations")).toMatchObject({

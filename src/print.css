@@ -38,6 +38,20 @@
     display: none !important;
   }
 
+  body:has(.premium-print-brief) main > :not(.premium-print-brief),
+  body:has(.premium-print-brief) .premium-no-print {
+    display: none !important;
+  }
+
+  body:has(.premium-print-brief) .premium-print-brief {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
   a {
     color: #111827 !important;
     text-decoration: underline;

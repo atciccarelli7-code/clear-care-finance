@@ -16,7 +16,7 @@ const TermsOfUse = () => {
       <PageHero eyebrow="Terms" title="Terms of Use" description="Plain-English boundaries for using Community Acquired Finance, its articles, calculators, customer accounts, and paid decision workspaces." />
 
       <div className="container max-w-3xl py-12 md:py-16 space-y-6">
-        <p className="text-sm text-muted-foreground">Effective date: July 23, 2026</p>
+        <p className="text-sm text-muted-foreground">Effective date: July 24, 2026</p>
 
         <Section title="Acceptance of these terms">
           <p>By using Community Acquired Finance, you agree to these Terms of Use. If you do not agree, do not use the site or purchase a product.</p>
@@ -34,14 +34,14 @@ const TermsOfUse = () => {
         </Section>
 
         <Section title="Paid products and customer workspaces">
-          <p>A paid purchase is for the product identified at checkout, delivered through the stated secure customer workspace and any included print or download outputs. A purchase is not a general payment to access the public website. Public CAF articles, glossary pages, general calculators, sources, and designated free tools remain separate from the purchased product.</p>
-          <p>The Healthcare Compensation &amp; Benefits Decision Workspace uses a one-time purchase model. It does not automatically renew at launch. The customer receives continued access to the purchased edition while the service remains available and twelve months of substantive product updates from the verified purchase date. This is not a promise of indefinite lifetime updates, permanent hosting, or perpetual compatibility with every browser or device.</p>
-          <p>Price, included files, access duration, update duration, support path, license scope, payment provider, and governing checkout terms must be displayed before payment. If those terms conflict with a general statement elsewhere on the site, the more specific checkout terms for that purchase control to the extent permitted by law.</p>
+          <p>A future paid purchase will be for the interactive product identified at checkout, delivered through the stated secure customer workspace and any included browser-print output. A purchase will not be a general payment to access the public website. Public CAF articles, glossary pages, calculators, sources, and designated free tools remain separate from the purchased product.</p>
+          <p>The Healthcare Worker Benefits Decision System is expected to use a one-time access model, but checkout is not currently enabled and the expected $29 price is not an active offer. Access duration, included updates, support, refund terms, and final price require approval before payments open.</p>
+          <p>Price, application capabilities, access duration, update duration, support path, license scope, payment provider, and governing checkout terms must be displayed before payment. If those terms conflict with a general statement elsewhere on the site, the more specific checkout terms for that purchase control to the extent permitted by law.</p>
         </Section>
 
         <Section title="Checkout, payment confirmation, and account activation">
           <p>Checkout is processed by the identified third-party payment provider. Community Acquired Finance does not grant access merely because a browser reaches a success or return URL. Access is created only after server-side confirmation of a qualifying paid transaction for the correct product or through an authorized manual correction.</p>
-          <p>The purchase email is used to activate and recover access. Customers are responsible for entering an email they control, maintaining access to that email, protecting one-time access links and active sessions, and promptly reporting suspected unauthorized use.</p>
+          <p>The intended account uses email magic-link authentication. Customers are responsible for entering an email they control, maintaining access to that email, protecting sign-in links and active sessions, and promptly reporting suspected unauthorized use.</p>
           <p>Duplicate webhook deliveries do not create duplicate entitlements. Pending, failed, abandoned, mismatched, or unverified transactions do not grant access. A qualifying refund or authorized revocation may change or end access as described at checkout and by applicable law.</p>
         </Section>
 
@@ -58,7 +58,7 @@ const TermsOfUse = () => {
 
         <Section title="Customer data and prohibited information">
           <p>Do not enter protected health information, Social Security numbers, Medicare or insurance member IDs, account credentials, payment card numbers, bank details, private medical records, tax records, beneficiary details, or confidential employer documents into the site or paid workspace.</p>
-          <p>Some guided tools and premium features keep notes and answer values in local browser storage. Minimal account progress may be stored as described in the Privacy Policy. Customers are responsible for the security of files they print, download, save, email, or share with a spouse, caregiver, advisor, clinician, employer, or family member.</p>
+          <p>Public guided tools may keep notes and answer values in local browser storage. When activated, the account-based decision system stores validated workspace state through the secure backend described in the Privacy Policy. Customers are responsible for the security of briefs they print, save, email, or share with a spouse, caregiver, advisor, clinician, employer, or family member.</p>
         </Section>
 
         <Section title="Calculator and guided-tool estimates">

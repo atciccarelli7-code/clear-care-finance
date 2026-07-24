@@ -33,7 +33,7 @@ type EmailType =
   | "403b-estimate"
   | "medical-bill-sequence"
   | "medical-bill-product-interest"
-  | "benefits-pack-interest";
+  | "benefits-system-interest";
 
 type SendBody = {
   email?: string;
@@ -245,20 +245,20 @@ function buildProductInterestEmail(firstName: string | undefined, unsubscribeUrl
   });
 }
 
-function buildBenefitsPackInterestEmail(firstName: string | undefined, unsubscribeUrl: string) {
+function buildBenefitsSystemInterestEmail(firstName: string | undefined, unsubscribeUrl: string) {
   return emailFrame({
-    preheader: "Your $29 Healthcare Worker Benefits Decision Pack paid-pilot interest was saved.",
-    title: "You are on the Benefits Decision Pack paid-pilot list",
+    preheader: "Your Healthcare Worker Benefits Decision System early-access interest was saved.",
+    title: "You are on the Benefits Decision System early-access list",
     greeting: greeting(firstName),
     body: `
-      <p style="margin:0 0 18px;">Your interest in the $29 Healthcare Worker Benefits Decision Pack paid pilot was saved. No payment was collected and no purchase obligation was created.</p>
+      <p style="margin:0 0 18px;">Your interest in the Healthcare Worker Benefits Decision System was saved. No payment was collected and no purchase obligation was created.</p>
       <div style="background:#f6f8f5;border:1px solid #d8ded3;border-radius:18px;padding:20px;margin:24px 0;">
-        <p style="margin:0 0 10px;color:#004022;font-weight:700;">What the pilot is testing</p>
-        <p style="margin:0;">Whether a focused PDF and spreadsheet system helps healthcare workers compare job offers, health plans, retirement benefits, schedule burden, student-loan assistance, HR questions, and a final written decision.</p>
+        <p style="margin:0 0 10px;color:#004022;font-weight:700;">What early access will test</p>
+        <p style="margin:0;">Whether a secure, account-based workspace helps healthcare workers compare job offers, benefits, health-plan exposure, retirement value, schedule tradeoffs, verification questions, and a final written decision.</p>
       </div>
-      <p style="margin:0;">You will receive a launch notice only after secure hosted checkout, delivery, refund, privacy, and support steps are authorized and verified.</p>`,
-    ctaLabel: "Review the Paid-Pilot Page",
-    ctaHref: `${siteUrl}/products/healthcare-worker-benefits-decision-pack`,
+      <p style="margin:0;">You will receive a launch notice only after authentication, secure checkout, entitlement fulfillment, refund, privacy, and support steps are authorized and verified.</p>`,
+    ctaLabel: "Review the Decision System",
+    ctaHref: `${siteUrl}/products/healthcare-worker-benefits-decision-system`,
     unsubscribeUrl,
   });
 }
@@ -342,10 +342,10 @@ function emailPayload(type: EmailType, firstName: string | undefined, estimate: 
       sequenceStatus: "provider_automation_required" as const,
     };
   }
-  if (type === "benefits-pack-interest") {
+  if (type === "benefits-system-interest") {
     return {
-      subject: "$29 Healthcare Worker Benefits Decision Pack paid pilot",
-      html: buildBenefitsPackInterestEmail(firstName, unsubscribeUrl),
+      subject: "Healthcare Worker Benefits Decision System early access",
+      html: buildBenefitsSystemInterestEmail(firstName, unsubscribeUrl),
       sequenceStatus: "provider_automation_required" as const,
     };
   }

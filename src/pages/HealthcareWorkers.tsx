@@ -84,11 +84,11 @@ const HealthcareWorkers = () => {
               cta: "Build the action plan",
             },
             {
-              eyebrow: "$29 paid-pilot validation",
-              title: "Healthcare Worker Benefits Decision Pack",
-              description: "Preview the focused PDF and spreadsheet system, then join the consented paid-pilot list. Checkout is not active and no payment is collected.",
-              href: "/products/healthcare-worker-benefits-decision-pack",
-              cta: "Review the paid-pilot scope",
+              eyebrow: "Interactive system preview",
+              title: "Healthcare Worker Benefits Decision System",
+              description: "Preview the account-based comparison workflow and join the early-access list. Checkout is not active and no payment is collected.",
+              href: "/products/healthcare-worker-benefits-decision-system",
+              cta: "See how the system works",
             },
           ]}
         />

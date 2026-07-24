@@ -56,9 +56,19 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
     title: "Medical Bill Response System",
     description: "Identify an EOB, medical bill, denial, financial-assistance form, or collection notice and follow an RN-led, privacy-minimized review sequence before paying.",
   },
-  "/premium/access": {
-    title: "Secure Premium Workspace Access",
-    description: "Open, activate, or recover the Healthcare Compensation & Benefits Decision Workspace using the verified purchase email.",
+  "/sign-in": {
+    title: "Secure Account Sign In",
+    description: "Sign in to Community Acquired Finance account-based applications.",
+    robots: "noindex, nofollow, noarchive",
+  },
+  "/account": {
+    title: "Account",
+    description: "Manage secure Community Acquired Finance account access.",
+    robots: "noindex, nofollow, noarchive",
+  },
+  "/access-processing": {
+    title: "Access Processing",
+    description: "Check server-verified product access status.",
     robots: "noindex, nofollow, noarchive",
   },
   "/patients-families/diagnosis-explained/heart-failure": {
@@ -98,6 +108,39 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
       applicationCategory: "FinanceApplication",
       operatingSystem: "Any",
       isAccessibleForFree: true,
+      publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    },
+  ],
+};
+
+const benefitsDecisionSystemMeta: SeoRouteMeta = {
+  title: "Healthcare Worker Benefits Decision System",
+  description: "Preview an account-based interactive system for comparing healthcare compensation, benefits, health-plan exposure, retirement, schedule, and career tradeoffs. Checkout is not enabled.",
+  canonicalPath: "/products/healthcare-worker-benefits-decision-system",
+  robots: "index, follow, max-image-preview:large",
+  jsonLd: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Products", item: `${SITE_URL}/products` },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Healthcare Worker Benefits Decision System",
+          item: `${SITE_URL}/products/healthcare-worker-benefits-decision-system`,
+        },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Healthcare Worker Benefits Decision System",
+      description: "An account-based interactive decision system for comparing healthcare compensation, employer benefits, health-plan exposure, retirement value, schedule, and career tradeoffs.",
+      url: `${SITE_URL}/products/healthcare-worker-benefits-decision-system`,
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Any",
       publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     },
   ],
@@ -151,7 +194,17 @@ const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, descriptio
 
 export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
   const path = normalizePath(pathname);
+  if (path === "/app" || path.startsWith("/app/")) {
+    return {
+      title: "Benefits Decision Application",
+      description: "Private account-based decision workspace.",
+      canonicalPath: path,
+      robots: "noindex, nofollow, noarchive",
+      jsonLd: [],
+    };
+  }
   if (path === benefitsCommandCenterMeta.canonicalPath) return benefitsCommandCenterMeta;
+  if (path === benefitsDecisionSystemMeta.canonicalPath) return benefitsDecisionSystemMeta;
   const base = resolveSeoMeta(path);
   const override = overrides[path];
   if (!override) return base;

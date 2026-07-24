@@ -99,7 +99,7 @@ try {
   const robots = await readFile(path.join(repositoryRoot, "public", "robots.txt"), "utf8");
   if (!/User-agent:\s*\*/i.test(robots)) errors.push("robots.txt is missing the general user-agent group.");
   if (!/Allow:\s*\//i.test(robots)) errors.push("robots.txt does not explicitly allow crawling.");
-  if (/Disallow:\s*\//i.test(robots)) errors.push("robots.txt blocks the entire site.");
+  if (/^Disallow:\s*\/\s*$/im.test(robots)) errors.push("robots.txt blocks the entire site.");
   if (!robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`)) errors.push("robots.txt does not reference the canonical sitemap URL.");
 
   const manifest = JSON.parse(await readFile(path.join(distDir, "prerender-manifest.json"), "utf8"));

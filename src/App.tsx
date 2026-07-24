@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -14,7 +14,15 @@ const loadIndex = () => import("./pages/Index.tsx");
 const loadStartHere = () => import("./pages/StartHere.tsx");
 const loadProductStudioPage = () => import("./pages/ProductStudioPage.tsx");
 const loadHealthcareWorkers = () => import("./pages/HealthcareWorkers.tsx");
-const loadHealthcareWorkerBenefitsDecisionPackPage = () => import("./pages/HealthcareWorkerBenefitsDecisionPackPage.tsx");
+const loadHealthcareWorkerBenefitsDecisionSystemPage = () => import("./pages/HealthcareWorkerBenefitsDecisionSystemPage.tsx");
+const loadBenefitsDecisionAppPage = () => import("./pages/premium/BenefitsDecisionAppPage.tsx");
+const loadSignInPage = () => import("./pages/premium/SignInPage.tsx");
+const loadAccountPage = () => import("./pages/premium/AccountPage.tsx");
+const loadAccessProcessingPage = () => import("./pages/premium/AccessProcessingPage.tsx");
+const loadPremiumAuthProvider = () =>
+  import("./premium/auth/AuthProvider.tsx").then(({ PremiumAuthProvider }) => ({ default: PremiumAuthProvider }));
+const loadProtectedPremiumRoute = () =>
+  import("./premium/auth/ProtectedPremiumRoute.tsx").then(({ ProtectedPremiumRoute }) => ({ default: ProtectedPremiumRoute }));
 const loadBuildWealthHub = () => import("./pages/BuildWealthHub.tsx");
 const loadPatientsFamilies = () => import("./pages/PatientsFamilies.tsx");
 const loadHospitalPatientGuidePage = () => import("./pages/HospitalPatientGuidePage.tsx");
@@ -75,7 +83,13 @@ const Index = lazy(loadIndex);
 const StartHere = lazy(loadStartHere);
 const ProductStudioPage = lazy(loadProductStudioPage);
 const HealthcareWorkers = lazy(loadHealthcareWorkers);
-const HealthcareWorkerBenefitsDecisionPackPage = lazy(loadHealthcareWorkerBenefitsDecisionPackPage);
+const HealthcareWorkerBenefitsDecisionSystemPage = lazy(loadHealthcareWorkerBenefitsDecisionSystemPage);
+const BenefitsDecisionAppPage = lazy(loadBenefitsDecisionAppPage);
+const SignInPage = lazy(loadSignInPage);
+const AccountPage = lazy(loadAccountPage);
+const AccessProcessingPage = lazy(loadAccessProcessingPage);
+const PremiumAuthProvider = lazy(loadPremiumAuthProvider);
+const ProtectedPremiumRoute = lazy(loadProtectedPremiumRoute);
 const BuildWealthHub = lazy(loadBuildWealthHub);
 const PatientsFamilies = lazy(loadPatientsFamilies);
 const HospitalPatientGuidePage = lazy(loadHospitalPatientGuidePage);
@@ -141,7 +155,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/") return loadIndex;
   if (pathname === "/start-here") return loadStartHere;
   if (pathname === "/healthcare-workers") return loadHealthcareWorkers;
-  if (pathname === "/products/healthcare-worker-benefits-decision-pack") return loadHealthcareWorkerBenefitsDecisionPackPage;
+  if (pathname === "/products/healthcare-worker-benefits-decision-system") return loadHealthcareWorkerBenefitsDecisionSystemPage;
   if (pathname === "/healthcare-workers/paycheck-tools") return loadInsuranceDecisionToolsBundle;
   if (pathname === "/build-wealth") return loadBuildWealthHub;
   if (pathname === "/patients-families") return loadPatientsFamilies;
@@ -253,6 +267,18 @@ const RouteLoadingFallback = () => (
   </div>
 );
 
+const PremiumAuthRoutes = () => (
+  <PremiumAuthProvider>
+    <Outlet />
+  </PremiumAuthProvider>
+);
+
+const ProtectedPremiumRoutes = () => (
+  <ProtectedPremiumRoute>
+    <Outlet />
+  </ProtectedPremiumRoute>
+);
+
 export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeTelemetry?: boolean }) => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -263,12 +289,26 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
       <ScrollToTop />
       <Suspense fallback={<RouteLoadingFallback />}>
         <Routes>
+          <Route element={<PremiumAuthRoutes />}>
+            <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/access-processing" element={<AccessProcessingPage />} />
+            <Route element={<ProtectedPremiumRoutes />}>
+              <Route path="/app" element={<Navigate to="/app/benefits-decision" replace />} />
+              <Route path="/app/benefits-decision" element={<BenefitsDecisionAppPage />} />
+              <Route path="/app/benefits-decision/new" element={<BenefitsDecisionAppPage />} />
+              <Route path="/app/benefits-decision/:workspaceId" element={<BenefitsDecisionAppPage />} />
+            </Route>
+          </Route>
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
             <Route path="/start-here" element={<StartHere />} />
             <Route path="/products" element={<ProductStudioPage />} />
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
-            <Route path="/products/healthcare-worker-benefits-decision-pack" element={<HealthcareWorkerBenefitsDecisionPackPage />} />
+            <Route path="/products/healthcare-worker-benefits-decision-system" element={<HealthcareWorkerBenefitsDecisionSystemPage />} />
+            <Route path="/products/healthcare-worker-benefits-decision-pack" element={<Navigate to="/products/healthcare-worker-benefits-decision-system" replace />} />
+            <Route path="/premium/access" element={<Navigate to="/sign-in" replace />} />
+            <Route path="/premium/healthcare-compensation-benefits" element={<Navigate to="/app/benefits-decision" replace />} />
             <Route path="/build-wealth" element={<BuildWealthHub />} />
             <Route path="/healthcare-workers/career-decisions" element={<HealthcareCareerDecisionCenterPage />} />
             <Route path="/healthcare-workers/paycheck-tools" element={<HealthcareWorkerPaycheckTools />} />

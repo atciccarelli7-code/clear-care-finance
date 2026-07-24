@@ -10,6 +10,7 @@ on:
       - "package.json"
       - "package-lock.json"
       - "playwright.config.ts"
+      - "playwright.premium.config.ts"
       - ".github/workflows/browser-certification.yml"
   workflow_dispatch:
 
@@ -30,6 +31,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run test:browser:journeys
+      - name: Certify premium public, denial, demo, print, mobile, and accessibility journeys
+        run: npm run test:browser:premium
       - name: Capture representative desktop and mobile product visuals
         if: success()
         run: npx playwright test e2e/professional-product-visuals.spec.ts

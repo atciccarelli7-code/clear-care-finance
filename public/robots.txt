@@ -1,5 +1,14 @@
 User-agent: *
 Allow: /
+Disallow: /app
+Disallow: /account
+Disallow: /sign-in
+Disallow: /access-processing
+Disallow: /api/access
+Disallow: /api/premium
+Disallow: /api/workspaces
+Disallow: /api/checkout
+Disallow: /api/stripe
 
 Sitemap: https://communityacquiredfinance.com/sitemap.xml
 Host: communityacquiredfinance.com

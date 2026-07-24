@@ -93,6 +93,7 @@ const NON_TOOL_WORKFLOWS = new Set([
   "/medicare-care-costs/turning-65",
   "/insurance/medical-bill-review-toolkit",
 ]);
+const PRIVATE_APPLICATION_ROUTES = new Set(["/account", "/sign-in", "/access-processing"]);
 
 const SENSITIVE_WORKFLOW_TOKENS = [
   "eligibility",
@@ -135,6 +136,21 @@ export const resolveContentGovernance = (
 ): ContentGovernance => {
   const route = normalizePathname(pathname);
   const reviewedArticle = AD_ELIGIBLE_ARTICLE_REVIEWS.get(route);
+
+  if (route === "/app" || route.startsWith("/app/") || PRIVATE_APPLICATION_ROUTES.has(route)) {
+    return {
+      route,
+      publicAvailable: false,
+      pageType: "result-or-saved-work",
+      contentTier: "utility",
+      indexable: false,
+      adEligible: false,
+      sensitiveContext: true,
+      interactiveContext: true,
+      reviewStatus: "blocked",
+      reason: "Account, entitlement, workspace, and user-output routes are private, noindex, and permanently ad-free.",
+    };
+  }
 
   if (reviewedArticle) {
     return {

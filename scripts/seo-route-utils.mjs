@@ -34,9 +34,16 @@ export const ADDITIONAL_INDEXABLE_ROUTES = [
   "/patients-families/diagnosis-explained/kidney-failure",
 ];
 
-// Secure account entry has public-facing orientation but must remain noindex and outside the sitemap.
-// The authenticated workspace itself is runtime-only and cannot be prerendered without an entitlement.
-export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = ["/premium/access"];
+// Account and access-state pages are prerendered for reliable failure states but remain noindex.
+// Authenticated /app routes are runtime-only and never enter a public route inventory.
+export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = ["/sign-in", "/account", "/access-processing"];
+
+// These files contain only the fail-closed access shell rendered before browser session loading.
+// They are deliberately omitted from the public prerender manifest and sitemap.
+export const PRIVATE_APP_SHELL_ROUTES = [
+  "/app/benefits-decision",
+  "/app/benefits-decision/new",
+];
 
 export const loadPermanentRedirects = async () => {
   const configPath = path.join(repositoryRoot, "vercel.json");

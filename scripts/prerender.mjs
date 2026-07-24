@@ -1,7 +1,12 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createServer } from "vite";
-import { ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES, getCanonicalRoutes, repositoryRoot } from "./seo-route-utils.mjs";
+import {
+  ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES,
+  PRIVATE_APP_SHELL_ROUTES,
+  getCanonicalRoutes,
+  repositoryRoot,
+} from "./seo-route-utils.mjs";
 
 const root = repositoryRoot;
 const distDir = path.join(root, "dist");
@@ -80,7 +85,7 @@ try {
 
   const { canonicalRoutes: routes } = await getCanonicalRoutes(getIndexableRoutes);
   const nonIndexableRoutes = ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES;
-  for (const route of [...routes, ...nonIndexableRoutes]) {
+  for (const route of [...routes, ...nonIndexableRoutes, ...PRIVATE_APP_SHELL_ROUTES]) {
     const { html: appHtml, meta } = await render(route);
     const output = injectMeta(template.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`), meta);
     const outputPath = outputPathForRoute(route);
@@ -97,11 +102,14 @@ try {
   await writeFile(path.join(distDir, "404.html"), notFoundHtml, "utf8");
   await writeFile(
     path.join(distDir, "prerender-manifest.json"),
-    `${JSON.stringify({ generatedAt: new Date().toISOString(), routes, nonIndexableRoutes }, null, 2)}\n`,
+    `${JSON.stringify({ generatedAt: new Date().toISOString(), routes }, null, 2)}\n`,
     "utf8",
   );
 
-  console.log(`Prerendered ${routes.length} canonical routes, ${nonIndexableRoutes.length} controlled noindex route, plus a real 404 page.`);
+  console.log(
+    `Prerendered ${routes.length} canonical routes, ${nonIndexableRoutes.length} controlled noindex route, `
+      + `${PRIVATE_APP_SHELL_ROUTES.length} private denial shell, plus a real 404 page.`,
+  );
 } finally {
   await vite.close();
 }

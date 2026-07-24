@@ -22,6 +22,9 @@ The site explains workplace benefits, insurance, retirement accounts, Medicare, 
 - shadcn/ui and Radix UI
 - TanStack Query
 - Vitest and Testing Library
+- Supabase authentication and PostgreSQL foundation (configuration required)
+- Stripe Checkout and signed-webhook foundation (disabled by default)
+- Vercel Functions for protected server operations
 
 ## Local development
 
@@ -45,6 +48,18 @@ Run linting:
 
     npm run lint
 
+Inspect the premium-system release posture:
+
+    npm run premium:readiness
+
+Run premium unit, schema, and production-bundle boundary checks:
+
+    npm run premium:test
+    npm run premium:schema-check
+    npm run build
+
+The public product page is `/products/healthcare-worker-benefits-decision-system`. Account and application routes fail closed until Supabase is configured. Stripe checkout remains disabled unless the complete server-side test configuration and explicit feature flags pass the release checks.
+
 The Vite development server uses port 8080 by default.
 
 ## Project structure
@@ -55,6 +70,10 @@ The Vite development server uses port 8080 by default.
 - `src/components/calculators` contains the interactive educational tools.
 - `src/data` contains topics, articles, glossary entries, and sources.
 - `src/lib/article-status.ts` prevents placeholder article drafts from appearing in public lists.
+- `src/premium` contains the generic client renderer, validation schemas, calculations, and authentication abstraction.
+- `api` contains default-deny authentication, entitlement, workspace, protected-content, checkout, and webhook functions.
+- `supabase/migrations` contains the version-controlled PostgreSQL and Row Level Security contract.
+- `docs/premium-system-*.md` are the source of truth for architecture, setup, release gates, and current status.
 - `vercel.json` sends application routes to `index.html` so React Router can handle direct visits.
 
 ## Content workflow

@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { PAID_PRODUCTS } from "@/data/paidProducts";
 
 const benefitsProduct = PAID_PRODUCTS.find(
-  (product) => product.id === "healthcare_worker_career_benefits_decision_system",
+  (product) => product.id === "healthcare-worker-benefits-decision-system",
 )!;
 
 const medicalBillProduct = PAID_PRODUCTS.find(
@@ -52,8 +52,8 @@ const ProductStudioPage = () => (
       description="Community Acquired Finance turns the site's strongest free tools into focused, reusable workflows. Products move from private build to paid validation only when the files, terms, delivery, privacy, support, and evidence are ready."
     >
       <Button asChild variant="hero" size="lg">
-        <Link to="/products/healthcare-worker-benefits-decision-pack">
-          Review the $29 paid pilot <ArrowRight className="h-4 w-4" />
+        <Link to="/products/healthcare-worker-benefits-decision-system">
+          Preview the Benefits Decision System <ArrowRight className="h-4 w-4" />
         </Link>
       </Button>
       <Button asChild variant="outline" size="lg">
@@ -79,7 +79,7 @@ const ProductStudioPage = () => (
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-background px-3 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-primary">
                   <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                  Paid-pilot interest
+                  Early-access preparation
                 </span>
                 <span className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-bold text-muted-foreground">
                   Checkout off
@@ -93,9 +93,9 @@ const ProductStudioPage = () => (
             <div className="space-y-6 p-6 md:p-8">
               <div className="grid gap-3 sm:grid-cols-3">
                 {[
-                  ["Target price", "$29 one time"],
-                  ["Format", "PDF + spreadsheet"],
-                  ["Current action", "Join interest list"],
+                  ["Expected price", "$29 one time"],
+                  ["Product type", "Interactive system"],
+                  ["Current action", "Join early access"],
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-2xl border border-border bg-muted/20 p-4">
                     <div className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
@@ -114,8 +114,8 @@ const ProductStudioPage = () => (
                 ))}
               </ul>
               <Button asChild variant="hero" className="w-full sm:w-auto">
-                <Link to="/products/healthcare-worker-benefits-decision-pack">
-                  See the scope and representative previews <ArrowRight className="h-4 w-4" />
+                <Link to="/products/healthcare-worker-benefits-decision-system">
+                  See how the system works <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <p className="text-xs leading-relaxed text-muted-foreground">
@@ -132,7 +132,7 @@ const ProductStudioPage = () => (
                   Free system live
                 </span>
                 <span className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-bold text-muted-foreground">
-                  Expanded paid files private
+                  Expanded system private
                 </span>
               </div>
               <ReceiptText className="mt-7 h-7 w-7 text-primary" aria-hidden="true" />
@@ -174,7 +174,7 @@ const ProductStudioPage = () => (
                 </Button>
               </div>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                The expanded commercial workbook remains private. CAF does not present private build completion as product validation or availability.
+                The expanded commercial system remains private. CAF does not present private build completion as product validation or availability.
               </p>
             </div>
           </article>

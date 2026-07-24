@@ -46,6 +46,11 @@ export const REPRESENTATIVE_ROUTES = [
     markers: ["Employer Benefit Changes", "benefit changes"],
     adFree: false,
   },
+  {
+    path: "/products/healthcare-worker-benefits-decision-system",
+    markers: ["Healthcare Worker Benefits Decision System", "Interactive decision system"],
+    adFree: true,
+  },
 ];
 
 const ERROR_SHELL_PATTERNS = [

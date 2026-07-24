@@ -3,6 +3,7 @@ import path from "node:path";
 import { createServer } from "vite";
 import {
   ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES,
+  PRIVATE_APP_SHELL_ROUTES,
   getCanonicalRoutes,
   normalizeRoute,
   repositoryRoot,
@@ -99,16 +100,14 @@ try {
   const robots = await readFile(path.join(repositoryRoot, "public", "robots.txt"), "utf8");
   if (!/User-agent:\s*\*/i.test(robots)) errors.push("robots.txt is missing the general user-agent group.");
   if (!/Allow:\s*\//i.test(robots)) errors.push("robots.txt does not explicitly allow crawling.");
-  if (/Disallow:\s*\//i.test(robots)) errors.push("robots.txt blocks the entire site.");
+  if (/^Disallow:\s*\/\s*$/im.test(robots)) errors.push("robots.txt blocks the entire site.");
   if (!robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`)) errors.push("robots.txt does not reference the canonical sitemap URL.");
 
   const manifest = JSON.parse(await readFile(path.join(distDir, "prerender-manifest.json"), "utf8"));
   compareSets("Prerender manifest", new Set((manifest.routes ?? []).map(normalizeRoute)), expectedRoutes);
-  compareSets(
-    "Controlled noindex prerender manifest",
-    new Set((manifest.nonIndexableRoutes ?? []).map(normalizeRoute)),
-    expectedControlledRoutes,
-  );
+  if ("nonIndexableRoutes" in manifest) {
+    errors.push("The public prerender manifest must not enumerate private or account routes.");
+  }
 
   for (const redirectSource of permanentRedirects.keys()) {
     if (expectedRoutes.has(redirectSource)) errors.push(`Permanent redirect is incorrectly treated as canonical: ${redirectSource}`);
@@ -227,6 +226,32 @@ try {
     if (!/<h1\b/i.test(html)) errors.push(`${route} controlled preview is missing an H1.`);
     if (!/<main\b[^>]*id=["']main-content["']/i.test(html)) errors.push(`${route} controlled preview is missing the primary main-content landmark.`);
     if (/<div\s+id=["']root["']>\s*<\/div>/i.test(html)) errors.push(`${route} controlled preview contains an empty application root.`);
+  }
+
+  for (const route of PRIVATE_APP_SHELL_ROUTES) {
+    if (sitemapRoutes.includes(route)) errors.push(`Private application route appears in sitemap: ${route}`);
+    if ((manifest.routes ?? []).map(normalizeRoute).includes(route)) {
+      errors.push(`Private application route appears in the public prerender manifest: ${route}`);
+    }
+
+    const outputPath = outputPathForRoute(route);
+    try {
+      await access(outputPath);
+    } catch {
+      errors.push(`Missing private denial shell for ${route}: ${path.relative(repositoryRoot, outputPath)}`);
+      continue;
+    }
+
+    const html = await readFile(outputPath, "utf8");
+    const robotsValue = decodeHtml(extractFirst(html, /<meta\s+name=["']robots["'][^>]*content=["']([^"']*)["'][^>]*>/i) ?? "");
+    const googlebotValue = decodeHtml(extractFirst(html, /<meta\s+name=["']googlebot["'][^>]*content=["']([^"']*)["'][^>]*>/i) ?? "");
+    if (!/noindex/i.test(robotsValue) || !/noindex/i.test(googlebotValue)) {
+      errors.push(`${route} private denial shell is missing noindex metadata.`);
+    }
+    if (!html.includes("Checking secure access")) errors.push(`${route} does not render the fail-closed access shell.`);
+    if (html.includes("Define the decision") || html.includes("PRIVATE_PREMIUM_MODULE_SENTINEL")) {
+      errors.push(`${route} private denial shell contains protected workflow content.`);
+    }
   }
 
   for (const [title, owners] of titleOwners) {

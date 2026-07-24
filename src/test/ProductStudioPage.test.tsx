@@ -4,22 +4,22 @@ import { describe, expect, it } from "vitest";
 import ProductStudioPage from "@/pages/ProductStudioPage";
 
 describe("Product Studio", () => {
-  it("separates the paid-pilot offer from the free live system", () => {
+  it("separates early-access preparation from the free live system", () => {
     render(<MemoryRouter><ProductStudioPage /></MemoryRouter>);
 
     expect(screen.getByRole("heading", { level: 1, name: /practical systems for healthcare money decisions/i })).toBeInTheDocument();
-    expect(screen.getByText("Paid-pilot interest")).toBeInTheDocument();
+    expect(screen.getByText("Early-access preparation")).toBeInTheDocument();
     expect(screen.getByText("Free system live")).toBeInTheDocument();
     expect(screen.getByText(/joining records consented interest only/i)).toBeInTheDocument();
-    expect(screen.getByText(/expanded commercial workbook remains private/i)).toBeInTheDocument();
+    expect(screen.getByText(/expanded commercial system remains private/i)).toBeInTheDocument();
   });
 
   it("links to the real product, free foundation, and organization offering", () => {
     render(<MemoryRouter><ProductStudioPage /></MemoryRouter>);
 
-    expect(screen.getByRole("link", { name: /see the scope and representative previews/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /see how the system works/i })).toHaveAttribute(
       "href",
-      "/products/healthcare-worker-benefits-decision-pack",
+      "/products/healthcare-worker-benefits-decision-system",
     );
     expect(screen.getByRole("link", { name: /open the free system/i })).toHaveAttribute(
       "href",

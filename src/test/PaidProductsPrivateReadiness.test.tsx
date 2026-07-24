@@ -32,7 +32,7 @@ describe("private paid product readiness", () => {
     );
 
     expect(screen.getByRole("heading", { name: /two complete paid systems/i })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /healthcare worker career & benefits decision system/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /^healthcare worker benefits decision system$/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /medical bill response & resolution system/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /healthcare money decision library/i })).toBeInTheDocument();
     expect(screen.getAllByText(/checkout off/i)).toHaveLength(2);
@@ -42,14 +42,14 @@ describe("private paid product readiness", () => {
 
   it("requires an explicit server switch and every secure dependency before commerce can activate", () => {
     const source = readFileSync("api/product-config.ts", "utf8");
-    const checkout = readFileSync("api/premium-checkout.ts", "utf8");
-    expect(source).toContain('process.env.ENABLE_PREMIUM_COMMERCE === "true"');
-    expect(source).toContain("storeReady && checkoutReady && accessEmailReady && contentReady");
-    expect(source).toContain('process.env.PREMIUM_CONTENT_READY === "true"');
-    expect(source).toContain('paymentProvider: "lemon_squeezy_one_time"');
-    expect(source).toContain('productStatus: commerceEnabled ? "launch_ready" : "implementation_ready_default_deny"');
-    expect(source).not.toContain("checkoutUrl:");
-    expect(checkout).toContain("getPremiumProductContent()");
-    expect(checkout).toContain('process.env.PREMIUM_CONTENT_READY !== "true"');
+    const checkout = readFileSync("api/checkout.ts", "utf8");
+    const config = readFileSync("api/_lib/premiumConfig.ts", "utf8");
+    expect(source).toContain("checkoutEnabled: false");
+    expect(config).toContain('enabled("PREMIUM_CHECKOUT_ENABLED")');
+    expect(config).toContain("Checkout requires entitlement enforcement.");
+    expect(config).toContain("Live Stripe mode requires explicit production checkout authorization.");
+    expect(checkout).toContain("getServerPrice(productKey)");
+    expect(checkout).toContain("if (body.priceId || body.successUrl || body.cancelUrl)");
+    expect(checkout).not.toContain("body.priceId as");
   });
 });

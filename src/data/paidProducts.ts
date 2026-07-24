@@ -11,7 +11,6 @@ export type PaidProduct = {
   status: PaidProductStatus;
   checkoutEnabled: boolean;
   checkoutUrl: string;
-  checkoutEnvKey: string;
   publicFoundation: Array<{ label: string; href: string }>;
   includedAssets: string[];
   premiumModules: string[];
@@ -19,7 +18,7 @@ export type PaidProduct = {
   validationOffer?: {
     name: string;
     route: string;
-    status: "paid_pilot_interest";
+    status: "early_access_preparation";
   };
 };
 
@@ -32,26 +31,25 @@ export type PaidProductBundle = {
   status: PaidProductStatus;
   checkoutEnabled: boolean;
   checkoutUrl: string;
-  checkoutEnvKey: string;
 };
 
 export const PAID_PRODUCT_LAUNCH_GATES = [
   "Consistent non-founder traffic and repeated use of the related free tools",
   "Qualified early-access interest for the specific product",
-  "Vercel Pro activated with spending controls",
-  "Lemon Squeezy merchant approval and payout verification",
-  "Final product files uploaded to hosted delivery",
+  "Supabase authentication, database migrations, and row-level security verified",
+  "Stripe account, test product, one-time test price, and signed webhook verified",
+  "Protected module content seeded to the server-only store and boundary-tested",
   "Terms, disclosures, refund policy, privacy language, and support expectations reviewed",
-  "Successful test checkout, receipt, download, refund, and support flow",
+  "Successful test checkout, receipt, authenticated access, refund, and support flow",
   "Privacy-safe conversion and purchase analytics verified",
   "Explicit founder approval to change the product to launch_ready",
 ] as const;
 
 export const PAID_PRODUCTS: PaidProduct[] = [
   {
-    id: "healthcare_worker_career_benefits_decision_system",
-    name: "Healthcare Worker Career & Benefits Decision System",
-    shortName: "Healthcare Career & Benefits System",
+    id: "healthcare-worker-benefits-decision-system",
+    name: "Healthcare Worker Benefits Decision System",
+    shortName: "Benefits Decision System",
     audience: "Nurses and other employed healthcare workers comparing jobs, schedules, or annual benefit choices.",
     promise:
       "Turn pay, benefits, schedule burden, repayment risk, unresolved HR questions, and career trajectory into one documented decision before accepting or resigning.",
@@ -60,7 +58,6 @@ export const PAID_PRODUCTS: PaidProduct[] = [
     status: "private_ready",
     checkoutEnabled: false,
     checkoutUrl: "",
-    checkoutEnvKey: "VITE_LEMON_SQUEEZY_HEALTHCARE_PRODUCT_URL",
     publicFoundation: [
       { label: "Total compensation comparison", href: "/tools/healthcare-worker-total-compensation-comparison" },
       { label: "Healthcare worker benefits blueprint", href: "/tools/healthcare-worker-benefits-blueprint" },
@@ -69,39 +66,30 @@ export const PAID_PRODUCTS: PaidProduct[] = [
       { label: "Open enrollment guide", href: "/open-enrollment" },
     ],
     includedAssets: [
-      "Career and benefits decision workbook",
-      "Total-compensation input sheet and print-certified comparison result",
-      "Three-scenario health-plan true-cost worksheet",
-      "Retirement match and vesting worksheet",
-      "Schedule, commute, call, travel, and unpaid-time audit",
-      "PTO, leave, disability, and protection audit",
-      "Sign-on, tuition, relocation, and repayment-risk worksheet",
-      "HR verification tracker and email scripts",
-      "Negotiation planner and written-request scripts",
-      "Final decision memo and resignation-readiness checklist",
-      "30/60/90-day role reality check",
-      "Reusable annual benefits review checklist",
+      "Account-based interactive decision workspace",
+      "Saved compensation and benefits comparison",
+      "Low-, expected-, and high-use health-plan scenarios",
+      "Retirement match and vesting analysis",
+      "Schedule, career, and quality-of-life tradeoff assessment",
+      "Automatically generated verification list",
+      "Browser-based printable Benefits Decision Brief",
     ],
     premiumModules: [
-      "Decision setup and document collection",
-      "Whole-offer compensation comparison",
-      "Low-, expected-, and high-use health-plan scenarios",
-      "Retirement match, eligibility, and vesting risk",
-      "Schedule and annual time-cost audit",
-      "PTO, disability, leave, and insurance protections",
-      "Bonus and repayment-obligation review",
-      "Career trajectory and role-risk review",
-      "Written verification plan",
-      "Negotiation preparation",
-      "Transition and first-90-day plan",
-      "Annual review and benefits-change workflow",
+      "Define the decision",
+      "Compare compensation",
+      "Value workplace benefits",
+      "Stress-test health-plan exposure",
+      "Evaluate retirement benefits",
+      "Measure schedule and career tradeoffs",
+      "Build the verification list",
+      "Generate the decision brief",
     ],
     limitations:
       "The system organizes user-supplied facts and estimates. It does not recommend an employer, determine legal overtime status, predict taxes, interpret plan documents as legal advice, or guarantee negotiation outcomes.",
     validationOffer: {
-      name: "Healthcare Worker Benefits Decision Pack",
-      route: "/products/healthcare-worker-benefits-decision-pack",
-      status: "paid_pilot_interest",
+      name: "Healthcare Worker Benefits Decision System",
+      route: "/products/healthcare-worker-benefits-decision-system",
+      status: "early_access_preparation",
     },
   },
   {
@@ -116,7 +104,6 @@ export const PAID_PRODUCTS: PaidProduct[] = [
     status: "private_ready",
     checkoutEnabled: false,
     checkoutUrl: "",
-    checkoutEnvKey: "VITE_LEMON_SQUEEZY_MEDICAL_BILL_PRODUCT_URL",
     publicFoundation: [
       { label: "Medical Bill Response System", href: "/insurance/medical-bill-review-toolkit" },
       { label: "Medical bill review flow", href: "/tools/medical-bill-review-flow" },
@@ -170,15 +157,10 @@ export const PAID_PRODUCT_BUNDLE: PaidProductBundle = {
   status: "private_ready",
   checkoutEnabled: false,
   checkoutUrl: "",
-  checkoutEnvKey: "VITE_LEMON_SQUEEZY_PRODUCT_BUNDLE_URL",
 };
 
 export const isPrivateProductLabEnabled = () =>
   import.meta.env.VITE_ENABLE_PRIVATE_PRODUCT_LAB === "true";
 
 export const isPaidCommerceEnabled = () =>
-  import.meta.env.VITE_ENABLE_PAID_PRODUCTS === "true" &&
-  PAID_PRODUCTS.every((product) => product.status !== "private_ready" && product.checkoutEnabled && product.checkoutUrl.length > 0) &&
-  PAID_PRODUCT_BUNDLE.status !== "private_ready" &&
-  PAID_PRODUCT_BUNDLE.checkoutEnabled &&
-  PAID_PRODUCT_BUNDLE.checkoutUrl.length > 0;
+  false;

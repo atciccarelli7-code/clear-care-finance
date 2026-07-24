@@ -7,6 +7,7 @@
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityaqcuiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityacquiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
     { "source": "/products/healthcare-worker-benefits-decision-pack", "destination": "/products/healthcare-worker-benefits-decision-system", "permanent": true },
+    { "source": "/app", "destination": "/app/benefits-decision", "permanent": false },
     { "source": "/premium/access", "destination": "/sign-in", "permanent": true },
     { "source": "/premium/healthcare-compensation-benefits", "destination": "/app/benefits-decision", "permanent": true },
     { "source": "/for-organizations/patient-education-systems", "destination": "/patients-families/hospital-guide", "permanent": true },
@@ -35,8 +36,7 @@
     { "source": "/legal", "destination": "/privacy-policy", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/app", "destination": "/index.html" },
-    { "source": "/app/(.*)", "destination": "/index.html" }
+    { "source": "/app/benefits-decision/:workspaceId", "destination": "/app/benefits-decision" }
   ],
   "headers": [
     {

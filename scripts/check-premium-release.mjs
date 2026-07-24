@@ -29,10 +29,20 @@ const privateHeadersAreComplete = privateHeaderSources.every((source) => {
     && headers.get("x-robots-tag") === "noindex, nofollow, noarchive";
 });
 if (!privateHeadersAreComplete) failures.push("Private route noindex and no-store headers are missing.");
-const privateAppRewritesAreComplete = ["/app", "/app/(.*)"].every((source) =>
-  vercelConfig.rewrites?.some((rewrite) => rewrite.source === source && rewrite.destination === "/index.html"),
+const appEntryRedirect = vercelConfig.redirects?.some((redirect) =>
+  redirect.source === "/app"
+  && redirect.destination === "/app/benefits-decision"
+  && redirect.permanent === false,
 );
-if (!privateAppRewritesAreComplete) failures.push("Private application SPA rewrites are missing.");
+if (!appEntryRedirect) failures.push("The /app entry redirect is missing.");
+const workspaceRewrite = vercelConfig.rewrites?.some((rewrite) =>
+  rewrite.source === "/app/benefits-decision/:workspaceId"
+  && rewrite.destination === "/app/benefits-decision",
+);
+if (!workspaceRewrite) failures.push("The private workspace deep-link rewrite is missing.");
+if (vercelConfig.rewrites?.some((rewrite) => rewrite.destination === "/index.html")) {
+  failures.push("A clean-URL deployment must not rewrite private routes to /index.html.");
+}
 if (sitemap.includes("/app") || sitemap.includes("/account") || sitemap.includes("/sign-in") || sitemap.includes("/access-processing")) failures.push("A private route appears in the public sitemap.");
 if (sitemap.includes("/products/healthcare-worker-benefits-decision-pack")) failures.push("The retired product route appears in the public sitemap.");
 if (!sitemap.includes("/products/healthcare-worker-benefits-decision-system")) failures.push("The canonical public product route is missing from the sitemap.");

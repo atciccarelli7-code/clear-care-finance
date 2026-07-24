@@ -296,7 +296,6 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route element={<ProtectedPremiumRoutes />}>
               <Route path="/app" element={<Navigate to="/app/benefits-decision" replace />} />
               <Route path="/app/benefits-decision" element={<BenefitsDecisionAppPage />} />
-              <Route path="/app/benefits-decision/new" element={<BenefitsDecisionAppPage />} />
               <Route path="/app/benefits-decision/:workspaceId" element={<BenefitsDecisionAppPage />} />
             </Route>
           </Route>

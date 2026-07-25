@@ -35,6 +35,9 @@ create table if not exists public.entitlements (
   unique (user_id, product_key)
 );
 
+create index if not exists entitlements_user_product_status
+  on public.entitlements (user_id, product_key, status, expires_at);
+
 create unique index if not exists entitlements_checkout_session_unique
   on public.entitlements (stripe_checkout_session_id)
   where stripe_checkout_session_id is not null;
@@ -68,8 +71,6 @@ create table if not exists public.stripe_events (
   created_at timestamptz not null default now()
 );
 
--- Protected module definitions are populated separately from an ignored, owner-controlled seed file.
--- No substantive premium definitions are stored in this migration or the public application bundle.
 create table if not exists public.premium_modules (
   product_key text not null references public.products(product_key) on delete cascade,
   module_key text not null,
@@ -109,6 +110,8 @@ begin
 end;
 $$;
 
+revoke execute on function public.set_updated_at() from public, anon, authenticated;
+
 drop trigger if exists profiles_set_updated_at on public.profiles;
 create trigger profiles_set_updated_at before update on public.profiles
 for each row execute function public.set_updated_at();
@@ -133,7 +136,7 @@ create or replace function public.handle_new_auth_user()
 returns trigger
 language plpgsql
 security definer
-set search_path = public
+set search_path = ''
 as $$
 begin
   insert into public.profiles (user_id, email)
@@ -145,6 +148,8 @@ begin
 end;
 $$;
 
+revoke execute on function public.handle_new_auth_user() from public, anon, authenticated;
+
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
 after insert or update of email on auth.users
@@ -155,13 +160,18 @@ returns boolean
 language sql
 stable
 security definer
-set search_path = public
+set search_path = ''
 as $$
   select exists (
     select 1 from public.premium_admins
-    where user_id = auth.uid()
+    where user_id = (select auth.uid())
   );
 $$;
+
+revoke execute on function public.is_premium_admin() from public, anon;
+grant execute on function public.is_premium_admin() to authenticated;
+
+alter default privileges in schema public revoke execute on functions from public, anon, authenticated;
 
 alter table public.profiles enable row level security;
 alter table public.products enable row level security;
@@ -183,28 +193,28 @@ drop policy if exists "profiles_select_own" on public.profiles;
 create policy "profiles_select_own"
 on public.profiles for select
 to authenticated
-using (user_id = auth.uid() or public.is_premium_admin());
+using ((select auth.uid()) is not null and (user_id = (select auth.uid()) or (select public.is_premium_admin())));
 
 drop policy if exists "entitlements_select_own" on public.entitlements;
 create policy "entitlements_select_own"
 on public.entitlements for select
 to authenticated
-using (user_id = auth.uid() or public.is_premium_admin());
+using ((select auth.uid()) is not null and (user_id = (select auth.uid()) or (select public.is_premium_admin())));
 
 drop policy if exists "workspaces_select_own_entitled" on public.workspaces;
 create policy "workspaces_select_own_entitled"
 on public.workspaces for select
 to authenticated
 using (
-  (user_id = auth.uid() and exists (
+  ((select auth.uid()) is not null and user_id = (select auth.uid()) and exists (
     select 1
     from public.entitlements e
-    where e.user_id = auth.uid()
+    where e.user_id = (select auth.uid())
       and e.product_key = workspaces.product_key
       and e.status in ('active', 'test')
       and (e.expires_at is null or e.expires_at > now())
   ))
-  or public.is_premium_admin()
+  or (select public.is_premium_admin())
 );
 
 drop policy if exists "workspaces_insert_own_entitled" on public.workspaces;
@@ -212,11 +222,12 @@ create policy "workspaces_insert_own_entitled"
 on public.workspaces for insert
 to authenticated
 with check (
-  user_id = auth.uid()
+  (select auth.uid()) is not null
+  and user_id = (select auth.uid())
   and exists (
     select 1
     from public.entitlements e
-    where e.user_id = auth.uid()
+    where e.user_id = (select auth.uid())
       and e.product_key = workspaces.product_key
       and e.status in ('active', 'test')
       and (e.expires_at is null or e.expires_at > now())
@@ -228,35 +239,44 @@ create policy "workspaces_update_own_entitled"
 on public.workspaces for update
 to authenticated
 using (
-  user_id = auth.uid()
+  (select auth.uid()) is not null
+  and user_id = (select auth.uid())
   and exists (
     select 1 from public.entitlements e
-    where e.user_id = auth.uid()
+    where e.user_id = (select auth.uid())
       and e.product_key = workspaces.product_key
       and e.status in ('active', 'test')
       and (e.expires_at is null or e.expires_at > now())
   )
 )
-with check (user_id = auth.uid());
-
-drop policy if exists "workspaces_delete_own_entitled" on public.workspaces;
-create policy "workspaces_delete_own_entitled"
-on public.workspaces for delete
-to authenticated
-using (
-  user_id = auth.uid()
+with check (
+  (select auth.uid()) is not null
+  and user_id = (select auth.uid())
   and exists (
     select 1 from public.entitlements e
-    where e.user_id = auth.uid()
+    where e.user_id = (select auth.uid())
       and e.product_key = workspaces.product_key
       and e.status in ('active', 'test')
       and (e.expires_at is null or e.expires_at > now())
   )
 );
 
--- No authenticated or anonymous policies are created for products, premium_modules,
--- stripe_events, or premium_admins. Trusted server-side service-role logic owns writes
--- to entitlements and Stripe events and owns all protected-content reads.
+drop policy if exists "workspaces_delete_own_entitled" on public.workspaces;
+create policy "workspaces_delete_own_entitled"
+on public.workspaces for delete
+to authenticated
+using (
+  (select auth.uid()) is not null
+  and user_id = (select auth.uid())
+  and exists (
+    select 1 from public.entitlements e
+    where e.user_id = (select auth.uid())
+      and e.product_key = workspaces.product_key
+      and e.status in ('active', 'test')
+      and (e.expires_at is null or e.expires_at > now())
+  )
+);
+
 revoke all on public.profiles from anon, authenticated;
 revoke all on public.products from anon, authenticated;
 revoke all on public.entitlements from anon, authenticated;

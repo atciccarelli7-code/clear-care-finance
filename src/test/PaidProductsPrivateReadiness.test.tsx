@@ -46,10 +46,15 @@ describe("private paid product readiness", () => {
     const config = readFileSync("api/_lib/premiumConfig.ts", "utf8");
     expect(source).toContain("checkoutEnabled: false");
     expect(config).toContain('enabled("PREMIUM_CHECKOUT_ENABLED")');
+    expect(config).toContain("Checkout requires authentication.");
     expect(config).toContain("Checkout requires entitlement enforcement.");
-    expect(config).toContain("Live Stripe mode requires explicit production checkout authorization.");
+    expect(config).toContain("Live checkout is not authorized.");
+    expect(config).toContain("STRIPE_PRODUCT_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM");
     expect(checkout).toContain("getServerPrice(productKey)");
-    expect(checkout).toContain("if (body.priceId || body.successUrl || body.cancelUrl)");
+    expect(checkout).toContain("parseCheckoutRequest(parseJsonBody(req))");
+    expect(checkout).toContain("assertStripePrice");
+    expect(checkout).toContain("integration_identifier");
+    expect(checkout).not.toContain("payment_method_types");
     expect(checkout).not.toContain("body.priceId as");
   });
 });

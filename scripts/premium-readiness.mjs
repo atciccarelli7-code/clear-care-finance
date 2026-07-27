@@ -14,7 +14,7 @@ const product = value("STRIPE_PRODUCT_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM
 const price = value("STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM").startsWith("price_");
 const supabase = configured("SUPABASE_URL", "SUPABASE_ANON_KEY", "SUPABASE_SERVICE_ROLE_KEY");
 const migrationPath = path.join(root, "supabase/migrations/202607240001_premium_system_foundation.sql");
-const stripeHardeningMigrationPath = path.join(root, "supabase/migrations/202607270002_stripe_prelaunch_hardening.sql");
+const stripeHardeningMigrationPath = path.join(root, "supabase/migrations/20260727185507_stripe_prelaunch_hardening.sql");
 const distPath = path.join(root, "dist");
 const boundaryStatus = (() => {
   if (!existsSync(distPath)) return "not_built";

@@ -1,12 +1,73 @@
 # Premium system implementation status
 
-Last updated: July 24, 2026
+Last updated: July 27, 2026
 
 ## Current verdict
 
-**Foundation only**
+**Hardened foundation under private validation**
 
-Paid access is not active. Checkout is disabled. No live payment capability is authorized.
+Paid access is not active. Checkout is disabled. No live payment capability is authorized. Production authentication, workspace persistence, protected-content delivery, entitlement enforcement, and public premium access remain fail-closed.
+
+## Current platform evidence
+
+### GitHub
+
+- Canonical repository: `atciccarelli7-code/clear-care-finance`
+- Canonical branch: `main`
+- Production baseline before this validation pass: `c1e8b442bb854eee056f48006e19d065d6639515`
+- Version-controlled premium migrations:
+  - `202607240001_premium_system_foundation.sql`
+  - `202607240002_premium_system_security_followup.sql`
+  - `202607270001_restore_premium_admin_policy_execution.sql` — corrective migration created after live two-user RLS testing exposed a missing authenticated execution grant for the private policy helper.
+
+### Vercel
+
+- Team: `CAF`
+- Project: `clear-care-finance`
+- Canonical production domain: `communityacquiredfinance.com`
+- Current reviewed production deployment: `dpl_3fDjULbSDcphFd36R5whfZtY5nfN`
+- Deployment state: `READY`
+- Git commit served: `c1e8b442bb854eee056f48006e19d065d6639515`
+- Runtime error review: no grouped production runtime errors found in the available seven-day window.
+- Hobby-plan runtime-log retention is too short to reconstruct historical newsletter delivery from logs; external delivery evidence must come from the Resend dashboard and a fresh consented test.
+
+### Supabase
+
+- Organization: `Community Acquired Finance`
+- Project: `CAF Project`
+- Project ref: `uzfcvtgnpkvuapgrkfcb`
+- Region: `us-west-2`
+- Status: `ACTIVE_HEALTHY`
+- PostgreSQL: 17
+- Applied migrations:
+  - `20260724233723 premium_system_foundation`
+  - `20260724233826 premium_system_security_followup`
+- Current public tables and row counts at review time:
+  - `profiles`: 0
+  - `products`: 1
+  - `entitlements`: 0
+  - `workspaces`: 0
+  - `stripe_events`: 0
+  - `premium_modules`: 0
+  - `premium_admins`: 0
+- RLS is enabled on every public application table.
+- Security advisors: clear before the corrective migration.
+- Performance advisors: informational unused-index notices only; do not remove newly created indexes before representative workload exists.
+
+## Live RLS finding and correction
+
+A transactionally isolated two-user test found that authenticated reads failed before row filtering because the policies call `private.is_premium_admin()` while the authenticated role lacked the schema/function privileges required to evaluate that helper.
+
+The system therefore remained fail-closed, but legitimate authenticated profile, entitlement, and workspace access was also blocked.
+
+The corrective migration grants only:
+
+- `USAGE` on the non-exposed `private` schema to `authenticated`;
+- `EXECUTE` on `private.is_premium_admin()` to `authenticated`.
+
+Anonymous and public execution remain denied. The helper returns only whether the current `auth.uid()` is an explicitly provisioned premium administrator.
+
+The complete two-user RLS/IDOR matrix must be rerun after the corrective migration is applied. Test records must remain transactional or be removed immediately after verification.
 
 ## What is implemented
 
@@ -37,8 +98,8 @@ Paid access is not active. Checkout is disabled. No live payment capability is a
   - browser-print decision brief.
 - Supabase browser authentication abstraction.
 - Supabase bearer-token validation for functions.
-- Database migration for profiles, products, entitlements, workspaces, Stripe events, protected modules, and explicit admins.
-- RLS and grants that deny entitlement and protected-content mutation to ordinary users.
+- Database schema for profiles, products, entitlements, workspaces, Stripe events, protected modules, and explicit admins.
+- RLS and table grants designed to restrict ordinary users to their own entitled records.
 - Server-side entitlement service and transitions.
 - Protected module-content endpoint.
 - User-scoped workspace APIs.
@@ -53,103 +114,79 @@ Paid access is not active. Checkout is disabled. No live payment capability is a
 
 ## What is available to a visitor now
 
-On the deployed safe foundation, a visitor can:
+A visitor can:
 
 - read the public interactive-system product page;
 - review the intended workflow and representative interface;
 - see the exact early-access status;
 - see that the expected $29 price is not an active offer;
-- join the early-access email list;
-- use the rest of the existing public Community Acquired Finance site.
+- submit the early-access form, subject to external Resend verification;
+- use the rest of the public Community Acquired Finance site.
 
 A visitor cannot:
 
-- create a real account;
+- create a production premium account;
 - enter the protected application;
 - create a production workspace;
-- retrieve premium module content;
+- retrieve protected premium module content;
 - start checkout;
 - pay;
-- receive an entitlement.
+- receive a production entitlement.
 
-Private routes show controlled unavailable or signed-out states and do not expose premium content.
+## Activation state
 
-## Coded but disabled
-
-| Capability | Code status | Activation state |
+| Capability | Code / infrastructure status | Activation state |
 |---|---|---|
-| Supabase magic-link authentication | Implemented | Disabled |
-| Server token validation | Implemented | Disabled by missing external configuration |
-| PostgreSQL workspace persistence | Implemented | Disabled |
-| RLS | Migration implemented | Not applied to a live project from this repository |
-| Entitlement enforcement | Implemented | Disabled |
-| Protected module delivery | Implemented | No production module rows |
-| Stripe test Checkout | Implemented | Disabled; no keys or price |
-| Stripe webhook | Implemented | Disabled; no signing secret |
-| Refund/revocation transitions | Implemented | Not externally tested |
-| Account-based cross-device resume | Implemented | Not externally tested |
-| Development demo | Implemented | Local Vite development only; excluded from production |
+| Owner-controlled Supabase project | Active and healthy | Created |
+| Foundation and security migrations | Applied | Complete |
+| Corrective RLS helper grant | Version-controlled in validation branch | Apply and retest before auth activation |
+| Supabase magic-link authentication | Implemented | Production disabled; external flow unverified |
+| Server token validation | Implemented | Production disabled |
+| PostgreSQL workspace persistence | Implemented | Production disabled; live persistence unverified |
+| RLS | Enabled on all public application tables | Partial live validation; full matrix pending corrective migration |
+| Entitlement enforcement | Implemented | Production disabled |
+| Protected module delivery | Implemented | No protected module rows; production disabled |
+| Stripe test Checkout | Implemented | Disabled; external test configuration unverified |
+| Stripe webhook | Implemented | Disabled; hosted signing secret and event matrix unverified |
+| Refund/revocation transitions | Implemented | Unit-tested; external test-mode validation pending |
+| Account-based cross-device resume | Implemented | External validation pending |
+| Development demo | Implemented | Local development only; excluded from production |
 
-## Requires Supabase configuration
+## Remaining Supabase validation
 
-- create the owner-controlled Supabase project;
-- apply the version-controlled migration;
-- configure email magic-link authentication;
-- configure exact production and approved preview redirect URLs;
-- place public and server keys in correct Vercel scopes;
-- explicitly provision test administration;
+- apply the corrective migration from the version-controlled branch;
+- rerun two-user RLS and IDOR tests for profiles, entitlements, workspaces, product-key mutation, protected content, admin records, and Stripe events;
+- configure and validate email magic-link authentication and exact redirect URLs;
+- verify session expiration, sign-out, and revoked-session behavior;
+- provision test administration only through trusted operations;
 - create test entitlements through trusted logic;
-- seed protected test module rows;
-- run two-user RLS and IDOR tests;
-- validate cross-device persistence;
-- finalize and test account deletion.
+- seed governed test-status protected module rows from the private source path;
+- validate workspace create, save, reload, archive, delete, export, cross-device resume, and concurrency behavior;
+- finalize and test account deletion and revoked-user cleanup.
 
-## Requires Stripe configuration
+## Remaining Stripe validation
 
-- complete Stripe account setup;
-- use test mode;
-- create the exact one-time test product;
-- create the approved one-time test price;
-- configure test secret key;
-- register the signed webhook endpoint;
-- configure hosted endpoint signing secret;
-- run immediate, async, failure, duplicate, refund, and revocation tests;
-- approve refund and support policies.
+- complete Stripe account setup in test mode;
+- create the exact one-time test product and server-mapped test price;
+- configure the test secret key and hosted webhook signing secret;
+- run immediate success, asynchronous success/failure, payment failure, duplicate delivery, retry-after-failure, refund, revocation, and restoration tests;
+- confirm client-supplied prices and return URLs are rejected;
+- confirm a checkout success URL cannot grant access;
+- approve customer terms, refund policy, and support process before any production authorization.
 
-Live Stripe keys, product, price, webhook, and checkout activation require a separate explicit owner authorization after all test gates.
+Live Stripe keys, live checkout, active entitlements, public purchase copy, and production authorization require a separate explicit founder decision after every test gate is satisfied.
 
-## Requires Vercel configuration
+## Measurement and search limitations
 
-- add Supabase public values;
-- add server-only Supabase values;
-- add server feature flags;
-- add Stripe test values only after private authentication testing;
-- keep checkout off in Production;
-- redeploy after every environment change;
-- run preview and production smoke tests;
-- document secret rotation and rollback evidence.
-
-No Vercel Pro feature is required.
-
-## Remains unbuilt or unapproved
-
-- owner-controlled external Supabase project;
-- applied live migration confirmation;
-- production protected module dataset;
-- production authentication validation;
-- owner-approved customer terms and refund policy;
-- staffed support process;
-- production account deletion workflow;
-- Stripe test product/price and test keys;
-- signed hosted webhook;
-- complete Stripe test matrix;
-- complete live purchase/refund/revocation validation;
-- explicit checkout authorization;
-- active-purchase public copy.
+- GSC Wizard is intentionally unavailable because its free trial ended and a $20 monthly subscription is not justified.
+- Search work must use dated Google Search Console exports stored in Google Drive or a fresh manual owner export.
+- Historical exports must retain their snapshot date and must not be described as current.
+- No recurring paid SEO connector is required for this stage.
+- Newsletter persistence, delivery, unsubscribe, and campaign reporting remain externally unverified until a fresh consented non-owner test and Resend dashboard inspection are completed.
 
 ## Release controls
 
-Safe defaults:
+Safe defaults remain:
 
 ```text
 PREMIUM_AUTH_ENABLED=false
@@ -197,4 +234,4 @@ The owner must explicitly approve:
 11. controlled production transaction;
 12. active-purchase public copy.
 
-Until then, the correct verdict is **Foundation only**.
+Until then, the correct verdict remains **Hardened foundation under private validation**.

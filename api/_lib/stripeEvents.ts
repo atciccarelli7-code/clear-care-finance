@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type Stripe from "stripe";
-import { applyPaymentEntitlement, type EntitlementTransition } from "./entitlements.js";
+import { applyPaymentEntitlement, type EntitlementStatus, type EntitlementTransition } from "./entitlements.js";
 import { PREMIUM_PRODUCT_KEY } from "./productRegistry.js";
 import { isFullRefund, isUuid } from "./stripeValidation.js";
 
@@ -78,6 +78,23 @@ const ordering = (event?: Pick<Stripe.Event, "id" | "created">) => event
   ? { stripeEventId: event.id, stripeEventCreatedAt: event.created }
   : {};
 
+const currentEntitlement = async (admin: SupabaseClient, userId: string, productKey: string) => {
+  const { data, error } = await admin
+    .from("entitlements")
+    .select("status,stripe_customer_id,stripe_checkout_session_id,stripe_payment_intent_id,updated_at")
+    .eq("user_id", userId)
+    .eq("product_key", productKey)
+    .maybeSingle();
+  if (error) throw new Error("entitlement_lookup_failed");
+  return data as {
+    status: EntitlementStatus;
+    stripe_customer_id: string | null;
+    stripe_checkout_session_id: string | null;
+    stripe_payment_intent_id: string | null;
+    updated_at: string;
+  } | null;
+};
+
 export const applyCheckoutEvent = async (
   admin: SupabaseClient,
   session: Stripe.Checkout.Session,
@@ -87,10 +104,17 @@ export const applyCheckoutEvent = async (
   const userId = session.metadata?.user_id || "";
   const productKey = session.metadata?.product_key || "";
   if (!isUuid(userId) || productKey !== PREMIUM_PRODUCT_KEY) throw new Error("invalid_event_metadata");
+  const customerId = typeof session.customer === "string" ? session.customer : session.customer?.id;
+  if (transition.type === "payment_failed") {
+    const existing = await currentEntitlement(admin, userId, productKey);
+    if (!existing) throw new Error("entitlement_not_found");
+    if (existing.stripe_customer_id && existing.stripe_customer_id !== customerId) throw new Error("stripe_customer_relationship_mismatch");
+    if (existing.stripe_checkout_session_id && existing.stripe_checkout_session_id !== session.id) return existing.status;
+  }
   return applyPaymentEntitlement({
     userId,
     productKey,
-    stripeCustomerId: typeof session.customer === "string" ? session.customer : session.customer?.id,
+    stripeCustomerId: customerId,
     stripeCheckoutSessionId: session.id,
     stripePaymentIntentId: typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id,
     test: !session.livemode,
@@ -108,10 +132,16 @@ export const applyPaymentFailure = async (
   const userId = intent.metadata?.user_id || "";
   const productKey = intent.metadata?.product_key || "";
   if (!isUuid(userId) || productKey !== PREMIUM_PRODUCT_KEY) throw new Error("invalid_event_metadata");
+  const customerId = typeof intent.customer === "string" ? intent.customer : intent.customer?.id;
+  const existing = await currentEntitlement(admin, userId, productKey);
+  if (!existing) throw new Error("entitlement_not_found");
+  if (!customerId || existing.stripe_customer_id !== customerId) throw new Error("stripe_customer_relationship_mismatch");
+  if (existing.stripe_payment_intent_id && existing.stripe_payment_intent_id !== intent.id) return existing.status;
+  if (event && event.created * 1_000 < new Date(existing.updated_at).getTime()) return existing.status;
   return applyPaymentEntitlement({
     userId,
     productKey,
-    stripeCustomerId: typeof intent.customer === "string" ? intent.customer : intent.customer?.id,
+    stripeCustomerId: customerId,
     stripePaymentIntentId: intent.id,
     test: !intent.livemode,
     transition,

@@ -9,6 +9,8 @@ export const productRegistry = {
     status: "private_build",
     accessType: "one_time",
     expectedPriceUsd: 29,
+    expectedPriceCents: 2_900,
+    expectedCurrency: "usd",
     publicRoute: "/products/healthcare-worker-benefits-decision-system",
     applicationRoute: "/app/benefits-decision",
     authorizedModules: [
@@ -34,4 +36,9 @@ export const getProduct = (productKey: string) =>
 export const getServerPrice = (productKey: string) => {
   if (productKey !== PREMIUM_PRODUCT_KEY) return "";
   return getPremiumConfig().stripe.price;
+};
+
+export const getServerStripeProduct = (productKey: string) => {
+  if (productKey !== PREMIUM_PRODUCT_KEY) return "";
+  return getPremiumConfig().stripe.product;
 };

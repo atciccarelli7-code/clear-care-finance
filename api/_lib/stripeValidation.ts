@@ -21,7 +21,7 @@ export const assertStripeMode = (livemode: boolean, environment: string) => {
   if (livemode !== expectedLiveMode(environment)) throw new StripeMappingError("stripe_mode_mismatch");
 };
 
-const objectId = (value: string | { id: string } | null | undefined) =>
+export const stripeObjectId = (value: string | { id: string } | null | undefined) =>
   typeof value === "string" ? value : value?.id || "";
 
 export const isUuid = (value: string) =>
@@ -66,7 +66,7 @@ export const assertStripePrice = ({
   if (price.unit_amount !== EXPECTED_PRICE_CENTS) throw new StripeMappingError("stripe_amount_mismatch");
   if (price.metadata?.product_key !== expectedProductKey) throw new StripeMappingError("stripe_price_metadata_mismatch");
 
-  const productId = objectId(price.product as string | Stripe.Product | Stripe.DeletedProduct);
+  const productId = stripeObjectId(price.product as string | Stripe.Product | Stripe.DeletedProduct);
   if (productId !== expectedProductId) throw new StripeMappingError("stripe_product_id_mismatch");
   if (typeof price.product !== "string") {
     const product = price.product as Stripe.Product | Stripe.DeletedProduct;
@@ -79,11 +79,22 @@ export const assertStripePrice = ({
   }
 };
 
-export const assertStripeCustomer = (customer: Stripe.Customer | Stripe.DeletedCustomer, userId: string, environment: string) => {
+export const assertStripeCustomer = (
+  customer: Stripe.Customer | Stripe.DeletedCustomer,
+  userId: string,
+  environment: string,
+  expectedProductKey?: string,
+) => {
   if ("deleted" in customer && customer.deleted) throw new StripeMappingError("stripe_customer_deleted");
   const activeCustomer = customer as Stripe.Customer;
   assertStripeMode(activeCustomer.livemode, environment);
   if (activeCustomer.metadata?.user_id !== userId) throw new StripeMappingError("stripe_customer_user_mismatch");
+  if (expectedProductKey && activeCustomer.metadata?.product_key !== expectedProductKey) {
+    throw new StripeMappingError("stripe_customer_product_mismatch");
+  }
+  if (activeCustomer.metadata?.environment && activeCustomer.metadata.environment !== environment) {
+    throw new StripeMappingError("stripe_customer_environment_mismatch");
+  }
 };
 
 export const assertCheckoutSession = ({
@@ -108,7 +119,11 @@ export const assertCheckoutSession = ({
   if (session.metadata?.product_key !== expectedProductKey || session.metadata?.environment !== environment) {
     throw new StripeMappingError("stripe_session_metadata_mismatch");
   }
-  if (!isUuid(session.metadata?.user_id || "")) throw new StripeMappingError("stripe_session_user_invalid");
+  const userId = session.metadata?.user_id || "";
+  if (!isUuid(userId)) throw new StripeMappingError("stripe_session_user_invalid");
+  if (!session.customer || typeof session.customer === "string") throw new StripeMappingError("stripe_customer_not_expanded");
+  assertStripeCustomer(session.customer as Stripe.Customer | Stripe.DeletedCustomer, userId, environment, expectedProductKey);
+
   const items = session.line_items?.data || [];
   if (items.length !== 1 || items[0]?.quantity !== 1 || !items[0]?.price) throw new StripeMappingError("stripe_line_item_mismatch");
   assertStripePrice({
@@ -122,18 +137,9 @@ export const assertCheckoutSession = ({
 
   if (session.payment_intent && typeof session.payment_intent !== "string") {
     const intent = session.payment_intent as Stripe.PaymentIntent;
-    assertStripeMode(intent.livemode, environment);
-    if (intent.amount !== EXPECTED_PRICE_CENTS || intent.currency !== EXPECTED_CURRENCY) {
-      throw new StripeMappingError("stripe_payment_intent_amount_mismatch");
-    }
-    if (
-      intent.metadata?.user_id !== session.metadata.user_id
-      || intent.metadata?.product_key !== expectedProductKey
-      || intent.metadata?.environment !== environment
-    ) {
-      throw new StripeMappingError("stripe_payment_intent_metadata_mismatch");
-    }
-    if (objectId(intent.customer) !== objectId(session.customer)) throw new StripeMappingError("stripe_customer_relationship_mismatch");
+    assertPaymentIntent(intent, environment, expectedProductKey);
+    if (intent.metadata?.user_id !== userId) throw new StripeMappingError("stripe_payment_intent_user_mismatch");
+    if (stripeObjectId(intent.customer) !== stripeObjectId(session.customer)) throw new StripeMappingError("stripe_customer_relationship_mismatch");
   }
 };
 

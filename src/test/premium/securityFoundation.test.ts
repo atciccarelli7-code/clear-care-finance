@@ -9,6 +9,7 @@ import { sameOrigin } from "../../../api/_lib/http";
 import { getPremiumConfig } from "../../../api/_lib/premiumConfig";
 import { getProduct } from "../../../api/_lib/productRegistry";
 import { actionForStripeEvent, applyCheckoutEvent, claimStripeEvent } from "../../../api/_lib/stripeEvents";
+import { assertStripePrice, isFullRefund, parseCheckoutRequest } from "../../../api/_lib/stripeValidation";
 
 const original = { ...process.env };
 afterEach(() => {
@@ -34,6 +35,14 @@ const configureAuthFoundation = () => {
   process.env.SUPABASE_SERVICE_ROLE_KEY = "server-service-role";
 };
 
+const configureStripe = (environment: "test" | "live" = "test") => {
+  process.env.STRIPE_ENVIRONMENT = environment;
+  process.env.STRIPE_SECRET_KEY = `rk_${environment}_placeholder`;
+  process.env.STRIPE_WEBHOOK_SECRET = "whsec_placeholder";
+  process.env.STRIPE_PRODUCT_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM = "prod_placeholder";
+  process.env.STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM = "price_placeholder";
+};
+
 describe("feature flags and default denial", () => {
   it("keeps every authority-bearing feature disabled by default", () => {
     delete process.env.PREMIUM_AUTH_ENABLED;
@@ -45,15 +54,30 @@ describe("feature flags and default denial", () => {
     expect(config.flags.checkout).toBe(false);
   });
 
-  it("rejects development bypasses and live mode without explicit authorization", () => {
+  it("rejects development bypasses", () => {
     process.env.PREMIUM_ENTITLEMENT_BYPASS = "true";
-    process.env.STRIPE_ENVIRONMENT = "live";
     expect(getPremiumConfig().safe).toBe(false);
-    expect(getPremiumConfig().violations.join(" ")).toMatch(/bypass|live/i);
+    expect(getPremiumConfig().violations.join(" ")).toMatch(/bypass/i);
+  });
+
+  it("allows inert live configuration but rejects unauthorized live checkout", () => {
+    configureAuthFoundation();
+    configureStripe("live");
+    expect(getPremiumConfig().safe).toBe(true);
+    expect(getPremiumConfig().stripe.liveConfigured).toBe(true);
+
+    process.env.PREMIUM_CHECKOUT_ENABLED = "true";
+    expect(getPremiumConfig().safe).toBe(false);
+    expect(getPremiumConfig().violations.join(" ")).toMatch(/live checkout/i);
+  });
+
+  it("accepts restricted Stripe keys for test configuration", () => {
+    configureStripe("test");
+    expect(getPremiumConfig().stripe.testConfigured).toBe(true);
   });
 
   it("recognizes only the server-side product registry", () => {
-    expect(getProduct("healthcare-worker-benefits-decision-system")?.expectedPriceUsd).toBe(29);
+    expect(getProduct("healthcare-worker-benefits-decision-system")?.expectedPriceCents).toBe(2900);
     expect(getProduct("client-supplied-product")).toBeNull();
   });
 
@@ -98,10 +122,7 @@ describe("API denial states", () => {
     expect(checkout.capture.body).toMatchObject({ code: "checkout_disabled" });
 
     configureAuthFoundation();
-    process.env.STRIPE_ENVIRONMENT = "test";
-    process.env.STRIPE_SECRET_KEY = "sk_test_placeholder";
-    process.env.STRIPE_WEBHOOK_SECRET = "whsec_placeholder";
-    process.env.STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM = "price_placeholder";
+    configureStripe("test");
     const webhook = response();
     await webhookHandler({ method: "POST", headers: { "stripe-signature": "invalid" }, body: "{}" }, webhook.res);
     expect(webhook.capture.status).toBe(400);
@@ -123,6 +144,7 @@ describe("API denial states", () => {
     process.env.STRIPE_ENVIRONMENT = "test";
     delete process.env.STRIPE_SECRET_KEY;
     delete process.env.STRIPE_WEBHOOK_SECRET;
+    delete process.env.STRIPE_PRODUCT_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM;
     delete process.env.STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM;
     const checkout = response();
     await checkoutHandler({
@@ -135,9 +157,50 @@ describe("API denial states", () => {
   });
 });
 
+describe("Stripe request and object validation", () => {
+  it("accepts only the canonical checkout request field", () => {
+    expect(parseCheckoutRequest({ productKey: "healthcare-worker-benefits-decision-system" })).toBe("healthcare-worker-benefits-decision-system");
+    expect(() => parseCheckoutRequest({ productKey: "healthcare-worker-benefits-decision-system", amount: 1 })).toThrow("invalid_checkout_request");
+    expect(() => parseCheckoutRequest({ productKey: "healthcare-worker-benefits-decision-system", successUrl: "https://attacker.example" })).toThrow("invalid_checkout_request");
+  });
+
+  it("validates the exact expanded Stripe product and price", () => {
+    expect(() => assertStripePrice({
+      price: {
+        id: "price_expected",
+        active: true,
+        livemode: true,
+        type: "one_time",
+        recurring: null,
+        currency: "usd",
+        unit_amount: 2900,
+        metadata: { product_key: "healthcare-worker-benefits-decision-system" },
+        product: {
+          id: "prod_expected",
+          active: true,
+          livemode: true,
+          name: "Healthcare Worker Benefits Decision System",
+          metadata: { product_key: "healthcare-worker-benefits-decision-system" },
+        },
+      } as never,
+      environment: "live",
+      expectedPriceId: "price_expected",
+      expectedProductId: "prod_expected",
+      expectedProductKey: "healthcare-worker-benefits-decision-system",
+      expectedProductName: "Healthcare Worker Benefits Decision System",
+    })).not.toThrow();
+  });
+
+  it("distinguishes partial from full refunds", () => {
+    expect(isFullRefund({ amount: 2900, amount_refunded: 1000, refunded: false })).toBe(false);
+    expect(isFullRefund({ amount: 2900, amount_refunded: 2900, refunded: true })).toBe(true);
+  });
+});
+
 describe("entitlement and webhook transitions", () => {
   it("supports processing, grant, refund, revocation, restoration, expiry, and test states", () => {
     expect(transitionEntitlement(null, { type: "mark_processing" })).toBe("processing");
+    expect(transitionEntitlement(null, { type: "mark_processing", test: true })).toBe("processing");
     expect(transitionEntitlement("processing", { type: "grant" })).toBe("active");
     expect(transitionEntitlement("active", { type: "refund" })).toBe("refunded");
     expect(transitionEntitlement("active", { type: "payment_failed" })).toBe("active");
@@ -148,8 +211,9 @@ describe("entitlement and webhook transitions", () => {
     expect(transitionEntitlement(null, { type: "grant", test: true })).toBe("test");
   });
 
-  it("maps successful, failed, refund, and ignored events without browser authority", () => {
+  it("maps successful, pending, failed, refund, and ignored events without browser authority", () => {
     expect(actionForStripeEvent({ type: "checkout.session.completed", data: { object: { payment_status: "paid", livemode: false } } } as never)).toMatchObject({ kind: "checkout", transition: { type: "grant", test: true } });
+    expect(actionForStripeEvent({ type: "checkout.session.completed", data: { object: { payment_status: "unpaid", livemode: false } } } as never)).toMatchObject({ kind: "checkout", transition: { type: "mark_processing" } });
     expect(actionForStripeEvent({ type: "checkout.session.async_payment_failed", data: { object: {} } } as never)).toMatchObject({ transition: { type: "payment_failed" } });
     expect(actionForStripeEvent({ type: "charge.refunded", data: { object: {} } } as never)).toMatchObject({ kind: "refund" });
     expect(actionForStripeEvent({ type: "customer.created", data: { object: {} } } as never)).toEqual({ kind: "ignore" });
@@ -166,21 +230,22 @@ describe("entitlement and webhook transitions", () => {
     await expect(claimStripeEvent(admin as never, { id: "evt_test", type: "checkout.session.completed" })).resolves.toBe("duplicate");
   });
 
-  it("allows a previously failed webhook event to be retried without duplicate fulfillment", async () => {
+  it("allows exactly one worker to retry a previously failed webhook event", async () => {
     const query = {
       insert: vi.fn().mockResolvedValue({ error: { code: "23505" } }),
       select: vi.fn(() => query),
       eq: vi.fn(() => query),
-      maybeSingle: vi.fn().mockResolvedValue({ data: { processing_status: "failed" }, error: null }),
       update: vi.fn(() => query),
-      then: (resolve: (value: { error: null }) => void) => resolve({ error: null }),
+      maybeSingle: vi.fn()
+        .mockResolvedValueOnce({ data: { processing_status: "failed" }, error: null })
+        .mockResolvedValueOnce({ data: { stripe_event_id: "evt_retry" }, error: null }),
     };
     const admin = { from: () => query };
     await expect(claimStripeEvent(admin as never, { id: "evt_retry", type: "checkout.session.completed" })).resolves.toBe("claimed");
     expect(query.update).toHaveBeenCalledWith(expect.objectContaining({ processing_status: "processing", error_message: null }));
   });
 
-  it("grants one idempotent test entitlement from verified checkout metadata", async () => {
+  it("grants one test entitlement only from verified successful checkout metadata", async () => {
     let inserted: Record<string, unknown> | undefined;
     const query = {
       select: vi.fn(() => query),
@@ -237,12 +302,17 @@ describe("repository security boundaries", () => {
     const sitemap = readFileSync("public/sitemap.xml", "utf8");
     const vercel = readFileSync("vercel.json", "utf8");
     const workspace = readFileSync("api/workspaces/[workspaceId].ts", "utf8");
+    const checkout = readFileSync("api/checkout.ts", "utf8");
     const migration = readFileSync("supabase/migrations/202607240001_premium_system_foundation.sql", "utf8");
+    const stripeMigration = readFileSync("supabase/migrations/202607270002_stripe_prelaunch_hardening.sql", "utf8");
     expect(sitemap).not.toMatch(/\/app|\/account|\/sign-in|\/access-processing/);
     expect(vercel).toContain('"source": "/app/(.*)"');
     expect(vercel).toContain("noindex, nofollow, noarchive");
     expect(workspace).toContain('.eq("user_id", user.id)');
+    expect(checkout).toContain("integration_identifier");
+    expect(checkout).not.toContain("payment_method_types");
     expect(migration).toContain("workspaces_select_own_entitled");
     expect(migration).toContain("revoke all on public.entitlements from anon, authenticated");
+    expect(stripeMigration).toContain("last_stripe_event_created_at");
   });
 });

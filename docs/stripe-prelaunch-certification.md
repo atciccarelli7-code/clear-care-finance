@@ -4,9 +4,9 @@ Last updated: July 27, 2026
 
 ## Purpose
 
-This document is the source of truth for payment readiness of the **Healthcare Worker Benefits Decision System**. It records what is implemented, what was verified externally, what remains unverified, and the exact founder-controlled activation path.
+This document is the payment-readiness source of truth for the **Healthcare Worker Benefits Decision System**. It records the implemented authority boundaries, provider evidence, remaining external gates, rollback procedure, and founder-controlled activation path.
 
-This document does not authorize commerce. The public site must continue to state that checkout is disabled until the founder completes the separate launch decision.
+This document does not authorize commerce. Checkout and production authorization remain disabled until a separate founder launch decision.
 
 ## Certified product mapping
 
@@ -24,25 +24,25 @@ This document does not authorize commerce. The public site must continue to stat
 | Stripe object mode | Live |
 | Product release metadata | `prelaunch` |
 
-Provider inspection on July 27, 2026 confirmed that the product and price are active, the price is one-time, the amount is 2,900 cents USD, the product and price share the canonical product-key metadata, and no second active Stripe product exists in the connected account.
+Provider inspection on July 27, 2026 confirmed that the Product and Price are active, the Price is one-time, the amount is 2,900 cents USD, the Product and Price share the canonical product-key metadata, and no second active Stripe Product exists in the connected account.
 
-The existence of live objects is not authorization to use them. Live Checkout requires both founder-controlled server flags and complete external validation.
+The existence of live objects does not authorize their use. Live Checkout requires complete external validation and both founder-controlled server flags.
 
-## Implemented payment boundary
+## Checkout authority boundary
 
-`POST /api/checkout` now:
+`POST /api/checkout`:
 
 1. accepts only `POST`;
 2. applies private, no-store, noindex headers;
-3. checks the browser origin;
-4. fails closed unless authentication, entitlement enforcement, Supabase, Stripe, and checkout flags are configured safely;
+3. enforces the configured browser origin;
+4. fails closed unless authentication, entitlement enforcement, Supabase, Stripe, and checkout controls are safe;
 5. requires a verified Supabase user;
 6. accepts an object containing exactly one field: the canonical `productKey`;
 7. rejects client-supplied prices, amounts, currencies, return URLs, customer IDs, entitlement states, and all additional fields;
 8. retrieves the configured Stripe Price server-side and expands its Product;
 9. verifies exact mode, Product ID, Price ID, active state, one-time type, currency, amount, name, and metadata;
 10. validates or creates the Stripe Customer associated with the authenticated application user;
-11. blocks duplicate purchases for an already active entitlement and recent duplicate processing attempts;
+11. blocks duplicate purchases for active access and recent duplicate processing attempts;
 12. creates a Stripe-hosted Checkout Session with dynamic payment methods;
 13. includes a random-suffixed Stripe `integration_identifier`;
 14. places only the application user ID, canonical product key, and environment in Stripe metadata;
@@ -50,31 +50,33 @@ The existence of live objects is not authorization to use them. Live Checkout re
 16. records only a non-authoritative `processing` entitlement before payment confirmation;
 17. returns only the hosted Checkout URL or a bounded customer-safe error.
 
-A test-mode checkout initiation no longer produces a `test` entitlement. Test access is granted only after a verified successful test payment event or an explicit trusted administrative test grant.
+A test-mode Checkout initiation no longer produces a `test` entitlement. Test access requires a verified successful Stripe test payment event or an explicit trusted administrative test grant.
 
-## Webhook boundary
+## Webhook authority boundary
 
 `POST /api/stripe/webhook`:
 
 - receives the raw request body;
-- verifies the `Stripe-Signature` before parsing authority-bearing data;
-- validates Stripe mode before any entitlement transition;
+- verifies the `Stripe-Signature` before processing authority-bearing data;
+- validates Stripe mode before an entitlement transition;
 - claims each Stripe event ID under a unique database key;
 - acknowledges already processed or concurrently claimed duplicates without repeating fulfillment;
 - allows a failed event to be retried by only one worker;
-- retrieves Checkout Sessions from Stripe rather than trusting the webhook copy;
-- validates the exact session, line item, Product, Price, amount, currency, PaymentIntent, Customer, metadata, and environment relationships;
+- retrieves Checkout Sessions and necessary linked objects from Stripe rather than trusting the webhook copy;
+- validates the Session, Customer, line item, Product, Price, amount, currency, PaymentIntent, metadata, and environment relationships;
+- validates refund Charge and PaymentIntent relationships;
+- prevents an older failure from revoking a newer Checkout attempt;
 - records only stable bounded failure codes rather than full provider payloads;
-- applies ordered entitlement transitions so stale webhook events cannot overwrite a newer authoritative state.
+- applies ordered entitlement transitions so stale events cannot overwrite newer authoritative state.
 
-### Subscribed event contract
+### Event contract
 
 | Stripe event | Required behavior |
 |---|---|
 | `checkout.session.completed` | Grant only when `payment_status=paid`; otherwise remain processing |
-| `checkout.session.async_payment_succeeded` | Grant after complete object validation |
-| `checkout.session.async_payment_failed` | Revoke only non-valid processing access |
-| `payment_intent.payment_failed` | Revoke only non-valid processing access after metadata and amount validation |
+| `checkout.session.async_payment_succeeded` | Grant after full object validation |
+| `checkout.session.async_payment_failed` | Revoke only the matching non-valid processing attempt |
+| `payment_intent.payment_failed` | Revoke only the matching non-valid processing attempt |
 | `charge.refunded` | Remove access only for a verified full refund |
 | Any other event | Record as ignored; do not change access |
 
@@ -87,26 +89,26 @@ Events from the wrong Stripe mode are acknowledged as ignored and cannot mutate 
 | none | Checkout initiated | `processing` |
 | processing | Verified live payment success | `active` |
 | processing | Verified test payment success | `test` |
-| processing | Payment failure | `revoked` |
+| processing | Matching payment failure | `revoked` |
 | active/test | Later unrelated payment failure | Preserve valid access |
 | active/test | Verified full refund | `refunded` |
 | active/test | Administrative revocation | `revoked` |
-| refunded/revoked | Verified legitimate repurchase | `active` or `test` according to Stripe mode |
+| refunded/revoked | Verified legitimate repurchase | `active` or `test` according to mode |
 | any | Duplicate Stripe event ID | No second transition |
-| any | Stale Stripe event | Ignore transition |
-| any | Invalid signature, product, price, amount, currency, mode, metadata, or relationship | No access change |
+| any | Stale or mismatched event | Ignore transition |
+| any | Invalid signature, object, amount, currency, mode, metadata, or relationship | No access change |
 
-A partial refund does not change entitlement status in the first release. It is recorded as an ignored access event. Any future partial-refund policy requires a separate approved business rule and implementation change.
+A partial refund does not change access in the first release. Any future partial-refund access rule requires an approved policy and implementation change.
 
 ## Database hardening
 
-Migration:
+The version-controlled migration exactly matches the version recorded by Supabase:
 
 ```text
-supabase/migrations/202607270002_stripe_prelaunch_hardening.sql
+supabase/migrations/20260727185507_stripe_prelaunch_hardening.sql
 ```
 
-Applied to the owner-controlled Supabase project as:
+Applied migration:
 
 ```text
 20260727185507 stripe_prelaunch_hardening
@@ -119,14 +121,14 @@ It adds:
 - a constraint requiring the event-order fields to be present or absent together;
 - a partial index supporting event-order reconciliation.
 
-Existing unique protections remain in place for:
+Existing unique protections remain for:
 
 - `(user_id, product_key)`;
 - Stripe Checkout Session ID when present;
 - Stripe PaymentIntent ID when present;
 - Stripe event ID.
 
-RLS remains enabled on every public premium table. Ordinary authenticated users cannot write entitlements or access Stripe events, products, protected modules, or premium administrators directly.
+RLS remains enabled on every public premium table. Ordinary authenticated users cannot write entitlements or directly access Stripe events, products, protected modules, or premium administrators.
 
 ## Environment-variable contract
 
@@ -158,7 +160,7 @@ STRIPE_PRODUCT_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM
 STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM
 ```
 
-Prefer a restricted Stripe key when its permissions support the required Product, Price, Customer, and Checkout Session operations. Standard Stripe secret keys remain supported when a restricted key cannot satisfy the integration.
+Prefer a restricted Stripe key when its permissions support Product read, Price read, Customer read/write, Checkout Session read/write, and PaymentIntent read. A standard secret key remains supported when a restricted key cannot satisfy the required operations.
 
 ### Founder-controlled release flags
 
@@ -171,7 +173,7 @@ PREMIUM_PRODUCTION_CHECKOUT_AUTHORIZED
 VITE_PREMIUM_AUTH_ENABLED
 ```
 
-Safe production defaults remain:
+Safe production defaults:
 
 ```text
 PREMIUM_AUTH_ENABLED=false
@@ -190,61 +192,64 @@ VITE_PREMIUM_DEV_MOCK_AUTH=false
 |---|---|
 | Stripe account and business onboarding | Founder reports complete |
 | Live Product and Price | Verified |
-| Duplicate active Stripe products | None found |
-| Hosted Stripe webhook endpoint | Not present |
-| Hosted webhook signing secret in Vercel | Unverified / not configured through available tooling |
-| Vercel Stripe environment variables | Values not readable or writable through the connected Vercel tools used in this pass |
+| Duplicate active Stripe Products | None found |
+| Hosted Stripe webhook endpoints | None present |
+| Hosted webhook signing secret in Vercel | Not configured through available tooling |
+| Vercel Stripe environment variables | Values not readable or writable through the connected actions used in this pass |
 | Stripe test Product and Price | Unverified |
 | Stripe test end-to-end transaction matrix | Not completed |
-| Stripe Tax registration | Not confirmed |
-| Automatic tax | Not enabled |
+| Stripe Tax registrations | None present in the connected account |
+| Automatic tax | Disabled |
 | Public checkout | Disabled |
 | Production authorization | Disabled |
 
-Do not create a hosted webhook endpoint until its returned signing secret can be installed immediately in the correct Vercel environment. An endpoint without durable secret configuration is not a completed integration.
+Do not create a hosted webhook endpoint until its returned signing secret can be installed immediately in the correct Vercel environment. An endpoint without durable secret configuration is incomplete.
 
 ## Test evidence
 
-### Completed automated and provider-backed evidence
+### Completed
 
 - exact live Stripe Product and Price inspection;
 - no duplicate active Product inspection;
+- confirmation that the connected account has no Tax registrations;
 - checkout request allowlist tests;
-- exact Product/Price validation tests;
-- test-checkout-does-not-grant-access regression test;
-- immediate, pending, failed, refund, ignored, duplicate, and retry transition unit tests;
+- exact Product, Price, Customer, Session, PaymentIntent, Charge, amount, currency, mode, and metadata validation tests;
+- regression test proving test Checkout initiation does not grant access;
+- immediate, pending, failed, refund, ignored, duplicate, retry, stale-attempt, and relationship transition tests;
 - partial-versus-full refund tests;
 - private-route and client-bundle boundary checks;
-- Supabase migration application and constraint verification;
+- Supabase migration application, history alignment, constraint verification, and clear security advisors;
 - existing two-user RLS/IDOR matrix: 14 of 14 checks passed;
-- Vercel preview build on PR #224 reached `READY`;
-- preview public product page returned HTTP 200 and continued to state that checkout is disabled.
+- CI, production build, unit, premium browser/mobile/print/accessibility, and decision-journey workflows on the PR branch;
+- Vercel preview deployment reached `READY`;
+- preview public product page continued to state that checkout is disabled;
+- no grouped production runtime errors for the payment/access routes in the available seven-day window.
 
-### Required before certification as payment-ready
+### Required before payment-ready certification
 
 - configure an isolated Stripe test Product, Price, restricted key, and hosted test webhook;
 - install test values in the correct Vercel preview scope;
 - enable authentication, persistence, entitlements, and checkout only in the controlled test scope;
-- run immediate success, authentication-required, declined, asynchronous success, asynchronous failure, cancellation, browser-close, duplicate, failed-retry, refund, revocation, and repurchase tests;
-- verify workspace and protected-content access before and after each entitlement transition;
-- inspect Vercel, Stripe, and Supabase logs;
-- remove all synthetic test users and records or preserve only approved test fixtures;
+- run immediate success, authentication-required, declined, asynchronous success/failure, cancellation, browser-close, duplicate, failed-retry, refund, revocation, and repurchase tests;
+- verify workspace and protected-content access before and after each transition;
+- inspect Stripe, Vercel, and Supabase logs;
+- remove synthetic test users and records or preserve only approved fixtures;
 - return all production flags to disabled values.
 
-## Tax decision
+## Tax gate
 
-Stripe automatic tax remains disabled. Before tax calculation or collection is enabled, the founder must confirm the applicable registration and product tax treatment with qualified guidance and then configure Stripe Tax consistently. Account verification alone is not evidence of a tax registration.
+Stripe returned no active, scheduled, or expired Tax registrations for the connected account. Automatic tax therefore remains disabled. Before tax calculation or collection is enabled, the founder must obtain qualified guidance, complete any required registration, select the correct product tax treatment, and configure Stripe Tax consistently.
 
 ## Rollback procedure
 
-If the hardening release causes an unexpected application defect:
+If the hardening release causes an unexpected defect:
 
-1. immediately confirm `PREMIUM_CHECKOUT_ENABLED=false` and `PREMIUM_PRODUCTION_CHECKOUT_AUTHORIZED=false`;
+1. confirm `PREMIUM_CHECKOUT_ENABLED=false` and `PREMIUM_PRODUCTION_CHECKOUT_AUTHORIZED=false`;
 2. roll Vercel production back to the prior known-good deployment;
-3. do not remove the Stripe event-order columns during an incident; they are nullable and backward compatible;
-4. inspect Vercel function logs and `stripe_events` status rows;
-5. leave failed events available for controlled retry after the code defect is repaired;
-6. add a versioned follow-up migration for any database correction rather than editing an applied migration;
+3. do not remove the nullable Stripe event-order columns during an incident;
+4. inspect Vercel function logs and `stripe_events` statuses;
+5. leave failed events available for controlled retry after repair;
+6. use a new versioned migration for any database correction;
 7. verify public routes and private fail-closed behavior before ending containment.
 
 ## Founder activation runbook
@@ -258,28 +263,21 @@ Activation is a separate controlled release.
 - protected content is governed and seeded;
 - authentication, account deletion, persistence, cross-device resume, and revocation are externally validated;
 - live webhook endpoint is configured and signature verification is proven;
-- all production secrets are present only in encrypted server scopes.
+- production secrets exist only in encrypted server scopes.
 
 ### 2. Policy approval
 
-The founder approves final:
-
-- price;
-- customer terms;
-- refund policy, including any partial-refund rule;
-- privacy and retention policy;
-- support owner and response process;
-- product content and accessibility evidence.
+The founder approves final price, terms, refund and partial-refund policy, privacy and retention, support process, product content, and accessibility evidence.
 
 ### 3. Tax decision
 
-Confirm whether registration and collection are required. Enable Stripe Tax only after applicable registration is active and product tax treatment is configured.
+Determine registration and collection obligations with qualified guidance. Enable Stripe Tax only after applicable registrations and product treatment are configured.
 
 ### 4. Public-copy release
 
-Change the product page from early-access/prelaunch language to an active offer only after all other gates pass. Display price, terms, refund policy, privacy, support, and what the customer receives.
+Change early-access copy to an active offer only after all other gates pass. Display price, terms, refund policy, privacy, support, and the exact customer deliverable.
 
-### 5. Configure live payment infrastructure while checkout remains off
+### 5. Configure live infrastructure while checkout remains off
 
 - set `STRIPE_ENVIRONMENT=live`;
 - install the approved restricted or secret live key;
@@ -291,15 +289,7 @@ Change the product page from early-access/prelaunch language to an active offer 
 
 ### 6. Controlled first transaction
 
-After written founder approval, set `PREMIUM_CHECKOUT_ENABLED=true` for the controlled release. Complete one founder-approved transaction and verify:
-
-- Stripe payment success;
-- signed webhook delivery;
-- one entitlement only;
-- protected application access;
-- receipt and support details;
-- refund and revocation behavior;
-- clean provider and runtime logs.
+After written founder authorization, set `PREMIUM_CHECKOUT_ENABLED=true` for the controlled release. Complete one approved transaction and verify payment, signed webhook delivery, one entitlement only, protected access, receipt/support details, refund/revocation, and clean logs.
 
 ### 7. Monitor and roll back
 
@@ -309,4 +299,4 @@ Monitor the first transactions closely. If any fulfillment, duplicate, refund, p
 
 **Hardened Stripe prelaunch backend under external test validation.**
 
-The code and live database have been strengthened, and the canonical live Stripe Product and Price are verified. The system is not yet certified as fully payment-ready because hosted webhook configuration, Vercel secret configuration, and the full Stripe test-mode transaction matrix remain unverified. Public checkout and real customer charging remain disabled.
+The code and live database are strengthened, and the canonical live Stripe Product and Price are verified. The system is not certified as fully payment-ready because hosted webhook configuration, Vercel secret configuration, and the full Stripe test-mode transaction matrix remain unverified. Public checkout and real customer charging remain disabled.

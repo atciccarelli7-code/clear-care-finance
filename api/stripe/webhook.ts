@@ -8,6 +8,7 @@ import {
   assertPaymentIntent,
   assertStripeMode,
   stableStripeErrorCode,
+  stripeObjectId,
 } from "../_lib/stripeValidation.js";
 import { getSupabaseAdmin } from "../_lib/supabase.js";
 import {
@@ -73,6 +74,13 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     if (action.kind === "refund") {
       const charge = event.data.object as Stripe.Charge;
       assertCharge(charge, premium.stripe.environment);
+      const paymentIntentId = stripeObjectId(charge.payment_intent);
+      if (!paymentIntentId) throw new Error("missing_payment_intent");
+      const intent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      assertPaymentIntent(intent, premium.stripe.environment, product.productKey);
+      if (stripeObjectId(charge.customer) !== stripeObjectId(intent.customer)) {
+        throw new Error("stripe_customer_relationship_mismatch");
+      }
       const result = await applyRefundEvent(admin, charge, event);
       if (result === "partial_refund_ignored") {
         await finishStripeEvent(admin, event.id, "ignored", "partial_refund_no_access_change");
@@ -85,7 +93,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     } else {
       const incoming = event.data.object as Stripe.Checkout.Session;
       const session = await stripe.checkout.sessions.retrieve(incoming.id, {
-        expand: ["line_items.data.price.product", "payment_intent"],
+        expand: ["customer", "line_items.data.price.product", "payment_intent"],
       });
       assertCheckoutSession({
         session,

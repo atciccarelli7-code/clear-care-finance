@@ -12,6 +12,7 @@ import { actionForStripeEvent, applyCheckoutEvent, claimStripeEvent } from "../.
 import { assertStripePrice, isFullRefund, parseCheckoutRequest } from "../../../api/_lib/stripeValidation";
 
 const original = { ...process.env };
+
 afterEach(() => {
   process.env = { ...original };
   vi.restoreAllMocks();
@@ -117,7 +118,11 @@ describe("API denial states", () => {
 
   it("keeps checkout disabled and rejects invalid webhook signatures", async () => {
     const checkout = response();
-    await checkoutHandler({ method: "POST", headers: { origin: "https://communityacquiredfinance.com" }, body: { productKey: "healthcare-worker-benefits-decision-system" } }, checkout.res);
+    await checkoutHandler({
+      method: "POST",
+      headers: { origin: "https://communityacquiredfinance.com" },
+      body: { productKey: "healthcare-worker-benefits-decision-system" },
+    }, checkout.res);
     expect(checkout.capture.status).toBe(503);
     expect(checkout.capture.body).toMatchObject({ code: "checkout_disabled" });
 
@@ -159,9 +164,16 @@ describe("API denial states", () => {
 
 describe("Stripe request and object validation", () => {
   it("accepts only the canonical checkout request field", () => {
-    expect(parseCheckoutRequest({ productKey: "healthcare-worker-benefits-decision-system" })).toBe("healthcare-worker-benefits-decision-system");
-    expect(() => parseCheckoutRequest({ productKey: "healthcare-worker-benefits-decision-system", amount: 1 })).toThrow("invalid_checkout_request");
-    expect(() => parseCheckoutRequest({ productKey: "healthcare-worker-benefits-decision-system", successUrl: "https://attacker.example" })).toThrow("invalid_checkout_request");
+    expect(parseCheckoutRequest({ productKey: "healthcare-worker-benefits-decision-system" }))
+      .toBe("healthcare-worker-benefits-decision-system");
+    expect(() => parseCheckoutRequest({
+      productKey: "healthcare-worker-benefits-decision-system",
+      amount: 1,
+    })).toThrow("invalid_checkout_request");
+    expect(() => parseCheckoutRequest({
+      productKey: "healthcare-worker-benefits-decision-system",
+      successUrl: "https://attacker.example",
+    })).toThrow("invalid_checkout_request");
   });
 
   it("validates the exact expanded Stripe product and price", () => {
@@ -212,11 +224,20 @@ describe("entitlement and webhook transitions", () => {
   });
 
   it("maps successful, pending, failed, refund, and ignored events without browser authority", () => {
-    expect(actionForStripeEvent({ type: "checkout.session.completed", data: { object: { payment_status: "paid", livemode: false } } } as never)).toMatchObject({ kind: "checkout", transition: { type: "grant", test: true } });
-    expect(actionForStripeEvent({ type: "checkout.session.completed", data: { object: { payment_status: "unpaid", livemode: false } } } as never)).toMatchObject({ kind: "checkout", transition: { type: "mark_processing" } });
-    expect(actionForStripeEvent({ type: "checkout.session.async_payment_failed", data: { object: {} } } as never)).toMatchObject({ transition: { type: "payment_failed" } });
-    expect(actionForStripeEvent({ type: "charge.refunded", data: { object: {} } } as never)).toMatchObject({ kind: "refund" });
-    expect(actionForStripeEvent({ type: "customer.created", data: { object: {} } } as never)).toEqual({ kind: "ignore" });
+    expect(actionForStripeEvent({
+      type: "checkout.session.completed",
+      data: { object: { payment_status: "paid", livemode: false } },
+    } as never)).toMatchObject({ kind: "checkout", transition: { type: "grant", test: true } });
+    expect(actionForStripeEvent({
+      type: "checkout.session.completed",
+      data: { object: { payment_status: "unpaid", livemode: false } },
+    } as never)).toMatchObject({ kind: "checkout", transition: { type: "mark_processing" } });
+    expect(actionForStripeEvent({ type: "checkout.session.async_payment_failed", data: { object: {} } } as never))
+      .toMatchObject({ transition: { type: "payment_failed" } });
+    expect(actionForStripeEvent({ type: "charge.refunded", data: { object: {} } } as never))
+      .toMatchObject({ kind: "refund" });
+    expect(actionForStripeEvent({ type: "customer.created", data: { object: {} } } as never))
+      .toEqual({ kind: "ignore" });
   });
 
   it("treats duplicate webhook event IDs as idempotent success", async () => {
@@ -227,7 +248,10 @@ describe("entitlement and webhook transitions", () => {
       maybeSingle: vi.fn().mockResolvedValue({ data: { processing_status: "processed" }, error: null }),
     };
     const admin = { from: () => query };
-    await expect(claimStripeEvent(admin as never, { id: "evt_test", type: "checkout.session.completed" })).resolves.toBe("duplicate");
+    await expect(claimStripeEvent(admin as never, {
+      id: "evt_test",
+      type: "checkout.session.completed",
+    })).resolves.toBe("duplicate");
   });
 
   it("allows exactly one worker to retry a previously failed webhook event", async () => {
@@ -241,8 +265,14 @@ describe("entitlement and webhook transitions", () => {
         .mockResolvedValueOnce({ data: { stripe_event_id: "evt_retry" }, error: null }),
     };
     const admin = { from: () => query };
-    await expect(claimStripeEvent(admin as never, { id: "evt_retry", type: "checkout.session.completed" })).resolves.toBe("claimed");
-    expect(query.update).toHaveBeenCalledWith(expect.objectContaining({ processing_status: "processing", error_message: null }));
+    await expect(claimStripeEvent(admin as never, {
+      id: "evt_retry",
+      type: "checkout.session.completed",
+    })).resolves.toBe("claimed");
+    expect(query.update).toHaveBeenCalledWith(expect.objectContaining({
+      processing_status: "processing",
+      error_message: null,
+    }));
   });
 
   it("grants one test entitlement only from verified successful checkout metadata", async () => {
@@ -304,7 +334,8 @@ describe("repository security boundaries", () => {
     const workspace = readFileSync("api/workspaces/[workspaceId].ts", "utf8");
     const checkout = readFileSync("api/checkout.ts", "utf8");
     const migration = readFileSync("supabase/migrations/202607240001_premium_system_foundation.sql", "utf8");
-    const stripeMigration = readFileSync("supabase/migrations/202607270002_stripe_prelaunch_hardening.sql", "utf8");
+    const stripeMigration = readFileSync("supabase/migrations/20260727185507_stripe_prelaunch_hardening.sql", "utf8");
+
     expect(sitemap).not.toMatch(/\/app|\/account|\/sign-in|\/access-processing/);
     expect(vercel).toContain('"source": "/app/(.*)"');
     expect(vercel).toContain("noindex, nofollow, noarchive");

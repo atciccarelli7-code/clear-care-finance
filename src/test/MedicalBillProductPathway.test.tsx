@@ -32,17 +32,18 @@ describe("MedicalBillProductPathway", () => {
     );
 
     expect(screen.getByRole("heading", { name: /turn this explanation into a working medical-bill file/i })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /preview sample pages/i }));
-    expect(openMock).toHaveBeenCalledWith(
-      "/downloads/expanded-medical-bill-response-workbook-preview.html",
-      "_blank",
-      "noopener,noreferrer",
-    );
-    expect(screen.getByRole("link", { name: /use the free response system/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /use the response system/i })).toHaveAttribute(
       "href",
       "/insurance/medical-bill-review-toolkit",
     );
+    fireEvent.click(screen.getByRole("button", { name: /open the printable response pack/i }));
+    expect(openMock).toHaveBeenCalledWith(
+      "/downloads/medical-bill-response-pack.html",
+      "_blank",
+      "noopener,noreferrer",
+    );
     expect(screen.queryByRole("textbox", { name: /email/i })).not.toBeInTheDocument();
+    expect(screen.queryByText(/preview|checkout|early access|audience validation|private build/i)).not.toBeInTheDocument();
     expect(trackSiteEvent).toHaveBeenCalledWith(
       "medical_bill_product_pathway_view",
       expect.objectContaining({ source: "article-how-to-read-an-eob", pathway_variant: "supporting" }),
@@ -80,7 +81,7 @@ describe("MedicalBillProductPathway", () => {
     );
     expect(payload).not.toHaveProperty("claimNumber");
     expect(payload).not.toHaveProperty("diagnosis");
-    expect(await screen.findByText(/check your inbox for the first response email/i)).toBeInTheDocument();
+    expect(await screen.findByText(/check your inbox for the first medical-bill response email/i)).toBeInTheDocument();
     expect(trackSiteEvent).toHaveBeenCalledWith(
       "medical_bill_email_sequence_start",
       expect.objectContaining({ sequence_status: "first_email_only" }),

@@ -47,7 +47,7 @@ Official references:
 
 - Main navigation remains clear and functional.
 - Prelaunch product links were removed from global header and footer navigation so the approval crawler is not directed toward checkout-disabled or pilot-status product surfaces from every page.
-- Product routes remain available for intentional review and development; this change does not delete or conceal the underlying work.
+- The general `/products` index now permanently redirects to the complete free tools library. The detailed benefits-system preview remains available for intentional product-development review.
 
 ## Changes implemented
 
@@ -56,6 +56,7 @@ Official references:
 - Replaced repeated global disclaimer boilerplate with a concise linked disclosure.
 - Refocused the footer description on CAF's RN-led healthcare-finance differentiation.
 - Removed prelaunch products and organization-facing routes from global navigation.
+- Removed the unfinished product index from the canonical sitemap through a permanent redirect to `/tools`.
 
 ## Pre-review checklist
 

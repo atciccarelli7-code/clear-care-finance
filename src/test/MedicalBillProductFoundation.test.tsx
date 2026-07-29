@@ -15,44 +15,38 @@ describe("Medical Bill Product Foundation", () => {
     vi.stubGlobal("open", openMock);
   });
 
-  it("keeps checkout disabled and routes users to free resources and sample actions", () => {
+  it("presents complete free resources without public development or checkout language", () => {
     render(
       <MemoryRouter>
         <MedicalBillProductFoundation />
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("heading", { name: /expanded medical bill response workbook/i })).toBeInTheDocument();
-    expect(screen.getByText(/checkout is intentionally disabled/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /organize a confusing medical bill before you pay or escalate it/i })).toBeInTheDocument();
+    expect(screen.getByText(/no account or document upload required/i)).toBeInTheDocument();
+    expect(screen.queryByText(/early access|checkout|audience validation|private build|in development/i)).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /buy|purchase|checkout|pay/i })).not.toBeInTheDocument();
     expect(screen.queryByText(/^\$24$/)).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: /preview sample pages/i }));
-    expect(openMock).toHaveBeenCalledWith(
-      "/downloads/expanded-medical-bill-response-workbook-preview.html",
-      "_blank",
-      "noopener,noreferrer",
-    );
-    expect(trackSiteEvent).toHaveBeenCalledWith(
-      "premium_product_preview",
-      expect.objectContaining({ offer_id: "expanded_medical_bill_response_workbook" }),
-    );
-
-    expect(screen.getByRole("link", { name: /use the free response system/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /use the response system/i })).toHaveAttribute(
       "href",
       "/insurance/medical-bill-review-toolkit",
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /open the free pack/i }));
+    fireEvent.click(screen.getByRole("button", { name: /open the printable response pack/i }));
     expect(openMock).toHaveBeenCalledWith(
       "/downloads/medical-bill-response-pack.html",
       "_blank",
       "noopener,noreferrer",
     );
+    expect(trackSiteEvent).toHaveBeenCalledWith(
+      "free_pack_download",
+      expect.objectContaining({ asset_id: "medical_bill_response_pack" }),
+    );
     expect(screen.getByText(/do not send bills, account numbers, diagnoses, member IDs, claim numbers/i)).toBeInTheDocument();
   });
 
-  it("requires consent and submits only early-access fields through the established API", async () => {
+  it("requires consent and submits privacy-minimized educational signup fields", async () => {
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockResolvedValue({
       ok: true,
@@ -66,12 +60,12 @@ describe("Medical Bill Product Foundation", () => {
     );
 
     fireEvent.change(screen.getByLabelText(/^email$/i), { target: { value: "reader@example.com" } });
-    fireEvent.click(screen.getByRole("button", { name: /join early access/i }));
+    fireEvent.click(screen.getByRole("button", { name: /get medical-bill updates/i }));
     expect(await screen.findByText(/check the consent box/i)).toBeInTheDocument();
     expect(fetchMock).not.toHaveBeenCalled();
 
     fireEvent.click(screen.getByRole("checkbox"));
-    fireEvent.click(screen.getByRole("button", { name: /join early access/i }));
+    fireEvent.click(screen.getByRole("button", { name: /get medical-bill updates/i }));
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
     const [url, request] = fetchMock.mock.calls[0];
@@ -81,14 +75,14 @@ describe("Medical Bill Product Foundation", () => {
       expect.objectContaining({
         email: "reader@example.com",
         consent: true,
-        source: "newsletter-medical-bill-workbook",
+        source: "newsletter-medical-bill-resources",
         type: "medical-bill-product-interest",
       }),
     );
     expect(payload).not.toHaveProperty("claim");
     expect(payload).not.toHaveProperty("amount");
     expect(payload).not.toHaveProperty("diagnosis");
-    expect(await screen.findByText(/your interest was saved/i)).toBeInTheDocument();
+    expect(await screen.findByText(/your signup was saved/i)).toBeInTheDocument();
     expect(trackSiteEvent).toHaveBeenCalledWith(
       "premium_interest_submit",
       expect.objectContaining({ offer_id: "expanded_medical_bill_response_workbook" }),

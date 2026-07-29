@@ -6,6 +6,7 @@
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "communityaqcuiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityaqcuiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityacquiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
+    { "source": "/products", "destination": "/tools", "permanent": true },
     { "source": "/products/healthcare-worker-benefits-decision-pack", "destination": "/products/healthcare-worker-benefits-decision-system", "permanent": true },
     { "source": "/app", "destination": "/app/benefits-decision", "permanent": false },
     { "source": "/premium/access", "destination": "/sign-in", "permanent": true },

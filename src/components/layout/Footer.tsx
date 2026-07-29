@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { DISCLAIMER_TEXT } from "@/components/shared/DisclaimerBox";
 import { openPrivacyChoices } from "@/lib/privacyConsent";
 
 const LogoMark = () => (
@@ -17,7 +16,6 @@ const linkGroups = [
     title: "Explore",
     links: [
       { to: "/start-here", label: "Start Here" },
-      { to: "/products", label: "Products" },
       { to: "/tools", label: "Financial Tools" },
       { to: "/build-wealth", label: "Money & Retirement" },
       { to: "/insurance", label: "Benefits & Insurance" },
@@ -42,7 +40,6 @@ const linkGroups = [
     links: [
       { to: "/about", label: "About" },
       { to: "/contact", label: "Contact" },
-      { to: "/for-organizations", label: "For Organizations" },
       { to: "/methodology", label: "Sources & Methodology" },
       { to: "/editorial-policy", label: "Editorial Policy" },
       { to: "/disclosures", label: "Disclosures" },
@@ -63,7 +60,7 @@ export const Footer = () => {
             <span className="min-w-0 break-words">Community Acquired Finance</span>
           </Link>
           <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Plain-English financial education for everyone, with specialized clarity around healthcare costs, insurance, Medicare, and Medicaid.
+            RN-led financial decision support for healthcare workers, patients, families, and caregivers.
           </p>
           <p className="text-xs text-muted-foreground">Written by Andrew Ciccarelli, RN, BSN.</p>
         </div>
@@ -87,7 +84,12 @@ export const Footer = () => {
       <div className="border-t border-border">
         <div className="container space-y-3 py-6 text-xs text-muted-foreground">
           <p>
-            <strong className="text-foreground">Disclaimer:</strong> {DISCLAIMER_TEXT}
+            <strong className="text-foreground">Educational only.</strong>{" "}
+            CAF provides general information, not individualized financial, medical, legal, tax, insurance, billing, employment, or benefits advice.{" "}
+            <Link to="/disclosures" className="font-semibold text-primary underline-offset-4 hover:underline">
+              Review disclosures and limitations
+            </Link>
+            .
           </p>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <p>© {new Date().getFullYear()} Community Acquired Finance. All rights reserved.</p>

@@ -10,5 +10,11 @@ Disallow: /api/workspaces
 Disallow: /api/checkout
 Disallow: /api/stripe
 
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Google-Display-Ads-Bot
+Allow: /
+
 Sitemap: https://communityacquiredfinance.com/sitemap.xml
 Host: communityacquiredfinance.com

@@ -45,7 +45,17 @@ if (vercelConfig.rewrites?.some((rewrite) => rewrite.destination === "/index.htm
 }
 if (sitemap.includes("/app") || sitemap.includes("/account") || sitemap.includes("/sign-in") || sitemap.includes("/access-processing")) failures.push("A private route appears in the public sitemap.");
 if (sitemap.includes("/products/healthcare-worker-benefits-decision-pack")) failures.push("The retired product route appears in the public sitemap.");
-if (!sitemap.includes("/products/healthcare-worker-benefits-decision-system")) failures.push("The canonical public product route is missing from the sitemap.");
+
+const canonicalProductRoute = "/products/healthcare-worker-benefits-decision-system";
+const productPageIsPublic = sitemap.includes(canonicalProductRoute);
+const productPageIsParked = vercelConfig.redirects?.some((redirect) =>
+  redirect.source === canonicalProductRoute
+  && redirect.destination === "/healthcare-workers"
+  && redirect.permanent === true,
+);
+if (!productPageIsPublic && !productPageIsParked) failures.push("The premium product route must be public or deliberately parked behind a permanent redirect.");
+if (productPageIsPublic && productPageIsParked) failures.push("The parked premium product route must not also appear in the sitemap.");
+
 if (/VITE_(?:SUPABASE_SERVICE_ROLE_KEY|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET)/.test(envExample)) failures.push(".env.example exposes a server secret through VITE_.");
 
 if (failures.length) {

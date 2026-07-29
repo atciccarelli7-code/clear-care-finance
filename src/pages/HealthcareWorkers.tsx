@@ -83,13 +83,6 @@ const HealthcareWorkers = () => {
               href: "/tools/employer-benefits-action-plan",
               cta: "Build the action plan",
             },
-            {
-              eyebrow: "Interactive system preview",
-              title: "Healthcare Worker Benefits Decision System",
-              description: "Preview the account-based comparison workflow and join the early-access list. Checkout is not active and no payment is collected.",
-              href: "/products/healthcare-worker-benefits-decision-system",
-              cta: "See how the system works",
-            },
           ]}
         />
       </section>

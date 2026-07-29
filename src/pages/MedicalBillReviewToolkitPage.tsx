@@ -312,7 +312,7 @@ const officialSources = [
   ],
 ] as const;
 
-const packPath = "/downloads/medical-bill-response-pack.html";
+const packPath = "/downloads/medical-bill-response-pack";
 
 const MedicalBillReviewToolkitPage = () => {
   const [selectedId, setSelectedId] = useState<RouteId | null>(null);

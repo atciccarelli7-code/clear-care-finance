@@ -249,15 +249,10 @@ test("Hospital and Patient Guide mode routes to blood thinner and oxygen safety 
   await certifyPage(page, watch);
 });
 
-test("Organization page preserves the B2B pause and hands visitors to the immediate-need guide", async ({ page }) => {
+test("About page presents publisher identity without retired sales inventory", async ({ page }) => {
   const watch = installHealthWatch(page);
-  await visit(page, "/for-organizations");
-  await expect(page.getByRole("heading", { level: 1, name: /Healthcare financial education without private records/i })).toBeVisible();
-  await expect(page.getByRole("heading", { name: /Institutional patient-education sales are paused/i })).toBeVisible();
-  await expect(page.getByText(/not currently offering a hospital pilot/i)).toBeVisible();
-  await expect(page.getByRole("button", { name: /Build program brief/i })).toHaveCount(0);
-  await page.getByRole("link", { name: /Review the consumer guide library/i }).click();
-  await expect(page).toHaveURL(/\/patients-families\/hospital-guide$/);
-  await expect(page.getByRole("heading", { level: 1, name: /What do you need help with right now/i })).toBeVisible();
+  await visit(page, "/about");
+  await expect(page.getByRole("heading", { level: 1, name: /Healthcare money explained by someone who sees the confusion up close/i })).toBeVisible();
+  await expect(page.getByText(/Institutional patient-education sales are paused/i)).toHaveCount(0);
   await certifyPage(page, watch);
 });

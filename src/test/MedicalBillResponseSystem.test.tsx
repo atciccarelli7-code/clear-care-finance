@@ -87,7 +87,7 @@ describe("Medical Bill Response System", () => {
     fireEvent.click(packButtons[0]);
 
     expect(window.open).toHaveBeenCalledWith(
-      "/downloads/medical-bill-response-pack.html",
+      "/downloads/medical-bill-response-pack",
       "_blank",
       "noopener,noreferrer",
     );

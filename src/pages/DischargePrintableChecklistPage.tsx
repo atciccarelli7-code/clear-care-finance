@@ -67,6 +67,7 @@ const DischargePrintableChecklistPage = () => {
     description:
       "A print-friendly hospital discharge coverage checklist for families to ask about DME, short-term rehab, home health, authorization, network status, patient cost, and backup plans.",
     canonicalPath: "/insurance/hospital-discharge-coverage/printable",
+    robots: "noindex, follow",
   });
 
   const handlePrint = () => {

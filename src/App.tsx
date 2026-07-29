@@ -12,9 +12,7 @@ import { useSeo } from "@/lib/seo";
 
 const loadIndex = () => import("./pages/Index.tsx");
 const loadStartHere = () => import("./pages/StartHere.tsx");
-const loadProductStudioPage = () => import("./pages/ProductStudioPage.tsx");
 const loadHealthcareWorkers = () => import("./pages/HealthcareWorkers.tsx");
-const loadHealthcareWorkerBenefitsDecisionSystemPage = () => import("./pages/HealthcareWorkerBenefitsDecisionSystemPage.tsx");
 const loadBenefitsDecisionAppPage = () => import("./pages/premium/BenefitsDecisionAppPage.tsx");
 const loadSignInPage = () => import("./pages/premium/SignInPage.tsx");
 const loadAccountPage = () => import("./pages/premium/AccountPage.tsx");
@@ -28,6 +26,7 @@ const loadPatientsFamilies = () => import("./pages/PatientsFamilies.tsx");
 const loadHospitalPatientGuidePage = () => import("./pages/HospitalPatientGuidePage.tsx");
 const loadHeartFailureGuidePage = () => import("./pages/HeartFailureGuidePage.tsx");
 const loadCopdGuidePage = () => import("./pages/CopdGuidePage.tsx");
+const loadConditionGuidePage = () => import("./pages/ConditionGuidePage.tsx");
 const loadTools = () => import("./pages/Tools.tsx");
 const loadToolPage = () => import("./pages/ToolPage.tsx");
 const loadBenefitsCommandCenterPage = () => import("./pages/BenefitsCommandCenterPage.tsx");
@@ -53,10 +52,6 @@ const loadGlossary = () => import("./pages/Glossary.tsx");
 const loadNewsletter = () => import("./pages/Newsletter.tsx");
 const loadAbout = () => import("./pages/About.tsx");
 const loadContact = () => import("./pages/Contact.tsx");
-const loadForOrganizationsPage = () => import("./pages/ForOrganizationsPage.tsx");
-const loadPatientEducationSystemsPage = () => import("./pages/PatientEducationSystemsPage.tsx");
-const loadBloodThinnerReadinessPage = () => import("./pages/BloodThinnerReadinessPage.tsx");
-const loadOrganizationDetailsPage = () => import("./pages/OrganizationDetailsPage.tsx");
 const loadOpenEnrollmentGuide = () => import("./pages/OpenEnrollmentGuide.tsx");
 const loadInsuranceBenefitsHub = () => import("./pages/InsuranceBenefitsHub.tsx");
 const loadHealthInsurancePlanTypesPage = () => import("./pages/HealthInsurancePlanTypesPage.tsx");
@@ -81,9 +76,7 @@ const loadNotFound = () => import("./pages/NotFound.tsx");
 
 const Index = lazy(loadIndex);
 const StartHere = lazy(loadStartHere);
-const ProductStudioPage = lazy(loadProductStudioPage);
 const HealthcareWorkers = lazy(loadHealthcareWorkers);
-const HealthcareWorkerBenefitsDecisionSystemPage = lazy(loadHealthcareWorkerBenefitsDecisionSystemPage);
 const BenefitsDecisionAppPage = lazy(loadBenefitsDecisionAppPage);
 const SignInPage = lazy(loadSignInPage);
 const AccountPage = lazy(loadAccountPage);
@@ -95,6 +88,7 @@ const PatientsFamilies = lazy(loadPatientsFamilies);
 const HospitalPatientGuidePage = lazy(loadHospitalPatientGuidePage);
 const HeartFailureGuidePage = lazy(loadHeartFailureGuidePage);
 const CopdGuidePage = lazy(loadCopdGuidePage);
+const ConditionGuidePage = lazy(loadConditionGuidePage);
 const Tools = lazy(loadTools);
 const ToolPage = lazy(loadToolPage);
 const BenefitsCommandCenterPage = lazy(loadBenefitsCommandCenterPage);
@@ -120,10 +114,6 @@ const Glossary = lazy(loadGlossary);
 const Newsletter = lazy(loadNewsletter);
 const About = lazy(loadAbout);
 const Contact = lazy(loadContact);
-const ForOrganizationsPage = lazy(loadForOrganizationsPage);
-const PatientEducationSystemsPage = lazy(loadPatientEducationSystemsPage);
-const BloodThinnerReadinessPage = lazy(loadBloodThinnerReadinessPage);
-const OrganizationDetailsPage = lazy(loadOrganizationDetailsPage);
 const OpenEnrollmentGuide = lazy(loadOpenEnrollmentGuide);
 const InsuranceBenefitsHub = lazy(loadInsuranceBenefitsHub);
 const HealthInsurancePlanTypesPage = lazy(loadHealthInsurancePlanTypesPage);
@@ -155,13 +145,13 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/") return loadIndex;
   if (pathname === "/start-here") return loadStartHere;
   if (pathname === "/healthcare-workers") return loadHealthcareWorkers;
-  if (pathname === "/products/healthcare-worker-benefits-decision-system") return loadHealthcareWorkerBenefitsDecisionSystemPage;
   if (pathname === "/healthcare-workers/paycheck-tools") return loadInsuranceDecisionToolsBundle;
   if (pathname === "/build-wealth") return loadBuildWealthHub;
   if (pathname === "/patients-families") return loadPatientsFamilies;
   if (pathname === "/patients-families/hospital-guide") return loadHospitalPatientGuidePage;
   if (pathname === "/patients-families/diagnosis-explained/heart-failure") return loadHeartFailureGuidePage;
   if (pathname === "/patients-families/diagnosis-explained/copd") return loadCopdGuidePage;
+  if (pathname.startsWith("/patients-families/diagnosis-explained/")) return loadConditionGuidePage;
   if (pathname === "/student-loans") return loadStudentLoans;
   if (pathname === "/tools") return loadTools;
   if (pathname === "/tools/benefits-command-center") return loadBenefitsCommandCenterPage;
@@ -207,10 +197,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/newsletter") return loadNewsletter;
   if (pathname === "/about") return loadAbout;
   if (pathname === "/contact") return loadContact;
-  if (pathname === "/for-organizations") return loadForOrganizationsPage;
-  if (pathname === "/for-organizations/patient-education-systems") return loadPatientEducationSystemsPage;
-  if (pathname === "/for-organizations/patient-education-systems/blood-thinner-readiness") return loadBloodThinnerReadinessPage;
-  if (pathname.startsWith("/for-organizations/")) return loadOrganizationDetailsPage;
+  if (pathname.startsWith("/for-organizations")) return loadAbout;
   if (pathname === "/methodology") return loadMethodology;
   if (pathname === "/privacy-policy") return loadPrivacyPolicy;
   if (pathname === "/terms-of-use") return loadTermsOfUse;
@@ -302,10 +289,10 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
             <Route path="/start-here" element={<StartHere />} />
-            <Route path="/products" element={<ProductStudioPage />} />
+            <Route path="/products" element={<Navigate to="/tools" replace />} />
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
-            <Route path="/products/healthcare-worker-benefits-decision-system" element={<HealthcareWorkerBenefitsDecisionSystemPage />} />
-            <Route path="/products/healthcare-worker-benefits-decision-pack" element={<Navigate to="/products/healthcare-worker-benefits-decision-system" replace />} />
+            <Route path="/products/healthcare-worker-benefits-decision-system" element={<Navigate to="/healthcare-workers" replace />} />
+            <Route path="/products/healthcare-worker-benefits-decision-pack" element={<Navigate to="/healthcare-workers" replace />} />
             <Route path="/premium/access" element={<Navigate to="/sign-in" replace />} />
             <Route path="/premium/healthcare-compensation-benefits" element={<Navigate to="/app/benefits-decision" replace />} />
             <Route path="/build-wealth" element={<BuildWealthHub />} />
@@ -315,6 +302,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/patients-families/hospital-guide" element={<HospitalPatientGuidePage />} />
             <Route path="/patients-families/diagnosis-explained/heart-failure" element={<HeartFailureGuidePage />} />
             <Route path="/patients-families/diagnosis-explained/copd" element={<CopdGuidePage />} />
+            <Route path="/patients-families/diagnosis-explained/:slug" element={<ConditionGuidePage />} />
             <Route path="/student-loans" element={<StudentLoans />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/benefits-command-center" element={<BenefitsCommandCenterPage />} />
@@ -369,14 +357,14 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/for-organizations" element={<ForOrganizationsPage />} />
-            <Route path="/for-organizations/patient-education-systems" element={<PatientEducationSystemsPage />} />
-            <Route path="/for-organizations/patient-education-systems/blood-thinner-readiness" element={<BloodThinnerReadinessPage />} />
-            <Route path="/for-organizations/programs" element={<OrganizationDetailsPage />} />
-            <Route path="/for-organizations/implementation" element={<OrganizationDetailsPage />} />
-            <Route path="/for-organizations/measurement" element={<OrganizationDetailsPage />} />
-            <Route path="/for-organizations/trust-procurement" element={<OrganizationDetailsPage />} />
-            <Route path="/for-organizations/faq" element={<OrganizationDetailsPage />} />
+            <Route path="/for-organizations" element={<Navigate to="/about" replace />} />
+            <Route path="/for-organizations/programs" element={<Navigate to="/about" replace />} />
+            <Route path="/for-organizations/implementation" element={<Navigate to="/about" replace />} />
+            <Route path="/for-organizations/measurement" element={<Navigate to="/about" replace />} />
+            <Route path="/for-organizations/trust-procurement" element={<Navigate to="/about" replace />} />
+            <Route path="/for-organizations/faq" element={<Navigate to="/about" replace />} />
+            <Route path="/for-organizations/patient-education-systems" element={<Navigate to="/patients-families/hospital-guide" replace />} />
+            <Route path="/for-organizations/patient-education-systems/blood-thinner-readiness" element={<Navigate to="/articles/blood-thinner-safety-before-going-home" replace />} />
             <Route path="/methodology" element={<Methodology />} />
             <Route path="/sources" element={<Navigate to="/methodology" replace />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

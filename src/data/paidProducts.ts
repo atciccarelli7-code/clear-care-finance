@@ -108,7 +108,7 @@ export const PAID_PRODUCTS: PaidProduct[] = [
       { label: "Medical Bill Response System", href: "/insurance/medical-bill-review-toolkit" },
       { label: "Medical bill review flow", href: "/tools/medical-bill-review-flow" },
       { label: "EOB-to-bill match checker", href: "/tools/eob-to-bill-match-checker" },
-      { label: "Free Medical Bill Response Pack", href: "/downloads/medical-bill-response-pack.html" },
+      { label: "Free Medical Bill Response Pack", href: "/downloads/medical-bill-response-pack" },
       { label: "Expanded workbook sample", href: "/downloads/expanded-medical-bill-response-workbook-preview.html" },
     ],
     includedAssets: [

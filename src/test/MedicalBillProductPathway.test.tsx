@@ -38,7 +38,7 @@ describe("MedicalBillProductPathway", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: /open the printable response pack/i }));
     expect(openMock).toHaveBeenCalledWith(
-      "/downloads/medical-bill-response-pack.html",
+      "/downloads/medical-bill-response-pack",
       "_blank",
       "noopener,noreferrer",
     );

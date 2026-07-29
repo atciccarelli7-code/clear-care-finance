@@ -17,6 +17,7 @@ type StaticPageMeta = {
   title: string;
   description: string;
   kind?: "page" | "tool" | "collection";
+  robots?: string;
 };
 
 export const AUTHOR_NAME = "Andrew Ciccarelli, BSN, RN";
@@ -53,19 +54,10 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     title: "Start Here",
     description: "Choose a practical starting point for medical bills, healthcare-worker finances, insurance benefits, Medicare, Medicaid, or retirement decisions.",
   },
-  "/products": {
-    title: "Healthcare Finance Products and Decision Systems",
-    description: "Review Community Acquired Finance products, free decision systems, paid-pilot status, privacy boundaries, and the operating gates required before checkout.",
-    kind: "collection",
-  },
   "/healthcare-workers": {
     title: "Financial Guides for Healthcare Workers",
     description: "Plain-English guidance for healthcare-worker paychecks, benefits, retirement accounts, burnout spending, career flexibility, and wealth building.",
     kind: "collection",
-  },
-  "/products/healthcare-worker-benefits-decision-system": {
-    title: "Healthcare Worker Benefits Decision System",
-    description: "Preview an account-based interactive system for comparing healthcare compensation, benefits, health-plan exposure, retirement, schedule, and career tradeoffs. Checkout is not enabled.",
   },
   "/healthcare-workers/paycheck-tools": {
     title: "Healthcare Worker Paycheck Tools",
@@ -148,10 +140,6 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
   "/insurance/hospital-discharge-coverage": {
     title: "Hospital Discharge Coverage Guide",
     description: "Check coverage questions for rehab, skilled nursing, home health, equipment, transportation, prescriptions, and post-hospital care.",
-  },
-  "/insurance/hospital-discharge-coverage/printable": {
-    title: "Printable Hospital Discharge Coverage Checklist",
-    description: "Print a practical checklist for Medicare status, authorization, networks, rehab, home health, equipment, medications, and backup care planning.",
   },
   "/insurance/medication-coverage-checklist": {
     title: "Medication Coverage Checklist",
@@ -264,31 +252,7 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
   },
   "/contact": {
     title: "Contact Community Acquired Finance",
-    description: "Contact Community Acquired Finance with feedback, corrections, topic suggestions, partnership questions, or accessibility concerns.",
-  },
-  "/for-organizations": {
-    title: "Healthcare Financial Education for Organizations",
-    description: "Evaluate privacy-minimized healthcare financial education programs for workforce benefits, patient costs, Medicare and discharge, healthcare careers, and broad navigation.",
-  },
-  "/for-organizations/programs": {
-    title: "Healthcare Financial Education Programs for Organizations",
-    description: "Evaluate five live program pathways for workforce benefits, patient costs, Medicare and discharge, career decisions, and broad healthcare finance navigation.",
-  },
-  "/for-organizations/implementation": {
-    title: "Organization Program Implementation",
-    description: "Review the accountable five-gate implementation model for a privacy-minimized Community Acquired Finance organization program.",
-  },
-  "/for-organizations/measurement": {
-    title: "Organization Program Measurement",
-    description: "Define reach, consented engagement, usefulness, operations, and honest outcome boundaries for a Community Acquired Finance program.",
-  },
-  "/for-organizations/trust-procurement": {
-    title: "Organization Trust and Procurement",
-    description: "Review current capabilities, scoped-review items, services not offered, privacy boundaries, and procurement questions for Community Acquired Finance.",
-  },
-  "/for-organizations/faq": {
-    title: "Organization Buyer FAQ",
-    description: "Review buyer answers about product scope, privacy, data, certifications, outcomes, customization, pricing, reporting, and support.",
+    description: "Contact Community Acquired Finance with feedback, corrections, source questions, topic suggestions, privacy requests, or accessibility concerns.",
   },
   "/methodology": {
     title: "Research and Editorial Methodology",
@@ -317,10 +281,10 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
 };
 
 const NON_INDEXABLE_PAGE_META: Record<string, StaticPageMeta> = {
-  "/for-organizations/patient-education-systems/blood-thinner-readiness": {
-    title: "Blood Thinner Discharge Readiness Pilot",
-    description: "A controlled institutional review of exact-medication teaching, teach-back, barrier resolution, safe-stop logic, and a governed discharge handoff.",
-    kind: "tool",
+  "/insurance/hospital-discharge-coverage/printable": {
+    title: "Printable Hospital Discharge Coverage Checklist",
+    description: "Print a practical checklist for Medicare status, authorization, networks, rehab, home health, equipment, medications, and backup care planning.",
+    robots: "noindex, follow",
   },
 };
 
@@ -409,7 +373,7 @@ export const resolveSeoMeta = (pathname: string): SeoRouteMeta => {
       title: controlledMeta.title,
       description: controlledMeta.description,
       canonicalPath: path,
-      robots: "noindex, nofollow",
+      robots: controlledMeta.robots ?? "noindex, nofollow",
       jsonLd: [],
     };
   }

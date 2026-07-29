@@ -52,26 +52,13 @@ const AD_ELIGIBLE_ARTICLE_REVIEWS = new Map<string, { tier: "flagship" | "substa
   ["/articles/deductible-copay-coinsurance-out-of-pocket-max", { tier: "flagship", reviewedAt: "2026-07-13" }],
   ["/articles/how-to-read-an-eob", { tier: "flagship", reviewedAt: "2026-07-13" }],
   ["/articles/how-hospital-403b-matching-works", { tier: "substantial", reviewedAt: "2026-07-13" }],
-  ["/articles/facility-fee-vs-professional-fee", { tier: "substantial", reviewedAt: "2026-07-13" }],
   ["/articles/backup-care-plans-for-busy-healthcare-workers", { tier: "substantial", reviewedAt: "2026-07-13" }],
   ["/articles/prescription-coverage-open-enrollment-checklist", { tier: "substantial", reviewedAt: "2026-07-13" }],
-  ["/articles/prior-authorization-explained", { tier: "substantial", reviewedAt: "2026-07-13" }],
-  ["/articles/spouse-family-health-insurance-open-enrollment", { tier: "substantial", reviewedAt: "2026-07-13" }],
-  ["/articles/accident-critical-illness-hospital-indemnity-open-enrollment", { tier: "substantial", reviewedAt: "2026-07-13" }],
-  ["/articles/medicare-options-explained", { tier: "flagship", reviewedAt: "2026-07-12" }],
 ]);
 
 const TRUST_ROUTES = new Set(["/about", "/methodology", "/editorial-policy", "/disclosures", "/accessibility"]);
 const LEGAL_ROUTES = new Set(["/privacy-policy", "/terms-of-use"]);
 const FORM_ROUTES = new Set(["/newsletter", "/contact"]);
-const ORGANIZATION_ROUTES = new Set([
-  "/for-organizations",
-  "/for-organizations/programs",
-  "/for-organizations/implementation",
-  "/for-organizations/measurement",
-  "/for-organizations/trust-procurement",
-  "/for-organizations/faq",
-]);
 const PRINTABLE_ROUTES = new Set(["/insurance/hospital-discharge-coverage/printable"]);
 const RESULT_OR_SAVED_WORK_ROUTES = new Set(["/start-here/my-plan", "/my-plan", "/receipts"]);
 const DIRECTORY_ROUTES = new Set(["/articles", "/topics", "/tools", "/guides", "/healthcare-workers/paycheck-tools"]);
@@ -213,33 +200,18 @@ export const resolveContentGovernance = (
     };
   }
 
-  if (ORGANIZATION_ROUTES.has(route)) {
-    return {
-      route,
-      publicAvailable: true,
-      pageType: "organization",
-      contentTier: "standard",
-      indexable: true,
-      adEligible: false,
-      sensitiveContext: false,
-      interactiveContext: false,
-      reviewStatus: "blocked",
-      reason: "Organization and commercial-program surfaces remain separate from programmatic advertising.",
-    };
-  }
-
   if (PRINTABLE_ROUTES.has(route)) {
     return {
       route,
       publicAvailable: true,
       pageType: "printable",
       contentTier: "utility",
-      indexable: true,
+      indexable: false,
       adEligible: false,
       sensitiveContext: false,
       interactiveContext: false,
       reviewStatus: "blocked",
-      reason: "Printable utility variants remain ad-free to avoid duplicate and action-oriented inventory.",
+      reason: "Printable utility variants remain accessible but noindex and ad-free to avoid duplicate, action-oriented search inventory.",
     };
   }
 

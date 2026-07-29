@@ -473,6 +473,42 @@ export const HealthcareWorkerPaycheckTools = () => {
     <>
       <PageHero eyebrow="Healthcare worker money" title="Healthcare Worker Paycheck Tools" description="Your paycheck is the engine. Benefits, overtime, differentials, tax accounts, and retirement elections all change what actually lands in your bank account." />
       <div className="container space-y-16 py-12 md:py-16">
+        <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <Card className="rounded-3xl shadow-card">
+            <CardHeader>
+              <Badge tone="green">RN-led worker context</Badge>
+              <CardTitle className="font-display text-2xl">Read the whole paycheck, not one attractive number</CardTitle>
+              <CardDescription className="text-base leading-relaxed">
+                Healthcare pay can mix base rate, shift differentials, overtime, call, bonuses, pre-tax elections, insurance deductions, retirement contributions, and employer money. Orientation overload and shift fatigue make it easy to compare one number while missing the rest.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+              <p>Start with income you can reasonably expect without extra shifts. Then separate variable pay, subtract recurring benefit costs, and add employer contributions only after confirming the written formula and vesting rules.</p>
+              <p>Use a recent pay stub, benefits guide, retirement-plan document, and written offer. Payroll, human resources, and the plan administrator control the official answer.</p>
+            </CardContent>
+          </Card>
+          <Card className="rounded-3xl border-primary/20 bg-primary-soft/20 shadow-card">
+            <CardHeader>
+              <CardTitle className="font-display text-2xl">A practical order of operations</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ol className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+                {[
+                  "Confirm base rate, scheduled hours, pay frequency, and differential rules.",
+                  "Separate recurring pay from overtime or bonuses that may not be sustainable.",
+                  "Calculate payroll deductions and employer contributions on the same time period.",
+                  "Check match formulas, contribution limits, eligibility dates, and vesting.",
+                  "Choose a contribution or savings step that still leaves enough cash for near-term needs.",
+                ].map((step, index) => (
+                  <li key={step} className="flex gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">{index + 1}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </CardContent>
+          </Card>
+        </section>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {tools.map(([title, href, body]) => (
             <Link key={title} to={href} className="rounded-3xl border border-border bg-card p-6 shadow-card transition-smooth hover:-translate-y-0.5 hover:shadow-hover">
@@ -483,6 +519,10 @@ export const HealthcareWorkerPaycheckTools = () => {
             </Link>
           ))}
         </div>
+        <SourceBox sources={[
+          { title: "IRS — 403(b) tax-sheltered annuity plans", url: "https://www.irs.gov/retirement-plans/irc-403b-tax-sheltered-annuity-plans" },
+          { title: "U.S. Department of Labor — What You Should Know About Your Retirement Plan", url: "https://www.dol.gov/agencies/ebsa/about-ebsa/our-activities/resource-center/publications/what-you-should-know-about-your-retirement-plan" },
+        ]} />
       </div>
     </>
   );
@@ -548,7 +588,31 @@ export const InsuranceMarketingRealityPage = () => {
         <Accordion type="single" collapsible className="rounded-3xl border border-border bg-card px-5 shadow-card">
           <AccordionItem value="balanced"><AccordionTrigger className="text-left font-display text-xl font-bold">Balanced take</AccordionTrigger><AccordionContent><p className="text-sm leading-relaxed text-muted-foreground">Medicare Advantage can be a reasonable fit for some people. The point is not to avoid it automatically. The point is to compare the plan based on the care you might need in a bad year, not only the benefits that look attractive during a healthy year.</p></AccordionContent></AccordionItem>
         </Accordion>
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">
+          <SectionHeading
+            eyebrow="Before enrolling"
+            title="Verify the parts that determine whether the plan works in real life"
+            description="A benefits summary can be accurate and still leave out the details that matter for a specific person."
+          />
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {[
+              ["Providers and facilities", "Verify each doctor, hospital, specialist, clinic location, and post-acute facility directly with both the plan and provider. Directory listings can change."],
+              ["Prescriptions and pharmacies", "Check every medication, dose form, formulary tier, pharmacy network, deductible, quantity limit, step-therapy rule, and prior-authorization requirement."],
+              ["Bad-year exposure", "Compare the monthly premium with copays, coinsurance, and the plan's maximum out-of-pocket amount for Part A and Part B services. Drug spending follows separate rules."],
+              ["Travel and continuity", "Ask how routine, urgent, emergency, and follow-up care work away from home and what happens if a clinician leaves the network during the year."],
+            ].map(([title, body]) => (
+              <div key={title} className="border-l-2 border-primary/20 pl-4">
+                <h2 className="font-display text-lg font-bold">{title}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
         <ToolLinkGrid />
+        <SourceBox sources={[
+          { title: "Medicare.gov — Medicare Advantage basics", url: "https://www.medicare.gov/health-drug-plans/health-plans/your-coverage-options/medicare-advantage" },
+          { title: "Medicare.gov — Compare health and drug plans", url: "https://www.medicare.gov/plan-compare/" },
+        ]} />
       </div>
     </>
   );

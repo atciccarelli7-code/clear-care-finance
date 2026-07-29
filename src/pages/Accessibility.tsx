@@ -20,7 +20,7 @@ const Accessibility = () => {
       />
 
       <div className="container max-w-3xl py-12 md:py-16 space-y-6">
-        <p className="text-sm text-muted-foreground">Effective date: June 19, 2026</p>
+        <p className="text-sm text-muted-foreground">Last reviewed: July 29, 2026</p>
 
         <Section title="Commitment">
           <p>
@@ -42,11 +42,16 @@ const Accessibility = () => {
 
         <Section title="Known limitations">
           <p>
-            The site is still under active development. Some calculators, charts, embedded content, third-party links, or future ad placements may require additional accessibility review before production launch.
+            No website can guarantee identical behavior with every browser, device, assistive technology, zoom level, or third-party destination. Some dense comparison tables and printable worksheets require horizontal scrolling on small screens; those regions should remain keyboard focusable and clearly labeled.
           </p>
           <p>
-            Any new advertising, embeds, or interactive features should be tested to make sure they do not create keyboard traps, unreadable contrast, layout overflow, confusing focus order, or deceptive navigation.
+            External websites, downloaded files, browser print dialogs, and services outside CAF are controlled by their providers. Report a barrier on CAF so it can be reproduced, prioritized, and corrected.
           </p>
+        </Section>
+
+        <Section title="Release checks">
+          <p>Critical routes and guided tools are checked on desktop and mobile layouts for keyboard operation, visible focus, heading structure, accessible names, page overflow, serious automated accessibility findings, and browser console failures.</p>
+          <p>Automated checks are useful but do not prove complete conformance. Material barriers should block a release until corrected or clearly documented with an accessible alternative.</p>
         </Section>
 
         <Section title="Feedback">

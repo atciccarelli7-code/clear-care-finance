@@ -8,7 +8,7 @@ export const MANAGED_ADSENSE_SCRIPT_ID = "caf-route-aware-adsense";
 export const REPRESENTATIVE_ROUTES = [
   {
     path: "/",
-    markers: ["Understand your money", "Community Acquired Finance"],
+    markers: ["Make the next money or healthcare decision clearer", "Community Acquired Finance"],
     adFree: true,
   },
   {
@@ -34,7 +34,7 @@ export const REPRESENTATIVE_ROUTES = [
   {
     path: "/insurance/medical-bill-review-toolkit",
     markers: ["Medical Bill Review", "medical bill"],
-    adFree: false,
+    adFree: true,
   },
   {
     path: "/medicare-care-costs/turning-65",
@@ -44,11 +44,11 @@ export const REPRESENTATIVE_ROUTES = [
   {
     path: "/articles/what-employer-benefit-changes-should-i-compare",
     markers: ["Employer Benefit Changes", "benefit changes"],
-    adFree: false,
+    adFree: true,
   },
   {
-    path: "/products/healthcare-worker-benefits-decision-system",
-    markers: ["Healthcare Worker Benefits Decision System", "Interactive decision system"],
+    path: "/about",
+    markers: ["Andrew Ciccarelli", "Community Acquired Finance"],
     adFree: true,
   },
 ];

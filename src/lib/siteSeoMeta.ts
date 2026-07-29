@@ -113,39 +113,6 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
   ],
 };
 
-const benefitsDecisionSystemMeta: SeoRouteMeta = {
-  title: "Healthcare Worker Benefits Decision System",
-  description: "Preview an account-based interactive system for comparing healthcare compensation, benefits, health-plan exposure, retirement, schedule, and career tradeoffs. Checkout is not enabled.",
-  canonicalPath: "/products/healthcare-worker-benefits-decision-system",
-  robots: "index, follow, max-image-preview:large",
-  jsonLd: [
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Products", item: `${SITE_URL}/products` },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Healthcare Worker Benefits Decision System",
-          item: `${SITE_URL}/products/healthcare-worker-benefits-decision-system`,
-        },
-      ],
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      name: "Healthcare Worker Benefits Decision System",
-      description: "An account-based interactive decision system for comparing healthcare compensation, employer benefits, health-plan exposure, retirement value, schedule, and career tradeoffs.",
-      url: `${SITE_URL}/products/healthcare-worker-benefits-decision-system`,
-      applicationCategory: "FinanceApplication",
-      operatingSystem: "Any",
-      publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-    },
-  ],
-};
-
 const diagnosisGuideJsonLd = (path: string, title: string, description: string): SeoJsonLd[] => [
   {
     "@context": "https://schema.org",
@@ -204,7 +171,6 @@ export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
     };
   }
   if (path === benefitsCommandCenterMeta.canonicalPath) return benefitsCommandCenterMeta;
-  if (path === benefitsDecisionSystemMeta.canonicalPath) return benefitsDecisionSystemMeta;
   const base = resolveSeoMeta(path);
   const override = overrides[path];
   if (!override) return base;

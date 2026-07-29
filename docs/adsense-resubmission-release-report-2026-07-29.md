@@ -53,7 +53,15 @@ The code release candidate is materially stronger and its automated repository g
 
 The complete original/final state is in [the URL ledger](./adsense-url-ledger-2026-07-29.csv). The generated route governance audit is in [the AdSense readiness audit](./adsense-readiness-audit.md), and the Search Console count reconciliation is in [the Search Console report](./search-console-reconciliation-2026-07-29.md).
 
-Commit, pull request, deployment URL, and final production smoke results are added to the release record after publication.
+Release references:
+
+- Pull request: [#228](https://github.com/atciccarelli7-code/clear-care-finance/pull/228)
+- Remediation commit: `4aec02cdcc2d4842e7006efe56514913185882f7`
+- Certification-alignment commit: `2423b78c2ea48b84309ee30ec6cde8574ab33813`
+- Passing Vercel preview deployment: `dpl_2WS5o5wE7ohgarPfQuMamY92G7ti`
+- Preview URL: `https://clear-care-finance-t79pmn1lf-communityacquiredfinance.vercel.app`
+
+The preview is protected by Vercel authentication. Production smoke results and the merge commit are reported in the final handoff after merge; they are not represented as complete in this pre-merge record.
 
 ## Before-and-after validation
 

@@ -15,22 +15,21 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("caf-privacy-consent-v1", "necessary"));
 });
 
-test("public visitor sees the interactive-system offer without active checkout", async ({ page }) => {
+test("retired public product route resolves to complete free worker resources", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-system");
-  await expect(page.getByRole("heading", { level: 1, name: "Healthcare Worker Benefits Decision System" })).toBeVisible();
-  await expect(page.getByText("Interactive decision system")).toBeVisible();
-  await expect(page.getByText("Checkout disabled")).toBeVisible();
-  await expect(page.getByText("$29 one time — target only")).toBeVisible();
-  await expect(page.getByRole("link", { name: /join the early-access list/i })).toBeVisible();
+  await expect(page).toHaveURL(/\/healthcare-workers$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Build a stronger financial life around your healthcare career/i })).toBeVisible();
+  await expect(page.getByText("Checkout disabled")).toHaveCount(0);
+  await expect(page.getByText("$29 one time — target only")).toHaveCount(0);
   await expect(page.getByRole("button", { name: /buy/i })).toHaveCount(0);
   expect(await seriousAxeViolations(page)).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });
 
-test("old product route resolves to the canonical system route", async ({ page }) => {
+test("old product-pack route resolves to complete free worker resources", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-pack");
-  await expect(page).toHaveURL(/\/products\/healthcare-worker-benefits-decision-system$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Healthcare Worker Benefits Decision System" })).toBeVisible();
+  await expect(page).toHaveURL(/\/healthcare-workers$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Build a stronger financial life around your healthcare career/i })).toBeVisible();
 });
 
 test("missing authentication configuration fails closed on every application entry", async ({ page }) => {

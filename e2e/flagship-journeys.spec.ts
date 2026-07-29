@@ -249,10 +249,9 @@ test("Hospital and Patient Guide mode routes to blood thinner and oxygen safety 
   await certifyPage(page, watch);
 });
 
-test("Retired organization landing page redirects to publisher identity", async ({ page }) => {
+test("About page presents publisher identity without retired sales inventory", async ({ page }) => {
   const watch = installHealthWatch(page);
-  await visit(page, "/for-organizations");
-  await expect(page).toHaveURL(/\/about$/);
+  await visit(page, "/about");
   await expect(page.getByRole("heading", { level: 1, name: /Healthcare money explained by someone who sees the confusion up close/i })).toBeVisible();
   await expect(page.getByText(/Institutional patient-education sales are paused/i)).toHaveCount(0);
   await certifyPage(page, watch);

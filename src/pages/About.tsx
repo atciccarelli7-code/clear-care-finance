@@ -55,9 +55,6 @@ const About = () => {
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               Registered nurse with verified bedside, charge, and admissions-discharge-transfer experience. Founder and primary author of Community Acquired Finance.
             </p>
-            <p className="mt-4 border-t border-trust/20 pt-4 text-xs leading-relaxed text-muted-foreground">
-              No professional photograph is shown because the site does not currently include an approved founder image. CAF does not substitute a stock or synthetic person for human authority.
-            </p>
           </aside>
 
           <article aria-labelledby="origin-heading">

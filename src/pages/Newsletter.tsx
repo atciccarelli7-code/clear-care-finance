@@ -18,15 +18,15 @@ const Newsletter = () => {
   return (
     <>
       <PageHero
-        eyebrow="Monthly newsletter and product lab"
-        title="Useful healthcare-money systems, built in public."
-        description="Get low-frequency educational updates and help validate deeper tools for healthcare workers, patients, caregivers, and families—without spam, sales pressure, or individualized advice."
+        eyebrow="Monthly newsletter"
+        title="Practical healthcare-money guidance, once a month."
+        description="Get concise educational updates for healthcare workers, patients, caregivers, and families—without spam, sales pressure, or individualized advice."
       >
         <Button asChild variant="hero" size="lg">
-          <a href="#medical-bill-workbook">Preview the medical-bill workbook <ArrowRight className="h-4 w-4" /></a>
+          <a href="#join-newsletter">Join the monthly list <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <a href="#join-newsletter">Join the monthly list</a>
+          <a href="#medical-bill-resources">Open free medical-bill resources</a>
         </Button>
       </PageHero>
 
@@ -36,7 +36,7 @@ const Newsletter = () => {
             <Mail className="mb-4 h-7 w-7 text-primary" />
             <h2 className="font-display text-xl font-bold text-foreground">Low-frequency, not noisy</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Practical notes, new tools, and product-development updates only when there is something worth using.
+              Practical notes, updated guides, and useful tools only when there is something worth reading or using.
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-card p-6 shadow-card">
@@ -48,9 +48,9 @@ const Newsletter = () => {
           </div>
           <div className="rounded-3xl border border-border bg-card p-6 shadow-card">
             <ShieldCheck className="mb-4 h-7 w-7 text-primary" />
-            <h2 className="font-display text-xl font-bold text-foreground">Education and validation</h2>
+            <h2 className="font-display text-xl font-bold text-foreground">Educational and privacy-conscious</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              No scare tactics, document uploads, or hidden sales funnel. Early-access interest helps decide what deserves deeper investment.
+              No document uploads, manufactured urgency, or hidden sales funnel. Unsubscribe at any time.
             </p>
           </div>
         </div>
@@ -62,14 +62,14 @@ const Newsletter = () => {
             centered
             eyebrow="What you’ll get"
             title="A practical healthcare-money update"
-            description="Each issue should be short enough to read quickly and useful enough to save."
+            description="Each issue is designed to be short enough to read quickly and useful enough to save."
           />
           <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-2">
             {[
               "One plain-English healthcare money topic",
-              "One calculator, checklist, or decision system",
+              "One calculator, checklist, or decision tool",
               "One patient, caregiver, or insurance workflow",
-              "One practical action step or product-development update",
+              "One practical action to take or question to verify",
             ].map((item) => (
               <div key={item} className="flex gap-3 rounded-2xl border border-border bg-background p-5 shadow-sm">
                 <CalendarDays className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
@@ -86,7 +86,7 @@ const Newsletter = () => {
         <NewsletterSignup
           source="newsletter-page"
           title="Join Community Acquired Finance updates"
-          description="Get low-frequency notes on healthcare-worker paychecks, benefits, insurance, medical bills, Medicare, Medicaid, calculators, and new decision systems."
+          description="Get low-frequency notes on healthcare-worker paychecks, benefits, insurance, medical bills, Medicare, Medicaid, calculators, and practical decision tools."
           buttonLabel="Join the update list"
         />
       </section>
@@ -95,10 +95,10 @@ const Newsletter = () => {
         <div className="rounded-3xl bg-gradient-primary p-6 text-primary-foreground shadow-hover md:p-10">
           <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] opacity-80">Use the current systems now</div>
-              <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">The site remains useful without an email signup or future purchase.</h2>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] opacity-80">Use the resources directly</div>
+              <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Every core guide and calculator is available without joining the email list.</h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-90 md:text-base">
-                The email list supports return visits and product validation. The core calculators, guides, and patient workflows remain available directly on the site.
+                Browse the site whenever you need a paycheck calculator, benefits checklist, medical-bill workflow, Medicare explanation, or patient-care guide.
               </p>
             </div>
             <Button asChild size="lg" variant="secondary">

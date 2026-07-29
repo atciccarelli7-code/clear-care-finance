@@ -8,31 +8,37 @@ const productEnhancement = read("public/medical-bill-productization.js");
 const appShell = read("index.html");
 const appLayout = read("src/components/layout/Layout.tsx");
 const productPathway = read("src/components/medical-bill/MedicalBillProductPathway.tsx");
+const productFoundation = read("src/components/medical-bill/MedicalBillProductFoundation.tsx");
 const pathwayConfig = read("src/components/medical-bill/medicalBillProductPathwayConfig.ts");
 const interestForm = read("src/components/medical-bill/MedicalBillInterestForm.tsx");
 const productConfig = read("api/product-config.ts");
 const emailApi = read("api/send.ts");
 const unsubscribeApi = read("api/unsubscribe.ts");
 const samplePreview = read("public/downloads/expanded-medical-bill-response-workbook-preview.html");
+const vercelConfig = read("vercel.json");
 
 describe("medical bill productization static contracts", () => {
-  it("keeps essential guidance free and hard-disables payment during audience validation", () => {
-    expect(productPage).toContain("The free system stays complete");
-    expect(productPage).toContain("Official sources remain free");
-    expect(productPage).toContain("Built, not for sale");
-    expect(productPage).toContain("No payment");
-    expect(productPage).not.toContain("$24");
-    expect(productPage).not.toMatch(/buy now|purchase now|checkout now|save thousands|limited time|normally \$|only today|ends tonight/i);
+  it("presents the public React pathways as complete free resources without development-state copy", () => {
+    expect(productFoundation).toContain("Free medical-bill resources");
+    expect(productFoundation).toContain("No account or document upload required");
     expect(productPathway).toContain("No payment");
-    expect(productPathway).toContain("Free system stays complete");
+    expect(productPathway).toContain("No account required");
+    expect(productPathway).toContain("No bill upload");
+    expect(productFoundation).not.toMatch(/early access|checkout is intentionally disabled|audience validation|private build|in development/i);
+    expect(productPathway).not.toMatch(/early access|checkout remains disabled|audience validation|private build|workbook preview/i);
     expect(productPathway).not.toContain("$24 one-time");
   });
 
-  it("publishes representative previews without exposing or embedding the private master", () => {
+  it("parks legacy workbook and preview URLs behind complete free resources", () => {
+    expect(vercelConfig).toContain('"source": "/products/expanded-medical-bill-response-workbook.html"');
+    expect(vercelConfig).toContain('"source": "/downloads/expanded-medical-bill-response-workbook-preview.html"');
+    expect(vercelConfig.match(/"destination": "\/insurance\/medical-bill-review-toolkit"/g)?.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("retains representative preview artifacts internally without exposing the private master", () => {
     expect(productPage.match(/data-preview-page=/g)).toHaveLength(3);
     expect(productPage).toContain("/downloads/expanded-medical-bill-response-workbook-preview.html");
     expect(samplePreview).toContain("Sample workbook pages");
-    expect(samplePreview).toContain("No checkout is active");
     expect(samplePreview).not.toMatch(/expanded-medical-bill-response-workbook-v1\.(pdf|docx)/i);
     expect(productPage).not.toMatch(/expanded-medical-bill-response-workbook-v1\.(pdf|docx)/i);
     expect(productPage).not.toContain("download the full workbook");

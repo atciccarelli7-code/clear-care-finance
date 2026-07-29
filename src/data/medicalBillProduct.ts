@@ -6,7 +6,7 @@ export const MEDICAL_BILL_PRODUCT = {
   paymentEnabled: false,
   previewPath: "/downloads/expanded-medical-bill-response-workbook-preview.html",
   freeSystemPath: "/insurance/medical-bill-review-toolkit",
-  freePackPath: "/downloads/medical-bill-response-pack.html",
+  freePackPath: "/downloads/medical-bill-response-pack",
   audience: "Patients, caregivers, spouses, and adult children organizing a confusing medical-bill process.",
   promise:
     "Keep bills, EOBs, calls, written requests, deadlines, assistance records, denials, and caregiver tasks in one structured system.",

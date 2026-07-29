@@ -19,7 +19,7 @@ export function MedicalBillProductFoundation() {
       asset_id: "medical_bill_response_pack",
       source: "newsletter_medical_bill_resources",
     });
-    window.open("/downloads/medical-bill-response-pack.html", "_blank", "noopener,noreferrer");
+    window.open("/downloads/medical-bill-response-pack", "_blank", "noopener,noreferrer");
   };
 
   return (

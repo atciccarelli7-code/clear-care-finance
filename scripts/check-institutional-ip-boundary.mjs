@@ -42,7 +42,6 @@ const requiredFiles = [
   "docs/patient-guide-consumer-architecture.md",
   "docs/patient-guide-editorial-governance.md",
   "src/pages/HospitalPatientGuidePage.tsx",
-  "src/pages/ForOrganizationsPage.tsx",
   "public/patient-education/capability-manifest.json",
 ];
 const sources = {};
@@ -52,14 +51,24 @@ for (const relativePath of requiredFiles) {
 }
 
 const archive = sources["docs/b2b-patient-education-paused-archive-manifest.md"] ?? "";
-const organizationPage = sources["src/pages/ForOrganizationsPage.tsx"] ?? "";
 const hub = sources["src/pages/HospitalPatientGuidePage.tsx"] ?? "";
 const manifest = sources["public/patient-education/capability-manifest.json"] ?? "";
 
 if (!/PAUSED — FUTURE OPTION|paused future option|paused_future_option/i.test(`${archive}\n${manifest}`)) failures.push("Institutional program must preserve an explicit paused future-option state.");
-if (!/not currently offering a hospital pilot/i.test(organizationPage)) failures.push("Organization page must state that the hospital pilot is not currently offered.");
 if (!/fixed choices stay in this browser session/i.test(hub) || !/No name, diagnosis, policy number, claim detail, or free-text medical information is requested/i.test(hub)) failures.push("Consumer guide mode selector must visibly state local-session behavior and prohibited sensitive inputs.");
-if (!/No hospital, reviewer, clinician, insurer, attorney, employer, or regulator has approved/i.test(organizationPage)) failures.push("Organization page must preserve the no-approval boundary.");
+for (const retiredPage of [
+  "src/pages/ForOrganizationsPage.tsx",
+  "src/pages/OrganizationDetailsPage.tsx",
+  "src/pages/PatientEducationSystemsPage.tsx",
+  "src/pages/BloodThinnerReadinessPage.tsx",
+]) {
+  try {
+    await readFile(path.join(root, retiredPage), "utf8");
+    failures.push(`Retired institutional page must not remain in the public application source: ${retiredPage}`);
+  } catch {
+    // Expected: the paused program remains in its archive record, not in public route components.
+  }
+}
 
 if (failures.length) {
   console.error("Institutional archive and consumer boundary checks failed:\n");

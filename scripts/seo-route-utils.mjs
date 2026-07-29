@@ -34,9 +34,15 @@ export const ADDITIONAL_INDEXABLE_ROUTES = [
   "/patients-families/diagnosis-explained/kidney-failure",
 ];
 
-// Account and access-state pages are prerendered for reliable failure states but remain noindex.
+// Supporting print utilities plus account and access-state pages are prerendered for reliable
+// use and failure states but remain outside the canonical search inventory.
 // Authenticated /app routes are runtime-only and never enter a public route inventory.
-export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = ["/sign-in", "/account", "/access-processing"];
+export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [
+  "/insurance/hospital-discharge-coverage/printable",
+  "/sign-in",
+  "/account",
+  "/access-processing",
+];
 
 // These files contain only the fail-closed access shell rendered before browser session loading.
 // They are deliberately omitted from the public prerender manifest and sitemap.

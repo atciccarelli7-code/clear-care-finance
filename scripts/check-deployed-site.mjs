@@ -47,8 +47,8 @@ export const REPRESENTATIVE_ROUTES = [
     adFree: false,
   },
   {
-    path: "/products/healthcare-worker-benefits-decision-system",
-    markers: ["Healthcare Worker Benefits Decision System", "Interactive decision system"],
+    path: "/about",
+    markers: ["Andrew Ciccarelli", "Community Acquired Finance"],
     adFree: true,
   },
 ];

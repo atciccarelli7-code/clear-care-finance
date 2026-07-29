@@ -37,7 +37,7 @@ describe("commercial placement foundation", () => {
 
   it.each([
     ["reviewed EOB article", "/articles/how-to-read-an-eob"],
-    ["reviewed Medicare article", "/articles/medicare-options-explained"],
+    ["reviewed prescription coverage article", "/articles/prescription-coverage-open-enrollment-checklist"],
   ])("recognizes affirmatively reviewed publisher content: %s", (_label, path) => {
     expect(isCommerciallyEligiblePath(path)).toBe(true);
     expect(getCommercialRouteGroup(path)).toBe("articles");
@@ -45,6 +45,7 @@ describe("commercial placement foundation", () => {
 
   it.each([
     ["unreviewed article", "/articles/what-does-medicare-not-cover"],
+    ["Medicare article without a recorded RN note", "/articles/medicare-options-explained"],
     ["topic", "/topics/retirement-accounts"],
     ["guide", "/insurance/health-insurance-plan-types"],
     ["tool", "/tools/roth-vs-traditional-decision-helper"],

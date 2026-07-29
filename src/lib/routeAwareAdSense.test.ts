@@ -52,6 +52,7 @@ describe("route-aware AdSense guard", () => {
     ["new clinical blood-thinner article", "/articles/why-am-i-getting-a-blood-thinner-in-the-hospital"],
     ["new clinical medication-change article", "/articles/why-did-the-hospital-stop-or-change-my-home-medications"],
     ["unreviewed article", UNREVIEWED_ARTICLE_PATH],
+    ["Medicare article without a recorded RN note", "/articles/medicare-options-explained"],
     ["newsletter", "/newsletter"],
     ["contact", "/contact"],
     ["organization pilot", "/for-organizations"],
@@ -71,7 +72,7 @@ describe("route-aware AdSense guard", () => {
 
   it.each([
     ["reviewed EOB article", REVIEWED_ARTICLE_PATH],
-    ["reviewed Medicare guide article", "/articles/medicare-options-explained"],
+    ["reviewed prescription coverage article", "/articles/prescription-coverage-open-enrollment-checklist"],
     ["reviewed retirement article", "/articles/how-hospital-403b-matching-works"],
   ])("allows AdSense only on explicitly reviewed publisher-content: %s", (_label, path) => {
     expect(isAdEligiblePath(path)).toBe(true);
@@ -82,8 +83,8 @@ describe("route-aware AdSense guard", () => {
     expect(syncAdSenseForPath(REVIEWED_ARTICLE_PATH, `https://communityacquiredfinance.com${REVIEWED_ARTICLE_PATH}`)).toBe("loaded");
     expect(
       syncAdSenseForPath(
-        "/articles/medicare-options-explained",
-        "https://communityacquiredfinance.com/articles/medicare-options-explained",
+        "/articles/prescription-coverage-open-enrollment-checklist",
+        "https://communityacquiredfinance.com/articles/prescription-coverage-open-enrollment-checklist",
       ),
     ).toBe("present");
 

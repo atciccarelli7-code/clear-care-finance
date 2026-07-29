@@ -1,10 +1,8 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const read = (path: string) => readFileSync(path, "utf8");
 
-const productPage = read("public/products/expanded-medical-bill-response-workbook.html");
-const productEnhancement = read("public/medical-bill-productization.js");
 const appShell = read("index.html");
 const appLayout = read("src/components/layout/Layout.tsx");
 const productPathway = read("src/components/medical-bill/MedicalBillProductPathway.tsx");
@@ -14,8 +12,20 @@ const interestForm = read("src/components/medical-bill/MedicalBillInterestForm.t
 const productConfig = read("api/product-config.ts");
 const emailApi = read("api/send.ts");
 const unsubscribeApi = read("api/unsubscribe.ts");
-const samplePreview = read("public/downloads/expanded-medical-bill-response-workbook-preview.html");
 const vercelConfig = read("vercel.json");
+
+const obsoletePublicArtifacts = [
+  "public/products/expanded-medical-bill-response-workbook.html",
+  "public/downloads/expanded-medical-bill-response-workbook-preview.html",
+  "public/medical-bill-productization.js",
+] as const;
+
+const legacyRoutes = [
+  "/products/expanded-medical-bill-response-workbook",
+  "/products/expanded-medical-bill-response-workbook.html",
+  "/downloads/expanded-medical-bill-response-workbook-preview",
+  "/downloads/expanded-medical-bill-response-workbook-preview.html",
+] as const;
 
 describe("medical bill productization static contracts", () => {
   it("presents the public React pathways as complete free resources without development-state copy", () => {
@@ -29,25 +39,22 @@ describe("medical bill productization static contracts", () => {
     expect(productPathway).not.toContain("$24 one-time");
   });
 
-  it("parks legacy workbook and preview URLs behind complete free resources", () => {
-    expect(vercelConfig).toContain('"source": "/products/expanded-medical-bill-response-workbook.html"');
-    expect(vercelConfig).toContain('"source": "/downloads/expanded-medical-bill-response-workbook-preview.html"');
-    expect(vercelConfig.match(/"destination": "\/insurance\/medical-bill-review-toolkit"/g)?.length).toBeGreaterThanOrEqual(2);
+  it("removes obsolete public product artifacts so static-file precedence cannot bypass redirects", () => {
+    for (const artifact of obsoletePublicArtifacts) {
+      expect(existsSync(artifact), `${artifact} should not be deployed publicly`).toBe(false);
+    }
   });
 
-  it("retains representative preview artifacts internally without exposing the private master", () => {
-    expect(productPage.match(/data-preview-page=/g)).toHaveLength(3);
-    expect(productPage).toContain("/downloads/expanded-medical-bill-response-workbook-preview.html");
-    expect(samplePreview).toContain("Sample workbook pages");
-    expect(samplePreview).not.toMatch(/expanded-medical-bill-response-workbook-v1\.(pdf|docx)/i);
-    expect(productPage).not.toMatch(/expanded-medical-bill-response-workbook-v1\.(pdf|docx)/i);
-    expect(productPage).not.toContain("download the full workbook");
+  it("parks all legacy workbook and preview URL variants behind the complete free toolkit", () => {
+    for (const route of legacyRoutes) {
+      expect(vercelConfig).toContain(`"source": "${route}"`);
+    }
+    expect(vercelConfig.match(/"destination": "\/insurance\/medical-bill-review-toolkit"/g)?.length).toBeGreaterThanOrEqual(4);
   });
 
   it("renders supporting offers through governed React routes instead of a global DOM injector", () => {
     expect(appShell).not.toContain("medical-bill-productization-spa.js");
-    expect(appShell).not.toContain('<script defer src="/medical-bill-productization.js"></script>');
-    expect(productPage).toContain('<script defer src="/medical-bill-productization.js"></script>');
+    expect(appShell).not.toContain("medical-bill-productization.js");
     expect(appLayout).toContain("hasMedicalBillProductPathway");
     expect(appLayout).toContain("<MedicalBillProductPathway pathname={location.pathname} />");
     expect(pathwayConfig).toContain("/insurance/medical-bill-review-toolkit");
@@ -57,7 +64,6 @@ describe("medical bill productization static contracts", () => {
     expect(productPathway).toContain("supporting_page_to_product");
     expect(productPathway).not.toContain("history.pushState");
     expect(productPathway).not.toContain("setTimeout");
-    expect(productEnhancement).toContain("premium_interest_submit");
   });
 
   it("keeps the medical-bill product and portfolio bundle private while allowing a separate product to advance", () => {
@@ -69,8 +75,6 @@ describe("medical bill productization static contracts", () => {
     expect(productConfig.match(/checkoutEnabled: false/g)?.length).toBeGreaterThanOrEqual(2);
     expect(productConfig).not.toContain("MEDICAL_BILL_WORKBOOK_CHECKOUT_URL");
     expect(productConfig).not.toContain("VITE_LEMON_SQUEEZY_MEDICAL_BILL_PRODUCT_URL");
-    expect(productPage).not.toContain("stripe");
-    expect(productPage).not.toContain("card number");
   });
 
   it("implements consent-aware medical bill email entry and signed unsubscribe handling", () => {
@@ -82,8 +86,6 @@ describe("medical bill productization static contracts", () => {
     expect(unsubscribeApi).toContain("unsubscribed: true");
     expect(interestForm).toContain('type: isSequence ? "medical-bill-sequence" : "medical-bill-product-interest"');
     expect(interestForm).toContain("medical_bill_email_sequence_start");
-    expect(productEnhancement).toContain('"medical-bill-product-interest"');
     expect(interestForm).not.toMatch(/diagnosisDetails|claimNumber|memberId|billAmount|providerName/);
-    expect(productEnhancement).not.toMatch(/diagnosisDetails|claimNumber|memberId|billAmount|providerName/);
   });
 });

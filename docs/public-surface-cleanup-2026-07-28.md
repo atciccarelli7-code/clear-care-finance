@@ -9,14 +9,17 @@ Remove visitor-facing implementation status, prelaunch language, product-validat
 - Removed the About-page explanation for why a founder photograph was not displayed.
 - Removed the Healthcare Worker Benefits Decision System preview card from the healthcare-worker hub.
 - Redirected the public Benefits Decision System product URLs to `/healthcare-workers`.
-- Redirected the expanded medical-bill workbook and sample-preview URLs to the complete free Medical Bill Review Toolkit.
 - Reframed the newsletter as a finished monthly educational publication rather than a product lab.
 - Reframed medical-bill product-development sections as complete free resources: the response system, printable response pack, and educational email sequence.
 - Removed public phrases such as `early access`, `checkout disabled`, `in development`, `private build`, `audience validation`, and `future purchase` from these visitor journeys.
+- Removed the obsolete static medical-bill workbook product page, static sample-preview page, and their dedicated public JavaScript. Production verification showed that static-file precedence could serve those pages before redirect rules were applied.
+- Added permanent redirects for both clean and `.html` variants of the retired workbook and preview URLs to the complete free Medical Bill Review Toolkit.
 
 ## Preserved internal work
 
-No premium-system, Stripe, Supabase, entitlement, medical-bill workbook, email, analytics, or product-development code was deleted. Current status and future work remain recorded in:
+The underlying premium-system, Stripe, Supabase, entitlement, medical-bill product, email, analytics, and release-control work remains in the repository. The deleted files were obsolete public presentation artifacts; their complete contents remain recoverable through Git history.
+
+Current status and future work remain recorded in:
 
 - `docs/premium-system-status.md`
 - `docs/premium-system-setup.md`
@@ -24,6 +27,7 @@ No premium-system, Stripe, Supabase, entitlement, medical-bill workbook, email, 
 - `docs/medical-bill-productization-implementation-2026-07-20.md`
 - `src/data/paidProducts.ts`
 - `src/data/medicalBillProduct.ts`
+- `api/product-config.ts`
 - Vercel deployment metadata and Git history
 
 ## Restoration gate

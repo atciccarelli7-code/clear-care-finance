@@ -53,13 +53,14 @@ describe("Hospital & Patient Guide configuration", () => {
     expect(medicationChanges?.takeaway).toContain("follow-up plan");
   });
 
-  it("keeps the hub and clinical launch articles ad-free", () => {
+  it("keeps the hub and reviewed clinical launch articles ad-free", () => {
     expect(resolveContentGovernance(HOSPITAL_GUIDE_ROUTE)).toMatchObject({ adEligible: false, pageType: "hub" });
     for (const article of HOSPITAL_PATIENT_ARTICLES) {
       expect(resolveContentGovernance(`/articles/${article.slug}`, { knownRoute: true })).toMatchObject({
         adEligible: false,
         pageType: "article",
-        reviewStatus: "needs-review",
+        reviewStatus: "reviewed",
+        sensitiveContext: true,
       });
     }
   });

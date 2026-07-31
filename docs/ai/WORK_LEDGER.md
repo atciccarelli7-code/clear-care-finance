@@ -132,6 +132,24 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Evidence or event that should trigger reassessment:** 2027-01-31; material article revisions; Google policy or account-status change; first meaningful placement/performance evidence; user trust or accessibility concerns; or any eligible-article quality failure.
 - **Links:** `docs/work-packets/2026-07-31-adsense-publisher-inventory-reconciliation.md`; GitHub PR #234; Notion publisher-inventory record; Linear AND-97.
 
+### CAF-W-007 — Evidence-led insurance handoff baseline
+
+- **Date:** 2026-07-31
+- **Assignment:** Identify and release the single highest-value next improvement using current production, repository, search, analytics, database, and operating evidence.
+- **Starting evidence:** The connected Growth & Revenue dashboard recorded 8 organic clicks in its latest 28-day scorecard, a dated `/insurance` opportunity of 18 impressions, 0 clicks, and average position 11.28 through 2026-07-20, and blank downstream funnel fields. Current code already emitted consent-aware Vercel/GA4 events, but the active Supabase project contained no behavioral evidence table.
+- **Decision:** Treat measurement integrity as the current bottleneck and add a bounded first-party evidence loop for the existing `/insurance` decision tree rather than writing more content, redesigning the hub, or activating monetization without outcome evidence.
+- **Implementation:** Added a strict shared event contract, consent-gated client observer, same-origin server endpoint, fixed destination mapping, private `growth_events` migration, public privacy disclosure, tests, a 28-day experiment contract, and durable work records. Existing insurance pathway events supply the numerator; a once-per-session consented hub view supplies the denominator.
+- **Validation:** The first release-gate pass rejected one API TypeScript narrowing defect after 544 unit tests and all preceding governance/content checks passed. The defect was corrected before any database migration. Final CI, browser, Supabase privilege/advisor, Vercel preview, merge, production endpoint, and runtime evidence remain controlling and must be recorded in PR #235.
+- **Release state:** In progress on PR #235; no production migration or behavioral collection is active until all gates pass.
+- **User and business impact expected:** Future decisions about the insurance hub can use distinct consented session counts and fixed next-step destinations instead of assuming that traffic, engagement, or abandonment exists. The current experience remains visually unchanged.
+- **What was learned:** A rich event taxonomy is not equivalent to accessible decision-grade evidence. A measurement intervention should be scoped to one decision and one denominator/numerator pair, not become a sitewide data-collection project by default.
+- **Assumption invalidated:** Existing analytics emission code and a dashboard template are sufficient to support evidence-led prioritization.
+- **Reusable asset created:** Exact first-party event parser, fixed destination registry, consent/session observer, service-only evidence schema, migration-security tests, experiment threshold, and queryable numerator/denominator contract.
+- **Process improvement implemented:** New first-party evidence surfaces require explicit consent, prohibited-field documentation, exact-key parsing, no public database privileges, a minimum interpretation threshold, and separate release-verification data that is deleted after testing.
+- **Unresolved warning:** Consented sessions may be sparse and are not representative of all visitors. The experiment cannot establish satisfaction or causality and must not be generalized before the 10-session threshold.
+- **Evidence or event that should trigger reassessment:** First 28 days after production release; 10 consented insurance-hub sessions; a privacy or security defect; endpoint abuse or cost; or a proposal to expand the evidence schema or tracked surface.
+- **Links:** `docs/work-packets/2026-07-31-evidence-led-insurance-handoff.md`; GitHub PR #235; Notion evidence-loop record; Linear AND-98; CAF Growth & Revenue Operating Dashboard.
+
 ## Maintenance rules
 
 - Add entries only for material work that changes the product, operating system, evidence base, or strategic direction.

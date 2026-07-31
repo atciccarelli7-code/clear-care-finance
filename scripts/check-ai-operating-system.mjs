@@ -18,6 +18,8 @@ const requiredFiles = [
   'docs/ai/WORK_LEDGER.md',
   'docs/ai/WORK_PACKET_TEMPLATE.md',
   'docs/ai/COMPOUNDING_LOOP.md',
+  'docs/ai/EXECUTIVE_OPERATING_SYSTEM.md',
+  'docs/ai/EXECUTIVE_DECISION_REVIEW_TEMPLATE.md',
   '.github/pull_request_template.md',
 ];
 
@@ -74,6 +76,9 @@ if (errors.length === 0) {
 
   const agents = read('AGENTS.md');
   const master = read('docs/ai/MASTER_WORK_PROMPT.md');
+  const executive = read('docs/ai/EXECUTIVE_OPERATING_SYSTEM.md');
+  const executiveTemplate = read('docs/ai/EXECUTIVE_DECISION_REVIEW_TEMPLATE.md');
+  const workPacket = read('docs/ai/WORK_PACKET_TEMPLATE.md');
   const packageJson = JSON.parse(read('package.json'));
   const requiredReferences = [
     'docs/ai/ROLE_REGISTRY.json',
@@ -83,6 +88,8 @@ if (errors.length === 0) {
     'docs/ai/WORK_LEDGER.md',
     'docs/ai/WORK_PACKET_TEMPLATE.md',
     'docs/ai/COMPOUNDING_LOOP.md',
+    'docs/ai/EXECUTIVE_OPERATING_SYSTEM.md',
+    'docs/ai/EXECUTIVE_DECISION_REVIEW_TEMPLATE.md',
   ];
 
   for (const reference of requiredReferences) {
@@ -92,6 +99,79 @@ if (errors.length === 0) {
     if (!master.includes(reference)) {
       errors.push(`MASTER_WORK_PROMPT.md does not reference required operating artifact: ${reference}`);
     }
+  }
+
+  const requiredExecutivePhrases = [
+    'Inherited-decision challenge gate',
+    'Quantified-impact requirement',
+    'Anomaly detection',
+    'Separate technical and business validation',
+    'Chief Financial Officer',
+    'Chief Operating Officer',
+    'Chief Data and Analytics Officer',
+    'Adversarial Red Team',
+    'Absence from one record is not proof',
+  ];
+
+  for (const phrase of requiredExecutivePhrases) {
+    if (!executive.includes(phrase)) {
+      errors.push(`EXECUTIVE_OPERATING_SYSTEM.md is missing required control: ${phrase}`);
+    }
+  }
+
+  const requiredTemplatePhrases = [
+    'Always provide numerator and denominator',
+    'Changes more than 20% of a major site surface',
+    'Technical validation',
+    'Business validation',
+    'What did not change',
+    'Single highest-value next action',
+  ];
+
+  for (const phrase of requiredTemplatePhrases) {
+    if (!executiveTemplate.includes(phrase)) {
+      errors.push(`EXECUTIVE_DECISION_REVIEW_TEMPLATE.md is missing required control: ${phrase}`);
+    }
+    if (!workPacket.includes(phrase)) {
+      errors.push(`WORK_PACKET_TEMPLATE.md is missing required executive control: ${phrase}`);
+    }
+  }
+
+  const executivePerspectives = [
+    'Chief Executive / Strategy',
+    'Chief Operating Officer',
+    'Chief Financial Officer',
+    'Chief Revenue Officer',
+    'Chief Product Officer',
+    'Chief Technology Officer',
+    'Chief Data and Analytics Officer',
+    'Chief Marketing and Discovery Officer',
+    'Editorial and Evidence Officer',
+    'Healthcare User and Clinical Context Officer',
+    'Privacy, Legal, and User Protection Officer',
+    'Accessibility and Reliability Officer',
+    'Quality and Release Officer',
+    'Adversarial Red Team',
+    'Process Improvement Officer',
+  ];
+
+  for (const perspective of executivePerspectives) {
+    if (!executive.includes(perspective)) {
+      errors.push(`EXECUTIVE_OPERATING_SYSTEM.md does not name executive perspective: ${perspective}`);
+    }
+    if (!workPacket.includes(perspective)) {
+      errors.push(`WORK_PACKET_TEMPLATE.md does not include executive perspective: ${perspective}`);
+    }
+  }
+
+  if (!agents.includes('Technical validation and business validation are separate release decisions')) {
+    errors.push('AGENTS.md must require separate technical and business validation');
+  }
+  if (!master.includes('A passing build does not imply a passing business decision')) {
+    errors.push('MASTER_WORK_PROMPT.md must distinguish technical from business validation');
+  }
+  if (!agents.includes('absence from one registry as proof')) {
+    errors.push('AGENTS.md must prohibit treating registry absence as proof that work was absent');
   }
 
   if (packageJson.scripts?.['ai:governance-check'] !== 'node scripts/check-ai-operating-system.mjs') {

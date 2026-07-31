@@ -37,7 +37,7 @@ test.beforeEach(async ({ page }) => {
 
 test("federal mixed and uncertain borrowers remain in verification without a commercial handoff", async ({ page }) => {
   for (const loanType of ["federal", "mixed", "uncertain"]) {
-    await page.goto(route);
+    await page.goto(route, { waitUntil: "networkidle" });
     await page.getByLabel("Which loans are included?").selectOption(loanType);
     await page.getByRole("button", { name: "Show verification steps" }).click();
     await expect(page.getByRole("heading", { name: "Verify loan type first" })).toBeFocused();
@@ -93,7 +93,7 @@ test("private quote comparison completes by keyboard with portable output and fi
 });
 
 test("lower payment and higher lifetime cost remain visually and semantically explicit on mobile", async ({ page }) => {
-  await page.goto(route);
+  await page.goto(route, { waitUntil: "networkidle" });
   await enterPrivatePlan(page);
   await page.getByLabel("Refinance comparison").selectOption("compare");
   await page.getByLabel("Quoted APR").fill("8.5");

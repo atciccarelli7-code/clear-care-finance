@@ -57,8 +57,8 @@ if (errors.length === 0) {
       if (!skill.includes(`name: ${role.id}`)) {
         errors.push(`Skill frontmatter name does not match registry id: ${role.path}`);
       }
-      if (!skill.includes('## Completion test')) {
-        errors.push(`Skill lacks a completion test: ${role.path}`);
+      if (!/^## Completion (test|gate)$/m.test(skill)) {
+        errors.push(`Skill lacks a completion test or completion gate: ${role.path}`);
       }
       if (!agents.includes(role.path)) {
         errors.push(`AGENTS.md does not register skill path: ${role.path}`);

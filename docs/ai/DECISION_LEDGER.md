@@ -114,6 +114,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** A material decision still passes without quantified business consequences, a future founder must catch a cross-functional anomaly the system should have detected, executive controls create disproportionate friction without preventing misses, or a more reliable automated decision-quality system replaces these controls.
 - **Supersedes:** No prior confirmed principle. It hardens CAF-D-004 and CAF-D-006 after a documented failure of execution fidelity.
 
+### CAF-D-009 — Complete route-level publisher-content disposition
+
+- **Date:** 2026-07-31
+- **Status:** CONFIRMED
+- **Decision:** Every published article must have exactly one durable publisher-content disposition. The current reviewed portfolio makes 39 of 71 articles ad-eligible and keeps 32 reviewed articles intentionally ad-free; all non-article, interactive, private, sensitive, unknown, and future-unclassified routes remain ad-free by default.
+- **Rationale:** The inherited five-route whitelist represented only 5 of 160 indexable routes and 5 of 71 articles. It was a technically functioning precaution, not a complete editorial record or economically coherent permanent inventory. A complete ledger preserves prior review work while allowing selective monetization without broad route prefixes.
+- **Evidence:** Founder authorization; official Google AdSense documentation on whole-site review, code placement, page exclusions, and excluded areas; `src/data/publisherArticleReviews.ts`; publication-quality checks; route-aware AdSense tests; and the quantified executive work packet.
+- **Consequences:** All 71 published articles receive explicit review provenance and a revisit date. Ad-eligible inventory rises from 5 to 39 routes while 121 of 160 canonical routes remain ad-free. Medicare, Medicaid, medication safety, discharge, clinical recovery, prior authorization, financial assistance, tools, forms, results, hubs, directories, topic guides, legal/trust pages, private routes, and unknown routes remain excluded. Missing or duplicate article dispositions fail governance.
+- **Revisit trigger:** 2027-01-31; material article revisions; Google policy or account-status change; meaningful placement, traffic, revenue, accessibility, or user-trust evidence; or a quality failure on an eligible article.
+- **Supersedes:** The July 29 five-route implementation as the complete publisher inventory. It preserves the fail-closed and sensitive-context principles established by that remediation.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

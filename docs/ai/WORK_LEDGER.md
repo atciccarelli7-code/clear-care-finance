@@ -112,7 +112,25 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Process improvement implemented:** Material assignments now require executive accountability, inherited-policy review, anomaly escalation, numerator-and-denominator impact, and separate technical/business dispositions.
 - **Unresolved warning:** Automated checks can prove the fields and controls exist, but cannot fully prove the quality or independence of future judgment. Any founder-detected material miss remains an automatic process-review trigger.
 - **Evidence or event that should trigger reassessment:** A material future decision passes without quantified business consequences, the founder again catches a cross-functional anomaly, or the controls create disproportionate process burden without reducing misses.
-- **Links:** `docs/work-packets/2026-07-31-executive-operating-system-hardening.md`; pull request to be recorded at release.
+- **Links:** `docs/work-packets/2026-07-31-executive-operating-system-hardening.md`; PR #233; merge commit `16b52c74fa900f853aceab9ce8036396dbebfb38`.
+
+### CAF-W-006 — AdSense publisher inventory reconciliation
+
+- **Date:** 2026-07-31
+- **Assignment:** Correct the inherited five-page AdSense whitelist and reconcile completed editorial work into a defensible publisher-content inventory.
+- **Starting evidence:** Current production exposed 5 of 160 indexable routes to the managed AdSense script, while the public article registry contained 71 published articles. The five-route map predated the executive decision controls and did not distinguish unreviewed content from reviewed content intentionally kept ad-free.
+- **Decision:** Give every published article exactly one durable publisher disposition. Make 39 non-sensitive, substantive informational articles ad-eligible; record 27 sensitive and 5 editorial/reference-led articles as reviewed but ad-free; preserve fail-closed treatment for all non-article, interactive, private, unknown, and future-unclassified routes.
+- **Implementation:** Added `src/data/publisherArticleReviews.ts`; integrated the ledger with article review metadata and centralized content governance; strengthened route-aware tests and `scripts/check-adsense-readiness.mjs`; recorded exact numerator-and-denominator impact, official Google evidence, sensitive exclusions, next-review dates, and rollback boundaries in the audit and executive work packet.
+- **Validation:** The first branch pass correctly failed two stale internal contracts: a hospital-patient test still labeled reviewed clinical articles as `needs-review`, and publisher metadata overwrote a prior editorial review date. Both were corrected without expanding eligibility. On the corrected head, lint, publication readiness, archive and patient-guide contracts, content freshness, all article checks, 535 unit tests, AdSense publisher governance, production build, bundle budget, and prerender passed before final browser certification.
+- **Release state:** PR #234 is the controlling release record. Final merge SHA, production deployment, and runtime evidence must be recorded after the last browser and review gates pass.
+- **User and business impact expected:** Display-ad inventory becomes commercially meaningful—39 of 71 articles and 24.4% of the 160-route indexable site—while 121 canonical routes remain ad-free and consequential healthcare decisions remain protected from display advertising.
+- **What was learned:** A review registry must capture both positive eligibility and intentional exclusion. Publisher review is distinct from editorial freshness; applying a new monetization review must not rewrite the date of an earlier substantive editorial review.
+- **Assumption invalidated:** A five-item whitelist represented the reviewed article portfolio, and absence from that whitelist meant an article had never been reviewed.
+- **Reusable asset created:** Complete typed publisher-disposition ledger, completeness/uniqueness assertions, sensitive-content regression tests, denominator-based generated audit, and six-month reassessment contract.
+- **Process improvement implemented:** Every published article must now receive exactly one disposition; missing, duplicate, sensitive-context, or publication-quality failures block the AdSense governance gate. Future routes remain ad-free until affirmatively classified.
+- **Unresolved warning:** This release does not establish AdSense approval, account-level Auto ads configuration, page-exclusion settings, ad fill, traffic, RPM, or revenue. Those remain external owner/account evidence.
+- **Evidence or event that should trigger reassessment:** 2027-01-31; material article revisions; Google policy or account-status change; first meaningful placement/performance evidence; user trust or accessibility concerns; or any eligible-article quality failure.
+- **Links:** `docs/work-packets/2026-07-31-adsense-publisher-inventory-reconciliation.md`; GitHub PR #234; Notion publisher-inventory record; Linear AND-97.
 
 ## Maintenance rules
 

@@ -94,6 +94,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Does not establish individual eligibility, approval, forgiveness, discharge, tax treatment, cosigner release, hardship rights, a lender relationship, or the terms of any promissory note or final lender disclosure.
 - **Owner:** Content/evidence integrity and privacy/legal protection
 
+### CAF-E-004 — AdSense publisher-content and exclusion controls
+
+- **Claim or state:** Google evaluates the connected site for AdSense review, instructs publishers to place ad code on pages where ads should appear, and supports page and section exclusions from Auto ads. These facts support selective route-level ad eligibility but do not establish a minimum eligible-page count, approval probability, traffic level, ad fill, RPM, or account approval state.
+- **Domain:** Advertising and external platform behavior
+- **Source:** Official Google AdSense Help: connect site to AdSense; page exclusions; excluded areas; ad-code placement; Auto ads optimization guidance.
+- **Evidence class:** PRIMARY-SOURCE
+- **Verified date:** 2026-07-31
+- **Coverage:** Google AdSense product and policy guidance relevant to site connection, route eligibility, and exclusions.
+- **Freshness trigger:** 2027-01-31, Google policy/product change, AdSense account review result, or material change to Auto ads/exclusion controls.
+- **Used by:** `src/data/publisherArticleReviews.ts`, `src/lib/contentGovernance.ts`, `scripts/check-adsense-readiness.mjs`, CAF-D-009, PR #234.
+- **Limitations:** Does not prove Google approves the site, sees all current pages immediately, values one route more than another, or will serve ads on any eligible route. Account-level settings and approval status remain owner-controlled evidence.
+- **Owner:** Monetization/conversion, publishing/governance, and privacy/legal protection
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

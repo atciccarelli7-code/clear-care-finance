@@ -51,7 +51,7 @@ comment on table public.growth_events is
 alter table public.growth_events enable row level security;
 alter table public.growth_events force row level security;
 
-revoke all on table public.growth_events from public, anon, authenticated;
+revoke all on table public.growth_events from public, anon, authenticated, service_role;
 grant select, insert, delete on table public.growth_events to service_role;
 
 create unique index if not exists growth_events_session_signal_unique

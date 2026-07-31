@@ -19,6 +19,7 @@ import { SEARCH_MOAT_ARTICLES } from "./searchMoatArticles";
 import { TOTAL_COMPENSATION_ARTICLE } from "./totalCompensationArticle";
 import { applySearchConsoleArticleEnhancements } from "./searchConsoleArticleEnhancements";
 import { applySearchOpportunityArticleEnhancements } from "./searchOpportunityArticleEnhancements";
+import { applyPublisherArticleReviewMetadata } from "./publisherArticleReviews";
 import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
 
@@ -70,4 +71,6 @@ const ARTICLES_WITH_REVIEW_METADATA = applySearchOpportunityArticleEnhancements(
     : article,
 );
 
-export const ALL_ARTICLES = publishedArticles(ARTICLES_WITH_REVIEW_METADATA);
+const ARTICLES_WITH_PUBLISHER_REVIEW = applyPublisherArticleReviewMetadata(ARTICLES_WITH_REVIEW_METADATA);
+
+export const ALL_ARTICLES = publishedArticles(ARTICLES_WITH_PUBLISHER_REVIEW);

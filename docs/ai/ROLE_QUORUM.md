@@ -1,18 +1,20 @@
 # Community Acquired Finance Role Quorum
 
-This document is the human-readable map for the repository skills registered in `AGENTS.md`.
+This document is the human-readable map for `docs/ai/ROLE_REGISTRY.json` and the repository skills registered in `AGENTS.md`.
 
 ## Why the quorum exists
 
-Broad prompts create anchoring risk. “Review SEO,” “fix AdSense,” “improve UI,” and “build the next feature” can each be completed competently while missing a more important product, revenue, user, or risk issue.
+Broad prompts create anchoring risk. “Review SEO,” “fix AdSense,” “improve UI,” and “build the next feature” can each be completed competently while missing a more important product, revenue, user, technical, or risk issue.
 
-The role quorum prevents that failure by requiring independent disciplinary review before an integrated decision. A role may conclude that it is not implicated, but it must make that conclusion explicitly.
+A role may conclude that it is not implicated, but it must make that conclusion explicitly. The context, capability, and process-improvement roles also ensure that each assignment starts with better evidence and leaves reusable improvements behind.
 
 ## Roles and primary questions
 
 | Role | Primary question | Typical block condition |
 |---|---|---|
-| Orchestrator | Did the team inspect the whole problem and reconcile the roles? | Missing role, hidden conflict, or prompt anchoring remains unresolved |
+| Orchestrator | Did the team inspect the whole problem, reconcile roles, and complete the loop? | Missing role, hidden conflict, prompt anchoring, or incomplete closeout |
+| Context steward | Does the team understand current verified context, decisions, evidence quality, and prior work? | Material reliance on stale, conflicting, or chat-only context |
+| Capability router | Is each need assigned to the strongest available tool, connector, skill, or source? | A material claim or action lacks an authoritative evidence or execution path |
 | Executive strategy | Does this create durable strategic value now? | Work is misaligned, duplicative, or has clearly superior opportunity cost |
 | Product management | Can the target user complete a meaningful decision? | The experience ends at content or a number without a complete journey |
 | Healthcare user research | Does this fit real healthcare-worker, patient, or caregiver conditions? | Generic assumptions make the experience impractical or misleading |
@@ -20,7 +22,7 @@ The role quorum prevents that failure by requiring independent disciplinary revi
 | UX and design system | Can a first-time user understand and complete the task? | Material usability, state, mobile, or commercial-presentation failure |
 | Content and evidence integrity | Are claims, calculations, and explanations supportable and current? | Unsupported consequential claim, calculation error, or unsafe simplification |
 | Frontend engineering | Is browser behavior correct, maintainable, typed, and tested? | Broken journey, unsafe client logic, route regression, or untested calculation |
-| Systems architecture | Do the product, content, data, commercial, and platform systems form one coherent architecture? | Conflicting sources of truth, unsafe coupling, or an unmaintainable cross-system design |
+| Systems architecture | Do the product, content, data, commercial, and platform systems form one coherent architecture? | Conflicting sources of truth, unsafe coupling, or unmaintainable design |
 | Backend, data, and security | Are trust boundaries and data handling default-deny and minimized? | Authorization flaw, unnecessary sensitive data, insecure secret, or unsafe migration |
 | Platform and DevOps | Can this deploy, operate, fail, and recover safely? | Broken build, undocumented configuration, unsafe infrastructure, or no rollback |
 | SEO and discovery | Does the route deserve and technically support qualified discovery? | Cannibalization, indexing risk, absent information gain, or misleading snippet |
@@ -31,22 +33,26 @@ The role quorum prevents that failure by requiring independent disciplinary revi
 | Publishing and governance | Is the asset correctly reviewed, owned, published, and maintainable? | False freshness or review state, missing provenance, or broken lifecycle |
 | Quality and release | Is there independent evidence the latest implementation is releasable? | Failed gate, untested core journey, unresolved regression, or stale-head review |
 | Adversarial red team | What did everyone else normalize or fail to challenge? | Strong countercase, prompt blind spot, or failure mode remains unmitigated |
+| Process improvement | What should this work make easier, safer, faster, or more reusable next time? | Meaningful rework or failure produces no durable prevention or learning control |
 
 ## Standard handoff sequence
 
-1. **Orchestrator → all roles:** assignment charter and evidence set.
-2. **Independent role passes:** no preferred solution is supplied.
-3. **Orchestrator synthesis:** agreements, conflicts, opportunities, and blockers.
-4. **Strategy + product:** select the outcome and minimum complete scope.
-5. **User + IA + UX:** define the practical journey and presentation.
-6. **Content + frontend + systems architecture:** establish evidence, domain boundaries, sources of truth, and implementation contracts.
-7. **Backend/security + platform:** implement trust boundaries, persistence, runtime, deployment, and failure isolation.
-8. **SEO + monetization + analytics:** design distribution, economic value, and measurement without distorting the product.
-9. **Accessibility + privacy/legal:** protect users before implementation is considered releasable.
-10. **Publishing:** set artifact state, ownership, freshness, and lifecycle.
-11. **Quality:** verify the actual implementation and latest head.
-12. **Red team:** challenge the integrated result and largest remaining opportunity.
-13. **Orchestrator:** resolve findings, release, and report.
+1. **Context steward:** reads project context and ledgers, then flags stale or conflicting records.
+2. **Capability router:** maps evidence and execution needs to authoritative systems and specialized skills.
+3. **Orchestrator → all roles:** distributes an assignment charter, evidence set, and work packet without a preferred solution.
+4. **Independent role passes:** each role records a disposition and acceptance test.
+5. **Orchestrator synthesis:** agreements, conflicts, opportunities, and blockers.
+6. **Strategy + product:** select the outcome and minimum complete scope.
+7. **User + IA + UX:** define the practical journey and presentation.
+8. **Content + frontend + systems architecture:** establish evidence, domain boundaries, sources of truth, and implementation contracts.
+9. **Backend/security + platform:** implement trust boundaries, persistence, runtime, deployment, and failure isolation.
+10. **SEO + monetization + analytics:** design distribution, economic value, and measurement without distorting the product.
+11. **Accessibility + privacy/legal:** protect users before the implementation is considered releasable.
+12. **Publishing:** set artifact state, ownership, freshness, and lifecycle.
+13. **Quality:** verify the actual implementation and latest head.
+14. **Red team:** challenge prompt anchoring, failure modes, and the largest remaining opportunity.
+15. **Process improvement:** convert the work into context, tests, scripts, templates, reusable primitives, or explicit learning.
+16. **Context steward + orchestrator:** close the ledgers, release, and report.
 
 ## Status contract
 
@@ -66,6 +72,8 @@ Every role returns:
 - `BLOCK`: release or decision must stop until resolved or formally re-scoped.
 - `NOT IMPLICATED`: the domain is genuinely unaffected; rationale is mandatory.
 
+The orchestrator, context steward, capability router, quality/release, adversarial red team, and process improvement roles are inherently implicated in every material assignment.
+
 ## Conflict examples
 
 ### Revenue versus editorial integrity
@@ -80,13 +88,18 @@ SEO may identify overlapping intent. Information architecture determines canonic
 
 Product may recommend saved workspaces. Healthcare user research determines whether persistence creates genuine value. Systems architecture identifies the source of truth and isolation boundary. Backend/security and privacy/legal minimize fields and enforce deletion and ownership. Monetization cannot use saved sensitive inputs for unrelated targeting.
 
+### Speed versus compounding
+
+Implementation may prefer finishing after tests pass. Process improvement asks what was rediscovered or repeated. Context steward determines where the lesson belongs. Quality prevents process additions from weakening current release evidence. The smallest durable improvement is implemented only when its future value exceeds its maintenance cost.
+
 ## Review cadence
 
-- **Every substantial assignment:** core roles plus domain relevance checks.
+- **Every substantial assignment:** mandatory roles plus domain relevance checks.
 - **Full-site review, new product, route program, monetization change, or release:** all roles.
 - **After implementation:** rerun affected roles against the actual diff and deployed journey.
-- **After meaningful production evidence:** analytics, product, strategy, monetization, and red team reassess the decision.
+- **After meaningful production evidence:** analytics, product, strategy, monetization, context steward, process improvement, and red team reassess the decision.
+- **After any material miss or external critique:** mandatory process-improvement and decision/evidence review.
 
 ## Governance principle
 
-No single role is the “main” reviewer. The orchestrator owns reconciliation, not dominance. A technically correct, searchable, attractive, or profitable change can still fail the quorum if it does not safely and measurably help the intended user complete a healthcare financial decision.
+No single role is the main reviewer. The orchestrator owns reconciliation, not dominance. A technically correct, searchable, attractive, or profitable change can still fail the quorum if it does not safely and measurably help the intended user complete a healthcare financial decision—or if the work discards lessons that should improve future execution.

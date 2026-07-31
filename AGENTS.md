@@ -45,6 +45,7 @@ Load the orchestrator and every specialist skill below for substantial build, au
 - UX and design system: `.agents/skills/caf-ux-design-system/SKILL.md`
 - Content and evidence integrity: `.agents/skills/caf-content-evidence-integrity/SKILL.md`
 - Frontend engineering: `.agents/skills/caf-frontend-engineering/SKILL.md`
+- Systems architecture: `.agents/skills/caf-systems-architecture/SKILL.md`
 - Backend, data, and security: `.agents/skills/caf-backend-data-security/SKILL.md`
 - Platform and DevOps: `.agents/skills/caf-platform-devops/SKILL.md`
 - SEO and discovery: `.agents/skills/caf-seo-discovery/SKILL.md`

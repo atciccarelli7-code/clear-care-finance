@@ -12,6 +12,7 @@
   },
   "include": [
     "api/**/*.ts",
+    "src/lib/evidenceEventContract.ts",
     "src/premium/contracts.ts",
     "src/premium/calculations.ts"
   ]

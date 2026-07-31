@@ -48,7 +48,7 @@ jobs:
           name: browser-certification-${{ github.run_id }}
           path: |
             healthcare-offer-verification-*.png
-            print-certification/**/*.pdf
+            artifacts/print-certification/**/*.pdf
             test-results/
             playwright-report/
           retention-days: 14

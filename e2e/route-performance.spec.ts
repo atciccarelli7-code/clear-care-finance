@@ -60,13 +60,16 @@ test.describe("mobile-controlling route-group performance governance", () => {
       const metrics = await page.evaluate(() => {
         const resources = performance.getEntriesByType("resource") as PerformanceResourceTiming[];
         const bytesFor = (entry: PerformanceResourceTiming) => entry.transferSize || entry.encodedBodySize;
+        const applicationResources = resources.filter((entry) => !new URL(entry.name).pathname.startsWith("/_vercel/"));
         return {
           lcpMs: window.__cafPerformance?.lcpMs ?? 0,
           cls: Number((window.__cafPerformance?.cls ?? 0).toFixed(4)),
           longTaskMs: Math.round(window.__cafPerformance?.longTaskMs ?? 0),
           javascriptBytes: resources.filter((entry) => new URL(entry.name).pathname.endsWith(".js")).reduce((sum, entry) => sum + bytesFor(entry), 0),
           totalBytes: resources.reduce((sum, entry) => sum + bytesFor(entry), 0),
-          requestCount: resources.length + 1,
+          // Vercel instrumentation is fulfilled with an empty body above so optional
+          // analytics cannot affect app reliability or the application-request budget.
+          requestCount: applicationResources.length + 1,
         };
       });
 

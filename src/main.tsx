@@ -4,6 +4,7 @@ import "./index.css";
 import "./print.css";
 import "./print-pagination.css";
 import { AppErrorBoundary } from "./components/system/AppErrorBoundary";
+import { installFirstPartyEvidenceObserver } from "./lib/firstPartyEvidence";
 import { installRouteAwareAdSense } from "./lib/routeAwareAdSense";
 
 const container = document.getElementById("root");
@@ -13,6 +14,7 @@ if (!container) {
 }
 
 installRouteAwareAdSense();
+installFirstPartyEvidenceObserver();
 
 const application = (
   <AppErrorBoundary>

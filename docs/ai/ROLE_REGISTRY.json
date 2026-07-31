@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "updated": "2026-07-30",
+  "statusContract": ["PASS", "WARN", "BLOCK", "NOT IMPLICATED"],
+  "roles": [
+    {
+      "id": "caf-orchestrator",
+      "label": "Orchestrator",
+      "path": ".agents/skills/caf-orchestrator/SKILL.md",
+      "phase": "all",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-context-steward",
+      "label": "Context steward",
+      "path": ".agents/skills/caf-context-steward/SKILL.md",
+      "phase": "preflight-and-closeout",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-capability-router",
+      "label": "Capability router",
+      "path": ".agents/skills/caf-capability-router/SKILL.md",
+      "phase": "preflight",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-executive-strategy",
+      "label": "Executive strategy",
+      "path": ".agents/skills/caf-executive-strategy/SKILL.md",
+      "phase": "decision",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-product-management",
+      "label": "Product management",
+      "path": ".agents/skills/caf-product-management/SKILL.md",
+      "phase": "decision",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-healthcare-user-research",
+      "label": "Healthcare user research",
+      "path": ".agents/skills/caf-healthcare-user-research/SKILL.md",
+      "phase": "decision",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-information-architecture",
+      "label": "Information architecture",
+      "path": ".agents/skills/caf-information-architecture/SKILL.md",
+      "phase": "design",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-ux-design-system",
+      "label": "UX and design system",
+      "path": ".agents/skills/caf-ux-design-system/SKILL.md",
+      "phase": "design",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-content-evidence-integrity",
+      "label": "Content and evidence integrity",
+      "path": ".agents/skills/caf-content-evidence-integrity/SKILL.md",
+      "phase": "evidence-and-implementation",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-frontend-engineering",
+      "label": "Frontend engineering",
+      "path": ".agents/skills/caf-frontend-engineering/SKILL.md",
+      "phase": "implementation",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-systems-architecture",
+      "label": "Systems architecture",
+      "path": ".agents/skills/caf-systems-architecture/SKILL.md",
+      "phase": "design-and-implementation",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-backend-data-security",
+      "label": "Backend, data, and security",
+      "path": ".agents/skills/caf-backend-data-security/SKILL.md",
+      "phase": "implementation",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-platform-devops",
+      "label": "Platform and DevOps",
+      "path": ".agents/skills/caf-platform-devops/SKILL.md",
+      "phase": "implementation-and-release",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-seo-discovery",
+      "label": "SEO and discovery",
+      "path": ".agents/skills/caf-seo-discovery/SKILL.md",
+      "phase": "distribution",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-monetization-cro",
+      "label": "Monetization and conversion",
+      "path": ".agents/skills/caf-monetization-cro/SKILL.md",
+      "phase": "decision-and-distribution",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-analytics-experimentation",
+      "label": "Analytics and experimentation",
+      "path": ".agents/skills/caf-analytics-experimentation/SKILL.md",
+      "phase": "measurement",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-accessibility-performance",
+      "label": "Accessibility, performance, and reliability",
+      "path": ".agents/skills/caf-accessibility-performance/SKILL.md",
+      "phase": "design-and-validation",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-privacy-legal-risk",
+      "label": "Privacy, legal, and user protection",
+      "path": ".agents/skills/caf-privacy-legal-risk/SKILL.md",
+      "phase": "decision-and-validation",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-publishing-governance",
+      "label": "Publishing and governance",
+      "path": ".agents/skills/caf-publishing-governance/SKILL.md",
+      "phase": "publishing",
+      "participation": "domain"
+    },
+    {
+      "id": "caf-quality-release",
+      "label": "Quality and release",
+      "path": ".agents/skills/caf-quality-release/SKILL.md",
+      "phase": "validation-and-release",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-adversarial-red-team",
+      "label": "Adversarial red team",
+      "path": ".agents/skills/caf-adversarial-red-team/SKILL.md",
+      "phase": "decision-and-validation",
+      "participation": "mandatory"
+    },
+    {
+      "id": "caf-process-improvement",
+      "label": "Process improvement",
+      "path": ".agents/skills/caf-process-improvement/SKILL.md",
+      "phase": "closeout",
+      "participation": "mandatory"
+    }
+  ]
+}

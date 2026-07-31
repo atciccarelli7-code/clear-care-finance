@@ -15,41 +15,6 @@ const num = (value: string, fallback = 0) => {
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 
-const payoff = (balance: number, apr: number, payment: number, lump = 0) => {
-  let remaining = Math.max(balance - lump, 0);
-  const monthlyRate = Math.max(apr, 0) / 100 / 12;
-  let months = 0;
-  let interest = 0;
-
-  if (remaining === 0) return { months: 0, interest: 0, works: true };
-  if (payment <= 0) return { months: Infinity, interest: Infinity, works: false };
-
-  while (remaining > 0 && months < 600) {
-    const monthInterest = remaining * monthlyRate;
-    if (monthlyRate > 0 && payment <= monthInterest) return { months: Infinity, interest: Infinity, works: false };
-    interest += monthInterest;
-    remaining = Math.max(remaining + monthInterest - payment, 0);
-    months += 1;
-  }
-
-  return { months, interest, works: remaining === 0 };
-};
-
-const timeLabel = (months: number) => {
-  if (!Number.isFinite(months)) return "Not payoff-safe";
-  const years = Math.floor(months / 12);
-  const rest = months % 12;
-  if (years === 0) return `${rest} mo`;
-  return rest ? `${years} yr ${rest} mo` : `${years} yr`;
-};
-
-const dateLabel = (months: number) => {
-  if (!Number.isFinite(months)) return "Not available";
-  const date = new Date();
-  date.setMonth(date.getMonth() + months);
-  return new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(date);
-};
-
 const BulletList = ({ title, items }: { title: string; items: string[] }) => (
   <div className="rounded-2xl border border-border bg-muted/30 p-4">
     <div className="mb-3 text-sm font-bold text-foreground">{title}</div>
@@ -175,53 +140,7 @@ export const StudentLoanPathFinder = () => {
   );
 };
 
-export const PrivateLoanPayoffCalculator = () => {
-  const [balance, setBalance] = useState("45000");
-  const [apr, setApr] = useState("9");
-  const [minimum, setMinimum] = useState("525");
-  const [extra, setExtra] = useState("250");
-  const [lump, setLump] = useState("0");
-  const [refiApr, setRefiApr] = useState("6.5");
-
-  const balanceN = Math.max(0, num(balance));
-  const aprN = Math.max(0, num(apr));
-  const minimumN = Math.max(0, num(minimum));
-  const extraN = Math.max(0, num(extra));
-  const lumpN = Math.max(0, num(lump));
-  const refiAprN = Math.max(0, num(refiApr));
-  const planned = minimumN + extraN;
-  const base = payoff(balanceN, aprN, minimumN);
-  const accelerated = payoff(balanceN, aprN, planned, lumpN);
-  const refi = payoff(balanceN, refiAprN, planned, lumpN);
-  const saved = base.works && accelerated.works ? Math.max(base.interest - accelerated.interest, 0) : 0;
-  const refiSaved = accelerated.works && refi.works ? Math.max(accelerated.interest - refi.interest, 0) : 0;
-
-  return (
-    <div className="grid gap-8 lg:grid-cols-5">
-      <div className="lg:col-span-3 space-y-5">
-        <div className="grid sm:grid-cols-2 gap-5">
-          <CalculatorInput label="Private loan balance" prefix="$" value={balance} onChange={setBalance} helper="Total private loan balance." />
-          <CalculatorInput label="Current APR" suffix="%" value={apr} onChange={setApr} helper="Weighted average if needed." />
-          <CalculatorInput label="Minimum monthly payment" prefix="$" value={minimum} onChange={setMinimum} helper="Required monthly payment." />
-          <CalculatorInput label="Extra monthly payment" prefix="$" value={extra} onChange={setExtra} helper="Amount above the minimum." />
-          <CalculatorInput label="One-time lump sum" prefix="$" value={lump} onChange={setLump} helper="Optional cash applied now." />
-          <CalculatorInput label="Possible refinance APR" suffix="%" value={refiApr} onChange={setRefiApr} helper="Use an actual quote when available." />
-        </div>
-      </div>
-      <div className="lg:col-span-2 space-y-3">
-        <CalculatorResult label="Planned monthly payment" value={usd(planned)} emphasis="primary" />
-        <CalculatorResult label="Minimum-only payoff" value={timeLabel(base.months)} helper={base.works ? `${usd(base.interest)} estimated interest` : "Payment may not cover interest."} />
-        <CalculatorResult label="Accelerated payoff" value={timeLabel(accelerated.months)} emphasis="accent" helper={accelerated.works ? `${usd(accelerated.interest)} estimated interest; around ${dateLabel(accelerated.months)}` : "Payment may not cover interest."} />
-        <CalculatorResult label="Interest saved vs minimum" value={usd(saved)} />
-        <CalculatorResult label="Possible refinance payoff" value={timeLabel(refi.months)} helper={refi.works ? `${usd(refiSaved)} extra interest saved; around ${dateLabel(refi.months)}` : "Check payment and APR inputs."} />
-        <CalculatorMeaning>
-          Private loans are usually a rate and cash-flow problem. Compare payoff speed, refinance APR, and emergency cash before overcommitting.
-        </CalculatorMeaning>
-        <DisclaimerBox short />
-      </div>
-    </div>
-  );
-};
+export { PrivateStudentLoanPayoffCalculator as PrivateLoanPayoffCalculator } from "@/components/calculators/PrivateStudentLoanPayoffCalculator";
 
 export const PSLFProgressEstimator = () => {
   const [loanType, setLoanType] = useState("direct");

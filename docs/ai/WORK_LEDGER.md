@@ -78,6 +78,24 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Evidence or event that should trigger reassessment:** Current funnel evidence identifies a higher-value pilot than private student-loan payoff, or implementation of the Decision Outcome Layer materially changes route behavior.
 - **Links:** `docs/audits/2026-07-31-site-code-multi-role-review.md`.
 
+### CAF-W-004 — Decision Outcome Layer and private student-loan pilot
+
+- **Date:** 2026-07-31
+- **Assignment:** Build, validate, release, and document a reusable Decision Outcome Layer and its first complete implementation on the Private Student Loan Payoff Calculator.
+- **Starting evidence:** `main` and production matched `a27d2404c648c9f862e4cf571570dae9799ba415`; the live route used reactive six-field math, did not verify loan type, modeled refinance by APR alone, and clamped a worse quote to `$0 extra interest saved`; open draft PR #224 remained unrelated; no connected Search Console or CAF analytics reporting tool was available.
+- **Decision:** Implement the smallest complete layered system: pure monthly amortization and quote comparison, deterministic recommendation states, a reusable typed product contract/panel, strict categorical analytics, fixed-only My Plan storage, official neutral resources, and a commercial resolver that fails closed without verified configuration.
+- **Implementation:** Added the typed outcome schema and shared renderer; extracted private-loan calculation/recommendation logic; added loan-type gating, complete quote terms, fees, fixed/variable treatment, total-cost and break-even output, copy/print/restart/edit/My Plan, source freshness, neutral resources, and direct student-loan routing. No account, backend, email capture, lender, affiliate URL, or raw financial telemetry was added.
+- **Validation:** Focused domain, schema, analytics, commercial, component, browser, mobile, accessibility, print, performance, canonical/publication, full repository, preview, CI, and production results are recorded in the work packet and pull request. Final release evidence must be read from the linked PR and deployment.
+- **Release state:** In progress on `agent/decision-outcome-private-loan-pilot`; replace with final PR, merge SHA, and production deployment at closeout.
+- **User and business impact expected:** Users receive a defensible next action rather than an isolated number; federal/mixed/uncertain borrowers are blocked from private refinance steering; the same contract can complete future high-intent tools; the commercial seam exists without asserting a partner or revenue outcome.
+- **What was learned:** The July 31 audit direction was correct but understated a concrete integrity defect: a 12% quote against a 9% current APR was displayed as `$0 saved` instead of a higher-cost outcome. The existing fixed-action My Plan and consent-gated analytics foundations were reusable, while calculator-specific math was not.
+- **Assumption invalidated:** A lower displayed refinance APR plus a same-payment payoff is a coherent proxy for a refinance quote, or a page title saying “private” safely establishes loan type.
+- **Reusable asset created:** `DecisionProductDefinition`, `DecisionOutcomePanel`, strict outcome analytics, pure refinance comparison domain, multi-quote domain adapter, and fail-closed commercial resolver.
+- **Process improvement implemented:** A build/test `decision-outcome:check` now enforces required schema, freshness, neutral-alternative, analytics allowlist, loan-type, disclosure, and recommendation/commercial separation controls.
+- **Unresolved warning:** No direct demand, completion, search, conversion, affiliate economics, or user-satisfaction evidence is available; no partner may be activated without an external relationship and qualified review of the actual agreement and data flow.
+- **Evidence or event that should trigger reassessment:** Sufficient live funnel and user-test evidence after release; official-source or lender-partner change; any recommendation-calculation discrepancy; federal/mixed/uncertain handoff exposure above zero; or difficulty applying the contract to a second tool.
+- **Links:** `docs/work-packets/2026-07-31-decision-outcome-private-student-loan.md`; pull request and production deployment to be added at closeout.
+
 ## Maintenance rules
 
 - Add entries only for material work that changes the product, operating system, evidence base, or strategic direction.

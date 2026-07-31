@@ -575,7 +575,7 @@ export const RUNTIME_TOOL_SEO_META = [
   {
     "slug": "private-student-loan-payoff-calculator",
     "title": "Private Student Loan Payoff Calculator",
-    "description": "Compare minimum payments, extra payments, lump sums, and a possible refinance APR."
+    "description": "Compare a confirmed private-loan payoff plan with complete refinance-quote terms, total cost, fees, and safeguards."
   },
   {
     "slug": "pslf-progress-estimator",

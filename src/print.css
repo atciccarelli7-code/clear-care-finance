@@ -81,6 +81,55 @@
     print-color-adjust: exact;
   }
 
+  /* Private student-loan pilot: print only the portable decision outcome. */
+  body:has(#private-loan-decision-outcome) main * {
+    visibility: hidden !important;
+  }
+
+  body:has(#private-loan-decision-outcome) #private-loan-decision-outcome,
+  body:has(#private-loan-decision-outcome) #private-loan-decision-outcome * {
+    visibility: visible !important;
+  }
+
+  body:has(#private-loan-decision-outcome) #private-loan-decision-outcome {
+    position: absolute !important;
+    inset: 0 auto auto 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body:has(#private-loan-decision-outcome) #private-loan-decision-outcome > article {
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body:has(#private-loan-decision-outcome) #private-loan-decision-outcome > article::before {
+    content: "COMMUNITY ACQUIRED FINANCE\A PRIVATE STUDENT LOAN DECISION SUMMARY";
+    display: block;
+    margin-bottom: 18pt;
+    padding-bottom: 8pt;
+    border-bottom: 1px solid #64748b;
+    color: #0f172a;
+    font-size: 9pt;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    white-space: pre-line;
+  }
+
+  body:has(#private-loan-decision-outcome) #private-loan-decision-outcome a[href^="http"]::after {
+    content: "\A" attr(href);
+    display: block;
+    margin-top: 3pt;
+    color: #475569;
+    font-size: 8pt;
+    font-weight: 400;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
   /* Medical Bill Response System: print only the selected document result. */
   body:has(#document-result) main > :not(div.container),
   body:has(#document-result) main > div.container > :not(#document-router),

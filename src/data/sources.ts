@@ -24,6 +24,24 @@ export const SOURCE_PRESETS: Record<string, Source> = {
     url: "https://www.cms.gov",
     note: "Regulator that publishes the underlying coverage and payment rules.",
   },
+  federalStudentAidDashboard: {
+    name: "Federal Student Aid",
+    pageTitle: "Federal student-aid dashboard",
+    url: "https://studentaid.gov/dashboard/",
+    note: "Official federal loan records used to separate federal debt before a private refinance comparison.",
+  },
+  cfpbStudentLoanRefinance: {
+    name: "Consumer Financial Protection Bureau",
+    pageTitle: "Should I consolidate or refinance my student loans?",
+    url: "https://www.consumerfinance.gov/ask-cfpb/should-i-consolidate-refinance-student-loans-en-561/",
+    note: "Primary consumer-protection guidance on federal/private boundaries, rate type, term extension, total cost, and lender-term verification.",
+  },
+  cfpbPrivateStudentLoans: {
+    name: "Consumer Financial Protection Bureau",
+    pageTitle: "Private student-loan repayment",
+    url: "https://www.consumerfinance.gov/paying-for-college/repay-student-debt/private-student-loans/",
+    note: "Primary consumer guidance on private-loan repayment and lender-specific relief terms.",
+  },
   cdcHealthcareAssociatedVte: {
     name: "CDC",
     pageTitle: "Understanding Your Risk for Healthcare-Associated VTE",

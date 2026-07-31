@@ -16,7 +16,7 @@ const PrivacyPolicy = () => {
       <PageHero eyebrow="Privacy" title="Privacy Policy" description="How Community Acquired Finance handles guided-tool answers, customer accounts, purchases, analytics, advertising technology, cookies, and privacy choices." />
 
       <section className="container max-w-3xl py-12 md:py-16 space-y-6" aria-label="Privacy policy details">
-        <p className="text-sm text-muted-foreground">Effective date: July 24, 2026</p>
+        <p className="text-sm text-muted-foreground">Effective date: July 31, 2026</p>
 
         <Section title="Overview">
           <p>Community Acquired Finance is an independent educational website about personal finance, workplace benefits, healthcare costs, insurance, Medicare, Medicaid, and related money topics. We aim to collect as little personal information as reasonably possible while providing articles, calculators, guided decision tools, and source-backed explanations.</p>
@@ -35,6 +35,7 @@ const PrivacyPolicy = () => {
 
         <Section title="Guided tools and calculator answers">
           <p>The Medicare and Medicaid Eligibility Check, Healthcare Worker Benefits Blueprint, Employer Benefits Action Plan, Healthcare Worker Total Compensation Comparison, and similar public tools are designed to keep answer values in local browser state unless a feature clearly says otherwise. When the account-based Healthcare Worker Benefits Decision System is activated, its workspace inputs will be stored in the user&apos;s access-controlled database record so progress can continue across supported devices.</p>
+          <p>The public Private Student Loan Payoff Calculator keeps balances, APRs, payments, terms, fees, loan-type selections, and calculated outcomes in temporary page state. Its My Plan action stores only a fixed student-loan review identifier, not the entered assumptions or result.</p>
           <p>Copying, printing, downloading, sharing, or entering the same information into another website is controlled by the user and may create records outside this site. General page-view, device, performance, hosting, security, or consent-state information may still be processed as described below, but the site does not intentionally attach answer-level fields to analytics events.</p>
         </Section>
 
@@ -59,7 +60,7 @@ const PrivacyPolicy = () => {
           <p>The site provides a privacy-choice panel with two options: Necessary only and Allow analytics. The choice is stored in the browser so it can be applied on later visits. The panel can be reopened from the Privacy choices button.</p>
           <p>Necessary only keeps Google analytics storage, advertising storage, advertising user data, and advertising personalization denied, and the site does not download the Google Analytics library. Allow analytics grants Google Analytics storage and loads Google Analytics, while advertising storage, advertising user data, and advertising personalization remain denied through this site&apos;s consent controls.</p>
           <p>Site-generated analytics event URLs are reduced to an origin and pathname before they enter the analytics data layer. Query strings and URL fragments are not intentionally included in page-view, destination-path, or outbound-link event fields.</p>
-          <p>Necessary hosting, transaction, account-access, security, and diagnostic records may continue because they are required to operate and protect the service. The site does not intentionally send guided-tool answers, employer or role names, salary or wage amounts, benefit amounts, commute details, names, email addresses, income, health status, free-text notes, or other sensitive form entries as analytics event properties.</p>
+          <p>Necessary hosting, transaction, account-access, security, and diagnostic records may continue because they are required to operate and protect the service. The site does not intentionally send guided-tool answers, employer or role names, salary or wage amounts, benefit amounts, loan balances, principal, APRs, payments, terms, fees, lender names, quote details, calculated outcomes, commute details, names, email addresses, income, health status, free-text notes, or other sensitive form entries as analytics event properties.</p>
         </Section>
 
         <Section title="Google advertising technology">

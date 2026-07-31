@@ -86,9 +86,9 @@ export const TOOL_EDUCATION_BY_TITLE: Record<string, ToolEducation> = {
     beforeActing: "Confirm loan type, servicer records, PSLF eligibility, employer qualification, interest rate, and whether refinancing would remove federal protections.",
   },
   "Private Student Loan Payoff Calculator": {
-    purpose: "Compare minimum payments, extra payments, lump sums, and possible refinance APRs for private student loans.",
-    readResult: "Lower interest paid usually means faster payoff or lower APR, but cash-flow pressure and emergency reserves still matter.",
-    beforeActing: "Check refinance terms, variable-rate risk, fees, cosigner release, and whether extra payments apply to principal.",
+    purpose: "Verify the private-loan boundary, model the current payoff plan, and compare complete refinance-quote terms by payment, term, fees, and total cost.",
+    readResult: "The recommendation state explains the main mathematical result and which assumption could change it; it does not determine approval or replace loan documents.",
+    beforeActing: "Review the promissory note, payoff statement, final lender disclosure, fixed or variable rate, fees, term, hardship and cosigner provisions, and how extra payments are applied.",
   },
   "PSLF Progress Estimator": {
     purpose: "Estimate progress toward 120 qualifying PSLF payments and identify what records need verification.",

@@ -18,11 +18,19 @@ const ROUTE_FRESHNESS: Record<string, ContentFreshnessProps> = {
     reviewScope: "Medicare.gov enrollment timing, active-employment questions, HSA warnings, Part D creditable coverage, and Medigap timing.",
   },
   "/student-loans": {
-    lastReviewedAt: "2026-07-12",
-    nextReviewAt: "2026-08-01",
+    lastReviewedAt: "2026-07-31",
+    nextReviewAt: "2027-01-31",
     timeSensitive: true,
-    reviewScope: "Program links, decision boundaries, and warnings to verify current federal repayment and application status before acting.",
+    reviewScope: "Federal/private loan boundaries, official program links, payoff assumptions, and warnings to verify current terms before acting.",
     updateNote: "Federal repayment programs and HRSA application windows can change quickly; official program portals control.",
+  },
+  "/tools/private-student-loan-payoff-calculator": {
+    publishedAt: "2026-07-31",
+    lastReviewedAt: "2026-07-31",
+    nextReviewAt: "2027-01-31",
+    timeSensitive: true,
+    reviewScope: "Private/federal boundaries, monthly amortization assumptions, refinance total-cost comparison, official resources, and commercial fail-closed controls.",
+    updateNote: "Mathematical estimates do not replace current loan documents or final lender disclosures.",
   },
   "/open-enrollment": {
     lastReviewedAt: "2026-07-12",

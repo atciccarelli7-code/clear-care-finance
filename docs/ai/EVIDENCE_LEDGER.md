@@ -81,6 +81,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Does not determine the next feature without current evidence
 - **Owner:** Executive strategy and context steward
 
+### CAF-E-003 — Student-loan refinance and private/federal boundaries
+
+- **Claim or state:** A private refinance comparison must distinguish federal debt, compare total cost rather than monthly payment alone, disclose fixed/variable and term/fee assumptions, and defer lender-specific protections to current loan documents and final disclosures.
+- **Domain:** Legal/privacy and consumer finance
+- **Source:** Consumer Financial Protection Bureau, `Should I consolidate or refinance my student loans?`; CFPB, `Choosing a student loan`; CFPB private student-loan repayment resources; Federal Student Aid dashboard/account guidance; current loan documents remain controlling for lender-specific terms.
+- **Evidence class:** PRIMARY-SOURCE
+- **Verified date:** 2026-07-31
+- **Coverage:** General U.S. federal/private student-loan and consumer-protection boundaries; private-loan payoff/refinance educational calculator.
+- **Freshness trigger:** 2027-01-31, substantive CFPB/Federal Student Aid change, partner activation, or a changed claim about federal protections, credit inquiries, prepayment, relief, cosigners, or tax/legal treatment.
+- **Used by:** `/tools/private-student-loan-payoff-calculator`, `/student-loans`, `privateStudentLoanDecisionProduct`, CAF-D-007.
+- **Limitations:** Does not establish individual eligibility, approval, forgiveness, discharge, tax treatment, cosigner release, hardship rights, a lender relationship, or the terms of any promissory note or final lender disclosure.
+- **Owner:** Content/evidence integrity and privacy/legal protection
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

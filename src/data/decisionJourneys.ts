@@ -96,7 +96,7 @@ export const DECISION_JOURNEYS: DecisionJourney[] = [
     primaryQuestion: "Which federal or private student-loan path applies now?",
     canonicalPath: "/student-loans",
     relatedPaths: ["/healthcare-workers"],
-    toolPaths: ["/tools#student-loan-path", "/tools#pslf-progress", "/tools#private-loan-payoff"],
+    toolPaths: ["/tools/student-loan-path-finder", "/tools/pslf-progress-estimator", "/tools/private-student-loan-payoff-calculator"],
     officialVerification: [{ label: "Federal Student Aid", url: "https://studentaid.gov/" }],
     requiredLayers: FIVE_LAYERS,
     supportsLocalProgress: true,

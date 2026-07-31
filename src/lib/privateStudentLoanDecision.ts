@@ -50,7 +50,8 @@ export type LoanValidationCode =
   | "quote_required"
   | "quote_apr_out_of_range"
   | "quote_term_out_of_range"
-  | "quote_fees_out_of_range";
+  | "quote_fees_out_of_range"
+  | "quote_payment_not_payoff_safe";
 
 export type LoanValidationError = {
   code: LoanValidationCode;
@@ -496,21 +497,29 @@ export const evaluatePrivateStudentLoanDecision = (input: PrivateStudentLoanDeci
         const quotePlan = quotePrincipal === 0
           ? { startingPrincipal: 0, monthlyPayment: 0, months: 0, totalPayments: 0, totalInterest: 0, payoffSafe: true, schedule: [] }
           : amortizeFixedPayment(quotePrincipal, input.quote.apr, quotedPayment, input.quote.termMonths + 1);
-        const totalRepayment = lump + quotePlan.totalPayments + input.quote.fees;
-        const currentAlternativeRepayment = lump + plannedCurrentLoan.totalPayments;
-        const breakEvenMonth = findFeeAdjustedBreakEven(plannedCurrentLoan, quotePlan, input.quote.fees);
-        refinanceComparison = {
-          quote: input.quote,
-          monthlyPayment: quotedPayment,
-          totalRepayment,
-          totalInterest: quotePlan.totalInterest,
-          paymentDifference: quotedPayment - plannedCurrentLoan.monthlyPayment,
-          totalCostDifference: totalRepayment - currentAlternativeRepayment,
-          termDifferenceMonths: quotePlan.months - plannedCurrentLoan.months,
-          breakEvenMonth,
-          plannedPayoffBeforeBreakEven: breakEvenMonth === null || breakEvenMonth > plannedCurrentLoan.months,
-          quotePlan,
-        };
+        if (!Number.isFinite(quotedPayment) || !quotePlan.payoffSafe) {
+          errors.push({
+            code: "quote_payment_not_payoff_safe",
+            field: "quoteTermMonths",
+            message: "This rate and term do not produce a reliable payoff schedule within the supported model. Verify the quote or use a shorter term.",
+          });
+        } else {
+          const totalRepayment = lump + quotePlan.totalPayments + input.quote.fees;
+          const currentAlternativeRepayment = lump + plannedCurrentLoan.totalPayments;
+          const breakEvenMonth = findFeeAdjustedBreakEven(plannedCurrentLoan, quotePlan, input.quote.fees);
+          refinanceComparison = {
+            quote: input.quote,
+            monthlyPayment: quotedPayment,
+            totalRepayment,
+            totalInterest: quotePlan.totalInterest,
+            paymentDifference: quotedPayment - plannedCurrentLoan.monthlyPayment,
+            totalCostDifference: totalRepayment - currentAlternativeRepayment,
+            termDifferenceMonths: quotePlan.months - plannedCurrentLoan.months,
+            breakEvenMonth,
+            plannedPayoffBeforeBreakEven: breakEvenMonth === null || breakEvenMonth > plannedCurrentLoan.months,
+            quotePlan,
+          };
+        }
       }
     }
   }

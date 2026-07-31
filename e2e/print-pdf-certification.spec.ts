@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { mkdir } from "node:fs/promises";
+import { mkdir, stat } from "node:fs/promises";
 import path from "node:path";
 
 const artifactDirectory = path.resolve("artifacts/print-certification");
@@ -35,14 +35,16 @@ const exportPdfPair = async (
   ];
 
   for (const { name, format } of formats) {
+    const pdfPath = path.join(artifactDirectory, `${fileStem}-${name}.pdf`);
     await page.pdf({
-      path: path.join(artifactDirectory, `${fileStem}-${name}.pdf`),
+      path: pdfPath,
       format,
       printBackground: true,
       preferCSSPageSize: false,
       margin: { top: "0.35in", right: "0.35in", bottom: "0.35in", left: "0.35in" },
       ...(fullPage ? { pageRanges: "1-" } : {}),
     });
+    expect((await stat(pdfPath)).size).toBeGreaterThan(10_000);
   }
 
   await page.emulateMedia({ media: "screen" });
@@ -69,6 +71,25 @@ test("generate Turning 65 Medicare timeline PDFs", async ({ page }) => {
   await expect(page.locator("#turning-65-print-result")).toBeVisible();
   await expect(page.getByRole("heading", { name: /Dated timeline/i })).toBeVisible();
   await exportPdfPair(page, "turning-65-medicare-timeline", /Dated timeline/i, false, "#turning-65-print-result");
+});
+
+test("generate private student-loan decision outcome PDFs", async ({ page }) => {
+  await visit(page, "/tools/private-student-loan-payoff-calculator");
+  await page.getByLabel("Which loans are included?").selectOption("private");
+  await page.getByLabel("Current principal balance").fill("45000");
+  await page.getByLabel("Current APR").fill("9");
+  await page.getByLabel("Current remaining term").fill("138");
+  await page.getByLabel("Current monthly payment").fill("525");
+  await page.getByLabel("Optional additional monthly payment").fill("250");
+  await page.getByRole("button", { name: "Build decision outcome" }).click();
+  await expect(page.getByRole("heading", { name: "Accelerate repayment" })).toBeVisible();
+  await exportPdfPair(
+    page,
+    "private-student-loan-decision-outcome",
+    /Accelerate repayment/i,
+    false,
+    "#private-loan-decision-outcome",
+  );
 });
 
 test("generate Medical Bill Response System result and printable pack PDFs", async ({ page }) => {

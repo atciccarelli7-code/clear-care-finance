@@ -155,6 +155,20 @@ describe("private student-loan recommendation states", () => {
     expect(decision.state).not.toBe("quoted_refinance_may_reduce_total_cost");
   });
 
+  it("fails closed when an extreme quoted rate and term cannot produce a payoff-safe schedule", () => {
+    const decision = evaluatePrivateStudentLoanDecision({
+      ...baseInput,
+      quoteMode: "compare",
+      quote: { apr: 100, rateType: "fixed", termMonths: 1_200, fees: 0 },
+    });
+
+    expect(decision.state).toBe("insufficient_information");
+    expect(decision.errors.map((error) => error.code)).toContain("quote_payment_not_payoff_safe");
+    expect(decision.refinanceComparison).toBeUndefined();
+    expect(decision.view.metricGroups.map((group) => group.title)).not.toContain("Compared refinance quote");
+    expect(decision.view.portableSummary).not.toContain("$0 total repayment");
+  });
+
   it("supports multiple quote evaluations without quote-specific UI logic", () => {
     const decisions = evaluatePrivateStudentLoanQuotes(baseInput, [
       { apr: 6, rateType: "fixed", termMonths: 120, fees: 0 },

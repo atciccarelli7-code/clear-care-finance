@@ -67,6 +67,24 @@ describe("private student-loan recommendation states", () => {
     expect(decision.interestSavedFromAdditionalPayments).toBeCloseTo(13_037.02, 1);
   });
 
+  it("does not recommend acceleration when an extra payment creates no modeled savings", () => {
+    const decision = evaluatePrivateStudentLoanDecision({
+      loanType: "private",
+      principal: 100,
+      currentApr: 0,
+      statedRemainingTermMonths: 1,
+      currentMonthlyPayment: 100,
+      additionalMonthlyPayment: 1,
+      lumpSum: 0,
+      quoteMode: "none",
+      generatedAt: new Date("2026-07-31T12:00:00Z"),
+    });
+    expect(decision.timeSavedFromAdditionalPayments).toBe(0);
+    expect(decision.interestSavedFromAdditionalPayments).toBe(0);
+    expect(decision.state).toBe("continue_current_plan");
+    expect(decision.view.primaryReason).toMatch(/does not reduce both/i);
+  });
+
   it("requests complete quotes rather than treating an advertised rate as a quote", () => {
     const decision = evaluatePrivateStudentLoanDecision({ ...baseInput, quoteMode: "seek" });
     expect(decision.state).toBe("seek_compare_refinance_quotes");
@@ -208,6 +226,13 @@ describe("private student-loan validation and portable output", () => {
     const decision = evaluatePrivateStudentLoanDecision({ ...baseInput, additionalMonthlyPayment: 250 });
     expect(decision.view.portableSummary).toContain("Generated: Jul 31, 2026");
     expect(decision.view.portableSummary).toContain("Current principal: $45,000");
+    expect(decision.view.assumptions).toEqual(expect.arrayContaining([
+      { label: "Loan type", value: "Confirmed private loans only" },
+      { label: "Current principal", value: "$45,000" },
+      { label: "Current APR", value: "9.00%" },
+      { label: "Entered remaining term", value: "11 yr 6 mo" },
+      { label: "Additional monthly payment", value: "$250" },
+    ]));
     expect(decision.view.portableSummary).toContain("RECOMMENDATION STATE: Accelerate repayment");
     expect(decision.view.portableSummary).toContain("VERIFICATION CHECKLIST");
     expect(decision.view.portableSummary).toContain("Educational estimate only");

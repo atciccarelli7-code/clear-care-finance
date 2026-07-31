@@ -62,6 +62,7 @@ export type DecisionOutcomeView<State extends string = string> = {
   firstAction: string;
   actionSequence: string[];
   verificationChecklist: string[];
+  assumptions: DecisionOutcomeMetric[];
   metricGroups: DecisionOutcomeMetricGroup[];
   portableSummary: string;
   educationalLimitation: string;

@@ -90,6 +90,22 @@ export const DecisionOutcomePanel = <State extends string>({
         </header>
 
         <div className="space-y-6 p-5 md:p-7">
+          {outcome.assumptions.length > 0 && (
+            <section className="rounded-2xl border border-border bg-muted/20 p-4 md:p-5" aria-label="Assumptions used">
+              <h3 className="font-display text-lg font-bold text-foreground">Assumptions used</h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">User-entered values used for this estimate. Current loan documents and final lender disclosures control.</p>
+              <dl className="mt-4 grid gap-x-5 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+                {outcome.assumptions.map((assumption) => (
+                  <div key={assumption.label}>
+                    <dt className="text-xs font-bold uppercase tracking-[0.08em] text-muted-foreground">{assumption.label}</dt>
+                    <dd className="mt-1 text-base font-bold tabular-nums text-foreground">{assumption.value}</dd>
+                    {assumption.detail && <dd className="mt-1 text-xs leading-relaxed text-muted-foreground">{assumption.detail}</dd>}
+                  </div>
+                ))}
+              </dl>
+            </section>
+          )}
+
           {outcome.metricGroups.map((group) => <MetricGroup key={group.title} {...group} />)}
 
           <section className="rounded-2xl border border-border bg-muted/25 p-4 md:p-5" aria-labelledby="decision-reason-heading">

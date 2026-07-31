@@ -243,6 +243,34 @@ const stateLabel: Record<PrivateStudentLoanRecommendationState, string> = {
   insufficient_information: "Insufficient information",
 };
 
+const loanTypeLabel: Record<StudentLoanType, string> = {
+  private: "Confirmed private loans only",
+  federal: "Federal loans",
+  mixed: "Mixed federal and private loans",
+  uncertain: "Uncertain — verify first",
+};
+
+const buildAssumptions = (
+  input: PrivateStudentLoanDecisionInput,
+): DecisionOutcomeView<PrivateStudentLoanRecommendationState>["assumptions"] => {
+  const assumptions: DecisionOutcomeView<PrivateStudentLoanRecommendationState>["assumptions"] = [
+    { label: "Loan type", value: loanTypeLabel[input.loanType] },
+  ];
+  if (input.loanType !== "private") return assumptions;
+  if (isFiniteNumber(input.principal)) assumptions.push({ label: "Current principal", value: money(input.principal) });
+  if (isFiniteNumber(input.currentApr)) assumptions.push({ label: "Current APR", value: `${input.currentApr.toFixed(2)}%` });
+  if (isFiniteNumber(input.statedRemainingTermMonths)) assumptions.push({ label: "Entered remaining term", value: formatLoanDuration(input.statedRemainingTermMonths) });
+  if (isFiniteNumber(input.currentMonthlyPayment)) assumptions.push({ label: "Current monthly payment", value: money(input.currentMonthlyPayment) });
+  if (isFiniteNumber(input.additionalMonthlyPayment)) assumptions.push({ label: "Additional monthly payment", value: money(input.additionalMonthlyPayment) });
+  if (isFiniteNumber(input.lumpSum)) assumptions.push({ label: "One-time lump sum", value: money(input.lumpSum) });
+  if (input.quoteMode === "compare" && input.quote) {
+    if (isFiniteNumber(input.quote.apr)) assumptions.push({ label: "Quoted APR", value: `${input.quote.apr.toFixed(2)}%`, detail: `${input.quote.rateType === "fixed" ? "Fixed" : "Variable"} rate` });
+    if (isFiniteNumber(input.quote.termMonths)) assumptions.push({ label: "Quoted term", value: formatLoanDuration(input.quote.termMonths) });
+    if (isFiniteNumber(input.quote.fees)) assumptions.push({ label: "Quoted fees", value: money(input.quote.fees), detail: "Assumed paid upfront" });
+  }
+  return assumptions;
+};
+
 const buildMetricGroups = (
   decision: Omit<PrivateStudentLoanDecision, "view">,
 ): DecisionOutcomeView<PrivateStudentLoanRecommendationState>["metricGroups"] => {
@@ -402,6 +430,18 @@ const describeOutcome = (decision: Omit<PrivateStudentLoanDecision, "view">) => 
       };
     case "continue_current_plan":
     default:
+      if ((input.additionalMonthlyPayment ?? 0) > 0 || (input.lumpSum ?? 0) > 0) {
+        return {
+          interpretation: currentPlan ? `At the entered payment, the current loan is estimated to be repaid in ${formatLoanDuration(currentPlan.months)} with about ${money(currentPlan.totalInterest)} in remaining interest.` : "The current plan is the neutral starting point.",
+          primaryReason: "The entered extra-payment plan does not reduce both the modeled payoff duration and remaining interest by a meaningful amount.",
+          changingAssumption: "A larger dependable extra payment, a longer remaining schedule, or a positive APR could create a measurable payoff benefit.",
+          primaryCaution: "Do not move cash from an emergency reserve for an extra payment that does not create a measurable benefit in this estimate.",
+          firstAction: "Keep the current plan for now and verify the statement before changing the payment.",
+          actionSequence: ["Confirm the statement values and remaining term.", "Keep the required payment and emergency reserve protected.", "Recalculate only if a dependable extra amount would materially change payoff."],
+          verificationChecklist: sharedVerification,
+          additionalCautions,
+        };
+      }
       return {
         interpretation: currentPlan ? `At the entered payment, the current loan is estimated to be repaid in ${formatLoanDuration(currentPlan.months)} with about ${money(currentPlan.totalInterest)} in remaining interest.` : "The current plan is the neutral starting point.",
         primaryReason: "No extra-payment plan or complete refinance quote creates a different decision state.",
@@ -532,7 +572,10 @@ export const evaluatePrivateStudentLoanDecision = (input: PrivateStudentLoanDeci
     else if (refinanceComparison.totalCostDifference < -COST_TOLERANCE && !refinanceComparison.plannedPayoffBeforeBreakEven) state = "quoted_refinance_may_reduce_total_cost";
     else state = "do_not_refinance_based_on_quote";
   } else if (input.quoteMode === "seek") state = "seek_compare_refinance_quotes";
-  else if ((input.additionalMonthlyPayment ?? 0) > 0 || (input.lumpSum ?? 0) > 0) state = "accelerate_repayment";
+  else if (
+    (timeSavedFromAdditionalPayments ?? 0) > 0
+    && (interestSavedFromAdditionalPayments ?? 0) > COST_TOLERANCE
+  ) state = "accelerate_repayment";
   else state = "continue_current_plan";
 
   const decisionWithoutView: Omit<PrivateStudentLoanDecision, "view"> = {
@@ -560,6 +603,7 @@ export const evaluatePrivateStudentLoanDecision = (input: PrivateStudentLoanDeci
     firstAction: description.firstAction,
     actionSequence: description.actionSequence,
     verificationChecklist: description.verificationChecklist,
+    assumptions: buildAssumptions(input),
     metricGroups: buildMetricGroups(decisionWithoutView),
     portableSummary: "",
     educationalLimitation: "Educational estimate only. Monthly payments and interest use a fixed monthly amortization model; entered lender fees are assumed paid upfront; variable APRs are held constant for illustration; final payments are rounded only for display. Current loan documents and final lender disclosures control.",

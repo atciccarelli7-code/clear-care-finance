@@ -60,11 +60,13 @@ describe("PrivateStudentLoanPayoffCalculator", () => {
     fillCurrentPlan();
     fireEvent.click(screen.getByRole("button", { name: /build decision outcome/i }));
     expect(screen.getByRole("heading", { name: "Continue current plan" })).toBeInTheDocument();
-    expect(screen.getByText("11 yr 6 mo")).toBeInTheDocument();
+    expect(screen.getAllByText("11 yr 6 mo")).toHaveLength(2);
     expect(screen.getByText("$27,344")).toBeInTheDocument();
     expect(screen.getByText(/generated/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /copy decision summary/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /print or save as pdf/i })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: /assumptions used/i })).toHaveTextContent("Confirmed private loans only");
+    expect(screen.getByRole("region", { name: /assumptions used/i })).toHaveTextContent("Current principal");
   });
 
   it("shows validation errors instead of clamping malformed inputs", () => {
@@ -92,6 +94,9 @@ describe("PrivateStudentLoanPayoffCalculator", () => {
     expect(screen.getByText(/monthly-payment relief and total-cost savings are different decisions/i)).toBeInTheDocument();
     expect(screen.getByText("Total repayment with fees")).toBeInTheDocument();
     expect(screen.getByText("Term difference")).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: /assumptions used/i })).toHaveTextContent("Quoted APR8.50%");
+    expect(screen.getByRole("region", { name: /assumptions used/i })).toHaveTextContent("Quoted term20 yr");
+    expect(screen.getByRole("region", { name: /assumptions used/i })).toHaveTextContent("Quoted fees$0");
   });
 
   it("rejects a higher-rate quote and keeps commercial configuration inactive", () => {

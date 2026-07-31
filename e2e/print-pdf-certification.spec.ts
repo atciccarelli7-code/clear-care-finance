@@ -86,11 +86,44 @@ test("generate private student-loan decision outcome PDFs", async ({ page }) => 
   await expect(page.getByRole("heading", { name: "Accelerate repayment" })).toBeVisible();
   await page.emulateMedia({ media: "print" });
   await expect(page.getByRole("heading", { name: "Accelerate repayment" })).toBeVisible();
+  const printedAssumptions = page.getByRole("region", { name: "Assumptions used" });
+  await expect(printedAssumptions).toBeVisible();
+  await expect(printedAssumptions).toContainText("Confirmed private loans only");
+  await expect(printedAssumptions).toContainText("Current principal");
+  await expect(printedAssumptions).toContainText("$45,000");
+  await expect(printedAssumptions).toContainText("Current APR");
+  await expect(printedAssumptions).toContainText("9.00%");
+  await expect(printedAssumptions).toContainText("Entered remaining term");
+  await expect(printedAssumptions).toContainText("Additional monthly payment");
   await page.emulateMedia({ media: "screen" });
   await exportPdfPair(
     page,
     "private-student-loan-decision-outcome",
     /Accelerate repayment/i,
+    false,
+    "#private-loan-decision-outcome",
+  );
+
+  await page.getByLabel("Refinance comparison").selectOption("compare");
+  await page.getByLabel("Quoted APR").fill("6");
+  await page.getByLabel("Quoted refinance term").fill("72");
+  await page.getByLabel("Lender or origination fees").fill("500");
+  await page.getByRole("button", { name: "Build decision outcome" }).click();
+  await expect(page.getByRole("heading", { name: "A quoted refinance may reduce total cost" })).toBeVisible();
+  await page.emulateMedia({ media: "print" });
+  const quoteAssumptions = page.getByRole("region", { name: "Assumptions used" });
+  await expect(quoteAssumptions).toContainText("Quoted APR");
+  await expect(quoteAssumptions).toContainText("6.00%");
+  await expect(quoteAssumptions).toContainText("Quoted term");
+  await expect(quoteAssumptions).toContainText("6 yr");
+  await expect(quoteAssumptions).toContainText("Quoted fees");
+  await expect(quoteAssumptions).toContainText("$500");
+  await expect(page.getByRole("region", { name: "Compared refinance quote" })).toBeVisible();
+  await page.emulateMedia({ media: "screen" });
+  await exportPdfPair(
+    page,
+    "private-student-loan-refinance-comparison",
+    /A quoted refinance may reduce total cost/i,
     false,
     "#private-loan-decision-outcome",
   );

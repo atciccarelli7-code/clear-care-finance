@@ -75,7 +75,7 @@ Current repository architecture includes:
 - Supabase authentication and PostgreSQL foundation
 - Stripe checkout and entitlement foundation, governed by fail-closed release controls
 - structured content and calculator data
-- a typed Decision Outcome contract for high-intent tools, first piloted on private student-loan payoff and refinance-quote comparison
+- a typed Decision Outcome contract for high-intent tools, including typed portable assumptions, first piloted on pure private student-loan payoff and refinance-quote comparison functions
 - Vitest, Playwright, accessibility, publication, SEO, premium, and release checks
 
 Verify the latest package, routes, deployment, environment configuration, and production behavior before relying on this list.

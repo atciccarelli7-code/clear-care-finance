@@ -40,8 +40,8 @@ The direct route showed six realistic defaults and recalculated immediately. It 
 ## 4. Integrated decision and architecture
 
 1. `privateStudentLoanDecision.ts` owns parsing-independent validation, monthly amortization, current/accelerated plans, quote payment/term/fees, total cost, break-even, multiple-quote evaluation, and deterministic state selection.
-2. `DecisionProductDefinition` declares decision identity, states, verification, cautions, resources, portable capability, My Plan, analytics, monetization, disclosure, freshness, and release constraints.
-3. `DecisionOutcomePanel` renders the generic outcome. The calculator is a thin form adapter.
+2. `DecisionProductDefinition` declares decision identity, states, verification, cautions, resources, portable capability, My Plan, analytics, monetization, disclosure, freshness, and release constraints. `DecisionOutcomeView` carries typed display assumptions so portable results do not silently lose their inputs.
+3. `DecisionOutcomePanel` renders the generic outcome, including a semantic assumptions region. The calculator is a thin form adapter.
 4. `decisionOutcomeAnalytics.ts` accepts only enumerated events and `decision_id`, categorical action/resource/block IDs. It does not transmit chosen loan type, state, inputs, outputs, names, free text, query strings, or lender data.
 5. My Plan reuses `wealth_student_loans` and stores no calculator values.
 6. Commercial eligibility is evaluated after recommendation in a separate resolver. No environment configuration exists by default; incomplete, stale, undisclosed, non-HTTPS, federal/mixed/uncertain, or ineligible-state inputs return `null` and render no commercial UI.
@@ -84,19 +84,58 @@ The direct route showed six realistic defaults and recalculated immediately. It 
 - Variable APR is held constant only for the estimate.
 - No prepayment penalty, tax effect, approval, promotional/autopay change, credit effect, or lender-specific protection is modeled.
 - Calculations retain cents; display and portable output round currency to whole dollars and duration to whole months.
+- `Accelerate repayment` requires at least one modeled month and more than the $1 cost-comparison tolerance in interest savings; merely entering an extra payment is not a benefit.
+- A quote whose calculated payment cannot safely amortize the balance fails into `Insufficient information`; finite-looking output is not accepted when floating-point underflow would hide a non-amortizing schedule.
 - The current promissory note, payoff statement, and final lender disclosure control.
 
 ## 7. Release gates and evidence
 
-Final status must be updated before merge:
+Release-candidate status on code head `cfb23186c1736cd92521cc8b0810836d19c8a956`:
 
-- [ ] Full repository test/lint/type/build suite passes.
-- [ ] Focused domain, schema, analytics, commercial, component, mobile, keyboard, axe, print, performance, and publication checks pass.
-- [ ] Final-head CI and Vercel preview are healthy.
-- [ ] Direct and embedded routes are inspected on desktop and mobile; console/network/focus/print are clean.
-- [ ] Second anti-blindness review and all 22 final role statuses contain no BLOCK.
-- [ ] No unresolved actionable review thread remains.
-- [ ] Main merge and production deployment match; live route smoke passes.
+- [x] Full repository suite passes: 94 files / 529 unit and component tests, TypeScript, lint with zero errors, governance/content/route/SEO/AdSense/build/bundle/prerender checks.
+- [x] Focused domain, schema, analytics, commercial, component, mobile, keyboard, axe, print, performance, and publication checks pass.
+- [x] Exact-head CI `30641815512`, Browser certification `30641815266`, and Decision Journey `30641815288` pass.
+- [x] Vercel preview `dpl_9bzL7KGPY1rCGW2udAbMi9hacvtS` is READY for the exact code head; route console and Vercel runtime-error checks are clean.
+- [x] Direct and embedded routes were exercised at desktop and mobile widths; validation, focus, edit/restart, My Plan, neutral resources, and fail-closed commercial behavior were checked.
+- [x] Browser artifact `8797849647` (`sha256:a949bd61185b0f837630d43c871aa88d53f3a349d854bbfef05e12dd7ba9eb17`) contains no-quote and complete-quote Letter/A4 PDFs. All 14 rendered pages were visually inspected; assumptions, recommendation, calculations, cautions, resources, and limitation are legible without privacy-banner duplication, clipping, or overlap.
+- [x] Second anti-blindness review and all 22 final role statuses contain no BLOCK after the release-record sync below.
+- [x] PR #232 has no review submission, unresolved inline thread, or actionable review comment.
+- [ ] After merge, verify the `main` production deployment and live route, then append the merge SHA, deployment ID, smoke evidence, and rollback reference to PR #232.
+
+### Final role quorum
+
+| Registered role | Status | Final finding |
+|---|---|---|
+| Orchestrator | PASS | Scope, safeguards, release gates, and closeout remain integrated. |
+| Context steward | PASS | Starting state, invalidated assumptions, decision/evidence/work records, and reassessment trigger are recorded. |
+| Capability router | PASS | GitHub, Vercel, browser, repository, and official sources covered controlling evidence; unavailable live funnel/Search Console evidence remains explicit. |
+| Executive strategy | WARN | The pilot is authorized and bounded, but no demand, economics, conversion, or satisfaction outcome is yet supportable. |
+| Product management | PASS | The route now completes a bounded decision with all eight deterministic states and a prioritized action. |
+| Healthcare user research | PASS | Loan-type uncertainty, current-document verification, healthcare shift-income volatility, and emergency-reserve tradeoffs are represented without assuming user knowledge. |
+| Information architecture | PASS | Direct and student-loan-hub paths share one implementation and preserve the stable canonical route. |
+| UX and design system | PASS | Progressive disclosure, edit/restart, focus, mobile, copy, My Plan, and print preserve the existing CAF system. |
+| Content and evidence integrity | PASS | Current CFPB/Federal Student Aid boundaries, model assumptions, official guidance, and lender-document controls are distinguished. |
+| Frontend engineering | PASS | Generic typed assumptions and outcome rendering pass desktop, mobile, keyboard, axe, and print checks. |
+| Systems architecture | PASS | Pure domain, reusable schema/renderer, future-tool fixture, analytics, and commercial eligibility remain separated. |
+| Backend, data, and security | PASS | No backend or sensitive persistence was added; fixed-only My Plan and categorical telemetry remain fail-closed. |
+| Platform and DevOps | PASS | Exact-head CI, browser workflows, READY preview, artifact integrity, console, and runtime checks pass. |
+| SEO and discovery | PASS | Canonical/indexing and accurate intent metadata remain stable; no unrelated registry or content expansion occurred. |
+| Monetization and conversion | PASS | Independent and neutral paths are complete; partner configuration is absent and commercial UI fails closed. |
+| Analytics and experimentation | PASS | Strict allowlists, sanitizer coverage, consent gating, and transition deduplication exclude all financial values and result state. |
+| Accessibility, performance, and reliability | PASS | Focus/live semantics, named assumption region, keyboard/mobile/axe, route budgets, and Letter/A4 output pass. |
+| Privacy, legal, and user protection | PASS | Federal/mixed/uncertain debt cannot receive refinance steering; local inputs are not transmitted or newly persisted. |
+| Publishing and governance | PASS | Source freshness, publication constraints, decision-contract check, and synchronized release record are complete. |
+| Quality and release | PASS | Ordinary, edge, malformed, worse-quote, zero-benefit, underflow, privacy, commercial, portable, browser, and publication regressions pass. |
+| Adversarial red team | PASS | Previously reproducible federal-loss, deceptive lower-payment, zero-benefit, non-amortizing quote, and print-omission failures now fail safely or render correctly. |
+| Process improvement | PASS | Typed portable assumptions and `decision-outcome:check` make the pilot's standard reusable and machine-checked. |
+
+### Second anti-blindness findings
+
+- The first final review invalidated a green-suite assumption: an extreme accepted quote could underflow into a finite payment and be misclassified. The domain now requires a payoff-safe quote and has a regression test.
+- Full performance certification found both a hydration race and a mocked Vercel instrumentation request counted as application work. The journey now waits for hydration; only the mocked instrumentation path is excluded while LCP, CLS, long-task, byte, and real request budgets remain enforced.
+- The first generated PDF omitted the recommendation header and repeated the privacy banner; later review found it also omitted user assumptions. Print CSS, the generic typed outcome, actual Letter/A4 generation, text extraction, and visual inspection now prevent those regressions.
+- An entered extra payment was initially treated as sufficient for `Accelerate repayment`. The state now requires measurable modeled time and interest benefit, and a zero-benefit regression returns `Continue current plan`.
+- The remaining warning is evidentiary rather than a code defect: successful release gates do not establish demand, comprehension, conversion, revenue, or satisfaction.
 
 ## 8. Rollback and intentionally excluded work
 
@@ -108,8 +147,8 @@ Final status must be updated before merge:
 - Project context: reviewed and updated for the reusable architecture.
 - Decision ledger: CAF-D-007 added as an experiment.
 - Evidence ledger: CAF-E-003 added with official-source boundary and freshness trigger.
-- Work ledger: CAF-W-004 added and must receive final release links.
-- Reusable assets: typed schema, shared panel, pure domain, multi-quote adapter, strict analytics, fail-closed commercial resolver.
-- Automated prevention: `decision-outcome:check` runs in build and test; focused regression and browser tests added.
+- Work ledger: CAF-W-004 contains the release-candidate evidence and points to PR #232 for the post-merge SHA and production deployment closeout.
+- Reusable assets: typed schema and portable assumptions, shared panel, pure domain, multi-quote adapter, strict analytics, fail-closed commercial resolver.
+- Automated prevention: `decision-outcome:check` runs in build and test; focused zero-benefit, non-amortizing quote, portable assumption, browser, performance, and actual-PDF regressions were added.
 - Remaining process debt: live task-completion and user-understanding evidence is unavailable.
 - Trigger: sufficient post-release funnel/user evidence, source change, partner proposal, recommendation error, or second-tool adoption.

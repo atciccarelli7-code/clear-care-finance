@@ -10,7 +10,7 @@ Build Community Acquired Finance into a trustworthy healthcare financial decisio
 
 The user's prompt defines the immediate assignment. It does **not** define the full evaluation scope.
 
-Never allow the wording of a prompt, a current blocker, or a single metric to suppress adjacent responsibilities. A request about SEO must still receive product, revenue, UX, engineering, risk, and measurement review. A request about monetization must still receive user-protection, editorial, legal, and technical review. A request about implementation must still be challenged for strategic value.
+Never allow prompt wording, a current blocker, or a single metric to suppress adjacent responsibilities. A request about SEO must still receive product, revenue, UX, engineering, risk, and measurement review. A request about monetization must still receive user-protection, editorial, legal, and technical review. A request about implementation must still be challenged for strategic value.
 
 For every material assignment, independently ask:
 
@@ -19,10 +19,27 @@ For every material assignment, independently ask:
 3. What important opportunity, dependency, contradiction, or risk is absent from the prompt?
 4. What would a skeptical expert in each required discipline notice?
 5. What evidence would prove the work succeeded after release?
+6. What can this assignment make easier, safer, or faster for the next assignment?
+
+## Compounding-memory contract
+
+Chat history is not the project's authoritative operating memory. Before substantial work, read:
+
+- `docs/ai/PROJECT_CONTEXT.md`
+- `docs/ai/DECISION_LEDGER.md`
+- `docs/ai/EVIDENCE_LEDGER.md`
+- `docs/ai/WORK_LEDGER.md`
+- `docs/ai/ROLE_REGISTRY.json`
+- `docs/ai/WORK_PACKET_TEMPLATE.md`
+- `docs/ai/COMPOUNDING_LOOP.md`
+
+These records orient work but never replace direct current-state verification.
+
+After material work, update the appropriate records with verified changes, decisions, evidence provenance, invalidated assumptions, reusable assets, unresolved warnings, and the event that should trigger reassessment. Do not create a second source of truth or preserve contradictory guidance without marking it superseded.
 
 ## Mandatory operating context
 
-Before material work, establish the current state from the latest available evidence rather than relying on prior conversation summaries:
+Before material work, establish current state from the latest available evidence rather than relying on prior conversation summaries:
 
 - latest `main` and relevant open pull requests
 - current production deployment and affected routes
@@ -33,11 +50,17 @@ Before material work, establish the current state from the latest available evid
 
 Do not claim a system is configured, deployed, indexed, approved, monetized, or measured without direct evidence.
 
+## Capability-routing rule
+
+Before research or implementation, map each need to the strongest available tool, connector, skill, source system, or validation surface. Prefer direct connected evidence over screenshots and summaries. Read installed skill instructions before specialized connector work. Retrieve once and reuse evidence. Do not ask the founder for information a connected read can resolve.
+
 ## Required role quorum
 
-Load the orchestrator and every specialist skill below for substantial build, audit, redesign, publishing, or release assignments. Each specialist must return one of `PASS`, `WARN`, `BLOCK`, or `NOT IMPLICATED`, with evidence and actions. Silence is not approval.
+`docs/ai/ROLE_REGISTRY.json` is the machine-readable roster. Load the orchestrator and every registered specialist for substantial build, audit, redesign, publishing, monetization, or release assignments. Each specialist returns `PASS`, `WARN`, `BLOCK`, or `NOT IMPLICATED`, with evidence and actions. Silence is not approval.
 
 - Orchestrator: `.agents/skills/caf-orchestrator/SKILL.md`
+- Context steward: `.agents/skills/caf-context-steward/SKILL.md`
+- Capability router: `.agents/skills/caf-capability-router/SKILL.md`
 - Executive strategy: `.agents/skills/caf-executive-strategy/SKILL.md`
 - Product management: `.agents/skills/caf-product-management/SKILL.md`
 - Healthcare user research: `.agents/skills/caf-healthcare-user-research/SKILL.md`
@@ -56,12 +79,13 @@ Load the orchestrator and every specialist skill below for substantial build, au
 - Publishing and governance: `.agents/skills/caf-publishing-governance/SKILL.md`
 - Quality and release: `.agents/skills/caf-quality-release/SKILL.md`
 - Adversarial red team: `.agents/skills/caf-adversarial-red-team/SKILL.md`
+- Process improvement: `.agents/skills/caf-process-improvement/SKILL.md`
 
 ## Role participation rules
 
-### Core roles
+### Mandatory roles
 
-The following roles participate in every material assignment: orchestrator, executive strategy, product management, healthcare user research, monetization and conversion, analytics and experimentation, privacy/legal/user protection, quality and release, and adversarial red team.
+The following roles participate in every material assignment: orchestrator, context steward, capability router, executive strategy, product management, healthcare user research, monetization and conversion, analytics and experimentation, privacy/legal/user protection, quality and release, adversarial red team, and process improvement.
 
 ### Domain roles
 
@@ -86,16 +110,19 @@ A lower-priority objective may not silently override a higher-priority constrain
 
 ## Standard workflow
 
-1. **Re-anchor:** Restate the platform objective, immediate assignment, users, success metrics, and non-goals.
-2. **Inspect:** Read current evidence from the live product, repository, connected systems, and authoritative sources.
-3. **Role scan:** Run the required role quorum independently and create a status matrix.
-4. **Opportunity scan:** Identify missing revenue paths, user journeys, product extensions, measurement gaps, architectural debt, and content risks even when absent from the prompt.
-5. **Decision:** Rank work by expected user value, business value, confidence, effort, reversibility, and risk.
-6. **Plan:** Define implementation slices, acceptance criteria, instrumentation, rollback, and release gates.
-7. **Execute:** Implement the maximum safe scope. Do not stop at recommendations when the assignment authorizes implementation.
-8. **Verify:** Run automated tests, manual journey checks, source verification, accessibility checks, performance checks, analytics validation, and adversarial review.
-9. **Release:** Use a branch and pull request unless the user explicitly authorizes a different workflow. Do not merge while a required gate is unresolved.
-10. **Report:** State what changed, why, evidence, unresolved risks, metrics to watch, and the single highest-value next action.
+1. **Orient:** Read project context, decision history, evidence map, work history, role registry, and relevant skills.
+2. **Re-anchor:** Restate the platform objective, immediate assignment, users, success metrics, constraints, and non-goals in a work packet.
+3. **Inspect:** Read current evidence from the live product, repository, connected systems, and authoritative sources.
+4. **Route:** Assign each evidence and execution need to the strongest available capability.
+5. **Role scan:** Run the required role quorum independently and create a status matrix.
+6. **Opportunity scan:** Identify missing revenue paths, user journeys, product extensions, measurement gaps, architectural debt, and content risks even when absent from the prompt.
+7. **Decision:** Rank work by expected user value, business value, confidence, effort, reversibility, maintenance, and risk.
+8. **Plan:** Define implementation slices, acceptance criteria, instrumentation, rollback, and release gates.
+9. **Execute:** Implement the maximum safe scope. Do not stop at recommendations when the assignment authorizes implementation.
+10. **Verify:** Run automated tests, manual journey checks, source verification, accessibility checks, performance checks, analytics validation, and adversarial review.
+11. **Release:** Use a branch and pull request unless the user explicitly authorizes a different workflow. Do not merge while a required gate is unresolved.
+12. **Compound:** Convert discoveries, repeated manual work, misses, and useful patterns into updated context, ledgers, skills, templates, reusable primitives, instrumentation, scripts, or regression tests.
+13. **Report:** State what changed, why, evidence, unresolved risks, metrics to watch, release state, and the single highest-value next action.
 
 ## Mandatory opportunity checks
 
@@ -113,6 +140,7 @@ Every full-site or major-feature review must explicitly examine:
 - source freshness, claim support, conflicts of interest, and disclosure
 - privacy minimization and security boundaries
 - maintenance burden, duplication, and architectural drift
+- opportunities to convert repeated work into reusable product or operating primitives
 
 ## Definition of done
 
@@ -127,6 +155,9 @@ Work is not done because code compiles, a page looks polished, or one stakeholde
 - automated and manual release checks pass
 - documentation and decision records are updated
 - unresolved warnings are visible and assigned a disposition
+- the work packet is complete enough to audit the decision
+- repeated effort or a meaningful miss produced a reusable improvement or an explicit rationale for no process change
+- `npm run ai:governance-check` passes
 
 ## Prohibited shortcuts
 
@@ -137,19 +168,21 @@ Work is not done because code compiles, a page looks polished, or one stakeholde
 - Do not use stale screenshots, old branches, or prior chat claims as current-state proof.
 - Do not report a feature as complete without exercising its user journey.
 - Do not hide disagreement, uncertainty, failed checks, or unavailable evidence.
+- Do not make the founder repeat stable context that belongs in the repository.
+- Do not finish material work without evaluating what should compound into future work.
 
 ## Default pull-request disposition
 
 The default outcome for completed pull requests is **merge**, not “leave open for later review.”
 
-After implementation is complete, the agent must inspect the pull request and merge it promptly when all of the following are true:
+After implementation is complete, inspect and merge promptly when all of the following are true:
 
 - the pull request is not a draft;
 - GitHub reports it as mergeable;
 - required CI checks have passed;
 - the latest Vercel preview is `READY`, or the change does not require a deployment preview;
 - there are no unresolved review threads or requested changes;
-- the reviewed diff does not present a high-risk condition defined below.
+- the reviewed diff does not present an unresolved high-risk condition.
 
 Do not leave a low- or moderate-risk pull request open merely for routine manual approval. Use the current expected head SHA when merging so a changed pull request cannot be merged without re-review.
 
@@ -157,22 +190,15 @@ Do not leave a low- or moderate-risk pull request open merely for routine manual
 
 Do not automatically merge when the pull request includes a material risk in one or more of these areas:
 
-1. **Security, authentication, or access control**
-   - credentials, secrets, tokens, permissions, login flows, authorization, security headers, or dependency vulnerabilities;
-2. **Payments, financial transactions, or user financial data**
-   - payment processing, bank connections, stored financial records, transaction logic, or materially consequential calculator logic;
-3. **Destructive or difficult-to-reverse infrastructure changes**
-   - database migrations, data deletion, DNS/domain changes, production environment variables, deployment configuration, rollback logic, or repository/branch protection;
-4. **Site-wide discoverability risk**
-   - robots directives, canonical strategy, redirects, sitemap generation, broad route removal, indexing controls, or changes that could deindex or orphan multiple pages;
-5. **Material legal, medical, tax, Medicare, Medicaid, insurance, or benefits claims without authoritative verification**
-   - current dollar limits, eligibility rules, deadlines, coverage rules, or compliance language must be verified against authoritative sources before merging;
-6. **Large architectural or dependency changes**
-   - major framework upgrades, broad routing rewrites, large dependency replacements, build-system changes, or refactors whose blast radius is not covered by tests;
-7. **Failed or incomplete validation**
-   - failing checks, a failed Vercel deployment, unresolved review feedback, broken internal links, missing tests for consequential behavior, or an unexplained regression.
+1. **Security, authentication, or access control** — credentials, secrets, permissions, login, authorization, security headers, or vulnerabilities.
+2. **Payments, financial transactions, or user financial data** — payment processing, bank connections, stored records, transaction logic, or consequential calculator logic.
+3. **Destructive or difficult-to-reverse infrastructure changes** — database migrations, deletion, DNS, environment variables, deployment configuration, or branch protection.
+4. **Site-wide discoverability risk** — robots, canonicals, redirects, sitemap generation, broad route removal, indexing controls, or orphaning.
+5. **Material legal, medical, tax, Medicare, Medicaid, insurance, or benefits claims without authoritative verification.**
+6. **Large architectural or dependency changes** — framework upgrades, routing rewrites, dependency replacements, build changes, or broad refactors without adequate coverage.
+7. **Failed or incomplete validation** — failed checks or deployment, unresolved review feedback, broken links, missing consequential tests, or unexplained regression.
 
-A change in one of these areas may still be merged after the risk is specifically reviewed, validated, and judged acceptable. “High risk” means a credible possibility of security exposure, financial or clinical misinformation, data loss, major production outage, or broad search-indexing harm—not simply that the pull request is large.
+A high-risk change may still be merged after the risk is specifically reviewed, validated, and judged acceptable. High risk means a credible possibility of security exposure, financial or clinical misinformation, data loss, major outage, or broad search harm—not merely a large diff.
 
 ## Merge-review checklist
 
@@ -185,6 +211,8 @@ Before merging, verify:
 5. canonical URLs and existing slugs remain stable unless an intentional redirect plan exists;
 6. time-sensitive financial, Medicare, Medicaid, tax, insurance, or benefits information has authoritative sourcing and review metadata;
 7. no unresolved comments or review threads remain;
-8. the production change is reversible through a normal revert or rollback.
+8. the production change is reversible through a normal revert or rollback;
+9. the compounding closeout and relevant ledgers are updated;
+10. the AI governance check passes.
 
 When these checks pass and no unresolved high-risk condition remains, merge the pull request during the same work session.

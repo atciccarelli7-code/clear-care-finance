@@ -5,14 +5,17 @@ const migrationPath =
   "supabase/migrations/202607310001_growth_evidence_events.sql";
 
 describe("growth evidence migration contract", () => {
-  it("keeps the evidence table private and service-only", () => {
+  it("keeps the evidence table private and service-role least-privileged", () => {
     const migration = readFileSync(migrationPath, "utf8");
 
     expect(migration).toContain("alter table public.growth_events enable row level security");
     expect(migration).toContain("alter table public.growth_events force row level security");
-    expect(migration).toContain("revoke all on table public.growth_events from public, anon, authenticated");
+    expect(migration).toContain(
+      "revoke all on table public.growth_events from public, anon, authenticated, service_role",
+    );
     expect(migration).toContain("grant select, insert, delete on table public.growth_events to service_role");
     expect(migration).not.toMatch(/grant\s+(select|insert|update|delete)[^;]+\s+to\s+(anon|authenticated)/i);
+    expect(migration).not.toMatch(/grant\s+[^;]*(update|truncate|trigger|references)[^;]*\s+to\s+service_role/i);
     expect(migration).not.toMatch(/create\s+policy/i);
   });
 

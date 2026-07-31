@@ -96,6 +96,24 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Evidence or event that should trigger reassessment:** Sufficient live funnel and user-test evidence after release; official-source or lender-partner change; any recommendation-calculation discrepancy; federal/mixed/uncertain handoff exposure above zero; or difficulty applying the contract to a second tool.
 - **Links:** `docs/work-packets/2026-07-31-decision-outcome-private-student-loan.md`; GitHub PR #232. The PR closeout comment records the final merge commit and production deployment.
 
+### CAF-W-005 — Executive operating system hardening
+
+- **Date:** 2026-07-31
+- **Assignment:** Convert the founder’s executive-system charter into durable controls that prevent technically correct but economically or strategically implausible decisions from passing future work.
+- **Starting evidence:** The mandatory role quorum, repository-native memory, and governance check existed and had been used. However, the five-page AdSense whitelist established before the role system was later inherited as a trusted baseline. Later reviews verified the restriction worked but did not quantify that only about 3.1% of indexable routes were ad-eligible, challenge the economic consequence, or reconcile repeated editorial work omitted from one registry.
+- **Decision:** Preserve the existing role system but add a controlling executive accountability overlay, inherited-decision challenge gate, quantified numerator-and-denominator impact, anomaly escalation, separate technical and business validation, and mandatory executive closeout.
+- **Implementation:** Added `docs/ai/EXECUTIVE_OPERATING_SYSTEM.md` and `docs/ai/EXECUTIVE_DECISION_REVIEW_TEMPLATE.md`; integrated the controls into `AGENTS.md`, `MASTER_WORK_PROMPT.md`, and `WORK_PACKET_TEMPLATE.md`; expanded `scripts/check-ai-operating-system.mjs` to fail when the controls or executive perspectives disappear; recorded decision CAF-D-008; and added the dated work packet.
+- **Validation:** Documentation and governance changes are subject to the branch governance check, repository CI, Vercel preview, latest-head review, and pull-request release gates. No public application route, database, authentication, payment, analytics event, or environment configuration is changed.
+- **Release state:** Branch `codex/executive-operating-system-hardening`; final PR, merge SHA, and deployment evidence to be recorded at completion.
+- **User and business impact expected:** The founder should no longer need to catch obvious cross-functional anomalies such as an economically negligible monetization surface. Future work must reconcile prior completed work, quantify consequences, and distinguish working code from a correct business decision.
+- **What was learned:** Broad role coverage can still become procedural when roles are not forced to quantify consequences or reopen inherited assumptions. Structural compliance is not decision-quality assurance.
+- **Assumption invalidated:** A saved multi-role rule automatically guarantees that every inherited policy receives fresh economic, operational, data-quality, and red-team scrutiny.
+- **Reusable asset created:** Controlling executive charter, executive decision-review template, enriched work packet, and automated structural enforcement.
+- **Process improvement implemented:** Material assignments now require executive accountability, inherited-policy review, anomaly escalation, numerator-and-denominator impact, and separate technical/business dispositions.
+- **Unresolved warning:** Automated checks can prove the fields and controls exist, but cannot fully prove the quality or independence of future judgment. Any founder-detected material miss remains an automatic process-review trigger.
+- **Evidence or event that should trigger reassessment:** A material future decision passes without quantified business consequences, the founder again catches a cross-functional anomaly, or the controls create disproportionate process burden without reducing misses.
+- **Links:** `docs/work-packets/2026-07-31-executive-operating-system-hardening.md`; pull request to be recorded at release.
+
 ## Maintenance rules
 
 - Add entries only for material work that changes the product, operating system, evidence base, or strategic direction.

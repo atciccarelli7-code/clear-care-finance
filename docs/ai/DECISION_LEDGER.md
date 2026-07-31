@@ -125,6 +125,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** 2027-01-31; material article revisions; Google policy or account-status change; meaningful placement, traffic, revenue, accessibility, or user-trust evidence; or a quality failure on an eligible article.
 - **Supersedes:** The July 29 five-route implementation as the complete publisher inventory. It preserves the fail-closed and sensitive-context principles established by that remediation.
 
+### CAF-D-010 — Bounded first-party evidence before broader growth changes
+
+- **Date:** 2026-07-31
+- **Status:** EXPERIMENT
+- **Decision:** Use a consent-gated, first-party evidence store for one bounded surface—the `/insurance` hub—before making another broad content, retention, landing-page, or monetization change. The initial contract contains one view denominator, one handoff numerator, fixed destination identifiers, and no arbitrary event properties.
+- **Rationale:** The connected operating dashboard records only 8 organic clicks in its latest 28-day scorecard and leaves nearly every downstream behavioral denominator unverified. Existing Vercel and Google Analytics code proves event emission logic but does not provide a connected, queryable decision record. A sitewide event warehouse would exceed the evidence need and increase privacy and maintenance risk.
+- **Evidence:** Current production and repository inspection; dated Search Console snapshot showing `/insurance` at 18 impressions, 0 clicks, and average position 11.28 through 2026-07-20; blank downstream funnel fields in the connected Growth & Revenue dashboard; Supabase schema inspection confirming no behavioral evidence table; official Supabase guidance requiring explicit table privileges in addition to RLS and keeping service credentials server-side; work packet `2026-07-31-evidence-led-insurance-handoff.md`.
+- **Consequences:** The site may store random event and browser-session UUIDs, one of two fixed event names, the fixed `insurance_hub` surface, an approved destination ID, a fixed variant, and a server timestamp only after analytics consent. The table has forced RLS, no public/anonymous/authenticated privileges or policies, and server-only service-role access. No form answers, financial amounts, health or insurance details, account identifiers, URLs, query strings, referrers, IP addresses, user agents, or device fingerprints are intentionally stored. No visual, SEO, AdSense, Stripe, checkout, or email-campaign change is included.
+- **Revisit trigger:** First 28 days after production release; at least 10 consented insurance-hub sessions; any privacy or security defect; endpoint abuse or material runtime cost; evidence that consented volume is too sparse for useful learning; or a decision to expand the contract to another surface.
+- **Supersedes:** The implicit assumption that existing third-party event emission alone provides sufficient decision-grade product evidence. It does not supersede the existing consent and sanitization rules.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

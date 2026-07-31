@@ -167,7 +167,7 @@ export const applyPublisherArticleReviewMetadata = (articles: Article[]): Articl
 
     return {
       ...article,
-      lastReviewedAt: review.reviewedAt,
+      lastReviewedAt: article.lastReviewedAt ?? review.reviewedAt,
       nextReviewAt,
       reviewScope: article.reviewScope ?? review.reviewScope,
     };

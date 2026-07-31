@@ -1,4 +1,5 @@
 import { track } from "@vercel/analytics";
+import { recordInsuranceHubHandoff } from "@/lib/firstPartyEvidence";
 import { readPrivacyConsent } from "@/lib/privacyConsent";
 
 type EventValue = string | number | boolean | null | undefined;
@@ -62,6 +63,14 @@ export const trackSiteEvent = (name: string, properties: EventProperties = {}) =
     window.gtag?.("event", name, cleaned);
   } catch {
     // Google Analytics is optional and consent-gated.
+  }
+
+  if (
+    name === "pathway_click" &&
+    cleaned.page === "insurance_hub" &&
+    typeof cleaned.destination === "string"
+  ) {
+    recordInsuranceHubHandoff(cleaned.destination);
   }
 
   return true;

@@ -27,6 +27,7 @@ const exportPdfPair = async (
   await mkdir(artifactDirectory, { recursive: true });
   await page.emulateMedia({ media: "print" });
   const target = printTarget ? page.locator(printTarget) : page.locator("body");
+  await expect(page.locator('[role="region"][aria-label="Privacy choices"]')).toBeHidden();
   await expect(target).toContainText(expectedText);
 
   const formats = [
@@ -83,6 +84,9 @@ test("generate private student-loan decision outcome PDFs", async ({ page }) => 
   await page.getByLabel("Optional additional monthly payment").fill("250");
   await page.getByRole("button", { name: "Build decision outcome" }).click();
   await expect(page.getByRole("heading", { name: "Accelerate repayment" })).toBeVisible();
+  await page.emulateMedia({ media: "print" });
+  await expect(page.getByRole("heading", { name: "Accelerate repayment" })).toBeVisible();
+  await page.emulateMedia({ media: "screen" });
   await exportPdfPair(
     page,
     "private-student-loan-decision-outcome",

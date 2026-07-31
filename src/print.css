@@ -22,6 +22,7 @@
   footer,
   nav[aria-label="Primary mobile navigation"],
   a[href="#main-content"],
+  [role="region"][aria-label="Privacy choices"],
   [role="region"][aria-label^="Notifications"],
   section[aria-label^="Notifications"] {
     display: none !important;
@@ -104,6 +105,10 @@
     border: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
+  }
+
+  body:has(#private-loan-decision-outcome) #private-loan-decision-outcome > article > header {
+    display: block !important;
   }
 
   body:has(#private-loan-decision-outcome) #private-loan-decision-outcome > article::before {

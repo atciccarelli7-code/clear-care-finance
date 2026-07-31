@@ -47,18 +47,18 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Date:** 2026-07-30
 - **Assignment:** Implement every safe improvement available now that can make future Community Acquired Finance work faster, more informed, and less dependent on founder prompting or chat memory.
 - **Starting evidence:** The role system could review assignments but lacked a persistent context file, decision ledger, evidence map, work history, capability-routing role, learning role, work-packet contract, and automated drift check.
-- **Decision:** Add a repository-native compounding loop and enforce it through machine-readable role registration and CI.
-- **Implementation:** Added context, capability-routing, and process-improvement skills; project context; decision, evidence, and work ledgers; work-packet and compounding-loop templates; role registry; governance check; and pull-request controls.
-- **Validation:** Pending branch checks and pull-request review at the time of this entry.
-- **Release state:** In progress on `codex/caf-compounding-operating-system`.
+- **Decision:** Add a repository-native compounding loop and enforce it through machine-readable role registration, pull-request controls, and build/test validation.
+- **Implementation:** Added context-steward, capability-router, and process-improvement skills; project context; decision, evidence, and work ledgers; work-packet and compounding-loop templates; a 22-role registry; governance check; pull-request template; and orchestration rules requiring preflight and closeout.
+- **Validation:** The new governance check ran inside the Vercel build and passed. Existing publication, content freshness, patient-guide contracts, AdSense governance, unit tests, production build, bundle budget, prerender, comprehensive route, search-readiness, and decision-journey checks passed on the pull-request branch before merge; the latest browser and CI runs remain the authoritative release evidence in PR #230.
+- **Release state:** Delivered through PR #230 from `codex/caf-compounding-operating-system`; GitHub and Vercel are authoritative for the final merge SHA and deployment state.
 - **User and business impact expected:** Less repeated explanation, faster current-state orientation, more reliable tool use, explicit evidence provenance, earlier detection of conflicts, and systematic conversion of every assignment into reusable assets or checks.
-- **What was learned:** Compounding requires not merely more roles but a closed loop: retrieve context, decide, execute, validate, record, automate, and re-enter the next task with better priors.
-- **Assumption invalidated:** Versioned role instructions alone create sufficient project memory.
-- **Reusable asset created:** Full compounding operating system.
-- **Process improvement implemented:** This assignment is the initial implementation.
-- **Unresolved warning:** The system still depends on agents reading repository instructions; CI can detect structural drift but not every reasoning failure.
-- **Evidence or event that should trigger reassessment:** Repeated founder context requests, stale ledgers, governance check failures, or a future miss not represented in the role and workflow system.
-- **Links:** To be updated with pull request and merge commit.
+- **What was learned:** Compounding requires a closed loop—retrieve context, verify, route capabilities, decide, execute, validate, record, automate, and re-enter the next task with better priors. The rollout itself caught two defects before merge: an accidental package reconstruction omitted existing build dependencies, and the initial governance check assumed one exact completion-heading convention. Both were corrected, and the final package diff was reduced to the intended script additions only.
+- **Assumption invalidated:** Versioned role instructions alone create sufficient project memory, and documentation-only changes are immune from implementation regression.
+- **Reusable asset created:** Full compounding operating system with machine-readable role governance and reusable work packet.
+- **Process improvement implemented:** AI governance now runs in both `npm test` and `npm run build`; pull requests require evidence, role, anti-blindness, validation, and compounding closeout.
+- **Unresolved warning:** The system still depends on agents following repository instructions. CI can detect structural drift but cannot prove the quality of every future reasoning pass; failures or repeated founder explanation must trigger process-improvement review.
+- **Evidence or event that should trigger reassessment:** Repeated founder context requests, stale or contradictory ledgers, governance check failures, material misses despite the role quorum, or process overhead that exceeds the failures it prevents.
+- **Links:** PR #230.
 
 ## Maintenance rules
 

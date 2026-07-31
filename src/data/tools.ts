@@ -1,3 +1,5 @@
+import type { DecisionProductDefinition } from "@/lib/decisionOutcome";
+
 export type ToolCategory =
   | "Workplace benefits"
   | "Open enrollment"
@@ -51,6 +53,7 @@ export type ToolDefinition = {
   href?: string;
   componentKey?: ToolComponentKey;
   relatedArticle?: { label: string; href: string };
+  decisionProductId?: DecisionProductDefinition["decisionIdentifier"];
 };
 
 export const TOOL_CATEGORIES: Array<"All tools" | ToolCategory> = [
@@ -330,10 +333,11 @@ export const tools: ToolDefinition[] = [
     shortTitle: "Private Loan Payoff",
     category: "Student loans",
     audience: "Everyone",
-    description: "Compare minimum payments, extra payments, lump sums, and a possible refinance APR.",
-    estimatedUseTime: "5–8 min",
+    description: "Compare a confirmed private-loan payoff plan with complete refinance-quote terms, total cost, fees, and safeguards.",
+    estimatedUseTime: "6–10 min",
     icon: "calculator",
     componentKey: "privateLoanPayoff",
+    decisionProductId: "private_student_loan_payoff",
     relatedArticle: { label: "Student Loans Section", href: "/student-loans" },
   },
   {

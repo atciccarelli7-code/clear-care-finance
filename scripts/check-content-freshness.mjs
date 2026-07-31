@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relative) => readFile(path.join(root, relative), "utf8");
 const failures = [];
-const requiredRouteFreshness = ["/medicare-care-costs", "/medicare-care-costs/turning-65", "/student-loans", "/open-enrollment", "/tools/employer-benefits-action-plan", "/tools/medicare-medicaid-eligibility-check", "/tools/prior-authorization-next-step-guide", "/insurance/hospital-discharge-coverage", "/insurance/medical-bill-review-toolkit"];
+const requiredRouteFreshness = ["/medicare-care-costs", "/medicare-care-costs/turning-65", "/student-loans", "/tools/private-student-loan-payoff-calculator", "/open-enrollment", "/tools/employer-benefits-action-plan", "/tools/medicare-medicaid-eligibility-check", "/tools/prior-authorization-next-step-guide", "/insurance/hospital-discharge-coverage", "/insurance/medical-bill-review-toolkit"];
 
 const [articlesModel, articlePage, routeFreshness, turningPage, packageJsonRaw] = await Promise.all([
   read("src/data/articles.ts"),

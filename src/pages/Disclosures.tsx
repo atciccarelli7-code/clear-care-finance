@@ -15,7 +15,7 @@ const Disclosures = () => (
     <PageHero eyebrow="Disclosures" title="Disclosures & Disclaimers" description="Clear boundaries around healthcare education, guided tools, official decisions, sources, advertising, review status, and professional advice." />
 
     <div className="container max-w-3xl space-y-6 py-12 md:py-16">
-      <p className="text-sm text-muted-foreground">Effective date: July 19, 2026</p>
+      <p className="text-sm text-muted-foreground">Effective date: July 31, 2026</p>
 
       <Section title="Educational information only">
         <p>Community Acquired Finance provides general education. The site is not financial, investment, tax, legal, insurance, medical, billing, employment, or benefits advice.</p>
@@ -46,6 +46,7 @@ const Disclosures = () => (
 
       <Section title="Calculator and guided-tool limitations">
         <p>Tools are simplified educational estimates and may use assumptions, rounded numbers, incomplete inputs, broad categories, or general rules. Actual costs, taxes, benefits, premiums, coverage, claim responsibility, authorization, and eligibility can differ materially.</p>
+        <p>Student-loan payoff and refinance estimates do not identify a loan&apos;s legal type, determine lender approval, value borrower protections, or replace the promissory note, payoff statement, or final lender disclosure. Federal, mixed, and uncertain loans must be verified before using a private refinance comparison.</p>
         <p>A result labeled possible, estimated, or worth verifying is not a guarantee. Verify important decisions with current official sources and controlling documents.</p>
       </Section>
 

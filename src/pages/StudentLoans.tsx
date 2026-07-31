@@ -65,7 +65,7 @@ const StudentLoans = () => {
           <a href="#path-finder">Find the likely path <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/tools#private-loan-payoff">Run payoff math</Link>
+          <Link to="/tools/private-student-loan-payoff-calculator">Run payoff math</Link>
         </Button>
       </PageHero>
 

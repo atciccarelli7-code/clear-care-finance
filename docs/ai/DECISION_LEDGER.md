@@ -92,6 +92,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** A more reliable authoritative knowledge system replaces the repository artifacts and provides equivalent version history, access, validation, and agent readability.
 - **Supersedes:** Dependence on prior conversation summaries.
 
+### CAF-D-007 — Typed Decision Outcome pilot
+
+- **Date:** 2026-07-31
+- **Status:** EXPERIMENT
+- **Decision:** High-intent tools may adopt a typed Decision Outcome contract that keeps pure calculation, deterministic recommendation, verification, portable output, analytics, and optional commercial eligibility as separate layers. The Private Student Loan Payoff Calculator is the first complete pilot.
+- **Rationale:** The prior calculator ended at reactive numbers and could hide a worse refinance quote as `$0 saved`. A reusable contract prevents future tools from terminating without interpretation, caution, a prioritized action, verification, and a neutral path.
+- **Evidence:** Founder assignment; current `main` and production inspection; pure-function and browser validation in the pilot pull request; CAF-E-003.
+- **Consequences:** The private-loan recommendation engine cannot import partner configuration; federal, mixed, and uncertain debt fails into verification; My Plan stores only a fixed action; typed financial assumptions remain local, user-controlled copy/print data; portable output must preserve those assumptions; `Accelerate repayment` requires measurable modeled time and interest benefit; a quote must be payoff-safe before it can influence a recommendation; partner activation requires verified, current, disclosed configuration.
+- **Revisit trigger:** User testing shows the outcome layer overwhelms or confuses users; valid-result completion materially falls; federal/mixed/uncertain commercial exposure is nonzero; recommendation error is found; official sources change; or a second tool cannot adopt the contract without calculator-specific duplication.
+- **Supersedes:** None. Implements and tests CAF-D-005 as a bounded pilot.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

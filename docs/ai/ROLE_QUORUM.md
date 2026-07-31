@@ -35,24 +35,64 @@ A role may conclude that it is not implicated, but it must make that conclusion 
 | Adversarial red team | What did everyone else normalize or fail to challenge? | Strong countercase, prompt blind spot, or failure mode remains unmitigated |
 | Process improvement | What should this work make easier, safer, faster, or more reusable next time? | Meaningful rework or failure produces no durable prevention or learning control |
 
+## Executive accountability overlay
+
+The role quorum supplies domain expertise. `docs/ai/EXECUTIVE_OPERATING_SYSTEM.md` supplies accountable executive synthesis. Every material work packet must explicitly map the registered roles to these independent perspectives:
+
+| Executive perspective | Minimum role coverage | Required question |
+|---|---|---|
+| Chief Executive / Strategy | Executive strategy + orchestrator | Is this the highest-value coherent decision for the platform now? |
+| Chief Operating Officer | Context steward + publishing/governance + process improvement | Can this be maintained and handed off without losing prior work? |
+| Chief Financial Officer | Executive strategy + monetization/conversion + analytics | Is the quantified economic tradeoff rational? |
+| Chief Revenue Officer | Monetization/conversion + product + privacy/legal | Does this ethically improve commercial readiness after user value? |
+| Chief Product Officer | Product + healthcare user research + UX | Does the user complete a meaningful decision? |
+| Chief Technology Officer | Systems architecture + frontend + backend/security + platform | Is the system correct, maintainable, secure, tested, and reversible? |
+| Chief Data and Analytics Officer | Analytics + backend/data/security + context steward | Are the inventory, registry, evidence, and measurements complete and trustworthy? |
+| Chief Marketing and Discovery Officer | SEO/discovery + information architecture + content integrity | Does the work improve qualified discovery without cannibalization or false promise? |
+| Editorial and Evidence Officer | Content/evidence + publishing/governance | Are claims, review history, provenance, and freshness accurate? |
+| Healthcare User and Clinical Context Officer | Healthcare user research + product | Does the work reflect real healthcare conditions and constraints? |
+| Privacy, Legal, and User Protection Officer | Privacy/legal + backend/security + content integrity | Is the user protected and the commercial treatment defensible? |
+| Accessibility and Reliability Officer | Accessibility/performance + UX + platform | Can users complete the experience across abilities and degraded states? |
+| Quality and Release Officer | Quality/release + orchestrator | Has the latest implementation passed both technical and business release gates? |
+| Adversarial Red Team | Adversarial red team | What assumption has everyone normalized, and what could make the decision wrong? |
+| Process Improvement Officer | Process improvement + context steward | What durable control prevents this failure or rework from recurring? |
+
+A registered role may cover more than one executive perspective, but each perspective requires its own finding, evidence, consequence, action, and acceptance test. Role participation alone does not satisfy executive accountability.
+
+## Mandatory decision-control questions
+
+Every material quorum must answer:
+
+1. Which inherited policies, registries, thresholds, whitelists, blacklists, or architectures are being preserved?
+2. What is the quantified current impact of each, including numerator and denominator?
+3. Did any predate the current operating system?
+4. Is a working implementation being mistaken for a correct business decision?
+5. Is absence from one registry being mistaken for proof that prior work was absent?
+6. Does any outcome change more than 20% of a major surface or produce an economically implausible result?
+7. What are the separate technical and business validation dispositions?
+8. What did not change?
+9. What evidence would reverse the decision?
+
 ## Standard handoff sequence
 
 1. **Context steward:** reads project context and ledgers, then flags stale or conflicting records.
 2. **Capability router:** maps evidence and execution needs to authoritative systems and specialized skills.
 3. **Orchestrator → all roles:** distributes an assignment charter, evidence set, and work packet without a preferred solution.
-4. **Independent role passes:** each role records a disposition and acceptance test.
-5. **Orchestrator synthesis:** agreements, conflicts, opportunities, and blockers.
-6. **Strategy + product:** select the outcome and minimum complete scope.
-7. **User + IA + UX:** define the practical journey and presentation.
-8. **Content + frontend + systems architecture:** establish evidence, domain boundaries, sources of truth, and implementation contracts.
-9. **Backend/security + platform:** implement trust boundaries, persistence, runtime, deployment, and failure isolation.
-10. **SEO + monetization + analytics:** design distribution, economic value, and measurement without distorting the product.
-11. **Accessibility + privacy/legal:** protect users before the implementation is considered releasable.
-12. **Publishing:** set artifact state, ownership, freshness, and lifecycle.
-13. **Quality:** verify the actual implementation and latest head.
-14. **Red team:** challenge prompt anchoring, failure modes, and the largest remaining opportunity.
-15. **Process improvement:** convert the work into context, tests, scripts, templates, reusable primitives, or explicit learning.
-16. **Context steward + orchestrator:** close the ledgers, release, and report.
+4. **Inherited-decision review:** identifies and challenges material inherited policy and architecture before solution selection.
+5. **Independent role passes:** each role records a disposition and acceptance test.
+6. **Executive accountability passes:** the mapped executive perspectives record separate dispositions and quantified consequences.
+7. **Orchestrator synthesis:** agreements, conflicts, opportunities, anomalies, and blockers.
+8. **Strategy + product:** select the outcome and minimum complete scope.
+9. **User + IA + UX:** define the practical journey and presentation.
+10. **Content + frontend + systems architecture:** establish evidence, domain boundaries, sources of truth, and implementation contracts.
+11. **Backend/security + platform:** implement trust boundaries, persistence, runtime, deployment, and failure isolation.
+12. **SEO + monetization + analytics:** design distribution, economic value, and measurement without distorting the product.
+13. **Accessibility + privacy/legal:** protect users before the implementation is considered releasable.
+14. **Publishing:** set artifact state, ownership, freshness, and lifecycle.
+15. **Quality:** verify the actual implementation and latest head, then record separate technical and business validation.
+16. **Red team:** challenge prompt anchoring, inherited assumptions, failure modes, anomalous consequences, and the largest remaining opportunity.
+17. **Process improvement:** convert the work into context, tests, scripts, templates, reusable primitives, or explicit learning.
+18. **Context steward + orchestrator:** close the ledgers, release, and executive report.
 
 ## Status contract
 
@@ -92,14 +132,20 @@ Product may recommend saved workspaces. Healthcare user research determines whet
 
 Implementation may prefer finishing after tests pass. Process improvement asks what was rediscovered or repeated. Context steward determines where the lesson belongs. Quality prevents process additions from weakening current release evidence. The smallest durable improvement is implemented only when its future value exceeds its maintenance cost.
 
+### Technical safety versus economic viability
+
+Risk and engineering may correctly implement a conservative restriction. Finance, revenue, data, operations, and red team must still quantify the affected inventory, reconcile prior completed work, and determine whether the restriction is a justified temporary precaution or an economically incoherent permanent policy.
+
 ## Review cadence
 
-- **Every substantial assignment:** mandatory roles plus domain relevance checks.
-- **Full-site review, new product, route program, monetization change, or release:** all roles.
-- **After implementation:** rerun affected roles against the actual diff and deployed journey.
-- **After meaningful production evidence:** analytics, product, strategy, monetization, context steward, process improvement, and red team reassess the decision.
-- **After any material miss or external critique:** mandatory process-improvement and decision/evidence review.
+- **Every substantial assignment:** mandatory roles, executive accountability, and domain relevance checks.
+- **Full-site review, new product, route program, monetization change, or release:** all roles and all executive perspectives.
+- **After implementation:** rerun affected roles and executive perspectives against the actual diff and deployed journey.
+- **After meaningful production evidence:** analytics, product, strategy, monetization, finance, operations, data, context steward, process improvement, and red team reassess the decision.
+- **After any material miss or external critique:** mandatory process-improvement, inherited-decision, quantified-impact, and decision/evidence review.
 
 ## Governance principle
 
 No single role is the main reviewer. The orchestrator owns reconciliation, not dominance. A technically correct, searchable, attractive, or profitable change can still fail the quorum if it does not safely and measurably help the intended user complete a healthcare financial decision—or if the work discards lessons that should improve future execution.
+
+A functioning policy is not automatically a correct policy. A role matrix is not complete until the economic, operational, data-quality, and adversarial consequences are independently visible.

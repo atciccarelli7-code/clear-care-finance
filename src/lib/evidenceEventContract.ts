@@ -108,14 +108,17 @@ export const parseEvidenceEventPayload = (value: unknown): EvidenceEventPayload 
   if (surface !== EVIDENCE_SURFACE) return null;
   if (!EVIDENCE_VARIANTS.includes(variant as EvidenceVariant)) return null;
 
-  if (eventName === "insurance_hub_viewed") {
+  const safeEventName = eventName as EvidenceEventName;
+  const safeVariant = variant as EvidenceVariant;
+
+  if (safeEventName === "insurance_hub_viewed") {
     if (destinationId !== undefined) return null;
     return {
       eventId,
       sessionId,
-      eventName,
+      eventName: safeEventName,
       surface,
-      variant: variant as EvidenceVariant,
+      variant: safeVariant,
     };
   }
 
@@ -123,9 +126,9 @@ export const parseEvidenceEventPayload = (value: unknown): EvidenceEventPayload 
   return {
     eventId,
     sessionId,
-    eventName,
+    eventName: safeEventName,
     surface,
     destinationId: destinationId as InsuranceDestinationId,
-    variant: variant as EvidenceVariant,
+    variant: safeVariant,
   };
 };

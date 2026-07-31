@@ -1,62 +1,77 @@
 ---
 name: caf-orchestrator
-description: Coordinate every substantial Community Acquired Finance build, audit, redesign, publishing, monetization, or release assignment across the required specialist roles. Use whenever the work spans multiple disciplines or a broad prompt could create blind spots.
+description: Coordinate every substantial Community Acquired Finance build, audit, redesign, publishing, monetization, or release assignment across the required specialist roles and compounding-memory system. Use whenever work spans multiple disciplines or prompt wording could create blind spots.
 ---
 
 # Community Acquired Finance Orchestrator
 
 ## Purpose
 
-Convert one founder prompt into a complete, evidence-backed, multi-disciplinary workstream. The prompt establishes the immediate objective; this skill establishes the full evaluation and execution scope.
+Convert one founder prompt into a complete, evidence-backed, multi-disciplinary workstream. The prompt establishes the immediate objective; this skill establishes the full evaluation, execution, release, and learning scope.
 
 ## Non-negotiable principles
 
 - Do not let one current concern dominate the entire analysis.
 - Do not infer that an omitted discipline is unimportant.
-- Require an explicit status from every required role.
-- Separate current-state facts, source-supported claims, assumptions, and recommendations.
+- Require an explicit status from every registered role.
+- Separate current-state facts, source-supported claims, founder decisions, assumptions, and recommendations.
 - Prefer execution over recommendations when implementation is authorized and safe.
 - Preserve user trust above local growth or revenue optimization.
+- Do not depend on chat recall when repository-native context and connected evidence are available.
+- Make completed work reduce the cost or risk of future work whenever practical.
 
 ## Required inputs
 
-Establish or retrieve:
+Read first:
+
+- `AGENTS.md`
+- `docs/ai/PROJECT_CONTEXT.md`
+- `docs/ai/DECISION_LEDGER.md`
+- `docs/ai/EVIDENCE_LEDGER.md`
+- `docs/ai/WORK_LEDGER.md`
+- `docs/ai/ROLE_REGISTRY.json`
+- `docs/ai/WORK_PACKET_TEMPLATE.md`
+- `docs/ai/COMPOUNDING_LOOP.md`
+
+Then establish or retrieve:
 
 - immediate founder request and desired outcome
 - latest repository `main`, relevant pull requests, and deployment state
 - affected production routes and user journeys
-- current product decisions, known constraints, and open work
-- connected analytics and business-system evidence when relevant
+- current connected-system evidence and open work
 - current authoritative sources for time-sensitive claims
+- prior decisions, reusable assets, unresolved warnings, and evidence requiring revalidation
 
-Do not ask for information that connected systems or repository inspection can resolve.
+These records orient the work; they do not prove live status. Do not ask for information that connected systems or repository inspection can resolve.
 
 ## Workflow
 
-### 1. Re-anchor the assignment
+### 1. Orient and create the work packet
 
-Create a compact assignment charter containing:
+Use `docs/ai/WORK_PACKET_TEMPLATE.md` to capture:
 
 - platform north star
-- immediate user request
+- immediate founder request
 - primary audiences
-- intended user outcome
-- business outcome
+- intended user and business outcomes
 - success metrics
-- constraints and non-goals
-- evidence that must be inspected
+- constraints, non-goals, and risk class
+- relevant decisions, prior work, and evidence gaps
+- assumptions that remain provisional
 
-State which assumptions are provisional.
+### 2. Route capabilities
 
-### 2. Determine role participation
+Activate the capability-router skill before broad research. Map each evidence, implementation, validation, publishing, and release need to the strongest available connector, tool, skill, source, or execution surface. Prefer direct connected evidence and reuse retrieved results.
 
-For full-site reviews, new products, route changes, monetization, publishing systems, or production releases, activate all roles in `AGENTS.md`.
+### 3. Determine role participation
 
-For narrower work, core roles always participate. Every domain role performs a relevance check and returns `NOT IMPLICATED` only with a concrete reason.
+Load every role in `docs/ai/ROLE_REGISTRY.json`.
 
-### 3. Run independent first passes
+For full-site reviews, new products, route changes, monetization, publishing systems, or production releases, all roles participate fully. For narrower work, mandatory roles participate and every domain role performs a relevance check. `NOT IMPLICATED` requires a concrete reason.
 
-Each role reviews the evidence before seeing the preferred implementation. Require each role to return:
+### 4. Run independent first passes
+
+Each role reviews the evidence before seeing the preferred implementation. Require:
 
 - status: `PASS`, `WARN`, `BLOCK`, or `NOT IMPLICATED`
 - finding
@@ -67,9 +82,9 @@ Each role reviews the evidence before seeing the preferred implementation. Requi
 
 Do not merge findings prematurely.
 
-### 4. Build the role matrix
+### 5. Build the role matrix
 
-Create a matrix that exposes:
+Expose:
 
 - agreements
 - disagreements
@@ -78,26 +93,28 @@ Create a matrix that exposes:
 - opportunities omitted from the prompt
 - evidence gaps
 - irreversible decisions
+- stale or conflicting project records
 
-Explicitly call out when a prompt has anchored the team on a narrow objective.
+Explicitly call out prompt anchoring and any conflict between repository memory and direct current evidence.
 
-### 5. Conduct the opportunity scan
+### 6. Conduct the opportunity scan
 
 Independently inspect for:
 
 - incomplete user journeys and dead ends
 - commercial-intent moments without an ethical next action
-- productization opportunities beyond static education
-- list-building or saved-workspace opportunities tied to real value
+- productization beyond static education
+- list-building, saved-workspace, and decision-brief opportunities tied to real value
 - premium or institutional opportunities
 - search and distribution gaps
 - measurement blind spots
 - duplicated or fragmented architecture
 - maintenance and governance risks
+- repeated manual work that should become a reusable product or operating primitive
 
-This scan is mandatory even when the assignment is framed as SEO, engineering, design, or content work.
+This scan is mandatory even when the assignment is framed as SEO, engineering, design, content, or a narrow bug.
 
-### 6. Prioritize
+### 7. Prioritize
 
 Score candidate work using:
 
@@ -112,55 +129,71 @@ Score candidate work using:
 
 Reject impressive work that does not materially advance the platform.
 
-### 7. Produce the integrated plan
+### 8. Produce the integrated plan
 
 Define:
 
 - implementation slices
-- required systems and tools
-- data contracts
+- systems, tools, and data contracts
 - source requirements
-- instrumentation
-- tests
+- instrumentation and decision thresholds
+- tests and direct user journeys
 - rollout and rollback
-- documentation updates
+- documentation and ledger updates
 - release gates
 
 Resolve conflicts using the priority order in `AGENTS.md`. Record unresolved tradeoffs rather than hiding them.
 
-### 8. Execute and coordinate
+### 9. Execute and coordinate
 
-Maintain one coherent implementation. Prevent specialists from creating overlapping components, competing terminology, duplicate routes, inconsistent analytics, or incompatible architecture.
+Maintain one coherent implementation. Prevent specialists from creating overlapping components, competing terminology, duplicate routes, inconsistent analytics, incompatible architecture, or parallel sources of truth.
 
 After each material pass, reassess the whole affected experience and identify second-order effects.
 
-### 9. Verify through the role quorum
+### 10. Verify through the role quorum
 
-Before completion, rerun affected roles against the actual implementation. A plan-level approval does not carry forward automatically to changed code or content.
+Rerun affected roles against the actual implementation, latest pull-request head, preview, and production journey. A plan-level approval does not carry forward automatically to changed code or content.
 
-No `BLOCK` may remain. Every `WARN` must be fixed, explicitly accepted with rationale, or assigned follow-up work.
+No `BLOCK` may remain. Every `WARN` must be fixed, explicitly accepted with rationale, or assigned a recorded disposition.
 
-### 10. Report
+### 11. Compound and close the record
+
+Activate process improvement and context steward before completion. Determine:
+
+- what had to be rediscovered;
+- which founder explanation belongs in durable context;
+- which decision, evidence record, or work outcome must be updated;
+- which repeated check should become a script, test, template, query, component, or skill change;
+- which stale or contradictory artifact should be retired;
+- what evidence should trigger reassessment.
+
+Implement the smallest safe durable improvement during the same assignment. Update the relevant ledgers and run `npm run ai:governance-check`.
+
+### 12. Report
 
 The final report must state:
 
 - decision and rationale
-- role-status summary
-- what changed
-- what was deliberately not changed
+- complete role-status summary
+- what changed and what was deliberately not changed
 - evidence and validation performed
 - business and user implications
-- unresolved risks
-- metrics to watch
-- highest-value next action
+- compounding improvement created
+- unresolved risks and unavailable evidence
+- release state and rollback
+- highest-value evidence-triggered next action
 
 ## Completion gate
 
 The orchestration is complete only when:
 
-- every required role has a recorded disposition
+- every registered role has a recorded disposition
 - missing opportunities were independently examined
 - conflicts were resolved transparently
 - implementation and verification match the assignment charter
+- direct current evidence supports reported state
 - the release state is accurately reported
+- project context and relevant ledgers are updated
+- a meaningful lesson or repeated task produced a reusable improvement, or the rationale for no process change is recorded
+- the AI governance check passes
 - the result advances the platform, not merely the narrow wording of the prompt

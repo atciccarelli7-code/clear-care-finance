@@ -33,16 +33,17 @@ Run independent first-pass evaluations from:
 5. UX and design system;
 6. content and evidence integrity;
 7. frontend engineering;
-8. backend, data, and security;
-9. platform and DevOps;
-10. SEO and discovery;
-11. monetization and conversion;
-12. analytics and experimentation;
-13. accessibility, performance, and reliability;
-14. privacy, legal, and user protection;
-15. publishing and governance;
-16. quality and release;
-17. adversarial red team.
+8. systems architecture;
+9. backend, data, and security;
+10. platform and DevOps;
+11. SEO and discovery;
+12. monetization and conversion;
+13. analytics and experimentation;
+14. accessibility, performance, and reliability;
+15. privacy, legal, and user protection;
+16. publishing and governance;
+17. quality and release;
+18. adversarial red team.
 
 Each role must return `PASS`, `WARN`, `BLOCK`, or `NOT IMPLICATED`, supported by evidence, consequence, recommended action, and acceptance test. A role may not disappear because its concerns were omitted from the prompt.
 
@@ -103,6 +104,7 @@ Do not declare completion unless applicable gates pass:
 
 - product acceptance criteria and complete next-action journey;
 - factual and calculation verification;
+- systems architecture and contract review;
 - lint, type, test, build, and repository-specific checks;
 - browser and direct-route validation;
 - accessibility and responsive review;

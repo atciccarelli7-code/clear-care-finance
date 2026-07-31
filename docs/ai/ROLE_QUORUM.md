@@ -20,6 +20,7 @@ The role quorum prevents that failure by requiring independent disciplinary revi
 | UX and design system | Can a first-time user understand and complete the task? | Material usability, state, mobile, or commercial-presentation failure |
 | Content and evidence integrity | Are claims, calculations, and explanations supportable and current? | Unsupported consequential claim, calculation error, or unsafe simplification |
 | Frontend engineering | Is browser behavior correct, maintainable, typed, and tested? | Broken journey, unsafe client logic, route regression, or untested calculation |
+| Systems architecture | Do the product, content, data, commercial, and platform systems form one coherent architecture? | Conflicting sources of truth, unsafe coupling, or an unmaintainable cross-system design |
 | Backend, data, and security | Are trust boundaries and data handling default-deny and minimized? | Authorization flaw, unnecessary sensitive data, insecure secret, or unsafe migration |
 | Platform and DevOps | Can this deploy, operate, fail, and recover safely? | Broken build, undocumented configuration, unsafe infrastructure, or no rollback |
 | SEO and discovery | Does the route deserve and technically support qualified discovery? | Cannibalization, indexing risk, absent information gain, or misleading snippet |
@@ -38,13 +39,14 @@ The role quorum prevents that failure by requiring independent disciplinary revi
 3. **Orchestrator synthesis:** agreements, conflicts, opportunities, and blockers.
 4. **Strategy + product:** select the outcome and minimum complete scope.
 5. **User + IA + UX:** define the practical journey and presentation.
-6. **Content + engineering + platform:** establish evidence and implementation boundaries.
-7. **SEO + monetization + analytics:** design distribution, economic value, and measurement without distorting the product.
-8. **Accessibility + privacy/legal:** protect users before implementation is considered releasable.
-9. **Publishing:** set artifact state, ownership, freshness, and lifecycle.
-10. **Quality:** verify the actual implementation and latest head.
-11. **Red team:** challenge the integrated result and largest remaining opportunity.
-12. **Orchestrator:** resolve findings, release, and report.
+6. **Content + frontend + systems architecture:** establish evidence, domain boundaries, sources of truth, and implementation contracts.
+7. **Backend/security + platform:** implement trust boundaries, persistence, runtime, deployment, and failure isolation.
+8. **SEO + monetization + analytics:** design distribution, economic value, and measurement without distorting the product.
+9. **Accessibility + privacy/legal:** protect users before implementation is considered releasable.
+10. **Publishing:** set artifact state, ownership, freshness, and lifecycle.
+11. **Quality:** verify the actual implementation and latest head.
+12. **Red team:** challenge the integrated result and largest remaining opportunity.
+13. **Orchestrator:** resolve findings, release, and report.
 
 ## Status contract
 
@@ -72,11 +74,11 @@ Monetization may recommend a lender comparison after a refinance calculation. Co
 
 ### SEO versus route stability
 
-SEO may identify overlapping intent. Information architecture determines canonical ownership. Platform and frontend establish redirects and direct-route behavior. Analytics provides current evidence. Quality treats broad indexability changes as high risk.
+SEO may identify overlapping intent. Information architecture determines canonical ownership. Systems architecture, platform, and frontend establish contracts, redirects, and direct-route behavior. Analytics provides current evidence. Quality treats broad indexability changes as high risk.
 
 ### Personalization versus privacy
 
-Product may recommend saved workspaces. Healthcare user research determines whether persistence creates genuine value. Backend/security and privacy/legal minimize fields and enforce deletion and ownership. Monetization cannot use saved sensitive inputs for unrelated targeting.
+Product may recommend saved workspaces. Healthcare user research determines whether persistence creates genuine value. Systems architecture identifies the source of truth and isolation boundary. Backend/security and privacy/legal minimize fields and enforce deletion and ownership. Monetization cannot use saved sensitive inputs for unrelated targeting.
 
 ## Review cadence
 

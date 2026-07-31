@@ -1,5 +1,4 @@
 import type { DecisionProductDefinition } from "@/lib/decisionOutcome";
-import { privateStudentLoanDecisionProduct } from "@/data/privateStudentLoanDecisionProduct";
 
 export type ToolCategory =
   | "Workplace benefits"
@@ -54,7 +53,7 @@ export type ToolDefinition = {
   href?: string;
   componentKey?: ToolComponentKey;
   relatedArticle?: { label: string; href: string };
-  decisionProduct?: DecisionProductDefinition;
+  decisionProductId?: DecisionProductDefinition["decisionIdentifier"];
 };
 
 export const TOOL_CATEGORIES: Array<"All tools" | ToolCategory> = [
@@ -338,7 +337,7 @@ export const tools: ToolDefinition[] = [
     estimatedUseTime: "6–10 min",
     icon: "calculator",
     componentKey: "privateLoanPayoff",
-    decisionProduct: privateStudentLoanDecisionProduct,
+    decisionProductId: "private_student_loan_payoff",
     relatedArticle: { label: "Student Loans Section", href: "/student-loans" },
   },
   {

@@ -14,8 +14,8 @@ const [tools, product, domain, analytics, commercial, freshness, sources] = awai
 const failures = [];
 const requireText = (source, token, message) => { if (!source.includes(token)) failures.push(message); };
 
-requireText(tools, "decisionProduct?: DecisionProductDefinition", "ToolDefinition must retain the typed decision-product extension.");
-requireText(tools, "decisionProduct: privateStudentLoanDecisionProduct", "Private student-loan tool must declare its decision product.");
+requireText(tools, 'decisionProductId?: DecisionProductDefinition["decisionIdentifier"]', "ToolDefinition must retain the typed decision-product reference.");
+requireText(tools, 'decisionProductId: "private_student_loan_payoff"', "Private student-loan tool must declare its decision product.");
 for (const field of [
   "decisionIdentifier",
   "decisionBeingCompleted",

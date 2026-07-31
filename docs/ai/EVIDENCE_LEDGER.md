@@ -107,6 +107,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Does not prove Google approves the site, sees all current pages immediately, values one route more than another, or will serve ads on any eligible route. Account-level settings and approval status remain owner-controlled evidence.
 - **Owner:** Monetization/conversion, publishing/governance, and privacy/legal protection
 
+### CAF-E-005 — Current growth baseline and server-only evidence controls
+
+- **Claim or state:** The connected CAF operating dashboard records 8 organic clicks in its latest 28-day scorecard, a dated `/insurance` opportunity of 18 impressions, 0 clicks, and average position 11.28 through 2026-07-20, and no verified downstream behavioral denominators. The active Supabase project had no behavioral evidence table before PR #235. Supabase requires table privileges as well as RLS, and service credentials must remain on a trusted backend.
+- **Domain:** Search performance, site analytics, database/auth, and external platform behavior
+- **Source:** `CAF Growth & Revenue Operating Dashboard` in Google Sheets; current GitHub analytics implementation; direct Supabase schema inspection for project `uzfcvtgnpkvuapgrkfcb`; official Supabase documentation `Securing your API`, `Row Level Security`, and April 28, 2026 API-key/grants guidance.
+- **Evidence class:** DIRECT-CURRENT for the connected dashboard/schema/code; PRIMARY-SOURCE for Supabase security behavior.
+- **Verified date:** 2026-07-31
+- **Coverage:** The dashboard's latest recorded 28-day summary, dated Search Baseline through 2026-07-20, current production repository, and the active CAF Supabase project.
+- **Freshness trigger:** New Search Console export; 28 days after evidence-loop production release; Supabase schema or security change; or expansion to another tracked surface.
+- **Used by:** `/insurance`, `api/evidence-event.ts`, `public.growth_events`, CAF-D-010, PR #235, AND-98.
+- **Limitations:** Dashboard blanks are unverified rather than zero; the Search Console snapshot is small and dated; consented sessions are not representative of all visitors; event storage cannot establish user satisfaction or causality; official Supabase documentation does not validate this implementation without direct migration and privilege checks.
+- **Owner:** Data/analytics, privacy/legal protection, and quality/release
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

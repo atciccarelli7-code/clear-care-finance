@@ -1,3 +1,8 @@
+import {
+  getAdEligiblePublisherRoutes,
+  getPublisherArticleReview,
+} from "@/data/publisherArticleReviews";
+
 export type ContentPageType =
   | "article"
   | "long-form-guide"
@@ -47,14 +52,6 @@ const normalizePathname = (pathname: string) => {
   const clean = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "");
   return clean || "/";
 };
-
-const AD_ELIGIBLE_ARTICLE_REVIEWS = new Map<string, { tier: "flagship" | "substantial"; reviewedAt: string }>([
-  ["/articles/deductible-copay-coinsurance-out-of-pocket-max", { tier: "flagship", reviewedAt: "2026-07-13" }],
-  ["/articles/how-to-read-an-eob", { tier: "flagship", reviewedAt: "2026-07-13" }],
-  ["/articles/how-hospital-403b-matching-works", { tier: "substantial", reviewedAt: "2026-07-13" }],
-  ["/articles/backup-care-plans-for-busy-healthcare-workers", { tier: "substantial", reviewedAt: "2026-07-13" }],
-  ["/articles/prescription-coverage-open-enrollment-checklist", { tier: "substantial", reviewedAt: "2026-07-13" }],
-]);
 
 const TRUST_ROUTES = new Set(["/about", "/methodology", "/editorial-policy", "/disclosures", "/accessibility"]);
 const LEGAL_ROUTES = new Set(["/privacy-policy", "/terms-of-use"]);
@@ -115,14 +112,14 @@ const blockedUnknown = (route: string): ContentGovernance => ({
   reason: "Unknown routes are not monetized or treated as indexable by content governance.",
 });
 
-export const getExplicitAdEligibleRoutes = () => Array.from(AD_ELIGIBLE_ARTICLE_REVIEWS.keys());
+export const getExplicitAdEligibleRoutes = () => getAdEligiblePublisherRoutes();
 
 export const resolveContentGovernance = (
   pathname: string,
   options: ResolveContentGovernanceOptions = {},
 ): ContentGovernance => {
   const route = normalizePathname(pathname);
-  const reviewedArticle = AD_ELIGIBLE_ARTICLE_REVIEWS.get(route);
+  const articleReview = getPublisherArticleReview(route);
 
   if (route === "/app" || route.startsWith("/app/") || PRIVATE_APPLICATION_ROUTES.has(route)) {
     return {
@@ -139,19 +136,19 @@ export const resolveContentGovernance = (
     };
   }
 
-  if (reviewedArticle) {
+  if (articleReview) {
     return {
       route,
       publicAvailable: true,
       pageType: "article",
-      contentTier: reviewedArticle.tier,
+      contentTier: articleReview.contentTier,
       indexable: true,
-      adEligible: true,
-      sensitiveContext: false,
+      adEligible: articleReview.disposition === "ad-eligible",
+      sensitiveContext: articleReview.disposition === "ad-free-sensitive",
       interactiveContext: false,
       reviewStatus: "reviewed",
-      reason: "Explicitly reviewed, substantive publisher article with a distinct informational purpose.",
-      lastContentReview: reviewedArticle.reviewedAt,
+      reason: articleReview.reason,
+      lastContentReview: articleReview.reviewedAt,
     };
   }
 
@@ -316,7 +313,7 @@ export const resolveContentGovernance = (
       sensitiveContext: false,
       interactiveContext: false,
       reviewStatus: "needs-review",
-      reason: "Published article remains indexable but is ad-free until affirmatively reviewed for publisher value.",
+      reason: "Published article remains indexable but is ad-free until affirmatively classified in the publisher-content review ledger.",
     };
   }
 

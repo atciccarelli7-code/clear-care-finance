@@ -6,9 +6,10 @@ import {
   isAdFreePath,
   syncAdSenseForPath,
 } from "@/lib/routeAwareAdSense";
+import { getExplicitAdEligibleRoutes } from "@/lib/contentGovernance";
 
 const REVIEWED_ARTICLE_PATH = "/articles/how-to-read-an-eob";
-const UNREVIEWED_ARTICLE_PATH = "/articles/what-does-medicare-not-cover";
+const UNREVIEWED_ARTICLE_PATH = "/articles/future-unreviewed-article";
 const ELIGIBILITY_PATH = "/tools/medicare-medicaid-eligibility-check";
 const BLUEPRINT_PATH = "/tools/healthcare-worker-benefits-blueprint";
 const ACTION_PLAN_PATH = "/tools/employer-benefits-action-plan";
@@ -49,10 +50,11 @@ describe("route-aware AdSense guard", () => {
     ["individual topic guide", "/topics/retirement-accounts"],
     ["broad hub", "/medicare-care-costs"],
     ["hospital patient guide", "/patients-families/hospital-guide"],
-    ["new clinical blood-thinner article", "/articles/why-am-i-getting-a-blood-thinner-in-the-hospital"],
-    ["new clinical medication-change article", "/articles/why-did-the-hospital-stop-or-change-my-home-medications"],
-    ["unreviewed article", UNREVIEWED_ARTICLE_PATH],
-    ["Medicare article without a recorded RN note", "/articles/medicare-options-explained"],
+    ["clinical blood-thinner article", "/articles/why-am-i-getting-a-blood-thinner-in-the-hospital"],
+    ["clinical medication-change article", "/articles/why-did-the-hospital-stop-or-change-my-home-medications"],
+    ["reviewed sensitive Medicare article", "/articles/what-does-medicare-not-cover"],
+    ["future unreviewed article", UNREVIEWED_ARTICLE_PATH],
+    ["Medicare overview", "/articles/medicare-options-explained"],
     ["newsletter", "/newsletter"],
     ["contact", "/contact"],
     ["organization pilot", "/for-organizations"],
@@ -74,9 +76,20 @@ describe("route-aware AdSense guard", () => {
     ["reviewed EOB article", REVIEWED_ARTICLE_PATH],
     ["reviewed prescription coverage article", "/articles/prescription-coverage-open-enrollment-checklist"],
     ["reviewed retirement article", "/articles/how-hospital-403b-matching-works"],
+    ["reviewed wealth article", "/articles/cash-vs-investing-when-you-feel-behind"],
+    ["reviewed open-enrollment article", "/articles/open-enrollment-mistakes-healthcare-workers"],
+    ["reviewed medical-billing explainer", "/articles/facility-fee-vs-professional-fee"],
+    ["reviewed shift-spending article", "/articles/hospital-cafe-habit"],
   ])("allows AdSense only on explicitly reviewed publisher-content: %s", (_label, path) => {
     expect(isAdEligiblePath(path)).toBe(true);
     expect(isAdFreePath(path)).toBe(false);
+  });
+
+  it("exposes the reconciled publisher inventory without duplicate routes", () => {
+    const routes = getExplicitAdEligibleRoutes();
+    expect(routes).toHaveLength(39);
+    expect(new Set(routes).size).toBe(routes.length);
+    expect(routes.every((route) => route.startsWith("/articles/"))).toBe(true);
   });
 
   it("loads the managed script once on eligible publisher-content", () => {
@@ -104,7 +117,7 @@ describe("route-aware AdSense guard", () => {
     ["total compensation comparison", TOTAL_COMPENSATION_PATH],
     ["tool library", "/tools"],
     ["privacy policy", "/privacy-policy"],
-    ["unreviewed article", UNREVIEWED_ARTICLE_PATH],
+    ["future unreviewed article", UNREVIEWED_ARTICLE_PATH],
   ])("requests a clean reload when navigation enters the ad-free %s after AdSense loaded", (_label, path) => {
     syncAdSenseForPath(REVIEWED_ARTICLE_PATH, `https://communityacquiredfinance.com${REVIEWED_ARTICLE_PATH}`);
     const replaceLocation = vi.fn();

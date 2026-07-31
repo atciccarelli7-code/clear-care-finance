@@ -32,6 +32,8 @@ Chat history is not the project's authoritative operating memory. Before substan
 - `docs/ai/ROLE_REGISTRY.json`
 - `docs/ai/WORK_PACKET_TEMPLATE.md`
 - `docs/ai/COMPOUNDING_LOOP.md`
+- `docs/ai/EXECUTIVE_OPERATING_SYSTEM.md`
+- `docs/ai/EXECUTIVE_DECISION_REVIEW_TEMPLATE.md`
 
 These records orient work but never replace direct current-state verification.
 
@@ -108,21 +110,36 @@ The orchestrator records material disagreements instead of averaging them away. 
 
 A lower-priority objective may not silently override a higher-priority constraint. When a tradeoff remains, present it explicitly with the recommended decision and rationale.
 
+## Executive decision controls
+
+For every material assignment, apply `docs/ai/EXECUTIVE_OPERATING_SYSTEM.md` and complete the relevant sections of `docs/ai/EXECUTIVE_DECISION_REVIEW_TEMPLATE.md` inside the work packet.
+
+The registered role quorum must be explicitly mapped to the executive accountability perspectives in the executive operating system. At minimum, every material decision must contain accountable findings for strategy, operations, finance, revenue, product, technology, data and analytics, discovery, editorial integrity, healthcare-user context, privacy/legal protection, accessibility/reliability, quality/release, red team, and process improvement.
+
+Before preserving an inherited policy, whitelist, blacklist, threshold, registry, or architecture, run the inherited-decision challenge gate. A working implementation or passing test proves that the policy functions as coded; it does not prove that the policy remains strategically or economically correct.
+
+Before approving a sitewide or portfolio-level change, quantify the affected numerator and denominator, before-and-after state, percentage impact, user effect, monetization effect, maintenance burden, measurement consequences, second-order effects, and rollback path.
+
+Any outcome that changes more than 20% of a major surface, materially reduces monetizable/indexable/usable inventory, contradicts a founder objective, depends on one incomplete registry, implies prior work was absent, or produces an economically implausible result is anomalous. It requires an explicit independent challenge and may not be silently accepted as conservative.
+
+Technical validation and business validation are separate release decisions. Passing one does not imply passing the other.
+
 ## Standard workflow
 
-1. **Orient:** Read project context, decision history, evidence map, work history, role registry, and relevant skills.
+1. **Orient:** Read project context, decision history, evidence map, work history, role registry, executive operating system, decision-review template, and relevant skills.
 2. **Re-anchor:** Restate the platform objective, immediate assignment, users, success metrics, constraints, and non-goals in a work packet.
 3. **Inspect:** Read current evidence from the live product, repository, connected systems, and authoritative sources.
 4. **Route:** Assign each evidence and execution need to the strongest available capability.
-5. **Role scan:** Run the required role quorum independently and create a status matrix.
-6. **Opportunity scan:** Identify missing revenue paths, user journeys, product extensions, measurement gaps, architectural debt, and content risks even when absent from the prompt.
-7. **Decision:** Rank work by expected user value, business value, confidence, effort, reversibility, maintenance, and risk.
-8. **Plan:** Define implementation slices, acceptance criteria, instrumentation, rollback, and release gates.
-9. **Execute:** Implement the maximum safe scope. Do not stop at recommendations when the assignment authorizes implementation.
-10. **Verify:** Run automated tests, manual journey checks, source verification, accessibility checks, performance checks, analytics validation, and adversarial review.
-11. **Release:** Use a branch and pull request unless the user explicitly authorizes a different workflow. Do not merge while a required gate is unresolved.
-12. **Compound:** Convert discoveries, repeated manual work, misses, and useful patterns into updated context, ledgers, skills, templates, reusable primitives, instrumentation, scripts, or regression tests.
-13. **Report:** State what changed, why, evidence, unresolved risks, metrics to watch, release state, and the single highest-value next action.
+5. **Inherited-decision review:** Identify and challenge every material inherited policy, implementation, registry, threshold, whitelist, blacklist, or architecture used by the assignment.
+6. **Role scan:** Run the required role quorum independently, map it to executive accountability, and create both status matrices.
+7. **Opportunity and anomaly scan:** Identify missing revenue paths, user journeys, product extensions, measurement gaps, architectural debt, content risks, and anomalous consequences even when absent from the prompt.
+8. **Decision:** Rank work by expected user value, business value, confidence, effort, reversibility, maintenance, and risk. Quantify before-and-after impact for sitewide or portfolio decisions.
+9. **Plan:** Define implementation slices, acceptance criteria, instrumentation, rollback, and release gates.
+10. **Execute:** Implement the maximum safe scope. Do not stop at recommendations when the assignment authorizes implementation.
+11. **Verify:** Run separate technical and business validation, automated tests, manual journey checks, source verification, accessibility checks, performance checks, analytics validation, and adversarial review.
+12. **Release:** Use a branch and pull request unless the user explicitly authorizes a different workflow. Do not merge while a required gate is unresolved.
+13. **Compound:** Convert discoveries, repeated manual work, misses, and useful patterns into updated context, ledgers, skills, templates, reusable primitives, instrumentation, scripts, or regression tests.
+14. **Report:** State what changed, what did not change, quantified impact, evidence, unresolved risks, business consequences, release state, and the single highest-value next action.
 
 ## Mandatory opportunity checks
 
@@ -148,7 +165,9 @@ Work is not done because code compiles, a page looks polished, or one stakeholde
 
 - the intended user can complete the target decision or task
 - the change strengthens rather than fragments the platform
-- business implications were evaluated
+- inherited decisions were challenged where implicated
+- sitewide and portfolio consequences were quantified with numerator and denominator
+- business implications and economic plausibility were evaluated separately from technical correctness
 - factual and source claims are supportable
 - affected journeys are measured
 - accessibility, performance, privacy, and security risks are addressed
@@ -156,6 +175,7 @@ Work is not done because code compiles, a page looks polished, or one stakeholde
 - documentation and decision records are updated
 - unresolved warnings are visible and assigned a disposition
 - the work packet is complete enough to audit the decision
+- the executive closeout states what changed, what did not, impact, release state, unresolved evidence, rollback, and next action
 - repeated effort or a meaningful miss produced a reusable improvement or an explicit rationale for no process change
 - `npm run ai:governance-check` passes
 
@@ -169,6 +189,8 @@ Work is not done because code compiles, a page looks polished, or one stakeholde
 - Do not report a feature as complete without exercising its user journey.
 - Do not hide disagreement, uncertainty, failed checks, or unavailable evidence.
 - Do not make the founder repeat stable context that belongs in the repository.
+- Do not treat absence from one registry as proof that prior work was never performed.
+- Do not treat a technically functioning restriction as a justified permanent business policy without current evidence.
 - Do not finish material work without evaluating what should compound into future work.
 
 ## Default pull-request disposition
@@ -213,6 +235,8 @@ Before merging, verify:
 7. no unresolved comments or review threads remain;
 8. the production change is reversible through a normal revert or rollback;
 9. the compounding closeout and relevant ledgers are updated;
-10. the AI governance check passes.
+10. the inherited-decision and quantified-impact gates are complete where applicable;
+11. technical and business validation both have explicit dispositions;
+12. the AI governance check passes.
 
 When these checks pass and no unresolved high-risk condition remains, merge the pull request during the same work session.

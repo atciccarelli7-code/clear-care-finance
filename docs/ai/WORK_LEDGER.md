@@ -60,6 +60,24 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Evidence or event that should trigger reassessment:** Repeated founder context requests, stale or contradictory ledgers, governance check failures, material misses despite the role quorum, or process overhead that exceeds the failures it prevents.
 - **Links:** PR #230.
 
+### CAF-W-003 — Full site and code multi-role audit
+
+- **Date:** 2026-07-31
+- **Assignment:** Review the live site and latest code using the complete multi-role and compounding operating method.
+- **Starting evidence:** Current GitHub `main`, current Vercel production deployment and runtime state, governing context and ledgers, core route and tool architecture, analytics and privacy contracts, the email API, and direct production inspection of representative flagship and high-intent journeys.
+- **Decision:** The main constraint is uneven decision completion across the route portfolio, not baseline technical health. Prioritize a reusable Decision Outcome Layer before broad affiliate placement or additional route creation.
+- **Implementation:** Added the dated audit report at `docs/audits/2026-07-31-site-code-multi-role-review.md`; no public application behavior was changed.
+- **Validation:** Verified production deployment readiness and HTTP 200 behavior, no identified seven-day Vercel runtime error clusters, current release status, representative live routes, and current source code. The documentation branch remains subject to repository checks before merge.
+- **Release state:** Documentation branch and pull request to be recorded at completion.
+- **User and business impact expected:** Future implementation begins from a ranked cross-functional diagnosis instead of repeating broad audits or reacting to the narrowest current blocker.
+- **What was learned:** The new role method materially distinguishes flagship systems that complete decisions from older calculators that are technically useful but end in internal content loops. It also exposed calculation-integrity, endpoint-abuse, route-registry, dormant-email, and measurement-evidence issues that no single SEO, monetization, or code lens would prioritize together.
+- **Assumption invalidated:** Strong technical controls and a large tool inventory imply consistent product maturity or business readiness across every route.
+- **Reusable asset created:** Dated, evidence-bounded site and code audit with role matrix, anti-blindness findings, and a single recommended next project.
+- **Process improvement implemented:** Future full-site audits should compare at least one flagship decision system and one legacy high-intent calculator rather than treating the route portfolio as homogeneous.
+- **Unresolved warning:** Search Console, AdSense-account, live funnel, email-delivery, Stripe, Supabase, and direct user-research outcomes were unavailable and must not be inferred from code quality.
+- **Evidence or event that should trigger reassessment:** Current funnel evidence identifies a higher-value pilot than private student-loan payoff, or implementation of the Decision Outcome Layer materially changes route behavior.
+- **Links:** `docs/audits/2026-07-31-site-code-multi-role-review.md`.
+
 ## Maintenance rules
 
 - Add entries only for material work that changes the product, operating system, evidence base, or strategic direction.

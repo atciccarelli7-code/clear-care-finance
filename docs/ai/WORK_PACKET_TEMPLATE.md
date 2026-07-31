@@ -46,25 +46,26 @@ Create or populate this packet for every substantial assignment. It is the share
 
 | Role | Status | Material finding | Evidence | Action/acceptance test |
 |---|---|---|---|---|
+| Orchestrator | | | | |
 | Context steward | | | | |
 | Capability router | | | | |
 | Executive strategy | | | | |
 | Product management | | | | |
 | Healthcare user research | | | | |
 | Information architecture | | | | |
-| UX/design system | | | | |
-| Content/evidence integrity | | | | |
+| UX and design system | | | | |
+| Content and evidence integrity | | | | |
 | Frontend engineering | | | | |
 | Systems architecture | | | | |
-| Backend/data/security | | | | |
-| Platform/DevOps | | | | |
-| SEO/discovery | | | | |
-| Monetization/CRO | | | | |
-| Analytics/experimentation | | | | |
-| Accessibility/performance | | | | |
-| Privacy/legal/user protection | | | | |
-| Publishing/governance | | | | |
-| Quality/release | | | | |
+| Backend, data, and security | | | | |
+| Platform and DevOps | | | | |
+| SEO and discovery | | | | |
+| Monetization and conversion | | | | |
+| Analytics and experimentation | | | | |
+| Accessibility, performance, and reliability | | | | |
+| Privacy, legal, and user protection | | | | |
+| Publishing and governance | | | | |
+| Quality and release | | | | |
 | Adversarial red team | | | | |
 | Process improvement | | | | |
 

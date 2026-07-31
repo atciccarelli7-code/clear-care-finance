@@ -103,6 +103,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** User testing shows the outcome layer overwhelms or confuses users; valid-result completion materially falls; federal/mixed/uncertain commercial exposure is nonzero; recommendation error is found; official sources change; or a second tool cannot adopt the contract without calculator-specific duplication.
 - **Supersedes:** None. Implements and tests CAF-D-005 as a bounded pilot.
 
+### CAF-D-008 — Executive decision controls and inherited-policy challenge
+
+- **Date:** 2026-07-31
+- **Status:** CONFIRMED
+- **Decision:** Every material assignment must apply an executive accountability overlay, challenge inherited policies and registries, quantify before-and-after consequences with numerator and denominator, escalate anomalous outcomes, and make separate technical and business validation decisions before completion.
+- **Rationale:** The prior role quorum and governance system correctly preserved broad disciplinary coverage but still allowed a technically functioning five-page AdSense whitelist to pass without an economic-sanity check. Repeated editorial work was lost because one incomplete registry was treated as the full record, and later reviews inherited the restriction as a trusted baseline.
+- **Evidence:** Explicit founder direction in the July 31, 2026 executive-system discussion; current repository review of `AGENTS.md`, `ROLE_QUORUM.md`, `MASTER_WORK_PROMPT.md`, the July 31 multi-role audit, and the AdSense remediation chronology.
+- **Consequences:** Future work must record accountable strategy, operations, finance, revenue, product, technology, data, discovery, editorial, healthcare-user, risk, accessibility, quality, red-team, and process-improvement dispositions. A passing test cannot establish that a policy is economically or strategically correct. Sitewide and portfolio decisions require quantified consequences and anomaly review. Absence from one registry cannot be treated as proof that prior work was absent.
+- **Revisit trigger:** A material decision still passes without quantified business consequences, a future founder must catch a cross-functional anomaly the system should have detected, executive controls create disproportionate friction without preventing misses, or a more reliable automated decision-quality system replaces these controls.
+- **Supersedes:** No prior confirmed principle. It hardens CAF-D-004 and CAF-D-006 after a documented failure of execution fidelity.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

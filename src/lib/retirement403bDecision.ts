@@ -119,9 +119,19 @@ const determineState = (
   annualEmployerContribution: number | null,
 ): Retirement403bDecisionState => {
   if (input.matchFormula === "unknown_or_tiered") return "verify_match_formula";
-  if ((annualEmployerContribution ?? 0) <= 0) return "no_employer_contribution_identified";
-  if (input.matchFormula === "non_elective") return "non_elective_contribution";
-  return input.employeeContributionPercent < (input.employerMatchCapPercent ?? 0)
+  if (input.matchFormula === "non_elective") {
+    return (annualEmployerContribution ?? 0) > 0
+      ? "non_elective_contribution"
+      : "no_employer_contribution_identified";
+  }
+
+  const matchCap = input.employerMatchCapPercent ?? 0;
+  const matchRate = input.matchFormula === "full_match_up_to"
+    ? 100
+    : input.employerMatchRatePercent ?? 0;
+  if (matchCap <= 0 || matchRate <= 0) return "no_employer_contribution_identified";
+
+  return input.employeeContributionPercent < matchCap
     ? "below_full_match"
     : "capturing_full_match";
 };

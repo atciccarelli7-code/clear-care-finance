@@ -52,6 +52,17 @@ describe("403(b) employer-contribution formulas", () => {
     expect(decision.view.firstAction).toMatch(/smallest affordable contribution increase/i);
   });
 
+  it("treats a zero employee deferral under a valid match as below the match threshold", () => {
+    const decision = evaluateRetirement403bDecision({
+      ...baseInput,
+      employeeContributionPercent: 0,
+    });
+
+    expect(decision.state).toBe("below_full_match");
+    expect(decision.annualEmployerContribution).toBe(0);
+    expect(decision.view.firstAction).toMatch(/smallest affordable contribution increase/i);
+  });
+
   it("models a non-elective contribution independently of the employee deferral", () => {
     const decision = evaluateRetirement403bDecision({
       ...baseInput,

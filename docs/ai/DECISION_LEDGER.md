@@ -149,6 +149,18 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** Twenty-eight days after production release; at least 25 distinct consented navigation-open sessions; accessibility, performance, mobile, privacy, or route regression; persistently high open-without-selection behavior at adequate volume; reduced discovery of high-value destinations; or direct user evidence that the grouping is confusing.
 - **Supersedes:** Only the generic secondary-overflow and flat-mobile portions of the July 2026 broad-audience navigation implementation. The six primary destinations and broad-audience principle remain confirmed.
 
+
+### CAF-D-012 — Explicit 403(b) employer formulas and multi-product Decision Outcome standard
+
+- **Date:** 2026-08-01
+- **Status:** EXPERIMENT
+- **Decision:** The public 403(b) calculator must require an explicit supported employer-contribution formula, omit employer and total estimates for unknown, tiered, discretionary, or unsupported formulas, and use the typed Decision Outcome contract for interpretation, action, verification, privacy-safe measurement, and portable output. The Decision Outcome renderer and print system must remain product-neutral.
+- **Rationale:** The inherited generic `Employer match %` field silently modeled a 100% match up to X% of pay and could double the estimate for a common 50%-of-the-first-6% formula. A field rename alone would preserve incomplete action guidance and first-product special casing.
+- **Evidence:** PR #243; pure formula/state tests; exact-head CI `30711721119`; Decision Journey `30711721114`; Browser Certification `30711721112`; final artifact `8822123061`; Vercel production deployment `dpl_7bpPcqMgSH2xc5cEQLkwoGjR7VWn`; CAF-E-007; work packet `2026-08-01-403b-match-decision-outcome.md`.
+- **Consequences:** Four formula modes and six deterministic states replace one ambiguous field; unsupported formulas show `Not estimated`; the Summary Plan Description and payroll records visibly control; ordinary inputs remain local; optional email transmission is disclosed; no affiliate, premium, account, route, sitemap, AdSense, or Supabase expansion occurs; the shared renderer and print contract now support multiple products.
+- **Revisit trigger:** August 29, 2026; at least 25 consented calculator-start sessions; a calculation or recommendation discrepancy; IRS/DOL or plan-document guidance change; user evidence that formula selection is confusing; or a third product cannot adopt the contract without special casing.
+- **Supersedes:** The generic employer-match implementation for `/tools/403b-paycheck-calculator`. It extends CAF-D-007 from one pilot to a bounded multi-product standard without declaring universal fit.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

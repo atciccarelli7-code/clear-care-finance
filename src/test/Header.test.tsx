@@ -96,7 +96,7 @@ describe("Header service navigation", () => {
     renderHeader();
     const trigger = screen.getByRole("button", { name: "Open Explore CAF service navigation" });
 
-    expect(trigger).toHaveAttribute("aria-haspopup", "menu");
+    expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
     expect(trigger).toHaveAttribute("aria-expanded", "false");
     expect(trigger).toHaveTextContent("Explore CAF");
   });

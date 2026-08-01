@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 const preparePage = async (page: Page) => {
   await page.route("**/_vercel/**", async (route) => {
@@ -26,6 +26,16 @@ const expectNoSeriousAccessibilityViolations = async (page: Page) => {
   expect(severe, severe.map((item) => `${item.id}: ${item.help}`).join("\n")).toEqual([]);
 };
 
+const mobileNavigation = (page: Page) => page.getByRole("navigation", { name: "Mobile navigation", exact: true });
+
+const ensureDisclosureOpen = async (navigation: Locator, label: string) => {
+  const details = navigation.locator("details").filter({ hasText: label });
+  if (!(await details.evaluate((node) => (node as HTMLDetailsElement).open))) {
+    await details.locator("summary").click();
+  }
+  return details;
+};
+
 test.beforeEach(async ({ page }) => {
   await preparePage(page);
 });
@@ -35,7 +45,7 @@ test("desktop and intermediate-width visitors can discover concrete services", a
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
 
-  const primary = page.getByRole("navigation", { name: "Primary navigation" });
+  const primary = page.getByRole("navigation", { name: "Primary navigation", exact: true });
   await expect(primary).toBeVisible();
   await expect(primary.getByRole("link", { name: "Start Here" })).toBeVisible();
   await expect(primary.getByRole("link", { name: "Tools", exact: true })).toBeVisible();
@@ -48,11 +58,11 @@ test("desktop and intermediate-width visitors can discover concrete services", a
   await expect(page.getByText("Patient and caregiver decisions")).toBeVisible();
   await expect(page.getByText("Coverage and learning")).toBeVisible();
 
-  const benefits = page.getByRole("link", { name: /Benefits Command Center/ });
+  const benefits = page.getByRole("menuitem", { name: /Benefits Command Center/ });
   await expect(benefits).toContainText(/organized review plan/i);
-  await expect(page.getByRole("link", { name: /Total Compensation Comparison/ })).toContainText(/beyond hourly pay/i);
-  await expect(page.getByRole("link", { name: /Medical Bill Review/ })).toContainText(/EOB and provider bill/i);
-  await expect(page.getByRole("link", { name: /Hospital & Patient Guide/ })).toContainText(/discharge/i);
+  await expect(page.getByRole("menuitem", { name: /Total Compensation Comparison/ })).toContainText(/beyond hourly pay/i);
+  await expect(page.getByRole("menuitem", { name: /Medical Bill Review/ })).toContainText(/EOB and provider bill/i);
+  await expect(page.getByRole("menuitem", { name: /Hospital & Patient Guide/ })).toContainText(/discharge/i);
 
   await expectNoHorizontalOverflow(page);
   await expectNoSeriousAccessibilityViolations(page);
@@ -69,7 +79,7 @@ test("320-pixel mobile navigation groups choices and restores focus on Escape", 
 
   const trigger = page.getByRole("button", { name: "Open menu" });
   await trigger.click();
-  const mobileNav = page.getByRole("navigation", { name: "Mobile navigation" });
+  const mobileNav = mobileNavigation(page);
   await expect(mobileNav).toBeVisible();
   await expect(mobileNav.getByRole("link", { name: /Start a decision/ })).toBeFocused();
   await expect(mobileNav.getByRole("link", { name: /Browse tools/ })).toBeVisible();
@@ -80,9 +90,9 @@ test("320-pixel mobile navigation groups choices and restores focus on Escape", 
   await expect(mobileNav.getByText("Patient and caregiver decisions")).toBeVisible();
   await expect(mobileNav.getByText("Coverage and learning")).toBeVisible();
 
-  await mobileNav.getByText("Patient and caregiver decisions").click();
-  await expect(mobileNav.getByRole("link", { name: /Medical Bill Review/ })).toBeVisible();
-  await expect(mobileNav.getByRole("link", { name: /Prior Authorization Next Step/ })).toBeVisible();
+  const patientGroup = await ensureDisclosureOpen(mobileNav, "Patient and caregiver decisions");
+  await expect(patientGroup.getByRole("link", { name: /Medical Bill Review/ })).toBeVisible();
+  await expect(patientGroup.getByRole("link", { name: /Prior Authorization Next Step/ })).toBeVisible();
 
   await expectNoHorizontalOverflow(page);
   await expectNoSeriousAccessibilityViolations(page);
@@ -97,20 +107,22 @@ test("mobile visitors can reach worker, patient, coverage, and learning destinat
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   await page.getByRole("button", { name: "Open menu" }).click();
-  const mobileNav = page.getByRole("navigation", { name: "Mobile navigation" });
+  let mobileNav = mobileNavigation(page);
 
-  await mobileNav.getByText("Healthcare-worker decisions").click();
-  await mobileNav.getByRole("link", { name: /Total Compensation Comparison/ }).click();
+  const workerGroup = await ensureDisclosureOpen(mobileNav, "Healthcare-worker decisions");
+  await workerGroup.getByRole("link", { name: /Total Compensation Comparison/ }).click();
   await expect(page).toHaveURL(/\/tools\/healthcare-worker-total-compensation-comparison$/);
 
   await page.getByRole("button", { name: "Open menu" }).click();
-  await page.getByRole("navigation", { name: "Mobile navigation" }).getByText("Coverage and learning").click();
-  await page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link", { name: /Medicare & Medicaid/ }).click();
+  mobileNav = mobileNavigation(page);
+  let coverageGroup = await ensureDisclosureOpen(mobileNav, "Coverage and learning");
+  await coverageGroup.getByRole("link", { name: /Medicare & Medicaid/ }).click();
   await expect(page).toHaveURL(/\/medicare-care-costs$/);
 
   await page.getByRole("button", { name: "Open menu" }).click();
-  await page.getByRole("navigation", { name: "Mobile navigation" }).getByText("Coverage and learning").click();
-  await page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link", { name: /Quick Guides/ }).click();
+  mobileNav = mobileNavigation(page);
+  coverageGroup = await ensureDisclosureOpen(mobileNav, "Coverage and learning");
+  await coverageGroup.getByRole("link", { name: /Quick Guides/ }).click();
   await expect(page).toHaveURL(/\/guides$/);
   await expectNoHorizontalOverflow(page);
 });

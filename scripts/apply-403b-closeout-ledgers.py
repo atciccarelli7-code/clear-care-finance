@@ -1,0 +1,58 @@
+from pathlib import Path
+
+entries = {
+    Path("docs/ai/DECISION_LEDGER.md"): r'''
+
+### CAF-D-012 — Explicit 403(b) employer formulas and multi-product Decision Outcome standard
+
+- **Date:** 2026-08-01
+- **Status:** EXPERIMENT
+- **Decision:** The public 403(b) calculator must require an explicit supported employer-contribution formula, omit employer and total estimates for unknown, tiered, discretionary, or unsupported formulas, and use the typed Decision Outcome contract for interpretation, action, verification, privacy-safe measurement, and portable output. The Decision Outcome renderer and print system must remain product-neutral.
+- **Rationale:** The inherited generic `Employer match %` field silently modeled a 100% match up to X% of pay and could double the estimate for a common 50%-of-the-first-6% formula. A field rename alone would preserve incomplete action guidance and first-product special casing.
+- **Evidence:** PR #243; pure formula/state tests; exact-head CI `30711721119`; Decision Journey `30711721114`; Browser Certification `30711721112`; final artifact `8822123061`; Vercel production deployment `dpl_7bpPcqMgSH2xc5cEQLkwoGjR7VWn`; CAF-E-007; work packet `2026-08-01-403b-match-decision-outcome.md`.
+- **Consequences:** Four formula modes and six deterministic states replace one ambiguous field; unsupported formulas show `Not estimated`; the Summary Plan Description and payroll records visibly control; ordinary inputs remain local; optional email transmission is disclosed; no affiliate, premium, account, route, sitemap, AdSense, or Supabase expansion occurs; the shared renderer and print contract now support multiple products.
+- **Revisit trigger:** August 29, 2026; at least 25 consented calculator-start sessions; a calculation or recommendation discrepancy; IRS/DOL or plan-document guidance change; user evidence that formula selection is confusing; or a third product cannot adopt the contract without special casing.
+- **Supersedes:** The generic employer-match implementation for `/tools/403b-paycheck-calculator`. It extends CAF-D-007 from one pilot to a bounded multi-product standard without declaring universal fit.
+''',
+    Path("docs/ai/EVIDENCE_LEDGER.md"): r'''
+
+### CAF-E-007 — 403(b) employer-formula and controlling-plan boundaries
+
+- **Claim or state:** Common 403(b) employer contributions must distinguish dollar-for-dollar matching, partial matching, and non-elective contributions; unsupported, tiered, discretionary, or unclear formulas cannot be safely estimated from one generic percentage. The written plan, Summary Plan Description, eligibility and vesting terms, eligible-compensation definition, payroll timing, true-up rules, and actual payroll records control the individual result.
+- **Domain:** Tax/retirement, insurance/benefits, repository and code, production behavior, and accessibility/reliability
+- **Source:** IRS written-plan document guidance for 403(b) plans; U.S. Department of Labor retirement-plan and Summary Plan Description guidance; GitHub PR #243 and merge `a35bb97548d7c76832e887d28c47e4827dff76c1`; exact-head Actions; browser artifact `8822123061`; Vercel production `dpl_7bpPcqMgSH2xc5cEQLkwoGjR7VWn`.
+- **Evidence class:** PRIMARY-SOURCE for plan-document boundaries; DIRECT-CURRENT for implementation, calculation, deployment, and artifact evidence.
+- **Verified date:** 2026-08-01
+- **Coverage:** General U.S. 403(b) educational modeling for the supported formula modes and the public calculator route. Actual Letter/A4 outcomes cover unknown/tiered verification and a 50%-of-first-6% partial match.
+- **Freshness trigger:** 2027-08-01; substantive IRS/DOL change; plan-formula expansion; calculation discrepancy; source-link failure; or a changed claim about contribution limits, eligible compensation, vesting, true-ups, taxes, fiduciary duties, or legal compliance.
+- **Used by:** `/tools/403b-paycheck-calculator`, `retirement403bDecision`, `retirement403bDecisionProduct`, `DecisionOutcomePanel`, generic Decision Outcome print CSS, CAF-D-012, CAF-W-009, AND-101, and experiment `RETIREMENT-403B-DECISION-2026-08`.
+- **Limitations:** Does not establish an individual employer formula, eligibility, vesting, legal compliance, contribution-limit compliance, tax outcome, investment performance, actual employer deposit, or user understanding. Successful release gates do not establish demand, completion, retention, or revenue.
+- **Owner:** Content/evidence integrity, healthcare-user research, privacy/legal protection, product, and quality/release.
+''',
+    Path("docs/ai/WORK_LEDGER.md"): r'''
+
+### CAF-W-009 — 403(b) match integrity and Decision Outcome release
+
+- **Date:** 2026-08-01
+- **Assignment:** Correct the ambiguous 403(b) employer-match calculation, adopt the reusable Decision Outcome Layer, validate every affected and adjacent system, release to production, and reconcile operating records.
+- **Starting state:** Production used one generic `Employer match %` input that represented only a 100%-of-contributions match up to X% of pay. The route returned reactive arithmetic without explicit formula verification or deterministic action states. The shared Decision Outcome renderer and print contract retained private-loan-only assumptions.
+- **Outcome:** PR #243 merged at `a35bb97548d7c76832e887d28c47e4827dff76c1`. Four explicit formula modes, six states, fail-closed unknown/tiered handling, a complete 403(b) outcome, product-neutral renderer/print behavior, accurate prerender metadata, visible controlling-plan language, bounded optional email, and actual Letter/A4 certification are live. Production `dpl_7bpPcqMgSH2xc5cEQLkwoGjR7VWn` is READY.
+- **Validation:** Final product head `5b504e7d5146ae0df18bc3ffdd391944d6cb5936`; CI `30711721119`; Decision Journey `30711721114`; Browser Certification `30711721112`; artifact `8822123061` with digest `sha256:fa2ee75246278c7d4be686e868515c36ce0dc2fce274bcc18c9b3beb712d1d03`; all 14 rendered pages across four 403(b) PDFs visually inspected; production route HTTP 200; no current runtime errors or unresolved toolbar threads; Supabase unchanged and ACTIVE_HEALTHY.
+- **Quantified impact:** Ambiguous match fields `1→0`; explicit formula modes `0→4`; deterministic 403(b) states `0→6`; production Decision Outcome products `1→2`; routes `160→160`; sitemap URLs `160→160`; ad-eligible articles `39→39`; Supabase changes `0`; commercial paths `0`.
+- **Defects prevented:** Brittle semantic assertion; stale prerender/tool metadata; internal enum/raw email output; incorrect zero-contribution state; incomplete email disclosure; private-loan-only print selector; absent 403(b) PDF certification; duplicate PDF test; hidden controlling-document boundary; overlapping synthetic print heading.
+- **Cross-system records:** Linear AND-101; Notion `CAF 403(b) Match Integrity & Decision Outcome Release — August 1, 2026`; Google Drive experiment `RETIREMENT-403B-DECISION-2026-08`; CAF-D-012; CAF-E-007; dated work packet.
+- **Remaining warning:** Release quality does not establish demand, comprehension, completion, portable-use rate, retention, or revenue. Report raw counts below 25 consented starts or before August 29, 2026.
+- **Rollback:** Revert merge `a35bb97548d7c76832e887d28c47e4827dff76c1`; no migration, provider configuration, secret, account, entitlement, or commercial teardown is required.
+- **Next action:** Harden the shared email endpoint with strict runtime schemas, bounded payloads, abuse controls, separated concerns, and regression tests before promoting email-dependent growth.
+''',
+}
+
+for path, entry in entries.items():
+    text = path.read_text(encoding="utf-8")
+    marker = entry.strip().splitlines()[0]
+    if marker in text:
+        raise SystemExit(f"Ledger entry already exists: {marker}")
+    usage_marker = "\n## Updating the ledger" if path.name == "DECISION_LEDGER.md" else "\n## Usage rules" if path.name == "EVIDENCE_LEDGER.md" else "\n## Maintenance rules"
+    if usage_marker not in text:
+        raise SystemExit(f"Could not find insertion marker in {path}")
+    path.write_text(text.replace(usage_marker, entry + usage_marker, 1), encoding="utf-8")

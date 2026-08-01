@@ -88,6 +88,7 @@ requireText(retirementDomain, 'matchFormula === "unknown_or_tiered"', "Unknown o
 requireText(retirementDomain, 'annualEmployerContribution: number | null', "403(b) employer contribution must support a fail-closed null state.");
 requireText(retirementDomain, 'return "verify_match_formula"', "Unknown 403(b) formulas must return the verification state.");
 requireText(retirementDomain, 'annualEmployerContribution = annualEligiblePay', "Supported 403(b) formulas must be calculated from eligible pay.");
+requireText(retirementDomain, "The Summary Plan Description and payroll records control.", "403(b) outcomes must visibly identify the controlling plan and payroll records.");
 if (retirementDomain.includes("studentLoanCommercialHandoff") || retirementDomain.includes("PARTNER")) {
   failures.push("403(b) recommendation logic must remain independent from commercial configuration.");
 }

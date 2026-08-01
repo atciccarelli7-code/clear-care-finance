@@ -31,6 +31,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run test:browser:journeys
+      - name: Certify structured service navigation
+        run: npx playwright test e2e/service-navigation.spec.ts
       - name: Certify mobile route-group performance budgets
         run: npm run test:performance
       - name: Certify premium public, denial, demo, print, mobile, and accessibility journeys

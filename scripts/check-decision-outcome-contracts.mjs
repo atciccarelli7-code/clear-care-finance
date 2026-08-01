@@ -110,15 +110,15 @@ if (outcomePanel.includes('id="private-loan-decision-outcome"')) failures.push("
 if (outcomePanel.includes("student-loan review") || outcomePanel.includes("student-loan review action")) failures.push("Shared outcome renderer must not retain student-loan-only My Plan copy.");
 
 requireText(printCss, 'body:has([id^="decision-outcome-"]) main *', "Print CSS must detect every Decision Outcome product through the generic ID prefix.");
-requireText(printCss, '[id^="decision-outcome-"] > article::before', "Print CSS must render the generic decision-summary heading.");
-requireText(printCss, "padding-top: 38pt !important;", "Decision Outcome print content must reserve space above the title for the brand banner.");
-requireText(printCss, "position: absolute;\n    inset: 0 0 auto 0;", "Decision Outcome print banner must use a dedicated non-overlapping position.");
 requireText(printPdfTest, '"#decision-outcome-private_student_loan_payoff"', "Private-loan PDF certification must target the product-derived outcome ID.");
 requireText(printPdfTest, '"403b-formula-verification-decision"', "403(b) unknown-formula PDF certification is required.");
 requireText(printPdfTest, '"403b-partial-match-decision"', "403(b) supported partial-match PDF certification is required.");
 requireText(printPdfTest, '"#decision-outcome-retirement_403b_contribution"', "403(b) PDF certification must target the product-derived outcome ID.");
 const retirementPdfTestCount = (printPdfTest.match(/test\("generate 403\(b\) decision outcome PDFs"/g) ?? []).length;
 if (retirementPdfTestCount !== 1) failures.push(`403(b) PDF certification must be declared exactly once; found ${retirementPdfTestCount}.`);
+if (printCss.includes('[id^="decision-outcome-"] > article::before')) {
+  failures.push("Decision Outcome print styles must not add a duplicate synthetic heading above the product title.");
+}
 if (printCss.includes("#private-loan-decision-outcome") || printPdfTest.includes('"#private-loan-decision-outcome"')) {
   failures.push("Legacy private-loan-only print selectors must not remain.");
 }

@@ -74,7 +74,7 @@ export const DecisionOutcomePanel = <State extends string>({
   }, [commercialHandoff]);
 
   return (
-    <div className="space-y-5" id="private-loan-decision-outcome">
+    <div className="space-y-5" id={`decision-outcome-${definition.decisionIdentifier}`}>
       <p className="sr-only" role="status" aria-live="polite">
         Decision outcome ready: {outcome.stateLabel}.
       </p>
@@ -93,7 +93,7 @@ export const DecisionOutcomePanel = <State extends string>({
           {outcome.assumptions.length > 0 && (
             <section className="rounded-2xl border border-border bg-muted/20 p-4 md:p-5" aria-label="Assumptions used">
               <h3 className="font-display text-lg font-bold text-foreground">Assumptions used</h3>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">User-entered values used for this estimate. Current loan documents and final lender disclosures control.</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">User-entered values used for this estimate. Current plan documents, statements, and final provider records control.</p>
               <dl className="mt-4 grid gap-x-5 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
                 {outcome.assumptions.map((assumption) => (
                   <div key={assumption.label}>
@@ -192,8 +192,8 @@ export const DecisionOutcomePanel = <State extends string>({
         <SaveNavigatorAction
           recommendationId={definition.myPlanSupport.recommendationId}
           sourceRoute={sourceRoute}
-          title="Save the student-loan review in My Plan"
-          description="Only the fixed student-loan review action is saved. Balances, rates, payments, quote terms, fees, and this summary stay out of My Plan storage."
+          title="Save this review in My Plan"
+          description="Only the fixed follow-up action is saved. Calculator inputs, assumptions, calculated values, and this summary remain out of My Plan storage."
           onAdded={onMyPlanSaved}
         />
       )}

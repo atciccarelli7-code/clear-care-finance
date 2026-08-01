@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   recordInsuranceHubHandoff,
   recordInsuranceHubView,
+  recordServiceNavigationOpened,
+  recordServiceNavigationSelection,
 } from "@/lib/firstPartyEvidence";
 import { PRIVACY_CONSENT_KEY } from "@/lib/privacyConsent";
 
@@ -24,10 +26,12 @@ describe("first-party evidence client", () => {
   it("does not send without analytics consent", () => {
     expect(recordInsuranceHubView()).toBe(false);
     expect(recordInsuranceHubHandoff("plan_types")).toBe(false);
+    expect(recordServiceNavigationOpened("desktop_header")).toBe(false);
+    expect(recordServiceNavigationSelection("mobile_header", "all_tools")).toBe(false);
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it("records one view per consented browser session", () => {
+  it("records one insurance view per consented browser session", () => {
     window.localStorage.setItem(PRIVACY_CONSENT_KEY, "analytics");
 
     expect(recordInsuranceHubView()).toBe(true);
@@ -51,7 +55,7 @@ describe("first-party evidence client", () => {
     ]);
   });
 
-  it("records only fixed destination IDs and never forwards URLs or query strings", () => {
+  it("records only fixed insurance destination IDs and never forwards URLs or query strings", () => {
     window.localStorage.setItem(PRIVACY_CONSENT_KEY, "analytics");
 
     expect(recordInsuranceHubHandoff("/insurance/commercial-insurance-comparison#comparison-tool"))
@@ -65,5 +69,52 @@ describe("first-party evidence client", () => {
     expect(payload.destinationId).toBe("commercial_comparison");
     expect(JSON.stringify(payload)).not.toContain("comparison-tool");
     expect(JSON.stringify(payload)).not.toContain("amount");
+  });
+
+  it("records one navigation-open denominator per surface and session", () => {
+    window.localStorage.setItem(PRIVACY_CONSENT_KEY, "analytics");
+
+    expect(recordServiceNavigationOpened("desktop_header")).toBe(true);
+    expect(recordServiceNavigationOpened("desktop_header")).toBe(false);
+    expect(recordServiceNavigationOpened("mobile_header")).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+
+    const desktopPayload = JSON.parse(String((fetchMock.mock.calls[0][1] as RequestInit).body));
+    const mobilePayload = JSON.parse(String((fetchMock.mock.calls[1][1] as RequestInit).body));
+    expect(desktopPayload).toMatchObject({
+      eventName: "service_navigation_opened",
+      surface: "desktop_header",
+      variant: "service_navigation_v1",
+    });
+    expect(mobilePayload).toMatchObject({
+      eventName: "service_navigation_opened",
+      surface: "mobile_header",
+      variant: "service_navigation_v1",
+    });
+    expect(desktopPayload.destinationId).toBeUndefined();
+    expect(mobilePayload.destinationId).toBeUndefined();
+  });
+
+  it("records a fixed service destination ID without route or user-provided text", () => {
+    window.localStorage.setItem(PRIVACY_CONSENT_KEY, "analytics");
+
+    expect(recordServiceNavigationSelection("mobile_header", "benefits_command_center")).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    const payload = JSON.parse(String((fetchMock.mock.calls[0][1] as RequestInit).body));
+    expect(payload).toMatchObject({
+      eventName: "service_navigation_destination_selected",
+      surface: "mobile_header",
+      destinationId: "benefits_command_center",
+      variant: "service_navigation_v1",
+    });
+    expect(Object.keys(payload).sort()).toEqual([
+      "destinationId",
+      "eventId",
+      "eventName",
+      "sessionId",
+      "surface",
+      "variant",
+    ]);
   });
 });

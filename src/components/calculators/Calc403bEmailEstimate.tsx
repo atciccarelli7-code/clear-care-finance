@@ -410,7 +410,7 @@ export const Calc403bEmailEstimate = () => {
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Optional portable copy</div>
             <h3 className="mt-1 font-display text-lg font-bold">Email this 403(b) estimate</h3>
-            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Email is optional. The decision outcome above is complete without providing contact information.</p>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Email is optional. Submitting sends your email address and the displayed estimate fields to CAF&apos;s email provider for delivery; ordinary calculator use does not send those values.</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="calc403b-first-name" className="text-xs font-semibold">First name</Label>

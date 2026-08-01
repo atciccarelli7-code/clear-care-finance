@@ -14,6 +14,8 @@ const [
   sources,
   outcomePanel,
   seoRegistry,
+  printCss,
+  printPdfTest,
 ] = await Promise.all([
   read("src/data/tools.ts"),
   read("src/data/privateStudentLoanDecisionProduct.ts"),
@@ -27,6 +29,8 @@ const [
   read("src/data/sources.ts"),
   read("src/components/shared/DecisionOutcomePanel.tsx"),
   read("src/lib/seoRegistry.ts"),
+  read("src/print.css"),
+  read("e2e/print-pdf-certification.spec.ts"),
 ]);
 
 const failures = [];
@@ -103,6 +107,14 @@ for (const sourceKey of ["federalStudentAidDashboard", "cfpbStudentLoanRefinance
 requireText(outcomePanel, "definition.decisionIdentifier", "Shared outcome DOM identity must be derived from the product definition.");
 if (outcomePanel.includes('id="private-loan-decision-outcome"')) failures.push("Shared outcome renderer must not retain a private-loan-only DOM identifier.");
 if (outcomePanel.includes("student-loan review") || outcomePanel.includes("student-loan review action")) failures.push("Shared outcome renderer must not retain student-loan-only My Plan copy.");
+
+requireText(printCss, 'body:has([id^="decision-outcome-"]) main *', "Print CSS must detect every Decision Outcome product through the generic ID prefix.");
+requireText(printCss, '[id^="decision-outcome-"] > article::before', "Print CSS must render the generic decision-summary heading.");
+requireText(printPdfTest, '"#decision-outcome-private_student_loan_payoff"', "Private-loan PDF certification must target the product-derived outcome ID.");
+if (printCss.includes("#private-loan-decision-outcome") || printPdfTest.includes('"#private-loan-decision-outcome"')) {
+  failures.push("Legacy private-loan-only print selectors must not remain.");
+}
+
 requireText(seoRegistry, 'title: "403(b) Paycheck and Employer Match Calculator"', "403(b) prerender title must match the corrected product.");
 requireText(seoRegistry, "model common employer matching or non-elective formulas", "403(b) prerender description must describe explicit employer formulas.");
 if (seoRegistry.includes('description: "Estimate your 403(b) contribution per paycheck, annual contribution, employer match, and progress toward the annual contribution limit."')) {

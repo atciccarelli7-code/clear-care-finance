@@ -136,11 +136,12 @@ export const tools: ToolDefinition[] = [
     shortTitle: "403(b) Paycheck Calculator",
     category: "Workplace benefits",
     audience: "Healthcare workers",
-    description: "Estimate per-paycheck contributions, annual savings, and a rough employer-match amount.",
+    description: "Estimate a payroll contribution, model common employer formulas, and identify plan terms to verify before changing payroll.",
     estimatedUseTime: "3–5 min",
     icon: "piggyBank",
     featured: true,
     href: "/tools/403b-paycheck-calculator",
+    decisionProductId: "retirement_403b_contribution",
     relatedArticle: { label: "How hospital 403(b) matching works", href: "/articles/how-hospital-403b-matching-works" },
   },
   {

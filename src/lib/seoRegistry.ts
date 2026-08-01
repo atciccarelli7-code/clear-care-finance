@@ -204,8 +204,8 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     kind: "tool",
   },
   "/tools/403b-paycheck-calculator": {
-    title: "403(b) Paycheck Contribution Calculator",
-    description: "Estimate your 403(b) contribution per paycheck, annual contribution, employer match, and progress toward the annual contribution limit.",
+    title: "403(b) Paycheck and Employer Match Calculator",
+    description: "Estimate a 403(b) payroll contribution, model common employer matching or non-elective formulas, and identify plan terms to verify before changing payroll.",
     kind: "tool",
   },
   "/tools/open-enrollment-true-cost-calculator": {

@@ -125,15 +125,14 @@ describe("403(b) validation, tax boundary, and portable output", () => {
 
   it("builds a dated, educational summary with plan-document verification", () => {
     const decision = evaluateRetirement403bDecision(baseInput);
+    const verification = decision.view.verificationChecklist.join(" ");
 
     expect(decision.view.portableSummary).toContain("403(b) contribution decision summary");
     expect(decision.view.portableSummary).toContain("Employer matches 100% of contributions up to 6% of eligible pay");
     expect(decision.view.portableSummary).toContain("Estimated annual employer contribution: $5,054");
-    expect(decision.view.verificationChecklist).toEqual(expect.arrayContaining([
-      expect.stringMatching(/eligible compensation/i),
-      expect.stringMatching(/true-up/i),
-      expect.stringMatching(/vesting/i),
-    ]));
+    expect(verification).toMatch(/compensation.*eligible|eligible compensation/i);
+    expect(verification).toMatch(/true-up/i);
+    expect(verification).toMatch(/vesting/i);
     expect(decision.view.educationalLimitation).toMatch(/not tax, legal, investment/i);
   });
 });

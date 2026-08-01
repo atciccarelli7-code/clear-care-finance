@@ -7,6 +7,7 @@ const [
   studentDomain,
   retirementProduct,
   retirementDomain,
+  retirementCalculator,
   analytics,
   commercial,
   freshness,
@@ -19,6 +20,7 @@ const [
   read("src/lib/privateStudentLoanDecision.ts"),
   read("src/data/retirement403bDecisionProduct.ts"),
   read("src/lib/retirement403bDecision.ts"),
+  read("src/components/calculators/Calc403bEmailEstimate.tsx"),
   read("src/lib/decisionOutcomeAnalytics.ts"),
   read("src/lib/studentLoanCommercialHandoff.ts"),
   read("src/components/shared/RouteFreshness.tsx"),
@@ -85,6 +87,12 @@ requireText(retirementDomain, 'annualEmployerContribution = annualEligiblePay', 
 if (retirementDomain.includes("studentLoanCommercialHandoff") || retirementDomain.includes("PARTNER")) {
   failures.push("403(b) recommendation logic must remain independent from commercial configuration.");
 }
+
+requireText(retirementCalculator, "formatCurrency", "403(b) portable email values must remain human-readable currency.");
+requireText(retirementCalculator, "payFrequencyLabel", "403(b) portable email must retain a readable pay-frequency label.");
+requireText(retirementCalculator, 'assumption.label === "Employer formula"', "403(b) portable email must use the rendered employer-formula assumption rather than an internal enum.");
+if (retirementCalculator.includes("employerMatchPercent: values.matchFormula")) failures.push("403(b) email payload must not expose the internal formula enum.");
+if (retirementCalculator.includes("decisionSummary: decision.view.portableSummary")) failures.push("403(b) email payload must remain bounded to the established estimate schema until the endpoint is hardened.");
 
 requireText(analytics, "ALLOWED_KEYS", "Decision analytics must use an exact property allowlist.");
 if (analytics.includes('"loan_type"') || analytics.includes('"recommendation_state"')) failures.push("Decision analytics must not transmit selected loan type or recommendation state.");

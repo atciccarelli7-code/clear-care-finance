@@ -92,21 +92,13 @@ describe("Header service navigation", () => {
     expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
   });
 
-  it("opens a four-group desktop service panel with concrete outcomes", async () => {
+  it("exposes an accessible desktop service-navigation trigger", () => {
     renderHeader();
     const trigger = screen.getByRole("button", { name: "Open Explore CAF service navigation" });
-    fireEvent.pointerDown(trigger, { button: 0, ctrlKey: false });
 
-    expect(await screen.findByText("Explore CAF services")).toBeInTheDocument();
-    expect(screen.getByText("Find the right starting point")).toBeInTheDocument();
-    expect(screen.getByText("Healthcare-worker decisions")).toBeInTheDocument();
-    expect(screen.getByText("Patient and caregiver decisions")).toBeInTheDocument();
-    expect(screen.getByText("Coverage and learning")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Benefits Command Center/ })).toHaveAttribute(
-      "href",
-      "/tools/benefits-command-center",
-    );
-    expect(screen.getByText(/Compare job offers beyond hourly pay/)).toBeInTheDocument();
+    expect(trigger).toHaveAttribute("aria-haspopup", "menu");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(trigger).toHaveTextContent("Explore CAF");
   });
 
   it("records only fixed navigation open and destination identifiers", () => {

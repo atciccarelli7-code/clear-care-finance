@@ -24,7 +24,7 @@ describe("first-party evidence contract", () => {
     });
   });
 
-  it("requires an allowlisted destination for handoff events", () => {
+  it("requires an allowlisted destination for insurance handoff events", () => {
     expect(parseEvidenceEventPayload({
       eventId: EVENT_ID,
       sessionId: SESSION_ID,
@@ -44,6 +44,58 @@ describe("first-party evidence contract", () => {
     })).toBeNull();
   });
 
+  it("accepts fixed service-navigation open and selection events", () => {
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "service_navigation_opened",
+      surface: "desktop_header",
+      variant: "service_navigation_v1",
+    })).toEqual({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "service_navigation_opened",
+      surface: "desktop_header",
+      variant: "service_navigation_v1",
+    });
+
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "service_navigation_destination_selected",
+      surface: "mobile_header",
+      destinationId: "benefits_command_center",
+      variant: "service_navigation_v1",
+    })?.destinationId).toBe("benefits_command_center");
+  });
+
+  it("rejects navigation events with mismatched surfaces, variants, or destinations", () => {
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "service_navigation_opened",
+      surface: "insurance_hub",
+      variant: "service_navigation_v1",
+    })).toBeNull();
+
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "service_navigation_destination_selected",
+      surface: "desktop_header",
+      destinationId: "custom_user_value",
+      variant: "service_navigation_v1",
+    })).toBeNull();
+
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "service_navigation_opened",
+      surface: "desktop_header",
+      variant: "baseline_v1",
+    })).toBeNull();
+  });
+
   it("rejects unknown properties and sensitive-looking payload expansion", () => {
     expect(parseEvidenceEventPayload({
       eventId: EVENT_ID,
@@ -55,7 +107,7 @@ describe("first-party evidence contract", () => {
     })).toBeNull();
   });
 
-  it("maps only known same-site destinations and rejects query strings", () => {
+  it("maps only known same-site insurance destinations and rejects query strings", () => {
     expect(resolveInsuranceDestinationId("/insurance/commercial-insurance-comparison#comparison-tool"))
       .toBe("commercial_comparison");
     expect(resolveInsuranceDestinationId("plan_types")).toBe("plan_types");

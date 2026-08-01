@@ -3,15 +3,24 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "@/components/layout/Header";
 
+const evidenceMocks = vi.hoisted(() => ({
+  recordServiceNavigationOpened: vi.fn(),
+  recordServiceNavigationSelection: vi.fn(),
+}));
+
+vi.mock("@/lib/firstPartyEvidence", () => evidenceMocks);
+
 const renderHeader = (path = "/") => render(
   <MemoryRouter initialEntries={[path]}>
     <Header />
   </MemoryRouter>,
 );
 
-describe("Header mobile navigation", () => {
+describe("Header service navigation", () => {
   beforeEach(() => {
     document.body.style.overflow = "";
+    evidenceMocks.recordServiceNavigationOpened.mockClear();
+    evidenceMocks.recordServiceNavigationSelection.mockClear();
     Object.defineProperty(window, "requestAnimationFrame", {
       configurable: true,
       value: (callback: FrameRequestCallback) => {
@@ -25,14 +34,14 @@ describe("Header mobile navigation", () => {
     });
   });
 
-  it("moves focus into the opened menu and restores it after Escape", () => {
+  it("moves focus into the opened mobile menu and restores it after Escape", () => {
     renderHeader();
     const menuButton = screen.getByRole("button", { name: "Open menu" });
 
     fireEvent.click(menuButton);
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    expect(within(mobileNav).getByRole("link", { name: "Start Here" })).toHaveFocus();
+    expect(within(mobileNav).getByRole("link", { name: /Start a decision/ })).toHaveFocus();
     expect(document.body.style.overflow).toBe("hidden");
 
     fireEvent.keyDown(document, { key: "Escape" });
@@ -47,7 +56,7 @@ describe("Header mobile navigation", () => {
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    const firstLink = within(mobileNav).getByRole("link", { name: "Start Here" });
+    const firstLink = within(mobileNav).getByRole("link", { name: /Start a decision/ });
     const lastLink = within(mobileNav).getByRole("link", { name: "Monthly email" });
 
     lastLink.focus();
@@ -58,24 +67,47 @@ describe("Header mobile navigation", () => {
     expect(lastLink).toHaveFocus();
   });
 
-  it("exposes the active state for secondary mobile destinations", () => {
-    renderHeader("/glossary");
+  it("uses the same grouped hierarchy on mobile and exposes active destinations", () => {
+    renderHeader("/medicare-care-costs");
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    expect(within(mobileNav).getByRole("link", { name: "Glossary" })).toHaveAttribute("aria-current", "page");
+    expect(within(mobileNav).getByText("Find the right starting point")).toBeInTheDocument();
+    expect(within(mobileNav).getByText("Healthcare-worker decisions")).toBeInTheDocument();
+    expect(within(mobileNav).getByText("Patient and caregiver decisions")).toBeInTheDocument();
+    expect(within(mobileNav).getByText("Coverage and learning")).toBeInTheDocument();
+    expect(within(mobileNav).getByRole("link", { name: /Medicare & Medicaid/ })).toHaveAttribute("aria-current", "page");
   });
 
-  it("includes Topic Guides as an active secondary destination", () => {
-    renderHeader("/topics");
+  it("closes the mobile menu after a grouped service is selected", () => {
+    renderHeader();
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
-    const topicLink = within(mobileNav).getByRole("link", { name: "Topic Guides" });
+    fireEvent.click(within(mobileNav).getByText("Patient and caregiver decisions"));
 
-    expect(topicLink).toHaveAttribute("href", "/topics");
-    expect(topicLink).toHaveAttribute("aria-current", "page");
+    const billReview = within(mobileNav).getByRole("link", { name: /Medical Bill Review/ });
+    expect(billReview).toHaveAttribute("href", "/insurance/medical-bill-review-toolkit");
+    fireEvent.click(billReview);
 
-    fireEvent.click(topicLink);
     expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
+  });
+
+  it("exposes an accessible desktop service-navigation trigger", () => {
+    renderHeader();
+    const trigger = screen.getByRole("button", { name: "Open Explore CAF service navigation" });
+
+    expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(trigger).toHaveTextContent("Explore CAF");
+  });
+
+  it("records only fixed navigation open and destination identifiers", () => {
+    renderHeader();
+    fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+    const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
+
+    expect(evidenceMocks.recordServiceNavigationOpened).toHaveBeenCalledWith("mobile_header");
+    fireEvent.click(within(mobileNav).getByRole("link", { name: /Browse tools/ }));
+    expect(evidenceMocks.recordServiceNavigationSelection).toHaveBeenCalledWith("mobile_header", "all_tools");
   });
 });

@@ -1,0 +1,129 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Locator, type Page } from "@playwright/test";
+
+const preparePage = async (page: Page) => {
+  await page.route("**/_vercel/**", async (route) => {
+    const isScript = new URL(route.request().url()).pathname.endsWith(".js");
+    await route.fulfill(isScript
+      ? { status: 200, contentType: "application/javascript", body: "" }
+      : { status: 204, body: "" });
+  });
+  await page.addInitScript(() => {
+    localStorage.setItem("caf-privacy-consent-v1", "necessary");
+  });
+};
+
+const expectNoHorizontalOverflow = async (page: Page) => {
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(1);
+};
+
+const expectNoSeriousAccessibilityViolations = async (page: Page) => {
+  const results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+    .analyze();
+  const severe = results.violations.filter((violation) => violation.impact === "serious" || violation.impact === "critical");
+  expect(severe, severe.map((item) => `${item.id}: ${item.help}`).join("\n")).toEqual([]);
+};
+
+const mobileNavigation = (page: Page) => page.getByRole("navigation", { name: "Mobile navigation", exact: true });
+
+const ensureDisclosureOpen = async (navigation: Locator, label: string) => {
+  const details = navigation.locator("details").filter({ hasText: label });
+  if (!(await details.evaluate((node) => (node as HTMLDetailsElement).open))) {
+    await details.locator("summary").click();
+  }
+  return details;
+};
+
+test.beforeEach(async ({ page }) => {
+  await preparePage(page);
+});
+
+test("desktop and intermediate-width visitors can discover concrete services", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium");
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+
+  const primary = page.getByRole("navigation", { name: "Primary navigation", exact: true });
+  await expect(primary).toBeVisible();
+  await expect(primary.getByRole("link", { name: "Start Here" })).toBeVisible();
+  await expect(primary.getByRole("link", { name: "Tools", exact: true })).toBeVisible();
+
+  const trigger = page.getByRole("button", { name: "Open Explore CAF service navigation" });
+  await trigger.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("dialog", { name: "Explore CAF services" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Find the right starting point", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Healthcare-worker decisions", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Patient and caregiver decisions", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Coverage and learning", exact: true })).toBeVisible();
+
+  const benefits = page.getByRole("link", { name: /Benefits Command Center/ });
+  await expect(benefits).toContainText(/organized review plan/i);
+  await expect(page.getByRole("link", { name: /Total Compensation Comparison/ })).toContainText(/beyond hourly pay/i);
+  await expect(page.getByRole("link", { name: /Medical Bill Review/ })).toContainText(/EOB and provider bill/i);
+  await expect(page.getByRole("link", { name: /Hospital & Patient Guide/ })).toContainText(/discharge/i);
+
+  await expectNoHorizontalOverflow(page);
+  await expectNoSeriousAccessibilityViolations(page);
+
+  await benefits.click();
+  await expect(page).toHaveURL(/\/tools\/benefits-command-center$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(/what your job is actually worth/i);
+});
+
+test("320-pixel mobile navigation groups choices and restores focus on Escape", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium");
+  await page.setViewportSize({ width: 320, height: 760 });
+  await page.goto("/");
+
+  const trigger = page.getByRole("button", { name: "Open menu" });
+  await trigger.click();
+  const mobileNav = mobileNavigation(page);
+  await expect(mobileNav).toBeVisible();
+  await expect(mobileNav.getByRole("link", { name: /Start a decision/ })).toBeFocused();
+  await expect(mobileNav.getByRole("link", { name: /Browse tools/ })).toBeVisible();
+  await expect(mobileNav.getByRole("link", { name: /Read articles/ })).toBeVisible();
+
+  await expect(mobileNav.getByText("Find the right starting point")).toBeVisible();
+  await expect(mobileNav.getByText("Healthcare-worker decisions")).toBeVisible();
+  await expect(mobileNav.getByText("Patient and caregiver decisions")).toBeVisible();
+  await expect(mobileNav.getByText("Coverage and learning")).toBeVisible();
+
+  const patientGroup = await ensureDisclosureOpen(mobileNav, "Patient and caregiver decisions");
+  await expect(patientGroup.getByRole("link", { name: /Medical Bill Review/ })).toBeVisible();
+  await expect(patientGroup.getByRole("link", { name: /Prior Authorization Next Step/ })).toBeVisible();
+
+  await expectNoHorizontalOverflow(page);
+  await expectNoSeriousAccessibilityViolations(page);
+
+  await page.keyboard.press("Escape");
+  await expect(mobileNav).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
+test("mobile visitors can reach worker, patient, coverage, and learning destinations", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open menu" }).click();
+  let mobileNav = mobileNavigation(page);
+
+  const workerGroup = await ensureDisclosureOpen(mobileNav, "Healthcare-worker decisions");
+  await workerGroup.getByRole("link", { name: /Total Compensation Comparison/ }).click();
+  await expect(page).toHaveURL(/\/tools\/healthcare-worker-total-compensation-comparison$/);
+
+  await page.getByRole("button", { name: "Open menu" }).click();
+  mobileNav = mobileNavigation(page);
+  let coverageGroup = await ensureDisclosureOpen(mobileNav, "Coverage and learning");
+  await coverageGroup.getByRole("link", { name: /Medicare & Medicaid/ }).click();
+  await expect(page).toHaveURL(/\/medicare-care-costs$/);
+
+  await page.getByRole("button", { name: "Open menu" }).click();
+  mobileNav = mobileNavigation(page);
+  coverageGroup = await ensureDisclosureOpen(mobileNav, "Coverage and learning");
+  await coverageGroup.getByRole("link", { name: /Quick Guides/ }).click();
+  await expect(page).toHaveURL(/\/guides$/);
+  await expectNoHorizontalOverflow(page);
+});

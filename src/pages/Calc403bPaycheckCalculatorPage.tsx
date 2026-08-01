@@ -8,24 +8,24 @@ import { useSeo } from "@/lib/seo";
 
 const Calc403bPaycheckCalculatorPage = () => {
   useSeo({
-    title: "403(b) Paycheck Calculator for Nurses and Healthcare Workers",
+    title: "403(b) Paycheck and Employer Match Calculator for Healthcare Workers",
     description:
-      "Estimate how much a 403(b) contribution may take from each paycheck, what could go toward retirement annually, and how employer match may fit into a hospital benefits plan.",
+      "Estimate a 403(b) payroll contribution, model common employer matching or non-elective formulas, and identify what to verify before changing payroll.",
     canonicalPath: "/tools/403b-paycheck-calculator",
   });
 
   return (
     <>
       <PageHero
-        eyebrow="403(b) calculator"
-        title="403(b) Paycheck Calculator for Nurses and Healthcare Workers"
-        description="Use this before changing payroll elections so the retirement contribution makes sense in the real paycheck, not just in a benefits portal."
+        eyebrow="403(b) decision calculator"
+        title="403(b) Paycheck and Employer Match Calculator"
+        description="Estimate the paycheck contribution, enter the actual employer formula, and leave with a plan-document verification checklist—not a generic match guess."
       >
         <Button asChild variant="hero" size="lg">
-          <a href="#calculator">Run the paycheck estimate <ArrowRight className="h-4 w-4" /></a>
+          <a href="#calculator">Build the 403(b) decision <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/articles/how-much-should-a-nurse-put-in-403b-per-paycheck">Read the contribution guide</Link>
+          <Link to="/articles/how-hospital-403b-matching-works">Read the matching guide</Link>
         </Button>
       </PageHero>
 
@@ -33,16 +33,16 @@ const Calc403bPaycheckCalculatorPage = () => {
         <section className="grid gap-4 md:grid-cols-3" aria-label="How to use this 403b calculator">
           {[
             {
-              title: "Start with the match",
-              body: "Enter a contribution percentage and estimate whether the employer match target is being captured.",
+              title: "Use the exact formula",
+              body: "A 50% match on the first 6% is not the same as a 6% employer contribution. Use the current plan document.",
             },
             {
               title: "Protect cash flow",
-              body: "Compare the retirement goal against rent, food, debt, emergency savings, and real take-home pay.",
+              body: "Compare the payroll election with rent, food, debt, emergency savings, and dependable take-home pay.",
             },
             {
-              title: "Increase gradually",
-              body: "Use 1% changes after raises or debt payoff instead of making a dramatic change that gets reversed later.",
+              title: "Verify the deposit",
+              body: "Check eligible compensation, per-paycheck funding, true-up rules, vesting, and the next employer deposit.",
             },
           ].map((card) => (
             <div key={card.title} className="rounded-3xl border border-border bg-card p-5 shadow-card">
@@ -59,8 +59,8 @@ const Calc403bPaycheckCalculatorPage = () => {
           <CalculatorCard
             icon={PiggyBank}
             eyebrow="For healthcare workers"
-            title="403(b) Paycheck Contribution Calculator"
-            description="Estimate per-paycheck contribution, annual contribution, and a rough employer match estimate before updating payroll elections."
+            title="403(b) Contribution and Employer Formula Decision"
+            description="Estimate employee contributions, model supported employer formulas, and fail safely when the actual plan is tiered, discretionary, or unknown."
             relatedArticle={{ label: "How Much Should a Nurse Put in a 403(b) Per Paycheck?", href: "/articles/how-much-should-a-nurse-put-in-403b-per-paycheck" }}
           >
             <Calc403b />
@@ -69,7 +69,7 @@ const Calc403bPaycheckCalculatorPage = () => {
                 {
                   label: "How hospital 403(b) matching works",
                   href: "/articles/how-hospital-403b-matching-works",
-                  helper: "Use this before assuming the employer contribution is automatic or fully vested.",
+                  helper: "Use this before assuming the employer contribution is automatic, dollar for dollar, or fully vested.",
                 },
                 {
                   label: "Roth vs Traditional 403(b) for Healthcare Workers",
@@ -79,7 +79,7 @@ const Calc403bPaycheckCalculatorPage = () => {
                 {
                   label: "How to Pick Retirement Investments at Work",
                   href: "/articles/how-to-pick-retirement-investments-at-work",
-                  helper: "The contribution gets money in. The investment election decides what that money buys.",
+                  helper: "The payroll contribution gets money into the account; the investment election decides what it buys.",
                 },
               ]}
             />

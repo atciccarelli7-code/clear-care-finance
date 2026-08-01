@@ -32,6 +32,14 @@ const ROUTE_FRESHNESS: Record<string, ContentFreshnessProps> = {
     reviewScope: "Private/federal boundaries, monthly amortization assumptions, refinance total-cost comparison, official resources, and commercial fail-closed controls.",
     updateNote: "Mathematical estimates do not replace current loan documents or final lender disclosures.",
   },
+  "/tools/403b-paycheck-calculator": {
+    publishedAt: "2026-08-01",
+    lastReviewedAt: "2026-08-01",
+    nextReviewAt: "2027-08-01",
+    timeSensitive: true,
+    reviewScope: "Common employer matching and non-elective formulas, eligible-pay assumptions, plan-document verification, payroll timing, true-up, vesting, and tax-estimate boundaries.",
+    updateNote: "The Summary Plan Description and payroll records control. Unknown, tiered, discretionary, and unsupported formulas intentionally omit the employer estimate.",
+  },
   "/open-enrollment": {
     lastReviewedAt: "2026-07-12",
     nextReviewAt: "2026-09-01",

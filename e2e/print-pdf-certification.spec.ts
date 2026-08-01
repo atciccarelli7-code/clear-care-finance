@@ -74,6 +74,45 @@ test("generate Turning 65 Medicare timeline PDFs", async ({ page }) => {
   await exportPdfPair(page, "turning-65-medicare-timeline", /Dated timeline/i, false, "#turning-65-print-result");
 });
 
+test("generate 403(b) decision outcome PDFs", async ({ page }) => {
+  await visit(page, "/tools/403b-paycheck-calculator");
+  await page.getByRole("button", { name: "Build my 403(b) decision outcome" }).click();
+  await expect(page.getByRole("heading", { name: "Verify the employer formula before relying on a match estimate" })).toBeVisible();
+  await page.emulateMedia({ media: "print" });
+  const unknownOutcome = page.locator("#decision-outcome-retirement_403b_contribution");
+  await expect(unknownOutcome).toBeVisible();
+  await expect(unknownOutcome).toContainText("Estimated annual employer contribution");
+  await expect(unknownOutcome).toContainText("Not estimated");
+  await expect(unknownOutcome).toContainText("The Summary Plan Description and payroll records control");
+  await page.emulateMedia({ media: "screen" });
+  await exportPdfPair(
+    page,
+    "403b-formula-verification-decision",
+    /Verify the employer formula before relying on a match estimate/i,
+    false,
+    "#decision-outcome-retirement_403b_contribution",
+  );
+
+  await page.getByLabel("Employer contribution formula").selectOption("partial_match_up_to");
+  await page.getByLabel("Employer contribution per dollar contributed").fill("50");
+  await page.getByLabel("Employee contribution eligible for the partial match").fill("6");
+  await page.getByRole("button", { name: "Build my 403(b) decision outcome" }).click();
+  await expect(page.getByRole("heading", { name: "You appear to be capturing the full stated match" })).toBeVisible();
+  await page.emulateMedia({ media: "print" });
+  const partialMatchOutcome = page.locator("#decision-outcome-retirement_403b_contribution");
+  await expect(partialMatchOutcome).toContainText("Employer matches 50% of contributions up to 6% of eligible pay");
+  await expect(partialMatchOutcome).toContainText("$2,527");
+  await expect(partialMatchOutcome).not.toContainText("$5,054");
+  await page.emulateMedia({ media: "screen" });
+  await exportPdfPair(
+    page,
+    "403b-partial-match-decision",
+    /You appear to be capturing the full stated match/i,
+    false,
+    "#decision-outcome-retirement_403b_contribution",
+  );
+});
+
 test("generate private student-loan decision outcome PDFs", async ({ page }) => {
   await visit(page, "/tools/private-student-loan-payoff-calculator");
   await page.getByLabel("Which loans are included?").selectOption("private");
@@ -101,7 +140,7 @@ test("generate private student-loan decision outcome PDFs", async ({ page }) => 
     "private-student-loan-decision-outcome",
     /Accelerate repayment/i,
     false,
-    "#private-loan-decision-outcome",
+    "#decision-outcome-private_student_loan_payoff",
   );
 
   await page.getByLabel("Refinance comparison").selectOption("compare");
@@ -125,7 +164,7 @@ test("generate private student-loan decision outcome PDFs", async ({ page }) => 
     "private-student-loan-refinance-comparison",
     /A quoted refinance may reduce total cost/i,
     false,
-    "#private-loan-decision-outcome",
+    "#decision-outcome-private_student_loan_payoff",
   );
 });
 

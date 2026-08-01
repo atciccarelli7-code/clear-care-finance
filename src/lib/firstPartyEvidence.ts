@@ -1,8 +1,13 @@
 import {
   EVIDENCE_SURFACE,
+  SERVICE_NAVIGATION_VARIANT,
+  type EvidenceDestinationId,
   type EvidenceEventName,
   type EvidenceEventPayload,
+  type EvidenceSurface,
   type EvidenceVariant,
+  type NavigationDestinationId,
+  type NavigationSurface,
   resolveInsuranceDestinationId,
 } from "@/lib/evidenceEventContract";
 import {
@@ -11,7 +16,7 @@ import {
 } from "@/lib/privacyConsent";
 
 const SESSION_KEY = "caf-evidence-session-v1";
-const VIEWED_KEY = "caf-evidence-viewed:insurance_hub:baseline_v1";
+const INSURANCE_VIEWED_KEY = "caf-evidence-viewed:insurance_hub:baseline_v1";
 const INSTALL_KEY = "__cafEvidenceObserverInstalled";
 const DEFAULT_VARIANT: EvidenceVariant = "baseline_v1";
 
@@ -42,11 +47,19 @@ const getSessionId = () => {
   }
 };
 
-const postEvidenceEvent = (
-  eventName: EvidenceEventName,
-  destinationId?: EvidenceEventPayload["destinationId"],
-  variant: EvidenceVariant = DEFAULT_VARIANT,
-) => {
+type EvidenceEventInput = {
+  eventName: EvidenceEventName;
+  surface: EvidenceSurface;
+  destinationId?: EvidenceDestinationId;
+  variant: EvidenceVariant;
+};
+
+const postEvidenceEvent = ({
+  eventName,
+  surface,
+  destinationId,
+  variant,
+}: EvidenceEventInput) => {
   if (typeof window === "undefined" || readPrivacyConsent() !== "analytics") return false;
   const eventId = newUuid();
   const sessionId = getSessionId();
@@ -56,7 +69,7 @@ const postEvidenceEvent = (
     eventId,
     sessionId,
     eventName,
-    surface: EVIDENCE_SURFACE,
+    surface,
     ...(destinationId ? { destinationId } : {}),
     variant,
   };
@@ -80,9 +93,13 @@ export const recordInsuranceHubView = (variant: EvidenceVariant = DEFAULT_VARIAN
   if (readPrivacyConsent() !== "analytics") return false;
 
   try {
-    if (variant === DEFAULT_VARIANT && window.sessionStorage.getItem(VIEWED_KEY) === "true") return false;
-    const accepted = postEvidenceEvent("insurance_hub_viewed", undefined, variant);
-    if (accepted && variant === DEFAULT_VARIANT) window.sessionStorage.setItem(VIEWED_KEY, "true");
+    if (variant === DEFAULT_VARIANT && window.sessionStorage.getItem(INSURANCE_VIEWED_KEY) === "true") return false;
+    const accepted = postEvidenceEvent({
+      eventName: "insurance_hub_viewed",
+      surface: EVIDENCE_SURFACE,
+      variant,
+    });
+    if (accepted && variant === DEFAULT_VARIANT) window.sessionStorage.setItem(INSURANCE_VIEWED_KEY, "true");
     return accepted;
   } catch {
     return false;
@@ -95,8 +112,44 @@ export const recordInsuranceHubHandoff = (
 ) => {
   const destinationId = resolveInsuranceDestinationId(destination);
   if (!destinationId) return false;
-  return postEvidenceEvent("insurance_hub_handoff_opened", destinationId, variant);
+  return postEvidenceEvent({
+    eventName: "insurance_hub_handoff_opened",
+    surface: EVIDENCE_SURFACE,
+    destinationId,
+    variant,
+  });
 };
+
+const navigationOpenedKey = (surface: NavigationSurface) =>
+  `caf-evidence-viewed:${surface}:${SERVICE_NAVIGATION_VARIANT}`;
+
+export const recordServiceNavigationOpened = (surface: NavigationSurface) => {
+  if (typeof window === "undefined" || readPrivacyConsent() !== "analytics") return false;
+
+  try {
+    const key = navigationOpenedKey(surface);
+    if (window.sessionStorage.getItem(key) === "true") return false;
+    const accepted = postEvidenceEvent({
+      eventName: "service_navigation_opened",
+      surface,
+      variant: SERVICE_NAVIGATION_VARIANT,
+    });
+    if (accepted) window.sessionStorage.setItem(key, "true");
+    return accepted;
+  } catch {
+    return false;
+  }
+};
+
+export const recordServiceNavigationSelection = (
+  surface: NavigationSurface,
+  destinationId: NavigationDestinationId,
+) => postEvidenceEvent({
+  eventName: "service_navigation_destination_selected",
+  surface,
+  destinationId,
+  variant: SERVICE_NAVIGATION_VARIANT,
+});
 
 export const installFirstPartyEvidenceObserver = () => {
   if (typeof window === "undefined" || window[INSTALL_KEY]) return;

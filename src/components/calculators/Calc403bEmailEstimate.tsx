@@ -47,6 +47,17 @@ const INITIAL_VALUES: FormValues = {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const toNumber = (value: string) => value.trim() === "" ? Number.NaN : Number(value);
+const formatCurrency = (value: number) => new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+}).format(Number.isFinite(value) ? value : 0);
+const payFrequencyLabel = (paychecksPerYear: string) => {
+  if (paychecksPerYear === "52") return "Weekly (52 paychecks/year)";
+  if (paychecksPerYear === "26") return "Biweekly (26 paychecks/year)";
+  if (paychecksPerYear === "24") return "Semi-monthly (24 paychecks/year)";
+  return "Monthly (12 paychecks/year)";
+};
 const fieldError = (errors: Retirement403bValidationError[], field: string) =>
   errors.find((error) => error.field === field)?.message;
 
@@ -267,20 +278,19 @@ export const Calc403bEmailEstimate = () => {
           consent,
           website,
           estimate: {
-            hourly: values.hourlyWage,
-            hoursWeek: values.hoursPerWeek,
-            payFrequency: values.paychecksPerYear,
-            contributionPercent: values.employeeContributionPercent,
-            employerMatchPercent: values.matchFormula,
-            contributionType: values.contributionType,
-            grossPerCheck: decision.grossPaycheck.toFixed(2),
-            employeePerCheck: decision.employeeContributionPerPaycheck.toFixed(2),
-            annualEmployee: decision.annualEmployeeContribution.toFixed(2),
-            annualEmployer: decision.annualEmployerContribution === null ? "not-estimated" : decision.annualEmployerContribution.toFixed(2),
-            totalRetirement: decision.annualTotalContribution === null ? "not-estimated" : decision.annualTotalContribution.toFixed(2),
-            taxableReduction: values.contributionType === "traditional" ? decision.annualEmployeeContribution.toFixed(2) : "0",
-            estimatedTaxSavings: decision.estimatedAnnualFederalTaxReduction.toFixed(2),
-            decisionSummary: decision.view.portableSummary,
+            hourly: formatCurrency(toNumber(values.hourlyWage)),
+            hoursWeek: `${values.hoursPerWeek} hours/week`,
+            payFrequency: payFrequencyLabel(values.paychecksPerYear),
+            contributionPercent: `${values.employeeContributionPercent}%`,
+            employerMatchPercent: decision.view.assumptions.find((assumption) => assumption.label === "Employer formula")?.value ?? "Not estimated—verify the plan formula",
+            contributionType: values.contributionType === "traditional" ? "Traditional" : "Roth",
+            grossPerCheck: formatCurrency(decision.grossPaycheck),
+            employeePerCheck: formatCurrency(decision.employeeContributionPerPaycheck),
+            annualEmployee: formatCurrency(decision.annualEmployeeContribution),
+            annualEmployer: decision.annualEmployerContribution === null ? "Not estimated" : formatCurrency(decision.annualEmployerContribution),
+            totalRetirement: decision.annualTotalContribution === null ? "Not estimated" : formatCurrency(decision.annualTotalContribution),
+            taxableReduction: formatCurrency(values.contributionType === "traditional" ? decision.annualEmployeeContribution : 0),
+            estimatedTaxSavings: formatCurrency(decision.estimatedAnnualFederalTaxReduction),
           },
         }),
       });

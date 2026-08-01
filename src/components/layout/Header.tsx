@@ -1,13 +1,7 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ChevronDown, Menu, X } from "lucide-react";
 import {
   MOBILE_GROUP_ITEMS,
@@ -22,12 +16,6 @@ import {
 } from "@/lib/firstPartyEvidence";
 
 const routePath = (route: string) => route.split("#")[0] || "/";
-
-const isRouteActive = (pathname: string, route: string) => {
-  const path = routePath(route);
-  if (path === "/") return pathname === "/";
-  return pathname === path || pathname.startsWith(`${path}/`);
-};
 
 const isServiceActive = (pathname: string, route: string) => pathname === routePath(route);
 
@@ -82,7 +70,8 @@ const ServiceLink = ({
 };
 
 export const Header = () => {
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [desktopOpen, setDesktopOpen] = useState(false);
   const location = useLocation();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstMobileLinkRef = useRef<HTMLAnchorElement>(null);
@@ -92,11 +81,12 @@ export const Header = () => {
   );
 
   useEffect(() => {
-    setOpen(false);
+    setMobileOpen(false);
+    setDesktopOpen(false);
   }, [location.pathname, location.search, location.hash]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!mobileOpen) return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -105,7 +95,7 @@ export const Header = () => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        setOpen(false);
+        setMobileOpen(false);
         window.requestAnimationFrame(() => menuButtonRef.current?.focus());
         return;
       }
@@ -137,14 +127,19 @@ export const Header = () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = previousOverflow;
     };
-  }, [open]);
+  }, [mobileOpen]);
 
-  const openMobileMenu = () => {
-    setOpen((current) => {
+  const toggleMobileMenu = () => {
+    setMobileOpen((current) => {
       const next = !current;
       if (next) recordServiceNavigationOpened("mobile_header");
       return next;
     });
+  };
+
+  const updateDesktopOpen = (nextOpen: boolean) => {
+    setDesktopOpen(nextOpen);
+    if (nextOpen) recordServiceNavigationOpened("desktop_header");
   };
 
   return (
@@ -176,10 +171,8 @@ export const Header = () => {
             </NavLink>
           ))}
 
-          <DropdownMenu onOpenChange={(isOpen) => {
-            if (isOpen) recordServiceNavigationOpened("desktop_header");
-          }}>
-            <DropdownMenuTrigger asChild>
+          <Popover open={desktopOpen} onOpenChange={updateDesktopOpen}>
+            <PopoverTrigger asChild>
               <button
                 type="button"
                 className={`inline-flex items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-2 text-[0.78rem] font-semibold transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=open]:bg-muted/60 ${
@@ -189,61 +182,44 @@ export const Header = () => {
               >
                 Explore CAF <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
+            </PopoverTrigger>
+            <PopoverContent
               align="end"
               sideOffset={10}
+              aria-label="Explore CAF services"
               className="w-[min(94vw,70rem)] rounded-2xl border-border p-3 shadow-hover"
             >
-              <DropdownMenuLabel className="px-2 pb-3 pt-1">
-                <span className="block text-sm font-bold text-foreground">Explore CAF services</span>
-                <span className="mt-1 block max-w-2xl text-xs font-normal leading-relaxed text-muted-foreground">
+              <div className="px-2 pb-3 pt-1">
+                <h2 className="text-sm font-bold text-foreground">Explore CAF services</h2>
+                <p className="mt-1 max-w-2xl text-xs font-normal leading-relaxed text-muted-foreground">
                   Choose the decision or outcome you need. Every destination remains educational and source-backed.
-                </span>
-              </DropdownMenuLabel>
+                </p>
+              </div>
               <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4">
                 {SERVICE_NAVIGATION_GROUPS.map((group) => (
                   <section key={group.id} aria-labelledby={`desktop-service-group-${group.id}`} className="min-w-0 rounded-xl bg-card/45 p-2">
                     <div className="px-2 pb-2 pt-1">
-                      <h2 id={`desktop-service-group-${group.id}`} className="text-xs font-extrabold uppercase tracking-[0.12em] text-foreground">
+                      <h3 id={`desktop-service-group-${group.id}`} className="text-xs font-extrabold uppercase tracking-[0.12em] text-foreground">
                         {group.label}
-                      </h2>
+                      </h3>
                       <p className="mt-1 text-[0.68rem] leading-relaxed text-muted-foreground">{group.description}</p>
                     </div>
                     <div className="space-y-1">
-                      {group.items.map((item) => {
-                        const active = isServiceActive(location.pathname, item.to);
-                        return (
-                          <DropdownMenuItem key={item.id} asChild className="p-0 focus:bg-transparent">
-                            <Link
-                              to={item.to}
-                              aria-current={active ? "page" : undefined}
-                              onClick={() => recordServiceNavigationSelection("desktop_header", item.id)}
-                              className={`group block rounded-xl border px-3 py-3 transition-smooth focus-visible:outline-none ${
-                                active
-                                  ? "border-primary/30 bg-primary-soft/80 text-primary"
-                                  : "border-transparent text-foreground hover:border-border hover:bg-muted/45"
-                              }`}
-                            >
-                              {item.audience && (
-                                <span className="mb-1 block text-[0.62rem] font-bold uppercase tracking-[0.13em] text-muted-foreground">
-                                  {item.audience}
-                                </span>
-                              )}
-                              <span className="block text-sm font-bold leading-snug">{item.label}</span>
-                              <span className="mt-1 block text-[0.72rem] leading-relaxed text-muted-foreground">
-                                {item.description}
-                              </span>
-                            </Link>
-                          </DropdownMenuItem>
-                        );
-                      })}
+                      {group.items.map((item) => (
+                        <ServiceLink
+                          key={item.id}
+                          item={item}
+                          pathname={location.pathname}
+                          surface="desktop_header"
+                          onNavigate={() => setDesktopOpen(false)}
+                        />
+                      ))}
                     </div>
                   </section>
                 ))}
               </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </PopoverContent>
+          </Popover>
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
@@ -253,18 +229,18 @@ export const Header = () => {
           <button
             ref={menuButtonRef}
             className="rounded-lg p-2 transition-smooth hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 xl:hidden"
-            onClick={openMobileMenu}
-            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={toggleMobileMenu}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-controls="mobile-menu"
-            aria-expanded={open}
+            aria-expanded={mobileOpen}
             type="button"
           >
-            {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+            {mobileOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
           </button>
         </div>
       </div>
 
-      {open && (
+      {mobileOpen && (
         <div id="mobile-menu" className="border-t border-border bg-background animate-fade-in xl:hidden">
           <nav
             ref={mobileMenuRef}
@@ -282,7 +258,7 @@ export const Header = () => {
                     aria-current={active ? "page" : undefined}
                     onClick={() => {
                       recordServiceNavigationSelection("mobile_header", item.id);
-                      setOpen(false);
+                      setMobileOpen(false);
                     }}
                     className={`min-h-14 rounded-xl border px-3 py-3 transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                       active ? "border-primary/30 bg-primary-soft/75 text-primary" : "border-border bg-card/55 text-foreground hover:bg-muted/55"
@@ -320,7 +296,7 @@ export const Header = () => {
                           item={item}
                           pathname={location.pathname}
                           surface="mobile_header"
-                          onNavigate={() => setOpen(false)}
+                          onNavigate={() => setMobileOpen(false)}
                         />
                       ))}
                     </div>
@@ -330,7 +306,7 @@ export const Header = () => {
             </div>
 
             <Button asChild variant="outline" className="mt-4 md:hidden">
-              <Link to="/newsletter" onClick={() => setOpen(false)}>
+              <Link to="/newsletter" onClick={() => setMobileOpen(false)}>
                 Monthly email
               </Link>
             </Button>

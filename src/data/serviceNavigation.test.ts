@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   MOBILE_GROUP_ITEMS,
@@ -6,9 +7,14 @@ import {
   SERVICE_NAVIGATION_GROUPS,
 } from "@/data/serviceNavigation";
 import { NAVIGATION_DESTINATION_IDS } from "@/lib/evidenceEventContract";
-import { getIndexableRoutes } from "@/lib/seoRegistry";
 
 const canonicalPath = (route: string) => route.split("#")[0] || "/";
+
+const sitemapRoutes = () => {
+  const sitemap = readFileSync("public/sitemap.xml", "utf8");
+  return Array.from(sitemap.matchAll(/<loc>https:\/\/communityacquiredfinance\.com([^<]*)<\/loc>/g))
+    .map((match) => match[1] || "/");
+};
 
 describe("service navigation registry", () => {
   it("preserves six primary destinations and limits service navigation to four groups", () => {
@@ -29,8 +35,8 @@ describe("service navigation registry", () => {
     expect(items.every((item) => item.description.length >= 30 && item.description.length <= 140)).toBe(true);
   });
 
-  it("links every primary and featured service to a current canonical route", () => {
-    const indexableRoutes = getIndexableRoutes();
+  it("links every primary and featured service to a route in the generated sitemap", () => {
+    const indexableRoutes = sitemapRoutes();
     const routes = [
       ...PRIMARY_NAVIGATION_ITEMS.map((item) => item.to),
       ...SERVICE_NAVIGATION_GROUPS.flatMap((group) => group.items.map((item) => item.to)),

@@ -120,6 +120,21 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Dashboard blanks are unverified rather than zero; the Search Console snapshot is small and dated; consented sessions are not representative of all visitors; event storage cannot establish user satisfaction or causality; official Supabase documentation does not validate this implementation without direct migration and privilege checks.
 - **Owner:** Data/analytics, privacy/legal protection, and quality/release
 
+
+
+### CAF-E-006 — Structured service-navigation release and bounded evidence controls
+
+- **Claim or state:** PR #237 replaced eight generic overflow links and fourteen flat mobile choices with a four-group `Explore CAF` system, preserved six primary destinations and all 160 sitemap routes, and added two consent-gated fixed navigation events to the existing private `growth_events` table. The final release passed 558 unit tests, exact-head CI, browser accessibility/mobile/performance certification, Decision Journey validation, Supabase effective-access testing, production route smoke checks, and runtime-error review.
+- **Domain:** Repository and code, production behavior, site analytics, database/auth, accessibility, and deployment/runtime
+- **Source:** GitHub PR #237 and merge `08f6a051754acdf94dec94f0b564349acc7aa1ea`; Vercel production deployment `dpl_9K3StXWYyBXg5gnCTe5kkqPui1ZY`; CI `30676794553`; browser certification `30676794548`; Decision Journey `30676794615`; Supabase project `uzfcvtgnpkvuapgrkfcb` migration `service_navigation_evidence` and direct SQL/advisor verification; Notion release record; Linear AND-99.
+- **Evidence class:** DIRECT-CURRENT
+- **Verified date:** 2026-07-31
+- **Coverage:** Exact implementation head `7f4788430ab251e9a404fcb358b0c518fce1d065`, merged production, representative worker/patient/Medicare/guide routes, the production evidence endpoint, and the active CAF Supabase project.
+- **Freshness trigger:** Twenty-eight days after release; 25 distinct consented navigation-open sessions; any navigation, route, schema, privacy, consent, performance, accessibility, or production change.
+- **Used by:** `src/components/layout/Header.tsx`, `src/data/serviceNavigation.ts`, the first-party evidence client and API, `public.growth_events`, CAF-D-011, CAF-W-008, AND-99, and experiment `SERVICE-NAVIGATION-2026-08`.
+- **Limitations:** Open and selection events do not establish comprehension, satisfaction, task completion, causal impact, or representativeness of all visitors. The benchmark analysis was an expert heuristic review, not controlled usability testing. Consent and low traffic may prevent the 25-session threshold from being reached in the initial window.
+- **Owner:** Product/information architecture, data/analytics, accessibility/reliability, privacy/legal protection, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

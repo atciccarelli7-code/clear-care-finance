@@ -92,11 +92,12 @@ describe("Header service navigation", () => {
     expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
   });
 
-  it("opens a four-group desktop service panel with concrete outcomes", () => {
+  it("opens a four-group desktop service panel with concrete outcomes", async () => {
     renderHeader();
-    fireEvent.click(screen.getByRole("button", { name: "Open Explore CAF service navigation" }));
+    const trigger = screen.getByRole("button", { name: "Open Explore CAF service navigation" });
+    fireEvent.pointerDown(trigger, { button: 0, ctrlKey: false });
 
-    expect(screen.getByText("Explore CAF services")).toBeInTheDocument();
+    expect(await screen.findByText("Explore CAF services")).toBeInTheDocument();
     expect(screen.getByText("Find the right starting point")).toBeInTheDocument();
     expect(screen.getByText("Healthcare-worker decisions")).toBeInTheDocument();
     expect(screen.getByText("Patient and caregiver decisions")).toBeInTheDocument();

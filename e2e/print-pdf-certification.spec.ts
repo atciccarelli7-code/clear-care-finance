@@ -101,7 +101,7 @@ test("generate private student-loan decision outcome PDFs", async ({ page }) => 
     "private-student-loan-decision-outcome",
     /Accelerate repayment/i,
     false,
-    "#private-loan-decision-outcome",
+    "#decision-outcome-private_student_loan_payoff",
   );
 
   await page.getByLabel("Refinance comparison").selectOption("compare");
@@ -125,7 +125,7 @@ test("generate private student-loan decision outcome PDFs", async ({ page }) => 
     "private-student-loan-refinance-comparison",
     /A quoted refinance may reduce total cost/i,
     false,
-    "#private-loan-decision-outcome",
+    "#decision-outcome-private_student_loan_payoff",
   );
 });
 

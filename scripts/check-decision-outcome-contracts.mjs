@@ -114,6 +114,8 @@ requireText(printPdfTest, '"#decision-outcome-private_student_loan_payoff"', "Pr
 requireText(printPdfTest, '"403b-formula-verification-decision"', "403(b) unknown-formula PDF certification is required.");
 requireText(printPdfTest, '"403b-partial-match-decision"', "403(b) supported partial-match PDF certification is required.");
 requireText(printPdfTest, '"#decision-outcome-retirement_403b_contribution"', "403(b) PDF certification must target the product-derived outcome ID.");
+const retirementPdfTestCount = (printPdfTest.match(/test\("generate 403\(b\) decision outcome PDFs"/g) ?? []).length;
+if (retirementPdfTestCount !== 1) failures.push(`403(b) PDF certification must be declared exactly once; found ${retirementPdfTestCount}.`);
 if (printCss.includes("#private-loan-decision-outcome") || printPdfTest.includes('"#private-loan-decision-outcome"')) {
   failures.push("Legacy private-loan-only print selectors must not remain.");
 }

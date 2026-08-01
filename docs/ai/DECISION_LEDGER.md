@@ -136,6 +136,19 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** First 28 days after production release; at least 10 consented insurance-hub sessions; any privacy or security defect; endpoint abuse or material runtime cost; evidence that consented volume is too sparse for useful learning; or a decision to expand the contract to another surface.
 - **Supersedes:** The implicit assumption that existing third-party event emission alone provides sufficient decision-grade product evidence. It does not supersede the existing consent and sanitization rules.
 
+
+
+### CAF-D-011 — Structured global service navigation
+
+- **Date:** 2026-07-31
+- **Status:** EXPERIMENT
+- **Decision:** Preserve the six broad primary destinations while replacing the generic `More` overflow and fourteen-link flat mobile sheet with one typed `Explore CAF` service-navigation system: four outcome-led groups on desktop and mobile, three direct mobile actions, concrete service names, concise outcome descriptions, and two fixed consent-gated evidence events.
+- **Rationale:** The July broad-audience navigation correctly simplified the primary layer, but its secondary overflow became inadequate as CAF accumulated 34 tools, guided decision systems, and audience-specific resources. A grouped service layer improves discoverability without undoing the primary hierarchy, deleting routes, or building another router.
+- **Evidence:** Founder observation; current header, footer, tool, route, production, Notion, Linear, and Drive review; benchmark synthesis; PR #237; exact-head CI `30676794553`; browser certification `30676794548`; Decision Journey `30676794615`; production deployment `dpl_9K3StXWYyBXg5gnCTe5kkqPui1ZY`; direct Supabase migration, role, constraint, cleanup, and advisor verification.
+- **Consequences:** Six primary destinations remain unchanged; eight generic overflow links become zero; four structured groups are introduced; the initial mobile choice set changes from fourteen flat links to three direct actions plus four disclosures; nine concrete high-value services become globally named; all 160 sitemap routes, 34 tools, 71 articles, 39 ad-eligible articles, and 21 footer links remain unchanged. Navigation evidence stores only random UUIDs, fixed events, fixed surfaces, allowlisted destination IDs, a fixed variant, and server time after analytics consent.
+- **Revisit trigger:** Twenty-eight days after production release; at least 25 distinct consented navigation-open sessions; accessibility, performance, mobile, privacy, or route regression; persistently high open-without-selection behavior at adequate volume; reduced discovery of high-value destinations; or direct user evidence that the grouping is confusing.
+- **Supersedes:** Only the generic secondary-overflow and flat-mobile portions of the July 2026 broad-audience navigation implementation. The six primary destinations and broad-audience principle remain confirmed.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

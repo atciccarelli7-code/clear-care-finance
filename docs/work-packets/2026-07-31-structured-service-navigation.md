@@ -201,4 +201,12 @@ Pending final release. Production remains unchanged until all gates pass. Delibe
 - Unit, migration, route, accessibility, and browser regression coverage added.
 - Generic overflow and flat mobile-secondary definitions are retired in the implementation.
 - Remaining process debt: reconcile the Benefits Command Center omission in the internal `getIndexableRoutes()` helper with the generated sitemap authority in a separate bounded change.
-- Reassessment trigger: 28 days after release, 25 distinct consented opened sessions, any accessibility/performance defect, or route drift.
+- Reassessment trigger: 28 days after release, 25 distinct consented opened sessions, any accessibility/performance defect, or route drift.## 19. Final release closeout
+
+- **Technical validation:** PASS. CI `30676794553`, browser certification `30676794548`, and Decision Journey `30676794615` passed on exact head `7f4788430ab251e9a404fcb358b0c518fce1d065`.
+- **Business validation:** PASS. Six primary destinations remain intact; eight generic overflow links become four outcome-led groups; nine concrete services are named; all routes, tools, articles, AdSense dispositions, homepage, footer, and commercial boundaries are preserved.
+- **Database/privacy:** Migration `service_navigation_evidence` is applied. Forced RLS, no public policies, and service-role SELECT/INSERT/DELETE only were verified. Valid events passed; invalid events, duplicates, anonymous reads, and authenticated writes failed. Controlled rows were deleted back to zero.
+- **Release:** PR #237 merged at `08f6a051754acdf94dec94f0b564349acc7aa1ea`; Vercel production `dpl_9K3StXWYyBXg5gnCTe5kkqPui1ZY` is READY with no alias error.
+- **Production smoke:** Homepage, Benefits Command Center, Medical Bill Review, Medicare/Medicaid, and Quick Guides returned HTTP 200. The evidence endpoint returned expected POST-only/no-store/noindex behavior. No production error logs were found in the inspected release window.
+- **Measurement:** `SERVICE-NAVIGATION-2026-08`; 28 days; interpret at 25 distinct consented navigation-open sessions, otherwise report raw counts and extend.
+- **Known process debt:** Reconcile the internal `getIndexableRoutes()` omission of Benefits Command Center with the generated sitemap authority in a separate bounded change.

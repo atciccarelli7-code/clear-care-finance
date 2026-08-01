@@ -70,7 +70,7 @@ test("desktop and intermediate-width visitors can discover concrete services", a
 
   await benefits.click();
   await expect(page).toHaveURL(/\/tools\/benefits-command-center$/);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(/Benefits Command Center/i);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(/what your job is actually worth/i);
 });
 
 test("320-pixel mobile navigation groups choices and restores focus on Escape", async ({ page }, testInfo) => {

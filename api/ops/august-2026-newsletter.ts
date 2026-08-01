@@ -16,6 +16,20 @@ type ResendResult = {
   error?: unknown;
 };
 
+type ResendListResult<T> = {
+  data?: { data?: T[] } | T[] | null;
+  error?: unknown;
+};
+
+type SegmentRecord = {
+  id: string;
+  name?: string;
+};
+
+type ContactRecord = {
+  unsubscribed?: boolean;
+};
+
 const expectedBranch = "ops/august-2026-newsletter";
 const siteUrl = (process.env.PUBLIC_SITE_URL?.trim() || "https://communityacquiredfinance.com").replace(/\/$/, "");
 const fallbackFromEmail = "Community Acquired Finance <onboarding@resend.dev>";
@@ -43,6 +57,12 @@ function getErrorMessage(error: unknown) {
     return (error as { message: string }).message;
   }
   return JSON.stringify(error);
+}
+
+function listData<T>(result: ResendListResult<T>): T[] {
+  if (Array.isArray(result.data)) return result.data;
+  if (result.data && typeof result.data === "object" && Array.isArray(result.data.data)) return result.data.data;
+  return [];
 }
 
 const subject = "August update: smarter tools for healthcare money decisions";
@@ -138,7 +158,9 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const action = url.searchParams.get("action") || "status";
   const confirmation = url.searchParams.get("confirm");
   const apiKey = process.env.RESEND_API_KEY?.trim();
-  const segmentId = process.env.RESEND_AUDIENCE_ID?.trim();
+  const configuredSegmentId = process.env.RESEND_AUDIENCE_ID?.trim();
+  const requestedSegmentId = url.searchParams.get("segmentId")?.trim();
+  const segmentId = requestedSegmentId || configuredSegmentId;
   const from = getFromEmail();
 
   if (action === "status") {
@@ -147,10 +169,40 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       previewOnly: true,
       branch: gitBranch,
       resendApiKeyConfigured: Boolean(apiKey),
-      newsletterSegmentConfigured: Boolean(segmentId),
+      newsletterSegmentConfigured: Boolean(configuredSegmentId),
       verifiedSenderConfigured: from !== fallbackFromEmail,
       subject,
     });
+  }
+
+  if (action === "discover") {
+    if (!apiKey) return res.status(503).json({ error: "Resend API key is not configured." });
+
+    try {
+      const resend = new Resend(apiKey);
+      const segmentResult = (await resend.segments.list()) as ResendListResult<SegmentRecord>;
+      if (segmentResult.error) return res.status(502).json({ error: getErrorMessage(segmentResult.error) });
+
+      const discovered = [];
+      for (const segment of listData(segmentResult)) {
+        const contactsResult = (await resend.contacts.list({ segmentId: segment.id })) as ResendListResult<ContactRecord>;
+        if (contactsResult.error) {
+          discovered.push({ id: segment.id, name: segment.name || "Unnamed segment", contactCount: null, subscribedCount: null });
+          continue;
+        }
+        const contacts = listData(contactsResult);
+        discovered.push({
+          id: segment.id,
+          name: segment.name || "Unnamed segment",
+          contactCount: contacts.length,
+          subscribedCount: contacts.filter((contact) => contact.unsubscribed !== true).length,
+        });
+      }
+
+      return res.status(200).json({ ok: true, segments: discovered });
+    } catch (error) {
+      return res.status(500).json({ error: getErrorMessage(error) });
+    }
   }
 
   if (confirmation !== "send-august-2026") {

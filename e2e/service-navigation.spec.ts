@@ -53,17 +53,17 @@ test("desktop and intermediate-width visitors can discover concrete services", a
   const trigger = page.getByRole("button", { name: "Open Explore CAF service navigation" });
   await trigger.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByText("Explore CAF services")).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Explore CAF services" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Find the right starting point", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Healthcare-worker decisions", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Patient and caregiver decisions", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Coverage and learning", exact: true })).toBeVisible();
 
-  const benefits = page.getByRole("menuitem", { name: /Benefits Command Center/ });
+  const benefits = page.getByRole("link", { name: /Benefits Command Center/ });
   await expect(benefits).toContainText(/organized review plan/i);
-  await expect(page.getByRole("menuitem", { name: /Total Compensation Comparison/ })).toContainText(/beyond hourly pay/i);
-  await expect(page.getByRole("menuitem", { name: /Medical Bill Review/ })).toContainText(/EOB and provider bill/i);
-  await expect(page.getByRole("menuitem", { name: /Hospital & Patient Guide/ })).toContainText(/discharge/i);
+  await expect(page.getByRole("link", { name: /Total Compensation Comparison/ })).toContainText(/beyond hourly pay/i);
+  await expect(page.getByRole("link", { name: /Medical Bill Review/ })).toContainText(/EOB and provider bill/i);
+  await expect(page.getByRole("link", { name: /Hospital & Patient Guide/ })).toContainText(/discharge/i);
 
   await expectNoHorizontalOverflow(page);
   await expectNoSeriousAccessibilityViolations(page);

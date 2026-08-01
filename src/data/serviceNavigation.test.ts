@@ -6,7 +6,7 @@ import {
   SERVICE_NAVIGATION_GROUPS,
 } from "@/data/serviceNavigation";
 import { NAVIGATION_DESTINATION_IDS } from "@/lib/evidenceEventContract";
-import { STATIC_INDEXABLE_ROUTES } from "@/lib/seoRegistry";
+import { getIndexableRoutes } from "@/lib/seoRegistry";
 
 const canonicalPath = (route: string) => route.split("#")[0] || "/";
 
@@ -30,13 +30,14 @@ describe("service navigation registry", () => {
   });
 
   it("links every primary and featured service to a current canonical route", () => {
+    const indexableRoutes = getIndexableRoutes();
     const routes = [
       ...PRIMARY_NAVIGATION_ITEMS.map((item) => item.to),
       ...SERVICE_NAVIGATION_GROUPS.flatMap((group) => group.items.map((item) => item.to)),
       ...MOBILE_PRIORITY_ITEMS.map((item) => item.to),
     ].map(canonicalPath);
 
-    expect(routes.every((route) => STATIC_INDEXABLE_ROUTES.includes(route))).toBe(true);
+    expect(routes.every((route) => indexableRoutes.includes(route))).toBe(true);
   });
 
   it("surfaces at least eight concrete decision services globally", () => {

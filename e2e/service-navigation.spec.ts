@@ -73,6 +73,37 @@ test("desktop and intermediate-width visitors can discover concrete services", a
   await expect(page.getByRole("heading", { level: 1 })).toContainText(/what your job is actually worth/i);
 });
 
+test("short desktop viewports keep lower Explore CAF destinations reachable", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium");
+  await page.setViewportSize({ width: 1280, height: 480 });
+  await page.goto("/");
+
+  await page.getByRole("button", { name: "Open Explore CAF service navigation" }).click();
+  const dialog = page.getByRole("dialog", { name: "Explore CAF services" });
+  await expect(dialog).toBeVisible();
+
+  const metrics = await dialog.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return {
+      clientHeight: element.clientHeight,
+      scrollHeight: element.scrollHeight,
+      bottom: rect.bottom,
+      viewportHeight: window.innerHeight,
+      overflowY: window.getComputedStyle(element).overflowY,
+    };
+  });
+
+  expect(metrics.bottom).toBeLessThanOrEqual(metrics.viewportHeight + 1);
+  expect(metrics.scrollHeight).toBeGreaterThan(metrics.clientHeight);
+  expect(["auto", "scroll"]).toContain(metrics.overflowY);
+
+  const careerDecision = dialog.getByRole("link", { name: /Healthcare Career Decision Center/ });
+  await careerDecision.scrollIntoViewIfNeeded();
+  await expect(careerDecision).toBeVisible();
+  await careerDecision.click();
+  await expect(page).toHaveURL(/\/healthcare-workers\/career-decisions$/);
+});
+
 test("320-pixel mobile navigation groups choices and restores focus on Escape", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile-chromium");
   await page.setViewportSize({ width: 320, height: 760 });

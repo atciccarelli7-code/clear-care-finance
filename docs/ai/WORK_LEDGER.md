@@ -150,6 +150,21 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Evidence or event that should trigger reassessment:** First 28 days after production release; 10 consented insurance-hub sessions; a privacy or security defect; endpoint abuse or cost; or a proposal to expand the evidence schema or tracked surface.
 - **Links:** `docs/work-packets/2026-07-31-evidence-led-insurance-handoff.md`; GitHub PR #235; merge `ca8d384ae4134569ca10ded8a7b5b96a7de1aa1a`; deployment `dpl_5TScqaNv3KohCxaixrciH7TTxzPJ`; Notion evidence-loop record; Linear AND-98; CAF Growth & Revenue Operating Dashboard.
 
+
+### CAF-W-009 — 403(b) match integrity and Decision Outcome release
+
+- **Date:** 2026-08-01
+- **Assignment:** Correct the ambiguous 403(b) employer-match calculation, adopt the reusable Decision Outcome Layer, validate every affected and adjacent system, release to production, and reconcile operating records.
+- **Starting state:** Production used one generic `Employer match %` input that represented only a 100%-of-contributions match up to X% of pay. The route returned reactive arithmetic without explicit formula verification or deterministic action states. The shared Decision Outcome renderer and print contract retained private-loan-only assumptions.
+- **Outcome:** PR #243 merged at `a35bb97548d7c76832e887d28c47e4827dff76c1`. Four explicit formula modes, six states, fail-closed unknown/tiered handling, a complete 403(b) outcome, product-neutral renderer/print behavior, accurate prerender metadata, visible controlling-plan language, bounded optional email, and actual Letter/A4 certification are live. Production `dpl_7bpPcqMgSH2xc5cEQLkwoGjR7VWn` is READY.
+- **Validation:** Final product head `5b504e7d5146ae0df18bc3ffdd391944d6cb5936`; CI `30711721119`; Decision Journey `30711721114`; Browser Certification `30711721112`; artifact `8822123061` with digest `sha256:fa2ee75246278c7d4be686e868515c36ce0dc2fce274bcc18c9b3beb712d1d03`; all 14 rendered pages across four 403(b) PDFs visually inspected; production route HTTP 200; no current runtime errors or unresolved toolbar threads; Supabase unchanged and ACTIVE_HEALTHY.
+- **Quantified impact:** Ambiguous match fields `1→0`; explicit formula modes `0→4`; deterministic 403(b) states `0→6`; production Decision Outcome products `1→2`; routes `160→160`; sitemap URLs `160→160`; ad-eligible articles `39→39`; Supabase changes `0`; commercial paths `0`.
+- **Defects prevented:** Brittle semantic assertion; stale prerender/tool metadata; internal enum/raw email output; incorrect zero-contribution state; incomplete email disclosure; private-loan-only print selector; absent 403(b) PDF certification; duplicate PDF test; hidden controlling-document boundary; overlapping synthetic print heading.
+- **Cross-system records:** Linear AND-101; Notion `CAF 403(b) Match Integrity & Decision Outcome Release — August 1, 2026`; Google Drive experiment `RETIREMENT-403B-DECISION-2026-08`; CAF-D-012; CAF-E-007; dated work packet.
+- **Remaining warning:** Release quality does not establish demand, comprehension, completion, portable-use rate, retention, or revenue. Report raw counts below 25 consented starts or before August 29, 2026.
+- **Rollback:** Revert merge `a35bb97548d7c76832e887d28c47e4827dff76c1`; no migration, provider configuration, secret, account, entitlement, or commercial teardown is required.
+- **Next action:** Harden the shared email endpoint with strict runtime schemas, bounded payloads, abuse controls, separated concerns, and regression tests before promoting email-dependent growth.
+
 ## Maintenance rules
 
 - Add entries only for material work that changes the product, operating system, evidence base, or strategic direction.

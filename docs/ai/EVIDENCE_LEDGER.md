@@ -135,6 +135,20 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Open and selection events do not establish comprehension, satisfaction, task completion, causal impact, or representativeness of all visitors. The benchmark analysis was an expert heuristic review, not controlled usability testing. Consent and low traffic may prevent the 25-session threshold from being reached in the initial window.
 - **Owner:** Product/information architecture, data/analytics, accessibility/reliability, privacy/legal protection, and quality/release.
 
+
+### CAF-E-007 — 403(b) employer-formula and controlling-plan boundaries
+
+- **Claim or state:** Common 403(b) employer contributions must distinguish dollar-for-dollar matching, partial matching, and non-elective contributions; unsupported, tiered, discretionary, or unclear formulas cannot be safely estimated from one generic percentage. The written plan, Summary Plan Description, eligibility and vesting terms, eligible-compensation definition, payroll timing, true-up rules, and actual payroll records control the individual result.
+- **Domain:** Tax/retirement, insurance/benefits, repository and code, production behavior, and accessibility/reliability
+- **Source:** IRS written-plan document guidance for 403(b) plans; U.S. Department of Labor retirement-plan and Summary Plan Description guidance; GitHub PR #243 and merge `a35bb97548d7c76832e887d28c47e4827dff76c1`; exact-head Actions; browser artifact `8822123061`; Vercel production `dpl_7bpPcqMgSH2xc5cEQLkwoGjR7VWn`.
+- **Evidence class:** PRIMARY-SOURCE for plan-document boundaries; DIRECT-CURRENT for implementation, calculation, deployment, and artifact evidence.
+- **Verified date:** 2026-08-01
+- **Coverage:** General U.S. 403(b) educational modeling for the supported formula modes and the public calculator route. Actual Letter/A4 outcomes cover unknown/tiered verification and a 50%-of-first-6% partial match.
+- **Freshness trigger:** 2027-08-01; substantive IRS/DOL change; plan-formula expansion; calculation discrepancy; source-link failure; or a changed claim about contribution limits, eligible compensation, vesting, true-ups, taxes, fiduciary duties, or legal compliance.
+- **Used by:** `/tools/403b-paycheck-calculator`, `retirement403bDecision`, `retirement403bDecisionProduct`, `DecisionOutcomePanel`, generic Decision Outcome print CSS, CAF-D-012, CAF-W-009, AND-101, and experiment `RETIREMENT-403B-DECISION-2026-08`.
+- **Limitations:** Does not establish an individual employer formula, eligibility, vesting, legal compliance, contribution-limit compliance, tax outcome, investment performance, actual employer deposit, or user understanding. Successful release gates do not establish demand, completion, retention, or revenue.
+- **Owner:** Content/evidence integrity, healthcare-user research, privacy/legal protection, product, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

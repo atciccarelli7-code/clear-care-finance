@@ -1,0 +1,43 @@
+name: Apply 403b PDF certification
+
+on:
+  push:
+    branches:
+      - agent/403b-match-decision-outcome
+    paths:
+      - .github/workflows/apply-403b-pdf-certification.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch-pdf-certification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/403b-match-decision-outcome
+          fetch-depth: 0
+      - name: Add actual 403b PDF generation coverage
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("e2e/print-pdf-certification.spec.ts")
+          text = path.read_text(encoding="utf-8")
+          anchor = 'test("generate private student-loan decision outcome PDFs", async ({ page }) => {'
+          addition = '''test("generate 403(b) decision outcome PDFs", async ({ page }) => {\n  await visit(page, "/tools/403b-paycheck-calculator");\n  await page.getByRole("button", { name: "Build my 403(b) decision outcome" }).click();\n  await expect(page.getByRole("heading", { name: "Verify the employer formula before relying on a match estimate" })).toBeVisible();\n  await page.emulateMedia({ media: "print" });\n  const unknownOutcome = page.locator("#decision-outcome-retirement_403b_contribution");\n  await expect(unknownOutcome).toBeVisible();\n  await expect(unknownOutcome).toContainText("Estimated annual employer contribution");\n  await expect(unknownOutcome).toContainText("Not estimated");\n  await expect(unknownOutcome).toContainText("The Summary Plan Description and payroll records control");\n  await page.emulateMedia({ media: "screen" });\n  await exportPdfPair(\n    page,\n    "403b-formula-verification-decision",\n    /Verify the employer formula before relying on a match estimate/i,\n    false,\n    "#decision-outcome-retirement_403b_contribution",\n  );\n\n  await page.getByLabel("Employer contribution formula").selectOption("partial_match_up_to");\n  await page.getByLabel("Employer contribution per dollar contributed").fill("50");\n  await page.getByLabel("Employee contribution eligible for the partial match").fill("6");\n  await page.getByRole("button", { name: "Build my 403(b) decision outcome" }).click();\n  await expect(page.getByRole("heading", { name: "You appear to be capturing the full stated match" })).toBeVisible();\n  await page.emulateMedia({ media: "print" });\n  const partialMatchOutcome = page.locator("#decision-outcome-retirement_403b_contribution");\n  await expect(partialMatchOutcome).toContainText("Employer matches 50% of contributions up to 6% of eligible pay");\n  await expect(partialMatchOutcome).toContainText("$2,527");\n  await expect(partialMatchOutcome).not.toContainText("$5,054");\n  await page.emulateMedia({ media: "screen" });\n  await exportPdfPair(\n    page,\n    "403b-partial-match-decision",\n    /You appear to be capturing the full stated match/i,\n    false,\n    "#decision-outcome-retirement_403b_contribution",\n  );\n});\n\n'''
+          if text.count(anchor) != 1:
+              raise SystemExit(f"Expected one private-loan test anchor, found {text.count(anchor)}")
+          path.write_text(text.replace(anchor, addition + anchor, 1), encoding="utf-8")
+          PY
+      - name: Commit 403b PDF certification
+        run: |
+          if git diff --quiet; then
+            echo "No PDF certification changes were produced."
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add e2e/print-pdf-certification.spec.ts
+          git commit -m "Certify 403b decision outcome PDFs"
+          git push origin HEAD:agent/403b-match-decision-outcome

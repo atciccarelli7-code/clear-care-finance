@@ -211,11 +211,33 @@ export const Header = () => {
                       <p className="mt-1 text-[0.68rem] leading-relaxed text-muted-foreground">{group.description}</p>
                     </div>
                     <div className="space-y-1">
-                      {group.items.map((item) => (
-                        <DropdownMenuItem key={item.id} asChild className="p-0 focus:bg-transparent">
-                          <ServiceLink item={item} pathname={location.pathname} surface="desktop_header" />
-                        </DropdownMenuItem>
-                      ))}
+                      {group.items.map((item) => {
+                        const active = isServiceActive(location.pathname, item.to);
+                        return (
+                          <DropdownMenuItem key={item.id} asChild className="p-0 focus:bg-transparent">
+                            <Link
+                              to={item.to}
+                              aria-current={active ? "page" : undefined}
+                              onClick={() => recordServiceNavigationSelection("desktop_header", item.id)}
+                              className={`group block rounded-xl border px-3 py-3 transition-smooth focus-visible:outline-none ${
+                                active
+                                  ? "border-primary/30 bg-primary-soft/80 text-primary"
+                                  : "border-transparent text-foreground hover:border-border hover:bg-muted/45"
+                              }`}
+                            >
+                              {item.audience && (
+                                <span className="mb-1 block text-[0.62rem] font-bold uppercase tracking-[0.13em] text-muted-foreground">
+                                  {item.audience}
+                                </span>
+                              )}
+                              <span className="block text-sm font-bold leading-snug">{item.label}</span>
+                              <span className="mt-1 block text-[0.72rem] leading-relaxed text-muted-foreground">
+                                {item.description}
+                              </span>
+                            </Link>
+                          </DropdownMenuItem>
+                        );
+                      })}
                     </div>
                   </section>
                 ))}

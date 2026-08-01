@@ -85,8 +85,8 @@ test("private quote comparison completes by keyboard with portable output and fi
   await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
   await page.emulateMedia({ media: "print" });
   await expect(page.locator("form")).toBeHidden();
-  await expect(page.locator("#private-loan-decision-outcome")).toBeVisible();
-  await expect(page.locator("#private-loan-decision-outcome")).toContainText("Educational estimate only");
+  await expect(page.locator("#decision-outcome-private_student_loan_payoff")).toBeVisible();
+  await expect(page.locator("#decision-outcome-private_student_loan_payoff")).toContainText("Educational estimate only");
   await page.emulateMedia({ media: "screen" });
 
   await expectHealthyAndAccessible(page, health);

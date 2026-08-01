@@ -1,0 +1,25 @@
+name: Inspect decision outcome print selectors
+
+on:
+  push:
+    branches:
+      - agent/403b-match-decision-outcome
+    paths:
+      - .github/workflows/inspect-decision-outcome-print-selectors.yml
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/403b-match-decision-outcome
+      - name: Locate legacy and generic outcome selectors
+        run: |
+          echo "Legacy selector matches:"
+          grep -RIn --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=dist "private-loan-decision-outcome" . || true
+          echo "Generic decision outcome matches:"
+          grep -RIn --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=dist "decision-outcome-" src e2e || true

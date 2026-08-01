@@ -1,5 +1,5 @@
 import { createHash, timingSafeEqual } from "node:crypto";
-import previewHandler from "./august-2026-newsletter";
+import previewHandler from "./august-2026-newsletter.js";
 
 type ApiRequest = {
   method?: string;

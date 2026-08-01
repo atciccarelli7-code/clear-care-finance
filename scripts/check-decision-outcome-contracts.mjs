@@ -111,6 +111,9 @@ if (outcomePanel.includes("student-loan review") || outcomePanel.includes("stude
 requireText(printCss, 'body:has([id^="decision-outcome-"]) main *', "Print CSS must detect every Decision Outcome product through the generic ID prefix.");
 requireText(printCss, '[id^="decision-outcome-"] > article::before', "Print CSS must render the generic decision-summary heading.");
 requireText(printPdfTest, '"#decision-outcome-private_student_loan_payoff"', "Private-loan PDF certification must target the product-derived outcome ID.");
+requireText(printPdfTest, '"403b-formula-verification-decision"', "403(b) unknown-formula PDF certification is required.");
+requireText(printPdfTest, '"403b-partial-match-decision"', "403(b) supported partial-match PDF certification is required.");
+requireText(printPdfTest, '"#decision-outcome-retirement_403b_contribution"', "403(b) PDF certification must target the product-derived outcome ID.");
 if (printCss.includes("#private-loan-decision-outcome") || printPdfTest.includes('"#private-loan-decision-outcome"')) {
   failures.push("Legacy private-loan-only print selectors must not remain.");
 }

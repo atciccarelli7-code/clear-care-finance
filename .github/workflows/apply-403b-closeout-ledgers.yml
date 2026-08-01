@@ -89,3 +89,5 @@ jobs:
           git add docs/ai/DECISION_LEDGER.md docs/ai/EVIDENCE_LEDGER.md docs/ai/WORK_LEDGER.md
           git commit -m "Record 403b decision outcome release ledgers"
           git push origin HEAD:docs-403b-closeout
+
+# retrigger existing workflow

@@ -12,6 +12,7 @@ const [
   freshness,
   sources,
   outcomePanel,
+  seoRegistry,
 ] = await Promise.all([
   read("src/data/tools.ts"),
   read("src/data/privateStudentLoanDecisionProduct.ts"),
@@ -23,6 +24,7 @@ const [
   read("src/components/shared/RouteFreshness.tsx"),
   read("src/data/sources.ts"),
   read("src/components/shared/DecisionOutcomePanel.tsx"),
+  read("src/lib/seoRegistry.ts"),
 ]);
 
 const failures = [];
@@ -48,6 +50,8 @@ const requiredDefinitionFields = [
 
 requireText(tools, 'decisionProductId?: DecisionProductDefinition["decisionIdentifier"]', "ToolDefinition must retain the typed decision-product reference.");
 requireText(tools, 'decisionProductId: "private_student_loan_payoff"', "Private student-loan tool must declare its decision product.");
+requireText(tools, 'decisionProductId: "retirement_403b_contribution"', "403(b) tool must declare its decision product.");
+requireText(tools, "model common employer formulas", "403(b) directory copy must describe the explicit formula workflow.");
 
 for (const [name, product] of [
   ["Private student-loan", studentProduct],
@@ -86,10 +90,16 @@ requireText(analytics, "ALLOWED_KEYS", "Decision analytics must use an exact pro
 if (analytics.includes('"loan_type"') || analytics.includes('"recommendation_state"')) failures.push("Decision analytics must not transmit selected loan type or recommendation state.");
 if (studentDomain.includes("studentLoanCommercialHandoff") || studentDomain.includes("PARTNER")) failures.push("Recommendation logic must remain independent from commercial configuration.");
 requireText(freshness, '"/tools/private-student-loan-payoff-calculator"', "Private student-loan route freshness metadata is required.");
+requireText(freshness, '"/tools/403b-paycheck-calculator"', "403(b) route freshness metadata is required.");
 for (const sourceKey of ["federalStudentAidDashboard", "cfpbStudentLoanRefinance", "cfpbPrivateStudentLoans"]) requireText(sources, `${sourceKey}:`, `Publication source registry is missing ${sourceKey}.`);
 requireText(outcomePanel, "definition.decisionIdentifier", "Shared outcome DOM identity must be derived from the product definition.");
 if (outcomePanel.includes('id="private-loan-decision-outcome"')) failures.push("Shared outcome renderer must not retain a private-loan-only DOM identifier.");
 if (outcomePanel.includes("student-loan review") || outcomePanel.includes("student-loan review action")) failures.push("Shared outcome renderer must not retain student-loan-only My Plan copy.");
+requireText(seoRegistry, 'title: "403(b) Paycheck and Employer Match Calculator"', "403(b) prerender title must match the corrected product.");
+requireText(seoRegistry, "model common employer matching or non-elective formulas", "403(b) prerender description must describe explicit employer formulas.");
+if (seoRegistry.includes('description: "Estimate your 403(b) contribution per paycheck, annual contribution, employer match, and progress toward the annual contribution limit."')) {
+  failures.push("Legacy generic 403(b) prerender description must not remain.");
+}
 
 if (failures.length) {
   console.error(`Decision outcome contract check failed:\n- ${failures.join("\n- ")}`);

@@ -30,8 +30,8 @@ jobs:
                       '    description: "Estimate a payroll contribution, model common employer formulas, and identify plan terms to verify before changing payroll.",',
                   ),
                   (
-                      '    href: "/tools/403b-paycheck-calculator",\n    relatedArticle: { label: "How Much Should a Nurse Put in a 403(b) Per Paycheck?", href: "/articles/how-much-should-a-nurse-put-in-403b-per-paycheck" },',
-                      '    href: "/tools/403b-paycheck-calculator",\n    decisionProductId: "retirement_403b_contribution",\n    relatedArticle: { label: "How Much Should a Nurse Put in a 403(b) Per Paycheck?", href: "/articles/how-much-should-a-nurse-put-in-403b-per-paycheck" },',
+                      '    href: "/tools/403b-paycheck-calculator",\n    relatedArticle: { label: "How hospital 403(b) matching works", href: "/articles/how-hospital-403b-matching-works" },',
+                      '    href: "/tools/403b-paycheck-calculator",\n    decisionProductId: "retirement_403b_contribution",\n    relatedArticle: { label: "How hospital 403(b) matching works", href: "/articles/how-hospital-403b-matching-works" },',
                   ),
               ],
               Path("src/lib/seoRegistry.ts"): [

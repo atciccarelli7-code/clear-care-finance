@@ -293,7 +293,7 @@ export const evaluateRetirement403bDecision = (
       "Verify the current plan document, eligible compensation, per-paycheck rules, true-up, and vesting before changing payroll.",
       "Educational estimate only. The plan document and payroll records control.",
     ].join("\n"),
-    educationalLimitation: "This is a general educational estimate, not tax, legal, investment, fiduciary, or individualized benefits advice. It does not determine plan eligibility, contribution-limit compliance, investment performance, or the actual employer deposit.",
+    educationalLimitation: "The Summary Plan Description and payroll records control. This is a general educational estimate, not tax, legal, investment, fiduciary, or individualized benefits advice. It does not determine plan eligibility, contribution-limit compliance, investment performance, or the actual employer deposit.",
   };
 
   return {

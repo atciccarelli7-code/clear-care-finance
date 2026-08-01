@@ -187,7 +187,7 @@ export const Header = () => {
               align="end"
               sideOffset={10}
               aria-label="Explore CAF services"
-              className="w-[min(94vw,70rem)] rounded-2xl border-border p-3 shadow-hover"
+              className="max-h-[var(--radix-popover-content-available-height)] w-[min(94vw,70rem)] overflow-y-auto overscroll-contain rounded-2xl border-border p-3 shadow-hover [scrollbar-gutter:stable]"
             >
               <div className="px-2 pb-3 pt-1">
                 <h2 className="text-sm font-bold text-foreground">Explore CAF services</h2>

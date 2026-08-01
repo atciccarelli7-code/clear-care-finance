@@ -54,9 +54,10 @@ test("desktop and intermediate-width visitors can discover concrete services", a
   await trigger.focus();
   await page.keyboard.press("Enter");
   await expect(page.getByText("Explore CAF services")).toBeVisible();
-  await expect(page.getByText("Healthcare-worker decisions")).toBeVisible();
-  await expect(page.getByText("Patient and caregiver decisions")).toBeVisible();
-  await expect(page.getByText("Coverage and learning")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Find the right starting point", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Healthcare-worker decisions", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Patient and caregiver decisions", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Coverage and learning", exact: true })).toBeVisible();
 
   const benefits = page.getByRole("menuitem", { name: /Benefits Command Center/ });
   await expect(benefits).toContainText(/organized review plan/i);

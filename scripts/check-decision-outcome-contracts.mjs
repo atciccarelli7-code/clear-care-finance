@@ -111,6 +111,8 @@ if (outcomePanel.includes("student-loan review") || outcomePanel.includes("stude
 
 requireText(printCss, 'body:has([id^="decision-outcome-"]) main *', "Print CSS must detect every Decision Outcome product through the generic ID prefix.");
 requireText(printCss, '[id^="decision-outcome-"] > article::before', "Print CSS must render the generic decision-summary heading.");
+requireText(printCss, "padding-top: 38pt !important;", "Decision Outcome print content must reserve space above the title for the brand banner.");
+requireText(printCss, "position: absolute;\n    inset: 0 0 auto 0;", "Decision Outcome print banner must use a dedicated non-overlapping position.");
 requireText(printPdfTest, '"#decision-outcome-private_student_loan_payoff"', "Private-loan PDF certification must target the product-derived outcome ID.");
 requireText(printPdfTest, '"403b-formula-verification-decision"', "403(b) unknown-formula PDF certification is required.");
 requireText(printPdfTest, '"403b-partial-match-decision"', "403(b) supported partial-match PDF certification is required.");

@@ -36,8 +36,9 @@ describe("service navigation registry", () => {
       ...SERVICE_NAVIGATION_GROUPS.flatMap((group) => group.items.map((item) => item.to)),
       ...MOBILE_PRIORITY_ITEMS.map((item) => item.to),
     ].map(canonicalPath);
+    const missingRoutes = Array.from(new Set(routes.filter((route) => !indexableRoutes.includes(route))));
 
-    expect(routes.every((route) => indexableRoutes.includes(route))).toBe(true);
+    expect(missingRoutes).toEqual([]);
   });
 
   it("surfaces at least eight concrete decision services globally", () => {

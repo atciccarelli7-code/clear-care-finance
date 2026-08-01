@@ -101,9 +101,7 @@
   }
 
   body:has([id^="decision-outcome-"]) [id^="decision-outcome-"] > article {
-    position: relative !important;
     overflow: visible !important;
-    padding-top: 38pt !important;
     border: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
@@ -111,22 +109,6 @@
 
   body:has([id^="decision-outcome-"]) [id^="decision-outcome-"] > article > header {
     display: block !important;
-  }
-
-  body:has([id^="decision-outcome-"]) [id^="decision-outcome-"] > article::before {
-    content: "COMMUNITY ACQUIRED FINANCE\A DECISION SUMMARY";
-    position: absolute;
-    inset: 0 0 auto 0;
-    display: block;
-    margin: 0;
-    padding-bottom: 8pt;
-    border-bottom: 1px solid #64748b;
-    color: #0f172a;
-    font-size: 9pt;
-    font-weight: 800;
-    line-height: 1.25;
-    letter-spacing: 0.08em;
-    white-space: pre-line;
   }
 
   body:has([id^="decision-outcome-"]) [id^="decision-outcome-"] a[href^="http"]::after {

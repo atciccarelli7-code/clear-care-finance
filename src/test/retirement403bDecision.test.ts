@@ -144,6 +144,7 @@ describe("403(b) validation, tax boundary, and portable output", () => {
     expect(verification).toMatch(/compensation.*eligible|eligible compensation/i);
     expect(verification).toMatch(/true-up/i);
     expect(verification).toMatch(/vesting/i);
+    expect(decision.view.educationalLimitation).toContain("The Summary Plan Description and payroll records control.");
     expect(decision.view.educationalLimitation).toMatch(/not tax, legal, investment/i);
   });
 });

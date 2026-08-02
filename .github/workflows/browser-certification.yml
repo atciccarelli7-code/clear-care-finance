@@ -44,6 +44,9 @@ jobs:
       - name: Capture representative desktop and mobile product visuals
         if: success()
         run: npx playwright test e2e/professional-product-visuals.spec.ts
+      - name: Certify patient cost-share visuals and Letter/A4 PDFs
+        if: success()
+        run: npx playwright test e2e/health-insurance-cost-share-print-pdf.spec.ts --project=desktop-chromium
       - name: Generate representative Letter and A4 print PDFs
         if: success()
         run: npx playwright test e2e/print-pdf-certification.spec.ts --project=desktop-chromium

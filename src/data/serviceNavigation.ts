@@ -24,9 +24,8 @@ export const PRIMARY_NAVIGATION_ITEMS: readonly PrimaryNavigationItem[] = [
   { to: "/start-here", label: "Start Here" },
   { to: "/tools", label: "Tools" },
   { to: "/build-wealth", label: "Money & Retirement" },
-  { to: "/insurance", label: "Benefits & Insurance" },
+  { to: "/insurance", label: "Benefits & Healthcare Costs" },
   { to: "/medicare-care-costs", label: "Medicare & Medicaid" },
-  { to: "/articles", label: "Articles" },
 ] as const;
 
 export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
@@ -36,16 +35,10 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
     description: "Choose a question, see the expected outcome, or browse the complete tool library.",
     items: [
       {
-        id: "decision_concierge",
-        to: "/#decision-concierge",
-        label: "Decision Concierge",
-        description: "Answer one short routing question and open the experience responsible for the answer.",
-      },
-      {
         id: "start_here",
         to: "/start-here",
         label: "Start Here",
-        description: "Use a guided financial navigator when you are not sure which topic or tool fits.",
+        description: "Answer a few plain-English questions when you are not sure which topic or tool fits.",
       },
       {
         id: "all_tools",
@@ -63,21 +56,21 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
       {
         id: "benefits_command_center",
         to: "/tools/benefits-command-center",
-        label: "Benefits Command Center",
+        label: "Compare workplace benefits",
         description: "Turn scattered workplace-benefit documents into one organized review plan.",
         audience: "Healthcare workers",
       },
       {
         id: "benefits_change_detector",
         to: "/tools/benefits-change-detector",
-        label: "Benefits Change Detector",
+        label: "Review benefit changes",
         description: "Compare plan-year documents and leave with a focused list of changes to verify.",
         audience: "Open enrollment",
       },
       {
         id: "total_compensation",
         to: "/tools/healthcare-worker-total-compensation-comparison",
-        label: "Total Compensation Comparison",
+        label: "Compare job offers",
         description: "Compare job offers beyond hourly pay, including benefits and schedule tradeoffs.",
         audience: "Career decisions",
       },
@@ -172,17 +165,17 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
 ] as const;
 
 export const MOBILE_PRIORITY_DESTINATION_IDS: readonly NavigationDestinationId[] = [
-  "decision_concierge",
+  "start_here",
   "all_tools",
   "articles",
 ] as const;
 
 export const MOBILE_PRIORITY_ITEMS: readonly ServiceNavigationItem[] = [
   {
-    id: "decision_concierge",
-    to: "/#decision-concierge",
-    label: "Start a decision",
-    description: "Answer one routing question.",
+    id: "start_here",
+    to: "/start-here",
+    label: "Start Here",
+    description: "Find the right next step.",
   },
   {
     id: "all_tools",

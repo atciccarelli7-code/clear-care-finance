@@ -71,7 +71,7 @@ jobs:
 
       - name: Apply patient cost-share governance closeout
         if: github.event_name == 'pull_request' && github.head_ref == 'agent/patient-cost-share-decision-outcome'
-        run: python scripts/apply-patient-cost-share-ledgers.py
+        run: python scripts/apply-patient-cost-share-ledgers-v2.py
 
       - name: Commit patient cost-share governance closeout
         if: github.event_name == 'pull_request' && github.head_ref == 'agent/patient-cost-share-decision-outcome'

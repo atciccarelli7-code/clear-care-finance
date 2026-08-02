@@ -33,6 +33,8 @@ jobs:
       - run: npm run test:browser:journeys
       - name: Certify 403(b) match decision outcome
         run: npx playwright test e2e/retirement-403b-decision-outcome.spec.ts
+      - name: Certify patient cost-share decision outcome
+        run: npx playwright test e2e/health-insurance-cost-share-decision-outcome.spec.ts
       - name: Certify structured service navigation
         run: npx playwright test e2e/service-navigation.spec.ts
       - name: Certify mobile route-group performance budgets
@@ -42,6 +44,9 @@ jobs:
       - name: Capture representative desktop and mobile product visuals
         if: success()
         run: npx playwright test e2e/professional-product-visuals.spec.ts
+      - name: Certify patient cost-share visuals and Letter/A4 PDFs
+        if: success()
+        run: npx playwright test e2e/health-insurance-cost-share-print-pdf.spec.ts --project=desktop-chromium
       - name: Generate representative Letter and A4 print PDFs
         if: success()
         run: npx playwright test e2e/print-pdf-certification.spec.ts --project=desktop-chromium

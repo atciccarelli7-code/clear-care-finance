@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import { CalcCafe, CalcMedicare } from "@/components/calculators/Calculators";
-import HealthInsuranceVisitCostCalculator from "@/components/calculators/HealthInsuranceVisitCostCalculator";
 import HsaFsaDecisionHelper from "@/components/calculators/HsaFsaDecisionHelper";
 import {
   HospitalBillChecklistTool,
@@ -21,6 +20,9 @@ import type { ToolComponentKey } from "@/data/tools";
 
 const FinancialAssistanceScreeningTool = lazy(
   () => import("@/components/calculators/FinancialAssistanceScreeningTool"),
+);
+const HealthInsuranceVisitCostCalculator = lazy(
+  () => import("@/components/calculators/HealthInsuranceVisitCostCalculator"),
 );
 
 const ToolLoadingFallback = () => (
@@ -48,7 +50,11 @@ export const ToolRenderer = ({ componentKey }: { componentKey: ToolComponentKey 
         </Suspense>
       );
     case "insuranceVisitCost":
-      return <HealthInsuranceVisitCostCalculator />;
+      return (
+        <Suspense fallback={<ToolLoadingFallback />}>
+          <HealthInsuranceVisitCostCalculator />
+        </Suspense>
+      );
     case "overtimeDeduction":
       return <CalcOvertimeDeduction />;
     case "studentLoanPath":

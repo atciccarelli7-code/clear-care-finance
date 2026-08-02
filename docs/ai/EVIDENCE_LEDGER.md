@@ -135,6 +135,20 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Open and selection events do not establish comprehension, satisfaction, task completion, causal impact, or representativeness of all visitors. The benchmark analysis was an expert heuristic review, not controlled usability testing. Consent and low traffic may prevent the 25-session threshold from being reached in the initial window.
 - **Owner:** Product/information architecture, data/analytics, accessibility/reliability, privacy/legal protection, and quality/release.
 
+
+### CAF-E-007 — Patient cost-sharing definitions and bounded estimate controls
+
+- **Claim or state:** Deductibles, copayments, coinsurance, allowed amounts, and out-of-pocket limits are distinct plan terms whose service-specific sequence must be verified. The in-network out-of-pocket maximum does not establish that every premium, non-covered service, out-of-network charge, balance bill, or amount above the allowed amount is protected. A standardized Summary of Benefits and Coverage helps identify the applicable service row, while the current plan document, insurer accumulator, processed EOB, and provider bill control an individual case.
+- **Domain:** Insurance/benefits, patient financial education, search performance, and repository/product evidence
+- **Source:** HealthCare.gov glossary pages for deductible, copayment, coinsurance, allowed amount, cost sharing, and out-of-pocket maximum; CMS Summary of Benefits and Coverage guidance; founder-provided Search Console export dated 2026-08-01; GitHub PR #247.
+- **Evidence class:** PRIMARY-SOURCE for insurance definitions; DIRECT-CURRENT for the search export and implementation evidence.
+- **Verified date:** 2026-08-01
+- **Coverage:** General U.S. educational health-insurance cost-sharing boundaries and the CAF route `/tools/health-insurance-visit-cost-calculator`.
+- **Freshness trigger:** 2027-02-01; substantive HealthCare.gov/CMS change; any calculation discrepancy; changed route logic; or new post-release search/completion evidence.
+- **Used by:** Patient Cost Share Calculator, `healthInsuranceCostShareDecisionProduct`, CAF-D-012, CAF-W-009, and PR #247.
+- **Limitations:** Does not determine individual coverage, network status, medical necessity, prior authorization, claim adjudication, balance-billing rights, appeal rights, final allowed amount, or amount ultimately owed. Search impressions do not establish causality, demand size, comprehension, completion, or revenue.
+- **Owner:** Content/evidence integrity, healthcare user research, privacy/legal protection, analytics, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

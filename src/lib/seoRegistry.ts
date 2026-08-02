@@ -223,6 +223,11 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Estimate remaining covered in-network cost-sharing exposure using deductible, copays, coinsurance, and current out-of-pocket progress.",
     kind: "tool",
   },
+  "/tools/health-insurance-visit-cost-calculator": {
+    title: "Patient Cost Share Calculator",
+    description: "Estimate covered in-network patient responsibility using the plan's deductible, copay or coinsurance rule, allowed amount, and out-of-pocket progress.",
+    kind: "tool",
+  },
   "/tools/medicare-advantage-plan-helper": {
     title: "Medicare Advantage Plan Comparison Helper",
     description: "Organize doctors, hospitals, prescriptions, networks, authorization rules, extra benefits, and maximum out-of-pocket exposure before comparing plans.",

@@ -17,10 +17,10 @@ const sitemapRoutes = () => {
 };
 
 describe("service navigation registry", () => {
-  it("preserves six primary destinations and limits service navigation to four groups", () => {
-    expect(PRIMARY_NAVIGATION_ITEMS).toHaveLength(6);
+  it("keeps five primary destinations and limits service navigation to four groups", () => {
+    expect(PRIMARY_NAVIGATION_ITEMS).toHaveLength(5);
     expect(SERVICE_NAVIGATION_GROUPS).toHaveLength(4);
-    expect(SERVICE_NAVIGATION_GROUPS.every((group) => group.items.length >= 3 && group.items.length <= 5)).toBe(true);
+    expect(SERVICE_NAVIGATION_GROUPS.every((group) => group.items.length >= 2 && group.items.length <= 5)).toBe(true);
   });
 
   it("uses unique allowlisted destination IDs and internal routes", () => {
@@ -66,11 +66,11 @@ describe("service navigation registry", () => {
     expect(surfaced.length).toBeGreaterThanOrEqual(8);
   });
 
-  it("uses three priority mobile actions and the same four-group hierarchy", () => {
+  it("uses three priority mobile actions and omits the emptied duplicate-start group", () => {
     expect(MOBILE_PRIORITY_ITEMS).toHaveLength(3);
-    expect(MOBILE_GROUP_ITEMS).toHaveLength(4);
+    expect(MOBILE_GROUP_ITEMS).toHaveLength(3);
     expect(MOBILE_GROUP_ITEMS.map((group) => group.id)).toEqual(
-      SERVICE_NAVIGATION_GROUPS.map((group) => group.id),
+      SERVICE_NAVIGATION_GROUPS.filter((group) => group.id !== "start").map((group) => group.id),
     );
   });
 });

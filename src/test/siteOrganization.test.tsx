@@ -33,8 +33,9 @@ describe("site organization and recovery", () => {
   it("starts the Start Here page with its primary Navigator heading instead of a competing intake", () => {
     renderPage(<StartHere />, "/start-here");
 
-    expect(screen.getByRole("heading", { level: 1, name: /build a practical plan/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: /find the right next step/i })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: /what are you trying to figure out/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "My Plan" })).not.toBeInTheDocument();
   });
 
   it("offers useful recovery routes from an outdated link", () => {

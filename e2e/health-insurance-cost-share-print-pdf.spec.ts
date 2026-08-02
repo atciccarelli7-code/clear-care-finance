@@ -26,6 +26,7 @@ const completeCostShareJourney = async (page: import("@playwright/test").Page) =
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.clear();
+    window.localStorage.setItem("caf-privacy-consent-v1", "necessary");
     window.sessionStorage.clear();
     Object.defineProperty(window.navigator, "sendBeacon", { configurable: true, value: () => true });
   });

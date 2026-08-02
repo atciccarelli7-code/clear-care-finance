@@ -40,6 +40,14 @@ const ROUTE_FRESHNESS: Record<string, ContentFreshnessProps> = {
     reviewScope: "Common employer matching and non-elective formulas, eligible-pay assumptions, plan-document verification, payroll timing, true-up, vesting, and tax-estimate boundaries.",
     updateNote: "The Summary Plan Description and payroll records control. Unknown, tiered, discretionary, and unsupported formulas intentionally omit the employer estimate.",
   },
+  "/tools/health-insurance-visit-cost-calculator": {
+    publishedAt: "2026-08-01",
+    lastReviewedAt: "2026-08-01",
+    nextReviewAt: "2027-02-01",
+    timeSensitive: true,
+    reviewScope: "Service-specific deductible, copay, coinsurance, allowed-amount, network, accumulator, and out-of-pocket-limit boundaries using current CMS and HealthCare.gov sources.",
+    updateNote: "The current plan document, insurer accumulator, processed EOB, and provider bill control. Unknown service rules intentionally omit the patient-cost estimate.",
+  },
   "/open-enrollment": {
     lastReviewedAt: "2026-07-12",
     nextReviewAt: "2026-09-01",

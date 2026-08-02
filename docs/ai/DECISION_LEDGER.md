@@ -149,6 +149,18 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** Twenty-eight days after production release; at least 25 distinct consented navigation-open sessions; accessibility, performance, mobile, privacy, or route regression; persistently high open-without-selection behavior at adequate volume; reduced discovery of high-value destinations; or direct user evidence that the grouping is confusing.
 - **Supersedes:** Only the generic secondary-overflow and flat-mobile portions of the July 2026 broad-audience navigation implementation. The six primary destinations and broad-audience principle remain confirmed.
 
+
+### CAF-D-012 — Bounded patient cost-share Decision Outcome
+
+- **Date:** 2026-08-01
+- **Status:** EXPERIMENT
+- **Decision:** Extend the typed Decision Outcome architecture to the existing patient visit-cost route, but only for explicitly selected service rules. Unknown or unsupported rules omit the patient-cost estimate, and the out-of-pocket cap is applied only when covered in-network status is confirmed.
+- **Rationale:** The supplied Search Console export showed 192 combined impressions and zero clicks across the cost-sharing explainer and calculator, while the prior calculator could automatically add copay and coinsurance despite plan-specific sequencing. The stronger 403(b) opportunity had already been implemented, making this the highest-leverage unfinished exposed journey.
+- **Evidence:** Founder-provided Search Console export dated 2026-08-01; current repository and PR #243 reconciliation; official HealthCare.gov definitions for deductible, copayment, coinsurance, allowed amount, and out-of-pocket maximum; CMS Summary of Benefits and Coverage guidance; PR #247 calculation, accessibility, performance, and browser evidence.
+- **Consequences:** The canonical route remains stable; users must identify the service-specific rule and network/coverage status; unsupported structures fail into verification; billed charge is distinguished from allowed amount; copy and print preserve assumptions and cautions; no affiliate, account, backend, PHI, or financial telemetry is introduced.
+- **Revisit trigger:** Any calculation discrepancy; user evidence that the flow is confusing; meaningful post-release search/completion data; official-source change; or source review by 2027-02-01.
+- **Supersedes:** The prior reactive visit-cost arithmetic implementation on the same route. It applies CAF-D-007 and does not supersede the user-value-before-monetization principle.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

@@ -41,7 +41,7 @@ describe("Header service navigation", () => {
     fireEvent.click(menuButton);
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    expect(within(mobileNav).getByRole("link", { name: /Start a decision/ })).toHaveFocus();
+    expect(within(mobileNav).getByRole("link", { name: /Start Here/ })).toHaveFocus();
     expect(document.body.style.overflow).toBe("hidden");
 
     fireEvent.keyDown(document, { key: "Escape" });
@@ -56,7 +56,7 @@ describe("Header service navigation", () => {
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    const firstLink = within(mobileNav).getByRole("link", { name: /Start a decision/ });
+    const firstLink = within(mobileNav).getByRole("link", { name: /Start Here/ });
     const lastLink = within(mobileNav).getByRole("link", { name: "Monthly email" });
 
     lastLink.focus();
@@ -72,7 +72,6 @@ describe("Header service navigation", () => {
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    expect(within(mobileNav).getByText("Find the right starting point")).toBeInTheDocument();
     expect(within(mobileNav).getByText("Healthcare-worker decisions")).toBeInTheDocument();
     expect(within(mobileNav).getByText("Patient and caregiver decisions")).toBeInTheDocument();
     expect(within(mobileNav).getByText("Coverage and learning")).toBeInTheDocument();

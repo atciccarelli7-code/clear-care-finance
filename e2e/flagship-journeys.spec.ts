@@ -73,23 +73,51 @@ test.beforeEach(async ({ page }) => {
   await installIntentStubs(page);
 });
 
-test("homepage concierge routes to the canonical pre-care journey and survives browser history", async ({ page }) => {
+test("homepage sends uncertain visitors to Start Here and preserves browser history", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/");
-  await page.getByRole("button", { name: /healthcare-cost, medical-bill, or discharge question/i }).click();
-  await page.getByRole("button", { name: "Prepare financially before medical care" }).click();
-  await page.getByRole("button", { name: "I am planning ahead" }).click();
-  await expect(page.getByRole("heading", { name: "Medical Appointment Cost Preparation" })).toBeFocused();
-  await expect(page.getByText(/What you will receive before leaving this experience/i)).toBeVisible();
-  await page.getByRole("link", { name: /Start and finish this experience/i }).click();
-  await expect(page).toHaveURL(/\/tools\/medical-appointment-cost-preparation$/);
-  await expect(page.getByText(/You started with: “Prepare financially before medical care”/)).toBeVisible();
-  await expect(page.getByText(/You are still in the same guided journey/i)).toBeVisible();
+  await expect(page.getByText(/Decision Concierge/i)).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /Continue saved work/i })).toHaveCount(0);
+  await page.getByRole("link", { name: /Help me find where to start/i }).click();
+  await expect(page).toHaveURL(/\/start-here$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Find the right next step/i })).toBeVisible();
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
   await page.goForward();
-  await expect(page).toHaveURL(/\/tools\/medical-appointment-cost-preparation$/);
-  await expect(page.getByText(/You started with: “Prepare financially before medical care”/)).toBeVisible();
+  await expect(page).toHaveURL(/\/start-here$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Find the right next step/i })).toBeVisible();
+  await certifyPage(page, watch);
+});
+
+test("saved work stays collapsed and can be resumed or deliberately removed", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("caf-financial-navigator-v1", JSON.stringify({
+      schemaVersion: 1,
+      pathway: "wealth",
+      objectiveLabel: "Build wealth and financial stability",
+      actionIds: ["wealth_starter_reserve"],
+      completedActionIds: [],
+      savedAt: new Date().toISOString(),
+    }));
+  });
+  const watch = installHealthWatch(page);
+  await visit(page, "/");
+
+  const trigger = page.getByRole("button", { name: /Continue saved work/i });
+  await expect(trigger).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Continue saved work" })).toHaveCount(0);
+  await trigger.click();
+  await expect(page.getByRole("dialog", { name: "Continue saved work" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Resume/i })).toHaveAttribute("href", "/start-here#my-plan");
+
+  await page.keyboard.press("Escape");
+  await expect(trigger).toBeFocused();
+  await trigger.click();
+  await page.getByRole("button", { name: /Remove My Plan/i }).click();
+  await expect(page.getByRole("alertdialog", { name: "Remove this saved work?" })).toBeVisible();
+  await page.getByRole("button", { name: "Remove", exact: true }).click();
+  await expect(trigger).toHaveCount(0);
+  expect(await page.evaluate(() => localStorage.getItem("caf-financial-navigator-v1"))).toBeNull();
   await certifyPage(page, watch);
 });
 

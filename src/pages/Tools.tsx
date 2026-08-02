@@ -4,7 +4,6 @@ import {
   ArrowRight,
   Calculator,
   Check,
-  ChevronDown,
   ClipboardCheck,
   Coffee,
   Compass,
@@ -20,7 +19,6 @@ import {
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
-import { DecisionConcierge } from "@/components/growth/DecisionConcierge";
 import { Button } from "@/components/ui/button";
 import { roadmapTools } from "@/data/roadmapTools";
 import { getToolByLegacyAnchor, getToolHref, tools, type ToolCategory, type ToolIconKey } from "@/data/tools";
@@ -69,7 +67,6 @@ const publicToolName = (slug: string, fallback: string) => PUBLIC_TOOL_NAMES[slu
 const Tools = () => {
   const [query, setQuery] = useState("");
   const [job, setJob] = useState<ToolJob>("All decisions");
-  const [browseOpen, setBrowseOpen] = useState(false);
   const [legacySelection, setLegacySelection] = useState<string | null>(null);
 
   useSeo({
@@ -83,7 +80,6 @@ const Tools = () => {
     const anchor = window.location.hash.slice(1);
     if (!anchor) return;
     if (anchor === "all-tools" || anchor === "browse-all-tools") {
-      setBrowseOpen(true);
       window.requestAnimationFrame(() => document.getElementById("all-tools")?.scrollIntoView({ behavior: "smooth", block: "start" }));
       return;
     }
@@ -91,7 +87,6 @@ const Tools = () => {
     if (!match) return;
     setJob("All decisions");
     setQuery("");
-    setBrowseOpen(true);
     setLegacySelection(match.slug);
     const frame = window.requestAnimationFrame(() => {
       document.getElementById(`tool-${match.slug}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -115,11 +110,11 @@ const Tools = () => {
     <>
       <PageHero
         eyebrow="Financial tools"
-        title="Choose a guided answer or browse the full tool library."
-        description="Use Help me choose when you know the problem but not the right tool. Use Browse all tools when you already recognize the calculator, checklist, comparison, or guide you need."
+        title="Find the calculator, checklist, or guide you need."
+        description="Search by your real-world question or browse by topic. If you are not sure what fits, Start Here will guide you."
       >
-        <Button asChild variant="hero" size="lg"><a href="#tool-chooser">Help me choose</a></Button>
-        <Button asChild variant="outline" size="lg"><a href="#all-tools" onClick={() => setBrowseOpen(true)}>Browse all tools</a></Button>
+        <Button asChild variant="hero" size="lg"><a href="#tool-search-heading">Search tools</a></Button>
+        <Button asChild variant="ghost" size="lg"><Link to="/start-here">Not sure? Start Here</Link></Button>
       </PageHero>
 
       <section className="container max-w-4xl min-w-0 pt-10 md:pt-12" aria-labelledby="tool-search-heading">
@@ -136,10 +131,7 @@ const Tools = () => {
               <input
                 type="search"
                 value={query}
-                onChange={(event) => {
-                  setQuery(event.target.value);
-                  if (event.target.value.trim()) setBrowseOpen(true);
-                }}
+                onChange={(event) => setQuery(event.target.value)}
                 placeholder="Try “medical bill” or “employer match”"
                 className="h-12 w-full rounded-xl border border-border bg-background pl-11 pr-4 text-base text-foreground outline-none transition-smooth placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 md:text-sm"
               />
@@ -148,39 +140,17 @@ const Tools = () => {
         </div>
       </section>
 
-      <section id="tool-chooser" className="container min-w-0 scroll-mt-24 py-12 md:py-16" aria-labelledby="choose-mode-heading">
-        <div className="mb-5 flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground"><Compass className="h-4 w-4" aria-hidden="true" /></span>
-          <div>
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Mode 1 · Help me choose</div>
-            <h2 id="choose-mode-heading" className="font-display text-2xl font-bold">Start with the decision, not the catalog.</h2>
-          </div>
-        </div>
-        <DecisionConcierge entrySurface="tools" compact />
-      </section>
-
-      <section id="all-tools" className="container min-w-0 scroll-mt-24 pb-14 md:pb-18" aria-labelledby="all-tools-heading">
+      <section id="all-tools" className="container min-w-0 scroll-mt-24 py-12 md:py-16" aria-labelledby="all-tools-heading">
         <div className="rounded-2xl border border-border bg-card/70 p-5 md:p-7">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div>
             <div className="max-w-2xl">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground"><ListFilter className="h-4 w-4" aria-hidden="true" /> Mode 2 · Browse all tools</div>
-              <h2 id="all-tools-heading" className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">Open the complete directory only when it helps.</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Every direct tool route remains available. The directory is secondary so dozens of choices do not compete with the guided start.</p>
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground"><ListFilter className="h-4 w-4" aria-hidden="true" /> Browse by topic</div>
+              <h2 id="all-tools-heading" className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">All tools</h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Choose a topic, then open the calculator, checklist, comparison, or guide responsible for the answer.</p>
             </div>
-            <Button
-              type="button"
-              variant={browseOpen ? "soft" : "outline"}
-              aria-expanded={browseOpen}
-              aria-controls="all-tools-directory"
-              onClick={() => setBrowseOpen((current) => !current)}
-              className="shrink-0"
-            >
-              {browseOpen ? "Hide directory" : "Browse all tools"}
-              <ChevronDown className={`h-4 w-4 transition-transform ${browseOpen ? "rotate-180" : ""}`} aria-hidden="true" />
-            </Button>
           </div>
 
-          <div id="all-tools-directory" hidden={!browseOpen} className="mt-7 border-t border-border pt-7">
+          <div id="all-tools-directory" className="mt-7 border-t border-border pt-7">
             <div className="flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Filter tools by the job you need to complete">
               {TOOL_JOBS.map((item) => (
                 <button

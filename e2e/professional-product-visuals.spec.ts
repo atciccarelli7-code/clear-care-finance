@@ -25,20 +25,16 @@ const capture = async (page: Page, testInfo: TestInfo, name: string, focus?: Loc
 test("captures the simplified homepage and guided start", async ({ page }, testInfo) => {
   await preparePage(page, "/");
   await expect(page.getByRole("heading", { level: 1, name: /Make the next money or healthcare decision clearer/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Help me choose where to start/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Help me find where to start/i })).toBeVisible();
   await capture(page, testInfo, "homepage");
 });
 
-test("captures Tools in choose-first and directory states", async ({ page }, testInfo) => {
+test("captures the searchable Tools directory", async ({ page }, testInfo) => {
   await preparePage(page, "/tools");
-  const chooserHeading = page.getByRole("heading", { name: /Start with the decision, not the catalog/i });
-  await expect(page.getByRole("heading", { level: 1, name: /Choose a guided answer or browse the full tool library/i })).toBeVisible();
-  await capture(page, testInfo, "tools-choose-first", chooserHeading);
-
-  await page.getByRole("button", { name: /Browse all tools/i }).click();
+  await expect(page.getByRole("heading", { level: 1, name: /Find the calculator, checklist, or guide/i })).toBeVisible();
   const directoryStatus = page.getByText(/Showing .* tools for all decisions/i);
   await expect(directoryStatus).toBeVisible();
-  await capture(page, testInfo, "tools-directory-open", directoryStatus);
+  await capture(page, testInfo, "tools-directory", directoryStatus);
 });
 
 test("captures Hospital Guide before and after an immediate need is selected", async ({ page }, testInfo) => {

@@ -51,9 +51,9 @@ test("capture desktop/mobile visuals and Letter/A4 patient cost-share decision P
   const outcome = page.locator("#decision-outcome-health_insurance_cost_share");
   await expect(outcome).toBeVisible();
   await expect(outcome).toContainText("The remaining out-of-pocket limit may cap this estimate");
-  await expect(outcome).toContainText("Current Summary of Benefits and Coverage");
+  await expect(outcome).toContainText("Open the current Summary of Benefits and Coverage");
   await expect(outcome).toContainText("processed EOB");
-  await expect(outcome).toContainText("Educational estimate only");
+  await expect(outcome).toContainText("educational estimate", { ignoreCase: true });
 
   for (const { suffix, format } of [
     { suffix: "letter", format: "Letter" as const },

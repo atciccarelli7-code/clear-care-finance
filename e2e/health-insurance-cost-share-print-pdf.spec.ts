@@ -53,7 +53,7 @@ test("capture desktop/mobile visuals and Letter/A4 patient cost-share decision P
   await expect(outcome).toContainText("The remaining out-of-pocket limit may cap this estimate");
   await expect(outcome).toContainText("Open the current Summary of Benefits and Coverage");
   await expect(outcome).toContainText("processed EOB");
-  await expect(outcome).toContainText("educational estimate", { ignoreCase: true });
+  await expect(outcome).toContainText(/educational estimate/i);
 
   for (const { suffix, format } of [
     { suffix: "letter", format: "Letter" as const },

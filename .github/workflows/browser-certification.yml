@@ -33,6 +33,8 @@ jobs:
       - run: npm run test:browser:journeys
       - name: Certify 403(b) match decision outcome
         run: npx playwright test e2e/retirement-403b-decision-outcome.spec.ts
+      - name: Certify patient cost-share decision outcome
+        run: npx playwright test e2e/health-insurance-cost-share-decision-outcome.spec.ts
       - name: Certify structured service navigation
         run: npx playwright test e2e/service-navigation.spec.ts
       - name: Certify mobile route-group performance budgets

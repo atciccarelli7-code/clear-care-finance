@@ -3,7 +3,6 @@ import { ArrowRight, CheckCircle2, Compass, ExternalLink, Stethoscope } from "lu
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { DecisionConcierge } from "@/components/growth/DecisionConcierge";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { trackHomepageNavigation } from "@/lib/analytics";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
@@ -20,47 +19,43 @@ const Index = () => (
     <PageHero
       eyebrow="Plain-English financial decision support"
       title="Make the next money or healthcare decision clearer."
-      description="Start with one short routing question. CAF will keep your goal visible, take you to the experience responsible for the answer, and show the first real-world action before optional reading."
+      description="Start Here asks a few plain-English questions, keeps your goal visible, and takes you to the experience responsible for the answer."
     >
       <Button asChild variant="hero" size="lg">
-        <a
-          href="#decision-concierge"
+        <Link
+          to="/start-here"
           onClick={() => {
-            trackGrowthEvent("home_primary_cta_clicked", { entry_surface: "home", action_id: "decision_concierge" });
-            trackHomepageNavigation("hero_action", "decision_concierge");
+            trackGrowthEvent("home_primary_cta_clicked", { entry_surface: "home", action_id: "start_here" });
+            trackHomepageNavigation("hero_action", "start_here", "/start-here");
           }}
         >
-          Help me choose where to start <ArrowRight className="h-4 w-4" />
-        </a>
+          Help me find where to start <ArrowRight className="h-4 w-4" />
+        </Link>
       </Button>
-      <Button asChild variant="ghost" size="lg">
-        <a
-          href="#browse-by-topic"
+      <Button asChild variant="outline" size="lg">
+        <Link
+          to="/tools"
           onClick={() => {
-            trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "browse_topics" });
-            trackHomepageNavigation("hero_action", "browse_topics");
+            trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "browse_tools" });
+            trackHomepageNavigation("hero_action", "browse_tools", "/tools");
           }}
         >
-          I prefer to browse
-        </a>
+          Browse tools
+        </Link>
       </Button>
     </PageHero>
-
-    <section id="decision-concierge" className="container min-w-0 scroll-mt-24 py-10 md:py-14">
-      <DecisionConcierge entrySurface="home" compact />
-    </section>
 
     <section className="border-y border-border bg-card/25 py-12 md:py-16" aria-labelledby="how-caf-works-heading">
       <div className="container max-w-5xl min-w-0">
         <SectionHeading
           centered
-          eyebrow="One question to one action"
+          eyebrow="One starting point to one action"
           title="Know what the experience will do before you begin."
           description="CAF separates routing, the guided answer, and official verification so each screen has one clear job."
         />
         <ol className="mt-9 grid gap-8 md:grid-cols-3">
           {[
-            [Compass, "1", "Name the question", "Choose from fixed, plain-English options. No account or private case narrative is required."],
+            [Compass, "1", "Start with your goal", "Choose from fixed, plain-English options. No account or private case narrative is required."],
             [CheckCircle2, "2", "Finish the guided answer", "The destination keeps your original goal visible and produces a result or action plan—not another catalog."],
             [ExternalLink, "3", "Verify and act", "See the first practical action and the official source, document, office, or professional that controls the final decision."],
           ].map(([Icon, number, title, description]) => (

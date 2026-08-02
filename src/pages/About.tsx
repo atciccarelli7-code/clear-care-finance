@@ -40,7 +40,7 @@ const About = () => {
         title="Healthcare money explained by someone who sees the confusion up close."
         description="Community Acquired Finance is built by Andrew Ciccarelli, RN, BSN, for patients, caregivers, healthcare workers, and anyone who needs a calmer way to understand financial and healthcare decisions."
       >
-        <Button asChild variant="hero" size="lg"><Link to="/#decision-concierge">Start with one question</Link></Button>
+        <Button asChild variant="hero" size="lg"><Link to="/start-here">Help me find where to start</Link></Button>
         <Button asChild variant="outline" size="lg"><Link to="/methodology">Sources and methodology</Link></Button>
       </PageHero>
 
@@ -160,7 +160,7 @@ const About = () => {
         <DisclaimerBox />
 
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button asChild variant="hero" size="lg"><Link to="/#decision-concierge">Start with the Decision Concierge</Link></Button>
+          <Button asChild variant="hero" size="lg"><Link to="/start-here">Start Here</Link></Button>
           <Button asChild variant="outline" size="lg"><Link to="/methodology">Sources and methodology</Link></Button>
           <Button asChild variant="soft" size="lg"><Link to="/contact">Contact</Link></Button>
         </div>

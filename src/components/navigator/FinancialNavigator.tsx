@@ -325,17 +325,14 @@ export const FinancialNavigator = () => {
     <>
       <div className="print:hidden">
         <PageHero
-          eyebrow="CAF Financial Navigator"
-          title="Build a practical plan for the financial decision in front of you."
-          description="Answer a few plain-English questions. The Navigator organizes the most useful tools, guides, official verification steps, and next actions into one private plan."
+          eyebrow="Start Here"
+          title="Find the right next step for the decision in front of you."
+          description="Answer a few plain-English questions. Start Here organizes the most useful tool, guide, verification step, and next action into one private plan."
         >
           <Button asChild variant="hero" size="lg">
             <a href="#navigator-paths">
-              Build my plan <ArrowRight className="h-4 w-4" />
+              Help me find where to start <ArrowRight className="h-4 w-4" />
             </a>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <a href="#my-plan">Open My Plan</a>
           </Button>
         </PageHero>
       </div>
@@ -531,6 +528,7 @@ export const FinancialNavigator = () => {
           </section>
         )}
 
+        {storedPlan && (
         <section id="my-plan" className="scroll-mt-24 rounded-[2rem] border border-border bg-muted/25 p-5 shadow-card print:border-0 print:bg-white print:p-0 print:shadow-none md:p-8 lg:p-10" aria-labelledby="my-plan-heading">
           <div className="flex flex-col gap-6 border-b border-border pb-7 lg:flex-row lg:items-end lg:justify-between">
             <div>
@@ -563,19 +561,7 @@ export const FinancialNavigator = () => {
             )}
           </div>
 
-          {!storedPlan ? (
-            <div className="py-12 text-center print:hidden">
-              <ClipboardCheck className="mx-auto h-10 w-10 text-primary" />
-              <h3 className="mt-5 font-display text-2xl font-bold">No saved actions yet</h3>
-              <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                Build a Navigator plan above or add a contextual action from a participating tool, guide, or hub.
-              </p>
-              <Button asChild className="mt-6">
-                <a href="#navigator-paths">Choose a pathway</a>
-              </Button>
-            </div>
-          ) : (
-            <>
+          <>
               <div className="mt-8 space-y-10">
                 {priorityOrder.map((priority) => {
                   const items = recommendationsByPriority[priority];
@@ -617,9 +603,9 @@ export const FinancialNavigator = () => {
                   {copyMessage}
                 </p>
               )}
-            </>
-          )}
+          </>
         </section>
+        )}
 
         <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 text-sm leading-relaxed text-amber-950 print:hidden md:p-8">
           <h2 className="font-display text-2xl font-bold">The Navigator organizes decisions; it does not make official determinations.</h2>

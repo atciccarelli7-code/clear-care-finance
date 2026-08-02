@@ -64,7 +64,8 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "how-much-should-a-nurse-put-in-403b-per-paycheck",
     "title": "How Much Should a Nurse Put in a 403(b) Per Paycheck?",
     "description": "A practical paycheck framework for nurses and healthcare workers deciding what 403(b) contribution percentage to start with.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "how-hospital-403b-matching-works",
@@ -77,37 +78,43 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "how-to-pick-retirement-investments-at-work",
     "title": "How to Pick Retirement Investments at Work",
     "description": "A plain-English guide to target-date funds, S&P 500 index funds, expense ratios, risk, and changing investments inside a workplace retirement account.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "healthcare-worker-money-map",
     "title": "The Healthcare Worker Money Map",
     "description": "A plain-English order of operations for turning a healthcare paycheck into savings, retirement contributions, and long-term wealth.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "how-healthcare-workers-can-invest-without-picking-stocks",
     "title": "How Healthcare Workers Can Invest Without Picking Stocks",
     "description": "A simple investing guide for healthcare workers who want long-term growth without turning investing into a second job.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "savings-rate-that-actually-changes-your-life",
     "title": "The Savings Rate That Actually Changes Your Life",
     "description": "Why savings rate matters more than tiny budgeting hacks, especially for healthcare workers trying to buy back time.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "roth-vs-traditional-403b-healthcare-workers",
     "title": "Roth vs Traditional 403(b) for Healthcare Workers",
     "description": "A practical way to think about current tax savings, future tax flexibility, and paycheck stress when choosing 403(b) contributions.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "can-healthcare-workers-reach-financial-independence",
     "title": "Can Healthcare Workers Reach Financial Independence?",
     "description": "A realistic FI guide for workers who want more freedom without pretending every shift is easy or every budget is painless.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "cash-vs-investing-when-you-feel-behind",
@@ -120,43 +127,50 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "can-you-live-off-dividends-passive-income-guide",
     "title": "Can You Live Off Dividends? A Plain-English Passive Income Guide",
     "description": "A grounded explanation of dividend income, total return, and why passive income still needs a large asset base.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "money-stress-after-hard-shift",
     "title": "Money Stress After a Hard Shift",
     "description": "How to stop stress from turning into spending, avoidance, or panic decisions after exhausting healthcare work.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "earn-more-without-burning-out-bedside",
     "title": "How to Earn More Without Burning Out at Bedside",
     "description": "A career-income guide for healthcare workers who want more money and more options without relying only on extra shifts.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "managing-money-has-never-been-easier-or-harder",
     "title": "Managing Money Has Never Been Easier—or Harder",
     "description": "Why financial apps make money easier to manage but harder to stop thinking about—and how selective friction can improve spending and investing decisions.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "use-credit-cards-without-credit-card-debt",
     "title": "How to Use a Credit Card Without Carrying Credit Card Debt",
     "description": "Learn how to use a credit card, build credit, set up full-balance autopay, use secured-card guardrails, and avoid expensive credit-card debt.",
-    "category": "Build Wealth"
+    "category": "Build Wealth",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "open-enrollment-mistakes-healthcare-workers",
     "title": "Open Enrollment Mistakes Healthcare Workers Make Every Year",
     "description": "Avoid the benefit choices that quietly raise risk, reduce take-home pay, or leave healthcare workers underprotected.",
-    "category": "Open Enrollment"
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "premium-deductible-out-of-pocket-open-enrollment",
     "title": "Premium, Deductible, and Out-of-Pocket Max: How to Compare Health Plans",
     "description": "Learn the three numbers that decide whether a health plan is cheap, risky, or actually a good fit.",
-    "category": "Open Enrollment"
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "spouse-family-health-insurance-open-enrollment",
@@ -176,19 +190,22 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "network-checklist-open-enrollment",
     "title": "In-Network Is Not One Checkbox: What to Verify During Open Enrollment",
     "description": "Use a practical network checklist before choosing a plan for the next year.",
-    "category": "Open Enrollment"
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "disability-insurance-healthcare-workers-open-enrollment",
     "title": "Disability Insurance for Healthcare Workers: The Benefit You Should Not Ignore",
     "description": "Understand short-term and long-term disability before an injury or illness threatens your income.",
-    "category": "Open Enrollment"
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "employer-life-insurance-open-enrollment",
     "title": "Employer Life Insurance: Helpful, But Usually Not a Full Plan",
     "description": "Know what basic life, supplemental life, guaranteed issue, and portability mean before checking the box.",
-    "category": "Open Enrollment"
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "accident-critical-illness-hospital-indemnity-open-enrollment",
@@ -201,25 +218,29 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "dental-vision-insurance-open-enrollment",
     "title": "Dental and Vision Insurance: What to Check Before Adding Them",
     "description": "Avoid overbuying add-ons by checking annual maximums, frequency limits, and real expected use.",
-    "category": "Open Enrollment"
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "health-fsa-vs-dependent-care-fsa",
     "title": "Health FSA vs Dependent Care FSA: Same Name, Totally Different Use",
     "description": "Do not mix up medical expense money with childcare or dependent-care money.",
-    "category": "Open Enrollment"
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "open-enrollment-paycheck-impact",
     "title": "How Open Enrollment Changes Your Paycheck",
     "description": "See how benefit elections stack up before your first paycheck of the new plan year surprises you.",
-    "category": "Open Enrollment"
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "beneficiaries-open-enrollment-checklist",
     "title": "The 10-Minute Open Enrollment Task That Prevents a Legal Mess",
     "description": "Use open enrollment to update beneficiaries before life changes create avoidable problems.",
-    "category": "Open Enrollment"
+    "category": "Open Enrollment",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "from-the-bedside-medicare-prescription-cost",
@@ -301,13 +322,15 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "how-healthcare-workers-should-compare-job-offers",
     "title": "How Healthcare Workers Should Compare Two Job Offers",
     "description": "Compare salary, overtime, differentials, benefits, PTO, insurance premiums, commute burden, and schedule tradeoffs before accepting a healthcare job.",
-    "category": "Healthcare Worker Pay"
+    "category": "Healthcare Worker Pay",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "why-one-hospital-visit-can-create-multiple-bills",
     "title": "Why One Hospital Visit Can Create Multiple Bills",
     "description": "Understand why a single ER visit, surgery, or hospital stay can produce separate bills from different groups.",
-    "category": "Hospital Bills"
+    "category": "Hospital Bills",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "facility-fee-vs-professional-fee",
@@ -326,13 +349,15 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "in-network-hospital-out-of-network-bills",
     "title": "In-Network Hospital Does Not Always Mean Every Bill Is In-Network",
     "description": "Understand why separate clinicians or services can create network surprises even when the hospital itself is covered.",
-    "category": "Insurance"
+    "category": "Insurance",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "allowed-amount-medical-bills",
     "title": "Allowed Amount: The Number That Actually Matters on a Medical Bill",
     "description": "Learn why the billed charge is not always the number your insurance uses to calculate your share.",
-    "category": "Insurance"
+    "category": "Insurance",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "prior-authorization-explained",
@@ -364,7 +389,8 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "hsa-vs-fsa-healthcare-workers",
     "title": "HSA vs FSA: The Plain-English Guide for Healthcare Workers",
     "description": "Know when an HSA, FSA, or both can help lower taxes without creating open-enrollment regret.",
-    "category": "Workplace Benefits"
+    "category": "Workplace Benefits",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "medicare-medicaid-changes-january-2027",
@@ -409,7 +435,8 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "why-er-visit-is-expensive",
     "title": "Why an ER Visit Can Be So Expensive",
     "description": "Understand the pieces that can turn one emergency visit into several separate charges.",
-    "category": "Hospital Bills"
+    "category": "Hospital Bills",
+    "lastReviewedAt": "2026-07-31"
   },
   {
     "slug": "medicare-options-explained",
@@ -479,7 +506,8 @@ export const RUNTIME_ARTICLE_SEO_META = [
     "slug": "burnout-overspending-overeating",
     "title": "Burnout, Overspending, and Overeating After Hard Shifts",
     "description": "Understand why hard shifts can trigger expensive or unhealthy coping patterns — without shame.",
-    "category": "Spending"
+    "category": "Spending",
+    "lastReviewedAt": "2026-07-31"
   }
 ] satisfies RuntimeArticleSeoMeta[];
 
@@ -564,8 +592,8 @@ export const RUNTIME_TOOL_SEO_META = [
   },
   {
     "slug": "health-insurance-visit-cost-calculator",
-    "title": "Health Insurance Visit Cost Calculator",
-    "description": "Estimate yearly cost across premiums, deductible, copays, coinsurance, visits, and remaining maximum room."
+    "title": "Patient Cost Share Calculator",
+    "description": "Estimate covered in-network patient responsibility using the plan's deductible, copay or coinsurance rule, allowed amount, and out-of-pocket progress."
   },
   {
     "slug": "student-loan-path-finder",

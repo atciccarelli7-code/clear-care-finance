@@ -141,13 +141,24 @@ This ledger records material strategic, product, technical, editorial, commercia
 ### CAF-D-011 — Structured global service navigation
 
 - **Date:** 2026-07-31
-- **Status:** EXPERIMENT
+- **Status:** SUPERSEDED IN PART by CAF-D-013
 - **Decision:** Preserve the six broad primary destinations while replacing the generic `More` overflow and fourteen-link flat mobile sheet with one typed `Explore CAF` service-navigation system: four outcome-led groups on desktop and mobile, three direct mobile actions, concrete service names, concise outcome descriptions, and two fixed consent-gated evidence events.
 - **Rationale:** The July broad-audience navigation correctly simplified the primary layer, but its secondary overflow became inadequate as CAF accumulated 34 tools, guided decision systems, and audience-specific resources. A grouped service layer improves discoverability without undoing the primary hierarchy, deleting routes, or building another router.
 - **Evidence:** Founder observation; current header, footer, tool, route, production, Notion, Linear, and Drive review; benchmark synthesis; PR #237; exact-head CI `30676794553`; browser certification `30676794548`; Decision Journey `30676794615`; production deployment `dpl_9K3StXWYyBXg5gnCTe5kkqPui1ZY`; direct Supabase migration, role, constraint, cleanup, and advisor verification.
 - **Consequences:** Six primary destinations remain unchanged; eight generic overflow links become zero; four structured groups are introduced; the initial mobile choice set changes from fourteen flat links to three direct actions plus four disclosures; nine concrete high-value services become globally named; all 160 sitemap routes, 34 tools, 71 articles, 39 ad-eligible articles, and 21 footer links remain unchanged. Navigation evidence stores only random UUIDs, fixed events, fixed surfaces, allowlisted destination IDs, a fixed variant, and server time after analytics consent.
 - **Revisit trigger:** Twenty-eight days after production release; at least 25 distinct consented navigation-open sessions; accessibility, performance, mobile, privacy, or route regression; persistently high open-without-selection behavior at adequate volume; reduced discovery of high-value destinations; or direct user evidence that the grouping is confusing.
 - **Supersedes:** Only the generic secondary-overflow and flat-mobile portions of the July 2026 broad-audience navigation implementation. The six primary destinations and broad-audience principle remain confirmed.
+
+### CAF-D-013 — One guided entry and progressive local continuity
+
+- **Date:** 2026-08-02
+- **Status:** EXPERIMENT
+- **Decision:** Use Start Here as CAF's single full guided-routing experience, keep Tools as the direct searchable directory, reduce desktop primary destinations from six to five, remove repeated router/directory placements, and show browser-local saved work only through a small optional trigger and accessible dialog when state exists.
+- **Rationale:** Rendering full routers on Home, Tools, and Start Here blurred responsibility between guided and direct-browse intents. A large automatic saved-work block also gave returning-state continuity more visual priority than the current page task.
+- **Evidence:** Current repository and production reconciliation; direct component inventory; 160-route search-readiness audit; 580-test suite; work packet `2026-08-02-navigation-simplification-progressive-resume.md`; Linear AND-103.
+- **Consequences:** Full guided routers fall from three visible placements to one; direct primary links fall from six to five; Explore destinations fall from seventeen to sixteen by removing one duplicate router; mobile disclosures fall from four to three after priority-action deduplication. All 160 canonical routes, existing local storage schemas, grouped Explore navigation, and fixed analytics contracts remain. First-time visitors see no continuity prompt; returning visitors can Resume or deliberately Remove local work.
+- **Revisit trigger:** Twenty-eight days after release; adequate navigation evidence; direct usability evidence; a saved-progress recovery/removal defect; accessibility or route regression; or evidence that direct discovery materially declined.
+- **Supersedes:** CAF-D-011 only where it preserved six primary destinations and repeated the guided router in Explore/mobile. It preserves CAF-D-011's grouped service model, broad audiences, destinations, evidence boundaries, and caution against interpreting sparse consented data.
 
 
 ### CAF-D-012 — Bounded patient cost-share Decision Outcome

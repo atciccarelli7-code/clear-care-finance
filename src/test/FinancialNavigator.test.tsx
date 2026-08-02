@@ -82,7 +82,7 @@ describe("FinancialNavigator", () => {
 
     expect(window.confirm).toHaveBeenCalledTimes(1);
     expect(window.localStorage.length).toBe(0);
-    expect(screen.getByRole("heading", { name: "No saved actions yet" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "My Plan" })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Build wealth and financial stability/ })).toBeInTheDocument();
   });
 });

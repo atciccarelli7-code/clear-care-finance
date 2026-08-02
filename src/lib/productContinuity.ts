@@ -1,17 +1,21 @@
 import {
   BENEFITS_COMMAND_CENTER_UPDATED_EVENT,
+  clearBenefitsWorkspace,
   loadBenefitsWorkspace,
 } from "@/lib/benefitsCommandCenter";
 import {
+  clearFinancialFoundationSnapshots,
   FOUNDATION_UPDATED_EVENT,
   loadFinancialFoundationSnapshots,
 } from "@/lib/financialFoundationCheckup";
 import {
+  clearNavigatorPlan,
   NAVIGATOR_PLAN_UPDATED_EVENT,
   loadStoredNavigatorPlan,
 } from "@/lib/financialNavigator";
 import {
   BENEFITS_REVIEW_UPDATED_EVENT,
+  deleteBenefitsReview,
   loadBenefitsReview,
   prioritizeBenefitsReview,
 } from "@/lib/benefitsChangeDetector";
@@ -124,4 +128,14 @@ export const dismissProductContinuityForSession = () => {
   } catch {
     // The summary can still be dismissed in React state when session storage is unavailable.
   }
+};
+
+export const removeProductContinuityItem = (id: ProductContinuityId) => {
+  const removers: Record<ProductContinuityId, () => void> = {
+    my_plan: clearNavigatorPlan,
+    foundation_checkup: clearFinancialFoundationSnapshots,
+    benefits_command_center: clearBenefitsWorkspace,
+    benefits_change_review: deleteBenefitsReview,
+  };
+  removers[id]();
 };

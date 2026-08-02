@@ -177,6 +177,22 @@ This ledger records the outcome and reusable learning from material assignments.
 - Convert repeated warnings into an owner, test, skill update, or explicit accepted risk.
 - Keep the ledger concise; detailed implementation remains in pull requests and linked documentation.
 
+### CAF-W-010 — Navigation simplification and progressive resume
+
+- **Date:** 2026-08-02
+- **Assignment:** Make CAF easier to enter and resume by removing duplicate routing experiences, exposing direct tool browse, and reducing saved-work interruption.
+- **Starting evidence:** Home and Tools each rendered Decision Concierge while Start Here rendered Financial Navigator; desktop had six primary links plus Explore; returning local state rendered a large expanded continuation card.
+- **Decision:** Make Start Here the one guided router, Tools the always-visible searchable directory, primary navigation a five-route set plus Explore, and saved work a state-dependent button/dialog with confirmation before removal.
+- **Implementation:** Removed homepage/tools concierge placements and the duplicate Start Here directory; updated exact labels; deduplicated Explore/mobile items; conditionally hid empty My Plan; rebuilt continuation as an accessible dialog; added product-specific local clearing and contextual inbound SEO links; preserved routes, local schemas, analytics, Supabase, and Stripe.
+- **Validation:** 580 tests, TypeScript, lint with zero errors, full production build, 160-route prerender, search-readiness crawl, publication/trust/governance gates, and focused accessibility/focus tests pass. Local Playwright execution is blocked because Chromium is absent and the environment cannot download a valid browser archive; exact-head browser CI remains a release gate.
+- **Release state:** Branch `agent/navigation-progressive-resume`; Linear AND-103 In Progress; PR, preview, CI, merge, production, and external documentation pending.
+- **Expected impact:** Three full router placements become one; primary links fall six to five; direct tool browse becomes immediate; saved work remains recoverable without occupying a major content block; no public route, schema, checkout, or monetization inventory changes.
+- **Assumption invalidated:** More globally repeated routing surfaces necessarily improve discovery, or saved work must be expanded automatically to remain recoverable.
+- **Reusable asset:** Progressive continuity dialog, local-removal dispatcher, direct-directory test contract, one-router IA assertions, and saved/no-saved recovery coverage.
+- **Unresolved warning:** Post-release comprehension and conversion are unproven; the pre-existing navigation experiment is interrupted and must be segmented; executable-browser CI must pass before release.
+- **Reassessment trigger:** Twenty-eight days, adequate consented navigation evidence, direct user feedback, a recovery/removal defect, or an accessibility/search regression.
+- **Links:** `docs/work-packets/2026-08-02-navigation-simplification-progressive-resume.md`; Linear AND-103.
+
 ### CAF-W-008 — Structured Explore CAF service-navigation release
 
 - **Date:** 2026-07-31

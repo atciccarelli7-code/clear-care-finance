@@ -35,9 +35,14 @@ const HealthcareWorkers = () => {
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
               I kept helping coworkers make sense of 403(b) contributions, employer benefits, and the decisions hidden behind an HR portal. The recurring problem was not a lack of effort. Important choices arrived during orientation, open enrollment, job changes, and exhausting shifts without enough context. These tools are meant to make the value behind the paycheck visible before years pass unnoticed.
             </p>
-            <Link to="/articles/how-hospital-403b-matching-works" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline">
-              Understand hospital 403(b) matching <ArrowRight className="h-4 w-4" />
-            </Link>
+            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3 text-sm font-bold">
+              <Link to="/articles/how-hospital-403b-matching-works" className="inline-flex items-center gap-2 text-primary hover:underline">
+                Understand hospital 403(b) matching <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link to="/healthcare-workers/career-decisions" className="inline-flex items-center gap-2 text-primary hover:underline">
+                Plan a healthcare career move <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

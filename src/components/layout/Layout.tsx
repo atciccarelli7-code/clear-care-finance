@@ -6,7 +6,6 @@ import { Footer } from "./Footer";
 import { MobileBottomNav } from "./MobileBottomNav";
 import { PrivacyChoices } from "@/components/shared/PrivacyChoices";
 import { RouteFreshness } from "@/components/shared/RouteFreshness";
-import { DecisionJourneyDirectory } from "@/components/shared/DecisionJourneyDirectory";
 import { hasNavigatorContextAction } from "@/components/navigator/navigatorContextConfig";
 import { hasBenefitsCommandCenterEntry } from "@/components/benefits/benefitsCommandCenterEntryConfig";
 import { hasMedicalBillProductPathway } from "@/components/medical-bill/medicalBillProductPathwayConfig";
@@ -41,7 +40,6 @@ export const Layout = () => {
   const showBenefitsCommandCenterEntry = hasBenefitsCommandCenterEntry(location.pathname);
   const showMedicalBillProductPathway = hasMedicalBillProductPathway(location.pathname);
   const showContinuity = continuityRoutes.has(location.pathname);
-  const showJourneyDirectory = location.pathname === "/start-here";
   const showGlobalTrustBar = !contextualTrustRoutes.has(location.pathname);
 
   useEffect(() => {
@@ -83,7 +81,6 @@ export const Layout = () => {
           <Suspense fallback={null}><MedicalBillProductPathway pathname={location.pathname} /></Suspense>
         )}
         <Suspense fallback={null}><RouteSeoCompoundingPathway pathname={location.pathname} /></Suspense>
-        {showJourneyDirectory && <DecisionJourneyDirectory />}
         {showBenefitsCommandCenterEntry && (
           <Suspense fallback={null}><BenefitsCommandCenterEntry /></Suspense>
         )}

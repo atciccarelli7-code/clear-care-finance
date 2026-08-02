@@ -28,7 +28,7 @@ describe("tools directory", () => {
     }
   });
 
-  it("keeps the directory secondary, then filters it without rendering calculator interfaces", () => {
+  it("shows the searchable directory immediately without rendering calculator interfaces", () => {
     render(
       <MemoryRouter>
         <Tools />
@@ -36,12 +36,10 @@ describe("tools directory", () => {
     );
 
     const directory = document.getElementById("all-tools-directory");
-    expect(directory).toHaveAttribute("hidden");
-    expect(screen.queryByLabelText(/hourly pay/i)).not.toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: /browse all tools/i }));
     expect(directory).not.toHaveAttribute("hidden");
+    expect(screen.queryByLabelText(/hourly pay/i)).not.toBeInTheDocument();
     expect(screen.getByText(`Showing ${completeTools.length} of ${completeTools.length} tools for all decisions`)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Not sure\? Start Here/i })).toHaveAttribute("href", "/start-here");
 
     fireEvent.change(screen.getByRole("searchbox", { name: /search all CAF tools/i }), { target: { value: "PSLF" } });
     expect(screen.getByRole("heading", { name: "PSLF Progress Estimator" })).toBeInTheDocument();

@@ -59,9 +59,9 @@ test("desktop and intermediate-width visitors can discover concrete services", a
   await expect(page.getByRole("heading", { name: "Patient and caregiver decisions", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Coverage and learning", exact: true })).toBeVisible();
 
-  const benefits = page.getByRole("link", { name: /Benefits Command Center/ });
+  const benefits = page.getByRole("link", { name: /Compare workplace benefits/ });
   await expect(benefits).toContainText(/organized review plan/i);
-  await expect(page.getByRole("link", { name: /Total Compensation Comparison/ })).toContainText(/beyond hourly pay/i);
+  await expect(page.getByRole("link", { name: /Compare job offers/ })).toContainText(/beyond hourly pay/i);
   await expect(page.getByRole("link", { name: /Medical Bill Review/ })).toContainText(/EOB and provider bill/i);
   await expect(page.getByRole("link", { name: /Hospital & Patient Guide/ })).toContainText(/discharge/i);
 
@@ -113,11 +113,10 @@ test("320-pixel mobile navigation groups choices and restores focus on Escape", 
   await trigger.click();
   const mobileNav = mobileNavigation(page);
   await expect(mobileNav).toBeVisible();
-  await expect(mobileNav.getByRole("link", { name: /Start a decision/ })).toBeFocused();
+  await expect(mobileNav.getByRole("link", { name: /Start Here/ })).toBeFocused();
   await expect(mobileNav.getByRole("link", { name: /Browse tools/ })).toBeVisible();
   await expect(mobileNav.getByRole("link", { name: /Read articles/ })).toBeVisible();
 
-  await expect(mobileNav.getByText("Find the right starting point")).toBeVisible();
   await expect(mobileNav.getByText("Healthcare-worker decisions")).toBeVisible();
   await expect(mobileNav.getByText("Patient and caregiver decisions")).toBeVisible();
   await expect(mobileNav.getByText("Coverage and learning")).toBeVisible();
@@ -142,7 +141,7 @@ test("mobile visitors can reach worker, patient, coverage, and learning destinat
   let mobileNav = mobileNavigation(page);
 
   const workerGroup = await ensureDisclosureOpen(mobileNav, "Healthcare-worker decisions");
-  await workerGroup.getByRole("link", { name: /Total Compensation Comparison/ }).click();
+  await workerGroup.getByRole("link", { name: /Compare job offers/ }).click();
   await expect(page).toHaveURL(/\/tools\/healthcare-worker-total-compensation-comparison$/);
 
   await page.getByRole("button", { name: "Open menu" }).click();

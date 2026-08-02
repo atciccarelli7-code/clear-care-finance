@@ -557,6 +557,11 @@ const MedicareCareCostHub = () => {
           <Button asChild variant="hero"><Link to="/tools/medicare-plan-verification-checklist">Verify a Medicare plan <ArrowRight className="h-4 w-4" /></Link></Button>
           <Button asChild variant="outline"><Link to="/tools/state-medicaid-long-term-care-router">Find the official state pathway</Link></Button>
         </div>
+        <p className="text-center text-sm print:hidden">
+          <Link to="/insurance/what-medicare-advantage-marketing-may-not-emphasize" className="font-semibold text-primary underline-offset-4 hover:underline">
+            Review what Medicare Advantage marketing may not emphasize
+          </Link>
+        </p>
 
         <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <CostReferenceTable

@@ -7,14 +7,32 @@ import {
   CheckSquare,
   History,
   LockKeyhole,
-  X,
+  Trash2,
 } from "lucide-react";
 import { trackSiteEvent } from "@/lib/analytics";
+import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   PRODUCT_CONTINUITY_EVENTS,
-  dismissProductContinuityForSession,
   getProductContinuityItems,
-  isProductContinuityDismissed,
+  removeProductContinuityItem,
   type ProductContinuityId,
   type ProductContinuityItem,
 } from "@/lib/productContinuity";
@@ -34,12 +52,12 @@ const formatUpdatedDate = (iso: string) => new Intl.DateTimeFormat("en-US", {
 
 export const ContinueWhereYouLeftOff = ({ sourceRoute }: { sourceRoute: string }) => {
   const [items, setItems] = useState<ProductContinuityItem[]>([]);
-  const [dismissed, setDismissed] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [pendingRemoval, setPendingRemoval] = useState<ProductContinuityItem | null>(null);
   const trackedView = useRef(false);
 
   useEffect(() => {
     const refresh = () => setItems(getProductContinuityItems());
-    setDismissed(isProductContinuityDismissed());
     refresh();
 
     PRODUCT_CONTINUITY_EVENTS.forEach((eventName) => window.addEventListener(eventName, refresh));
@@ -51,86 +69,107 @@ export const ContinueWhereYouLeftOff = ({ sourceRoute }: { sourceRoute: string }
   }, []);
 
   useEffect(() => {
-    if (dismissed || !items.length || trackedView.current) return;
+    if (!open || !items.length || trackedView.current) return;
     trackedView.current = true;
     trackSiteEvent("saved_progress_summary_viewed", {
       event_category: "continuity",
       source_route: sourceRoute,
     });
-  }, [dismissed, items.length, sourceRoute]);
+  }, [items.length, open, sourceRoute]);
 
-  if (dismissed || !items.length) return null;
+  if (!items.length) return null;
 
-  const dismiss = () => {
-    dismissProductContinuityForSession();
-    setDismissed(true);
-    trackSiteEvent("saved_progress_summary_dismissed", {
+  const removeItem = () => {
+    if (!pendingRemoval) return;
+    removeProductContinuityItem(pendingRemoval.id);
+    setItems(getProductContinuityItems());
+    trackSiteEvent("saved_progress_item_removed", {
       event_category: "continuity",
       source_route: sourceRoute,
+      item_id: pendingRemoval.id,
     });
+    setPendingRemoval(null);
   };
 
   return (
-    <section className="border-b border-border bg-primary-soft/35 print:hidden" aria-labelledby="saved-progress-heading">
-      <div className="container py-4 md:py-5">
-        <div className="rounded-3xl border border-primary/20 bg-card p-4 shadow-card md:p-5">
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-primary">
+    <section className="border-b border-border bg-card/45 print:hidden" aria-label="Saved work">
+      <div className="container flex justify-end py-2.5">
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button type="button" variant="ghost" size="sm" className="text-muted-foreground">
+              <History className="h-4 w-4" aria-hidden="true" /> Continue saved work
+              <span className="sr-only"> ({items.length} saved {items.length === 1 ? "item" : "items"})</span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-h-[min(42rem,90vh)] max-w-2xl overflow-y-auto rounded-2xl p-5 sm:p-6">
+            <DialogHeader>
+              <div className="inline-flex items-center gap-2 pr-8 text-xs font-bold uppercase tracking-[0.14em] text-primary">
                 <LockKeyhole className="h-4 w-4" aria-hidden="true" /> Saved only in this browser
               </div>
-              <h2 id="saved-progress-heading" className="mt-2 font-display text-xl font-bold md:text-2xl">
-                Continue where you left off
-              </h2>
-              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-                Resume saved actions or local work without an account. No entered financial values are shown here.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={dismiss}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              aria-label="Dismiss saved progress for this browser session"
-            >
-              <X className="h-5 w-5" aria-hidden="true" />
-            </button>
-          </div>
+              <DialogTitle className="font-display text-2xl">Continue saved work</DialogTitle>
+              <DialogDescription>
+                Choose what to resume. Summaries never reveal entered financial values.
+              </DialogDescription>
+            </DialogHeader>
 
-          <div className="mt-4 grid gap-3 lg:grid-cols-3">
-            {items.map((item) => {
-              const Icon = itemIcons[item.id] ?? History;
-              return (
-                <Link
-                  key={item.id}
-                  to={item.href}
-                  onClick={() =>
-                    trackSiteEvent("saved_progress_item_opened", {
-                      event_category: "continuity",
-                      source_route: sourceRoute,
-                      item_id: item.id,
-                      destination_path: item.href,
-                    })
-                  }
-                  className="group flex min-w-0 items-start gap-3 rounded-2xl border border-border bg-background p-4 transition-smooth hover:border-primary/35 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
-                    <Icon className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-display text-base font-bold text-foreground">{item.title}</span>
-                    <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">{item.summary}</span>
-                    <span className="mt-2 block text-[0.7rem] font-semibold text-muted-foreground">
-                      Updated {formatUpdatedDate(item.updatedAt)}
-                    </span>
-                    <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-primary">
-                      {item.actionLabel} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-                    </span>
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+            <div className="mt-2 space-y-3">
+              {items.map((item) => {
+                const Icon = itemIcons[item.id] ?? History;
+                return (
+                  <article key={item.id} className="rounded-2xl border border-border bg-card p-4">
+                    <div className="flex min-w-0 items-start gap-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-display text-base font-bold text-foreground">{item.title}</h3>
+                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{item.summary}</p>
+                        <p className="mt-2 text-[0.7rem] font-semibold text-muted-foreground">Updated {formatUpdatedDate(item.updatedAt)}</p>
+                      </div>
+                    </div>
+                    <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                      <Button asChild size="sm">
+                        <Link
+                          to={item.href}
+                          onClick={() => {
+                            setOpen(false);
+                            trackSiteEvent("saved_progress_item_opened", {
+                              event_category: "continuity",
+                              source_route: sourceRoute,
+                              item_id: item.id,
+                              destination_path: item.href,
+                            });
+                          }}
+                        >
+                          Resume <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
+                      </Button>
+                      <Button type="button" size="sm" variant="ghost" onClick={() => setPendingRemoval(item)}>
+                        <Trash2 className="h-4 w-4" aria-hidden="true" /> Remove
+                        <span className="sr-only"> {item.title}</span>
+                      </Button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <AlertDialog open={Boolean(pendingRemoval)} onOpenChange={(next) => !next && setPendingRemoval(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Remove this saved work?</AlertDialogTitle>
+              <AlertDialogDescription>
+                {pendingRemoval ? `${pendingRemoval.title} will be deleted from this browser. This cannot be undone.` : "This saved work will be deleted from this browser."}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Keep saved work</AlertDialogCancel>
+              <AlertDialogAction onClick={removeItem}>Remove</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </section>
   );

@@ -1,6 +1,5 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
-import Phase3ProductApp, { isPhase3ProductPath } from "./Phase3ProductApp";
 import "./index.css";
 import "./print.css";
 import "./print-pagination.css";
@@ -17,14 +16,27 @@ if (!container) {
 installRouteAwareAdSense();
 installFirstPartyEvidenceObserver();
 
-const application = (
-  <AppErrorBoundary>
-    {isPhase3ProductPath(window.location.pathname) ? <Phase3ProductApp /> : <App />}
-  </AppErrorBoundary>
-);
+const phase3ProductPaths = new Set([
+  "/products/healthcare-worker-benefits-decision-system",
+  "/products/healthcare-worker-benefits-decision-pack",
+]);
 
-if (container.hasChildNodes()) {
-  hydrateRoot(container, application);
-} else {
-  createRoot(container).render(application);
-}
+const bootstrap = async () => {
+  const Application = phase3ProductPaths.has(window.location.pathname)
+    ? (await import("./Phase3ProductApp")).default
+    : App;
+
+  const application = (
+    <AppErrorBoundary>
+      <Application />
+    </AppErrorBoundary>
+  );
+
+  if (container.hasChildNodes()) {
+    hydrateRoot(container, application);
+  } else {
+    createRoot(container).render(application);
+  }
+};
+
+void bootstrap();

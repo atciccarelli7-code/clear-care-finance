@@ -13,6 +13,7 @@ const navigationSource = source("src/data/serviceNavigation.ts");
 const footerSource = source("src/components/layout/Footer.tsx");
 const appSource = source("src/App.tsx");
 const phase3AppSource = source("src/Phase3ProductApp.tsx");
+const siteSeoMetaSource = source("src/lib/siteSeoMeta.ts");
 const offerPageSource = source("src/pages/premium/BenefitsDecisionOfferPage.tsx");
 const offerFormSource = source("src/components/premium/BenefitsEarlyAccessForm.tsx");
 const offerHandoffSource = source("src/components/premium/BenefitsOfferValidationPathway.tsx");
@@ -53,8 +54,10 @@ describe("free-core and single-flagship public product architecture", () => {
   });
 
   it("renders the offer as controlled noindex validation rather than a parked redirect", () => {
-    expect(phase3AppSource).toContain(OFFER_PATH);
-    expect(phase3AppSource).toContain('robots: "noindex, nofollow, noarchive"');
+    expect(siteSeoMetaSource).toContain(OFFER_PATH);
+    expect(siteSeoMetaSource).toContain('robots: "noindex, nofollow, noarchive"');
+    expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_PATH");
+    expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_META");
     expect(vercelSource).not.toContain(`"source": "${OFFER_PATH}", "destination"`);
     expect(vercelSource).toContain(`"source": "${OFFER_PATH}"`);
     expect(sitemapSource).not.toContain(OFFER_PATH);

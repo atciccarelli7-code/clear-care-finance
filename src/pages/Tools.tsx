@@ -134,7 +134,7 @@ const Tools = () => {
           </div>
           <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
             <Button asChild>
-              <Link to="/products/healthcare-worker-benefits-decision-system">
+              <Link to="/healthcare-workers#benefits-decision-system">
                 Preview the Decision System <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -265,7 +265,7 @@ const Tools = () => {
             </p>
           </div>
           <Button asChild variant="outline">
-            <Link to="/products/healthcare-worker-benefits-decision-system">See the flagship preview</Link>
+            <Link to="/healthcare-workers#benefits-decision-system">See the flagship preview</Link>
           </Button>
         </div>
       </section>

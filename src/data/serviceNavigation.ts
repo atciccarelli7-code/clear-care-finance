@@ -25,7 +25,7 @@ export const PRIMARY_NAVIGATION_ITEMS: readonly PrimaryNavigationItem[] = [
   { to: "/tools", label: "Free Tools" },
   { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patients & Caregivers" },
-  { to: "/healthcare-workers#benefits-decision-system", label: "Decision System" },
+  { to: "/products/healthcare-worker-benefits-decision-system", label: "Decision System" },
 ] as const;
 
 export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [

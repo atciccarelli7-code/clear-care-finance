@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
@@ -8,17 +8,23 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import BenefitsDecisionOfferPage from "@/pages/premium/BenefitsDecisionOfferPage";
-import { resolveSiteSeoMeta } from "@/lib/siteSeoMeta";
 import { useSeo } from "@/lib/seo";
+import type { SeoRouteMeta } from "@/lib/seoRegistry";
 
 export const BENEFITS_DECISION_OFFER_PATH = "/products/healthcare-worker-benefits-decision-system" as const;
+
+export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
+  title: "Healthcare Worker Benefits Decision System Early Access",
+  description: "Review the proposed $29 one-time Open Enrollment Workspace and join a no-charge, price-qualified early-access test. Free CAF education and public tools remain free.",
+  canonicalPath: BENEFITS_DECISION_OFFER_PATH,
+  robots: "noindex, nofollow, noarchive",
+  jsonLd: [],
+};
 
 const queryClient = new QueryClient();
 
 const RouteSeo = () => {
-  const location = useLocation();
-  const meta = useMemo(() => resolveSiteSeoMeta(location.pathname), [location.pathname]);
-  useSeo(meta);
+  useSeo(BENEFITS_DECISION_OFFER_META);
   return null;
 };
 

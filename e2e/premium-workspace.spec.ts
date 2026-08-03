@@ -22,7 +22,8 @@ test("bounded product route shows a no-charge, price-qualified $29 offer", async
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow, noarchive");
   await expect(page.getByText("No card. No checkout. No charge.", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: /buy|purchase|checkout/i })).toHaveCount(0);
-  await expect(page.getByText(/Free articles, calculators, checklists/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Learn and prepare without paying", exact: true })).toBeVisible();
+  await expect(page.getByText(/Public calculators, checklists, comparisons/i)).toBeVisible();
   await page.getByRole("button", { name: /I would consider it at \$29/i }).click();
   await expect(page.locator("#benefits-early-access-email")).toBeFocused();
   expect(await seriousAxeViolations(page)).toEqual([]);

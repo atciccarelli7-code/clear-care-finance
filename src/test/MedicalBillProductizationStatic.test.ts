@@ -55,7 +55,8 @@ describe("medical bill productization static contracts", () => {
   it("renders supporting offers through governed React routes instead of a global DOM injector", () => {
     expect(appShell).not.toContain("medical-bill-productization-spa.js");
     expect(appShell).not.toContain("medical-bill-productization.js");
-    expect(appLayout).toContain("hasMedicalBillProductPathway");
+    expect(appLayout).toContain("getRouteEndcapOwner");
+    expect(appLayout).toContain('endcapOwner === "medical_bill"');
     expect(appLayout).toContain("<MedicalBillProductPathway pathname={location.pathname} />");
     expect(pathwayConfig).toContain("/insurance/medical-bill-review-toolkit");
     expect(pathwayConfig).toContain("/patients-families");

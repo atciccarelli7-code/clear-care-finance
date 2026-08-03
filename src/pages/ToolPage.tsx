@@ -8,6 +8,8 @@ import { roadmapTools } from "@/data/roadmapTools";
 import { getToolBySlug, getToolHref, tools } from "@/data/tools";
 import { useSeo } from "@/lib/seo";
 import { RoadmapToolRouter } from "@/pages/RoadmapToolRouter";
+import { audienceForTool, decisionCategoryForToolCategory, getToolStartLabel } from "@/lib/directionalCtaRoutes";
+import { DirectionalActionLink } from "@/components/shared/DirectionalNextActions";
 
 const PRIVATE_TOOL_SLUGS = new Set(["private-paid-product-lab"]);
 
@@ -33,15 +35,43 @@ const ToolPage = () => {
   const relatedTools = tools
     .filter((candidate) => candidate.slug !== tool.slug && candidate.category === tool.category)
     .slice(0, 3);
+  const ctaContext = {
+    audienceSegment: audienceForTool(tool.audience),
+    decisionCategory: decisionCategoryForToolCategory(tool.category),
+    placementId: "tool_hero",
+    originPath: `/tools/${tool.slug}`,
+  } as const;
+  const startAction = {
+    id: `tool_${tool.slug}_start`,
+    title: tool.title,
+    description: tool.description,
+    href: "#tool",
+    label: getToolStartLabel(tool.componentKey, tool.shortTitle),
+    availabilityStatus: "available" as const,
+  };
 
   return (
     <>
       <PageHero eyebrow={tool.category} title={tool.title} description={tool.description}>
         <Button asChild variant="hero" size="lg">
-          <a href="#tool">Open the tool <ArrowRight className="h-4 w-4" /></a>
+          <DirectionalActionLink action={startAction} actionTier="primary" context={ctaContext}>
+            {startAction.label} <ArrowRight className="h-4 w-4" />
+          </DirectionalActionLink>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/tools"><ArrowLeft className="h-4 w-4" /> All tools</Link>
+          <DirectionalActionLink
+            action={{
+              id: `tool_${tool.slug}_browse_directory`,
+              title: "Calculator and checklist directory",
+              href: "/tools",
+              label: "Browse all tools",
+              availabilityStatus: "available",
+            }}
+            actionTier="secondary"
+            context={ctaContext}
+          >
+            <ArrowLeft className="h-4 w-4" /> Browse all tools
+          </DirectionalActionLink>
         </Button>
       </PageHero>
 
@@ -75,10 +105,13 @@ const ToolPage = () => {
             <ToolRenderer componentKey={tool.componentKey} />
             {relatedTools.length > 0 && (
               <CalculatorNextSteps
+                directionalContext={{ ...ctaContext, placementId: "tool_related_action" }}
+                idPrefix={`tool_${tool.slug}_related`}
                 steps={relatedTools.map((related) => ({
                   label: related.shortTitle,
                   href: getToolHref(related),
                   helper: related.description,
+                  cta: `Use ${related.shortTitle}`,
                 }))}
               />
             )}

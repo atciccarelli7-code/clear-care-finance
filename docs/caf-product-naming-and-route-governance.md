@@ -1,7 +1,7 @@
 # CAF Product Naming and Route Governance
 
 **Owner:** Community Acquired Finance product system  
-**Effective:** July 20, 2026  
+**Effective:** August 3, 2026
 **Review cadence:** Quarterly and before any new flagship launch
 
 ## Public product hierarchy
@@ -16,7 +16,6 @@ A flagship name is reserved for a durable, multi-step experience with a distinct
 
 | Public name | Job owned | Canonical route | Naming status |
 |---|---|---|---|
-| **Decision Concierge** | Route one fixed question to the single CAF experience responsible for the result | Homepage and Tools embedded entry | Approved; router only, never described as the final answer |
 | **Financial Navigator** | Build and save a prioritized general financial action plan | `/start-here` | Approved |
 | **Benefits Command Center** | Review, compare, and save a complete workplace-benefits package | `/tools/benefits-command-center` | Approved |
 | **Hospital & Patient Guide** | Organize hospital-to-home, caregiver, medication/equipment, discharge-barrier, and coverage questions | `/patients-families/hospital-guide` | Approved |
@@ -100,9 +99,21 @@ A legacy label may remain in historical documentation, analytics migration notes
 
 - Primary navigation uses audience-neutral jobs and established product destinations.
 - The homepage exposes one dominant guided start and one quiet browse alternative.
-- Tools exposes two explicit modes: **Help me choose** and **Browse all tools**.
+- Start Here is the sole guided router; the Tools route is the direct searchable directory.
+- `Explore CAF` remains a secondary grouped navigation container, not a page's primary outcome action.
 - Footer labels may be descriptive, but must not introduce new product names.
 - Mobile navigation prioritizes the most common start, tool, benefits, and Medicare paths without implying those are the only CAF audiences.
+
+## Directional action rules
+
+1. Each material page names one primary outcome action and no more than one secondary action; related links remain visually subordinate.
+2. A route-level owner resolver may render at most one global endcap: medical-bill pathway, SEO pathway, benefits workspace, or Navigator action.
+3. A page with a purpose-built directional handoff owns the endcap and suppresses competing global panels.
+4. Cross-route actions use an outcome label. `Continue` is reserved for step progression or saved-work resumption.
+5. Tool entry labels describe the result, such as estimating a cost, checking progress, or building a checklist; `Open the tool` is not an approved primary label.
+6. Decision Outcome result architecture retains its own hierarchy and should not be replaced by a generic CTA block.
+7. Every instrumented directional action uses a fixed identifier, canonical destination, audience segment, action tier, decision category, and placement. Inputs, results, plan details, health data, and device fingerprint fields are prohibited.
+8. Product and commercial actions fail closed unless the destination is actually available. Checkout, premium access, partner offers, and purchase language require their separate release gates.
 
 ## Naming acceptance checklist
 

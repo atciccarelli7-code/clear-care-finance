@@ -149,6 +149,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Does not determine individual coverage, network status, medical necessity, prior authorization, claim adjudication, balance-billing rights, appeal rights, final allowed amount, or amount ultimately owed. Search impressions do not establish causality, demand size, comprehension, completion, or revenue.
 - **Owner:** Content/evidence integrity, healthcare user research, privacy/legal protection, analytics, and quality/release.
 
+### CAF-E-009 — Directional CTA baseline and route ownership evidence
+
+- **Claim or state:** The sitemap contains 160 canonical routes. Before the CTA resolver, 37 routes received at least one global endcap and 14 received two or more; 14 dynamic ToolPage routes used `Open the tool`; the total-compensation hero did not enter its comparison; and three selected article handoffs used equal-weight next-step cards. Current dashboard evidence is too sparse and stale to establish CTA conversion or causality.
+- **Domain:** Repository/code, information architecture, analytics/privacy, search inventory, and product truthfulness.
+- **Source:** `docs/audits/2026-08-03-directional-cta-route-inventory.csv`; sitemap; route/action configs; current production inspection; connected Growth & Revenue dashboard snapshot through 2026-07-20; Stripe/Supabase release boundaries; independent role reviews.
+- **Evidence class:** DIRECT-CURRENT for code, routes, product availability, and deployment baseline; STALE-OR-INCOMPLETE for conversion performance; INFERENCE for likely decision-burden reduction.
+- **Verified date:** 2026-08-03.
+- **Coverage:** All 160 canonical routes at inventory level; detailed implementation on 30 routes; three article pilot handoffs; 14 dynamic tool routes.
+- **Freshness trigger:** Any route/endcap/action registry change; 28 days after release; adequate consented completion data; navigation/insurance experiment interpretation; or direct user research.
+- **Used by:** CAF-D-014, CAF-W-011, AND-104, CTA build contracts, and the route inventory generator.
+- **Limitations:** Click selection does not establish comprehension, satisfaction, task completion, revenue, or causal lift. Consented analytics are not representative of all visitors. The route inventory uses governed classifications and a ranked backlog, not direct testing of every page with users.
+- **Owner:** Product, information architecture, frontend/systems, analytics/privacy, SEO, accessibility, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

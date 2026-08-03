@@ -172,6 +172,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** Any calculation discrepancy; user evidence that the flow is confusing; meaningful post-release search/completion data; official-source change; or source review by 2027-02-01.
 - **Supersedes:** The prior reactive visit-cost arithmetic implementation on the same route. It applies CAF-D-007 and does not supersede the user-value-before-monetization principle.
 
+### CAF-D-014 — Directional action ownership and bounded CTA hierarchy
+
+- **Date:** 2026-08-03
+- **Status:** EXPERIMENT
+- **Decision:** Every material route must have one named action owner. Layout may render at most one global endcap, and purpose-built directional surfaces may render one primary, at most one secondary, and subordinate related actions. Pilot the hierarchy on 14 dynamic tool routes, the total-compensation route, and three high-value article handoffs; defer the remaining article-specific audit rather than bulk-changing the 71-article template.
+- **Rationale:** Four independently composed global systems stacked two or more endcaps on 14 routes, while generic tool and article actions obscured the next outcome. A full article migration would affect 71 of 160 canonical routes (44.4%) without sufficient behavior evidence.
+- **Evidence:** Production/code inspection; complete 160-route inventory; independent product, governance, and engineering reviews; AND-104; work packet `2026-08-03-directional-cta-decision-paths.md`.
+- **Consequences:** Thirty of 160 canonical routes receive a bounded hierarchy correction; stacked global endcaps fall from 14 routes to zero; all routes, canonicals, indexability, 39 ad-eligible articles, Decision Outcomes, Supabase schema, Stripe/checkout, premium state, and navigation CAF-D-013 remain unchanged. Ordinary directional actions use one consent-gated fixed event with no inputs, results, free text, or device fingerprint fields.
+- **Revisit trigger:** Twenty-eight days; adequate consented completion evidence; direct usability feedback; lower completion or increased backtracking; any accessibility, search, analytics, route, or truthfulness defect; or a proposal to migrate the remaining articles.
+- **Supersedes:** Independent global endcap composition and generic `Open the tool` primary labels. It does not supersede specialized result events, the active insurance/service-navigation evidence contracts, or typed Decision Outcomes.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

@@ -1,9 +1,16 @@
 import { lazy, Suspense, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import { ArrowRight, Calculator, FileCheck2, ShieldCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
+import { DirectionalActionLink, DirectionalNextActions } from "@/components/shared/DirectionalNextActions";
+
+const ctaContext = {
+  audienceSegment: "healthcare_workers",
+  decisionCategory: "career_compensation",
+  placementId: "total_compensation_page",
+  originPath: "/tools/healthcare-worker-total-compensation-comparison",
+} as const;
 
 const TotalCompensationComparison = lazy(() => import("@/components/calculators/TotalCompensationComparison"));
 const HealthcareOfferDecisionChecklist = lazy(() => import("@/components/calculators/HealthcareOfferDecisionChecklist"));
@@ -62,6 +69,23 @@ const relatedResources = [
   },
 ];
 
+const comparisonAction = {
+  id: "total_compensation_compare_offers",
+  title: "Healthcare worker total-compensation comparison",
+  description: "Compare cash pay, employer benefits, work costs, paid time off, and effective hourly value.",
+  href: "#comparison",
+  label: "Compare the two offers",
+  availabilityStatus: "available",
+} as const;
+
+const comparisonGuideAction = {
+  id: "total_compensation_read_guide",
+  title: "Healthcare worker job-offer comparison guide",
+  href: "/articles/how-healthcare-workers-should-compare-job-offers",
+  label: "Read the comparison guide",
+  availabilityStatus: "available",
+} as const;
+
 const LoadingPanel = ({ label }: { label: string }) => (
   <div className="flex min-h-[320px] items-center justify-center rounded-3xl border border-border bg-card text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">
     {label}
@@ -107,8 +131,15 @@ const HealthcareWorkerTotalCompensationPage = () => (
       title="Compare two jobs by total compensation — not salary alone."
       description="Estimate cash pay, overtime, differentials, employer benefits, insurance premiums, commuting costs, and effective hourly value—then build the written verification plan to use before you resign."
     >
+      <Button asChild variant="hero" size="lg">
+        <DirectionalActionLink action={comparisonAction} actionTier="primary" context={ctaContext}>
+          Compare the two offers <ArrowRight className="h-4 w-4" />
+        </DirectionalActionLink>
+      </Button>
       <Button asChild variant="outline" size="lg">
-        <Link to="/articles/how-healthcare-workers-should-compare-job-offers">Read the comparison guide <ArrowRight className="h-4 w-4" /></Link>
+        <DirectionalActionLink action={comparisonGuideAction} actionTier="secondary" context={ctaContext}>
+          Read the comparison guide
+        </DirectionalActionLink>
       </Button>
     </PageHero>
 
@@ -140,7 +171,7 @@ const HealthcareWorkerTotalCompensationPage = () => (
       </div>
     </section>
 
-    <section className="container min-w-0 pb-12 md:pb-16">
+    <section id="comparison" className="container min-w-0 scroll-mt-28 pb-12 md:pb-16">
       <Suspense fallback={<LoadingPanel label="Loading comparison tool…" />}>
         <AccessibleCompensationComparison />
       </Suspense>
@@ -201,20 +232,29 @@ const HealthcareWorkerTotalCompensationPage = () => (
           ))}
         </div>
 
-        <div>
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Keep working through the offer</div>
-          <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Turn the comparison into a benefits decision</h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {relatedResources.map((resource) => (
-              <Link key={resource.href} to={resource.href} className="group rounded-2xl border border-border bg-card p-5 shadow-card transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-hover">
-                <div className="text-[0.68rem] font-bold uppercase tracking-[0.15em] text-secondary">{resource.eyebrow}</div>
-                <h3 className="mt-2 font-display text-lg font-bold text-foreground">{resource.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{resource.description}</p>
-                <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary">Open resource <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></div>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <DirectionalNextActions
+          eyebrow="After the comparison"
+          title="Turn the numbers into a complete benefits decision"
+          description="Use one workspace to compare the rest of each package. Keep the narrower tools available as supporting paths."
+          primary={{
+            id: "total_compensation_build_packages",
+            title: "Build the complete benefits packages",
+            description: "Add health-plan exposure, retirement capture, paid leave, vesting, and unresolved verification questions to the two-offer decision.",
+            href: "/tools/benefits-command-center",
+            label: "Build complete packages",
+            availabilityStatus: "available",
+          }}
+          related={relatedResources.map((resource, index) => ({
+            id: `total_compensation_related_${index + 1}`,
+            title: resource.title,
+            description: resource.description,
+            eyebrow: resource.eyebrow,
+            href: resource.href,
+            label: `Use ${resource.title}`,
+            availabilityStatus: "available" as const,
+          }))}
+          context={{ ...ctaContext, placementId: "total_compensation_next_action" }}
+        />
 
         <div className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">
           <h2 className="font-display text-xl font-bold">Authoritative references</h2>

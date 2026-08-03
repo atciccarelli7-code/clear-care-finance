@@ -8,23 +8,32 @@ export const NAVIGATION_EVENT_NAMES = [
   "service_navigation_destination_selected",
 ] as const;
 
+export const BENEFITS_OFFER_EVENT_NAMES = [
+  "benefits_offer_viewed",
+  "benefits_offer_cta_opened",
+] as const;
+
 export const EVIDENCE_EVENT_NAMES = [
   ...INSURANCE_EVENT_NAMES,
   ...NAVIGATION_EVENT_NAMES,
+  ...BENEFITS_OFFER_EVENT_NAMES,
 ] as const;
 
 export type EvidenceEventName = (typeof EVIDENCE_EVENT_NAMES)[number];
 
 export const EVIDENCE_SURFACE = "insurance_hub" as const;
+export const BENEFITS_OFFER_SURFACE = "benefits_decision_offer" as const;
 export const NAVIGATION_SURFACES = ["desktop_header", "mobile_header"] as const;
 export type NavigationSurface = (typeof NAVIGATION_SURFACES)[number];
-export type EvidenceSurface = typeof EVIDENCE_SURFACE | NavigationSurface;
+export type EvidenceSurface = typeof EVIDENCE_SURFACE | typeof BENEFITS_OFFER_SURFACE | NavigationSurface;
 
 export const SERVICE_NAVIGATION_VARIANT = "service_navigation_v1" as const;
+export const BENEFITS_OFFER_VARIANT = "benefits_offer_29_v1" as const;
 export const EVIDENCE_VARIANTS = [
   "baseline_v1",
   "release_verification",
   SERVICE_NAVIGATION_VARIANT,
+  BENEFITS_OFFER_VARIANT,
 ] as const;
 export type EvidenceVariant = (typeof EVIDENCE_VARIANTS)[number];
 
@@ -71,9 +80,14 @@ export const NAVIGATION_DESTINATION_IDS = [
   "topic_guides",
 ] as const;
 
+export const BENEFITS_OFFER_DESTINATION_IDS = [
+  "early_access_commitment_form",
+] as const;
+
 export type InsuranceDestinationId = (typeof INSURANCE_DESTINATION_IDS)[number];
 export type NavigationDestinationId = (typeof NAVIGATION_DESTINATION_IDS)[number];
-export type EvidenceDestinationId = InsuranceDestinationId | NavigationDestinationId;
+export type BenefitsOfferDestinationId = (typeof BENEFITS_OFFER_DESTINATION_IDS)[number];
+export type EvidenceDestinationId = InsuranceDestinationId | NavigationDestinationId | BenefitsOfferDestinationId;
 
 export type EvidenceEventPayload = {
   eventId: string;
@@ -157,7 +171,7 @@ export const parseEvidenceEventPayload = (value: unknown): EvidenceEventPayload 
   const safeVariant = variant as EvidenceVariant;
 
   if (safeEventName === "insurance_hub_viewed") {
-    if (surface !== EVIDENCE_SURFACE || destinationId !== undefined || safeVariant === SERVICE_NAVIGATION_VARIANT) return null;
+    if (surface !== EVIDENCE_SURFACE || destinationId !== undefined || safeVariant === SERVICE_NAVIGATION_VARIANT || safeVariant === BENEFITS_OFFER_VARIANT) return null;
     return {
       eventId,
       sessionId,
@@ -168,7 +182,7 @@ export const parseEvidenceEventPayload = (value: unknown): EvidenceEventPayload 
   }
 
   if (safeEventName === "insurance_hub_handoff_opened") {
-    if (surface !== EVIDENCE_SURFACE || safeVariant === SERVICE_NAVIGATION_VARIANT) return null;
+    if (surface !== EVIDENCE_SURFACE || safeVariant === SERVICE_NAVIGATION_VARIANT || safeVariant === BENEFITS_OFFER_VARIANT) return null;
     if (!INSURANCE_DESTINATION_IDS.includes(destinationId as InsuranceDestinationId)) return null;
     return {
       eventId,
@@ -176,6 +190,33 @@ export const parseEvidenceEventPayload = (value: unknown): EvidenceEventPayload 
       eventName: safeEventName,
       surface,
       destinationId: destinationId as InsuranceDestinationId,
+      variant: safeVariant,
+    };
+  }
+
+  if (safeEventName === "benefits_offer_viewed") {
+    if (surface !== BENEFITS_OFFER_SURFACE || safeVariant !== BENEFITS_OFFER_VARIANT || destinationId !== undefined) return null;
+    return {
+      eventId,
+      sessionId,
+      eventName: safeEventName,
+      surface,
+      variant: safeVariant,
+    };
+  }
+
+  if (safeEventName === "benefits_offer_cta_opened") {
+    if (
+      surface !== BENEFITS_OFFER_SURFACE
+      || safeVariant !== BENEFITS_OFFER_VARIANT
+      || destinationId !== "early_access_commitment_form"
+    ) return null;
+    return {
+      eventId,
+      sessionId,
+      eventName: safeEventName,
+      surface,
+      destinationId,
       variant: safeVariant,
     };
   }

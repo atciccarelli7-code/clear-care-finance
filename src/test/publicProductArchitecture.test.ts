@@ -12,10 +12,19 @@ const comparisonSource = source("src/pages/BenefitsCommandCenterPage.tsx");
 const navigationSource = source("src/data/serviceNavigation.ts");
 const footerSource = source("src/components/layout/Footer.tsx");
 const appSource = source("src/App.tsx");
+const phase3AppSource = source("src/Phase3ProductApp.tsx");
+const siteSeoMetaSource = source("src/lib/siteSeoMeta.ts");
+const offerPageSource = source("src/pages/premium/BenefitsDecisionOfferPage.tsx");
+const offerFormSource = source("src/components/premium/BenefitsEarlyAccessForm.tsx");
+const offerHandoffSource = source("src/components/premium/BenefitsOfferValidationPathway.tsx");
+const routeEndcapSource = source("src/components/layout/routeEndcap.ts");
+const vercelSource = source("vercel.json");
+const sitemapSource = source("public/sitemap.xml");
 
 const FLAGSHIP_PREVIEW_PATH = "/healthcare-workers#benefits-decision-system";
+const OFFER_PATH = "/products/healthcare-worker-benefits-decision-system";
 
-describe("Phase 2 public product architecture", () => {
+describe("free-core and single-flagship public product architecture", () => {
   it("makes the free layer explicit across the primary public surfaces", () => {
     expect(indexSource).toContain("Free decision preparation. Paid decision completion.");
     expect(toolsSource).toContain("Use every public tool on this page without paying.");
@@ -25,7 +34,7 @@ describe("Phase 2 public product architecture", () => {
   });
 
   it("presents exactly one visible paid flagship and keeps other product ideas out of public IA", () => {
-    const publicSurfaceSource = [indexSource, startHereSource, toolsSource, workerSource, footerSource].join("\n");
+    const publicSurfaceSource = [indexSource, startHereSource, toolsSource, workerSource, footerSource, offerPageSource].join("\n");
 
     expect(publicSurfaceSource).toContain("Healthcare Worker Benefits Decision System");
     expect(publicSurfaceSource).toContain("Open Enrollment Workspace");
@@ -33,13 +42,25 @@ describe("Phase 2 public product architecture", () => {
     expect(publicSurfaceSource).not.toContain("Healthcare Money Decision Library");
   });
 
-  it("uses canonical worker-hub handoffs while retaining the legacy product redirect", () => {
+  it("keeps global public handoffs on the worker preview and exposes the $29 test from one high-intent route", () => {
     for (const publicSource of [indexSource, startHereSource, toolsSource, comparisonSource, navigationSource, footerSource]) {
       expect(publicSource).toContain(FLAGSHIP_PREVIEW_PATH);
     }
-    expect(appSource).toContain(
-      '<Route path="/products/healthcare-worker-benefits-decision-system" element={<Navigate to="/healthcare-workers" replace />} />',
-    );
+    expect(offerHandoffSource).toContain(OFFER_PATH);
+    expect(routeEndcapSource).toContain("/tools/healthcare-worker-total-compensation-comparison");
+    expect(routeEndcapSource).toContain('return "benefits_offer_validation"');
+    expect([indexSource, startHereSource, toolsSource, workerSource, navigationSource, footerSource].join("\n"))
+      .not.toContain(OFFER_PATH);
+  });
+
+  it("renders the offer as controlled noindex validation rather than a parked redirect", () => {
+    expect(siteSeoMetaSource).toContain(OFFER_PATH);
+    expect(siteSeoMetaSource).toContain('robots: "noindex, nofollow, noarchive"');
+    expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_PATH");
+    expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_META");
+    expect(vercelSource).not.toContain(`"source": "${OFFER_PATH}", "destination"`);
+    expect(vercelSource).toContain(`"source": "${OFFER_PATH}"`);
+    expect(sitemapSource).not.toContain(OFFER_PATH);
   });
 
   it("keeps the focused benefits comparison free and subordinate to the complete system", () => {
@@ -47,6 +68,16 @@ describe("Phase 2 public product architecture", () => {
     expect(comparisonSource).toContain("This focused comparison remains free.");
     expect(comparisonSource).toContain("Need to coordinate the full open-enrollment decision?");
     expect(comparisonSource).not.toContain("CAF Benefits Command Center");
+  });
+
+  it("collects a price-qualified commitment without checkout, cards, or arbitrary product data", () => {
+    expect(offerPageSource).toContain("$29 one time");
+    expect(offerFormSource).toContain("priceCommitment");
+    expect(offerFormSource).toContain("emailConsent");
+    expect(offerFormSource).toContain("No card. No checkout. No charge.");
+    expect(offerFormSource).toContain("offerVersion: OFFER_VERSION");
+    expect(offerFormSource).toContain("priceCents: OFFER_PRICE_CENTS");
+    expect(offerFormSource).not.toMatch(/Stripe|checkoutSession|paymentIntent/);
   });
 
   it("keeps commerce fail closed while showing the $29 validation hypothesis", () => {

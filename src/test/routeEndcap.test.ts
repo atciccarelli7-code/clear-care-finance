@@ -9,16 +9,16 @@ describe("route endcap ownership", () => {
     ["/open-enrollment", "seo_pathway"],
     ["/insurance/medical-bill-review-toolkit", "medical_bill"],
     ["/tools/403b-paycheck-calculator", "benefits_workspace"],
+    ["/tools/healthcare-worker-total-compensation-comparison", "benefits_offer_validation"],
+    ["/privacy-policy", "benefits_offer_privacy"],
   ])("assigns exactly one global owner to %s", (path, owner) => {
     expect(getRouteEndcapOwner(path)).toBe(owner);
   });
 
   it.each([
-    "/tools/healthcare-worker-total-compensation-comparison",
     "/articles/how-to-read-an-eob",
     "/articles/how-hospital-403b-matching-works",
   ])("lets the directional page own %s", (path) => {
     expect(getRouteEndcapOwner(path)).toBe("page");
   });
 });
-

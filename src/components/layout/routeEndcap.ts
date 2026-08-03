@@ -4,9 +4,9 @@ import { hasNavigatorContextAction } from "@/components/navigator/navigatorConte
 import { getArticleCompoundingPathway, getHubCompoundingPathway } from "@/data/seoCompoundingPathways";
 import { isPriorityDirectionalArticle } from "@/lib/directionalCtaRoutes";
 
-export type RouteEndcapOwner = "medical_bill" | "seo_pathway" | "benefits_workspace" | "navigator" | "page" | "none";
+export type RouteEndcapOwner = "medical_bill" | "seo_pathway" | "benefits_workspace" | "benefits_offer_validation" | "benefits_offer_privacy" | "navigator" | "page" | "none";
 
-const pageOwnedRoutes = new Set([
+const benefitsOfferValidationRoutes = new Set([
   "/tools/healthcare-worker-total-compensation-comparison",
 ]);
 
@@ -19,7 +19,8 @@ const hasSeoPathway = (pathname: string) => {
 };
 
 export const getRouteEndcapOwner = (pathname: string): RouteEndcapOwner => {
-  if (pageOwnedRoutes.has(pathname)) return "page";
+  if (benefitsOfferValidationRoutes.has(pathname)) return "benefits_offer_validation";
+  if (pathname === "/privacy-policy") return "benefits_offer_privacy";
   if (pathname.startsWith("/articles/") && isPriorityDirectionalArticle(pathname.slice("/articles/".length))) return "page";
   if (hasMedicalBillProductPathway(pathname)) return "medical_bill";
   if (hasSeoPathway(pathname)) return "seo_pathway";

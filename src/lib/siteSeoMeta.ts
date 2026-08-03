@@ -8,6 +8,16 @@ const normalizePath = (pathname: string) => {
   return clean || "/";
 };
 
+export const BENEFITS_DECISION_OFFER_PATH = "/products/healthcare-worker-benefits-decision-system" as const;
+
+export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
+  title: "Healthcare Worker Benefits Decision System Early Access",
+  description: "Review the proposed $29 one-time Open Enrollment Workspace and join a no-charge, price-qualified early-access test. Free CAF education and public tools remain free.",
+  canonicalPath: BENEFITS_DECISION_OFFER_PATH,
+  robots: "noindex, nofollow, noarchive",
+  jsonLd: [],
+};
+
 const diagnosisGuideOverrides = Object.fromEntries(
   ADDITIONAL_DIAGNOSIS_GUIDES.map((guide) => [
     guide.route,
@@ -165,6 +175,7 @@ const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, descriptio
 
 export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
   const path = normalizePath(pathname);
+  if (path === BENEFITS_DECISION_OFFER_PATH) return BENEFITS_DECISION_OFFER_META;
   if (path === "/app" || path.startsWith("/app/")) {
     return {
       title: "Benefits Decision Application",

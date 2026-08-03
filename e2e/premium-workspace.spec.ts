@@ -15,24 +15,63 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("caf-privacy-consent-v1", "necessary"));
 });
 
-test("retired public product route resolves to complete free worker resources", async ({ page }) => {
+test("bounded product route shows a no-charge, price-qualified $29 offer", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-system");
-  await expect(page).toHaveURL(/\/healthcare-workers$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Learn workplace benefits for free/i })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true })).toBeVisible();
-  await expect(page.getByText(/Checkout and paid access remain off/i)).toBeVisible();
-  await expect(page.getByText("Checkout disabled")).toHaveCount(0);
-  await expect(page.getByText("$29 one time — target only")).toHaveCount(0);
-  await expect(page.getByRole("button", { name: /buy/i })).toHaveCount(0);
+  await expect(page).toHaveURL(/\/products\/healthcare-worker-benefits-decision-system$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Would a \$29 Open Enrollment Workspace/i })).toBeVisible();
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow, noarchive");
+  await expect(page.getByText("No card. No checkout. No charge.", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: /buy|purchase|checkout/i })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Learn and prepare without paying", exact: true })).toBeVisible();
+  await expect(page.getByText(/Public calculators, checklists, comparisons/i)).toBeVisible();
+  await page.getByRole("button", { name: /I would consider it at \$29/i }).click();
+  await expect(page.locator("#benefits-early-access-email")).toBeFocused();
   expect(await seriousAxeViolations(page)).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });
 
-test("old product-pack route resolves to complete free worker resources", async ({ page }) => {
+test("price-qualified commitment requires both confirmations and sends only fixed offer fields", async ({ page }) => {
+  let submittedBody: Record<string, unknown> | null = null;
+  await page.route("**/api/benefits-interest", async (route) => {
+    submittedBody = route.request().postDataJSON() as Record<string, unknown>;
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true, saved: true, emailDelivered: true, contactSaved: true }),
+    });
+  });
+
+  await page.goto("/products/healthcare-worker-benefits-decision-system");
+  await page.locator("#benefits-early-access-email").fill("reader@example.com");
+  await page.getByRole("button", { name: "Join the $29 early-access list" }).click();
+  await expect(page.getByText(/Confirm both statements/i)).toBeVisible();
+
+  await page.getByLabel(/Price confirmation/i).check();
+  await page.getByLabel(/Email consent/i).check();
+  await page.getByRole("button", { name: "Join the $29 early-access list" }).click();
+  await expect(page.getByText(/Your \$29 early-access interest is saved/i)).toBeVisible();
+
+  expect(submittedBody).toMatchObject({
+    email: "reader@example.com",
+    emailConsent: true,
+    priceCommitment: true,
+    offerVersion: "benefits_offer_29_v1",
+    priceCents: 2900,
+    source: "total_compensation_comparison",
+  });
+  expect(submittedBody).toHaveProperty("sessionId");
+  expect(submittedBody).not.toHaveProperty("employer");
+  expect(submittedBody).not.toHaveProperty("plan");
+  expect(submittedBody).not.toHaveProperty("salary");
+  expect(submittedBody).not.toHaveProperty("medical");
+  expect(submittedBody).not.toHaveProperty("payment");
+  expect(submittedBody).not.toHaveProperty("notes");
+});
+
+test("retired product-pack route resolves to the canonical validation offer", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-pack");
-  await expect(page).toHaveURL(/\/healthcare-workers$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Learn workplace benefits for free/i })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true })).toBeVisible();
+  await expect(page).toHaveURL(/\/products\/healthcare-worker-benefits-decision-system$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Would a \$29 Open Enrollment Workspace/i })).toBeVisible();
 });
 
 test("missing authentication configuration fails closed on every application entry", async ({ page }) => {

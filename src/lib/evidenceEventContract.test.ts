@@ -69,6 +69,65 @@ describe("first-party evidence contract", () => {
     })?.destinationId).toBe("benefits_command_center");
   });
 
+  it("accepts only the fixed $29 benefits offer view and CTA events", () => {
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "benefits_offer_viewed",
+      surface: "benefits_decision_offer",
+      variant: "benefits_offer_29_v1",
+    })).toEqual({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "benefits_offer_viewed",
+      surface: "benefits_decision_offer",
+      variant: "benefits_offer_29_v1",
+    });
+
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "benefits_offer_cta_opened",
+      surface: "benefits_decision_offer",
+      destinationId: "early_access_commitment_form",
+      variant: "benefits_offer_29_v1",
+    })).toEqual({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "benefits_offer_cta_opened",
+      surface: "benefits_decision_offer",
+      destinationId: "early_access_commitment_form",
+      variant: "benefits_offer_29_v1",
+    });
+  });
+
+  it("rejects benefits offer events with arbitrary variants, surfaces, or destinations", () => {
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "benefits_offer_viewed",
+      surface: "insurance_hub",
+      variant: "benefits_offer_29_v1",
+    })).toBeNull();
+
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "benefits_offer_cta_opened",
+      surface: "benefits_decision_offer",
+      destinationId: "checkout",
+      variant: "benefits_offer_29_v1",
+    })).toBeNull();
+
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "benefits_offer_viewed",
+      surface: "benefits_decision_offer",
+      variant: "benefits_offer_39_v1",
+    })).toBeNull();
+  });
+
   it("rejects navigation events with mismatched surfaces, variants, or destinations", () => {
     expect(parseEvidenceEventPayload({
       eventId: EVENT_ID,
@@ -104,6 +163,15 @@ describe("first-party evidence contract", () => {
       surface: "insurance_hub",
       variant: "baseline_v1",
       email: "reader@example.com",
+    })).toBeNull();
+
+    expect(parseEvidenceEventPayload({
+      eventId: EVENT_ID,
+      sessionId: SESSION_ID,
+      eventName: "benefits_offer_viewed",
+      surface: "benefits_decision_offer",
+      variant: "benefits_offer_29_v1",
+      employer: "Example Hospital",
     })).toBeNull();
   });
 

@@ -1,5 +1,7 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
+import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { Resend } from "resend";
+import { getPremiumConfig } from "./_lib/premiumConfig.js";
+import { getSupabaseAdmin } from "./_lib/supabase.js";
 
 type ApiRequest = {
   method?: string;
@@ -74,10 +76,10 @@ const htmlPage = (token: string, state: "confirm" | "success" | "error", message
   const detail =
     message ??
     (state === "success"
-      ? "This address has been marked unsubscribed from the Community Acquired Finance email audience."
+      ? "This address has been marked unsubscribed from Community Acquired Finance email updates and active early-access records."
       : state === "error"
         ? "The unsubscribe link is invalid or expired. Contact Community Acquired Finance for help."
-        : "Confirm that you no longer want educational emails from Community Acquired Finance.");
+        : "Confirm that you no longer want educational or product early-access emails from Community Acquired Finance.");
 
   return `<!doctype html>
 <html lang="en">
@@ -103,11 +105,32 @@ const htmlPage = (token: string, state: "confirm" | "success" | "error", message
       <h1>${title}</h1>
       <p>${detail}</p>
       ${state === "confirm" ? `<form method="post" action="/api/unsubscribe"><input type="hidden" name="token" value="${token.replace(/"/g, "&quot;")}" /><button type="submit">Confirm unsubscribe</button></form>` : `<a href="/">Return to the website</a>`}
-      <p class="small">This page does not collect medical, billing, insurance, or payment information.</p>
+      <p class="small">This page does not collect medical, billing, insurance, benefit-plan, or payment information.</p>
     </section>
   </main>
 </body>
 </html>`;
+};
+
+const markBenefitsInterestUnsubscribed = async (email: string) => {
+  const config = getPremiumConfig();
+  if (!config.supabase.configured) return { attempted: false, updated: false };
+
+  const timestamp = new Date().toISOString();
+  const { error } = await getSupabaseAdmin()
+    .from("benefits_offer_commitments")
+    .update({
+      status: "unsubscribed",
+      unsubscribed_at: timestamp,
+      updated_at: timestamp,
+    })
+    .eq("email_hash", createHash("sha256").update(email).digest("hex"));
+
+  if (error) {
+    console.error("Benefits early-access unsubscribe update failed", { code: error.code ?? "unknown" });
+    return { attempted: true, updated: false };
+  }
+  return { attempted: true, updated: true };
 };
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
@@ -125,7 +148,13 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
   if (req.method === "GET") return res.status(200).send(htmlPage(token, "confirm"));
 
-  if (!process.env.RESEND_API_KEY || !audienceId) {
+  const benefitsUpdate = await markBenefitsInterestUnsubscribed(email);
+  const resendConfigured = Boolean(process.env.RESEND_API_KEY && audienceId);
+  if (!resendConfigured) {
+    if (benefitsUpdate.updated) {
+      console.info("Benefits early-access contact unsubscribed", { databaseUpdated: true, resendUpdated: false });
+      return res.status(200).send(htmlPage("", "success", "This address has been removed from the Benefits Decision System early-access list. Contact Community Acquired Finance if you joined another email list."));
+    }
     return res.status(503).send(htmlPage("", "error", "The unsubscribe service is not fully configured. Contact Community Acquired Finance for help."));
   }
 
@@ -140,14 +169,22 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     if (result.error) {
       console.error("Resend unsubscribe update failed", {
         message: typeof result.error === "object" && result.error && "message" in result.error ? String(result.error.message) : "unknown",
+        benefitsRecordUpdated: benefitsUpdate.updated,
       });
-      return res.status(500).send(htmlPage("", "error", "The unsubscribe request could not be completed. Try again later or contact Community Acquired Finance."));
+      return res.status(500).send(htmlPage("", "error", "The unsubscribe request could not be completed across all email records. Try again later or contact Community Acquired Finance."));
     }
 
-    console.info("Newsletter contact unsubscribed", { contactUpdated: true });
+    console.info("Community Acquired Finance contact unsubscribed", {
+      resendUpdated: true,
+      benefitsRecordUpdated: benefitsUpdate.updated,
+      benefitsRecordAttempted: benefitsUpdate.attempted,
+    });
     return res.status(200).send(htmlPage("", "success"));
   } catch (error) {
-    console.error("Resend unsubscribe exception", error);
-    return res.status(500).send(htmlPage("", "error", "The unsubscribe request could not be completed. Try again later or contact Community Acquired Finance."));
+    console.error("Resend unsubscribe exception", {
+      benefitsRecordUpdated: benefitsUpdate.updated,
+      message: error instanceof Error ? error.message : "unknown",
+    });
+    return res.status(500).send(htmlPage("", "error", "The unsubscribe request could not be completed across all email records. Try again later or contact Community Acquired Finance."));
   }
 }

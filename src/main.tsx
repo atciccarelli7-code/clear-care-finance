@@ -16,14 +16,27 @@ if (!container) {
 installRouteAwareAdSense();
 installFirstPartyEvidenceObserver();
 
-const application = (
-  <AppErrorBoundary>
-    <App />
-  </AppErrorBoundary>
-);
+const phase3ProductPaths = new Set([
+  "/products/healthcare-worker-benefits-decision-system",
+  "/products/healthcare-worker-benefits-decision-pack",
+]);
 
-if (container.hasChildNodes()) {
-  hydrateRoot(container, application);
-} else {
-  createRoot(container).render(application);
-}
+const bootstrap = async () => {
+  const Application = phase3ProductPaths.has(window.location.pathname)
+    ? (await import("./Phase3ProductApp")).default
+    : App;
+
+  const application = (
+    <AppErrorBoundary>
+      <Application />
+    </AppErrorBoundary>
+  );
+
+  if (container.hasChildNodes()) {
+    hydrateRoot(container, application);
+  } else {
+    createRoot(container).render(application);
+  }
+};
+
+void bootstrap();

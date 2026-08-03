@@ -18,6 +18,8 @@ import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { trackHomepageNavigation } from "@/lib/analytics";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
+const FLAGSHIP_PREVIEW_PATH = "/healthcare-workers#benefits-decision-system";
+
 const decisionPaths = [
   {
     icon: Wallet,
@@ -65,10 +67,10 @@ const Index = () => (
       </Button>
       <Button asChild variant="outline" size="lg">
         <Link
-          to="/products/healthcare-worker-benefits-decision-system"
+          to={FLAGSHIP_PREVIEW_PATH}
           onClick={() => {
             trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "benefits_decision_system" });
-            trackHomepageNavigation("hero_action", "benefits_decision_system", "/products/healthcare-worker-benefits-decision-system");
+            trackHomepageNavigation("hero_action", "benefits_decision_system", FLAGSHIP_PREVIEW_PATH);
           }}
         >
           Preview the Benefits Decision System
@@ -144,7 +146,7 @@ const Index = () => (
               Planned early-access test: <strong className="text-foreground">$29 one time</strong>. The system is visible for preview, but it is not available for purchase yet.
             </p>
             <Button asChild className="mt-6">
-              <Link to="/products/healthcare-worker-benefits-decision-system">See the flagship preview <ArrowRight className="h-4 w-4" /></Link>
+              <Link to={FLAGSHIP_PREVIEW_PATH}>See the flagship preview <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </article>
         </div>

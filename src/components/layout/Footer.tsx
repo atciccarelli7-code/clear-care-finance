@@ -27,7 +27,7 @@ const linkGroups = [
     title: "Healthcare decisions",
     links: [
       { to: "/healthcare-workers", label: "Healthcare Workers" },
-      { to: "/products/healthcare-worker-benefits-decision-system", label: "Benefits Decision System" },
+      { to: "/healthcare-workers#benefits-decision-system", label: "Benefits Decision System" },
       { to: "/open-enrollment", label: "Open Enrollment" },
       { to: "/patients-families", label: "Patients & Caregivers" },
       { to: "/guides", label: "Quick Guides" },

@@ -9,8 +9,11 @@ const startHereSource = source("src/pages/StartHere.tsx");
 const toolsSource = source("src/pages/Tools.tsx");
 const workerSource = source("src/pages/HealthcareWorkers.tsx");
 const comparisonSource = source("src/pages/BenefitsCommandCenterPage.tsx");
+const navigationSource = source("src/data/serviceNavigation.ts");
 const footerSource = source("src/components/layout/Footer.tsx");
 const appSource = source("src/App.tsx");
+
+const FLAGSHIP_PREVIEW_PATH = "/healthcare-workers#benefits-decision-system";
 
 describe("Phase 2 public product architecture", () => {
   it("makes the free layer explicit across the primary public surfaces", () => {
@@ -28,6 +31,15 @@ describe("Phase 2 public product architecture", () => {
     expect(publicSurfaceSource).toContain("Open Enrollment Workspace");
     expect(publicSurfaceSource).not.toContain("Medical Bill Response & Resolution System");
     expect(publicSurfaceSource).not.toContain("Healthcare Money Decision Library");
+  });
+
+  it("uses canonical worker-hub handoffs while retaining the legacy product redirect", () => {
+    for (const publicSource of [indexSource, startHereSource, toolsSource, comparisonSource, navigationSource, footerSource]) {
+      expect(publicSource).toContain(FLAGSHIP_PREVIEW_PATH);
+    }
+    expect(appSource).toContain(
+      '<Route path="/products/healthcare-worker-benefits-decision-system" element={<Navigate to="/healthcare-workers" replace />} />',
+    );
   });
 
   it("keeps the focused benefits comparison free and subordinate to the complete system", () => {
@@ -51,10 +63,7 @@ describe("Phase 2 public product architecture", () => {
     expect(indexSource).toContain("it is not available for purchase yet");
   });
 
-  it("preserves the existing public preview redirect and private route boundaries", () => {
-    expect(appSource).toContain(
-      '<Route path="/products/healthcare-worker-benefits-decision-system" element={<Navigate to="/healthcare-workers" replace />} />',
-    );
+  it("preserves private application route boundaries", () => {
     expect(appSource).toContain('<Route element={<ProtectedPremiumRoutes />}>');
     expect(appSource).toContain('<Route path="/app/benefits-decision" element={<BenefitsDecisionAppPage />} />');
   });

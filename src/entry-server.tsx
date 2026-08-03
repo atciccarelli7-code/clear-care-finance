@@ -4,8 +4,8 @@ import { StaticRouter } from "react-router-dom/server";
 import { AppContent, preloadRoute } from "./App";
 import {
   BENEFITS_DECISION_OFFER_META,
-  BENEFITS_DECISION_OFFER_PATH,
   Phase3ProductContent,
+  isPhase3ProductPath,
 } from "./Phase3ProductApp";
 import { resolveSiteSeoMeta } from "@/lib/siteSeoMeta";
 
@@ -15,7 +15,7 @@ const renderAppToString = (url: string) =>
   new Promise<string>((resolve, reject) => {
     let html = "";
     let didPipe = false;
-    const isBenefitsOffer = pathnameFor(url) === BENEFITS_DECISION_OFFER_PATH;
+    const isBenefitsOffer = isPhase3ProductPath(pathnameFor(url));
 
     const { pipe, abort } = renderToPipeableStream(
       <StaticRouter location={url}>
@@ -48,7 +48,7 @@ const renderAppToString = (url: string) =>
   });
 
 export const render = async (url: string) => {
-  const isBenefitsOffer = pathnameFor(url) === BENEFITS_DECISION_OFFER_PATH;
+  const isBenefitsOffer = isPhase3ProductPath(pathnameFor(url));
   if (!isBenefitsOffer) await preloadRoute(url);
 
   return {

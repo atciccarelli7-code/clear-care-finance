@@ -2,7 +2,9 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calculator, LucideIcon } from "lucide-react";
 import { ToolEducationPanel } from "@/components/shared/ToolEducationPanel";
+import { DirectionalNextActions } from "@/components/shared/DirectionalNextActions";
 import { trackSiteEvent } from "@/lib/siteAnalytics";
+import type { DirectionalCtaContext } from "@/lib/directionalCta";
 
 interface CalculatorCardProps {
   icon?: LucideIcon;
@@ -17,6 +19,7 @@ type CalculatorNextStep = {
   label: string;
   href: string;
   helper?: string;
+  cta?: string;
 };
 
 export const CalculatorCard = ({
@@ -63,7 +66,40 @@ export const CalculatorMeaning = ({ children }: { children: ReactNode }) => (
   </div>
 );
 
-export const CalculatorNextSteps = ({ steps }: { steps: CalculatorNextStep[] }) => (
+export const CalculatorNextSteps = ({
+  steps,
+  directionalContext,
+  idPrefix = "calculator_related",
+}: {
+  steps: CalculatorNextStep[];
+  directionalContext?: DirectionalCtaContext;
+  idPrefix?: string;
+}) => directionalContext && steps[0] ? (
+  <div className="mt-4">
+    <DirectionalNextActions
+      eyebrow="After this tool"
+      title="Use the result in your next decision"
+      description="Start with the closest related action. The other tools remain available as quieter alternatives."
+      primary={{
+        id: `${idPrefix}_primary`,
+        title: steps[0].label,
+        description: steps[0].helper,
+        href: steps[0].href,
+        label: steps[0].cta ?? `Use ${steps[0].label}`,
+        availabilityStatus: "available",
+      }}
+      related={steps.slice(1).map((step, index) => ({
+        id: `${idPrefix}_related_${index + 1}`,
+        title: step.label,
+        description: step.helper,
+        href: step.href,
+        label: step.cta ?? `Use ${step.label}`,
+        availabilityStatus: "available",
+      }))}
+      context={directionalContext}
+    />
+  </div>
+) : (
   <div className="mt-4 min-w-0 rounded-2xl border border-border bg-background/70 p-4 break-words md:p-5">
     <div className="mb-3 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-secondary">What to do next</div>
     <div className="grid gap-2">

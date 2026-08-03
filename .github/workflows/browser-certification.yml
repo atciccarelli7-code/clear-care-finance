@@ -37,6 +37,8 @@ jobs:
         run: npx playwright test e2e/health-insurance-cost-share-decision-outcome.spec.ts
       - name: Certify structured service navigation
         run: npx playwright test e2e/service-navigation.spec.ts
+      - name: Certify directional CTA hierarchy and breakpoints
+        run: npx playwright test e2e/directional-cta.spec.ts
       - name: Certify mobile route-group performance budgets
         run: npm run test:performance
       - name: Certify premium public, denial, demo, print, mobile, and accessibility journeys
@@ -57,6 +59,7 @@ jobs:
           name: browser-certification-${{ github.run_id }}
           path: |
             healthcare-offer-verification-*.png
+            artifacts/directional-cta/**/*.png
             artifacts/print-certification/**/*.pdf
             test-results/
             playwright-report/

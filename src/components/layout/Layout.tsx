@@ -6,10 +6,8 @@ import { Footer } from "./Footer";
 import { MobileBottomNav } from "./MobileBottomNav";
 import { PrivacyChoices } from "@/components/shared/PrivacyChoices";
 import { RouteFreshness } from "@/components/shared/RouteFreshness";
-import { hasNavigatorContextAction } from "@/components/navigator/navigatorContextConfig";
-import { hasBenefitsCommandCenterEntry } from "@/components/benefits/benefitsCommandCenterEntryConfig";
-import { hasMedicalBillProductPathway } from "@/components/medical-bill/medicalBillProductPathwayConfig";
 import { scrollToHashTarget } from "@/lib/routeScroll";
+import { getRouteEndcapOwner } from "@/components/layout/routeEndcap";
 
 const NavigatorContextAction = lazy(() =>
   import("@/components/navigator/NavigatorContextAction").then((module) => ({ default: module.NavigatorContextAction })),
@@ -36,9 +34,7 @@ const contextualTrustRoutes = new Set(["/", "/start-here", "/tools", "/patients-
 export const Layout = () => {
   const location = useLocation();
   const isPremiumRoute = location.pathname.startsWith("/premium/");
-  const showNavigatorContext = hasNavigatorContextAction(location.pathname);
-  const showBenefitsCommandCenterEntry = hasBenefitsCommandCenterEntry(location.pathname);
-  const showMedicalBillProductPathway = hasMedicalBillProductPathway(location.pathname);
+  const endcapOwner = getRouteEndcapOwner(location.pathname);
   const showContinuity = continuityRoutes.has(location.pathname);
   const showGlobalTrustBar = !contextualTrustRoutes.has(location.pathname);
 
@@ -77,14 +73,16 @@ export const Layout = () => {
         )}
         <Suspense fallback={null}><JourneyContinuityBanner /></Suspense>
         <Outlet />
-        {showMedicalBillProductPathway && (
+        {endcapOwner === "medical_bill" && (
           <Suspense fallback={null}><MedicalBillProductPathway pathname={location.pathname} /></Suspense>
         )}
-        <Suspense fallback={null}><RouteSeoCompoundingPathway pathname={location.pathname} /></Suspense>
-        {showBenefitsCommandCenterEntry && (
+        {endcapOwner === "seo_pathway" && (
+          <Suspense fallback={null}><RouteSeoCompoundingPathway pathname={location.pathname} /></Suspense>
+        )}
+        {endcapOwner === "benefits_workspace" && (
           <Suspense fallback={null}><BenefitsCommandCenterEntry /></Suspense>
         )}
-        {showNavigatorContext && (
+        {endcapOwner === "navigator" && (
           <Suspense fallback={null}><NavigatorContextAction /></Suspense>
         )}
       </main>

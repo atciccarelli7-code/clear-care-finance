@@ -8,6 +8,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { NextStepCards, type NextStepCard } from "@/components/shared/NextStepCards";
+import { DirectionalNextActions } from "@/components/shared/DirectionalNextActions";
 import { ContentFreshness } from "@/components/shared/ContentFreshness";
 import { EditorialTransparency } from "@/components/shared/EditorialTransparency";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,12 @@ import { isArticleDraft } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
 import { HOSPITAL_GUIDE_ROUTE, getHospitalGuideResourceByArticleSlug } from "@/data/hospitalPatientGuide";
+import {
+  audienceForArticleCategory,
+  decisionCategoryForArticleCategory,
+  isPriorityDirectionalArticle,
+  resolveDirectionalDestination,
+} from "@/lib/directionalCtaRoutes";
 
 const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: string; children: React.ReactNode }) => (
   <div className="space-y-2.5 md:space-y-3">
@@ -29,6 +36,25 @@ const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: str
 );
 
 const getArticleNextSteps = (slug: string, category: string, relatedCalculator?: { label: string; href: string }): NextStepCard[] => {
+  const priorityActionOverrides: Record<string, NextStepCard[]> = {
+    "how-to-read-an-eob": [
+      { eyebrow: "Check the bill", title: "EOB-to-Bill Match Checker", description: "Compare the provider bill against the allowed amount, insurer payment, adjustment, and patient responsibility.", href: "/tools/eob-to-bill-match-checker", cta: "Match EOB and bill" },
+      { eyebrow: "Estimate exposure", title: "Out-of-Pocket Max Estimator", description: "Estimate how much covered in-network cost-sharing room may remain this plan year.", href: "/tools/out-of-pocket-max-estimator", cta: "Estimate the cap" },
+      { eyebrow: "Review the full balance", title: "Medical Bill Review Toolkit", description: "Organize the bill, EOB, assistance questions, calls, and follow-up record before paying.", href: "/insurance/medical-bill-review-toolkit", cta: "Review the bill" },
+    ],
+    "deductible-copay-coinsurance-out-of-pocket-max": [
+      { eyebrow: "Run the math", title: "Health Insurance Visit Cost Calculator", description: "Estimate patient cost using deductible, copay, coinsurance, allowed amount, and out-of-pocket maximum details.", href: "/tools/health-insurance-visit-cost-calculator", cta: "Estimate visit cost" },
+      { eyebrow: "Cost ceiling", title: "Out-of-Pocket Max Estimator", description: "Estimate how much covered in-network cost-sharing room may remain this year.", href: "/tools/out-of-pocket-max-estimator", cta: "Estimate cap room" },
+      { eyebrow: "Choosing a plan", title: "Open Enrollment Guide", description: "Compare premiums, bad-year exposure, HSA/FSA choices, and paycheck impact before choosing benefits.", href: "/open-enrollment", cta: "Compare plans" },
+    ],
+    "how-hospital-403b-matching-works": [
+      { eyebrow: "Run the paycheck math", title: "403(b) Paycheck Contribution Calculator", description: "Estimate your contribution and employer match after verifying the plan formula and vesting rules.", href: "/tools/403b-paycheck-calculator", cta: "Calculate each paycheck" },
+      { eyebrow: "Choose a contribution", title: "How much should a nurse put in a 403(b)?", description: "Choose a sustainable starting contribution without creating avoidable paycheck stress.", href: "/articles/how-much-should-a-nurse-put-in-403b-per-paycheck", cta: "Choose a starting rate" },
+      { eyebrow: "Complete benefits picture", title: "Healthcare Worker Benefits Blueprint", description: "Connect retirement value to health coverage, tax accounts, and the rest of the employer package.", href: "/tools/healthcare-worker-benefits-blueprint", cta: "Build the blueprint" },
+    ],
+  };
+  if (priorityActionOverrides[slug]) return priorityActionOverrides[slug];
+
   const hospitalGuideResource = getHospitalGuideResourceByArticleSlug(slug);
   if (hospitalGuideResource) {
     const relatedArticle = hospitalGuideResource.relatedArticles[0];
@@ -419,7 +445,37 @@ const ArticlePage = () => {
   const showOutOfPocketMaxTool = ["how-to-read-an-eob", "deductible-copay-coinsurance-out-of-pocket-max"].includes(article.slug);
   const nextSteps = getArticleNextSteps(article.slug, article.category, article.relatedCalculator);
   const orderedOpenEnrollmentStep = getOpenEnrollmentOrderedStep(article.slug);
-
+  const usesDirectionalHandoff = isPriorityDirectionalArticle(article.slug);
+  const directionalPrimary = orderedOpenEnrollmentStep
+    ? {
+        id: `article_${article.slug}_next_primary`,
+        title: orderedOpenEnrollmentStep.title,
+        description: orderedOpenEnrollmentStep.description,
+        href: orderedOpenEnrollmentStep.href,
+        label: orderedOpenEnrollmentStep.cta,
+        eyebrow: orderedOpenEnrollmentStep.eyebrow,
+        availabilityStatus: "available" as const,
+      }
+    : nextSteps[0]
+      ? {
+          id: `article_${article.slug}_next_primary`,
+          title: nextSteps[0].title,
+          description: nextSteps[0].description,
+          href: resolveDirectionalDestination(nextSteps[0].href),
+          label: nextSteps[0].cta ?? `Go to ${nextSteps[0].title}`,
+          eyebrow: nextSteps[0].eyebrow,
+          availabilityStatus: "available" as const,
+        }
+      : null;
+  const directionalRelated = (orderedOpenEnrollmentStep ? nextSteps : nextSteps.slice(1)).map((step, index) => ({
+    id: `article_${article.slug}_next_related_${index + 1}`,
+    title: step.title,
+    description: step.description,
+    href: resolveDirectionalDestination(step.href),
+    label: step.cta ?? `Go to ${step.title}`,
+    eyebrow: step.eyebrow,
+    availabilityStatus: "available" as const,
+  }));
   if (isArticleDraft(article)) {
     return (
       <>
@@ -541,9 +597,15 @@ const ArticlePage = () => {
 
         {article.comparisonTable && (
           <Section icon={BookOpen} title="Quick comparison table">
-            <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+            <div
+              className="overflow-x-auto rounded-2xl border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              role="region"
+              aria-label={`${article.title} quick comparison table`}
+              tabIndex={0}
+            >
               <table className="w-full min-w-[640px] text-left text-sm">
-                <thead className="bg-muted/50 text-foreground"><tr>{article.comparisonTable.headers.map((header) => <th key={header} className="px-4 py-3 font-bold">{header}</th>)}</tr></thead>
+                <caption className="sr-only">Quick comparison table for {article.title}</caption>
+                <thead className="bg-muted/50 text-foreground"><tr>{article.comparisonTable.headers.map((header) => <th key={header} scope="col" className="px-4 py-3 font-bold">{header}</th>)}</tr></thead>
                 <tbody>{article.comparisonTable.rows.map((row) => <tr key={row[0]} className="border-t border-border">{row.map((cell) => <td key={cell} className="px-4 py-3 align-top leading-relaxed">{cell}</td>)}</tr>)}</tbody>
               </table>
             </div>
@@ -606,7 +668,7 @@ const ArticlePage = () => {
           <p className="text-foreground font-medium">{article.takeaway}</p>
         </Section>
 
-        {orderedOpenEnrollmentStep && (
+        {orderedOpenEnrollmentStep && !usesDirectionalHandoff && (
           <section className="rounded-[1.75rem] border border-primary/20 bg-primary-soft/35 p-5 shadow-card md:p-7">
             <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
               <div className="min-w-0">
@@ -621,12 +683,28 @@ const ArticlePage = () => {
           </section>
         )}
 
-        <NextStepCards
-          eyebrow={orderedOpenEnrollmentStep ? "Tools and related reading" : "Keep going"}
-          title={orderedOpenEnrollmentStep ? "Want to run the numbers instead?" : "Next useful step"}
-          description={orderedOpenEnrollmentStep ? "After the next article, you can also jump into a calculator or return to the full open enrollment path." : "Move from reading to action with the related checklist, calculator, or decision hub."}
-          cards={nextSteps}
-        />
+        {usesDirectionalHandoff && directionalPrimary ? (
+          <DirectionalNextActions
+            eyebrow="Recommended next action"
+            title="Turn this explanation into the next decision"
+            description="Start with the most relevant action for this topic. Related paths stay available without competing with the recommended move."
+            primary={directionalPrimary}
+            related={directionalRelated}
+            context={{
+              audienceSegment: audienceForArticleCategory(article.category),
+              decisionCategory: decisionCategoryForArticleCategory(article.category),
+              placementId: "article_next_action",
+              originPath: `/articles/${article.slug}`,
+            }}
+          />
+        ) : (
+          <NextStepCards
+            eyebrow={orderedOpenEnrollmentStep ? "Tools and related reading" : "Keep going"}
+            title={orderedOpenEnrollmentStep ? "Want to run the numbers instead?" : "Next useful step"}
+            description={orderedOpenEnrollmentStep ? "After the next article, you can also jump into a calculator or return to the full open enrollment path." : "Move from reading to action with the related checklist, calculator, or decision hub."}
+            cards={nextSteps}
+          />
+        )}
 
         {article.sources.length > 0 && (
           <div className="space-y-4">

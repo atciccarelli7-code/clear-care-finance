@@ -148,3 +148,9 @@ CAF-D-011 was explicitly an experiment, not an untouchable permanent policy. Its
 - Reusable assets: progressive continuity dialog, product-specific removal dispatcher, one-router IA tests, direct tools-directory tests, and saved/no-saved regression coverage.
 - Process lesson: removing a duplicate global directory requires a search-readiness crawl because visually secondary links may still be the only static inbound path.
 
+## 13. Final release reconciliation — 2026-08-03
+
+- GitHub PR #248 merged as `dfc77679920fb6b8a247e45100e6673e3739356e`.
+- Vercel production deployment `dpl_3EAKBmDWbM9cqyzqdNuQs9BVCc33` is READY on the merged commit.
+- CI `30762584697`, Browser Certification `30762584684`, and Decision Journey `30762584683` passed.
+- Linear AND-103 is Done; the earlier pending-release statements above describe the pre-merge gate state and are superseded by this closeout.

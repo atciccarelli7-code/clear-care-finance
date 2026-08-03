@@ -185,13 +185,13 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Decision:** Make Start Here the one guided router, Tools the always-visible searchable directory, primary navigation a five-route set plus Explore, and saved work a state-dependent button/dialog with confirmation before removal.
 - **Implementation:** Removed homepage/tools concierge placements and the duplicate Start Here directory; updated exact labels; deduplicated Explore/mobile items; conditionally hid empty My Plan; rebuilt continuation as an accessible dialog; added product-specific local clearing and contextual inbound SEO links; preserved routes, local schemas, analytics, Supabase, and Stripe.
 - **Validation:** 580 tests, TypeScript, lint with zero errors, full production build, 160-route prerender, search-readiness crawl, publication/trust/governance gates, and focused accessibility/focus tests pass. Local Playwright execution is blocked because Chromium is absent and the environment cannot download a valid browser archive; exact-head browser CI remains a release gate.
-- **Release state:** Branch `agent/navigation-progressive-resume`; Linear AND-103 In Progress; PR, preview, CI, merge, production, and external documentation pending.
+- **Release state:** Released through PR #248. Merge `dfc77679920fb6b8a247e45100e6673e3739356e`; production deployment `dpl_3EAKBmDWbM9cqyzqdNuQs9BVCc33` READY; CI `30762584697`, Browser Certification `30762584684`, and Decision Journey `30762584683` passed; Linear AND-103 is Done.
 - **Expected impact:** Three full router placements become one; primary links fall six to five; direct tool browse becomes immediate; saved work remains recoverable without occupying a major content block; no public route, schema, checkout, or monetization inventory changes.
 - **Assumption invalidated:** More globally repeated routing surfaces necessarily improve discovery, or saved work must be expanded automatically to remain recoverable.
 - **Reusable asset:** Progressive continuity dialog, local-removal dispatcher, direct-directory test contract, one-router IA assertions, and saved/no-saved recovery coverage.
 - **Unresolved warning:** Post-release comprehension and conversion are unproven; the pre-existing navigation experiment is interrupted and must be segmented; executable-browser CI must pass before release.
 - **Reassessment trigger:** Twenty-eight days, adequate consented navigation evidence, direct user feedback, a recovery/removal defect, or an accessibility/search regression.
-- **Links:** `docs/work-packets/2026-08-02-navigation-simplification-progressive-resume.md`; Linear AND-103.
+- **Links:** `docs/work-packets/2026-08-02-navigation-simplification-progressive-resume.md`; GitHub PR #248; Linear AND-103.
 
 ### CAF-W-008 — Structured Explore CAF service-navigation release
 
@@ -210,3 +210,20 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Unresolved warning:** Navigation behavior has not yet established comprehension or satisfaction; low consented volume may prevent interpretation. Separately reconcile the Benefits Command Center omission in the internal route helper with the generated sitemap authority.
 - **Evidence or event that should trigger reassessment:** Twenty-eight days, 25 distinct consented opened sessions, any accessibility/performance/mobile/privacy issue, high open-without-selection behavior, reduced destination discovery, or direct user confusion.
 - **Links:** `docs/work-packets/2026-07-31-structured-service-navigation.md`; GitHub PR #237; Notion design/release record; Linear AND-99.
+
+### CAF-W-011 — Directional CTA ownership and decision paths
+
+- **Date:** 2026-08-03
+- **Assignment:** Inventory the site, implement outcome-specific directional actions, eliminate competing endcap stacks, validate, release, and record the reusable system.
+- **Starting evidence:** Four Layout systems independently appended medical-bill, SEO, benefits-workspace, and My Plan panels; 14 routes received two or more global endcaps; 14 dynamic tools used `Open the tool`; the total-compensation hero only linked away to an article; article next-step cards were equal-weight; downstream behavior evidence was sparse.
+- **Decision:** Introduce a strict typed CTA contract, reusable tracked action primitive and hierarchical next-action panel, a route endcap owner resolver, outcome-specific labels for the 14 dynamic tools, a compensation entry anchor, and three priority article handoffs. Inventory all 160 routes and defer 65 article-specific audits.
+- **Implementation:** Added the CTA/event and route registries, route owner resolver, component hierarchy, inventory generator/CSV, build-time contract, focused tests, governance updates, and PR #248 closeout correction. No route, navigation, content claim, database, payment, advertising, premium, or email system changed.
+- **Validation:** 104 test files / 593 tests, TypeScript, lint with zero errors, CTA/governance/content/privacy/SEO contracts, production build, bundle budget, 160-route prerender, and search readiness pass on the working branch. Browser, exact-head preview, merge, and production evidence remain release gates.
+- **Release state:** Branch `agent/directional-cta-decision-paths`; Linear AND-104 In Progress; PR, preview, merge, and production identifiers pending.
+- **Expected impact:** 30 of 160 routes receive at least one bounded hierarchy correction; routes with competing global endcaps fall from 14 to zero; all 160 indexable routes and 39 ad-eligible articles remain.
+- **What was learned:** The visible copy problem was downstream of an ownership problem. A global CTA feature without precedence creates additive clutter; direct outcome labels require a canonical destination and availability contract.
+- **Assumption invalidated:** More independently useful endcaps necessarily improve continuation, or bulk template consistency is safer than a bounded evidence-aware pilot.
+- **Reusable asset:** CTA action/tracker contract, lightweight link/button primitive, directional next-action component, owner resolver, inventory generator, 160-row audit, and build/test gates.
+- **Unresolved warning:** Behavior and comprehension remain unproven. AND-102 must rebase and renumber its conflicting ledger IDs before its own merge.
+- **Reassessment trigger:** Twenty-eight days, adequate completion/backtracking evidence, direct user feedback, any analytics/a11y/SEO defect, or a proposed article-template expansion.
+- **Links:** `docs/work-packets/2026-08-03-directional-cta-decision-paths.md`; Linear AND-104.

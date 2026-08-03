@@ -44,7 +44,7 @@ const StartHere = () => {
             </div>
             <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
               <Button asChild>
-                <Link to="/products/healthcare-worker-benefits-decision-system">
+                <Link to="/healthcare-workers#benefits-decision-system">
                   Preview the system <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>

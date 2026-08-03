@@ -22,17 +22,17 @@ export type ServiceNavigationGroup = {
 
 export const PRIMARY_NAVIGATION_ITEMS: readonly PrimaryNavigationItem[] = [
   { to: "/start-here", label: "Start Here" },
-  { to: "/tools", label: "Tools" },
-  { to: "/build-wealth", label: "Money & Retirement" },
-  { to: "/insurance", label: "Benefits & Healthcare Costs" },
-  { to: "/medicare-care-costs", label: "Medicare & Medicaid" },
+  { to: "/tools", label: "Free Tools" },
+  { to: "/healthcare-workers", label: "Healthcare Workers" },
+  { to: "/patients-families", label: "Patients & Caregivers" },
+  { to: "/products/healthcare-worker-benefits-decision-system", label: "Decision System" },
 ] as const;
 
 export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
   {
     id: "start",
-    label: "Find the right starting point",
-    description: "Choose a question, see the expected outcome, or browse the complete tool library.",
+    label: "Choose how to begin",
+    description: "Use one guided starting point or browse the complete free resource library.",
     items: [
       {
         id: "start_here",
@@ -43,7 +43,7 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
       {
         id: "all_tools",
         to: "/tools",
-        label: "All calculators and guides",
+        label: "Free calculators and guides",
         description: "Browse every public calculator, checklist, comparison, and guided decision tool.",
       },
     ],
@@ -51,35 +51,35 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
   {
     id: "healthcare_workers",
     label: "Healthcare-worker decisions",
-    description: "Compare compensation, understand benefits, and prepare for a career or enrollment decision.",
+    description: "Prepare for open enrollment, compare compensation, and understand the benefits behind the paycheck.",
     items: [
       {
         id: "benefits_command_center",
-        to: "/tools/benefits-command-center",
-        label: "Compare workplace benefits",
-        description: "Turn scattered workplace-benefit documents into one organized review plan.",
-        audience: "Healthcare workers",
+        to: "/products/healthcare-worker-benefits-decision-system",
+        label: "Benefits Decision System",
+        description: "Preview CAF's first paid flagship and see what coordinated open-enrollment decision support will add beyond the free tools.",
+        audience: "Flagship preview",
       },
       {
         id: "benefits_change_detector",
         to: "/tools/benefits-change-detector",
         label: "Review benefit changes",
         description: "Compare plan-year documents and leave with a focused list of changes to verify.",
-        audience: "Open enrollment",
+        audience: "Free open-enrollment tool",
       },
       {
         id: "total_compensation",
         to: "/tools/healthcare-worker-total-compensation-comparison",
         label: "Compare job offers",
         description: "Compare job offers beyond hourly pay, including benefits and schedule tradeoffs.",
-        audience: "Career decisions",
+        audience: "Free career tool",
       },
       {
         id: "paycheck_403b",
         to: "/tools/403b-paycheck-calculator",
         label: "403(b) Paycheck Calculator",
         description: "Estimate how a contribution change may affect retirement savings and take-home pay.",
-        audience: "Retirement benefits",
+        audience: "Free retirement tool",
       },
       {
         id: "career_decision_center",
@@ -127,8 +127,8 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
   },
   {
     id: "coverage_learning",
-    label: "Coverage and learning",
-    description: "Open a trusted hub or library when you need broader education before choosing a tool.",
+    label: "Free education and trusted sources",
+    description: "Open a hub or library when you need broader education before choosing a tool or system.",
     items: [
       {
         id: "benefits_insurance",
@@ -180,13 +180,13 @@ export const MOBILE_PRIORITY_ITEMS: readonly ServiceNavigationItem[] = [
   {
     id: "all_tools",
     to: "/tools",
-    label: "Browse tools",
+    label: "Free tools",
     description: "Open every calculator and guide.",
   },
   {
     id: "articles",
     to: "/articles",
-    label: "Read articles",
+    label: "Free education",
     description: "Browse source-backed explanations.",
   },
 ] as const;

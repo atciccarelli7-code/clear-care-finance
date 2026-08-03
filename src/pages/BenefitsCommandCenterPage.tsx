@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BriefcaseBusiness, FileCheck2, PlayCircle, ReceiptText, Scale, ShieldCheck } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, FileCheck2, Layers3, PlayCircle, ReceiptText, Scale, ShieldCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
@@ -38,16 +38,16 @@ const BenefitsCommandCenterPage = () => (
   <>
     <div className="print:hidden">
       <PageHero
-        eyebrow="CAF Benefits Command Center"
-        title="Understand what your job is actually worth—not just what it pays."
-        description="Build or preview a complete Benefits Receipt that separates compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs."
+        eyebrow="Free workplace-benefits comparison"
+        title="Compare the value behind the paycheck."
+        description="Build or preview a Benefits Receipt that separates compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs. This focused comparison remains free."
       >
         <Button asChild size="lg">
           <Link
             to="/tools/benefits-command-center?mode=build#benefits-command-center-workspace"
             state={{ activation: "start_own", entrySurface: "command_center" }}
           >
-            Build my package <ArrowRight className="h-4 w-4" />
+            Build a free comparison <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>
         <Button asChild size="lg" variant="outline">
@@ -55,10 +55,30 @@ const BenefitsCommandCenterPage = () => (
         </Button>
       </PageHero>
 
+      <section className="container min-w-0 pt-10" aria-labelledby="full-system-preview-heading">
+        <div className="grid gap-5 rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 shadow-card md:grid-cols-[auto_1fr_auto] md:items-center md:p-8">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-background text-primary shadow-sm">
+            <Layers3 className="h-5 w-5" aria-hidden="true" />
+          </div>
+          <div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Focused tool versus complete system</div>
+            <h2 id="full-system-preview-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
+              Need to coordinate the full open-enrollment decision?
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              This free workspace compares compensation and selected workplace benefits. CAF's planned paid Benefits Decision System will connect medical and prescription choices, HSA/HRA/FSA rules, retirement, protection benefits, source status, deadlines, saved work, and a final decision brief. Checkout remains off.
+            </p>
+          </div>
+          <Button asChild variant="outline">
+            <Link to="/products/healthcare-worker-benefits-decision-system">Preview the full system</Link>
+          </Button>
+        </div>
+      </section>
+
       <section id="entry-modes" className="container min-w-0 scroll-mt-24 py-10 md:py-14" aria-labelledby="entry-modes-title">
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Choose how to begin</div>
-          <h2 id="entry-modes-title" className="mt-2 font-display text-2xl font-bold md:text-3xl">Four distinct starting points—no blank detour.</h2>
+          <h2 id="entry-modes-title" className="mt-2 font-display text-2xl font-bold md:text-3xl">Four ways to open the free comparison.</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Mode names are fixed and URL-safe. Package values and answers never enter the URL.</p>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -110,7 +130,7 @@ const BenefitsCommandCenterPage = () => (
     </div>
 
     <section id="benefits-command-center-workspace" className="container min-w-0 scroll-mt-28 pb-12 print:pb-0 md:pb-16">
-      <Suspense fallback={<div className="flex min-h-[520px] items-center justify-center rounded-[2rem] border border-border bg-card text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading Benefits Command Center…</div>}>
+      <Suspense fallback={<div className="flex min-h-[520px] items-center justify-center rounded-[2rem] border border-border bg-card text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading the free benefits comparison…</div>}>
         <BenefitsCommandCenterActivation />
       </Suspense>
     </section>
@@ -120,8 +140,8 @@ const BenefitsCommandCenterPage = () => (
         <div className="container grid min-w-0 gap-8 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="space-y-5">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">How the workspace thinks</div>
-              <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">A structured decision model—not one inflated total.</h2>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">How the free workspace thinks</div>
+              <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">A structured comparison—not one inflated total.</h2>
             </div>
             <div className="space-y-4 text-sm leading-relaxed text-muted-foreground md:text-base">
               <p><strong className="text-foreground">Cash compensation</strong> separates base pay, realistic overtime, differentials, bonuses, and other entered cash.</p>
@@ -129,7 +149,7 @@ const BenefitsCommandCenterPage = () => (
               <p><strong className="text-foreground">Retirement value</strong> distinguishes employee contributions, estimated employer matching, non-elective contributions, uncaptured matching, and unvested employer value.</p>
               <p><strong className="text-foreground">Paid leave and hidden benefits</strong> receive a dollar estimate only when reasonable. Protection, family, schedule, and career benefits can remain qualitative.</p>
               <p><strong className="text-foreground">Comparison mode</strong> reports differences and uncertainty instead of declaring a universal winner.</p>
-              <p><strong className="text-foreground">Activation examples</strong> use fictional healthcare roles and the real calculation engine so visitors can inspect a completed Receipt before entering their own information.</p>
+              <p><strong className="text-foreground">Examples</strong> use fictional healthcare roles and the real calculation engine so visitors can inspect a completed Receipt before entering their own information.</p>
             </div>
           </div>
           <div className="rounded-3xl border border-border bg-background p-6 shadow-card">
@@ -176,7 +196,7 @@ const BenefitsCommandCenterPage = () => (
 
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Use the right level of detail</div>
-            <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">The Command Center integrates the decision; focused tools still do one job faster.</h2>
+            <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">This free workspace integrates a comparison; focused tools still do one job faster.</h2>
             <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {[
                 ["Benefits Blueprint", "Set a goal-first action order before collecting plan numbers.", "/tools/healthcare-worker-benefits-blueprint"],

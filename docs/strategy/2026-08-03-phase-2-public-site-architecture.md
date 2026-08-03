@@ -28,13 +28,15 @@ Community Acquired Finance provides useful healthcare financial education, calcu
 
 ## Public information architecture
 
+The five canonical primary-navigation destinations are:
+
 1. Start Here
 2. Free Tools
 3. Healthcare Workers
 4. Patients & Caregivers
-5. Decision System
+5. Trust & Methods
 
-The Explore layer continues to expose concrete free services, broader education hubs, and one flagship preview.
+The Benefits Decision System is visibly presented through the homepage, Explore CAF, the healthcare-worker hub, the Tools and Start Here handoffs, and the footer. This preserves canonical top-level navigation while keeping one flagship discoverable without creating a second product catalog or globally linking through a redirect route.
 
 ## Phase boundary
 

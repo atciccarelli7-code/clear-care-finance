@@ -5,6 +5,7 @@ const root = path.resolve(import.meta.dirname, "..");
 const read = (file) => readFileSync(path.join(root, file), "utf8");
 const app = read("src/App.tsx");
 const phase3App = read("src/Phase3ProductApp.tsx");
+const siteSeoMeta = read("src/lib/siteSeoMeta.ts");
 const productPage = read("src/pages/premium/BenefitsDecisionOfferPage.tsx");
 const productForm = read("src/components/premium/BenefitsEarlyAccessForm.tsx");
 const routeUtils = read("scripts/seo-route-utils.mjs");
@@ -69,8 +70,10 @@ const retiredRouteRedirectsToOffer = vercelConfig.redirects?.some((redirect) =>
   && redirect.permanent === true,
 );
 if (!retiredRouteRedirectsToOffer) failures.push("The retired product route must redirect to the canonical validation offer.");
-if (!phase3App.includes('robots: "noindex, nofollow, noarchive"')) failures.push("The validation offer metadata must be noindex.");
-if (!phase3App.includes('title: "Healthcare Worker Benefits Decision System Early Access"')) failures.push("The validation offer metadata is missing.");
+if (!phase3App.includes("BENEFITS_DECISION_OFFER_META") || !phase3App.includes("BENEFITS_DECISION_OFFER_PATH")) failures.push("The Phase 3 application must use the canonical offer metadata source.");
+if (!siteSeoMeta.includes(`"${canonicalProductRoute}"`)) failures.push("The canonical validation offer route metadata is missing.");
+if (!siteSeoMeta.includes('robots: "noindex, nofollow, noarchive"')) failures.push("The validation offer metadata must be noindex.");
+if (!siteSeoMeta.includes('title: "Healthcare Worker Benefits Decision System Early Access"')) failures.push("The validation offer metadata title is missing.");
 if (!productPage.includes("$29") || !productForm.includes("No card. No checkout. No charge.")) failures.push("The price-qualified no-charge boundary is missing.");
 if (/stripe|checkoutSession|paymentIntent/i.test(productForm)) failures.push("The early-access form must not include Stripe or payment-session logic.");
 if (!productForm.includes("priceCommitment") || !productForm.includes("emailConsent")) failures.push("The early-access form must require price and email confirmation.");

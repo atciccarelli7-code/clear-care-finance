@@ -338,9 +338,11 @@ const TotalCompensationComparison = () => {
   const [offerB, setOfferB] = useState(defaultOfferB);
   const [comparison, setComparison] = useState<ComparisonResult>(() => compareCompensation(defaultOfferA, defaultOfferB));
   const [copied, setCopied] = useState(false);
+  const [generatedDate, setGeneratedDate] = useState("");
   const resultHeadingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
+    setGeneratedDate(new Date().toLocaleDateString());
     trackSiteEvent("tool_opened", { event_category: "tools", tool_id: TOOL_ID });
   }, []);
 
@@ -411,7 +413,7 @@ const TotalCompensationComparison = () => {
           <div className="max-w-3xl">
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Comparison result</div>
             <h2 id="comparison-results" ref={resultHeadingRef} tabIndex={-1} className="mt-2 font-display text-2xl font-bold outline-none md:text-3xl">{comparison.summary}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Generated {new Date().toLocaleDateString()}. Re-run the comparison after changing inputs.</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Generated{generatedDate ? ` ${generatedDate}` : ""}. Re-run the comparison after changing inputs.</p>
           </div>
           <div className="flex flex-wrap gap-2 print:hidden">
             <Button type="button" variant="outline" onClick={copySummary}><Copy className="h-4 w-4" /> {copied ? "Copied" : "Copy summary"}</Button>

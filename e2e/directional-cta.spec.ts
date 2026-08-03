@@ -5,6 +5,8 @@ import path from "node:path";
 
 mkdirSync("artifacts/directional-cta", { recursive: true });
 
+const hydrationErrors = new WeakMap<Page, string[]>();
+
 const expectAccessibleAndContained = async (page: Page) => {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
@@ -14,6 +16,12 @@ const expectAccessibleAndContained = async (page: Page) => {
 };
 
 test.beforeEach(async ({ page }) => {
+  const errors: string[] = [];
+  hydrationErrors.set(page, errors);
+  page.on("console", (message) => {
+    if (message.type() !== "error") return;
+    if (/hydration|server html|minified react error #(418|421|422|425)/i.test(message.text())) errors.push(message.text());
+  });
   await page.route("**/_vercel/**", async (intercepted) => {
     const isScript = new URL(intercepted.request().url()).pathname.endsWith(".js");
     await intercepted.fulfill(isScript ? { status: 200, contentType: "application/javascript", body: "" } : { status: 204, body: "" });
@@ -22,6 +30,10 @@ test.beforeEach(async ({ page }) => {
     localStorage.clear();
     localStorage.setItem("caf-privacy-consent-v1", "necessary");
   });
+});
+
+test.afterEach(async ({ page }) => {
+  expect(hydrationErrors.get(page) ?? [], "React hydration must complete without console errors").toEqual([]);
 });
 
 test("total-compensation hero enters the comparison and preserves one subordinate guide", async ({ page }, testInfo) => {

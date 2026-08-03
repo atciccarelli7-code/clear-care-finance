@@ -18,7 +18,9 @@ test.beforeEach(async ({ page }) => {
 test("retired public product route resolves to complete free worker resources", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-system");
   await expect(page).toHaveURL(/\/healthcare-workers$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Money education built for healthcare workers/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Learn workplace benefits for free/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true })).toBeVisible();
+  await expect(page.getByText(/Checkout and paid access remain off/i)).toBeVisible();
   await expect(page.getByText("Checkout disabled")).toHaveCount(0);
   await expect(page.getByText("$29 one time — target only")).toHaveCount(0);
   await expect(page.getByRole("button", { name: /buy/i })).toHaveCount(0);
@@ -29,7 +31,8 @@ test("retired public product route resolves to complete free worker resources", 
 test("old product-pack route resolves to complete free worker resources", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-pack");
   await expect(page).toHaveURL(/\/healthcare-workers$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Money education built for healthcare workers/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Learn workplace benefits for free/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true })).toBeVisible();
 });
 
 test("missing authentication configuration fails closed on every application entry", async ({ page }) => {

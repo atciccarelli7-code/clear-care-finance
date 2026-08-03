@@ -72,9 +72,11 @@ test("priority articles present one dominant direct handoff without a stacked gl
   }
 });
 
-test("priority hubs render one global action owner", async ({ page }) => {
+test("healthcare-worker hub presents one paid flagship and keeps free actions subordinate", async ({ page }) => {
   await page.goto("/healthcare-workers", { waitUntil: "networkidle" });
-  await expect(page.getByRole("heading", { name: "What should a healthcare worker do first with each paycheck and benefit package?" })).toHaveCount(1);
+  await expect(page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true })).toHaveCount(1);
+  await expect(page.getByText(/CAF's single paid flagship/i)).toHaveCount(1);
+  await expect(page.getByRole("link", { name: /Use the free open-enrollment guide/i })).toHaveCount(1);
   await expect(page.getByRole("heading", { name: "Build the package behind the hourly rate or salary" })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Add a healthcare-career transition step to My Plan" })).toHaveCount(0);
   await expectAccessibleAndContained(page);

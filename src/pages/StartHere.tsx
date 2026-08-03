@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
-import { ArrowRight, ClipboardCheck } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { ArrowRight, ClipboardCheck, Layers3 } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import { FinancialNavigator } from "@/components/navigator/FinancialNavigator";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
@@ -26,6 +26,36 @@ const StartHere = () => {
   return (
     <>
       <FinancialNavigator />
+
+      <section className="border-t border-border bg-background py-12 print:hidden" aria-labelledby="decision-system-handoff-heading">
+        <div className="container max-w-5xl">
+          <div className="grid gap-6 rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 shadow-card md:grid-cols-[auto_1fr_auto] md:items-center md:p-8">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-background text-primary shadow-sm">
+              <Layers3 className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <div>
+              <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">When one free answer is not enough</div>
+              <h2 id="decision-system-handoff-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
+                Open enrollment can involve several connected decisions.
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Start Here and every public calculator remain free. Healthcare workers who need to coordinate plan costs, prescriptions, accounts, retirement, protection benefits, missing information, and a final decision brief can preview CAF's first paid Decision System. Checkout remains off.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
+              <Button asChild>
+                <Link to="/healthcare-workers#benefits-decision-system">
+                  Preview the system <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link to="/open-enrollment">Use the free guide</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section
         id="financial-foundation-checkup"
         className="scroll-mt-24 border-t border-border bg-card/35 py-14 print:hidden"

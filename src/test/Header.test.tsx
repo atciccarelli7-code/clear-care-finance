@@ -74,7 +74,7 @@ describe("Header service navigation", () => {
 
     expect(within(mobileNav).getByText("Healthcare-worker decisions")).toBeInTheDocument();
     expect(within(mobileNav).getByText("Patient and caregiver decisions")).toBeInTheDocument();
-    expect(within(mobileNav).getByText("Coverage and learning")).toBeInTheDocument();
+    expect(within(mobileNav).getByText("Free education and trusted sources")).toBeInTheDocument();
     expect(within(mobileNav).getByRole("link", { name: /Medicare & Medicaid/ })).toHaveAttribute("aria-current", "page");
   });
 
@@ -106,7 +106,7 @@ describe("Header service navigation", () => {
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
     expect(evidenceMocks.recordServiceNavigationOpened).toHaveBeenCalledWith("mobile_header");
-    fireEvent.click(within(mobileNav).getByRole("link", { name: /Browse tools/ }));
+    fireEvent.click(within(mobileNav).getByRole("link", { name: /Free tools/ }));
     expect(evidenceMocks.recordServiceNavigationSelection).toHaveBeenCalledWith("mobile_header", "all_tools");
   });
 });

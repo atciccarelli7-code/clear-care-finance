@@ -21,12 +21,16 @@ const diagnosisGuideOverrides = Object.fromEntries(
 
 const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "robots">> = {
   "/": {
-    title: "Financial Clarity from Retirement to Healthcare Costs",
-    description: "Plain-English guides and calculators for retirement, investing, workplace benefits, insurance, medical bills, Medicare, and Medicaid—with an RN's healthcare perspective.",
+    title: "Healthcare Financial Education and Decision Support",
+    description: "Free RN-led guides, calculators, and checklists for healthcare workers, patients, and caregivers, plus a healthcare-worker benefits decision system in development.",
   },
   "/start-here": {
     title: "Financial Navigator: Build Your Next Money Action Plan",
     description: "Build one private, prioritized action plan for cash, debt, retirement, workplace benefits, healthcare costs, Medicare, Medicaid, or a healthcare-career decision.",
+  },
+  "/healthcare-workers": {
+    title: "Healthcare Worker Benefits, Pay, and Financial Decisions",
+    description: "Use free healthcare-worker benefits, compensation, retirement, paycheck, and open-enrollment resources, and preview CAF's planned Benefits Decision System.",
   },
   "/build-wealth": {
     title: "Financial Independence, Retirement, and Investing",
@@ -37,8 +41,8 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
     description: "Compare premiums, deductibles, networks, prescriptions, HSAs, FSAs, supplemental benefits, retirement options, and paycheck impact before choosing benefits.",
   },
   "/tools": {
-    title: "Financial Calculators, Checklists, and Decision Tools",
-    description: "Choose a guided financial starting point or browse calculators, checklists, comparisons, and guides for benefits, medical bills, Medicare, student loans, retirement, and everyday money.",
+    title: "Free Financial Calculators, Checklists, and Decision Tools",
+    description: "Browse free calculators, checklists, comparisons, and guides for benefits, medical bills, Medicare, student loans, retirement, and everyday money.",
   },
   "/articles": {
     title: "Financial Education Articles",
@@ -85,8 +89,8 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
 };
 
 const benefitsCommandCenterMeta: SeoRouteMeta = {
-  title: "Benefits Command Center: Compare Pay and Workplace Benefits",
-  description: "Preview a sample Benefits Receipt, then build and compare pay, health plans, retirement benefits, PTO, employer contributions, vesting, and hidden benefits privately.",
+  title: "Free Workplace Benefits Comparison",
+  description: "Build or preview a free Benefits Receipt that compares pay, health-plan exposure, retirement benefits, paid leave, employer contributions, vesting, and hidden benefits.",
   canonicalPath: "/tools/benefits-command-center",
   robots: "index, follow, max-image-preview:large",
   jsonLd: [
@@ -95,15 +99,15 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE_URL}/tools` },
-        { "@type": "ListItem", position: 3, name: "Benefits Command Center", item: `${SITE_URL}/tools/benefits-command-center` },
+        { "@type": "ListItem", position: 2, name: "Free Tools", item: `${SITE_URL}/tools` },
+        { "@type": "ListItem", position: 3, name: "Free Workplace Benefits Comparison", item: `${SITE_URL}/tools/benefits-command-center` },
       ],
     },
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "Benefits Command Center: Compare Pay and Workplace Benefits",
-      description: "Preview a sample Benefits Receipt, then build and compare pay, health plans, retirement benefits, PTO, employer contributions, vesting, and hidden benefits privately.",
+      name: "Free Workplace Benefits Comparison",
+      description: "Build or preview a free Benefits Receipt that compares pay, health-plan exposure, retirement benefits, paid leave, employer contributions, vesting, and hidden benefits.",
       url: `${SITE_URL}/tools/benefits-command-center`,
       applicationCategory: "FinanceApplication",
       operatingSystem: "Any",
@@ -145,7 +149,7 @@ const diagnosisGuideJsonLd = (path: string, title: string, description: string):
 const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, description: string) =>
   jsonLd?.map((item) => {
     const type = item["@type"];
-    if (type === "WebSite") return { ...item, description: "Plain-English financial education for everyone, with specialized clarity around healthcare costs, insurance, Medicare, and Medicaid." };
+    if (type === "WebSite") return { ...item, description: "RN-led healthcare financial education and decision support for healthcare workers, patients, and caregivers." };
     if (type === "BreadcrumbList" && Array.isArray(item.itemListElement)) {
       const entries = item.itemListElement as Array<Record<string, unknown>>;
       return {

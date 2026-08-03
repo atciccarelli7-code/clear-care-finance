@@ -13,25 +13,24 @@ const LogoMark = () => (
 
 const linkGroups = [
   {
-    title: "Explore",
+    title: "Free resources",
     links: [
       { to: "/start-here", label: "Start Here" },
-      { to: "/tools", label: "Financial Tools" },
+      { to: "/tools", label: "Free Calculators & Tools" },
+      { to: "/articles", label: "Articles" },
       { to: "/build-wealth", label: "Money & Retirement" },
       { to: "/insurance", label: "Benefits & Insurance" },
       { to: "/medicare-care-costs", label: "Medicare & Medicaid" },
-      { to: "/topics", label: "Topic Guides" },
-      { to: "/articles", label: "Articles" },
     ],
   },
   {
-    title: "Specialized guides",
+    title: "Healthcare decisions",
     links: [
       { to: "/healthcare-workers", label: "Healthcare Workers" },
+      { to: "/healthcare-workers#benefits-decision-system", label: "Benefits Decision System" },
+      { to: "/open-enrollment", label: "Open Enrollment" },
       { to: "/patients-families", label: "Patients & Caregivers" },
       { to: "/guides", label: "Quick Guides" },
-      { to: "/open-enrollment", label: "Open Enrollment" },
-      { to: "/student-loans", label: "Student Loans" },
       { to: "/glossary", label: "Glossary" },
     ],
   },
@@ -60,7 +59,7 @@ export const Footer = () => {
             <span className="min-w-0 break-words">Community Acquired Finance</span>
           </Link>
           <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-            RN-led financial decision support for healthcare workers, patients, families, and caregivers.
+            RN-led healthcare financial decision support: useful education and tools for free, with one benefits decision system being prepared for healthcare workers.
           </p>
           <p className="text-xs text-muted-foreground">Written by Andrew Ciccarelli, RN, BSN.</p>
         </div>
@@ -85,7 +84,7 @@ export const Footer = () => {
         <div className="container space-y-3 py-6 text-xs text-muted-foreground">
           <p>
             <strong className="text-foreground">Educational only.</strong>{" "}
-            CAF provides general information, not individualized financial, medical, legal, tax, insurance, billing, employment, or benefits advice.{" "}
+            CAF provides general information and decision organization, not individualized financial, medical, legal, tax, insurance, billing, employment, or benefits advice.{" "}
             <Link to="/disclosures" className="font-semibold text-primary underline-offset-4 hover:underline">
               Review disclosures and limitations
             </Link>

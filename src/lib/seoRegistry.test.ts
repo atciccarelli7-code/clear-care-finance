@@ -63,7 +63,7 @@ describe("runtime SEO registry", () => {
   });
 
   it("preserves site overrides and noindexes unknown routes", () => {
-    expect(resolveSiteSeoMeta("/tools").title).toBe("Financial Calculators, Checklists, and Decision Tools");
+    expect(resolveSiteSeoMeta("/tools").title).toBe("Free Financial Calculators, Checklists, and Decision Tools");
     expect(getIndexableRoutes()).not.toContain("/for-organizations");
     expect(resolveSeoMeta("/definitely-not-a-route").robots).toBe("noindex, nofollow");
   });

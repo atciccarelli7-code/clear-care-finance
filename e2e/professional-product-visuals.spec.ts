@@ -22,19 +22,29 @@ const capture = async (page: Page, testInfo: TestInfo, name: string, focus?: Loc
   await page.screenshot({ path: testInfo.outputPath(fileName), fullPage: false, animations: "disabled" });
 };
 
-test("captures the simplified homepage and guided start", async ({ page }, testInfo) => {
+test("captures the product-led homepage and guided start", async ({ page }, testInfo) => {
   await preparePage(page, "/");
-  await expect(page.getByRole("heading", { level: 1, name: /Make the next money or healthcare decision clearer/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Learn the decision for free/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Help me find where to start/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Preview the Benefits Decision System/i })).toBeVisible();
   await capture(page, testInfo, "homepage");
 });
 
-test("captures the searchable Tools directory", async ({ page }, testInfo) => {
+test("captures the free searchable Tools directory", async ({ page }, testInfo) => {
   await preparePage(page, "/tools");
-  await expect(page.getByRole("heading", { level: 1, name: /Find the calculator, checklist, or guide/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Use every public tool on this page without paying/i })).toBeVisible();
   const directoryStatus = page.getByText(/Showing .* tools for all decisions/i);
   await expect(directoryStatus).toBeVisible();
   await capture(page, testInfo, "tools-directory", directoryStatus);
+});
+
+test("captures the healthcare-worker flagship preview", async ({ page }, testInfo) => {
+  await preparePage(page, "/healthcare-workers#benefits-decision-system");
+  await expect(page.getByRole("heading", { level: 1, name: /Learn workplace benefits for free/i })).toBeVisible();
+  const previewHeading = page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true });
+  await expect(previewHeading).toBeVisible();
+  await expect(page.getByText(/Checkout and paid access remain off/i)).toBeVisible();
+  await capture(page, testInfo, "benefits-decision-system-preview", previewHeading);
 });
 
 test("captures Hospital Guide before and after an immediate need is selected", async ({ page }, testInfo) => {

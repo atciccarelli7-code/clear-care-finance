@@ -4,12 +4,14 @@ import {
   ArrowRight,
   Calculator,
   Check,
+  CheckCircle2,
   ClipboardCheck,
   Coffee,
   Compass,
   GraduationCap,
   HeartPulse,
   Landmark,
+  Layers3,
   ListFilter,
   PiggyBank,
   Receipt,
@@ -70,9 +72,9 @@ const Tools = () => {
   const [legacySelection, setLegacySelection] = useState<string | null>(null);
 
   useSeo({
-    title: "Financial Calculators, Checklists, and Decision Tools",
+    title: "Free Financial Calculators, Checklists, and Decision Tools",
     description:
-      "Choose a guided financial starting point or browse calculators, checklists, comparisons, and guides for benefits, medical bills, Medicare, student loans, retirement, and everyday money.",
+      "Browse free calculators, checklists, comparisons, and guides for benefits, medical bills, Medicare, student loans, retirement, and everyday money.",
     canonicalPath: "/tools",
   });
 
@@ -109,13 +111,37 @@ const Tools = () => {
   return (
     <>
       <PageHero
-        eyebrow="Financial tools"
-        title="Find the calculator, checklist, or guide you need."
-        description="Search by your real-world question or browse by topic. If you are not sure what fits, Start Here will guide you."
+        eyebrow="Free calculators and decision tools"
+        title="Use every public tool on this page without paying."
+        description="Search by the decision in front of you. Each calculator, checklist, comparison, and guide completes one bounded task without requiring an account or purchase."
       >
-        <Button asChild variant="hero" size="lg"><a href="#tool-search-heading">Search tools</a></Button>
-        <Button asChild variant="ghost" size="lg"><Link to="/start-here">Not sure? Start Here</Link></Button>
+        <Button asChild variant="hero" size="lg"><a href="#tool-search-heading">Search free tools</a></Button>
+        <Button asChild variant="outline" size="lg"><Link to="/start-here">Not sure? Start Here</Link></Button>
       </PageHero>
+
+      <section className="container max-w-5xl min-w-0 pt-10 md:pt-12" aria-labelledby="free-tool-boundary-heading">
+        <div className="grid gap-5 rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 shadow-card md:grid-cols-[1fr_auto] md:items-center md:p-8">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">
+              <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Free layer
+            </div>
+            <h2 id="free-tool-boundary-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
+              A useful result stays free.
+            </h2>
+            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+              CAF charges only when a larger system coordinates several decisions, preserves work, tracks source status, and produces a final brief. Basic explanations, official verification links, deadlines, and single-purpose results remain public.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
+            <Button asChild>
+              <Link to="/healthcare-workers#benefits-decision-system">
+                Preview the Decision System <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <span className="text-center text-xs font-semibold text-muted-foreground">Preview only · checkout off</span>
+          </div>
+        </div>
+      </section>
 
       <section className="container max-w-4xl min-w-0 pt-10 md:pt-12" aria-labelledby="tool-search-heading">
         <div className="border-y border-border py-5">
@@ -142,12 +168,10 @@ const Tools = () => {
 
       <section id="all-tools" className="container min-w-0 scroll-mt-24 py-12 md:py-16" aria-labelledby="all-tools-heading">
         <div className="rounded-2xl border border-border bg-card/70 p-5 md:p-7">
-          <div>
-            <div className="max-w-2xl">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground"><ListFilter className="h-4 w-4" aria-hidden="true" /> Browse by topic</div>
-              <h2 id="all-tools-heading" className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">All tools</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Choose a topic, then open the calculator, checklist, comparison, or guide responsible for the answer.</p>
-            </div>
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground"><ListFilter className="h-4 w-4" aria-hidden="true" /> Browse by topic</div>
+            <h2 id="all-tools-heading" className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">All free tools</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Choose a topic, then open the calculator, checklist, comparison, or guide responsible for the answer.</p>
           </div>
 
           <div id="all-tools-directory" className="mt-7 border-t border-border pt-7">
@@ -199,7 +223,7 @@ const Tools = () => {
                       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{tool.description}</p>
                       <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs font-semibold text-muted-foreground">
                         <span>{tool.audience}</span><span aria-hidden="true">·</span><span>{tool.estimatedUseTime}</span><span aria-hidden="true">·</span>
-                        <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" aria-hidden="true" /> Educational</span>
+                        <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" aria-hidden="true" /> Free educational tool</span>
                       </div>
                       <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <Link
@@ -228,10 +252,28 @@ const Tools = () => {
         </div>
       </section>
 
+      <section className="container min-w-0 pb-10" aria-labelledby="coordinated-workflow-heading">
+        <div className="grid gap-5 rounded-3xl border border-border bg-card p-6 shadow-card md:grid-cols-[auto_1fr_auto] md:items-center md:p-8">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+            <Layers3 className="h-5 w-5" aria-hidden="true" />
+          </div>
+          <div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Need a coordinated workflow?</div>
+            <h2 id="coordinated-workflow-heading" className="mt-2 font-display text-2xl font-bold">The paid system connects tools that remain free individually.</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              The Open Enrollment Workspace will combine plan costs, prescriptions, accounts, retirement, protection benefits, deadlines, verification questions, saved progress, and a final decision brief. It is not available for purchase yet.
+            </p>
+          </div>
+          <Button asChild variant="outline">
+            <Link to="/healthcare-workers#benefits-decision-system">See the flagship preview</Link>
+          </Button>
+        </div>
+      </section>
+
       <section className="container min-w-0 pb-16">
         <NewsletterSignup
           source="tools"
-          title="Get one useful financial decision resource each month"
+          title="Get one useful healthcare-finance resource each month"
           description="A calm monthly email on workplace benefits, healthcare costs, retirement, insurance, Medicare, Medicaid, and new CAF tools."
         />
       </section>

@@ -7,8 +7,7 @@
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityaqcuiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "header", "key": "host", "value": "www.communityacquiredfinance.com" }], "destination": "https://communityacquiredfinance.com/:path*", "permanent": true },
     { "source": "/products", "destination": "/tools", "permanent": true },
-    { "source": "/products/healthcare-worker-benefits-decision-pack", "destination": "/healthcare-workers", "permanent": true },
-    { "source": "/products/healthcare-worker-benefits-decision-system", "destination": "/healthcare-workers", "permanent": true },
+    { "source": "/products/healthcare-worker-benefits-decision-pack", "destination": "/products/healthcare-worker-benefits-decision-system", "permanent": true },
     { "source": "/products/expanded-medical-bill-response-workbook", "destination": "/insurance/medical-bill-review-toolkit", "permanent": true },
     { "source": "/products/expanded-medical-bill-response-workbook.html", "destination": "/insurance/medical-bill-review-toolkit", "permanent": true },
     { "source": "/downloads/expanded-medical-bill-response-workbook-preview", "destination": "/insurance/medical-bill-review-toolkit", "permanent": true },
@@ -60,6 +59,13 @@
     },
     {
       "source": "/app/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
+    {
+      "source": "/products/healthcare-worker-benefits-decision-system",
       "headers": [
         { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }

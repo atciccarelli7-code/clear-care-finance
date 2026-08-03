@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Layout } from "@/components/layout/Layout";
@@ -12,6 +12,10 @@ import { useSeo } from "@/lib/seo";
 import type { SeoRouteMeta } from "@/lib/seoRegistry";
 
 export const BENEFITS_DECISION_OFFER_PATH = "/products/healthcare-worker-benefits-decision-system" as const;
+export const RETIRED_BENEFITS_DECISION_PACK_PATH = "/products/healthcare-worker-benefits-decision-pack" as const;
+
+export const isPhase3ProductPath = (pathname: string) =>
+  pathname === BENEFITS_DECISION_OFFER_PATH || pathname === RETIRED_BENEFITS_DECISION_PACK_PATH;
 
 export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
   title: "Healthcare Worker Benefits Decision System Early Access",
@@ -58,6 +62,7 @@ export const Phase3ProductContent = ({ includeRuntimeTelemetry = true }: { inclu
       <Routes>
         <Route element={<Layout />}>
           <Route path={BENEFITS_DECISION_OFFER_PATH} element={<BenefitsDecisionOfferPage />} />
+          <Route path={RETIRED_BENEFITS_DECISION_PACK_PATH} element={<Navigate to={BENEFITS_DECISION_OFFER_PATH} replace />} />
           <Route path="*" element={<MainApplicationHandoff />} />
         </Route>
       </Routes>

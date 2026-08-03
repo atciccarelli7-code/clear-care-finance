@@ -30,6 +30,18 @@ const ScrollToTop = () => {
   return null;
 };
 
+const MainApplicationHandoff = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.location.assign(`${location.pathname}${location.search}${location.hash}`);
+  }, [location.hash, location.pathname, location.search]);
+  return (
+    <div className="container flex min-h-[45vh] items-center justify-center py-16" role="status" aria-live="polite">
+      <span className="text-sm font-semibold text-muted-foreground">Opening the selected CAF resource…</span>
+    </div>
+  );
+};
+
 export const Phase3ProductContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeTelemetry?: boolean }) => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -40,6 +52,7 @@ export const Phase3ProductContent = ({ includeRuntimeTelemetry = true }: { inclu
       <Routes>
         <Route element={<Layout />}>
           <Route path={BENEFITS_DECISION_OFFER_PATH} element={<BenefitsDecisionOfferPage />} />
+          <Route path="*" element={<MainApplicationHandoff />} />
         </Route>
       </Routes>
       {includeRuntimeTelemetry && (

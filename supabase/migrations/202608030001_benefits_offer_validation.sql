@@ -173,8 +173,8 @@ grant select, insert, update, delete on table public.benefits_offer_commitments 
 create unique index if not exists benefits_offer_commitments_email_unique
   on public.benefits_offer_commitments (product_id, email_hash);
 
-create unique index if not exists benefits_offer_commitments_session_unique
-  on public.benefits_offer_commitments (product_id, session_id);
+create index if not exists benefits_offer_commitments_session_idx
+  on public.benefits_offer_commitments (product_id, session_id, created_at desc);
 
 create index if not exists benefits_offer_commitments_measurement_idx
   on public.benefits_offer_commitments (offer_version, status, created_at desc);

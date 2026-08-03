@@ -14,6 +14,7 @@ import {
   recordServiceNavigationOpened,
   recordServiceNavigationSelection,
 } from "@/lib/firstPartyEvidence";
+import "./mobileNavigation.css";
 
 const routePath = (route: string) => route.split("#")[0] || "/";
 
@@ -88,8 +89,11 @@ export const Header = () => {
   useEffect(() => {
     if (!mobileOpen) return;
 
-    const previousOverflow = document.body.style.overflow;
+    const root = document.documentElement;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousRootOverflow = root.style.overflow;
     document.body.style.overflow = "hidden";
+    root.style.overflow = "hidden";
     const frame = window.requestAnimationFrame(() => firstMobileLinkRef.current?.focus());
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -125,7 +129,8 @@ export const Header = () => {
     return () => {
       window.cancelAnimationFrame(frame);
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      root.style.overflow = previousRootOverflow;
     };
   }, [mobileOpen]);
 
@@ -241,10 +246,10 @@ export const Header = () => {
       </div>
 
       {mobileOpen && (
-        <div id="mobile-menu" className="border-t border-border bg-background animate-fade-in xl:hidden">
+        <div id="mobile-menu" className="mobile-menu-panel border-t border-border bg-background animate-fade-in xl:hidden">
           <nav
             ref={mobileMenuRef}
-            className="container flex max-h-[calc(100vh-4rem)] flex-col overflow-y-auto py-4 pb-[calc(1rem_+_env(safe-area-inset-bottom))]"
+            className="container mobile-menu-scroll py-4"
             aria-label="Mobile navigation"
           >
             <div className="grid gap-2 sm:grid-cols-3" aria-label="Priority navigation">

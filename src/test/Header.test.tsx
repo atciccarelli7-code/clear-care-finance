@@ -19,6 +19,7 @@ const renderHeader = (path = "/") => render(
 describe("Header service navigation", () => {
   beforeEach(() => {
     document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
     evidenceMocks.recordServiceNavigationOpened.mockClear();
     evidenceMocks.recordServiceNavigationSelection.mockClear();
     Object.defineProperty(window, "requestAnimationFrame", {
@@ -43,12 +44,14 @@ describe("Header service navigation", () => {
 
     expect(within(mobileNav).getByRole("link", { name: /Start Here/ })).toHaveFocus();
     expect(document.body.style.overflow).toBe("hidden");
+    expect(document.documentElement.style.overflow).toBe("hidden");
 
     fireEvent.keyDown(document, { key: "Escape" });
 
     expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
     expect(menuButton).toHaveFocus();
     expect(document.body.style.overflow).toBe("");
+    expect(document.documentElement.style.overflow).toBe("");
   });
 
   it("contains keyboard focus inside the opened mobile menu", () => {

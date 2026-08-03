@@ -597,9 +597,15 @@ const ArticlePage = () => {
 
         {article.comparisonTable && (
           <Section icon={BookOpen} title="Quick comparison table">
-            <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+            <div
+              className="overflow-x-auto rounded-2xl border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              role="region"
+              aria-label={`${article.title} quick comparison table`}
+              tabIndex={0}
+            >
               <table className="w-full min-w-[640px] text-left text-sm">
-                <thead className="bg-muted/50 text-foreground"><tr>{article.comparisonTable.headers.map((header) => <th key={header} className="px-4 py-3 font-bold">{header}</th>)}</tr></thead>
+                <caption className="sr-only">Quick comparison table for {article.title}</caption>
+                <thead className="bg-muted/50 text-foreground"><tr>{article.comparisonTable.headers.map((header) => <th key={header} scope="col" className="px-4 py-3 font-bold">{header}</th>)}</tr></thead>
                 <tbody>{article.comparisonTable.rows.map((row) => <tr key={row[0]} className="border-t border-border">{row.map((cell) => <td key={cell} className="px-4 py-3 align-top leading-relaxed">{cell}</td>)}</tr>)}</tbody>
               </table>
             </div>

@@ -136,6 +136,54 @@ test("320-pixel mobile navigation groups choices and restores focus on Escape", 
   await expect(trigger).toBeFocused();
 });
 
+test("short mobile viewports keep expanded navigation internally scrollable", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium");
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto("/");
+
+  await page.getByRole("button", { name: "Open menu" }).click();
+  const mobileNav = mobileNavigation(page);
+  await expect(mobileNav).toBeVisible();
+
+  for (const label of [
+    "Healthcare-worker decisions",
+    "Patient and caregiver decisions",
+    "Free education and trusted sources",
+  ]) {
+    await ensureDisclosureOpen(mobileNav, label);
+  }
+
+  const metrics = await mobileNav.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const style = window.getComputedStyle(element);
+    return {
+      clientHeight: element.clientHeight,
+      scrollHeight: element.scrollHeight,
+      top: rect.top,
+      bottom: rect.bottom,
+      viewportHeight: window.innerHeight,
+      overflowY: style.overflowY,
+      overscrollBehaviorY: style.overscrollBehaviorY,
+      touchAction: style.touchAction,
+    };
+  });
+
+  expect(metrics.top).toBeGreaterThanOrEqual(63);
+  expect(metrics.bottom).toBeLessThanOrEqual(metrics.viewportHeight + 1);
+  expect(metrics.scrollHeight).toBeGreaterThan(metrics.clientHeight);
+  expect(["auto", "scroll"]).toContain(metrics.overflowY);
+  expect(metrics.overscrollBehaviorY).toBe("contain");
+  expect(metrics.touchAction).toContain("pan-y");
+
+  const monthlyEmail = mobileNav.getByRole("link", { name: "Monthly email" });
+  await monthlyEmail.scrollIntoViewIfNeeded();
+  await expect(monthlyEmail).toBeVisible();
+  expect(await mobileNav.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+
+  await monthlyEmail.click();
+  await expect(page).toHaveURL(/\/newsletter$/);
+});
+
 test("mobile visitors can reach worker, patient, coverage, and learning destinations", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile-chromium");
   await page.setViewportSize({ width: 390, height: 844 });

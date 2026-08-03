@@ -1,4 +1,6 @@
 import {
+  BENEFITS_OFFER_SURFACE,
+  BENEFITS_OFFER_VARIANT,
   EVIDENCE_SURFACE,
   SERVICE_NAVIGATION_VARIANT,
   type EvidenceDestinationId,
@@ -17,8 +19,10 @@ import {
 
 const SESSION_KEY = "caf-evidence-session-v1";
 const INSURANCE_VIEWED_KEY = "caf-evidence-viewed:insurance_hub:baseline_v1";
+const BENEFITS_OFFER_VIEWED_KEY = `caf-evidence-viewed:${BENEFITS_OFFER_SURFACE}:${BENEFITS_OFFER_VARIANT}`;
 const INSTALL_KEY = "__cafEvidenceObserverInstalled";
 const DEFAULT_VARIANT: EvidenceVariant = "baseline_v1";
+const BENEFITS_OFFER_PATH = "/products/healthcare-worker-benefits-decision-system";
 
 declare global {
   interface Window {
@@ -45,6 +49,11 @@ const getSessionId = () => {
   } catch {
     return null;
   }
+};
+
+export const getEvidenceSessionId = () => {
+  if (typeof window === "undefined") return null;
+  return getSessionId();
 };
 
 type EvidenceEventInput = {
@@ -120,6 +129,31 @@ export const recordInsuranceHubHandoff = (
   });
 };
 
+export const recordBenefitsOfferView = () => {
+  if (typeof window === "undefined" || window.location.pathname !== BENEFITS_OFFER_PATH) return false;
+  if (readPrivacyConsent() !== "analytics") return false;
+
+  try {
+    if (window.sessionStorage.getItem(BENEFITS_OFFER_VIEWED_KEY) === "true") return false;
+    const accepted = postEvidenceEvent({
+      eventName: "benefits_offer_viewed",
+      surface: BENEFITS_OFFER_SURFACE,
+      variant: BENEFITS_OFFER_VARIANT,
+    });
+    if (accepted) window.sessionStorage.setItem(BENEFITS_OFFER_VIEWED_KEY, "true");
+    return accepted;
+  } catch {
+    return false;
+  }
+};
+
+export const recordBenefitsOfferCta = () => postEvidenceEvent({
+  eventName: "benefits_offer_cta_opened",
+  surface: BENEFITS_OFFER_SURFACE,
+  destinationId: "early_access_commitment_form",
+  variant: BENEFITS_OFFER_VARIANT,
+});
+
 const navigationOpenedKey = (surface: NavigationSurface) =>
   `caf-evidence-viewed:${surface}:${SERVICE_NAVIGATION_VARIANT}`;
 
@@ -157,6 +191,7 @@ export const installFirstPartyEvidenceObserver = () => {
 
   const observeRoute = () => {
     if (window.location.pathname === "/insurance") recordInsuranceHubView();
+    if (window.location.pathname === BENEFITS_OFFER_PATH) recordBenefitsOfferView();
   };
 
   const wrapHistoryMethod = (method: "pushState" | "replaceState") => {

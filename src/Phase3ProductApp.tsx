@@ -9,21 +9,17 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import BenefitsDecisionOfferPage from "@/pages/premium/BenefitsDecisionOfferPage";
 import { useSeo } from "@/lib/seo";
-import type { SeoRouteMeta } from "@/lib/seoRegistry";
+import {
+  BENEFITS_DECISION_OFFER_META,
+  BENEFITS_DECISION_OFFER_PATH,
+} from "@/lib/siteSeoMeta";
 
-export const BENEFITS_DECISION_OFFER_PATH = "/products/healthcare-worker-benefits-decision-system" as const;
+export { BENEFITS_DECISION_OFFER_META, BENEFITS_DECISION_OFFER_PATH } from "@/lib/siteSeoMeta";
+
 export const RETIRED_BENEFITS_DECISION_PACK_PATH = "/products/healthcare-worker-benefits-decision-pack" as const;
 
 export const isPhase3ProductPath = (pathname: string) =>
   pathname === BENEFITS_DECISION_OFFER_PATH || pathname === RETIRED_BENEFITS_DECISION_PACK_PATH;
-
-export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
-  title: "Healthcare Worker Benefits Decision System Early Access",
-  description: "Review the proposed $29 one-time Open Enrollment Workspace and join a no-charge, price-qualified early-access test. Free CAF education and public tools remain free.",
-  canonicalPath: BENEFITS_DECISION_OFFER_PATH,
-  robots: "noindex, nofollow, noarchive",
-  jsonLd: [],
-};
 
 const queryClient = new QueryClient();
 

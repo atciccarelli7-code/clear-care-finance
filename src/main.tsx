@@ -1,6 +1,6 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
-import Phase3ProductApp, { BENEFITS_DECISION_OFFER_PATH } from "./Phase3ProductApp";
+import Phase3ProductApp, { isPhase3ProductPath } from "./Phase3ProductApp";
 import "./index.css";
 import "./print.css";
 import "./print-pagination.css";
@@ -19,7 +19,7 @@ installFirstPartyEvidenceObserver();
 
 const application = (
   <AppErrorBoundary>
-    {window.location.pathname === BENEFITS_DECISION_OFFER_PATH ? <Phase3ProductApp /> : <App />}
+    {isPhase3ProductPath(window.location.pathname) ? <Phase3ProductApp /> : <App />}
   </AppErrorBoundary>
 );
 

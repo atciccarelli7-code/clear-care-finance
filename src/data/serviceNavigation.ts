@@ -25,7 +25,7 @@ export const PRIMARY_NAVIGATION_ITEMS: readonly PrimaryNavigationItem[] = [
   { to: "/tools", label: "Free Tools" },
   { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patients & Caregivers" },
-  { to: "/products/healthcare-worker-benefits-decision-system", label: "Decision System" },
+  { to: "/healthcare-workers#benefits-decision-system", label: "Decision System" },
 ] as const;
 
 export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
@@ -55,7 +55,7 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
     items: [
       {
         id: "benefits_command_center",
-        to: "/products/healthcare-worker-benefits-decision-system",
+        to: "/healthcare-workers#benefits-decision-system",
         label: "Benefits Decision System",
         description: "Preview CAF's first paid flagship and see what coordinated open-enrollment decision support will add beyond the free tools.",
         audience: "Flagship preview",

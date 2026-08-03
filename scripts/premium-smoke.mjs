@@ -1,7 +1,7 @@
 const base = (process.env.PREMIUM_SMOKE_URL || "http://127.0.0.1:4173").replace(/\/$/, "");
 const checks = [
-  ["/products/healthcare-worker-benefits-decision-system", 200, "Healthcare Worker Benefits Decision System"],
-  ["/products/healthcare-worker-benefits-decision-pack", 200, "Healthcare Worker Benefits Decision System"],
+  ["/products/healthcare-worker-benefits-decision-system", 200, "Would a $29 Open Enrollment Workspace"],
+  ["/products/healthcare-worker-benefits-decision-pack", 200, "Would a $29 Open Enrollment Workspace"],
   ["/sign-in", 200, "Secure account"],
   ["/app/benefits-decision", 200, "Access"],
 ];
@@ -11,6 +11,12 @@ for (const [route, expected, text] of checks) {
     const response = await fetch(`${base}${route}`, { redirect: "follow" });
     const body = await response.text();
     if (response.status !== expected || !body.includes(text)) failures.push(`${route}: expected ${expected} and ${text}.`);
+    if (route.includes("healthcare-worker-benefits-decision") && !body.includes('content="noindex, nofollow, noarchive"')) {
+      failures.push(`${route}: expected noindex, nofollow, noarchive metadata.`);
+    }
+    if (route.includes("healthcare-worker-benefits-decision") && /Buy now|Proceed to checkout|card number/i.test(body)) {
+      failures.push(`${route}: purchase or payment collection appeared during demand validation.`);
+    }
   } catch {
     failures.push(`${route}: request failed.`);
   }

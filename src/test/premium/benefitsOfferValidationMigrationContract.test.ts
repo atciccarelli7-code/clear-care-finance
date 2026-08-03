@@ -6,13 +6,19 @@ const migrationPath = "supabase/migrations/202608030001_benefits_offer_validatio
 describe("benefits offer validation migration contract", () => {
   it("keeps anonymous offer evidence fixed and consent-gated", () => {
     const migration = readFileSync(migrationPath, "utf8");
+    const growthEventsSection = migration.match(
+      /alter table public\.growth_events[\s\S]*?(?=create table if not exists public\.benefits_offer_commitments)/,
+    )?.[0] ?? "";
 
-    expect(migration).toContain("'benefits_offer_viewed'");
-    expect(migration).toContain("'benefits_offer_cta_opened'");
-    expect(migration).toContain("'benefits_decision_offer'");
-    expect(migration).toContain("'benefits_offer_29_v1'");
-    expect(migration).toContain("'early_access_commitment_form'");
-    expect(migration).not.toMatch(/growth_events[\s\S]*\b(email|employer|plan_name|salary|medical|payment)\b\s+(text|json|jsonb|numeric)/i);
+    expect(growthEventsSection).toContain("'benefits_offer_viewed'");
+    expect(growthEventsSection).toContain("'benefits_offer_cta_opened'");
+    expect(growthEventsSection).toContain("'benefits_decision_offer'");
+    expect(growthEventsSection).toContain("'benefits_offer_29_v1'");
+    expect(growthEventsSection).toContain("'early_access_commitment_form'");
+    expect(growthEventsSection).not.toMatch(
+      /\b(email|employer|plan_name|salary|medical|payment)\b\s+(text|json|jsonb|numeric)/i,
+    );
+    expect(growthEventsSection).not.toMatch(/add\s+column/i);
   });
 
   it("creates a service-role-only commitment table with exact offer controls", () => {

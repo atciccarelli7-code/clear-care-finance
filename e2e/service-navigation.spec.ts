@@ -55,7 +55,7 @@ test("desktop and intermediate-width visitors can discover free services and the
   await trigger.focus();
   await page.keyboard.press("Enter");
   await expect(page.getByRole("dialog", { name: "Explore CAF services" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Find the right starting point", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Explore CAF services", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Healthcare-worker decisions", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Patient and caregiver decisions", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Free education and trusted sources", exact: true })).toBeVisible();

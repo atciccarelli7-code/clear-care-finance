@@ -8,7 +8,6 @@ import {
 } from "@/data/serviceNavigation";
 import { NAVIGATION_DESTINATION_IDS } from "@/lib/evidenceEventContract";
 
-const FLAGSHIP_PREVIEW_ROUTE = "/products/healthcare-worker-benefits-decision-system";
 const canonicalPath = (route: string) => route.split("#")[0] || "/";
 
 const sitemapRoutes = () => {
@@ -18,13 +17,13 @@ const sitemapRoutes = () => {
 };
 
 describe("service navigation registry", () => {
-  it("keeps five primary destinations and expresses the approved free-core architecture", () => {
+  it("keeps five primary destinations and expresses the approved public architecture", () => {
     expect(PRIMARY_NAVIGATION_ITEMS).toEqual([
       { to: "/start-here", label: "Start Here" },
       { to: "/tools", label: "Free Tools" },
       { to: "/healthcare-workers", label: "Healthcare Workers" },
       { to: "/patients-families", label: "Patients & Caregivers" },
-      { to: FLAGSHIP_PREVIEW_ROUTE, label: "Decision System" },
+      { to: "/methodology", label: "Trust & Methods" },
     ]);
     expect(SERVICE_NAVIGATION_GROUPS).toHaveLength(4);
     expect(SERVICE_NAVIGATION_GROUPS.every((group) => group.items.length >= 2 && group.items.length <= 5)).toBe(true);
@@ -42,18 +41,16 @@ describe("service navigation registry", () => {
     expect(items.every((item) => item.description.length >= 30 && item.description.length <= 160)).toBe(true);
   });
 
-  it("keeps indexable learning destinations in the sitemap and the validation preview out of it", () => {
+  it("links every primary and featured service to an indexable canonical route", () => {
     const indexableRoutes = sitemapRoutes();
     const routes = [
       ...PRIMARY_NAVIGATION_ITEMS.map((item) => item.to),
       ...SERVICE_NAVIGATION_GROUPS.flatMap((group) => group.items.map((item) => item.to)),
       ...MOBILE_PRIORITY_ITEMS.map((item) => item.to),
     ].map(canonicalPath);
-    const routesExpectedInSitemap = routes.filter((route) => route !== FLAGSHIP_PREVIEW_ROUTE);
-    const missingRoutes = Array.from(new Set(routesExpectedInSitemap.filter((route) => !indexableRoutes.includes(route))));
+    const missingRoutes = Array.from(new Set(routes.filter((route) => !indexableRoutes.includes(route))));
 
     expect(missingRoutes).toEqual([]);
-    expect(indexableRoutes).not.toContain(FLAGSHIP_PREVIEW_ROUTE);
   });
 
   it("surfaces one flagship preview and at least seven concrete free decision services globally", () => {

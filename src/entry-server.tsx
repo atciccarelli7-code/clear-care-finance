@@ -2,16 +2,25 @@ import { PassThrough } from "node:stream";
 import { renderToPipeableStream } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { AppContent, preloadRoute } from "./App";
+import {
+  BENEFITS_DECISION_OFFER_PATH,
+  Phase3ProductContent,
+} from "./Phase3ProductApp";
 import { resolveSiteSeoMeta } from "@/lib/siteSeoMeta";
+
+const pathnameFor = (url: string) => url.split("?")[0].split("#")[0] || "/";
 
 const renderAppToString = (url: string) =>
   new Promise<string>((resolve, reject) => {
     let html = "";
     let didPipe = false;
+    const isBenefitsOffer = pathnameFor(url) === BENEFITS_DECISION_OFFER_PATH;
 
     const { pipe, abort } = renderToPipeableStream(
       <StaticRouter location={url}>
-        <AppContent includeRuntimeTelemetry={false} />
+        {isBenefitsOffer
+          ? <Phase3ProductContent includeRuntimeTelemetry={false} />
+          : <AppContent includeRuntimeTelemetry={false} />}
       </StaticRouter>,
       {
         onAllReady() {
@@ -38,7 +47,7 @@ const renderAppToString = (url: string) =>
   });
 
 export const render = async (url: string) => {
-  await preloadRoute(url);
+  if (pathnameFor(url) !== BENEFITS_DECISION_OFFER_PATH) await preloadRoute(url);
 
   return {
     html: await renderAppToString(url),

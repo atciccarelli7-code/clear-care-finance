@@ -3,6 +3,7 @@ import { renderToPipeableStream } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { AppContent, preloadRoute } from "./App";
 import {
+  BENEFITS_DECISION_OFFER_META,
   BENEFITS_DECISION_OFFER_PATH,
   Phase3ProductContent,
 } from "./Phase3ProductApp";
@@ -47,10 +48,11 @@ const renderAppToString = (url: string) =>
   });
 
 export const render = async (url: string) => {
-  if (pathnameFor(url) !== BENEFITS_DECISION_OFFER_PATH) await preloadRoute(url);
+  const isBenefitsOffer = pathnameFor(url) === BENEFITS_DECISION_OFFER_PATH;
+  if (!isBenefitsOffer) await preloadRoute(url);
 
   return {
     html: await renderAppToString(url),
-    meta: resolveSiteSeoMeta(url),
+    meta: isBenefitsOffer ? BENEFITS_DECISION_OFFER_META : resolveSiteSeoMeta(url),
   };
 };

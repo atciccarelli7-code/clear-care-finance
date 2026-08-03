@@ -54,17 +54,18 @@ test("desktop and intermediate-width visitors can discover free services and the
   const trigger = page.getByRole("button", { name: "Open Explore CAF service navigation" });
   await trigger.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("dialog", { name: "Explore CAF services" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Explore CAF services", exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Healthcare-worker decisions", exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Patient and caregiver decisions", exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Free education and trusted sources", exact: true })).toBeVisible();
+  const dialog = page.getByRole("dialog", { name: "Explore CAF services" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("heading", { name: "Explore CAF services", exact: true })).toBeVisible();
+  await expect(dialog.getByRole("heading", { name: "Healthcare-worker decisions", exact: true })).toBeVisible();
+  await expect(dialog.getByRole("heading", { name: "Patient and caregiver decisions", exact: true })).toBeVisible();
+  await expect(dialog.getByRole("heading", { name: "Free education and trusted sources", exact: true })).toBeVisible();
 
-  const flagship = page.getByRole("link", { name: /Benefits Decision System/ });
+  const flagship = dialog.getByRole("link", { name: /Benefits Decision System/ });
   await expect(flagship).toContainText(/coordinated open-enrollment decision support/i);
-  await expect(page.getByRole("link", { name: /Compare job offers/ })).toContainText(/beyond hourly pay/i);
-  await expect(page.getByRole("link", { name: /Medical Bill Review/ })).toContainText(/EOB and provider bill/i);
-  await expect(page.getByRole("link", { name: /Hospital & Patient Guide/ })).toContainText(/discharge/i);
+  await expect(dialog.getByRole("link", { name: /Compare job offers/ })).toContainText(/beyond hourly pay/i);
+  await expect(dialog.getByRole("link", { name: /Medical Bill Review/ })).toContainText(/EOB and provider bill/i);
+  await expect(dialog.getByRole("link", { name: /Hospital & Patient Guide/ })).toContainText(/discharge/i);
 
   await expectNoHorizontalOverflow(page);
   await expectNoSeriousAccessibilityViolations(page);

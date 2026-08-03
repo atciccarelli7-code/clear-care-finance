@@ -18,6 +18,9 @@ const BenefitsCommandCenterEntry = lazy(() =>
 const BenefitsOfferValidationPathway = lazy(() =>
   import("@/components/premium/BenefitsOfferValidationPathway").then((module) => ({ default: module.BenefitsOfferValidationPathway })),
 );
+const BenefitsOfferPrivacyDisclosure = lazy(() =>
+  import("@/components/premium/BenefitsOfferPrivacyDisclosure").then((module) => ({ default: module.BenefitsOfferPrivacyDisclosure })),
+);
 const ContinueWhereYouLeftOff = lazy(() =>
   import("@/components/shared/ContinueWhereYouLeftOff").then((module) => ({ default: module.ContinueWhereYouLeftOff })),
 );
@@ -87,6 +90,9 @@ export const Layout = () => {
         )}
         {endcapOwner === "benefits_offer_validation" && (
           <Suspense fallback={null}><BenefitsOfferValidationPathway /></Suspense>
+        )}
+        {endcapOwner === "benefits_offer_privacy" && (
+          <Suspense fallback={null}><BenefitsOfferPrivacyDisclosure /></Suspense>
         )}
         {endcapOwner === "navigator" && (
           <Suspense fallback={null}><NavigatorContextAction /></Suspense>

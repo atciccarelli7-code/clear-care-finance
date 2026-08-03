@@ -88,8 +88,10 @@ export const Header = () => {
   useEffect(() => {
     if (!mobileOpen) return;
 
-    const previousOverflow = document.body.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousRootOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     const frame = window.requestAnimationFrame(() => firstMobileLinkRef.current?.focus());
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -125,7 +127,8 @@ export const Header = () => {
     return () => {
       window.cancelAnimationFrame(frame);
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousRootOverflow;
     };
   }, [mobileOpen]);
 
@@ -241,10 +244,13 @@ export const Header = () => {
       </div>
 
       {mobileOpen && (
-        <div id="mobile-menu" className="border-t border-border bg-background animate-fade-in xl:hidden">
+        <div
+          id="mobile-menu"
+          className="absolute inset-x-0 top-full h-[calc(100dvh-4rem)] overflow-hidden border-t border-border bg-background animate-fade-in xl:hidden"
+        >
           <nav
             ref={mobileMenuRef}
-            className="container flex max-h-[calc(100vh-4rem)] flex-col overflow-y-auto py-4 pb-[calc(1rem_+_env(safe-area-inset-bottom))]"
+            className="container h-full min-h-0 touch-pan-y overflow-y-auto overscroll-y-contain py-4 pb-[calc(6rem_+_env(safe-area-inset-bottom))] [-webkit-overflow-scrolling:touch]"
             aria-label="Mobile navigation"
           >
             <div className="grid gap-2 sm:grid-cols-3" aria-label="Priority navigation">

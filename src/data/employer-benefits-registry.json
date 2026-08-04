@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "lastReviewedAt": "2026-08-03",
+  "coreDocumentTypes": [
+    "benefits_guide",
+    "medical_sbc",
+    "employee_rate_sheet",
+    "retirement_summary",
+    "annual_change_notice"
+  ],
+  "employers": [
+    {
+      "slug": "novant-health",
+      "name": "Novant Health",
+      "aliases": ["Novant", "Novant Health Presbyterian Medical Center"],
+      "regions": ["North Carolina"],
+      "defaultPlanYear": 2026,
+      "availability": "source_collection_needed",
+      "employeeClasses": [
+        { "id": "benefits-eligible", "label": "Benefits-eligible employee" },
+        { "id": "employee-spouse", "label": "Employee + spouse" },
+        { "id": "employee-children", "label": "Employee + child or children" },
+        { "id": "family", "label": "Family coverage" },
+        { "id": "other", "label": "Another employee group" }
+      ],
+      "packages": [
+        {
+          "id": "novant-health-2026-general",
+          "planYear": 2026,
+          "populationLabel": "General benefits-eligible employees",
+          "status": "source_collection_needed",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "slug": "atrium-health",
+      "name": "Atrium Health",
+      "aliases": ["Atrium", "Advocate Health - Atrium Health"],
+      "regions": ["North Carolina", "South Carolina"],
+      "defaultPlanYear": 2026,
+      "availability": "source_collection_needed",
+      "employeeClasses": [
+        { "id": "benefits-eligible", "label": "Benefits-eligible teammate" },
+        { "id": "employee-spouse", "label": "Employee + spouse" },
+        { "id": "employee-children", "label": "Employee + child or children" },
+        { "id": "family", "label": "Family coverage" },
+        { "id": "other", "label": "Another employee group" }
+      ],
+      "packages": [
+        {
+          "id": "atrium-health-2026-general",
+          "planYear": 2026,
+          "populationLabel": "General benefits-eligible teammates",
+          "status": "source_collection_needed",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "slug": "unc-health",
+      "name": "UNC Health",
+      "aliases": ["UNC Healthcare", "UNC Hospitals"],
+      "regions": ["North Carolina"],
+      "defaultPlanYear": 2026,
+      "availability": "partial_sources",
+      "employeeClasses": [
+        { "id": "triangle", "label": "Triangle employee group" },
+        { "id": "non-triangle", "label": "Non-Triangle employee group" },
+        { "id": "employee-spouse", "label": "Employee + spouse" },
+        { "id": "family", "label": "Family coverage" },
+        { "id": "other", "label": "Another employee group" }
+      ],
+      "packages": [
+        {
+          "id": "unc-health-2026-triangle-non-triangle",
+          "planYear": 2026,
+          "populationLabel": "Triangle and Non-Triangle employees",
+          "status": "source_collection_in_progress",
+          "sources": [
+            {
+              "id": "unc-health-2026-benefit-summary",
+              "documentType": "benefits_guide",
+              "title": "2026 UNC Health Benefit Summary — Triangle & Non-Triangle",
+              "url": "https://jobs.unchealthcare.org/system/production/assets/515332/original/2026_UNC_Health_Benefit_Summary_Triangle___Non-Triangle.pdf",
+              "officialDomain": "unchealthcare.org",
+              "reviewStatus": "official_source_located",
+              "retrievedAt": "2026-08-03"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ecu-health",
+      "name": "ECU Health",
+      "aliases": ["Vidant Health", "ECU Health Medical Center"],
+      "regions": ["North Carolina"],
+      "defaultPlanYear": 2026,
+      "availability": "partial_sources",
+      "employeeClasses": [
+        { "id": "team-member", "label": "Benefits-eligible team member" },
+        { "id": "employee-spouse", "label": "Employee + spouse" },
+        { "id": "employee-children", "label": "Employee + child or children" },
+        { "id": "family", "label": "Family coverage" },
+        { "id": "other", "label": "Another employee group" }
+      ],
+      "packages": [
+        {
+          "id": "ecu-health-2026-team-members",
+          "planYear": 2026,
+          "populationLabel": "Benefits-eligible team members",
+          "status": "source_collection_in_progress",
+          "sources": [
+            {
+              "id": "ecu-health-2026-benefits-guide",
+              "documentType": "benefits_guide",
+              "title": "2026 ECU Health Benefits Guide",
+              "url": "https://totalrewards.ecuhealth.org/wp-content/uploads/2025/09/2026_ECU_Health_8.5x11_Benefits_Guide_Team_LR.pdf",
+              "officialDomain": "ecuhealth.org",
+              "reviewStatus": "official_source_located",
+              "retrievedAt": "2026-08-03"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "northwell-health",
+      "name": "Northwell Health",
+      "aliases": ["Northwell"],
+      "regions": ["New York"],
+      "defaultPlanYear": 2026,
+      "availability": "partial_sources",
+      "employeeClasses": [
+        { "id": "non-union", "label": "Non-union employee" },
+        { "id": "employee-spouse", "label": "Employee + spouse" },
+        { "id": "employee-children", "label": "Employee + child or children" },
+        { "id": "family", "label": "Family coverage" },
+        { "id": "other", "label": "Another employee group" }
+      ],
+      "packages": [
+        {
+          "id": "northwell-health-2026-non-union",
+          "planYear": 2026,
+          "populationLabel": "Non-union employees",
+          "status": "source_collection_in_progress",
+          "sources": [
+            {
+              "id": "northwell-health-2026-non-union-benefits-guide",
+              "documentType": "benefits_guide",
+              "title": "2026 Northwell Health Non-Union Benefits Guide",
+              "url": "https://www.northwell.edu/sites/northwell.edu/files/2026-03/2026-non-union-benefits-guide-final.pdf",
+              "officialDomain": "northwell.edu",
+              "reviewStatus": "official_source_located",
+              "retrievedAt": "2026-08-03"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

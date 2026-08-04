@@ -313,6 +313,7 @@ export const isBenefitsWorkspacePristine = (workspace: BenefitsWorkspaceState | 
   const compensation = benefitsPackage.compensation;
   const healthPlan = benefitsPackage.healthPlans[0];
   return (
+    workspace.mode === "current_package" &&
     !isSampleBenefitsPackage(benefitsPackage) &&
     compensation.hourlyRate === 0 &&
     compensation.annualSalary === 0 &&

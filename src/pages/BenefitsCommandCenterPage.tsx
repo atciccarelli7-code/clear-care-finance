@@ -5,6 +5,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
 
+const NationalEmployerDirectory = lazy(() => import("@/components/benefits/NationalEmployerDirectory"));
 const EmployerBenefitsNavigator = lazy(() => import("@/components/benefits/EmployerBenefitsNavigator"));
 const BenefitsCommandCenterActivation = lazy(() => import("@/components/benefits/BenefitsCommandCenterActivation"));
 
@@ -68,10 +69,10 @@ const BenefitsCommandCenterPage = () => (
       <PageHero
         eyebrow="Free workplace-benefits comparison"
         title="Start with your employer. Finish with a clearer benefits decision."
-        description="Select a pilot healthcare employer or begin manually, preserve the plan year and employee group, inspect which official documents are available, and build a Benefits Receipt that separates compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs."
+        description="Search the national healthcare-system directory, preserve the plan year and employee group, inspect whether current official documents are available, and build a Benefits Receipt that separates compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs."
       >
         <Button asChild size="lg">
-          <a href="#employer-benefits-navigator-title">
+          <a href="#national-employer-directory-title">
             Find my employer <ArrowRight className="h-4 w-4" />
           </a>
         </Button>
@@ -85,7 +86,11 @@ const BenefitsCommandCenterPage = () => (
         </Button>
       </PageHero>
 
-      <Suspense fallback={<div className="container flex min-h-[520px] items-center justify-center py-10 text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading the employer source registry…</div>}>
+      <Suspense fallback={<div className="container flex min-h-[420px] items-center justify-center py-10 text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading the national employer directory…</div>}>
+        <NationalEmployerDirectory />
+      </Suspense>
+
+      <Suspense fallback={<div className="container flex min-h-[520px] items-center justify-center py-10 text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading the reviewed employer source registry…</div>}>
         <EmployerBenefitsNavigator />
       </Suspense>
 
@@ -95,12 +100,12 @@ const BenefitsCommandCenterPage = () => (
             <Layers3 className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Live pilot versus complete system</div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">National directory versus reviewed package</div>
             <h2 id="full-system-preview-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
               Need to coordinate the full open-enrollment decision?
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              This focused comparison remains free. The live pilot now preserves the employer, plan year, employee group, source coverage, and missing-document list before opening the calculation workspace. The planned paid system will add reviewed employer-specific prefills, prescription and network checks, saved accounts, deadlines, verification workflow, and a final election brief. Checkout remains off.
+              Every AHRQ-listed healthcare system can now begin a manual workspace. Reviewed employer-specific prefills remain deliberately narrower: they require current documents, the correct employee population, structured extraction, and fact-level review. The planned paid system will add prescription and network checks, saved accounts, deadlines, verification workflow, and a final election brief. Checkout remains off.
             </p>
           </div>
           <Button asChild variant="outline">

@@ -66,7 +66,7 @@ const BenefitsCommandCenterPage = () => (
   <>
     <div className="print:hidden">
       <PageHero
-        eyebrow="Free workplace-benefits decision workspace"
+        eyebrow="Free workplace-benefits comparison"
         title="Start with your employer. Finish with a clearer benefits decision."
         description="Select a pilot healthcare employer or begin manually, preserve the plan year and employee group, inspect which official documents are available, and build a Benefits Receipt that separates compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs."
       >
@@ -97,10 +97,10 @@ const BenefitsCommandCenterPage = () => (
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Live pilot versus complete system</div>
             <h2 id="full-system-preview-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
-              Employer context is now connected to the free workspace.
+              Need to coordinate the full open-enrollment decision?
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              The live pilot preserves the employer, plan year, employee group, source coverage, and missing-document list before opening the calculation workspace. The planned paid system will add reviewed employer-specific prefills, prescription and network checks, saved accounts, deadlines, verification workflow, and a final election brief. Checkout remains off.
+              This focused comparison remains free. The live pilot now preserves the employer, plan year, employee group, source coverage, and missing-document list before opening the calculation workspace. The planned paid system will add reviewed employer-specific prefills, prescription and network checks, saved accounts, deadlines, verification workflow, and a final election brief. Checkout remains off.
             </p>
           </div>
           <Button asChild variant="outline">

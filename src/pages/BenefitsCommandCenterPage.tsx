@@ -106,7 +106,7 @@ const BenefitsCommandCenterPage = () => (
               Bring the documents and know your situation. The full system guides the rest.
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              This focused comparison remains free and manual. The planned paid system begins with the current documents that apply to the purchaser and plain-language questions about household coverage, expected use, risk tolerance, priorities, and employment horizon. It then coordinates source confirmation, prescriptions and networks, saved work, deadlines, verification, scenarios, and the final Benefits Decision Brief. Checkout, paid access, and private document upload remain off.
+              This focused comparison remains free. It is manual preparation. Need to coordinate the full open-enrollment decision? The planned paid system begins with the current documents that apply to the purchaser and plain-language questions about household coverage, expected use, risk tolerance, priorities, and employment horizon. It then coordinates source confirmation, prescriptions and networks, saved work, deadlines, verification, scenarios, and the final Benefits Decision Brief. Checkout, paid access, and private document upload remain off.
             </p>
           </div>
           <Button asChild variant="outline">

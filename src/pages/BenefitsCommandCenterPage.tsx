@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 const NationalEmployerDirectory = lazy(() => import("@/components/benefits/NationalEmployerDirectory"));
 const EmployerBenefitsNavigator = lazy(() => import("@/components/benefits/EmployerBenefitsNavigator"));
 const BenefitsCommandCenterActivation = lazy(() => import("@/components/benefits/BenefitsCommandCenterActivation"));
+const EmployerSourceContextBanner = lazy(() => import("@/components/benefits/EmployerSourceContextBanner"));
 
 const entryModes = [
   {
@@ -145,6 +146,9 @@ const BenefitsCommandCenterPage = () => (
     </div>
 
     <section id="benefits-command-center-workspace" className="container min-w-0 scroll-mt-28 pb-12 print:pb-0 md:pb-16">
+      <Suspense fallback={null}>
+        <EmployerSourceContextBanner />
+      </Suspense>
       <Suspense fallback={<div className="flex min-h-[520px] items-center justify-center rounded-[2rem] border border-border bg-card text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading the free benefits comparison…</div>}>
         <BenefitsCommandCenterActivation />
       </Suspense>

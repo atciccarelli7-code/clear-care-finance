@@ -59,10 +59,11 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
   try {
     const admin = getSupabaseAdmin();
+    const searchPattern = `%${query}%`;
     const { data, error } = await admin
       .from("employer_benefits_directory")
       .select("system_id,system_name,home_city,home_state,registry_vintage,hospital_count,staffed_beds,matched_employer_slug,discovered_source_count,current_public_source_count,best_plan_year,coverage_status")
-      .ilike("system_name", `%${query}%`)
+      .or(`system_name.ilike.${searchPattern},search_terms.ilike.${searchPattern}`)
       .order("current_public_source_count", { ascending: false })
       .order("hospital_count", { ascending: false, nullsFirst: false })
       .order("system_name", { ascending: true })

@@ -9,6 +9,7 @@ const siteSeoMeta = read("src/lib/siteSeoMeta.ts");
 const productPage = read("src/pages/premium/BenefitsDecisionOfferPage.tsx");
 const productForm = read("src/components/premium/BenefitsEarlyAccessForm.tsx");
 const documentPage = read("src/pages/premium/BenefitsDocumentStagingPage.tsx");
+const localSource = read("src/premium/localBenefitsSource.ts");
 const documentConfig = read("api/_lib/premiumConfig.ts");
 const routeUtils = read("scripts/seo-route-utils.mjs");
 const vercel = read("vercel.json");
@@ -34,7 +35,7 @@ const protectedSyntheticPreview = process.env.VERCEL_ENV === "preview" && docume
 if (realDocumentProcessingAuthorized) failures.push("Real visitor document processing is not authorized by this release.");
 if (documentIntakeEnabled && !protectedSyntheticPreview) failures.push("Document intake may be enabled only in a protected synthetic-only Vercel preview.");
 if (documentExtractionEnabled && (!documentIntakeEnabled || !protectedSyntheticPreview)) failures.push("Document extraction requires protected synthetic-only preview intake.");
-if (documentUiEnabled && !protectedSyntheticPreview) failures.push("The document staging UI may be enabled only in a protected synthetic-only Vercel preview.");
+if (documentUiEnabled && !protectedSyntheticPreview) failures.push("The legacy server document staging flag may be enabled only in a protected synthetic-only Vercel preview.");
 if ((documentIntakeEnabled || documentExtractionEnabled || documentUiEnabled) && process.env.PREMIUM_REAL_DOCUMENT_PROCESSING_AUTHORIZED !== "false") {
   failures.push("Synthetic preview document processing must explicitly keep real-document authorization false.");
 }
@@ -43,7 +44,7 @@ for (const name of Object.keys(process.env)) {
   if (/^VITE_.*(?:SECRET|SERVICE_ROLE|STRIPE_SECRET|WEBHOOK)/i.test(name)) failures.push(`Server-only secret variable uses a public VITE_ prefix: ${name}.`);
 }
 if (!app.includes("<ProtectedPremiumRoutes") || !app.includes('path="/app/benefits-decision"')) failures.push("Protected /app route wrapper is missing.");
-if (!app.includes('path="/app/benefits-decision/:workspaceId/documents"') || !app.includes("<BenefitsDocumentStagingPage")) failures.push("The protected document staging route is missing.");
+if (!app.includes('path="/app/benefits-decision/:workspaceId/documents"') || !app.includes("<BenefitsDocumentStagingPage")) failures.push("The protected local source-assistant route is missing.");
 const privateHeaderSources = [
   "/app",
   "/app/(.*)",
@@ -70,7 +71,7 @@ const documentStagingRewrite = vercelConfig.rewrites?.some((rewrite) =>
   rewrite.source === "/app/benefits-decision/:workspaceId/documents"
   && rewrite.destination === "/app/benefits-decision",
 );
-if (!documentStagingRewrite) failures.push("The private document staging deep-link rewrite is missing.");
+if (!documentStagingRewrite) failures.push("The private source-assistant deep-link rewrite is missing.");
 const workspaceRewrite = vercelConfig.rewrites?.some((rewrite) =>
   rewrite.source === "/app/benefits-decision/:workspaceId"
   && rewrite.destination === "/app/benefits-decision",
@@ -100,10 +101,20 @@ if (!siteSeoMeta.includes('title: "Healthcare Worker Benefits Decision System Ea
 if (!productPage.includes("$29") || !productForm.includes("No card. No checkout. No charge.")) failures.push("The price-qualified no-charge boundary is missing.");
 if (/stripe|checkoutSession|paymentIntent/i.test(productForm)) failures.push("The early-access form must not include Stripe or payment-session logic.");
 if (!productForm.includes("priceCommitment") || !productForm.includes("emailConsent")) failures.push("The early-access form must require price and email confirmation.");
+if (!productPage.includes("Premium foundation built") || !productPage.includes("Live payment and public paid access remain off")) failures.push("The premium readiness copy must distinguish built infrastructure from live commerce.");
 
-if (!documentPage.includes('VITE_PREMIUM_DOCUMENT_INTAKE_ENABLED === "true"')) failures.push("The document staging UI is missing its public build flag.");
-if (!documentPage.includes("Not a liability waiver") || !documentPage.includes("official elections")) failures.push("The document staging trust boundary is incomplete.");
-if (!documentConfig.includes("PREMIUM_REAL_DOCUMENT_PROCESSING_AUTHORIZED") || !documentConfig.includes("synthetic_only")) failures.push("The server document-processing release gates are incomplete.");
+const localSourceTrustPhrases = [
+  "Nothing is uploaded",
+  "Raw text is discarded",
+  "You confirm every value",
+  "No source text or file was retained",
+  "Written plan documents and the plan administrator remain controlling",
+];
+for (const phrase of localSourceTrustPhrases) if (!documentPage.includes(phrase)) failures.push(`The browser-local source assistant is missing its trust boundary: ${phrase}`);
+if (!documentPage.includes("scanSensitiveData") || !documentPage.includes("extractSyntheticBenefitsFacts")) failures.push("The browser-local source assistant must scan before extracting candidates.");
+if (/documentIntakeApi|uploadBenefitDocument|signedToken|UploadCloud/.test(documentPage)) failures.push("The commercial v1 source assistant must not invoke server document upload APIs.");
+if (!localSource.includes("Only user-confirmed structured values were saved") || !localSource.includes("raw text and file contents were not retained")) failures.push("The structured workspace mapping must preserve the no-source-retention assumption.");
+if (!documentConfig.includes("PREMIUM_REAL_DOCUMENT_PROCESSING_AUTHORIZED") || !documentConfig.includes("synthetic_only")) failures.push("The dormant server document-processing release gates are incomplete.");
 
 if (/VITE_(?:SUPABASE_SERVICE_ROLE_KEY|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET)/.test(envExample)) failures.push(".env.example exposes a server secret through VITE_.");
 const safeDocumentDefaults = [

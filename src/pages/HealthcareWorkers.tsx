@@ -83,7 +83,7 @@ const HealthcareWorkers = () => {
                 <LockKeyhole className="h-4 w-4 text-primary" aria-hidden="true" /> Preview only
               </div>
               <p className="mt-1 max-w-[18rem] leading-relaxed text-muted-foreground">
-                Planned early-access test: <strong className="text-foreground">$29 one time</strong>. Checkout, paid access, and private document upload remain off.
+                Planned early-access test: <strong className="text-foreground">$29 one time</strong>. Checkout and paid access remain off. Private document upload also remains off.
               </p>
             </div>
           </div>

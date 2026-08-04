@@ -5,7 +5,10 @@ test.describe("Employer benefits navigator", () => {
     await page.goto("/tools/benefits-command-center");
 
     await expect(page.getByRole("heading", { name: /start with the employer and plan year/i })).toBeVisible();
-    await page.getByRole("button", { name: /unc health/i }).click();
+    const uncEmployerButton = page.locator("button").filter({ hasText: "UNC Health" }).first();
+    await expect(uncEmployerButton).toBeVisible();
+    await uncEmployerButton.scrollIntoViewIfNeeded();
+    await uncEmployerButton.click();
     await expect(page.getByRole("link", { name: /2026 UNC Health Benefit Summary/i })).toBeVisible();
     await page.getByLabel("Your employee group").selectOption("triangle");
     await page.getByRole("button", { name: /start this employer workspace/i }).click();
@@ -19,7 +22,7 @@ test.describe("Employer benefits navigator", () => {
       employerSlug: "unc-health",
       planYear: 2026,
       employeeClassId: "triangle",
-      sourceStatus: "source_collection_in_progress",
+      sourceStatus: "review_in_progress",
     });
     expect(workspace.mode).toBe("open_enrollment");
     expect(workspace.packages[0].label).toContain("UNC Health 2026");

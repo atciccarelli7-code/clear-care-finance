@@ -8,6 +8,7 @@ import {
   type BenefitDocumentKind,
   type BenefitDocumentRecord,
   type DocumentIntakeMode,
+  type DocumentUploadRequest,
 } from "./documentIntakeContracts.js";
 import { PremiumApiError } from "./apiClient.js";
 
@@ -64,11 +65,13 @@ export const uploadBenefitDocument = async ({
   workspaceId,
   documentKind,
   file,
+  attestations,
 }: {
   token: string;
   workspaceId: string;
   documentKind: BenefitDocumentKind;
   file: File;
+  attestations: DocumentUploadRequest["attestations"];
 }): Promise<BenefitDocumentRecord> => {
   const authorizationResponse = await fetch("/api/document-intake", {
     method: "POST",
@@ -79,12 +82,7 @@ export const uploadBenefitDocument = async ({
       clientFileName: file.name,
       mimeType: file.type,
       fileSize: file.size,
-      attestations: {
-        noPersonalInformation: true,
-        notElectionOrIndividualRecord: true,
-        authorizedToUse: true,
-        syntheticPublicOrRedacted: true,
-      },
+      attestations,
     }),
   });
   const authorizationPayload = await readJson(authorizationResponse);

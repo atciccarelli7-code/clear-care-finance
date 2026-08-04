@@ -27,7 +27,12 @@ const isSafePublicUrl = (value: unknown) => {
   if (typeof value !== "string") return false;
   try {
     const parsed = new URL(value);
-    return parsed.protocol === "https:" || parsed.protocol === "http:";
+    const host = parsed.hostname.toLowerCase();
+    return parsed.protocol === "https:"
+      && !parsed.username
+      && !parsed.password
+      && host !== "localhost"
+      && !host.endsWith(".local");
   } catch {
     return false;
   }

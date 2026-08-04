@@ -1,0 +1,41 @@
+name: Employer benefits source monitor
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 13 * * 2"
+
+permissions:
+  contents: read
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate registry contract
+        run: npm run employer-benefits:check
+
+      - name: Check registered official sources
+        run: node scripts/monitor-employer-benefits-sources.mjs --write
+
+      - name: Upload source-health report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: employer-benefits-source-health
+          path: artifacts/employer-benefits-source-health.*
+          if-no-files-found: warn
+          retention-days: 30

@@ -30,7 +30,7 @@ test.describe("Employer benefits navigator", () => {
 
     await page.goto("/tools/benefits-command-center");
     await expect(page.getByRole("heading", { name: /find your healthcare system/i })).toBeVisible();
-    await page.getByLabel("Healthcare system").fill("Mayo");
+    await page.getByRole("textbox", { name: "Healthcare system", exact: true }).fill("Mayo");
     await expect(page.getByRole("heading", { name: "Mayo Clinic" })).toBeVisible();
     await expect(page.getByText(/current public source located/i)).toBeVisible();
     await page.getByRole("button", { name: /start manually/i }).click();

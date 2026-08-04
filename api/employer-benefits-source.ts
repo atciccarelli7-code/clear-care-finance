@@ -23,6 +23,13 @@ type EmployerBenefitsSourceBody = {
   website?: unknown;
 };
 
+type CoverageStatus =
+  | "research_pending"
+  | "verified_public_pdf"
+  | "verified_public_webpage"
+  | "private_employee_portal"
+  | "outdated_only";
+
 type DirectoryRow = {
   system_id: string;
   system_name: string;
@@ -35,12 +42,23 @@ type DirectoryRow = {
   discovered_source_count: number;
   current_public_source_count: number;
   best_plan_year: number | null;
-  coverage_status:
-    | "research_pending"
-    | "verified_public_pdf"
-    | "verified_public_webpage"
-    | "private_employee_portal"
-    | "outdated_only";
+  coverage_status: CoverageStatus;
+};
+
+type DirectorySourceRow = {
+  id: string;
+  ahrq_system_id: string | null;
+  guide_title: string;
+  audience: string | null;
+  plan_year_label: string | null;
+  plan_year_start: number | null;
+  plan_year_end: number | null;
+  state_region: string | null;
+  source_url: string;
+  document_type: string;
+  source_status: "verified_public_pdf" | "verified_public_webpage";
+  verification_status: "source_verified" | "extracted" | "reviewed" | "product_ready";
+  updated_at: string;
 };
 
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -83,6 +101,25 @@ const normalizePublicSourceUrl = (value: unknown) => {
   return { url: parsed.toString(), host };
 };
 
+const safeVerifiedSourceUrl = (value: string) => {
+  try {
+    const parsed = new URL(value);
+    const host = parsed.hostname.toLowerCase();
+    if (
+      !["https:", "http:"].includes(parsed.protocol)
+      || parsed.username
+      || parsed.password
+      || host === "localhost"
+      || host.endsWith(".local")
+      || ipv4Pattern.test(host)
+    ) return "";
+    parsed.hash = "";
+    return parsed.toString();
+  } catch {
+    return "";
+  }
+};
+
 const submissionHash = (input: {
   employerName: string;
   sourceUrl: string;
@@ -91,6 +128,9 @@ const submissionHash = (input: {
 }) => createHash("sha256")
   .update(JSON.stringify(input))
   .digest("hex");
+
+const sourceYear = (source: DirectorySourceRow) =>
+  source.plan_year_end ?? source.plan_year_start ?? 0;
 
 const handleDirectoryLookup = async (req: ApiRequest, res: ApiResponse) => {
   res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=3600");
@@ -119,20 +159,69 @@ const handleDirectoryLookup = async (req: ApiRequest, res: ApiResponse) => {
 
     if (error) throw new Error(`employer_directory_query_failed:${error.code ?? "unknown"}`);
 
-    const entries = ((data ?? []) as DirectoryRow[]).map((row) => ({
-      systemId: row.system_id,
-      name: row.system_name,
-      city: row.home_city,
-      state: row.home_state,
-      registryVintage: row.registry_vintage,
-      hospitalCount: row.hospital_count,
-      staffedBeds: row.staffed_beds === null ? null : Number(row.staffed_beds),
-      matchedEmployerSlug: row.matched_employer_slug,
-      discoveredSourceCount: row.discovered_source_count,
-      currentPublicSourceCount: row.current_public_source_count,
-      bestPlanYear: row.best_plan_year,
-      coverageStatus: row.coverage_status,
-    }));
+    const directoryRows = (data ?? []) as DirectoryRow[];
+    const systemIds = directoryRows.map((row) => row.system_id);
+    let sourceRows: DirectorySourceRow[] = [];
+
+    if (systemIds.length) {
+      const sourceResult = await admin
+        .from("employer_benefits_discovered_sources")
+        .select("id,ahrq_system_id,guide_title,audience,plan_year_label,plan_year_start,plan_year_end,state_region,source_url,document_type,source_status,verification_status,updated_at")
+        .in("ahrq_system_id", systemIds)
+        .in("source_status", ["verified_public_pdf", "verified_public_webpage"])
+        .in("verification_status", ["source_verified", "extracted", "reviewed", "product_ready"]);
+
+      if (sourceResult.error) {
+        console.error("Employer benefit source detail lookup failed", {
+          code: sourceResult.error.code ?? "unknown",
+        });
+      } else {
+        sourceRows = (sourceResult.data ?? []) as DirectorySourceRow[];
+      }
+    }
+
+    const sourceRowsBySystem = new Map<string, DirectorySourceRow[]>();
+    sourceRows.forEach((source) => {
+      if (!source.ahrq_system_id || !safeVerifiedSourceUrl(source.source_url)) return;
+      const existing = sourceRowsBySystem.get(source.ahrq_system_id) ?? [];
+      existing.push(source);
+      sourceRowsBySystem.set(source.ahrq_system_id, existing);
+    });
+
+    const entries = directoryRows.map((row) => {
+      const sources = (sourceRowsBySystem.get(row.system_id) ?? [])
+        .sort((left, right) => sourceYear(right) - sourceYear(left) || right.updated_at.localeCompare(left.updated_at))
+        .slice(0, 4)
+        .map((source) => ({
+          sourceId: source.id,
+          title: source.guide_title,
+          url: safeVerifiedSourceUrl(source.source_url),
+          audience: source.audience,
+          planYearLabel: source.plan_year_label,
+          planYearStart: source.plan_year_start,
+          planYearEnd: source.plan_year_end,
+          stateRegion: source.state_region,
+          documentType: source.document_type,
+          sourceStatus: source.source_status,
+          verificationStatus: source.verification_status,
+        }));
+
+      return {
+        systemId: row.system_id,
+        name: row.system_name,
+        city: row.home_city,
+        state: row.home_state,
+        registryVintage: row.registry_vintage,
+        hospitalCount: row.hospital_count,
+        staffedBeds: row.staffed_beds === null ? null : Number(row.staffed_beds),
+        matchedEmployerSlug: row.matched_employer_slug,
+        discoveredSourceCount: row.discovered_source_count,
+        currentPublicSourceCount: row.current_public_source_count,
+        bestPlanYear: row.best_plan_year,
+        coverageStatus: row.coverage_status,
+        sources,
+      };
+    });
 
     return res.status(200).json({
       ok: true,

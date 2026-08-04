@@ -30,11 +30,19 @@ const pilotWorkflow = [
   "Generate the verification list and printable election plan",
 ];
 
+const premiumBoundary = [
+  "Authenticated, entitlement-protected decision workspaces",
+  "Resumable progress and protected cloud persistence for confirmed structured values",
+  "Browser-local source assistance that discards raw text and stores no document files",
+  "Webhook-driven access architecture for a one-time $29 product",
+  "Printable Benefits Decision Brief and final employer-portal checklist",
+];
+
 const notIncluded = [
   "No employer enrollment submission or official eligibility determination",
   "No individualized insurance, legal, tax, medical, or investment advice",
   "No prediction of claims, taxes, savings, approval, or coverage",
-  "No document upload, medical-record storage, member IDs, claim files, or payment-card collection",
+  "No server document uploads, medical-record storage, member IDs, claim files, credentials, or payment-card collection",
   "No live support, negotiation, plan administration, or employer endorsement",
 ];
 
@@ -67,8 +75,8 @@ const BenefitsDecisionOfferPage = () => {
       <div className="print:hidden">
         <PageHero
           eyebrow="Working end-to-end pilot"
-          title="Bring your benefits documents and household situation. CAF guides the open-enrollment decision."
-          description="Try a browser-local pilot that coordinates the enrollment event, household coverage, source readiness, medical plans, tax-advantaged accounts, protection benefits, retirement, verification questions, payroll impact, and a final printable election plan."
+          title="A complete benefits decision system—not another disconnected free calculator."
+          description="Try the working open-enrollment journey now. The premium release is being prepared as a $29 account workspace that saves confirmed structured values, preserves verification tasks, and produces a retained election plan without storing benefits documents or raw source text."
         >
           <Button type="button" variant="hero" size="lg" onClick={openPilot}>
             Try the guided pilot <PlayCircle className="h-4 w-4" aria-hidden="true" />
@@ -86,18 +94,18 @@ const BenefitsDecisionOfferPage = () => {
             {[
               {
                 icon: PlayCircle,
-                title: "Working pilot available",
-                body: "The pilot now carries a user from the enrollment trigger through a printable election plan. It is a product-validation build, not merely a workflow preview.",
+                title: "Working product journey",
+                body: "The pilot carries a user from the enrollment trigger through a printable election plan. It is a functional product-validation build, not merely a workflow mockup.",
               },
               {
                 icon: LockKeyhole,
-                title: "Local and reversible",
-                body: "Answers stay in the browser for this pilot. No account, cloud workspace, document upload, payment, or production entitlement is activated.",
+                title: "Premium foundation built",
+                body: "Account authentication, entitlement-protected workspaces, structured cloud persistence, and Stripe checkout architecture exist behind release gates. Live payment and public paid access remain off.",
               },
               {
                 icon: ShieldCheck,
-                title: "Unknowns remain visible",
-                body: "Missing documents, network questions, prescription checks, uncertain benefits, and unresolved elections become a verification list instead of hidden assumptions.",
+                title: "Privacy-minimized by design",
+                body: "The first paid release stores confirmed plan values and broad preferences only. Benefits files and raw copied text remain on the user’s device and are discarded after local review.",
               },
             ].map(({ icon: Icon, title, body }) => (
               <div key={title} className="rounded-2xl border border-border bg-card p-5 shadow-card">
@@ -128,13 +136,13 @@ const BenefitsDecisionOfferPage = () => {
             </div>
 
             <div className="rounded-3xl border border-primary/25 bg-primary-soft/20 p-6 shadow-card md:p-8">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Proposed $29 system</div>
-              <h2 className="mt-2 font-display text-2xl font-bold">Coordinate and finish the decision</h2>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">$29 one time</div>
+              <h2 className="mt-2 font-display text-2xl font-bold">Pay for coordination, continuity, and completion</h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                The validation price remains $29 one time. The paid version would add an account-based workspace, secure persistence, source status, resumable progress, and a retained Benefits Decision Brief around the guided logic demonstrated below.
+                The paid boundary is not access to basic education. It is an account-based system that preserves progress, coordinates every material election, keeps unresolved questions visible, and produces a retained Benefits Decision Brief. The workspace and entitlement foundation are built; checkout remains disabled during prelaunch certification.
               </p>
               <ul className="mt-6 space-y-3">
-                {product.includedAssets.map((item) => (
+                {premiumBoundary.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
                     <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
                     <span>{item}</span>
@@ -150,7 +158,7 @@ const BenefitsDecisionOfferPage = () => {
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">End-to-end workflow</div>
-                <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Eight guided stages from scattered documents to one election plan</h2>
+                <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Eight guided stages from scattered plan information to one election plan</h2>
                 <ol className="mt-6 grid gap-3 sm:grid-cols-2">
                   {pilotWorkflow.map((module, index) => (
                     <li key={module} className="rounded-2xl border border-border bg-card p-4 text-sm leading-relaxed text-muted-foreground shadow-sm">
@@ -160,12 +168,12 @@ const BenefitsDecisionOfferPage = () => {
                 </ol>
               </div>
               <div className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">
-                <h2 className="font-display text-xl font-bold">Best fit for this pilot</h2>
+                <h2 className="font-display text-xl font-bold">Best fit for this system</h2>
                 <ul className="mt-5 space-y-3 text-sm leading-relaxed text-muted-foreground">
                   <li>• You are preparing for annual enrollment, new-hire enrollment, or a qualifying life event.</li>
                   <li>• Your employer offers several plans or benefit categories.</li>
                   <li>• You want to preserve assumptions and unresolved questions instead of rebuilding the analysis every year.</li>
-                  <li>• You are willing to enter verified numbers manually rather than upload confidential documents.</li>
+                  <li>• You are willing to confirm structured values rather than send CAF confidential or individualized documents.</li>
                   <li>• A printable verification and election plan would be useful before submitting choices.</li>
                 </ul>
               </div>
@@ -206,7 +214,7 @@ const BenefitsDecisionOfferPage = () => {
 
             <div className="rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 text-sm leading-relaxed text-muted-foreground">
               <FileCheck2 className="mb-3 h-5 w-5 text-primary" aria-hidden="true" />
-              The pilot intentionally stops before the employer portal. Users must review the official confirmation screen, submit through the employer or benefits administrator, and retain proof of the elections.
+              The system intentionally stops before the employer portal. Users must review the official confirmation screen, submit through the employer or benefits administrator, and retain proof of the elections.
             </div>
 
             <DisclaimerBox />

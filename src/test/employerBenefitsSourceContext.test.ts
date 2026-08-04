@@ -12,7 +12,7 @@ describe("employer benefits source context", () => {
     vi.restoreAllMocks();
   });
 
-  it("persists a versioned public source handoff", () => {
+  it("persists a versioned public HTTPS source handoff", () => {
     saveEmployerBenefitsSourceContext({
       schemaVersion: 1,
       systemId: "HSI-TEST",
@@ -43,7 +43,12 @@ describe("employer benefits source context", () => {
     expect(window.localStorage.getItem(EMPLOYER_BENEFITS_SOURCE_CONTEXT_STORAGE_KEY)).toContain("Example Health");
   });
 
-  it("rejects malformed or unsafe stored source context", () => {
+  it.each([
+    "javascript:alert(1)",
+    "http://benefits.example.org/guide.pdf",
+    "https://localhost/guide.pdf",
+    "https://employee:password@benefits.example.org/guide.pdf",
+  ])("rejects unsafe stored source URL %s", (url) => {
     window.localStorage.setItem(EMPLOYER_BENEFITS_SOURCE_CONTEXT_STORAGE_KEY, JSON.stringify({
       schemaVersion: 1,
       systemId: "HSI-TEST",
@@ -51,7 +56,7 @@ describe("employer benefits source context", () => {
       selectedSource: {
         sourceId: "source-1",
         title: "Bad source",
-        url: "javascript:alert(1)",
+        url,
       },
     }));
 

@@ -3,7 +3,7 @@
 Date: 2026-08-03  
 Branch: `feat/employer-benefits-platform-foundation`  
 Production route affected: `/tools/benefits-command-center`  
-Release state: implementation complete on branch; technical and business validation pending
+Release state: implementation and initial source extraction complete on branch; final technical and database validation pending
 
 ## Objective
 
@@ -31,7 +31,7 @@ The inherited warning that users should not enter employer or plan names was too
 - Seeded five healthcare employers: Novant Health, Atrium Health, UNC Health, ECU Health, and Northwell Health.
 - Added plan-year and employee-class selection.
 - Added source-completeness progress and missing-core-document reporting.
-- Added official-source candidate links for UNC Health, ECU Health, and Northwell Health.
+- Added seven official-source candidate links across all five pilot employers.
 - Added a one-click employer-context handoff into the existing local benefits workspace.
 - Preserved manual, sample, comparison, and tour modes.
 
@@ -40,7 +40,9 @@ The inherited warning that users should not enter employer or plan names was too
 - Added a typed, version-controlled employer source registry.
 - Added package, source, review-state, and readiness contracts.
 - Added a database migration for employer entities, plan-year packages, sources, normalized facts, and privacy-bounded source submissions.
-- Seeded the same five employer entities and three official-domain source candidates in the database migration.
+- Added plan-year extraction migrations for Novant Health, Atrium Health, UNC Health, and ECU Health.
+- Structured 46 candidate facts with source-document and page provenance, including premiums, medical-plan design, employer HSA contributions, retirement rules, leave, disability, life insurance, tuition support, enrollment deadlines, and surcharges where supported by the applicable guide.
+- Left Northwell Health at source-located status because the current official PDF blocked reliable extraction; no stale 2020 information was substituted.
 - Prevented candidate facts from being represented as verified prefills.
 
 ### Intake
@@ -62,7 +64,9 @@ The inherited warning that users should not enter employer or plan names was too
 
 - Employer-aware entry points on the Benefits Command Center: `0 → 1`.
 - Seeded healthcare employers: `0 → 5`.
-- Registered official-domain source candidates: `0 → 3`.
+- Registered official-domain source candidates: `0 → 7`.
+- Employer packages with page-grounded candidate facts: `0 → 4`.
+- Structured candidate employer-benefit facts: `0 → 46`.
 - Core source categories tracked per package: `0 → 5`.
 - Public sensitive-file upload paths: `0 → 0`.
 - Public employer-source intake fields containing contact or health data: `0 → 0`.
@@ -89,20 +93,20 @@ These are withheld because the current evidence, source completeness, privacy mo
 | Perspective | Status | Finding |
 |---|---|---|
 | Strategy | PASS | Directly advances the confirmed healthcare-worker flagship rather than adding another content page. |
-| Operations | WARN | Source extraction and human review queues are designed but not yet staffed or administered. |
+| Operations | WARN | Source extraction is now repeatable, but the human verification queue still needs an explicit operating owner and cadence. |
 | Finance | PASS | Uses existing infrastructure; no new paid vendor or recurring service is introduced. |
 | Revenue | WARN | Improves flagship value but does not activate payment or establish willingness to pay for the working experience. |
 | Product | PASS | Converts employer identification into an actual product action and preserves manual fallback. |
-| Technology | WARN | Full CI and preview validation remain pending. |
-| Data and analytics | WARN | Source and readiness data are structured; product-funnel instrumentation remains intentionally limited. |
+| Technology | WARN | Full CI, preview, and live migration validation remain pending. |
+| Data and analytics | PASS | Employer entities, package scope, sources, candidate facts, review status, and provenance are structurally separated. |
 | Discovery | PASS | Preserves the canonical route and existing search surface. |
-| Editorial integrity | PASS | Official-source candidates are labeled as unverified; no extracted fact is published as authoritative. |
-| Healthcare-user context | PASS | Uses employer, plan year, employee class, and source uncertainty that healthcare workers actually face. |
+| Editorial integrity | PASS | Official sources and candidate facts are labeled as unverified; blocked Northwell extraction was not replaced with stale content. |
+| Healthcare-user context | PASS | Uses employer, plan year, employee class, salary band, work status, and source uncertainty that healthcare workers actually face. |
 | Privacy and legal | PASS | Intake is metadata-only and explicitly excludes credentials, health information, claims, member IDs, and files. |
 | Accessibility and reliability | WARN | Semantic controls and live regions are implemented; browser certification remains pending. |
 | Quality and release | BLOCK | Do not merge until CI, browser, preview, migration, and production-boundary checks pass. |
-| Red team | WARN | Principal risks are stale plan-year data, wrong employee-population matching, and users mistaking source presence for verification. UI and governance explicitly address these risks. |
-| Process improvement | PASS | Repeated manual PDF discovery is converted into a versioned registry, schema, validation command, and weekly monitor. |
+| Red team | WARN | Principal risks are stale plan-year data, wrong employee-population matching, and users mistaking candidate facts for verified guidance. UI, schema, and governance explicitly address these risks. |
+| Process improvement | PASS | Repeated manual PDF discovery is converted into a versioned registry, extraction schema, validation command, and weekly monitor. |
 
 ## Registered role quorum
 
@@ -116,10 +120,10 @@ These are withheld because the current evidence, source completeness, privacy mo
 | Healthcare user research | PASS | Employee class and plan-year applicability are first-class. |
 | Information architecture | PASS | Existing canonical route is strengthened instead of adding a duplicate route. |
 | UX and design system | WARN | Responsive and semantic implementation is present; preview review pending. |
-| Content and evidence integrity | PASS | Source and fact review states are explicit. |
+| Content and evidence integrity | PASS | Source and fact review states are explicit, with 46 page-grounded candidate facts. |
 | Frontend engineering | WARN | Compilation and browser CI pending. |
-| Systems architecture | PASS | Static reviewed registry, future database model, and monitoring responsibilities are separated. |
-| Backend, data, and security | WARN | Migration and API are least-privilege by design; live migration validation pending. |
+| Systems architecture | PASS | Static reviewed registry, private database, source monitor, and future verified-fact API responsibilities are separated. |
+| Backend, data, and security | WARN | Migrations and API are least-privilege by design; live migration validation pending. |
 | Platform and DevOps | WARN | Scheduled source monitor added; workflow execution pending. |
 | SEO and discovery | PASS | Canonical route preserved; no new thin employer landing pages. |
 | Monetization and conversion | WARN | Product utility improved; payment remains correctly disabled. |
@@ -138,18 +142,18 @@ These are withheld because the current evidence, source completeness, privacy mo
 - Unit tests pass.
 - Browser certification verifies employer selection, local context, source visibility, and bounded submission payload.
 - Vercel preview is `READY`.
-- Supabase migration applies without error.
+- Supabase migrations apply in order without error.
 - Database security advisors show no new unresolved findings.
 - Direct `anon` and `authenticated` table access remains unavailable.
 - Submission API can insert through server-side service-role access.
-- The page never states that a package is verified when only a source URL is located.
+- The page never states that a package is verified when only a source URL or candidate fact is present.
 - Existing Benefits Command Center modes and saved-work behavior remain functional.
 
 ## Rollback
 
-- Revert the pull request to remove the employer navigator, endpoint, registry, scripts, tests, and migration file.
-- If the database migration has already been applied, disable the intake endpoint and retain the new private tables until a separately reviewed cleanup migration is approved. The tables are additive and contain no required production dependencies.
+- Revert the pull request to remove the employer navigator, endpoint, registry, scripts, tests, and migration files.
+- If the database migrations have already been applied, disable the intake endpoint and retain the new private tables until a separately reviewed cleanup migration is approved. The tables are additive and contain no required production dependencies.
 
 ## Highest-value next action after release
 
-Complete extraction and human verification for one 2026 healthcare-employer package, preferably the employer whose employee population and source set can be most confidently scoped. Only then enable reviewed prefills for that one package and validate the end-to-end decision output with a real employee scenario.
+Perform a second-person human verification pass on the Novant Health package because it has both a benefits guide and a separate premium sheet, then publish only the verified facts required for a controlled Novant employee guided-entry pilot. The first pilot must preserve every assumption and unresolved verification question and must not submit enrollment elections.

@@ -15,17 +15,101 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("caf-privacy-consent-v1", "necessary"));
 });
 
-test("bounded product route shows a no-charge, price-qualified $29 offer", async ({ page }) => {
+test("bounded product route shows the working no-charge, price-qualified $29 pilot", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-system");
   await expect(page).toHaveURL(/\/products\/healthcare-worker-benefits-decision-system$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Would a \$29 Open Enrollment Workspace/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Bring your benefits documents and household situation/i })).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow, noarchive");
+  await expect(page.getByRole("heading", { name: "Complete an open-enrollment election plan", exact: true })).toBeVisible();
   await expect(page.getByText("No card. No checkout. No charge.", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: /buy|purchase|checkout/i })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Learn and prepare without paying", exact: true })).toBeVisible();
   await expect(page.getByText(/Public calculators, checklists, comparisons/i)).toBeVisible();
-  await page.getByRole("button", { name: /I would consider it at \$29/i }).click();
+  await page.getByRole("button", { name: /I would consider it at \$29/i }).first().click();
   await expect(page.locator("#benefits-early-access-email")).toBeFocused();
+  expect(await seriousAxeViolations(page)).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+});
+
+test("open enrollment pilot reaches a persisted, printable election plan", async ({ page }) => {
+  await page.goto("/products/healthcare-worker-benefits-decision-system");
+  await page.getByRole("button", { name: /Try the guided pilot/i }).click();
+
+  await page.getByRole("button", { name: "Annual open enrollment" }).click();
+  await page.locator("#pilot-deadline").fill("2026-11-15");
+  await page.getByRole("button", { name: /Continue/i }).click();
+
+  await page.locator("#pilot-tier").selectOption("employee-only");
+  await page.locator("#pilot-other").selectOption("no");
+  await page.locator("#pilot-use").selectOption("expected");
+  await page.locator("#pilot-priority").selectOption("balanced");
+  await page.getByRole("button", { name: /Continue/i }).click();
+
+  for (const id of [
+    "benefits-guide",
+    "payroll-rates",
+    "medical-sbcs",
+    "drug-network-resources",
+    "account-rules",
+    "protection-retirement-summaries",
+  ]) {
+    await page.locator(`#pilot-doc-${id}`).selectOption("ready");
+  }
+  await page.getByRole("button", { name: /Continue/i }).click();
+
+  await page.getByLabel("Compare a second medical plan").uncheck();
+  await page.locator("#pilot-plan-a-label").fill("Plan A");
+  await page.locator("#pilot-plan-a-premium").fill("2400");
+  await page.locator("#pilot-plan-a-deductible").fill("1500");
+  await page.locator("#pilot-plan-a-coinsurance").fill("20");
+  await page.locator("#pilot-plan-a-oop").fill("5000");
+  await page.locator("#pilot-plan-a-employer").fill("500");
+  await page.locator("#pilot-plan-a-allowed").fill("3000");
+  await page.locator("#pilot-plan-a-network").selectOption("confirmed");
+  await page.locator("#pilot-plan-a-rx").selectOption("confirmed");
+  await page.locator("#pilot-medical-election").selectOption("a");
+  await page.getByRole("button", { name: /Continue/i }).click();
+
+  await page.locator("#pilot-account").selectOption("hsa");
+  await page.locator("#pilot-account-contribution").fill("2000");
+  await page.locator("#pilot-dependent-care").selectOption("not-offered");
+  await page.locator("#pilot-pay-periods").fill("26");
+  await page.getByRole("button", { name: /Continue/i }).click();
+
+  for (const id of [
+    "dental",
+    "vision",
+    "short-term-disability",
+    "long-term-disability",
+    "life-insurance",
+    "accident",
+    "critical-illness",
+    "hospital-indemnity",
+  ]) {
+    await page.locator(`#pilot-${id}`).selectOption(id === "dental" || id === "vision" ? "enroll" : "decline");
+  }
+  await page.locator("#pilot-ancillary-premium").fill("480");
+  await page.getByRole("button", { name: /Continue/i }).click();
+
+  await page.locator("#pilot-retirement-offered").selectOption("yes");
+  await page.locator("#pilot-compensation").fill("80000");
+  await page.locator("#pilot-retirement-rate").fill("6");
+  await page.locator("#pilot-match-status").selectOption("known");
+  await page.locator("#pilot-match-rate").fill("100");
+  await page.locator("#pilot-match-limit").fill("6");
+  await page.locator("#pilot-vested").fill("100");
+  await page.getByRole("button", { name: /Continue/i }).click();
+
+  await expect(page.getByRole("heading", { name: /Review the plan before using the employer portal/i })).toBeVisible();
+  await expect(page.getByText("Plan A", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText(/before tax effects and is not take-home pay/i)).toBeVisible();
+  await page.getByLabel(/I reviewed the planned elections/i).check();
+  await expect(page.getByText(/planning workflow is complete/i)).toBeVisible();
+  await expect(page.getByRole("button", { name: /Print election plan/i })).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByRole("heading", { name: /Review the plan before using the employer portal/i })).toBeVisible();
+  await expect(page.getByLabel(/I reviewed the planned elections/i)).toBeChecked();
   expect(await seriousAxeViolations(page)).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });
@@ -68,10 +152,10 @@ test("price-qualified commitment requires both confirmations and sends only fixe
   expect(submittedBody).not.toHaveProperty("notes");
 });
 
-test("retired product-pack route resolves to the canonical validation offer", async ({ page }) => {
+test("retired product-pack route resolves to the canonical working pilot", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-pack");
   await expect(page).toHaveURL(/\/products\/healthcare-worker-benefits-decision-system$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Would a \$29 Open Enrollment Workspace/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Bring your benefits documents and household situation/i })).toBeVisible();
 });
 
 test("missing authentication configuration fails closed on every application entry", async ({ page }) => {

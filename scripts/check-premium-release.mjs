@@ -95,7 +95,7 @@ const retiredRouteRedirectsToOffer = vercelConfig.redirects?.some((redirect) =>
 if (!retiredRouteRedirectsToOffer) failures.push("The retired product route must redirect to the canonical validation offer.");
 if (!phase3App.includes("BENEFITS_DECISION_OFFER_META") || !phase3App.includes("BENEFITS_DECISION_OFFER_PATH")) failures.push("The Phase 3 application must use the canonical offer metadata source.");
 if (!siteSeoMeta.includes(`"${canonicalProductRoute}"`)) failures.push("The canonical validation offer route metadata is missing.");
-if (!siteSeoMeta.includes('robots: "noindex, nofollow, noarchive"')) failures.push("The validation offer metadata must be noindex.");
+if (!siteSeoMeta.includes('const noindex = "noindex, nofollow, noarchive"') || !siteSeoMeta.includes("robots: noindex")) failures.push("The validation offer metadata must be noindex.");
 if (!siteSeoMeta.includes('title: "Healthcare Worker Benefits Decision System Early Access"')) failures.push("The validation offer metadata title is missing.");
 if (!productPage.includes("$29") || !productForm.includes("No card. No checkout. No charge.")) failures.push("The price-qualified no-charge boundary is missing.");
 if (/stripe|checkoutSession|paymentIntent/i.test(productForm)) failures.push("The early-access form must not include Stripe or payment-session logic.");

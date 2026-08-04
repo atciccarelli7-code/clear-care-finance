@@ -69,8 +69,8 @@ const BenefitsCommandCenterPage = () => (
     <div className="print:hidden">
       <PageHero
         eyebrow="Free workplace-benefits comparison"
-        title="Start with your employer. Finish with a clearer benefits decision."
-        description="Search the national healthcare-system directory, preserve the plan year and employee group, inspect whether current official documents are available, and build a Benefits Receipt that separates compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs."
+        title="Start with your employer and current documents. Build a clearer Benefits Receipt."
+        description="Search the national healthcare-system directory, preserve the plan year and employee group, inspect whether current official documents are available, and manually organize compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs."
       >
         <Button asChild size="lg">
           <a href="#national-employer-directory-title">
@@ -101,16 +101,16 @@ const BenefitsCommandCenterPage = () => (
             <Layers3 className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">National directory versus reviewed package</div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Free preparation versus paid guided completion</div>
             <h2 id="full-system-preview-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
-              Need to coordinate the full open-enrollment decision?
+              Bring the documents and know your situation. The full system guides the rest.
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              This focused comparison remains free. Every AHRQ-listed healthcare system can now begin a manual workspace. Reviewed employer-specific prefills remain deliberately narrower: they require current documents, the correct employee population, structured extraction, and fact-level review. The planned paid system will add prescription and network checks, saved accounts, deadlines, verification workflow, and a final election brief. Checkout remains off.
+              This focused comparison remains free and manual. The planned paid system begins with the current documents that apply to the purchaser and plain-language questions about household coverage, expected use, risk tolerance, priorities, and employment horizon. It then coordinates source confirmation, prescriptions and networks, saved work, deadlines, verification, scenarios, and the final Benefits Decision Brief. Checkout, paid access, and private document upload remain off.
             </p>
           </div>
           <Button asChild variant="outline">
-            <Link to="/healthcare-workers#benefits-decision-system">Preview the full system</Link>
+            <Link to="/healthcare-workers#benefits-decision-system">See the guided system</Link>
           </Button>
         </div>
       </section>
@@ -137,10 +137,10 @@ const BenefitsCommandCenterPage = () => (
           ))}
         </div>
         <div className="mt-6 grid gap-3 rounded-2xl border border-border bg-muted/20 p-5 text-sm leading-relaxed text-muted-foreground md:grid-cols-2">
-          <p><strong className="text-foreground">Have nearby:</strong> a written offer or compensation statement, benefits rates, an SBC, retirement match and vesting terms, and leave policies.</p>
+          <p><strong className="text-foreground">Have nearby:</strong> the current benefits guide, medical rates and SBC, retirement and vesting terms, leave and protection summaries, and any other offer or household plan being compared.</p>
+          <p><strong className="text-foreground">Know your situation:</strong> who needs coverage, the general healthcare-use pattern, what must be verified, budget tolerance, priorities, and expected employment horizon.</p>
           <p><strong className="text-foreground">Keep it private:</strong> employer and plan names may be used for source matching, but do not enter member IDs, claims, medical information, account credentials, or other sensitive identifiers.</p>
-          <p><strong className="text-foreground">Calculated:</strong> entered cash, employee costs, selected health-plan scenarios, retirement contributions, and reasonable known values.</p>
-          <p><strong className="text-foreground">Kept qualitative:</strong> schedule, flexibility, career trajectory, protection, family support, uncertainty, and anything not verified.</p>
+          <p><strong className="text-foreground">Current boundary:</strong> this free workspace uses manual entry and public source links. It does not accept or store private document uploads.</p>
         </div>
       </section>
     </div>

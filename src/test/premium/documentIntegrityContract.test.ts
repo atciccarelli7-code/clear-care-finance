@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 const read = (path: string) => readFileSync(path, "utf8");
 
 describe("document integrity contract", () => {
-  it("recomputes and timing-safely compares SHA-256 on the server", () => {
+  it("recomputes and timing-safely compares SHA-256 on the dormant server quarantine service", () => {
     const service = read("api/_lib/documentIntake.ts");
     expect(service).toContain('createHash("sha256")');
     expect(service).toContain("timingSafeEqual(calculated, supplied)");
@@ -28,13 +28,24 @@ describe("document integrity contract", () => {
     expect(service).toContain(".delete()");
   });
 
-  it("requires affirmative UI confirmation before the staging page invokes upload", () => {
+  it("keeps the commercial-v1 source assistant browser-local and user-confirmed", () => {
     const page = read("src/pages/premium/BenefitsDocumentStagingPage.tsx");
-    const client = read("src/premium/documentIntakeApi.ts");
-    expect(page).toContain("Object.values(confirmations).every(Boolean)");
-    expect(page).toContain("!allConfirmed");
-    expect(client).toContain("attestations,");
-    expect(client).toContain("attestations?: DocumentUploadRequest");
+    const mapper = read("src/premium/localBenefitsSource.ts");
+    const dormantClient = read("src/premium/documentIntakeApi.ts");
+
+    expect(page).toContain("scanSensitiveData");
+    expect(page).toContain("extractSyntheticBenefitsFacts");
+    expect(page).toContain('setSourceText("")');
+    expect(page).toContain("Save confirmed values");
+    expect(page).toContain("No source text or file was retained");
+    expect(page).not.toMatch(/documentIntakeApi|uploadBenefitDocument|authorizeBenefitDocumentUpload/);
+
+    expect(mapper).toContain("applyConfirmedLocalBenefitsFacts");
+    expect(mapper).toContain("Only user-confirmed structured values were saved");
+    expect(mapper).toContain("raw text and file contents were not retained");
+
+    expect(dormantClient).toContain("attestations,");
+    expect(dormantClient).toContain("attestations?: DocumentUploadRequest");
   });
 
   it("never persists the client filename or raw extracted source text", () => {

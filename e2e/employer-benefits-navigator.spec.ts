@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Employer benefits navigator", () => {
-  test("finds a national health system and starts a bounded manual workspace", async ({ page }) => {
+  test("shows a verified employer source and carries it into the local workspace", async ({ page }) => {
     await page.route("**/api/employer-benefits-source?q=*", async (route) => {
       await route.fulfill({
         status: 200,
@@ -23,6 +23,19 @@ test.describe("Employer benefits navigator", () => {
             currentPublicSourceCount: 2,
             bestPlanYear: 2026,
             coverageStatus: "verified_public_pdf",
+            sources: [{
+              sourceId: "source-mayo-2026",
+              title: "2026 Employee Benefits Guide",
+              url: "https://benefits.example.org/mayo-2026-guide.pdf",
+              audience: "Benefits-eligible employees",
+              planYearLabel: "2026",
+              planYearStart: 2026,
+              planYearEnd: 2026,
+              stateRegion: "Minnesota",
+              documentType: "full_guide",
+              sourceStatus: "verified_public_pdf",
+              verificationStatus: "source_verified",
+            }],
           }],
         }),
       });
@@ -33,12 +46,28 @@ test.describe("Employer benefits navigator", () => {
     await page.getByRole("textbox", { name: "Healthcare system", exact: true }).fill("Mayo");
     await expect(page.getByRole("heading", { name: "Mayo Clinic" })).toBeVisible();
     await expect(page.getByText(/current public source located/i)).toBeVisible();
-    await page.getByRole("button", { name: /start manually/i }).click();
+    await expect(page.getByText("2026 Employee Benefits Guide")).toBeVisible();
+    await expect(page.getByRole("link", { name: /open official source/i })).toHaveAttribute("href", "https://benefits.example.org/mayo-2026-guide.pdf");
+    await page.getByRole("button", { name: /start with this source/i }).click();
 
     await page.waitForURL(/mode=build/);
+    await expect(page.getByText(/employer source attached/i)).toBeVisible();
+    await expect(page.getByText("2026 Employee Benefits Guide")).toBeVisible();
+
     const workspace = await page.evaluate(() => JSON.parse(window.localStorage.getItem("caf-benefits-command-center-v1") || "null"));
+    const sourceContext = await page.evaluate(() => JSON.parse(window.localStorage.getItem("caf-employer-benefits-source-context-v1") || "null"));
     expect(workspace.mode).toBe("open_enrollment");
     expect(workspace.packages[0].label).toContain("Mayo Clinic 2026");
+    expect(sourceContext).toMatchObject({
+      schemaVersion: 1,
+      systemId: "SYS-TEST-MAYO",
+      systemName: "Mayo Clinic",
+      selectedSource: {
+        sourceId: "source-mayo-2026",
+        title: "2026 Employee Benefits Guide",
+        planYearLabel: "2026",
+      },
+    });
   });
 
   test("preserves employer context before opening the reviewed benefits workspace", async ({ page }) => {

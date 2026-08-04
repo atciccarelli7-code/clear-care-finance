@@ -1,7 +1,7 @@
 const base = (process.env.PREMIUM_SMOKE_URL || "http://127.0.0.1:4173").replace(/\/$/, "");
 const checks = [
-  ["/products/healthcare-worker-benefits-decision-system", 200, "Would a $29 Open Enrollment Workspace"],
-  ["/products/healthcare-worker-benefits-decision-pack", 200, "Would a $29 Open Enrollment Workspace"],
+  ["/products/healthcare-worker-benefits-decision-system", 200, "Bring your benefits documents and household situation"],
+  ["/products/healthcare-worker-benefits-decision-pack", 200, "Bring your benefits documents and household situation"],
   ["/sign-in", 200, "Secure account"],
   ["/app/benefits-decision", 200, "Access"],
 ];

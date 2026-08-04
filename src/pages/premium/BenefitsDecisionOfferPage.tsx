@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle2, FileCheck2, LockKeyhole, ShieldCheck } from "lucide-react";
+import { ArrowRight, CheckCircle2, FileCheck2, LockKeyhole, PlayCircle, ShieldCheck } from "lucide-react";
 import { BenefitsEarlyAccessForm } from "@/components/premium/BenefitsEarlyAccessForm";
+import { OpenEnrollmentPilot } from "@/components/premium/OpenEnrollmentPilot";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { PageHero } from "@/components/shared/PageHero";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,17 @@ const freeLayer = [
   "Public calculators, checklists, comparisons, and the focused workplace-benefits tool",
   "Healthcare-worker compensation, retirement, paycheck, and career-decision resources",
   "Patient, caregiver, medical-bill, Medicare, Medicaid, and discharge resources",
+];
+
+const pilotWorkflow = [
+  "Identify the enrollment event and deadline",
+  "Confirm household coverage and decision priorities",
+  "Inventory controlling documents and missing information",
+  "Compare medical-plan and prescription exposure",
+  "Review HSA, HRA, FSA, and dependent-care choices",
+  "Review dental, vision, disability, life, and supplemental benefits",
+  "Set retirement contributions and inspect employer value",
+  "Generate the verification list and printable election plan",
 ];
 
 const notIncluded = [
@@ -37,141 +49,170 @@ const BenefitsDecisionOfferPage = () => {
     window.setTimeout(() => document.getElementById("benefits-early-access-email")?.focus(), 450);
   };
 
+  const openPilot = () => {
+    trackPilotStart();
+    document.getElementById("guided-pilot")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const trackPilotStart = () => {
+    void import("@/lib/analytics").then(({ trackSiteEvent }) => {
+      trackSiteEvent("benefits_pilot_started", { event_category: "premium_system", pilot_version: 1 });
+    });
+  };
+
   if (!product) return null;
 
   return (
     <>
-      <PageHero
-        eyebrow="Bounded early-access test"
-        title="Would a $29 Open Enrollment Workspace help you finish the whole benefits decision?"
-        description="CAF is testing whether healthcare workers value one coordinated system for employer-specific benefit rules, plan costs, prescriptions, tax-advantaged accounts, retirement, protection benefits, deadlines, verification questions, and a final written decision."
-      >
-        <Button type="button" variant="hero" size="lg" onClick={openCommitmentForm}>
-          I would consider it at $29 <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Button>
-        <Button asChild variant="outline" size="lg">
-          <Link to="/tools/benefits-command-center">Use the free benefits comparison</Link>
-        </Button>
-      </PageHero>
+      <div className="print:hidden">
+        <PageHero
+          eyebrow="Working end-to-end pilot"
+          title="Bring your benefits documents and household situation. CAF guides the open-enrollment decision."
+          description="Try a browser-local pilot that coordinates the enrollment event, household coverage, source readiness, medical plans, tax-advantaged accounts, protection benefits, retirement, verification questions, payroll impact, and a final printable election plan."
+        >
+          <Button type="button" variant="hero" size="lg" onClick={openPilot}>
+            Try the guided pilot <PlayCircle className="h-4 w-4" aria-hidden="true" />
+          </Button>
+          <Button type="button" variant="outline" size="lg" onClick={openCommitmentForm}>
+            I would consider it at $29 <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Button>
+          <Button asChild variant="outline" size="lg">
+            <Link to="/tools/benefits-command-center">Use the free benefits comparison</Link>
+          </Button>
+        </PageHero>
 
-      <section className="container min-w-0 py-10 md:py-14">
-        <div className="grid gap-4 md:grid-cols-3">
-          {[
-            {
-              icon: FileCheck2,
-              title: "$29 one time",
-              body: "The proposed early-access price is a one-time planning price, not a subscription. No payment is collected in this test.",
-            },
-            {
-              icon: LockKeyhole,
-              title: "Completion, not a paywall",
-              body: "Free education and single-purpose tools stay free. The proposed paid value is coordination, saved work, source status, and a final decision brief.",
-            },
-            {
-              icon: ShieldCheck,
-              title: "No sensitive documents",
-              body: "The first version uses structured manual entry. It does not require uploads, medical records, member IDs, claims, account credentials, or card information.",
-            },
-          ].map(({ icon: Icon, title, body }) => (
-            <div key={title} className="rounded-2xl border border-border bg-card p-5 shadow-card">
-              <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
-              <h2 className="mt-3 font-display text-lg font-bold">{title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-y border-border bg-card/35 py-14 md:py-20">
-        <div className="container grid min-w-0 gap-8 lg:grid-cols-2">
-          <div className="rounded-3xl border border-border bg-background p-6 shadow-card md:p-8">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Always free</div>
-            <h2 className="mt-2 font-display text-2xl font-bold">Learn and prepare without paying</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              CAF will not charge merely to explain a deductible, locate an official source, identify a deadline, or provide a transparent single-purpose calculation.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {freeLayer.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+        <section className="container min-w-0 py-10 md:py-14">
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              {
+                icon: PlayCircle,
+                title: "Working pilot available",
+                body: "The pilot now carries a user from the enrollment trigger through a printable election plan. It is a product-validation build, not merely a workflow preview.",
+              },
+              {
+                icon: LockKeyhole,
+                title: "Local and reversible",
+                body: "Answers stay in the browser for this pilot. No account, cloud workspace, document upload, payment, or production entitlement is activated.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Unknowns remain visible",
+                body: "Missing documents, network questions, prescription checks, uncertain benefits, and unresolved elections become a verification list instead of hidden assumptions.",
+              },
+            ].map(({ icon: Icon, title, body }) => (
+              <div key={title} className="rounded-2xl border border-border bg-card p-5 shadow-card">
+                <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                <h2 className="mt-3 font-display text-lg font-bold">{title}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </div>
+            ))}
           </div>
+        </section>
 
-          <div className="rounded-3xl border border-primary/25 bg-primary-soft/20 p-6 shadow-card md:p-8">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Proposed $29 system</div>
-            <h2 className="mt-2 font-display text-2xl font-bold">Coordinate and finish the decision</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              The Open Enrollment Workspace would coordinate several benefit categories and unresolved questions in one reusable, account-based process.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {product.includedAssets.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="container min-w-0 py-14 md:py-20">
-        <div className="mx-auto max-w-5xl space-y-10">
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Workflow preview</div>
-              <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Eight steps from scattered documents to one decision brief</h2>
-              <ol className="mt-6 grid gap-3 sm:grid-cols-2">
-                {product.premiumModules.map((module, index) => (
-                  <li key={module} className="rounded-2xl border border-border bg-card p-4 text-sm leading-relaxed text-muted-foreground shadow-sm">
-                    <span className="mr-2 font-bold text-primary">{index + 1}.</span>{module}
+        <section className="border-y border-border bg-card/35 py-14 md:py-20">
+          <div className="container grid min-w-0 gap-8 lg:grid-cols-2">
+            <div className="rounded-3xl border border-border bg-background p-6 shadow-card md:p-8">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Always free</div>
+              <h2 className="mt-2 font-display text-2xl font-bold">Learn and prepare without paying</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                CAF will not charge merely to explain a deductible, locate an official source, identify a deadline, or provide a transparent single-purpose calculation.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {freeLayer.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                    <span>{item}</span>
                   </li>
                 ))}
-              </ol>
+              </ul>
             </div>
-            <div className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">
-              <h2 className="font-display text-xl font-bold">Best fit for this test</h2>
-              <ul className="mt-5 space-y-3 text-sm leading-relaxed text-muted-foreground">
-                <li>• You are comparing a new job, annual enrollment, or a qualifying life event.</li>
-                <li>• Your employer offers several plans or benefit categories.</li>
-                <li>• You want to preserve assumptions and unresolved questions instead of rebuilding the analysis every year.</li>
-                <li>• You are willing to enter verified numbers manually rather than upload confidential documents.</li>
-                <li>• A printable verification and election brief would be useful before submitting choices.</li>
+
+            <div className="rounded-3xl border border-primary/25 bg-primary-soft/20 p-6 shadow-card md:p-8">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Proposed $29 system</div>
+              <h2 className="mt-2 font-display text-2xl font-bold">Coordinate and finish the decision</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                The validation price remains $29 one time. The paid version would add an account-based workspace, secure persistence, source status, resumable progress, and a retained Benefits Decision Brief around the guided logic demonstrated below.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {product.includedAssets.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
+        </section>
 
-          <div className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Important limits</div>
-            <h2 className="mt-2 font-display text-2xl font-bold">What $29 would not buy</h2>
-            <ul className="mt-5 grid gap-3 md:grid-cols-2">
-              {notIncluded.map((item) => (
-                <li key={item} className="rounded-xl border border-border bg-background p-4 text-sm leading-relaxed text-muted-foreground">{item}</li>
-              ))}
-            </ul>
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{product.limitations}</p>
-          </div>
-
-          <BenefitsEarlyAccessForm />
-
-          <div className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">
-            <h2 className="font-display text-xl font-bold">Prefer to stay entirely in the free layer?</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Use the focused benefits comparison, open-enrollment guide, benefits blueprint, action plan, and public calculators. Early access is optional and does not change those resources.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Button asChild variant="soft"><Link to="/tools/benefits-command-center">Free benefits comparison</Link></Button>
-              <Button asChild variant="outline"><Link to="/open-enrollment">Free open-enrollment guide</Link></Button>
-              <Button asChild variant="outline"><Link to="/healthcare-workers">Healthcare-worker hub</Link></Button>
+        <section className="container min-w-0 py-14 md:py-20">
+          <div className="mx-auto max-w-5xl">
+            <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">End-to-end workflow</div>
+                <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Eight guided stages from scattered documents to one election plan</h2>
+                <ol className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {pilotWorkflow.map((module, index) => (
+                    <li key={module} className="rounded-2xl border border-border bg-card p-4 text-sm leading-relaxed text-muted-foreground shadow-sm">
+                      <span className="mr-2 font-bold text-primary">{index + 1}.</span>{module}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">
+                <h2 className="font-display text-xl font-bold">Best fit for this pilot</h2>
+                <ul className="mt-5 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                  <li>• You are preparing for annual enrollment, new-hire enrollment, or a qualifying life event.</li>
+                  <li>• Your employer offers several plans or benefit categories.</li>
+                  <li>• You want to preserve assumptions and unresolved questions instead of rebuilding the analysis every year.</li>
+                  <li>• You are willing to enter verified numbers manually rather than upload confidential documents.</li>
+                  <li>• A printable verification and election plan would be useful before submitting choices.</li>
+                </ul>
+              </div>
             </div>
           </div>
+        </section>
+      </div>
 
-          <DisclaimerBox />
-        </div>
-      </section>
+      <OpenEnrollmentPilot onCommitment={openCommitmentForm} />
+
+      <div className="print:hidden">
+        <section className="container min-w-0 py-14 md:py-20">
+          <div className="mx-auto max-w-5xl space-y-10">
+            <div className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Important limits</div>
+              <h2 className="mt-2 font-display text-2xl font-bold">What $29 would not buy</h2>
+              <ul className="mt-5 grid gap-3 md:grid-cols-2">
+                {notIncluded.map((item) => (
+                  <li key={item} className="rounded-xl border border-border bg-background p-4 text-sm leading-relaxed text-muted-foreground">{item}</li>
+                ))}
+              </ul>
+              <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{product.limitations}</p>
+            </div>
+
+            <BenefitsEarlyAccessForm />
+
+            <div className="rounded-3xl border border-border bg-card p-6 shadow-card md:p-8">
+              <h2 className="font-display text-xl font-bold">Prefer to stay entirely in the free layer?</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Use the focused benefits comparison, open-enrollment guide, benefits blueprint, action plan, and public calculators. Early access is optional and does not change those resources.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Button asChild variant="soft"><Link to="/tools/benefits-command-center">Free benefits comparison</Link></Button>
+                <Button asChild variant="outline"><Link to="/open-enrollment">Free open-enrollment guide</Link></Button>
+                <Button asChild variant="outline"><Link to="/healthcare-workers">Healthcare-worker hub</Link></Button>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 text-sm leading-relaxed text-muted-foreground">
+              <FileCheck2 className="mb-3 h-5 w-5 text-primary" aria-hidden="true" />
+              The pilot intentionally stops before the employer portal. Users must review the official confirmation screen, submit through the employer or benefits administrator, and retain proof of the elections.
+            </div>
+
+            <DisclaimerBox />
+          </div>
+        </section>
+      </div>
     </>
   );
 };

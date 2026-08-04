@@ -51,7 +51,7 @@ const EmployerSourceContextBanner = () => {
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-primary">
-            <FileCheck2 className="h-4 w-4" aria-hidden="true" /> External employer link attached
+            <FileCheck2 className="h-4 w-4" aria-hidden="true" /> Employer source attached · external link
           </div>
           <h2 className="mt-2 font-display text-xl font-bold text-foreground">{context.systemName}</h2>
           {context.selectedSource ? (

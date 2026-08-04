@@ -39,6 +39,8 @@ jobs:
         run: npx playwright test e2e/service-navigation.spec.ts
       - name: Certify directional CTA hierarchy and breakpoints
         run: npx playwright test e2e/directional-cta.spec.ts
+      - name: Certify employer benefits navigator and source intake boundaries
+        run: npx playwright test e2e/employer-benefits-navigator.spec.ts
       - name: Certify mobile route-group performance budgets
         run: npm run test:performance
       - name: Certify premium public, denial, demo, print, mobile, and accessibility journeys

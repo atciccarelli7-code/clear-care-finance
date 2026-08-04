@@ -1,6 +1,5 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { afterEach, describe, expect, it } from "vitest";
-import documentIntakeHandler from "../../../api/document-intake/index";
 import { getPremiumConfig } from "../../../api/_lib/premiumConfig";
 import {
   MAX_BENEFIT_DOCUMENT_BYTES,
@@ -13,16 +12,6 @@ const original = { ...process.env };
 afterEach(() => {
   process.env = { ...original };
 });
-
-const response = () => {
-  const capture: { status?: number; body?: unknown; headers: Record<string, string> } = { headers: {} };
-  const res = {
-    status(code: number) { capture.status = code; return res; },
-    json(body: unknown) { capture.body = body; },
-    setHeader(name: string, value: string) { capture.headers[name] = value; },
-  };
-  return { res, capture };
-};
 
 const configureDocumentDependencies = () => {
   process.env.PREMIUM_AUTH_ENABLED = "true";
@@ -61,7 +50,7 @@ describe("document intake configuration", () => {
     expect(config.safe).toBe(true);
   });
 
-  it("allows only a fully configured synthetic preview and still denies real documents", () => {
+  it("can describe a fully configured synthetic preview while still denying real documents", () => {
     configureDocumentDependencies();
     process.env.VERCEL_ENV = "preview";
     process.env.PREMIUM_DOCUMENT_INTAKE_ENABLED = "true";
@@ -86,13 +75,11 @@ describe("document intake configuration", () => {
     expect(config.violations.join(" ")).toMatch(/production document|authorization/i);
   });
 
-  it("returns a private fail-closed response while intake is disabled", async () => {
-    delete process.env.PREMIUM_DOCUMENT_INTAKE_ENABLED;
-    const { res, capture } = response();
-    await documentIntakeHandler({ method: "GET", headers: {}, query: { workspaceId: validUpload.workspaceId } }, res);
-    expect(capture.status).toBe(503);
-    expect(capture.body).toMatchObject({ code: "document_intake_unavailable" });
-    expect(capture.headers["Cache-Control"]).toContain("no-store");
+  it("keeps the dormant quarantine service unrouted in commercial v1", () => {
+    expect(existsSync("api/_lib/documentIntake.ts")).toBe(true);
+    expect(existsSync("api/document-intake/index.ts")).toBe(false);
+    expect(existsSync("api/document-intake/extract.ts")).toBe(false);
+    expect(existsSync("api/document-intake/[uploadId].ts")).toBe(false);
   });
 });
 

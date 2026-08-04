@@ -101,6 +101,18 @@ describe("open enrollment pilot contract", () => {
     expect(result.cautions.some((item) => item.includes("in network"))).toBe(true);
   });
 
+  it("does not complete retirement when consequential inputs are missing", () => {
+    const state = completedFoundation();
+    state.eligibleCompensation = null;
+    expect(isOpenEnrollmentStepComplete(state, "retirement")).toBe(false);
+    expect(getVerificationItems(state).some((item) => item.includes("eligible compensation"))).toBe(true);
+
+    state.eligibleCompensation = 80000;
+    state.matchRatePercent = null;
+    expect(isOpenEnrollmentStepComplete(state, "retirement")).toBe(false);
+    expect(getVerificationItems(state).some((item) => item.includes("match rate"))).toBe(true);
+  });
+
   it("builds a complete election plan without presenting payroll deductions as take-home pay", () => {
     const plan = buildElectionPlan(completedFoundation());
     expect(plan.medicalSelection).toBe("Plan A");

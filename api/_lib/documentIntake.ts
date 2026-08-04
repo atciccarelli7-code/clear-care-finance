@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID, timingSafeEqual } from "node:crypto";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import {
   BENEFIT_DOCUMENT_BUCKET,
@@ -14,7 +14,7 @@ import { checkEntitlement } from "./entitlements.js";
 import type { ApiRequest } from "./http.js";
 import { getPremiumConfig } from "./premiumConfig.js";
 import { PREMIUM_PRODUCT_KEY } from "./productRegistry.js";
-import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser } from "./supabase.js";
+import { getSupabaseAdmin, requireAuthenticatedUser } from "./supabase.js";
 
 export class DocumentIntakeUnavailableError extends Error {}
 export class DocumentAccessDeniedError extends Error {}
@@ -31,7 +31,9 @@ export type DocumentIntakeContext = {
   config: ReturnType<typeof getPremiumConfig>;
 };
 
-const asStringArray = (value: unknown) => Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+const asStringArray = (value: unknown) => Array.isArray(value)
+  ? value.filter((item): item is string => typeof item === "string")
+  : [];
 const asFactArray = (value: unknown) => Array.isArray(value) ? value : [];
 
 export const mapBenefitDocumentRecord = (row: Record<string, unknown>): BenefitDocumentRecord => ({
@@ -61,14 +63,21 @@ export const requireDocumentIntakeContext = async (req: ApiRequest): Promise<Doc
   ) {
     throw new DocumentIntakeUnavailableError("Document intake unavailable");
   }
+
   const user = await requireAuthenticatedUser(req);
   const admin = getSupabaseAdmin();
   const access = await checkEntitlement(user.id, PREMIUM_PRODUCT_KEY, admin);
-  if (access.accessStatus !== "active") throw new DocumentAccessDeniedError("Active product access is required");
+  if (access.accessStatus !== "active") {
+    throw new DocumentAccessDeniedError("Active product access is required");
+  }
   return { user, admin, config };
 };
 
-export const requireOwnedWorkspace = async (admin: SupabaseClient, userId: string, workspaceId: string) => {
+export const requireOwnedWorkspace = async (
+  admin: SupabaseClient,
+  userId: string,
+  workspaceId: string,
+) => {
   const { data, error } = await admin
     .from("workspaces")
     .select("id")
@@ -94,7 +103,55 @@ const storageObjectForPath = async (admin: SupabaseClient, path: string) => {
 
 const removeStoragePath = async (admin: SupabaseClient, path: string) => {
   const { error } = await admin.storage.from(BENEFIT_DOCUMENT_BUCKET).remove([path]);
-  if (error && !/not found/i.test(error.message || "")) throw new Error("Document deletion failed");
+  if (error && !/not found/i.test(error.message || "")) {
+    throw new Error("Document deletion failed");
+  }
+};
+
+const downloadStorageBytes = async (admin: SupabaseClient, path: string) => {
+  const { data: blob, error } = await admin.storage.from(BENEFIT_DOCUMENT_BUCKET).download(path);
+  if (error || !blob) {
+    throw new DocumentValidationError(
+      "The uploaded object could not be downloaded for verification.",
+      "upload_unverifiable",
+    );
+  }
+  return Buffer.from(await blob.arrayBuffer());
+};
+
+const deleteAuthorizationAndObject = async (
+  context: DocumentIntakeContext,
+  uploadId: string,
+  path: string,
+) => {
+  await removeStoragePath(context.admin, path);
+  await context.admin
+    .from("benefit_document_uploads")
+    .delete()
+    .eq("id", uploadId)
+    .eq("user_id", context.user.id)
+    .eq("product_key", PREMIUM_PRODUCT_KEY);
+};
+
+const hasExpectedSignature = (bytes: Buffer, mimeType: string) => {
+  if (mimeType === "application/pdf") {
+    return bytes.subarray(0, 5).toString("ascii") === "%PDF-";
+  }
+  if (mimeType === "text/plain") {
+    try {
+      new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+};
+
+const hashesMatch = (bytes: Buffer, suppliedHex: string) => {
+  const calculated = createHash("sha256").update(bytes).digest();
+  const supplied = Buffer.from(suppliedHex, "hex");
+  return supplied.length === calculated.length && timingSafeEqual(calculated, supplied);
 };
 
 export const getOwnedDocument = async (context: DocumentIntakeContext, uploadId: string) => {
@@ -121,6 +178,7 @@ export const cleanupExpiredDocuments = async (context: DocumentIntakeContext) =>
     .lt("expires_at", now)
     .limit(20);
   if (error) throw new Error("Expired document lookup failed");
+
   for (const row of data || []) {
     await removeStoragePath(context.admin, String(row.storage_path));
     await context.admin
@@ -131,7 +189,10 @@ export const cleanupExpiredDocuments = async (context: DocumentIntakeContext) =>
   }
 };
 
-export const listOwnedDocuments = async (context: DocumentIntakeContext, workspaceId: string) => {
+export const listOwnedDocuments = async (
+  context: DocumentIntakeContext,
+  workspaceId: string,
+) => {
   await requireOwnedWorkspace(context.admin, context.user.id, workspaceId);
   await cleanupExpiredDocuments(context);
   const { data, error } = await context.admin
@@ -146,15 +207,24 @@ export const listOwnedDocuments = async (context: DocumentIntakeContext, workspa
   return (data || []).map((row) => mapBenefitDocumentRecord(row as Record<string, unknown>));
 };
 
-export const createDocumentUploadAuthorization = async (context: DocumentIntakeContext, raw: unknown) => {
+export const createDocumentUploadAuthorization = async (
+  context: DocumentIntakeContext,
+  raw: unknown,
+) => {
   const input: DocumentUploadRequest = documentUploadRequestSchema.parse(raw);
   await requireOwnedWorkspace(context.admin, context.user.id, input.workspaceId);
+
   const filenameScan = scanSensitiveData({ fileName: input.clientFileName });
   if (filenameScan.blocked) {
-    throw new DocumentValidationError("Rename or replace the file. The filename suggests an individualized or sensitive record.", "sensitive_filename");
+    throw new DocumentValidationError(
+      "Rename or replace the file. The filename suggests an individualized or sensitive record.",
+      "sensitive_filename",
+    );
   }
   if (context.config.documents.mode === "synthetic_only" && !input.attestations.syntheticPublicOrRedacted) {
-    throw new DocumentValidationError("Only synthetic, public, or deliberately redacted fixtures are accepted in this environment.");
+    throw new DocumentValidationError(
+      "Only synthetic, public, or deliberately redacted fixtures are accepted in this environment.",
+    );
   }
 
   const uploadId = randomUUID();
@@ -193,7 +263,11 @@ export const createDocumentUploadAuthorization = async (context: DocumentIntakeC
     .createSignedUploadUrl(storagePath, { upsert: false });
   const signedToken = data?.token;
   if (error || !signedToken) {
-    await context.admin.from("benefit_document_uploads").delete().eq("id", uploadId).eq("user_id", context.user.id);
+    await context.admin
+      .from("benefit_document_uploads")
+      .delete()
+      .eq("id", uploadId)
+      .eq("user_id", context.user.id);
     throw new Error("Signed upload authorization failed");
   }
 
@@ -208,34 +282,63 @@ export const createDocumentUploadAuthorization = async (context: DocumentIntakeC
   };
 };
 
-export const finalizeDocumentUpload = async (context: DocumentIntakeContext, raw: unknown) => {
+export const finalizeDocumentUpload = async (
+  context: DocumentIntakeContext,
+  raw: unknown,
+) => {
   const input: DocumentFinalizeRequest = documentFinalizeRequestSchema.parse(raw);
   const row = await getOwnedDocument(context, input.uploadId);
-  if (row.status !== "authorized") throw new DocumentValidationError("This upload authorization is no longer active.", "invalid_document_state");
+  if (row.status !== "authorized") {
+    throw new DocumentValidationError(
+      "This upload authorization is no longer active.",
+      "invalid_document_state",
+    );
+  }
+
+  const storagePath = String(row.storage_path);
   if (Number(row.size_bytes) !== input.byteLength) {
-    await removeStoragePath(context.admin, String(row.storage_path));
-    await context.admin.from("benefit_document_uploads").delete().eq("id", input.uploadId).eq("user_id", context.user.id);
-    throw new DocumentValidationError("The uploaded file size did not match the authorized file.", "upload_size_mismatch");
+    await deleteAuthorizationAndObject(context, input.uploadId, storagePath);
+    throw new DocumentValidationError(
+      "The uploaded file size did not match the authorized file.",
+      "upload_size_mismatch",
+    );
   }
-  const object = await storageObjectForPath(context.admin, String(row.storage_path));
-  if (!object) throw new DocumentValidationError("The uploaded object could not be verified.", "upload_missing");
+
+  const object = await storageObjectForPath(context.admin, storagePath);
+  if (!object) {
+    throw new DocumentValidationError(
+      "The uploaded object could not be verified.",
+      "upload_missing",
+    );
+  }
+
   const metadata = (object.metadata || {}) as Record<string, unknown>;
-  const actualSize = Number(metadata.size || input.byteLength);
-  const actualMime = String(metadata.mimetype || row.mime_type || "");
-  if (actualSize !== input.byteLength || actualMime !== row.mime_type) {
-    await removeStoragePath(context.admin, String(row.storage_path));
-    await context.admin
-      .from("benefit_document_uploads")
-      .update({ status: "rejected_sensitive_data", scan_status: "blocked", deleted_at: new Date().toISOString(), updated_at: new Date().toISOString() })
-      .eq("id", input.uploadId)
-      .eq("user_id", context.user.id);
-    throw new DocumentValidationError("The uploaded object did not match the authorized type or size.", "upload_metadata_mismatch");
+  const metadataSize = Number(metadata.size || 0);
+  const metadataMime = String(metadata.mimetype || metadata.contentType || row.mime_type || "");
+  const bytes = await downloadStorageBytes(context.admin, storagePath);
+  const expectedMime = String(row.mime_type);
+  const metadataMatches = metadataSize === input.byteLength && metadataMime === expectedMime;
+  const bytesMatch = bytes.byteLength === input.byteLength;
+  const signatureMatches = hasExpectedSignature(bytes, expectedMime);
+  const hashMatches = hashesMatch(bytes, input.sha256);
+
+  if (!metadataMatches || !bytesMatch || !signatureMatches || !hashMatches) {
+    await deleteAuthorizationAndObject(context, input.uploadId, storagePath);
+    throw new DocumentValidationError(
+      "The uploaded object failed server-side type, size, signature, or integrity verification.",
+      "upload_integrity_mismatch",
+    );
   }
+
   const now = new Date().toISOString();
   const nextStatus = row.mime_type === "text/plain" ? "ready_for_extraction" : "quarantined";
   const { data, error } = await context.admin
     .from("benefit_document_uploads")
-    .update({ status: nextStatus, sha256: input.sha256.toLowerCase(), updated_at: now })
+    .update({
+      status: nextStatus,
+      sha256: input.sha256.toLowerCase(),
+      updated_at: now,
+    })
     .eq("id", input.uploadId)
     .eq("user_id", context.user.id)
     .select("*")
@@ -244,11 +347,19 @@ export const finalizeDocumentUpload = async (context: DocumentIntakeContext, raw
   return mapBenefitDocumentRecord(data as Record<string, unknown>);
 };
 
-export const extractDocument = async (context: DocumentIntakeContext, uploadId: string) => {
-  if (!context.config.flags.documentExtraction) throw new DocumentIntakeUnavailableError("Document extraction unavailable");
+export const extractDocument = async (
+  context: DocumentIntakeContext,
+  uploadId: string,
+) => {
+  if (!context.config.flags.documentExtraction) {
+    throw new DocumentIntakeUnavailableError("Document extraction unavailable");
+  }
   const row = await getOwnedDocument(context, uploadId);
   if (!["ready_for_extraction", "quarantined", "extraction_unavailable"].includes(String(row.status))) {
-    throw new DocumentValidationError("The document is not ready for extraction.", "invalid_document_state");
+    throw new DocumentValidationError(
+      "The document is not ready for extraction.",
+      "invalid_document_state",
+    );
   }
 
   if (row.mime_type !== "text/plain") {
@@ -265,15 +376,27 @@ export const extractDocument = async (context: DocumentIntakeContext, uploadId: 
       .select("*")
       .single();
     if (error || !data) throw new Error("Document extraction state update failed");
-    return { document: mapBenefitDocumentRecord(data as Record<string, unknown>), facts: [] };
+    return {
+      document: mapBenefitDocumentRecord(data as Record<string, unknown>),
+      facts: [],
+    };
   }
 
-  const { data: blob, error: downloadError } = await context.admin.storage
-    .from(BENEFIT_DOCUMENT_BUCKET)
-    .download(String(row.storage_path));
-  if (downloadError || !blob) throw new Error("Document download failed");
-  const bytes = Buffer.from(await blob.arrayBuffer());
-  if (bytes.byteLength !== Number(row.size_bytes)) throw new DocumentValidationError("The stored document size changed unexpectedly.", "stored_size_mismatch");
+  const bytes = await downloadStorageBytes(context.admin, String(row.storage_path));
+  if (bytes.byteLength !== Number(row.size_bytes)) {
+    throw new DocumentValidationError(
+      "The stored document size changed unexpectedly.",
+      "stored_size_mismatch",
+    );
+  }
+  if (!hashesMatch(bytes, String(row.sha256 || ""))) {
+    await deleteAuthorizationAndObject(context, uploadId, String(row.storage_path));
+    throw new DocumentValidationError(
+      "The stored document failed integrity verification.",
+      "stored_integrity_mismatch",
+    );
+  }
+
   const text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
   const result = extractSyntheticBenefitsFacts(text);
   const now = new Date().toISOString();
@@ -296,7 +419,10 @@ export const extractDocument = async (context: DocumentIntakeContext, uploadId: 
       .select("*")
       .single();
     if (error || !data) throw new Error("Sensitive document rejection failed");
-    return { document: mapBenefitDocumentRecord(data as Record<string, unknown>), facts: [] };
+    return {
+      document: mapBenefitDocumentRecord(data as Record<string, unknown>),
+      facts: [],
+    };
   }
 
   const { data, error } = await context.admin
@@ -315,12 +441,20 @@ export const extractDocument = async (context: DocumentIntakeContext, uploadId: 
     .select("*")
     .single();
   if (error || !data) throw new Error("Document extraction failed");
-  return { document: mapBenefitDocumentRecord(data as Record<string, unknown>), facts: result.facts };
+  return {
+    document: mapBenefitDocumentRecord(data as Record<string, unknown>),
+    facts: result.facts,
+  };
 };
 
-export const deleteDocument = async (context: DocumentIntakeContext, uploadId: string) => {
+export const deleteDocument = async (
+  context: DocumentIntakeContext,
+  uploadId: string,
+) => {
   const row = await getOwnedDocument(context, uploadId);
-  if (!row.deleted_at) await removeStoragePath(context.admin, String(row.storage_path));
+  if (!row.deleted_at) {
+    await removeStoragePath(context.admin, String(row.storage_path));
+  }
   const { error } = await context.admin
     .from("benefit_document_uploads")
     .delete()

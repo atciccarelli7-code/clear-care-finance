@@ -99,6 +99,16 @@ const formatValue = (fact: ExtractedBenefitFact) => {
   return `${fact.value} year${fact.value === 1 ? "" : "s"}`;
 };
 
+const candidateFact = (candidate: Candidate): ExtractedBenefitFact => extractedBenefitFactSchema.parse({
+  key: candidate.key,
+  label: candidate.label,
+  value: candidate.value,
+  unit: candidate.unit,
+  cadence: candidate.cadence,
+  lineNumber: candidate.lineNumber,
+  confidence: candidate.confidence,
+});
+
 export default function BenefitsDocumentStagingPage() {
   const { workspaceId = "" } = useParams();
   const auth = usePremiumAuth();
@@ -144,7 +154,7 @@ export default function BenefitsDocumentStagingPage() {
   }, [auth.accessToken, auth.isDevelopmentDemo, workspaceId]);
 
   const selectedFacts = useMemo(
-    () => candidates.filter((candidate) => candidate.selected).map(({ selected: _selected, ...fact }) => extractedBenefitFactSchema.parse(fact)),
+    () => candidates.filter((candidate) => candidate.selected).map(candidateFact),
     [candidates],
   );
 
@@ -221,7 +231,7 @@ export default function BenefitsDocumentStagingPage() {
 
   const updateCandidate = (index: number, patch: Partial<Candidate>) => {
     setCandidates((current) => current.map((candidate, candidateIndex) =>
-      candidateIndex === index ? extractedBenefitFactSchema.extend({ selected: extractedBenefitFactSchema.shape.confidence.transform(() => true).optional() }) && { ...candidate, ...patch } : candidate,
+      candidateIndex === index ? { ...candidate, ...patch } : candidate,
     ));
   };
 

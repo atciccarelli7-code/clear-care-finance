@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { ExternalLink, FileCheck2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
+  BENEFITS_COMMAND_CENTER_UPDATED_EVENT,
+  loadBenefitsWorkspace,
+} from "@/lib/benefitsCommandCenter";
+import {
   clearEmployerBenefitsSourceContext,
   EMPLOYER_BENEFITS_SOURCE_CONTEXT_UPDATED_EVENT,
   loadEmployerBenefitsSourceContext,
@@ -15,16 +19,27 @@ const sourceMetadata = (context: EmployerBenefitsSourceContext) => {
     || "Current official employer source";
 };
 
+const loadMatchingContext = () => {
+  const context = loadEmployerBenefitsSourceContext();
+  const workspace = loadBenefitsWorkspace();
+  if (!context || !workspace) return null;
+  const activePackage = workspace.packages.find((benefitsPackage) => benefitsPackage.id === workspace.activePackageId)
+    ?? workspace.packages[0];
+  return activePackage?.label.toLowerCase().includes(context.systemName.toLowerCase()) ? context : null;
+};
+
 const EmployerSourceContextBanner = () => {
   const [context, setContext] = useState<EmployerBenefitsSourceContext | null>(null);
 
   useEffect(() => {
-    const syncContext = () => setContext(loadEmployerBenefitsSourceContext());
+    const syncContext = () => setContext(loadMatchingContext());
     syncContext();
     window.addEventListener(EMPLOYER_BENEFITS_SOURCE_CONTEXT_UPDATED_EVENT, syncContext);
+    window.addEventListener(BENEFITS_COMMAND_CENTER_UPDATED_EVENT, syncContext);
     window.addEventListener("storage", syncContext);
     return () => {
       window.removeEventListener(EMPLOYER_BENEFITS_SOURCE_CONTEXT_UPDATED_EVENT, syncContext);
+      window.removeEventListener(BENEFITS_COMMAND_CENTER_UPDATED_EVENT, syncContext);
       window.removeEventListener("storage", syncContext);
     };
   }, []);

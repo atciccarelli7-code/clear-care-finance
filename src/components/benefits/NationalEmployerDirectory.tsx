@@ -77,7 +77,7 @@ const NationalEmployerDirectory = () => {
       setLoading(true);
       setError("");
       try {
-        const response = await fetch(`/api/employer-benefits-directory?q=${encodeURIComponent(normalizedQuery)}`, {
+        const response = await fetch(`/api/employer-benefits-source?q=${encodeURIComponent(normalizedQuery)}`, {
           signal: controller.signal,
           headers: { Accept: "application/json" },
         });

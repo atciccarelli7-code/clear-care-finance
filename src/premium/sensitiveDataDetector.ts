@@ -12,7 +12,7 @@ type Pattern = {
 
 const textPatterns: Pattern[] = [
   { code: "social_security_number", pattern: /\b\d{3}-\d{2}-\d{4}\b/g },
-  { code: "date_of_birth", pattern: /\b(?:date\s+of\s+birth|dob)\s*[:#-]?\s*\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}\b/gi },
+  { code: "date_of_birth", pattern: /\b(?:date\s+of\s+birth|dob)\s*[:#-]?\s*\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/gi },
   { code: "email_address", pattern: /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi },
   { code: "phone_number", pattern: /(?:\+?1[\s.-]?)?(?:\(\d{3}\)|\d{3})[\s.-]\d{3}[\s.-]\d{4}\b/g },
   { code: "street_address", pattern: /\b\d{1,6}\s+[A-Z0-9.'-]+(?:\s+[A-Z0-9.'-]+){0,4}\s+(?:street|st|road|rd|avenue|ave|lane|ln|drive|dr|court|ct|boulevard|blvd|way)\b/gi },

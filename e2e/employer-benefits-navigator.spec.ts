@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Employer benefits navigator", () => {
   test("finds a national health system and starts a bounded manual workspace", async ({ page }) => {
-    await page.route("**/api/employer-benefits-directory?q=*", async (route) => {
+    await page.route("**/api/employer-benefits-source?q=*", async (route) => {
       await route.fulfill({
         status: 200,
         contentType: "application/json",

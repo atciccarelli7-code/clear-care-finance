@@ -13,13 +13,24 @@ const vercel = read("vercel.json");
 const vercelConfig = JSON.parse(vercel);
 const sitemap = read("public/sitemap.xml");
 const envExample = read(".env.example");
+const checkoutSource = read("api/checkout.ts");
 const failures = [];
 
 const unsafeFlags = ["PREMIUM_ENTITLEMENT_BYPASS", "PREMIUM_MOCK_AUTH_ENABLED", "VITE_PREMIUM_DEV_MOCK_AUTH"];
 for (const flag of unsafeFlags) if (process.env[flag] === "true") failures.push(`${flag} must not be true during a production build.`);
 if (process.env.PREMIUM_CHECKOUT_ENABLED === "true") {
-  const required = ["SUPABASE_URL", "SUPABASE_ANON_KEY", "SUPABASE_SERVICE_ROLE_KEY", "STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM"];
+  const required = [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_WEBHOOK_SECRET",
+    "STRIPE_PRODUCT_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM",
+    "STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM",
+  ];
   for (const name of required) if (!process.env[name]?.trim()) failures.push(`Checkout is enabled without ${name}.`);
+  if (process.env.PREMIUM_AUTH_ENABLED !== "true") failures.push("Checkout requires premium authentication.");
+  if (process.env.PREMIUM_ENTITLEMENTS_ENABLED !== "true") failures.push("Checkout requires entitlement enforcement.");
   if (process.env.STRIPE_ENVIRONMENT !== "test" && process.env.PREMIUM_PRODUCTION_CHECKOUT_AUTHORIZED !== "true") failures.push("Checkout must remain in Stripe test mode until explicitly authorized.");
 }
 for (const name of Object.keys(process.env)) {
@@ -79,6 +90,8 @@ if (/stripe|checkoutSession|paymentIntent/i.test(productForm)) failures.push("Th
 if (!productForm.includes("priceCommitment") || !productForm.includes("emailConsent")) failures.push("The early-access form must require price and email confirmation.");
 
 if (/VITE_(?:SUPABASE_SERVICE_ROLE_KEY|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET)/.test(envExample)) failures.push(".env.example exposes a server secret through VITE_.");
+if (!checkoutSource.includes("integration_identifier")) failures.push("Stripe Checkout integration identifier is missing.");
+if (checkoutSource.includes("payment_method_types")) failures.push("Checkout must use Stripe dynamic payment methods rather than a fixed payment_method_types list.");
 
 if (failures.length) {
   console.error("Premium release safety check failed:\n");

@@ -3,6 +3,8 @@ export type CapabilityState = "configured" | "disabled" | "missing" | "ready_tes
 const value = (name: string) => process.env[name]?.trim() || "";
 const enabled = (name: string) => value(name) === "true";
 const isProduction = () => process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
+const isStripeKeyForMode = (key: string, mode: "test" | "live") =>
+  key.startsWith(`sk_${mode}_`) || key.startsWith(`rk_${mode}_`);
 
 export const getPremiumConfig = () => {
   const siteUrl = value("PUBLIC_APP_URL") || value("PUBLIC_SITE_URL") || "https://communityacquiredfinance.com";
@@ -13,6 +15,7 @@ export const getPremiumConfig = () => {
   const stripeSecretKey = value("STRIPE_SECRET_KEY");
   const stripeWebhookSecret = value("STRIPE_WEBHOOK_SECRET");
   const stripePrice = value("STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM");
+  const stripeProduct = value("STRIPE_PRODUCT_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM");
   const flags = {
     publicProductPage: process.env.PREMIUM_PUBLIC_PRODUCT_PAGE_ENABLED !== "false",
     applicationShell: process.env.PREMIUM_APPLICATION_SHELL_ENABLED !== "false",
@@ -27,24 +30,28 @@ export const getPremiumConfig = () => {
   const mockAuth = enabled("PREMIUM_MOCK_AUTH_ENABLED") || enabled("VITE_PREMIUM_DEV_MOCK_AUTH");
   const entitlementBypass = enabled("PREMIUM_ENTITLEMENT_BYPASS");
   const supabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey && supabaseServiceRoleKey);
+  const stripeObjectsConfigured =
+    stripeWebhookSecret.startsWith("whsec_")
+    && stripePrice.startsWith("price_")
+    && stripeProduct.startsWith("prod_");
   const stripeTestConfigured =
-    stripeEnvironment === "test" &&
-    stripeSecretKey.startsWith("sk_test_") &&
-    stripeWebhookSecret.startsWith("whsec_") &&
-    stripePrice.startsWith("price_");
+    stripeEnvironment === "test"
+    && isStripeKeyForMode(stripeSecretKey, "test")
+    && stripeObjectsConfigured;
   const stripeLiveConfigured =
-    stripeEnvironment === "live" &&
-    stripeSecretKey.startsWith("sk_live_") &&
-    stripeWebhookSecret.startsWith("whsec_") &&
-    stripePrice.startsWith("price_");
+    stripeEnvironment === "live"
+    && isStripeKeyForMode(stripeSecretKey, "live")
+    && stripeObjectsConfigured;
+  const stripeEnvironmentValid = ["disabled", "test", "live"].includes(stripeEnvironment);
   const production = isProduction();
   const violations = [
     ...(production && mockAuth ? ["Mock authentication cannot be enabled in production."] : []),
     ...(entitlementBypass ? ["Entitlement bypass is prohibited."] : []),
+    ...(!stripeEnvironmentValid ? ["Stripe environment is invalid."] : []),
+    ...(flags.checkout && !flags.authentication ? ["Checkout requires authentication."] : []),
     ...(flags.checkout && !flags.entitlementEnforcement ? ["Checkout requires entitlement enforcement."] : []),
     ...(flags.checkout && !supabaseConfigured ? ["Checkout requires complete Supabase server configuration."] : []),
-    ...(flags.checkout && !stripeTestConfigured && !stripeLiveConfigured ? ["Checkout requires complete Stripe test or authorized live configuration."] : []),
-    ...(stripeEnvironment === "live" && !flags.productionCheckoutAuthorized ? ["Live Stripe mode requires explicit production checkout authorization."] : []),
+    ...(flags.checkout && !stripeTestConfigured && !stripeLiveConfigured ? ["Checkout requires complete Stripe test or live configuration."] : []),
     ...(flags.checkout && stripeEnvironment === "live" && !flags.productionCheckoutAuthorized ? ["Live checkout is not authorized."] : []),
   ];
 
@@ -52,7 +59,15 @@ export const getPremiumConfig = () => {
     siteUrl,
     supportEmail: value("SUPPORT_EMAIL") || "support@communityacquiredfinance.com",
     supabase: { url: supabaseUrl, anonKey: supabaseAnonKey, serviceRoleKey: supabaseServiceRoleKey, configured: supabaseConfigured },
-    stripe: { environment: stripeEnvironment, secretKey: stripeSecretKey, webhookSecret: stripeWebhookSecret, price: stripePrice, testConfigured: stripeTestConfigured, liveConfigured: stripeLiveConfigured },
+    stripe: {
+      environment: stripeEnvironment,
+      secretKey: stripeSecretKey,
+      webhookSecret: stripeWebhookSecret,
+      price: stripePrice,
+      product: stripeProduct,
+      testConfigured: stripeTestConfigured,
+      liveConfigured: stripeLiveConfigured,
+    },
     flags,
     production,
     violations,
@@ -78,9 +93,11 @@ export const capabilityReport = () => {
     authentication: capability(config.flags.authentication, config.supabase.configured),
     databaseMigrationsApplied: "unknown" as const,
     workspacePersistence: capability(config.flags.workspacePersistence, config.supabase.configured),
-    stripeTestKeyConfigured: config.stripe.secretKey.startsWith("sk_test_"),
+    stripeTestKeyConfigured: isStripeKeyForMode(config.stripe.secretKey, "test"),
+    stripeLiveKeyConfigured: isStripeKeyForMode(config.stripe.secretKey, "live"),
     webhookSecretConfigured: config.stripe.webhookSecret.startsWith("whsec_"),
     stripePriceMapped: config.stripe.price.startsWith("price_"),
+    stripeProductMapped: config.stripe.product.startsWith("prod_"),
     entitlementEnforcement: capability(config.flags.entitlementEnforcement, config.supabase.configured),
     checkout,
     stripeEnvironment: config.stripe.environment,

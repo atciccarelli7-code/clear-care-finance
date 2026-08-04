@@ -5,6 +5,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { Button } from "@/components/ui/button";
 
+const EmployerBenefitsNavigator = lazy(() => import("@/components/benefits/EmployerBenefitsNavigator"));
 const BenefitsCommandCenterActivation = lazy(() => import("@/components/benefits/BenefitsCommandCenterActivation"));
 
 const entryModes = [
@@ -65,35 +66,41 @@ const BenefitsCommandCenterPage = () => (
   <>
     <div className="print:hidden">
       <PageHero
-        eyebrow="Free workplace-benefits comparison"
-        title="Compare the value behind the paycheck."
-        description="Build or preview a Benefits Receipt that separates compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs. This focused comparison remains free."
+        eyebrow="Free workplace-benefits decision workspace"
+        title="Start with your employer. Finish with a clearer benefits decision."
+        description="Select a pilot healthcare employer or begin manually, preserve the plan year and employee group, inspect which official documents are available, and build a Benefits Receipt that separates compensation, health-plan exposure, employer retirement money, paid leave, hidden benefits, vesting, employee costs, and quality-of-life tradeoffs."
       >
         <Button asChild size="lg">
+          <a href="#employer-benefits-navigator-title">
+            Find my employer <ArrowRight className="h-4 w-4" />
+          </a>
+        </Button>
+        <Button asChild size="lg" variant="outline">
           <Link
             to="/tools/benefits-command-center?mode=build#benefits-command-center-workspace"
             state={{ activation: "start_own", entrySurface: "command_center" }}
           >
-            Build a free comparison <ArrowRight className="h-4 w-4" />
+            Enter everything manually
           </Link>
-        </Button>
-        <Button asChild size="lg" variant="outline">
-          <a href="#entry-modes">See all starting modes</a>
         </Button>
       </PageHero>
 
-      <section className="container min-w-0 pt-10" aria-labelledby="full-system-preview-heading">
+      <Suspense fallback={<div className="container flex min-h-[520px] items-center justify-center py-10 text-sm font-semibold text-muted-foreground" role="status" aria-live="polite">Loading the employer source registry…</div>}>
+        <EmployerBenefitsNavigator />
+      </Suspense>
+
+      <section className="container min-w-0 pt-4" aria-labelledby="full-system-preview-heading">
         <div className="grid gap-5 rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 shadow-card md:grid-cols-[auto_1fr_auto] md:items-center md:p-8">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-background text-primary shadow-sm">
             <Layers3 className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Focused tool versus complete system</div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Live pilot versus complete system</div>
             <h2 id="full-system-preview-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
-              Need to coordinate the full open-enrollment decision?
+              Employer context is now connected to the free workspace.
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              This free workspace compares compensation and selected workplace benefits. CAF's planned paid Benefits Decision System will connect plan and prescription choices, accounts, retirement, protection benefits, source status, deadlines, saved work, and a final decision brief. Checkout remains off.
+              The live pilot preserves the employer, plan year, employee group, source coverage, and missing-document list before opening the calculation workspace. The planned paid system will add reviewed employer-specific prefills, prescription and network checks, saved accounts, deadlines, verification workflow, and a final election brief. Checkout remains off.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -104,8 +111,8 @@ const BenefitsCommandCenterPage = () => (
 
       <section id="entry-modes" className="container min-w-0 scroll-mt-24 py-10 md:py-14" aria-labelledby="entry-modes-title">
         <div className="mb-6 max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Choose how to begin</div>
-          <h2 id="entry-modes-title" className="mt-2 font-display text-2xl font-bold md:text-3xl">Four ways to open the free comparison.</h2>
+          <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Choose another way to begin</div>
+          <h2 id="entry-modes-title" className="mt-2 font-display text-2xl font-bold md:text-3xl">Four direct entry modes remain available.</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Mode names are fixed and URL-safe. Package values and answers never enter the URL.</p>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -125,7 +132,7 @@ const BenefitsCommandCenterPage = () => (
         </div>
         <div className="mt-6 grid gap-3 rounded-2xl border border-border bg-muted/20 p-5 text-sm leading-relaxed text-muted-foreground md:grid-cols-2">
           <p><strong className="text-foreground">Have nearby:</strong> a written offer or compensation statement, benefits rates, an SBC, retirement match and vesting terms, and leave policies.</p>
-          <p><strong className="text-foreground">Keep it private:</strong> do not enter employer or plan names, account identifiers, claims, documents, or other identifying details.</p>
+          <p><strong className="text-foreground">Keep it private:</strong> employer and plan names may be used for source matching, but do not enter member IDs, claims, medical information, account credentials, or other sensitive identifiers.</p>
           <p><strong className="text-foreground">Calculated:</strong> entered cash, employee costs, selected health-plan scenarios, retirement contributions, and reasonable known values.</p>
           <p><strong className="text-foreground">Kept qualitative:</strong> schedule, flexibility, career trajectory, protection, family support, uncertainty, and anything not verified.</p>
         </div>

@@ -3,7 +3,7 @@ export type DocumentIntakeMode = "disabled" | "synthetic_only" | "redacted_benef
 
 const value = (name: string) => process.env[name]?.trim() || "";
 const enabled = (name: string) => value(name) === "true";
-const isProduction = () => process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
+const isProductionRuntime = () => process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
 
 const readDocumentIntakeMode = (): DocumentIntakeMode => {
   const mode = value("PREMIUM_DOCUMENT_INTAKE_MODE") || "disabled";
@@ -49,14 +49,15 @@ export const getPremiumConfig = () => {
     stripeSecretKey.startsWith("sk_live_") &&
     stripeWebhookSecret.startsWith("whsec_") &&
     stripePrice.startsWith("price_");
-  const production = isProduction();
+  const productionRuntime = isProductionRuntime();
+  const productionDeployment = process.env.VERCEL_ENV === "production";
   const documentDependenciesReady =
     flags.authentication &&
     flags.workspacePersistence &&
     flags.entitlementEnforcement &&
     supabaseConfigured;
   const violations = [
-    ...(production && mockAuth ? ["Mock authentication cannot be enabled in production."] : []),
+    ...(productionRuntime && mockAuth ? ["Mock authentication cannot be enabled in production."] : []),
     ...(entitlementBypass ? ["Entitlement bypass is prohibited."] : []),
     ...(flags.checkout && !flags.entitlementEnforcement ? ["Checkout requires entitlement enforcement."] : []),
     ...(flags.checkout && !supabaseConfigured ? ["Checkout requires complete Supabase server configuration."] : []),
@@ -69,9 +70,9 @@ export const getPremiumConfig = () => {
     ...(flags.documentIntake && !documentDependenciesReady ? ["Document intake requires authentication, workspace persistence, entitlement enforcement, and complete Supabase configuration."] : []),
     ...(flags.documentExtraction && !flags.documentIntake ? ["Document extraction requires document intake."] : []),
     ...(flags.documentExtraction && documentIntakeMode === "disabled" ? ["Document extraction cannot run while document intake is disabled."] : []),
-    ...(production && flags.documentIntake && !flags.realDocumentProcessingAuthorized ? ["Production document intake requires explicit real-document-processing authorization."] : []),
-    ...(production && flags.documentIntake && documentIntakeMode !== "redacted_benefits_only" ? ["Production document intake must use redacted_benefits_only mode."] : []),
-    ...(production && flags.documentExtraction && !flags.realDocumentProcessingAuthorized ? ["Production document extraction requires explicit real-document-processing authorization."] : []),
+    ...(productionDeployment && flags.documentIntake && !flags.realDocumentProcessingAuthorized ? ["Production document intake requires explicit real-document-processing authorization."] : []),
+    ...(productionDeployment && flags.documentIntake && documentIntakeMode !== "redacted_benefits_only" ? ["Production document intake must use redacted_benefits_only mode."] : []),
+    ...(productionDeployment && flags.documentExtraction && !flags.realDocumentProcessingAuthorized ? ["Production document extraction requires explicit real-document-processing authorization."] : []),
   ];
 
   return {
@@ -88,7 +89,8 @@ export const getPremiumConfig = () => {
       dependenciesReady: documentDependenciesReady,
     },
     flags,
-    production,
+    productionRuntime,
+    productionDeployment,
     violations,
     safe: violations.length === 0,
   };
@@ -113,7 +115,7 @@ export const capabilityReport = () => {
       : !config.safe
         ? "invalid"
         : config.documents.dependenciesReady && config.documents.mode !== "disabled" && config.documents.mode !== "invalid"
-          ? config.production ? "ready_production" : "ready_test"
+          ? config.productionDeployment ? "ready_production" : "ready_test"
           : "missing";
   return {
     supabaseConfigured: config.supabase.configured,

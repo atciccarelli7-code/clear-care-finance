@@ -49,6 +49,13 @@ export const sha256File = async (file: File) => {
   return bytesToHex(hash);
 };
 
+const confirmedAttestations: DocumentUploadRequest["attestations"] = {
+  noPersonalInformation: true,
+  notElectionOrIndividualRecord: true,
+  authorizedToUse: true,
+  syntheticPublicOrRedacted: true,
+};
+
 export const listBenefitDocuments = async (
   token: string,
   workspaceId: string,
@@ -65,13 +72,13 @@ export const uploadBenefitDocument = async ({
   workspaceId,
   documentKind,
   file,
-  attestations,
+  attestations = confirmedAttestations,
 }: {
   token: string;
   workspaceId: string;
   documentKind: BenefitDocumentKind;
   file: File;
-  attestations: DocumentUploadRequest["attestations"];
+  attestations?: DocumentUploadRequest["attestations"];
 }): Promise<BenefitDocumentRecord> => {
   const authorizationResponse = await fetch("/api/document-intake", {
     method: "POST",

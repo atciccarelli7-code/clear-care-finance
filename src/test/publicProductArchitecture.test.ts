@@ -55,7 +55,8 @@ describe("free-core and single-flagship public product architecture", () => {
 
   it("renders the offer as controlled noindex validation rather than a parked redirect", () => {
     expect(siteSeoMetaSource).toContain(OFFER_PATH);
-    expect(siteSeoMetaSource).toContain('robots: "noindex, nofollow, noarchive"');
+    expect(siteSeoMetaSource).toContain('const noindex = "noindex, nofollow, noarchive"');
+    expect(siteSeoMetaSource).toContain("robots: noindex");
     expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_PATH");
     expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_META");
     expect(vercelSource).not.toContain(`"source": "${OFFER_PATH}", "destination"`);

@@ -1,7 +1,47 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Employer benefits navigator", () => {
-  test("preserves employer context before opening the benefits workspace", async ({ page }) => {
+  test("finds a national health system and starts a bounded manual workspace", async ({ page }) => {
+    await page.route("**/api/employer-benefits-directory?q=*", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ok: true,
+          query: "Mayo",
+          registryVintage: 2023,
+          entries: [{
+            systemId: "SYS-TEST-MAYO",
+            name: "Mayo Clinic",
+            city: "Rochester",
+            state: "MN",
+            registryVintage: 2023,
+            hospitalCount: 10,
+            staffedBeds: 2000,
+            matchedEmployerSlug: null,
+            discoveredSourceCount: 2,
+            currentPublicSourceCount: 2,
+            bestPlanYear: 2026,
+            coverageStatus: "verified_public_pdf",
+          }],
+        }),
+      });
+    });
+
+    await page.goto("/tools/benefits-command-center");
+    await expect(page.getByRole("heading", { name: /find your healthcare system/i })).toBeVisible();
+    await page.getByLabel("Healthcare system").fill("Mayo");
+    await expect(page.getByRole("heading", { name: "Mayo Clinic" })).toBeVisible();
+    await expect(page.getByText(/current public source located/i)).toBeVisible();
+    await page.getByRole("button", { name: /start manually/i }).click();
+
+    await page.waitForURL(/mode=build/);
+    const workspace = await page.evaluate(() => JSON.parse(window.localStorage.getItem("caf-benefits-command-center-v1") || "null"));
+    expect(workspace.mode).toBe("open_enrollment");
+    expect(workspace.packages[0].label).toContain("Mayo Clinic 2026");
+  });
+
+  test("preserves employer context before opening the reviewed benefits workspace", async ({ page }) => {
     await page.goto("/tools/benefits-command-center");
 
     await expect(page.getByRole("heading", { name: /start with the employer and plan year/i })).toBeVisible();

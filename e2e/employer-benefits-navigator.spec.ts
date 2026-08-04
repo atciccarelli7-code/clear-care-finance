@@ -1,8 +1,13 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Employer benefits navigator", () => {
-  test("shows a verified employer source and carries it into the local workspace", async ({ page }) => {
-    await page.route("**/api/employer-benefits-source?q=*", async (route) => {
+  test("shows a link-only employer source and carries it into the local workspace", async ({ page }) => {
+    let searchRequestUrl = "";
+    let searchRequestBody: Record<string, unknown> | null = null;
+
+    await page.route("**/api/employer-benefits-source", async (route) => {
+      searchRequestUrl = route.request().url();
+      searchRequestBody = route.request().postDataJSON();
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -35,6 +40,8 @@ test.describe("Employer benefits navigator", () => {
               documentType: "full_guide",
               sourceStatus: "verified_public_pdf",
               verificationStatus: "source_verified",
+              useScope: "link_only",
+              rightsReviewStatus: "not_reviewed",
             }],
           }],
         }),
@@ -43,12 +50,19 @@ test.describe("Employer benefits navigator", () => {
 
     await page.goto("/tools/benefits-command-center");
     await expect(page.getByRole("heading", { name: /find your healthcare system/i })).toBeVisible();
+    await expect(page.getByText(/independent and unaffiliated/i)).toBeVisible();
+    await expect(page.getByText(/external links only/i)).toBeVisible();
     await page.getByRole("textbox", { name: "Healthcare system", exact: true }).fill("Mayo");
     await expect(page.getByRole("heading", { name: "Mayo Clinic" })).toBeVisible();
-    await expect(page.getByText(/current public source located/i)).toBeVisible();
+    await expect(page.getByText(/current public link located/i)).toBeVisible();
     await expect(page.getByText("2026 Employee Benefits Guide")).toBeVisible();
-    await expect(page.getByRole("link", { name: /open official source/i })).toHaveAttribute("href", "https://benefits.example.org/mayo-2026-guide.pdf");
-    await page.getByRole("button", { name: /start with this source/i }).click();
+    await expect(page.getByText(/link-only reference/i)).toBeVisible();
+    await expect(page.getByRole("link", { name: /open source-owner page/i })).toHaveAttribute("href", "https://benefits.example.org/mayo-2026-guide.pdf");
+
+    expect(searchRequestUrl).not.toContain("?q=");
+    expect(searchRequestBody).toEqual({ action: "directory_search", query: "Mayo" });
+
+    await page.getByRole("button", { name: /attach link to manual workspace/i }).click();
 
     await page.waitForURL(/mode=build/);
     await expect(page.getByText(/employer source attached/i)).toBeVisible();

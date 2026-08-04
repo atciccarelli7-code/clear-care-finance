@@ -15,7 +15,7 @@
       "aliases": ["Novant", "Novant Health Presbyterian Medical Center"],
       "regions": ["North Carolina"],
       "defaultPlanYear": 2026,
-      "availability": "source_collection_needed",
+      "availability": "partial_sources",
       "employeeClasses": [
         { "id": "benefits-eligible", "label": "Benefits-eligible employee" },
         { "id": "employee-spouse", "label": "Employee + spouse" },
@@ -28,8 +28,27 @@
           "id": "novant-health-2026-general",
           "planYear": 2026,
           "populationLabel": "General benefits-eligible employees",
-          "status": "source_collection_needed",
-          "sources": []
+          "status": "source_collection_in_progress",
+          "sources": [
+            {
+              "id": "novant-health-2026-team-member-benefits-guide",
+              "documentType": "benefits_guide",
+              "title": "2026 Novant Health Team Member Benefits Guide",
+              "url": "https://benefits.novanthealth.org/-/media/Mercer/Novant/Documents/2026-Team-Member-Enrollment-Guide.pdf?hash=F440BA48770F5B5D168FBD720C87D379&rev=b6470faf82774984b3b3e5e8c476985c",
+              "officialDomain": "benefits.novanthealth.org",
+              "reviewStatus": "official_source_located",
+              "retrievedAt": "2026-08-03"
+            },
+            {
+              "id": "novant-health-2026-health-plan-premiums",
+              "documentType": "employee_rate_sheet",
+              "title": "2026 Novant Health Health Plan Bi-Weekly Premiums",
+              "url": "https://benefits.novanthealth.org/-/media/Mercer/Novant/Documents/2026-Contribution-Rates.pdf?hash=7DA1355E29DFF1767C2A9644D7433CEC&rev=59985308668043ae93468ae143dbfa2f",
+              "officialDomain": "benefits.novanthealth.org",
+              "reviewStatus": "official_source_located",
+              "retrievedAt": "2026-08-03"
+            }
+          ]
         }
       ]
     },

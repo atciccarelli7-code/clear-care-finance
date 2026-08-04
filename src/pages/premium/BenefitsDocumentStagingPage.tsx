@@ -1,48 +1,48 @@
-import { useCallback, useEffect, useMemo, useState, type ChangeEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   AlertTriangle,
   ArrowLeft,
   CheckCircle2,
-  FileCheck2,
+  FileInput,
   FileLock2,
   FileSearch2,
   LoaderCircle,
-  ShieldAlert,
+  Save,
+  ShieldCheck,
   Trash2,
-  UploadCloud,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  MAX_BENEFIT_DOCUMENT_BYTES,
+  getWorkspace,
+  saveWorkspace,
+  PremiumApiError,
+} from "@/premium/apiClient";
+import {
+  emptyWorkspaceState,
+  workspaceRecordSchema,
+  type WorkspaceRecord,
+} from "@/premium/contracts";
+import { extractSyntheticBenefitsFacts } from "@/premium/documentExtraction";
+import {
   benefitDocumentKindLabels,
   benefitDocumentKindSchema,
+  extractedBenefitFactSchema,
   type BenefitDocumentKind,
-  type BenefitDocumentRecord,
+  type ExtractedBenefitFact,
 } from "@/premium/documentIntakeContracts";
 import {
-  deleteBenefitDocument,
-  extractBenefitDocument,
-  listBenefitDocuments,
-  uploadBenefitDocument,
-} from "@/premium/documentIntakeApi";
-import { PremiumApiError } from "@/premium/apiClient";
+  applyConfirmedLocalBenefitsFacts,
+  LOCAL_BENEFITS_SOURCE_MAX_BYTES,
+  type BenefitsSourceTarget,
+} from "@/premium/localBenefitsSource";
 import { scanSensitiveData } from "@/premium/sensitiveDataDetector";
 import { usePremiumAuth } from "@/premium/auth/AuthProvider";
 
 const inputClass = "mt-2 min-h-12 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20";
-
-const statusLabel: Record<BenefitDocumentRecord["status"], string> = {
-  authorized: "Upload authorized",
-  uploaded: "Uploaded",
-  quarantined: "Quarantined — extraction unavailable",
-  ready_for_extraction: "Ready for protected extraction",
-  extracted: "Extracted and source deleted",
-  rejected_sensitive_data: "Rejected and source deleted",
-  extraction_unavailable: "Extraction provider unavailable",
-  deleted: "Deleted",
-  expired: "Expired and deleted",
-};
+const textAreaClass = `${inputClass} min-h-52 py-3`;
+const DEV_STORAGE_KEY = "caf-premium-development-demo-workspace";
+const DEFAULT_DEMO_WORKSPACE_ID = "10000000-0000-4000-8000-000000000001";
 
 const findingLabels: Record<string, string> = {
   social_security_number: "Social Security number",
@@ -62,264 +62,331 @@ const findingLabels: Record<string, string> = {
   sensitive_filename: "sensitive filename",
 };
 
-type Confirmations = {
-  noPersonalInformation: boolean;
-  notElectionOrIndividualRecord: boolean;
-  authorizedToUse: boolean;
-  syntheticPublicOrRedacted: boolean;
-};
-
-const emptyConfirmations: Confirmations = {
-  noPersonalInformation: false,
-  notElectionOrIndividualRecord: false,
-  authorizedToUse: false,
-  syntheticPublicOrRedacted: false,
-};
+type Candidate = ExtractedBenefitFact & { selected: boolean };
 
 const readableError = (error: unknown) => error instanceof PremiumApiError
   ? error.message
   : error instanceof Error
     ? error.message
-    : "The document request could not be completed.";
+    : "The source assistant could not complete the request.";
+
+const makeDemoRecord = (id: string): WorkspaceRecord => ({
+  id: id || DEFAULT_DEMO_WORKSPACE_ID,
+  title: "Local development comparison",
+  status: "active",
+  progressPercent: 0,
+  state: emptyWorkspaceState(),
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+});
+
+const readDemoRecord = (id: string) => {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(DEV_STORAGE_KEY) || "null");
+    return parsed ? workspaceRecordSchema.parse(parsed) : makeDemoRecord(id);
+  } catch {
+    return makeDemoRecord(id);
+  }
+};
+
+const writeDemoRecord = (record: WorkspaceRecord) => {
+  window.localStorage.setItem(DEV_STORAGE_KEY, JSON.stringify(record));
+};
+
+const formatValue = (fact: ExtractedBenefitFact) => {
+  if (fact.unit === "usd") return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(fact.value);
+  if (fact.unit === "percent") return `${fact.value}%`;
+  return `${fact.value} year${fact.value === 1 ? "" : "s"}`;
+};
 
 export default function BenefitsDocumentStagingPage() {
   const { workspaceId = "" } = useParams();
   const auth = usePremiumAuth();
-  const enabled = import.meta.env.VITE_PREMIUM_DOCUMENT_INTAKE_ENABLED === "true";
-  const [documents, setDocuments] = useState<BenefitDocumentRecord[]>([]);
-  const [mode, setMode] = useState<string>("disabled");
-  const [documentKind, setDocumentKind] = useState<BenefitDocumentKind>("benefits_guide");
-  const [file, setFile] = useState<File | null>(null);
-  const [confirmations, setConfirmations] = useState<Confirmations>(emptyConfirmations);
-  const [message, setMessage] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-  const [busyId, setBusyId] = useState<string>("");
-
-  const allConfirmed = useMemo(() => Object.values(confirmations).every(Boolean), [confirmations]);
-  const canUseServer = enabled && auth.status === "signed_in" && Boolean(auth.accessToken) && !auth.isDevelopmentDemo && Boolean(workspaceId);
-
-  const refresh = useCallback(async () => {
-    if (!canUseServer || !auth.accessToken) return;
-    try {
-      const result = await listBenefitDocuments(auth.accessToken, workspaceId);
-      setDocuments(result.documents);
-      setMode(result.mode);
-    } catch (nextError) {
-      setError(readableError(nextError));
-    }
-  }, [auth.accessToken, canUseServer, workspaceId]);
+  const [workspace, setWorkspace] = useState<WorkspaceRecord | null>(null);
+  const [loadingWorkspace, setLoadingWorkspace] = useState(true);
+  const [sourceCategory, setSourceCategory] = useState<BenefitDocumentKind>("benefits_guide");
+  const [target, setTarget] = useState<BenefitsSourceTarget>("optionA");
+  const [payPeriodsPerYear, setPayPeriodsPerYear] = useState(26);
+  const [sourceText, setSourceText] = useState("");
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    void refresh();
-  }, [refresh]);
+    let active = true;
+    setLoadingWorkspace(true);
+    setError("");
 
-  const chooseFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (auth.isDevelopmentDemo) {
+      setWorkspace(readDemoRecord(workspaceId));
+      setLoadingWorkspace(false);
+      return undefined;
+    }
+
+    if (!auth.accessToken || !workspaceId) {
+      setLoadingWorkspace(false);
+      return undefined;
+    }
+
+    void getWorkspace(auth.accessToken, workspaceId)
+      .then((record) => {
+        if (active) setWorkspace(record);
+      })
+      .catch((nextError) => {
+        if (active) setError(readableError(nextError));
+      })
+      .finally(() => {
+        if (active) setLoadingWorkspace(false);
+      });
+
+    return () => { active = false; };
+  }, [auth.accessToken, auth.isDevelopmentDemo, workspaceId]);
+
+  const selectedFacts = useMemo(
+    () => candidates.filter((candidate) => candidate.selected).map(({ selected: _selected, ...fact }) => extractedBenefitFactSchema.parse(fact)),
+    [candidates],
+  );
+
+  const blockedMessage = (findingCodes: string[]) => {
+    const labels = findingCodes.map((code) => findingLabels[code] || code).join(", ");
+    return `The source was blocked locally because it appears to contain: ${labels}. Nothing was transmitted or saved.`;
+  };
+
+  const chooseLocalTextFile = async (event: ChangeEvent<HTMLInputElement>) => {
     setError("");
     setMessage("");
-    const next = event.target.files?.[0] || null;
+    setCandidates([]);
+    const file = event.target.files?.[0] || null;
     event.target.value = "";
-    if (!next) return;
-    if (!["application/pdf", "text/plain"].includes(next.type)) {
-      setFile(null);
-      setError("Use a PDF or plain-text fixture only.");
+    if (!file) return;
+
+    if (file.type !== "text/plain" && !file.name.toLowerCase().endsWith(".txt")) {
+      setError("Use a plain-text (.txt) source only. For a PDF, copy only the relevant general plan text into the box below.");
       return;
     }
-    if (next.size <= 0 || next.size > MAX_BENEFIT_DOCUMENT_BYTES) {
-      setFile(null);
-      setError("The document must be larger than zero bytes and no more than 10 MB.");
+    if (file.size <= 0 || file.size > LOCAL_BENEFITS_SOURCE_MAX_BYTES) {
+      setError("The local text source must be larger than zero bytes and no more than 1 MB.");
       return;
     }
-    const filenameScan = scanSensitiveData({ fileName: next.name });
+
+    const filenameScan = scanSensitiveData({ fileName: file.name });
     if (filenameScan.blocked) {
-      setFile(null);
-      setError("Rename or replace the file. Its filename suggests an individualized or sensitive record.");
+      setError(blockedMessage(filenameScan.findingCodes));
       return;
     }
-    if (next.type === "text/plain") {
-      const text = await next.text();
-      const scan = scanSensitiveData({ text });
-      if (scan.blocked) {
-        setFile(null);
-        const findings = scan.findingCodes.map((code) => findingLabels[code] || code).join(", ");
-        setError(`This file was blocked before upload because it appears to contain: ${findings}.`);
+
+    const text = await file.text();
+    const contentScan = scanSensitiveData({ text });
+    if (contentScan.blocked) {
+      setError(blockedMessage(contentScan.findingCodes));
+      return;
+    }
+
+    setSourceText(text.slice(0, 200_000));
+    setMessage("The text file was read only in this browser. Review the text, then analyze it locally. The file has not been uploaded.");
+  };
+
+  const analyzeLocally = () => {
+    setError("");
+    setMessage("");
+    setCandidates([]);
+    const text = sourceText.trim();
+    if (!text) {
+      setError("Paste general plan text or select a plain-text source first.");
+      return;
+    }
+
+    const scan = scanSensitiveData({ text });
+    if (scan.blocked) {
+      setSourceText("");
+      setError(blockedMessage(scan.findingCodes));
+      return;
+    }
+
+    const result = extractSyntheticBenefitsFacts(text);
+    setSourceText("");
+    if (result.blocked) {
+      setError(blockedMessage(result.findingCodes));
+      return;
+    }
+    if (!result.facts.length) {
+      setMessage("No supported values were found. The raw text was discarded. Enter the values manually in the workspace and add unresolved questions to the verification list.");
+      return;
+    }
+
+    setCandidates(result.facts.map((fact) => ({ ...fact, selected: true })));
+    setMessage("Potential values were found locally and the raw source text was discarded. Review every value before saving; none are treated as official until you confirm them.");
+  };
+
+  const updateCandidate = (index: number, patch: Partial<Candidate>) => {
+    setCandidates((current) => current.map((candidate, candidateIndex) =>
+      candidateIndex === index ? extractedBenefitFactSchema.extend({ selected: extractedBenefitFactSchema.shape.confidence.transform(() => true).optional() }) && { ...candidate, ...patch } : candidate,
+    ));
+  };
+
+  const saveConfirmedValues = async () => {
+    if (!workspace || !selectedFacts.length) return;
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      const result = applyConfirmedLocalBenefitsFacts({
+        state: workspace.state,
+        facts: selectedFacts,
+        target,
+        payPeriodsPerYear,
+        sourceCategory,
+      });
+      if (!result.appliedFactKeys.length) {
+        setError("No values could be saved. A per-pay-period premium requires a confirmed pay-period count, and every candidate must remain selected to be applied.");
         return;
       }
-    }
-    setFile(next);
-    setMessage(next.type === "application/pdf"
-      ? "PDF content cannot yet be inspected before upload. Use only a synthetic, public, or deliberately redacted benefits document in the protected preview."
-      : "The text fixture passed the browser-side sensitive-data screen. The server will scan it again before retaining extracted facts.");
-  };
 
-  const upload = async () => {
-    if (!file || !auth.accessToken || !allConfirmed) return;
-    setLoading(true);
-    setError("");
-    setMessage("");
-    try {
-      await uploadBenefitDocument({
-        token: auth.accessToken,
-        workspaceId,
-        documentKind: benefitDocumentKindSchema.parse(documentKind),
-        file,
-      });
-      setFile(null);
-      setConfirmations(emptyConfirmations);
-      setMessage("The file entered the private quarantine workflow. No original filename was retained.");
-      await refresh();
+      let saved: WorkspaceRecord;
+      if (auth.isDevelopmentDemo) {
+        saved = workspaceRecordSchema.parse({
+          ...workspace,
+          state: result.state,
+          updatedAt: new Date().toISOString(),
+        });
+        writeDemoRecord(saved);
+      } else {
+        if (!auth.accessToken) throw new Error("A secure account session is required.");
+        saved = await saveWorkspace(auth.accessToken, workspace.id, result.state);
+      }
+
+      setWorkspace(saved);
+      setCandidates([]);
+      const skipped = result.skippedFactKeys.length
+        ? ` ${result.skippedFactKeys.length} value was left unsaved because its cadence was incomplete.`
+        : "";
+      setMessage(`${result.appliedFactKeys.length} confirmed structured value${result.appliedFactKeys.length === 1 ? " was" : "s were"} saved to ${target === "optionA" ? "Option A" : "Option B"}.${skipped} No source text or file was retained.`);
     } catch (nextError) {
       setError(readableError(nextError));
     } finally {
-      setLoading(false);
+      setBusy(false);
     }
   };
 
-  const extract = async (uploadId: string) => {
-    if (!auth.accessToken) return;
-    setBusyId(uploadId);
-    setError("");
-    setMessage("");
-    try {
-      const result = await extractBenefitDocument(auth.accessToken, uploadId);
-      setMessage(result.document.status === "rejected_sensitive_data"
-        ? "The server detected prohibited information. The source file was deleted and no extracted facts were retained."
-        : result.document.status === "extracted"
-          ? "The protected extractor retained only structured benefits facts and deleted the source file."
-          : "The source remains quarantined. Automated extraction is not available for this file type.");
-      await refresh();
-    } catch (nextError) {
-      setError(readableError(nextError));
-    } finally {
-      setBusyId("");
-    }
-  };
-
-  const remove = async (uploadId: string) => {
-    if (!auth.accessToken) return;
-    setBusyId(uploadId);
-    setError("");
-    try {
-      await deleteBenefitDocument(auth.accessToken, uploadId);
-      setMessage("The staged document and its metadata were deleted.");
-      await refresh();
-    } catch (nextError) {
-      setError(readableError(nextError));
-    } finally {
-      setBusyId("");
-    }
-  };
-
-  if (!enabled) {
+  if (loadingWorkspace) {
     return (
-      <main className="container min-h-[70vh] py-12" id="main-content">
-        <div className="mx-auto max-w-2xl rounded-3xl border border-border bg-card p-7 shadow-card md:p-10">
-          <FileLock2 className="h-8 w-8 text-primary" aria-hidden="true" />
-          <h1 className="mt-4 font-display text-3xl font-bold">Document staging is not enabled</h1>
-          <p className="mt-4 leading-relaxed text-muted-foreground">
-            The secure document workflow is being built and tested with synthetic fixtures. Production cannot issue upload tokens or accept visitor documents.
-          </p>
-          <Button asChild variant="outline" className="mt-6">
-            <Link to={workspaceId ? `/app/benefits-decision/${workspaceId}` : "/app/benefits-decision"}>
-              <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Return to the workspace
-            </Link>
-          </Button>
+      <main id="main-content" className="container min-h-[70vh] py-12">
+        <div className="mx-auto flex max-w-2xl items-center gap-3 rounded-3xl border border-border bg-card p-8" role="status">
+          <LoaderCircle className="h-5 w-5 animate-spin motion-reduce:animate-none" aria-hidden="true" /> Loading the protected workspace…
+        </div>
+      </main>
+    );
+  }
+
+  if (!workspace) {
+    return (
+      <main id="main-content" className="container min-h-[70vh] py-12">
+        <div className="mx-auto max-w-2xl rounded-3xl border border-border bg-card p-8">
+          <AlertTriangle className="h-7 w-7 text-amber-700" aria-hidden="true" />
+          <h1 className="mt-4 font-display text-3xl font-bold">Workspace unavailable</h1>
+          <p className="mt-3 text-muted-foreground">Open or create an authorized Benefits Decision System workspace before using the local source assistant.</p>
+          <Button asChild variant="outline" className="mt-6"><Link to="/app/benefits-decision"><ArrowLeft className="h-4 w-4" /> Workspaces</Link></Button>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="container min-h-screen py-8 md:py-12" id="main-content">
+    <main id="main-content" className="container min-h-screen py-8 md:py-12">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col gap-5 border-b border-border pb-7 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Protected prelaunch capability</div>
-            <h1 className="mt-2 font-display text-3xl font-bold md:text-4xl">Benefits document staging</h1>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Premium privacy-minimized workspace</div>
+            <h1 className="mt-2 font-display text-3xl font-bold md:text-4xl">Browser-local benefits source assistant</h1>
             <p className="mt-3 max-w-3xl leading-relaxed text-muted-foreground">
-              Use only synthetic, public, or deliberately redacted plan materials. Do not upload official elections, confirmation pages, pay statements, IDs, claims, medical records, credentials, or any document identifying a person.
+              Copy only general benefits terms or select a plain-text plan excerpt. Analysis happens in this browser. CAF saves only the values you review and confirm—not the source text, file, filename, or excerpts.
             </p>
           </div>
-          <Button asChild variant="outline">
-            <Link to={`/app/benefits-decision/${workspaceId}`}>
-              <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Workspace
-            </Link>
-          </Button>
+          <Button asChild variant="outline"><Link to={`/app/benefits-decision/${workspace.id}`}><ArrowLeft className="h-4 w-4" /> Workspace</Link></Button>
         </div>
 
-        <div className="mt-7 grid gap-5 md:grid-cols-3">
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <ShieldAlert className="h-5 w-5 text-primary" aria-hidden="true" />
-            <h2 className="mt-3 font-display text-lg font-bold">Not a liability waiver</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Your confirmation helps prevent mistakes. CAF still enforces file restrictions, private quarantine, rejection, and deletion.</p>
-          </div>
+        <div className="mt-7 grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-border bg-card p-5">
             <FileLock2 className="h-5 w-5 text-primary" aria-hidden="true" />
-            <h2 className="mt-3 font-display text-lg font-bold">No original filename</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Storage paths use random identifiers. The original filename is screened but is not written to CAF’s database.</p>
+            <h2 className="mt-3 font-display text-lg font-bold">Nothing is uploaded</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">The file selector reads only `.txt` content inside the browser. PDFs must remain on your device; paste only the relevant general plan language.</p>
           </div>
           <div className="rounded-2xl border border-border bg-card p-5">
             <Trash2 className="h-5 w-5 text-primary" aria-hidden="true" />
-            <h2 className="mt-3 font-display text-lg font-bold">Delete the source</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Text fixtures are deleted after scanning and extraction. Other staged files expire automatically or can be deleted immediately.</p>
+            <h2 className="mt-3 font-display text-lg font-bold">Raw text is discarded</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">After analysis, the source-text field is cleared. Raw text and excerpts are not placed in local storage, analytics, the database, or the decision brief.</p>
+          </div>
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <ShieldCheck className="h-5 w-5 text-primary" aria-hidden="true" />
+            <h2 className="mt-3 font-display text-lg font-bold">You confirm every value</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Potential values are suggestions, not official interpretations. Written plan documents and the plan administrator remain controlling.</p>
           </div>
         </div>
 
-        {!canUseServer && (
-          <div className="mt-7 rounded-2xl border border-amber-300 bg-amber-50 p-5 text-sm leading-relaxed text-amber-950" role="alert">
-            <AlertTriangle className="mr-2 inline h-4 w-4" aria-hidden="true" />
-            This environment is not authorized to process documents. A real authenticated test account, test entitlement, protected preview configuration, and server-side intake flags are required.
-          </div>
-        )}
+        <div className="mt-7 rounded-2xl border border-amber-300 bg-amber-50 p-5 text-sm leading-relaxed text-amber-950" role="note">
+          <strong>Do not paste personal information.</strong> Exclude names, contact details, dates of birth, employee/member/policy IDs, claims, EOBs, diagnoses, medication histories, pay statements, completed elections, beneficiary records, credentials, and financial-account information.
+        </div>
 
-        <section className="mt-8 rounded-3xl border border-border bg-card p-6 shadow-card md:p-8" aria-labelledby="stage-document-title">
+        <section className="mt-8 rounded-3xl border border-border bg-card p-6 shadow-card md:p-8" aria-labelledby="local-source-title">
           <div className="flex items-center gap-3">
-            <UploadCloud className="h-6 w-6 text-primary" aria-hidden="true" />
+            <FileSearch2 className="h-6 w-6 text-primary" aria-hidden="true" />
             <div>
-              <h2 id="stage-document-title" className="font-display text-2xl font-bold">Stage a test document</h2>
-              <p className="text-sm text-muted-foreground">Current environment mode: <strong className="text-foreground">{mode.replaceAll("_", " ")}</strong></p>
+              <h2 id="local-source-title" className="font-display text-2xl font-bold">Review a general plan source locally</h2>
+              <p className="text-sm text-muted-foreground">Workspace: <strong className="text-foreground">{workspace.title}</strong></p>
             </div>
           </div>
 
-          <div className="mt-6 grid gap-5 md:grid-cols-2">
+          <div className="mt-6 grid gap-5 md:grid-cols-3">
             <div>
-              <label htmlFor="document-kind" className="text-sm font-semibold">Document category</label>
-              <select id="document-kind" className={inputClass} value={documentKind} onChange={(event) => setDocumentKind(benefitDocumentKindSchema.parse(event.target.value))}>
+              <label htmlFor="source-category" className="text-sm font-semibold">Source category</label>
+              <select id="source-category" className={inputClass} value={sourceCategory} onChange={(event) => setSourceCategory(benefitDocumentKindSchema.parse(event.target.value))}>
                 {Object.entries(benefitDocumentKindLabels).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
               </select>
             </div>
             <div>
-              <label htmlFor="document-file" className="text-sm font-semibold">Synthetic or redacted PDF/TXT, maximum 10 MB</label>
-              <input id="document-file" className={inputClass} type="file" accept=".pdf,.txt,application/pdf,text/plain" onChange={(event) => void chooseFile(event)} />
+              <label htmlFor="target-option" className="text-sm font-semibold">Apply confirmed values to</label>
+              <select id="target-option" className={inputClass} value={target} onChange={(event) => setTarget(event.target.value as BenefitsSourceTarget)}>
+                <option value="optionA">Option A</option>
+                <option value="optionB">Option B</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="pay-periods" className="text-sm font-semibold">Pay periods per year</label>
+              <select id="pay-periods" className={inputClass} value={payPeriodsPerYear} onChange={(event) => setPayPeriodsPerYear(Number(event.target.value))}>
+                <option value={12}>12 — monthly</option>
+                <option value={24}>24 — semimonthly</option>
+                <option value={26}>26 — biweekly</option>
+                <option value={52}>52 — weekly</option>
+              </select>
             </div>
           </div>
 
-          {file && (
-            <div className="mt-5 rounded-2xl border border-primary/20 bg-primary-soft/25 p-4 text-sm">
-              <FileCheck2 className="mr-2 inline h-4 w-4 text-primary" aria-hidden="true" />
-              A local file is selected ({Math.ceil(file.size / 1024).toLocaleString()} KB). Its name will not be retained after authorization.
-            </div>
-          )}
+          <div className="mt-6">
+            <label htmlFor="local-text-file" className="text-sm font-semibold">Optional local `.txt` source, maximum 1 MB</label>
+            <input id="local-text-file" className={inputClass} type="file" accept=".txt,text/plain" onChange={(event) => void chooseLocalTextFile(event)} />
+            <p className="mt-2 text-xs leading-relaxed text-muted-foreground">Selecting a file does not send it to CAF. The browser reads it locally and places its text in the review box below.</p>
+          </div>
 
-          <fieldset className="mt-6 space-y-3">
-            <legend className="font-display text-lg font-bold">Required confirmations</legend>
-            {[
-              ["noPersonalInformation", "I inspected the document and it contains no name, email, phone, address, birth date, employee ID, member ID, claim number, account number, or other personal information."],
-              ["notElectionOrIndividualRecord", "This is a general plan document—not my completed elections, confirmation page, beneficiary designation, pay statement, EOB, claim, medical record, or other individualized record."],
-              ["authorizedToUse", "I am authorized to use this document for this private test and it is not confidential material I am prohibited from sharing."],
-              ["syntheticPublicOrRedacted", "This document is synthetic, already public, or deliberately redacted for testing."],
-            ].map(([key, label]) => (
-              <label key={key} className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-background p-4 text-sm leading-relaxed">
-                <input
-                  type="checkbox"
-                  className="mt-1 h-4 w-4 shrink-0"
-                  checked={confirmations[key as keyof Confirmations]}
-                  onChange={(event) => setConfirmations((current) => ({ ...current, [key]: event.target.checked }))}
-                />
-                <span>{label}</span>
-              </label>
-            ))}
-          </fieldset>
+          <div className="mt-6">
+            <label htmlFor="source-text" className="text-sm font-semibold">General plan text</label>
+            <textarea
+              id="source-text"
+              className={textAreaClass}
+              value={sourceText}
+              maxLength={200_000}
+              onChange={(event) => {
+                setSourceText(event.target.value);
+                setCandidates([]);
+                setError("");
+              }}
+              placeholder={'Example:\nEmployee medical premium: $120 per pay period\nAnnual deductible: $2,000\nOut-of-pocket maximum: $6,000\nEmployer HSA contribution: $750 annually\nRetirement match: 6%\nVesting: 3 years'}
+            />
+            <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+              <span>{sourceText.length.toLocaleString()} characters held temporarily in this browser tab</span>
+              {sourceText && <button type="button" className="font-semibold text-primary hover:underline" onClick={() => { setSourceText(""); setCandidates([]); setMessage("The local source text was cleared."); }}>Clear source text</button>}
+            </div>
+          </div>
 
           {(message || error) && (
             <div className={`mt-5 rounded-2xl border p-4 text-sm leading-relaxed ${error ? "border-red-300 bg-red-50 text-red-950" : "border-primary/20 bg-primary-soft/25 text-foreground"}`} role={error ? "alert" : "status"}>
@@ -327,69 +394,60 @@ export default function BenefitsDocumentStagingPage() {
             </div>
           )}
 
-          <Button className="mt-6" disabled={!canUseServer || !file || !allConfirmed || loading} onClick={() => void upload()}>
-            {loading ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> : <UploadCloud className="h-4 w-4" aria-hidden="true" />}
-            Authorize and stage test document
-          </Button>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button type="button" onClick={analyzeLocally} disabled={!sourceText.trim()}><FileInput className="h-4 w-4" /> Analyze locally</Button>
+            <Button asChild variant="outline"><Link to={`/app/benefits-decision/${workspace.id}`}>Enter values manually instead</Link></Button>
+          </div>
         </section>
 
-        <section className="mt-8 rounded-3xl border border-border bg-card p-6 shadow-card md:p-8" aria-labelledby="staged-documents-title">
-          <div className="flex items-center gap-3">
-            <FileSearch2 className="h-6 w-6 text-primary" aria-hidden="true" />
-            <h2 id="staged-documents-title" className="font-display text-2xl font-bold">Staged documents</h2>
-          </div>
-          {!documents.length ? (
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">No staged documents are retained for this workspace.</p>
-          ) : (
+        {candidates.length > 0 && (
+          <section className="mt-8 rounded-3xl border border-border bg-card p-6 shadow-card md:p-8" aria-labelledby="candidate-values-title">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="mt-1 h-6 w-6 text-primary" aria-hidden="true" />
+              <div>
+                <h2 id="candidate-values-title" className="font-display text-2xl font-bold">Confirm structured values</h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Uncheck anything that is wrong or unclear. Edit the number and cadence when necessary. Saving records only these confirmed fields.</p>
+              </div>
+            </div>
+
             <div className="mt-6 space-y-4">
-              {documents.map((document) => (
-                <article key={document.id} className="rounded-2xl border border-border bg-background p-5">
-                  <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                    <div>
-                      <h3 className="font-display text-lg font-bold">{benefitDocumentKindLabels[document.documentKind]}</h3>
-                      <p className="mt-1 text-sm font-semibold text-primary">{statusLabel[document.status]}</p>
-                      <p className="mt-2 text-xs text-muted-foreground">Expires {new Date(document.expiresAt).toLocaleString()}</p>
-                      {!!document.findingCodes.length && (
-                        <p className="mt-3 text-sm text-red-800">Blocked categories: {document.findingCodes.map((code) => findingLabels[code] || code).join(", ")}</p>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {["ready_for_extraction", "quarantined", "extraction_unavailable"].includes(document.status) && (
-                        <Button size="sm" variant="outline" disabled={busyId === document.id} onClick={() => void extract(document.id)}>
-                          {busyId === document.id ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> : <FileSearch2 className="h-4 w-4" aria-hidden="true" />}
-                          Run protected extraction
-                        </Button>
-                      )}
-                      <Button size="sm" variant="ghost" disabled={busyId === document.id} onClick={() => void remove(document.id)}>
-                        <Trash2 className="h-4 w-4" aria-hidden="true" /> Delete
-                      </Button>
-                    </div>
+              {candidates.map((candidate, index) => (
+                <div key={`${candidate.key}-${index}`} className="grid gap-4 rounded-2xl border border-border bg-background p-5 md:grid-cols-[auto_1fr_180px_180px] md:items-end">
+                  <label className="flex items-center gap-2 text-sm font-semibold">
+                    <input type="checkbox" className="h-4 w-4" checked={candidate.selected} onChange={(event) => updateCandidate(index, { selected: event.target.checked })} />
+                    Use
+                  </label>
+                  <div>
+                    <div className="font-semibold">{candidate.label}</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Detected value: {formatValue(candidate)} · confidence: {candidate.confidence}</div>
                   </div>
-                  {!!document.extractedFacts.length && (
-                    <div className="mt-5 border-t border-border pt-4">
-                      <h4 className="text-sm font-bold">Structured candidates requiring user confirmation</h4>
-                      <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-                        {document.extractedFacts.map((fact) => (
-                          <li key={`${fact.key}-${fact.lineNumber || 0}`} className="rounded-xl border border-border bg-card p-3 text-sm">
-                            <span className="font-semibold">{fact.label}</span>
-                            <span className="mt-1 block text-muted-foreground">
-                              {fact.unit === "usd" ? `$${fact.value.toLocaleString()}` : `${fact.value} ${fact.unit}`}
-                              {fact.lineNumber ? ` · source line ${fact.lineNumber}` : ""}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </article>
+                  <div>
+                    <label htmlFor={`candidate-value-${index}`} className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Confirmed value</label>
+                    <input id={`candidate-value-${index}`} className={inputClass} type="number" min="0" step="0.01" value={candidate.value} onChange={(event) => updateCandidate(index, { value: Math.max(0, Number(event.target.value) || 0) })} />
+                  </div>
+                  <div>
+                    <label htmlFor={`candidate-cadence-${index}`} className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Cadence</label>
+                    <select id={`candidate-cadence-${index}`} className={inputClass} value={candidate.cadence || "not_applicable"} onChange={(event) => updateCandidate(index, { cadence: event.target.value as ExtractedBenefitFact["cadence"] })}>
+                      <option value="annual">Annual</option>
+                      <option value="monthly">Monthly</option>
+                      <option value="per_pay_period">Per pay period</option>
+                      <option value="not_applicable">Not applicable</option>
+                    </select>
+                  </div>
+                </div>
               ))}
             </div>
-          )}
-        </section>
 
-        <div className="mt-8 rounded-2xl border border-border bg-muted/30 p-5 text-xs leading-relaxed text-muted-foreground">
-          <CheckCircle2 className="mr-2 inline h-4 w-4 text-primary" aria-hidden="true" />
-          Extracted values are candidates, not controlling plan facts. The user must verify them against the current official plan document before CAF uses them in a decision.
+            <Button type="button" className="mt-6" onClick={() => void saveConfirmedValues()} disabled={busy || selectedFacts.length === 0}>
+              {busy ? <LoaderCircle className="h-4 w-4 animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <Save className="h-4 w-4" aria-hidden="true" />}
+              Save confirmed values to {target === "optionA" ? "Option A" : "Option B"}
+            </Button>
+          </section>
+        )}
+
+        <div className="mt-8 rounded-2xl border border-primary/20 bg-primary-soft/20 p-5 text-sm leading-relaxed text-muted-foreground">
+          <ShieldCheck className="mr-2 inline h-4 w-4 text-primary" aria-hidden="true" />
+          This assistant does not determine eligibility, coverage, network status, formulary status, claim liability, or the legal meaning of plan language. Confirm material values against the current official plan documents or benefits administrator before submitting elections.
         </div>
       </div>
     </main>

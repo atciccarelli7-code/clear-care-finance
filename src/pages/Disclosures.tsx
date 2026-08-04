@@ -15,7 +15,7 @@ const Disclosures = () => (
     <PageHero eyebrow="Disclosures" title="Disclosures & Disclaimers" description="Clear boundaries around healthcare education, guided tools, official decisions, sources, advertising, review status, and professional advice." />
 
     <div className="container max-w-3xl space-y-6 py-12 md:py-16">
-      <p className="text-sm text-muted-foreground">Effective date: July 31, 2026</p>
+      <p className="text-sm text-muted-foreground">Effective date: August 4, 2026</p>
 
       <Section title="Educational information only">
         <p>Community Acquired Finance provides general education. The site is not financial, investment, tax, legal, insurance, medical, billing, employment, or benefits advice.</p>
@@ -57,8 +57,16 @@ const Disclosures = () => (
       </Section>
 
       <Section title="Independence and no endorsement">
-        <p>Mentioning an employer, insurer, hospital, agency, product, vendor, or service is for education or source reference and is not an endorsement unless explicitly stated.</p>
-        <p>CAF is independent and is not an official Medicare, Medicaid, CMS, IRS, hospital, insurer, employer, bank, brokerage, law firm, insurance agency, or government website. No employer, hospital, clinician, reviewer, insurer, regulator, or professional endorsement is implied.</p>
+        <p>Mentioning an employer, insurer, hospital, agency, product, vendor, or service is for identification, education, or source reference and is not an endorsement unless explicitly stated.</p>
+        <p>CAF is independent and is not an official Medicare, Medicaid, CMS, IRS, AHRQ, HHS, hospital, insurer, employer, bank, brokerage, law firm, insurance agency, or government website. No employer, hospital, clinician, reviewer, insurer, regulator, source owner, or professional endorsement is implied.</p>
+      </Section>
+
+      <Section title="Employer names, trademarks, and source links">
+        <p>Healthcare-system and employer names are used to help users identify their workplace and locate potentially relevant public materials. Names, logos, document titles, and trademarks remain the property of their respective owners. CAF does not use hospital logos in the employer directory and does not present listed organizations as partners, sponsors, clients, or endorsers.</p>
+        <p>The national employer directory provides external links to source-owner webpages. CAF does not host, mirror, or reproduce the linked employer documents. A public link does not establish that CAF may republish, distribute, adapt, or automatically reuse the source contents.</p>
+        <p>Source verification confirms only that a public HTTPS location and organization match were reviewed. It does not establish that the document applies to a particular employee, that every statement is current, that the source owner reviewed CAF, or that CAF has permission to reproduce protected expression.</p>
+        <p>The directory baseline uses the Agency for Healthcare Research and Quality Compendium of U.S. Health Systems, 2023. CAF&apos;s matching, aliases, benefits-source research, interface, and conclusions are CAF&apos;s work. AHRQ and HHS do not endorse CAF, this directory, listed organizations, or CAF&apos;s interpretation of the data.</p>
+        <p>Source owners and readers may report a naming, ownership, applicability, or linking concern through the contact page. CAF may temporarily remove or block a link while the concern is reviewed.</p>
       </Section>
 
       <Section title="AI-assisted work">
@@ -68,8 +76,8 @@ const Disclosures = () => (
 
       <Section title="Accuracy, corrections, and updates">
         <p>Healthcare, insurance, benefit, tax, and government-program rules change. Publication and review dates show when a page was checked; they do not guarantee that every linked source or plan rule remains unchanged.</p>
-        <p>Material errors should be corrected promptly. A page may be suspended when a safety-critical claim cannot be verified. Dates should not be changed merely to create the appearance of freshness.</p>
-        <p>Readers may use the contact page to report a possible error, accessibility issue, or broken source.</p>
+        <p>Material errors should be corrected promptly. A page or source link may be suspended when a safety-critical, ownership, applicability, or permitted-use concern cannot be verified. Dates should not be changed merely to create the appearance of freshness.</p>
+        <p>Readers may use the contact page to report a possible error, accessibility issue, broken source, affiliation concern, or takedown request.</p>
       </Section>
 
       <DisclaimerBox />

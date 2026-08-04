@@ -15,6 +15,8 @@ import {
 } from "./_lib/supabase.js";
 
 type EmployerBenefitsSourceBody = {
+  action?: unknown;
+  query?: unknown;
   employerName?: unknown;
   sourceUrl?: unknown;
   employeePopulation?: unknown;
@@ -29,6 +31,14 @@ type CoverageStatus =
   | "verified_public_webpage"
   | "private_employee_portal"
   | "outdated_only";
+
+type SourceUseScope = "link_only" | "metadata_and_facts" | "permissioned_copy" | "blocked";
+type RightsReviewStatus =
+  | "not_reviewed"
+  | "linking_reviewed"
+  | "fact_use_reviewed"
+  | "permission_confirmed"
+  | "blocked";
 
 type DirectoryRow = {
   system_id: string;
@@ -58,6 +68,8 @@ type DirectorySourceRow = {
   document_type: string;
   source_status: "verified_public_pdf" | "verified_public_webpage";
   verification_status: "source_verified" | "extracted" | "reviewed" | "product_ready";
+  use_scope: SourceUseScope;
+  rights_review_status: RightsReviewStatus;
   updated_at: string;
 };
 
@@ -106,7 +118,7 @@ const safeVerifiedSourceUrl = (value: string) => {
     const parsed = new URL(value);
     const host = parsed.hostname.toLowerCase();
     if (
-      !["https:", "http:"].includes(parsed.protocol)
+      parsed.protocol !== "https:"
       || parsed.username
       || parsed.password
       || host === "localhost"
@@ -132,14 +144,13 @@ const submissionHash = (input: {
 const sourceYear = (source: DirectorySourceRow) =>
   source.plan_year_end ?? source.plan_year_start ?? 0;
 
-const handleDirectoryLookup = async (req: ApiRequest, res: ApiResponse) => {
-  res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=3600");
+const handleDirectoryLookup = async (queryValue: unknown, res: ApiResponse) => {
+  res.setHeader("Cache-Control", "private, no-store, max-age=0");
   const config = getPremiumConfig();
   if (!config.supabase.configured) {
     return safeError(res, 503, "directory_unavailable", "The employer directory is not currently available.");
   }
 
-  const queryValue = Array.isArray(req.query?.q) ? req.query?.q[0] : req.query?.q;
   const query = normalizeDirectoryQuery(queryValue);
   if (query.length < 2) {
     return res.status(200).json({
@@ -166,10 +177,12 @@ const handleDirectoryLookup = async (req: ApiRequest, res: ApiResponse) => {
     if (systemIds.length) {
       const sourceResult = await admin
         .from("employer_benefits_discovered_sources")
-        .select("id,ahrq_system_id,guide_title,audience,plan_year_label,plan_year_start,plan_year_end,state_region,source_url,document_type,source_status,verification_status,updated_at")
+        .select("id,ahrq_system_id,guide_title,audience,plan_year_label,plan_year_start,plan_year_end,state_region,source_url,document_type,source_status,verification_status,use_scope,rights_review_status,updated_at")
         .in("ahrq_system_id", systemIds)
         .in("source_status", ["verified_public_pdf", "verified_public_webpage"])
-        .in("verification_status", ["source_verified", "extracted", "reviewed", "product_ready"]);
+        .in("verification_status", ["source_verified", "extracted", "reviewed", "product_ready"])
+        .neq("use_scope", "blocked")
+        .neq("rights_review_status", "blocked");
 
       if (sourceResult.error) {
         console.error("Employer benefit source detail lookup failed", {
@@ -204,6 +217,8 @@ const handleDirectoryLookup = async (req: ApiRequest, res: ApiResponse) => {
           documentType: source.document_type,
           sourceStatus: source.source_status,
           verificationStatus: source.verification_status,
+          useScope: source.use_scope,
+          rightsReviewStatus: source.rights_review_status,
         }));
 
       return {
@@ -242,7 +257,11 @@ const handleDirectoryLookup = async (req: ApiRequest, res: ApiResponse) => {
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   setPrivateHeaders(res);
-  if (req.method === "GET") return handleDirectoryLookup(req, res);
+
+  if (req.method === "GET") {
+    const queryValue = Array.isArray(req.query?.q) ? req.query?.q[0] : req.query?.q;
+    return handleDirectoryLookup(queryValue, res);
+  }
   if (req.method !== "POST") return methodNotAllowed(res, ["GET", "POST"]);
 
   const config = getPremiumConfig();
@@ -250,11 +269,15 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return safeError(res, 403, "origin_rejected", "The request origin was rejected.");
   }
   if (!config.supabase.configured) {
-    return safeError(res, 503, "source_intake_unavailable", "Employer source intake is not currently available.");
+    return safeError(res, 503, "source_intake_unavailable", "Employer source services are not currently available.");
   }
 
   try {
     const body = parseJsonBody<EmployerBenefitsSourceBody>(req);
+    if (body.action === "directory_search") {
+      return handleDirectoryLookup(body.query, res);
+    }
+
     if (typeof body.website === "string" && body.website.trim()) {
       return res.status(202).json({ ok: true, saved: false });
     }
@@ -315,11 +338,11 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       return safeError(res, 400, "invalid_json", "The request body is invalid.");
     }
     if (error instanceof ConfigurationUnavailableError) {
-      return safeError(res, 503, "source_intake_unavailable", "Employer source intake is not currently available.");
+      return safeError(res, 503, "source_intake_unavailable", "Employer source services are not currently available.");
     }
-    console.error("Employer benefits source submission failed", {
+    console.error("Employer benefits source request failed", {
       message: error instanceof Error ? error.message : "unknown",
     });
-    return safeError(res, 503, "source_intake_unavailable", "Employer source intake is not currently available.");
+    return safeError(res, 503, "source_intake_unavailable", "Employer source services are not currently available.");
   }
 }

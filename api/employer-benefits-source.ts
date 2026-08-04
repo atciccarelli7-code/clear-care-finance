@@ -23,12 +23,37 @@ type EmployerBenefitsSourceBody = {
   website?: unknown;
 };
 
+type DirectoryRow = {
+  system_id: string;
+  system_name: string;
+  home_city: string | null;
+  home_state: string | null;
+  registry_vintage: number;
+  hospital_count: number | null;
+  staffed_beds: number | null;
+  matched_employer_slug: string | null;
+  discovered_source_count: number;
+  current_public_source_count: number;
+  best_plan_year: number | null;
+  coverage_status:
+    | "research_pending"
+    | "verified_public_pdf"
+    | "verified_public_webpage"
+    | "private_employee_portal"
+    | "outdated_only";
+};
+
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const ipv4Pattern = /^\d{1,3}(?:\.\d{1,3}){3}$/;
 
 const normalizeText = (value: unknown, maxLength: number) =>
   typeof value === "string"
     ? value.trim().replace(/[<>]/g, "").replace(/\s+/g, " ").slice(0, maxLength)
+    : "";
+
+const normalizeDirectoryQuery = (value: unknown) =>
+  typeof value === "string"
+    ? value.trim().replace(/[^a-zA-Z0-9 .&'()-]/g, "").replace(/\s+/g, " ").slice(0, 80)
     : "";
 
 const normalizePlanYear = (value: unknown) => {
@@ -67,9 +92,69 @@ const submissionHash = (input: {
   .update(JSON.stringify(input))
   .digest("hex");
 
+const handleDirectoryLookup = async (req: ApiRequest, res: ApiResponse) => {
+  res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=3600");
+  const config = getPremiumConfig();
+  if (!config.supabase.configured) {
+    return safeError(res, 503, "directory_unavailable", "The employer directory is not currently available.");
+  }
+
+  const queryValue = Array.isArray(req.query?.q) ? req.query?.q[0] : req.query?.q;
+  const query = normalizeDirectoryQuery(queryValue);
+  if (query.length < 2) {
+    return res.status(200).json({
+      ok: true,
+      query,
+      registryVintage: 2023,
+      entries: [],
+    });
+  }
+
+  try {
+    const admin = getSupabaseAdmin();
+    const { data, error } = await admin.rpc("search_employer_benefits_directory", {
+      search_query: query,
+      result_limit: 25,
+    });
+
+    if (error) throw new Error(`employer_directory_query_failed:${error.code ?? "unknown"}`);
+
+    const entries = ((data ?? []) as DirectoryRow[]).map((row) => ({
+      systemId: row.system_id,
+      name: row.system_name,
+      city: row.home_city,
+      state: row.home_state,
+      registryVintage: row.registry_vintage,
+      hospitalCount: row.hospital_count,
+      staffedBeds: row.staffed_beds === null ? null : Number(row.staffed_beds),
+      matchedEmployerSlug: row.matched_employer_slug,
+      discoveredSourceCount: row.discovered_source_count,
+      currentPublicSourceCount: row.current_public_source_count,
+      bestPlanYear: row.best_plan_year,
+      coverageStatus: row.coverage_status,
+    }));
+
+    return res.status(200).json({
+      ok: true,
+      query,
+      registryVintage: 2023,
+      entries,
+    });
+  } catch (error) {
+    if (error instanceof ConfigurationUnavailableError) {
+      return safeError(res, 503, "directory_unavailable", "The employer directory is not currently available.");
+    }
+    console.error("Employer benefits directory lookup failed", {
+      message: error instanceof Error ? error.message : "unknown",
+    });
+    return safeError(res, 503, "directory_unavailable", "The employer directory is not currently available.");
+  }
+};
+
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   setPrivateHeaders(res);
-  if (req.method !== "POST") return methodNotAllowed(res, ["POST"]);
+  if (req.method === "GET") return handleDirectoryLookup(req, res);
+  if (req.method !== "POST") return methodNotAllowed(res, ["GET", "POST"]);
 
   const config = getPremiumConfig();
   if (!sameOrigin(req, config.siteUrl)) {

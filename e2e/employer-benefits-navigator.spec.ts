@@ -38,9 +38,9 @@ test.describe("Employer benefits navigator", () => {
 
     await page.goto("/tools/benefits-command-center");
     await expect(page.getByText(/do not provide portal credentials/i)).toBeVisible();
-    await page.getByLabel("Employer").fill("Example Health System");
-    await page.getByLabel(/Public source URL/i).fill("https://benefits.example.org/2026-guide.pdf");
-    await page.getByLabel(/Employee population/i).fill("Benefits-eligible employees");
+    await page.getByRole("textbox", { name: "Employer", exact: true }).fill("Example Health System");
+    await page.getByRole("textbox", { name: /Public source URL/i }).fill("https://benefits.example.org/2026-guide.pdf");
+    await page.getByRole("textbox", { name: /Employee population/i }).fill("Benefits-eligible employees");
     await page.getByRole("button", { name: /save for review/i }).click();
 
     await expect(page.getByText(/saved for review/i)).toBeVisible();

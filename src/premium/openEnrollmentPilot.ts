@@ -182,7 +182,7 @@ export const createOpenEnrollmentPilotState = (): OpenEnrollmentPilotState => ({
   medicalElection: "undecided",
   accountElection: "undecided",
   annualAccountContribution: null,
-  dependentCareFsa: "undecided",
+  dependentCareFsa: "verify",
   payPeriods: 26,
   ancillary: Object.fromEntries(ancillaryKeys.map((key) => [key, "undecided"])) as Record<AncillaryKey, ElectionChoice>,
   ancillaryAnnualPremium: null,
@@ -347,8 +347,16 @@ export const isOpenEnrollmentStepComplete = (
       return ancillaryKeys.every((key) => state.ancillary[key] !== "undecided");
     case "retirement":
       if (state.retirementOffered === "no") return true;
-      if (state.retirementOffered !== "yes" || !finiteNonNegative(state.employeeContributionPercent)) return false;
-      return state.retirementMatchStatus !== "unknown";
+      if (
+        state.retirementOffered !== "yes" ||
+        !finiteNonNegative(state.eligibleCompensation) ||
+        !finiteNonNegative(state.employeeContributionPercent)
+      ) return false;
+      if (state.retirementMatchStatus === "unknown") return false;
+      if (state.retirementMatchStatus === "known") {
+        return finiteNonNegative(state.matchRatePercent) && finiteNonNegative(state.matchLimitPercent);
+      }
+      return true;
     case "review":
       return state.finalReviewAcknowledged;
     default:
@@ -395,8 +403,18 @@ export const getVerificationItems = (state: OpenEnrollmentPilotState) => {
   });
 
   if (state.retirementOffered === "unknown") items.push("Confirm whether a workplace retirement plan is available and when eligibility begins.");
+  if (state.retirementOffered === "yes" && !finiteNonNegative(state.eligibleCompensation)) {
+    items.push("Confirm the eligible compensation used for workplace retirement contributions and matching.");
+  }
+  if (state.retirementOffered === "yes" && !finiteNonNegative(state.employeeContributionPercent)) {
+    items.push("Choose or verify the employee retirement contribution percentage.");
+  }
   if (state.retirementMatchStatus === "unknown" && state.retirementOffered === "yes") {
     items.push("Confirm the employer retirement match formula and vesting schedule.");
+  }
+  if (state.retirementOffered === "yes" && state.retirementMatchStatus === "known") {
+    if (!finiteNonNegative(state.matchRatePercent)) items.push("Confirm the employer retirement match rate.");
+    if (!finiteNonNegative(state.matchLimitPercent)) items.push("Confirm the compensation percentage eligible for the employer match.");
   }
   if (state.retirementOffered === "yes" && !finiteNonNegative(state.vestedPercent)) {
     items.push("Confirm what percentage of employer retirement contributions is currently vested.");

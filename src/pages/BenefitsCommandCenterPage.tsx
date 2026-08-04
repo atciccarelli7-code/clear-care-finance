@@ -105,7 +105,7 @@ const BenefitsCommandCenterPage = () => (
               Need to coordinate the full open-enrollment decision?
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Every AHRQ-listed healthcare system can now begin a manual workspace. Reviewed employer-specific prefills remain deliberately narrower: they require current documents, the correct employee population, structured extraction, and fact-level review. The planned paid system will add prescription and network checks, saved accounts, deadlines, verification workflow, and a final election brief. Checkout remains off.
+              This focused comparison remains free. Every AHRQ-listed healthcare system can now begin a manual workspace. Reviewed employer-specific prefills remain deliberately narrower: they require current documents, the correct employee population, structured extraction, and fact-level review. The planned paid system will add prescription and network checks, saved accounts, deadlines, verification workflow, and a final election brief. Checkout remains off.
             </p>
           </div>
           <Button asChild variant="outline">

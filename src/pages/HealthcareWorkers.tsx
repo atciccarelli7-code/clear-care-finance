@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PageHero } from "@/components/shared/PageHero";
 import { NextStepCards } from "@/components/shared/NextStepCards";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
+import BenefitsDecisionSystemJourney from "@/components/benefits/BenefitsDecisionSystemJourney";
 import { OBBB_OVERTIME_ARTICLE } from "@/data/healthcareWorkerArticles";
 import {
   ArrowRight,
@@ -54,11 +55,11 @@ const HealthcareWorkers = () => {
     <>
       <PageHero
         eyebrow="For nurses & healthcare workers"
-        title="Learn workplace benefits for free. Use one system when the decision gets complicated."
-        description="CAF keeps explanations, calculators, and checklists public. The first paid flagship will coordinate the complete open-enrollment decision—without hiding basic information behind a paywall."
+        title="Learn workplace benefits for free. Use one guided system when the decision gets complicated."
+        description="CAF keeps explanations, calculators, and checklists public. The paid flagship is designed for the person who brings the current benefits documents and knows their personal situation—but should not have to become a benefits expert to make the decision."
       >
         <Button asChild variant="hero" size="lg">
-          <a href="#benefits-decision-system">Preview the Decision System <ArrowRight className="h-4 w-4" /></a>
+          <a href="#benefits-decision-system">See the guided Decision System <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
           <Link to="/open-enrollment">Use the free open-enrollment guide</Link>
@@ -74,7 +75,7 @@ const HealthcareWorkers = () => {
                 Healthcare Worker Benefits Decision System
               </h2>
               <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                The first workflow is an Open Enrollment Workspace. It will organize employer-specific rules, plan costs, prescriptions, account funding, retirement, protection benefits, deadlines, and unresolved questions into one decision process.
+                The purchaser brings the official plan-year documents that apply to them and answers plain-language questions about their household, healthcare-use pattern, budget, priorities, and employment horizon. CAF coordinates the evidence, calculations, tradeoffs, verification work, and final decision brief.
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-background px-5 py-4 text-sm">
@@ -82,20 +83,28 @@ const HealthcareWorkers = () => {
                 <LockKeyhole className="h-4 w-4 text-primary" aria-hidden="true" /> Preview only
               </div>
               <p className="mt-1 max-w-[18rem] leading-relaxed text-muted-foreground">
-                Planned early-access test: <strong className="text-foreground">$29 one time</strong>. Checkout and paid access remain off.
+                Planned early-access test: <strong className="text-foreground">$29 one time</strong>. Checkout, paid access, and private document upload remain off.
               </p>
             </div>
           </div>
 
           <div className="p-6 md:p-9">
-            <div className="grid gap-5 md:grid-cols-2">
-              {paidValue.map(({ icon: Icon, title, description }) => (
-                <article key={title} className="rounded-2xl border border-border bg-background/70 p-5">
-                  <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
-                  <h3 className="mt-3 font-display text-xl font-bold">{title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
-                </article>
-              ))}
+            <BenefitsDecisionSystemJourney />
+
+            <div className="mt-10">
+              <div className="mb-5">
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">What the purchase coordinates</div>
+                <h3 className="mt-2 font-display text-2xl font-bold">The value is guided completion—not access to definitions.</h3>
+              </div>
+              <div className="grid gap-5 md:grid-cols-2">
+                {paidValue.map(({ icon: Icon, title, description }) => (
+                  <article key={title} className="rounded-2xl border border-border bg-background/70 p-5">
+                    <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                    <h3 className="mt-3 font-display text-xl font-bold">{title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
+                  </article>
+                ))}
+              </div>
             </div>
 
             <div className="mt-7 grid gap-5 rounded-2xl border border-border bg-muted/20 p-5 lg:grid-cols-[1fr_auto] lg:items-center">
@@ -104,12 +113,12 @@ const HealthcareWorkers = () => {
                   <CheckCircle2 className="h-4 w-4 text-primary" aria-hidden="true" /> Free resources remain useful on their own
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  Definitions, deadlines, official links, single-purpose calculators, the Benefits Blueprint, the free Benefits Comparison Workspace, and the open-enrollment guide remain public. The paid value is coordination, saved work, source control, and the final brief.
+                  Definitions, deadlines, official links, single-purpose calculators, the Benefits Blueprint, the free Benefits Comparison Workspace, and the open-enrollment guide remain public. The paid value is coordination, saved work, source control, guided review, and the final brief.
                 </p>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row">
                 <Button asChild>
-                  <Link to="/tools/benefits-command-center">Open the free comparison workspace</Link>
+                  <Link to="/tools/benefits-command-center">Prepare with the free workspace</Link>
                 </Button>
                 <Button asChild variant="outline">
                   <Link to="/tools#all-tools">Browse all free tools</Link>

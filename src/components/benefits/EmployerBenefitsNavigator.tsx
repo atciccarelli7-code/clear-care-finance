@@ -190,7 +190,15 @@ const EmployerBenefitsNavigator = () => {
                 </div>
               </div>
 
-              <div className="mt-5 h-2 overflow-hidden rounded-full bg-muted" aria-label={`${readiness.completenessPercent}% source completeness`}>
+              <div
+                className="mt-5 h-2 overflow-hidden rounded-full bg-muted"
+                role="progressbar"
+                aria-label="Employer source completeness"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={readiness.completenessPercent}
+                aria-valuetext={`${readiness.completenessPercent}% source completeness`}
+              >
                 <div className="h-full rounded-full bg-primary" style={{ width: `${readiness.completenessPercent}%` }} />
               </div>
               <div className="mt-2 text-xs font-semibold text-muted-foreground">{readiness.label}</div>

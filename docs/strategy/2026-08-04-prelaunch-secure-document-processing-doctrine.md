@@ -1,77 +1,93 @@
-# Prelaunch secure document-processing doctrine
+# Commercial-v1 benefits source and data-minimization doctrine
 
-**Status:** Founder-directed implementation doctrine  
+**Status:** Founder-directed product doctrine  
 **Date:** August 4, 2026  
 **Product:** Healthcare Worker Benefits Decision System
 
 ## Decision
 
-CAF may build and test a benefits-document intake and extraction capability before payments or a public paid launch. The capability must remain technically dormant in production and may process only synthetic, already-public, or deliberately redacted fixtures in a protected preview until separate privacy, security, legal, support, and release authorization is complete.
+The first commercial release of the Healthcare Worker Benefits Decision System will not accept, upload, or retain user benefits documents.
 
-A user instruction or attestation is a prevention control. It is not a substitute for data minimization, access control, rejection, deletion, incident response, or legal review, and it does not make the user solely responsible for information accepted by a system CAF operates.
+CAF may help a user review general benefits language inside the browser, but the source must remain on the user’s device. CAF may save only user-confirmed structured values, broad preferences, assumptions, and verification tasks required to complete the benefits decision.
 
-## Intended input
+The product’s paid value is coordination, continuity, protected workspace persistence, and completion—not document custody or official plan interpretation.
 
-The future system is designed for general benefits materials that describe available choices, including:
+A warning or attestation is a prevention control. It does not transfer all privacy, security, or legal responsibility to the user and is not a substitute for data minimization.
+
+## Commercial-v1 source workflow
+
+The protected source assistant may:
+
+1. accept text pasted from a general benefits guide or a local plain-text excerpt;
+2. read a selected `.txt` source only within the browser;
+3. screen the filename and text locally for likely personal, medical, election, credential, or financial information;
+4. extract a bounded list of potential plan values locally;
+5. clear the raw text after analysis;
+6. require the user to inspect, edit, select, and confirm every value;
+7. save only the confirmed structured values and source category to the authenticated workspace;
+8. convert uncertainty into a verification task rather than an invented answer.
+
+The source assistant must not transmit or retain:
+
+- document bytes;
+- filenames;
+- raw source text;
+- page images;
+- source excerpts;
+- unconfirmed extracted values;
+- sensitive finding contents.
+
+## Intended source material
+
+Users may consult general documents that describe benefit choices, including:
 
 - benefits guides and enrollment booklets;
 - summaries of benefits and coverage;
 - medical plan summaries;
 - retirement match and vesting summaries;
 - leave, disability, life, and protection-benefit summaries;
-- pharmacy formularies and provider-network references;
-- a spouse or household member's general employer plan summary when the user is authorized to use it.
+- pharmacy and provider-network reference materials;
+- a spouse or household member’s general plan summary when authorized.
 
-## Prohibited input
+The documents remain outside CAF. The user supplies only the relevant general language or confirmed values.
 
-CAF must not ask for or intentionally accept:
+## Prohibited information
+
+CAF must not ask for or intentionally retain:
 
 - completed or current benefit elections;
-- enrollment confirmation pages or confirmation numbers;
+- enrollment confirmations or confirmation numbers;
 - beneficiary designations;
 - names, personal email addresses, phone numbers, street addresses, or dates of birth;
 - Social Security numbers;
 - employee, member, subscriber, policy, group, claim, EOB, or medical-record identifiers;
-- diagnoses, claims, EOBs, medical records, or individualized prescription histories;
+- diagnoses, claims, EOBs, medical records, medication histories, or individualized clinical information;
 - pay statements or individualized compensation records;
 - employer, insurer, or benefits-portal credentials;
 - bank, routing, account, or payment-card information;
-- confidential documents the user is not authorized to share.
+- confidential documents the user is not authorized to use.
 
-## Trust model
+A user confirmation cannot override these boundaries.
 
-The system uses layered controls rather than relying on copy alone:
+## Saved workspace contract
 
-1. **Restricted categories.** Only enumerated general benefits-document categories are accepted.
-2. **Mandatory affirmative attestations.** Every upload requires confirmation that it is not an individualized record and contains no personal information.
-3. **Browser screening.** Filenames and supported text fixtures are scanned before upload.
-4. **Server authorization.** Uploads require authentication, an owned workspace, and an active or test entitlement.
-5. **Private quarantine.** The storage bucket is private, has no direct user policies, and accepts only PDF/TXT files up to 10 MB.
-6. **Opaque paths.** CAF does not persist the original filename.
-7. **Short-lived authorization.** The server creates a one-path signed upload token rather than granting bucket access.
-8. **Server verification.** File type, size, storage presence, and hash metadata are checked after upload.
-9. **Sensitive-content rejection.** Supported text is scanned again on the server. A finding deletes the source and retains only finding categories.
-10. **Bounded extraction.** Extraction may retain only enumerated structured benefit-fact candidates. Raw text and source excerpts are not retained.
-11. **Source deletion.** Supported text fixtures are deleted immediately after scan/extraction. Other staged files expire or can be deleted.
-12. **No analytics payloads.** Filenames, document facts, source text, user answers, and sensitive findings are not sent to product analytics.
+The authenticated workspace may retain only information necessary to organize the decision, such as:
 
-## Environment modes
+- enrollment event and deadline;
+- household coverage tier;
+- broad expected-use and risk preferences;
+- user-confirmed premiums, deductibles, out-of-pocket limits, employer account funding, retirement match, and vesting facts;
+- cadence and pay-period count needed to annualize confirmed amounts;
+- selected benefit elections expressed as planning choices;
+- assumptions;
+- unresolved verification questions;
+- completion state and printable decision brief.
 
-### Disabled
+Raw source material must never enter workspace state, analytics, URLs, logs, email, support tools, or the printed decision brief.
 
-Production default. The browser does not show an operational upload interface and the server cannot issue upload tokens.
+## Supported browser-local extraction
 
-### Synthetic only
-
-Protected preview mode. Accepts only synthetic, already-public, or deliberately redacted fixtures. This mode is for engineering and workflow certification, not visitor use.
-
-### Redacted benefits only
-
-A possible future production mode. It is not authorized by this doctrine alone. Activation requires separate founder approval and completion of every real-document release gate.
-
-## Extraction boundaries
-
-The first adapter supports deterministic extraction from plain-text fixtures for:
+The first deterministic adapter may propose candidates for:
 
 - employee premium;
 - deductible;
@@ -80,45 +96,69 @@ The first adapter supports deterministic extraction from plain-text fixtures for
 - retirement match percentage;
 - retirement vesting years.
 
-The extractor returns candidates that require user confirmation. It does not establish official eligibility, coverage, network participation, formulary status, or enrollment results.
+Every candidate requires user confirmation. A per-pay-period premium requires a confirmed pay-period count before annualization. Vesting duration remains a source fact and creates a verification task when the calculation requires a currently vested percentage.
 
-PDFs may be quarantined in synthetic preview, but PDF parsing or OCR is not authorized until an isolated provider, deletion behavior, logging boundaries, and data-processing terms are reviewed and certified.
+The assistant does not establish official eligibility, coverage, network participation, formulary status, claim liability, plan interpretation, or enrollment results.
 
-## Cloud workspace boundary
+## Payment and account boundary
 
-Document metadata is bound to the authenticated user, product, and owned workspace. Direct anonymous and authenticated table grants are revoked. The service role is used only by server APIs that re-check user identity, workspace ownership, and entitlement.
+The commercial architecture may include:
 
-## Payment and entitlement boundary
+- Supabase authentication;
+- owner-scoped cloud workspaces;
+- active or test product entitlements;
+- Stripe-hosted Checkout;
+- webhook-driven entitlement grant and revocation;
+- a one-time $29 price.
 
-The document architecture may coexist with Stripe test-mode and test entitlements. Live payment, live entitlement activation, and real-document processing are separate release decisions. None should be inferred from technical readiness of another.
+Live payment and public paid access are separate release decisions. Until separately authorized, checkout must remain disabled and the public page may collect only a no-charge, price-qualified early-access commitment.
+
+CAF stores Stripe references required for entitlement processing, not payment-card data.
 
 ## Employer portal boundary
 
-CAF may generate a submission checklist or simulate a portal handoff. CAF must not collect portal passwords or submit real elections without an approved delegated authorization mechanism, employer-approved integration, comprehensive partial-failure handling, and a separate legal/security review.
+CAF may generate a submission checklist and guide the user through a manual handoff. CAF must not collect portal passwords or submit real elections without an approved delegated authorization mechanism, employer-approved integration, comprehensive partial-failure handling, and separate legal and security review.
+
+Official enrollment occurs in the employer or plan-administrator portal. The user must review the official confirmation and retain proof.
 
 ## Eligibility and coverage boundary
 
-CAF may organize evidence and identify verification questions. Outputs must remain framed as document-derived candidates, likely conditions, or unresolved verification tasks. Only the employer, plan administrator, carrier, pharmacy benefit manager, provider directory, or other controlling entity can make an official determination.
+CAF may organize source-derived facts and identify verification questions. Outputs must remain framed as planning calculations, user-confirmed source facts, likely conditions, or unresolved tasks.
 
-## Release gates for real documents
+Only the employer, plan administrator, carrier, pharmacy benefit manager, provider directory, or other controlling entity can make an official determination.
 
-Real visitor document processing remains prohibited until all of the following are complete:
+## Dormant quarantine research
 
-- external privacy and legal review of CAF's role and applicable federal/state duties;
-- written privacy notice, retention schedule, deletion process, and incident-response plan;
-- vendor and subprocessor inventory with appropriate contractual terms;
-- protected production authentication and account deletion;
-- RLS, ownership, token leakage, cross-user, replay, rate-limit, and abuse testing;
-- malware/file-content screening appropriate to supported formats;
-- extraction provider isolation and proof that raw documents do not enter analytics, logs, email, or support systems;
-- user-visible review and correction of every extracted candidate;
-- automated expiry and deletion job, not merely opportunistic cleanup;
-- support process for mistaken uploads and deletion requests;
-- explicit founder authorization setting real-document processing to true;
-- production release certification proving that no unsupported document class can be accepted.
+The repository and Supabase project contain locked-down quarantine research created before the commercial-v1 decision:
+
+- internal server service code with hash, MIME/signature, sensitive-data, and deletion controls;
+- a private PDF/TXT bucket limited to 10 MB;
+- a forced-RLS metadata table with no anonymous or authenticated policies;
+- zero document rows and zero stored objects at certification.
+
+Commercial v1 exposes no document-intake, extraction, finalize, list, or deletion HTTP endpoint. The browser-local product must not import or call the dormant upload client. The dormant schema and service code do not authorize a future upload feature.
+
+Future server document processing would require a new product decision, a separate implementation branch, external privacy and legal review, security assessment, incident-response and deletion operations, vendor review, support procedures, appropriate insurance, and explicit founder authorization.
+
+## Release gates
+
+Commercial v1 may merge only when:
+
+- production document-processing and checkout flags remain false;
+- no deployable document-processing endpoint exists;
+- the browser-local source assistant scans before extracting;
+- raw text is cleared and excluded from persisted state;
+- every saved candidate is user-confirmed;
+- owner-scoped workspace and entitlement RLS remain enforced;
+- the offer clearly distinguishes free education from the proposed paid workspace;
+- no purchase button, card collection, or live Checkout appears during demand validation;
+- unit, trust, bundle, prerender, mobile, accessibility, print, and browser journeys pass;
+- an exact protected Vercel preview is Ready within the current plan limits;
+- Supabase contains zero quarantine rows and objects;
+- there are no unresolved review threads.
 
 ## Success standard
 
-Prelaunch success means the code, schema, protected route, deletion behavior, extraction contract, tests, and release gates exist and pass with synthetic fixtures while production remains unable to accept a visitor document.
+Prelaunch success means CAF presents a credible paid product with a complete guided workflow and a real premium technical foundation while minimizing data collection and keeping live commerce disabled.
 
-It does not mean that the system is legally cleared, publicly available, or ready to process health or financial information.
+It does not mean the product is legally cleared for server document processing, institutional data exchange, automatic enrollment, or official eligibility determinations.

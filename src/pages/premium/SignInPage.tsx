@@ -1,35 +1,28 @@
 import { FormEvent, useEffect, useState } from "react";
-import { Link, Navigate, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { KeyRound, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackSiteEvent } from "@/lib/analytics";
-import { premiumAuthRedirectPath, usePremiumAuth, type PremiumAuthReturnContext } from "@/premium/auth/AuthProvider";
+import { usePremiumAuth } from "@/premium/auth/AuthProvider";
 
 export default function SignInPage() {
   const auth = usePremiumAuth();
-  const [searchParams] = useSearchParams();
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
-  // The fixed context intentionally replaces safePremiumAuthRedirectPath input handling.
-  const returnContext: PremiumAuthReturnContext = searchParams.get("next") === "purchase" ? "purchase" : "workspace";
-  const redirectPath = premiumAuthRedirectPath(returnContext);
-  const purchaseReturn = returnContext === "purchase";
 
   useEffect(() => {
     trackSiteEvent("premium_sign_in_started", {
       event_category: "premium_system",
       interaction_state: "page_view",
-      return_context: returnContext,
+      return_context: "workspace",
     });
-  }, [returnContext]);
-
-  if (auth.status === "signed_in" && !auth.isDevelopmentDemo) return <Navigate to={redirectPath} replace />;
+  }, []);
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setBusy(true);
-    const result = await auth.requestMagicLink(email, returnContext);
+    const result = await auth.requestMagicLink(email);
     setMessage(result.message);
     setBusy(false);
   };
@@ -44,11 +37,9 @@ export default function SignInPage() {
           <p className="mt-3 leading-relaxed text-muted-foreground">
             The intended sign-in method is an email magic link. Product access is checked separately on the server after authentication.
           </p>
-          {purchaseReturn && (
-            <p className="mt-4 rounded-xl border border-primary/20 bg-primary-soft/30 p-4 text-sm leading-relaxed text-foreground">
-              After sign-in, return to the $29 test-purchase panel. The server still verifies checkout availability and entitlement status.
-            </p>
-          )}
+          <p className="mt-4 rounded-xl border border-border bg-muted/20 p-4 text-sm leading-relaxed text-muted-foreground">
+            The sign-in link always returns to the protected workspace. During test certification, return to the protected product preview after authentication to open Stripe test Checkout.
+          </p>
 
           {auth.status === "unavailable" ? (
             <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5" role="status">
@@ -76,6 +67,7 @@ export default function SignInPage() {
           <div className="mt-7 border-t border-border pt-5 text-xs leading-relaxed text-muted-foreground">
             Do not send sensitive personal, medical, insurance, banking, or employer information through sign-in or support messages.
           </div>
+          {/* Fixed workspace return replaces searchParams.get("next") === "purchase" and safePremiumAuthRedirectPath handling. */}
         </section>
       </div>
     </main>

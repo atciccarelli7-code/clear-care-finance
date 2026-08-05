@@ -1,12 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-const DEFAULT_AUTH_REDIRECT_PATH = "/app/benefits-decision";
+const WORKSPACE_AUTH_REDIRECT_PATH = "/app/benefits-decision";
 const PURCHASE_AUTH_REDIRECT_PATH = "/products/healthcare-worker-benefits-decision-system?checkout=ready";
-const allowedAuthRedirectPaths = new Set([DEFAULT_AUTH_REDIRECT_PATH, PURCHASE_AUTH_REDIRECT_PATH]);
 
-export const safePremiumAuthRedirectPath = (candidate?: string) =>
-  candidate && allowedAuthRedirectPaths.has(candidate) ? candidate : DEFAULT_AUTH_REDIRECT_PATH;
+export type PremiumAuthReturnContext = "workspace" | "purchase";
+export const premiumAuthRedirectPath = (context: PremiumAuthReturnContext = "workspace") =>
+  context === "purchase" ? PURCHASE_AUTH_REDIRECT_PATH : WORKSPACE_AUTH_REDIRECT_PATH;
 
 type AuthStatus = "loading" | "signed_out" | "signed_in" | "unavailable";
 
@@ -17,7 +17,7 @@ type PremiumAuthContextValue = {
   userId?: string;
   isDevelopmentDemo: boolean;
   message?: string;
-  requestMagicLink: (email: string, redirectPath?: string) => Promise<{ ok: boolean; message: string }>;
+  requestMagicLink: (email: string, returnContext?: PremiumAuthReturnContext) => Promise<{ ok: boolean; message: string }>;
   signOut: () => Promise<void>;
 };
 
@@ -128,13 +128,15 @@ export const PremiumAuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [config.developmentDemo]);
 
-  const requestMagicLink = useCallback(async (email: string, redirectPath?: string) => {
+  const requestMagicLink = useCallback(async (email: string, returnContext: PremiumAuthReturnContext = "workspace") => {
     const client = await getBrowserClient();
     if (!client) return { ok: false, message: "Account access is not yet available." };
-    const redirectTo = `${window.location.origin}${safePremiumAuthRedirectPath(redirectPath)}`;
     const { error } = await client.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: redirectTo, shouldCreateUser: true },
+      options: {
+        emailRedirectTo: `${window.location.origin}${premiumAuthRedirectPath(returnContext)}`,
+        shouldCreateUser: true,
+      },
     });
     return error
       ? { ok: false, message: "The sign-in link could not be sent. Please try again later." }

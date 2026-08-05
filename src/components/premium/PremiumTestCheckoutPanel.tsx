@@ -1,3 +1,4 @@
+// Loaded only when BenefitsEarlyAccessForm enables VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED in a protected preview.
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CreditCard, LoaderCircle, LockKeyhole, ShieldCheck, TestTube2 } from "lucide-react";

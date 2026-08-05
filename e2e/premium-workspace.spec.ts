@@ -18,13 +18,16 @@ test.beforeEach(async ({ page }) => {
 test("bounded product route shows the working no-charge, price-qualified $29 pilot", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-system");
   await expect(page).toHaveURL(/\/products\/healthcare-worker-benefits-decision-system$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Bring your benefits documents and household situation/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /A complete benefits decision system—not another disconnected free calculator/i })).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow, noarchive");
   await expect(page.getByRole("heading", { name: "Complete an open-enrollment election plan", exact: true })).toBeVisible();
   await expect(page.getByText("No card. No checkout. No charge.", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: /buy|purchase|checkout/i })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Learn and prepare without paying", exact: true })).toBeVisible();
   await expect(page.getByText(/Public calculators, checklists, comparisons/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Premium foundation built", exact: true })).toBeVisible();
+  await expect(page.getByText(/Live payment and public paid access remain off/i)).toBeVisible();
+  await expect(page.getByText(/Benefits files and raw copied text remain on the user’s device/i)).toBeVisible();
   await page.getByRole("button", { name: /I would consider it at \$29/i }).first().click();
   await expect(page.locator("#benefits-early-access-email")).toBeFocused();
   expect(await seriousAxeViolations(page)).toEqual([]);
@@ -155,7 +158,7 @@ test("price-qualified commitment requires both confirmations and sends only fixe
 test("retired product-pack route resolves to the canonical working pilot", async ({ page }) => {
   await page.goto("/products/healthcare-worker-benefits-decision-pack");
   await expect(page).toHaveURL(/\/products\/healthcare-worker-benefits-decision-system$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Bring your benefits documents and household situation/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /A complete benefits decision system—not another disconnected free calculator/i })).toBeVisible();
 });
 
 test("missing authentication configuration fails closed on every application entry", async ({ page }) => {

@@ -62,7 +62,7 @@ describe("allowlisted magic-link return paths", () => {
 });
 
 describe("test Checkout repository boundaries", () => {
-  it("keeps the browser test flag off by default and the panel explicitly nonproduction", () => {
+  it("keeps the browser test flag off by default and lazy-loads the nonproduction panel", () => {
     const env = readFileSync(".env.example", "utf8");
     const panel = readFileSync("src/components/premium/PremiumTestCheckoutPanel.tsx", "utf8");
     const form = readFileSync("src/components/premium/BenefitsEarlyAccessForm.tsx", "utf8");
@@ -72,8 +72,9 @@ describe("test Checkout repository boundaries", () => {
     expect(panel).toContain("Protected test-mode certification");
     expect(panel).toContain("Test mode only · No real charge · No production access");
     expect(panel).toContain("createCheckoutSession(auth.accessToken)");
-    expect(form).toContain("isPremiumTestCheckoutDisplayEnabled()");
-    expect(form).toContain("<PremiumTestCheckoutPanel />");
+    expect(form).toContain('import.meta.env.VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED === "true"');
+    expect(form).toContain('lazy(() => import("@/components/premium/PremiumTestCheckoutPanel")');
+    expect(form).toContain("<LazyPremiumTestCheckoutPanel />");
     expect(releaseCheck).toContain("protectedTestCheckoutPreview");
     expect(releaseCheck).toContain("The Stripe test Checkout panel must never be compiled into production.");
   });

@@ -1,11 +1,9 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { KeyRound, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackSiteEvent } from "@/lib/analytics";
-import { safePremiumAuthRedirectPath, usePremiumAuth } from "@/premium/auth/AuthProvider";
-
-const PURCHASE_AUTH_REDIRECT_PATH = "/products/healthcare-worker-benefits-decision-system?checkout=ready";
+import { premiumAuthRedirectPath, usePremiumAuth, type PremiumAuthReturnContext } from "@/premium/auth/AuthProvider";
 
 export default function SignInPage() {
   const auth = usePremiumAuth();
@@ -13,26 +11,24 @@ export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
-  const redirectPath = useMemo(
-    () => safePremiumAuthRedirectPath(searchParams.get("next") === "purchase" ? PURCHASE_AUTH_REDIRECT_PATH : undefined),
-    [searchParams],
-  );
-  const purchaseReturn = redirectPath === PURCHASE_AUTH_REDIRECT_PATH;
+  const returnContext: PremiumAuthReturnContext = searchParams.get("next") === "purchase" ? "purchase" : "workspace";
+  const redirectPath = premiumAuthRedirectPath(returnContext);
+  const purchaseReturn = returnContext === "purchase";
 
   useEffect(() => {
     trackSiteEvent("premium_sign_in_started", {
       event_category: "premium_system",
       interaction_state: "page_view",
-      return_context: purchaseReturn ? "purchase" : "workspace",
+      return_context: returnContext,
     });
-  }, [purchaseReturn]);
+  }, [returnContext]);
 
   if (auth.status === "signed_in" && !auth.isDevelopmentDemo) return <Navigate to={redirectPath} replace />;
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setBusy(true);
-    const result = await auth.requestMagicLink(email, redirectPath);
+    const result = await auth.requestMagicLink(email, returnContext);
     setMessage(result.message);
     setBusy(false);
   };

@@ -73,23 +73,25 @@ Record:
 
 Never use a random third-party email or a real customer identity.
 
-## Test 1 — sign-in and safe return
+## Test 1 — fixed internal sign-in return
 
 1. Open the protected product preview.
 2. Confirm the test panel says `Test mode only · No real charge · No production access`.
 3. Select **Sign in for test Checkout**.
-4. Confirm the sign-in URL contains only the fixed `next=purchase` context.
+4. Confirm the browser opens `/sign-in` without a caller-supplied redirect URL.
 5. Request the magic link using the designated synthetic email.
-6. Open the link.
-7. Confirm the user returns only to `/products/healthcare-worker-benefits-decision-system?checkout=ready`.
-8. Confirm an arbitrary external or protocol-relative return path falls back to `/app/benefits-decision`.
+6. Inspect the Supabase request and confirm the only email redirect is the fixed internal `/app/benefits-decision` route on the same protected preview origin.
+7. Open the link and confirm the user lands in the protected workspace.
+8. Return manually to the protected product preview and confirm the authenticated test panel now offers Stripe test Checkout.
+9. Confirm the UI and API expose no arbitrary external or protocol-relative return-path input.
 
 Evidence:
 
 - screenshot of the sign-in panel;
 - approved Supabase redirect configuration;
-- resulting authenticated preview route;
-- no sensitive query parameters.
+- resulting authenticated workspace route;
+- authenticated product-preview panel after manual return;
+- no redirect target in query parameters or user-submitted request data.
 
 ## Test 2 — Stripe-hosted Checkout
 

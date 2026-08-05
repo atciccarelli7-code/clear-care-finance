@@ -6,9 +6,6 @@ import { trackSiteEvent } from "@/lib/analytics";
 import { createCheckoutSession, PremiumApiError } from "@/premium/apiClient";
 import { usePremiumAuth } from "@/premium/auth/AuthProvider";
 
-export const isPremiumTestCheckoutDisplayEnabled = () =>
-  import.meta.env.VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED === "true";
-
 const checkoutErrorMessage = (error: unknown) => {
   if (error instanceof PremiumApiError) {
     if (error.code === "authentication_required") return "Sign in before opening Stripe test Checkout.";

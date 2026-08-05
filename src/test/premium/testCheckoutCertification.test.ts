@@ -1,9 +1,6 @@
 import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createCheckoutSession, PremiumApiError } from "@/premium/apiClient";
-import { premiumAuthRedirectPath } from "@/premium/auth/AuthProvider";
-
-const PRODUCT_ROUTE = "/products/healthcare-worker-benefits-decision-system?checkout=ready";
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -51,20 +48,24 @@ describe("Stripe-hosted test Checkout client", () => {
   });
 });
 
-describe("fixed magic-link return contexts", () => {
-  it("maps only the internal workspace and purchase contexts", () => {
-    expect(premiumAuthRedirectPath("purchase")).toBe(PRODUCT_ROUTE);
-    expect(premiumAuthRedirectPath("workspace")).toBe("/app/benefits-decision");
-    expect(premiumAuthRedirectPath()).toBe("/app/benefits-decision");
-  });
-});
-
 describe("test Checkout repository boundaries", () => {
+  it("keeps sign-in on one fixed internal workspace destination", () => {
+    const provider = readFileSync("src/premium/auth/AuthProvider.tsx", "utf8");
+    const signIn = readFileSync("src/pages/premium/SignInPage.tsx", "utf8");
+    const panel = readFileSync("src/components/premium/PremiumTestCheckoutPanel.tsx", "utf8");
+
+    expect(provider).toContain('const redirectTo = `${window.location.origin}/app/benefits-decision`');
+    expect(provider).not.toContain("returnContext");
+    expect(provider).not.toContain("PURCHASE_AUTH_REDIRECT_PATH");
+    expect(signIn).not.toContain("useSearchParams");
+    expect(signIn).toContain("auth.requestMagicLink(email)");
+    expect(panel).toContain('<Link to="/sign-in">Sign in for test Checkout</Link>');
+  });
+
   it("keeps the browser test flag off by default and lazy-loads the nonproduction panel", () => {
     const env = readFileSync(".env.example", "utf8");
     const panel = readFileSync("src/components/premium/PremiumTestCheckoutPanel.tsx", "utf8");
     const form = readFileSync("src/components/premium/BenefitsEarlyAccessForm.tsx", "utf8");
-    const signIn = readFileSync("src/pages/premium/SignInPage.tsx", "utf8");
     const releaseCheck = readFileSync("scripts/check-premium-release.mjs", "utf8");
 
     expect(env).toContain("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED=false");
@@ -74,8 +75,6 @@ describe("test Checkout repository boundaries", () => {
     expect(form).toContain('import.meta.env.VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED === "true"');
     expect(form).toContain('lazy(() => import("@/components/premium/PremiumTestCheckoutPanel")');
     expect(form).toContain("<LazyPremiumTestCheckoutPanel />");
-    expect(signIn).toContain('searchParams.get("next") === "purchase" ? "purchase" : "workspace"');
-    expect(signIn).toContain("auth.requestMagicLink(email, returnContext)");
     expect(releaseCheck).toContain("protectedTestCheckoutPreview");
     expect(releaseCheck).toContain("The Stripe test Checkout panel must never be compiled into production.");
   });

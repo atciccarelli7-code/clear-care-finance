@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createCheckoutSession, PremiumApiError } from "@/premium/apiClient";
-import { safePremiumAuthRedirectPath } from "@/premium/auth/AuthProvider";
+import { premiumAuthRedirectPath } from "@/premium/auth/AuthProvider";
 
 const PRODUCT_ROUTE = "/products/healthcare-worker-benefits-decision-system?checkout=ready";
 
@@ -51,13 +51,11 @@ describe("Stripe-hosted test Checkout client", () => {
   });
 });
 
-describe("allowlisted magic-link return paths", () => {
-  it("allows only the workspace and fixed purchase return", () => {
-    expect(safePremiumAuthRedirectPath(PRODUCT_ROUTE)).toBe(PRODUCT_ROUTE);
-    expect(safePremiumAuthRedirectPath("/app/benefits-decision")).toBe("/app/benefits-decision");
-    expect(safePremiumAuthRedirectPath("https://attacker.example/phish")).toBe("/app/benefits-decision");
-    expect(safePremiumAuthRedirectPath("//attacker.example/phish")).toBe("/app/benefits-decision");
-    expect(safePremiumAuthRedirectPath("/products/healthcare-worker-benefits-decision-system?checkout=live")).toBe("/app/benefits-decision");
+describe("fixed magic-link return contexts", () => {
+  it("maps only the internal workspace and purchase contexts", () => {
+    expect(premiumAuthRedirectPath("purchase")).toBe(PRODUCT_ROUTE);
+    expect(premiumAuthRedirectPath("workspace")).toBe("/app/benefits-decision");
+    expect(premiumAuthRedirectPath()).toBe("/app/benefits-decision");
   });
 });
 
@@ -66,6 +64,7 @@ describe("test Checkout repository boundaries", () => {
     const env = readFileSync(".env.example", "utf8");
     const panel = readFileSync("src/components/premium/PremiumTestCheckoutPanel.tsx", "utf8");
     const form = readFileSync("src/components/premium/BenefitsEarlyAccessForm.tsx", "utf8");
+    const signIn = readFileSync("src/pages/premium/SignInPage.tsx", "utf8");
     const releaseCheck = readFileSync("scripts/check-premium-release.mjs", "utf8");
 
     expect(env).toContain("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED=false");
@@ -75,6 +74,8 @@ describe("test Checkout repository boundaries", () => {
     expect(form).toContain('import.meta.env.VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED === "true"');
     expect(form).toContain('lazy(() => import("@/components/premium/PremiumTestCheckoutPanel")');
     expect(form).toContain("<LazyPremiumTestCheckoutPanel />");
+    expect(signIn).toContain('searchParams.get("next") === "purchase" ? "purchase" : "workspace"');
+    expect(signIn).toContain("auth.requestMagicLink(email, returnContext)");
     expect(releaseCheck).toContain("protectedTestCheckoutPreview");
     expect(releaseCheck).toContain("The Stripe test Checkout panel must never be compiled into production.");
   });

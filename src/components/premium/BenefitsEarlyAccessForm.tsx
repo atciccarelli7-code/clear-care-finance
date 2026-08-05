@@ -12,8 +12,9 @@ const OFFER_VERSION = "benefits_offer_29_v1";
 const OFFER_PRICE_CENTS = 2900;
 const OFFER_SOURCE = "total_compensation_comparison";
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const testCheckoutDisplayEnabled = import.meta.env.VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED === "true";
-const LazyPremiumTestCheckoutPanel = testCheckoutDisplayEnabled
+const isPremiumTestCheckoutDisplayEnabled = () =>
+  import.meta.env.VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED === "true";
+const LazyPremiumTestCheckoutPanel = isPremiumTestCheckoutDisplayEnabled()
   ? lazy(() => import("@/components/premium/PremiumTestCheckoutPanel").then(({ PremiumTestCheckoutPanel }) => ({ default: PremiumTestCheckoutPanel })))
   : null;
 

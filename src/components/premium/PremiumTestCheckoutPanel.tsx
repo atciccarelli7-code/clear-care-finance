@@ -90,8 +90,8 @@ export const PremiumTestCheckoutPanel = () => {
           ) : auth.status === "signed_out" ? (
             <div>
               <div className="flex items-center gap-2 font-bold text-slate-900"><LockKeyhole className="h-4 w-4" /> Sign in before the test purchase</div>
-              <p className="mt-2 text-sm leading-relaxed text-slate-700">The magic-link return path is allowlisted and returns to this product after authentication.</p>
-              <Button asChild className="mt-5 w-full"><Link to="/sign-in?next=purchase">Sign in for test Checkout</Link></Button>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700">The magic link returns to the protected workspace. After sign-in, return to this protected preview to continue the test purchase.</p>
+              <Button asChild className="mt-5 w-full"><Link to="/sign-in">Sign in for test Checkout</Link></Button>
             </div>
           ) : (
             <div>

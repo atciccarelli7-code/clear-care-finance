@@ -16,6 +16,7 @@ const phase3AppSource = source("src/Phase3ProductApp.tsx");
 const siteSeoMetaSource = source("src/lib/siteSeoMeta.ts");
 const offerPageSource = source("src/pages/premium/BenefitsDecisionOfferPage.tsx");
 const offerFormSource = source("src/components/premium/BenefitsEarlyAccessForm.tsx");
+const testCheckoutPanelSource = source("src/components/premium/PremiumTestCheckoutPanel.tsx");
 const offerHandoffSource = source("src/components/premium/BenefitsOfferValidationPathway.tsx");
 const routeEndcapSource = source("src/components/layout/routeEndcap.ts");
 const vercelSource = source("vercel.json");
@@ -71,14 +72,22 @@ describe("free-core and single-flagship public product architecture", () => {
     expect(comparisonSource).not.toContain("CAF Benefits Command Center");
   });
 
-  it("collects a price-qualified commitment without checkout, cards, or arbitrary product data", () => {
+  it("collects a price-qualified commitment without payment-session logic or arbitrary product data", () => {
     expect(offerPageSource).toContain("$29 one time");
     expect(offerFormSource).toContain("priceCommitment");
     expect(offerFormSource).toContain("emailConsent");
     expect(offerFormSource).toContain("No card. No checkout. No charge.");
     expect(offerFormSource).toContain("offerVersion: OFFER_VERSION");
     expect(offerFormSource).toContain("priceCents: OFFER_PRICE_CENTS");
-    expect(offerFormSource).not.toMatch(/Stripe|checkoutSession|paymentIntent/);
+    expect(offerFormSource).not.toMatch(/createCheckoutSession|checkoutSession|paymentIntent|priceId|card number/i);
+  });
+
+  it("isolates the protected Stripe test panel from the default no-charge form", () => {
+    expect(offerFormSource).toContain("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED");
+    expect(offerFormSource).toContain('lazy(() => import("@/components/premium/PremiumTestCheckoutPanel")');
+    expect(testCheckoutPanelSource).toContain("Protected test-mode certification");
+    expect(testCheckoutPanelSource).toContain("Test mode only · No real charge · No production access");
+    expect(testCheckoutPanelSource).toContain("createCheckoutSession(auth.accessToken)");
   });
 
   it("keeps commerce fail closed while showing the $29 validation hypothesis", () => {

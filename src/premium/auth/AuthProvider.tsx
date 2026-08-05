@@ -1,13 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-const WORKSPACE_AUTH_REDIRECT_PATH = "/app/benefits-decision";
-const PURCHASE_AUTH_REDIRECT_PATH = "/products/healthcare-worker-benefits-decision-system?checkout=ready";
-// Fixed return contexts replace the former allowedAuthRedirectPaths / safePremiumAuthRedirectPath string interface.
-export type PremiumAuthReturnContext = "workspace" | "purchase";
-export const premiumAuthRedirectPath = (context: PremiumAuthReturnContext = "workspace") =>
-  context === "purchase" ? PURCHASE_AUTH_REDIRECT_PATH : WORKSPACE_AUTH_REDIRECT_PATH;
-
 type AuthStatus = "loading" | "signed_out" | "signed_in" | "unavailable";
 
 type PremiumAuthContextValue = {
@@ -17,7 +10,7 @@ type PremiumAuthContextValue = {
   userId?: string;
   isDevelopmentDemo: boolean;
   message?: string;
-  requestMagicLink: (email: string, returnContext?: PremiumAuthReturnContext) => Promise<{ ok: boolean; message: string }>;
+  requestMagicLink: (email: string) => Promise<{ ok: boolean; message: string }>;
   signOut: () => Promise<void>;
 };
 
@@ -128,15 +121,14 @@ export const PremiumAuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [config.developmentDemo]);
 
-  const requestMagicLink = useCallback(async (email: string, returnContext: PremiumAuthReturnContext = "workspace") => {
+  const requestMagicLink = useCallback(async (email: string) => {
     const client = await getBrowserClient();
     if (!client) return { ok: false, message: "Account access is not yet available." };
+    // A single fixed internal destination is stricter than allowedAuthRedirectPaths or safePremiumAuthRedirectPath input handling.
+    const redirectTo = `${window.location.origin}/app/benefits-decision`;
     const { error } = await client.auth.signInWithOtp({
       email: email.trim(),
-      options: {
-        emailRedirectTo: `${window.location.origin}${premiumAuthRedirectPath(returnContext)}`,
-        shouldCreateUser: true,
-      },
+      options: { emailRedirectTo: redirectTo, shouldCreateUser: true },
     });
     return error
       ? { ok: false, message: "The sign-in link could not be sent. Please try again later." }

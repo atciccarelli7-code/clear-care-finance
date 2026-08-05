@@ -88,6 +88,19 @@ export const accessResponseSchema = z.object({
   reason: z.string().max(160).optional(),
 });
 
+export const checkoutSessionResponseSchema = z.object({
+  checkoutUrl: z.string().url().refine((value) => {
+    try {
+      const url = new URL(value);
+      return url.protocol === "https:" && url.hostname === "checkout.stripe.com";
+    } catch {
+      return false;
+    }
+  }, "Checkout must use Stripe-hosted HTTPS Checkout."),
+});
+
+export type CheckoutSessionResponse = z.infer<typeof checkoutSessionResponseSchema>;
+
 export const workspaceRecordSchema = z.object({
   id: z.string().uuid(),
   title: z.string().min(1).max(120),

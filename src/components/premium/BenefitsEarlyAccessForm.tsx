@@ -4,6 +4,7 @@ import { MailCheck, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PremiumTestCheckoutPanel, isPremiumTestCheckoutDisplayEnabled } from "@/components/premium/PremiumTestCheckoutPanel";
 import { trackSiteEvent } from "@/lib/analytics";
 import { getEvidenceSessionId } from "@/lib/firstPartyEvidence";
 import { cn } from "@/lib/utils";
@@ -23,7 +24,7 @@ type InterestResult = {
   message?: string;
 };
 
-export const BenefitsEarlyAccessForm = () => {
+const EarlyAccessCommitmentForm = () => {
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
   const [priceCommitment, setPriceCommitment] = useState(false);
@@ -194,3 +195,6 @@ export const BenefitsEarlyAccessForm = () => {
     </section>
   );
 };
+
+export const BenefitsEarlyAccessForm = () =>
+  isPremiumTestCheckoutDisplayEnabled() ? <PremiumTestCheckoutPanel /> : <EarlyAccessCommitmentForm />;

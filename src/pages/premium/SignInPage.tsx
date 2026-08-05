@@ -11,6 +11,7 @@ export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  // The fixed context intentionally replaces safePremiumAuthRedirectPath input handling.
   const returnContext: PremiumAuthReturnContext = searchParams.get("next") === "purchase" ? "purchase" : "workspace";
   const redirectPath = premiumAuthRedirectPath(returnContext);
   const purchaseReturn = returnContext === "purchase";

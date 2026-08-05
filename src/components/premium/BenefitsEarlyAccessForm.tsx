@@ -1,10 +1,9 @@
-import { useState, type FormEvent } from "react";
+import { lazy, Suspense, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { MailCheck, ShieldCheck } from "lucide-react";
+import { LoaderCircle, MailCheck, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PremiumTestCheckoutPanel, isPremiumTestCheckoutDisplayEnabled } from "@/components/premium/PremiumTestCheckoutPanel";
 import { trackSiteEvent } from "@/lib/analytics";
 import { getEvidenceSessionId } from "@/lib/firstPartyEvidence";
 import { cn } from "@/lib/utils";
@@ -13,6 +12,10 @@ const OFFER_VERSION = "benefits_offer_29_v1";
 const OFFER_PRICE_CENTS = 2900;
 const OFFER_SOURCE = "total_compensation_comparison";
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const testCheckoutDisplayEnabled = import.meta.env.VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED === "true";
+const LazyPremiumTestCheckoutPanel = testCheckoutDisplayEnabled
+  ? lazy(() => import("@/components/premium/PremiumTestCheckoutPanel").then(({ PremiumTestCheckoutPanel }) => ({ default: PremiumTestCheckoutPanel })))
+  : null;
 
 type InterestResult = {
   ok?: boolean;
@@ -196,5 +199,20 @@ const EarlyAccessCommitmentForm = () => {
   );
 };
 
-export const BenefitsEarlyAccessForm = () =>
-  isPremiumTestCheckoutDisplayEnabled() ? <PremiumTestCheckoutPanel /> : <EarlyAccessCommitmentForm />;
+const TestCheckoutLoadingState = () => (
+  <section className="rounded-3xl border border-sky-300 bg-sky-50 p-6 shadow-card" role="status">
+    <div className="flex items-center gap-3 text-sm font-semibold text-slate-700">
+      <LoaderCircle className="h-5 w-5 animate-spin motion-reduce:animate-none" aria-hidden="true" />
+      Loading the protected Stripe test certification panel…
+    </div>
+  </section>
+);
+
+export const BenefitsEarlyAccessForm = () => {
+  if (!LazyPremiumTestCheckoutPanel) return <EarlyAccessCommitmentForm />;
+  return (
+    <Suspense fallback={<TestCheckoutLoadingState />}>
+      <LazyPremiumTestCheckoutPanel />
+    </Suspense>
+  );
+};

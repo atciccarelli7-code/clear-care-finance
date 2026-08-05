@@ -2,11 +2,10 @@ import { ADDITIONAL_DIAGNOSIS_GUIDES } from "@/data/conditionGuideCatalog";
 import { resolveSeoMeta, type SeoJsonLd, type SeoRouteMeta } from "@/lib/seoRegistry";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
-const normalizePath = (pathname: string) => {
-  if (!pathname || pathname === "/") return "/";
-  const clean = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "");
-  return clean || "/";
-};
+const normalizePath = (pathname: string) => pathname.replace(/[?#].*|\/+$/g, "") || "/";
+const noindex = "noindex, nofollow, noarchive";
+const indexed = "index, follow, max-image-preview:large";
+const diagnosisPrefix = "/patients-families/diagnosis-explained/";
 
 export const BENEFITS_DECISION_OFFER_PATH = "/products/healthcare-worker-benefits-decision-system" as const;
 
@@ -14,7 +13,7 @@ export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
   title: "Healthcare Worker Benefits Decision System Early Access",
   description: "Review the proposed $29 one-time Open Enrollment Workspace and join a no-charge, price-qualified early-access test. Free CAF education and public tools remain free.",
   canonicalPath: BENEFITS_DECISION_OFFER_PATH,
-  robots: "noindex, nofollow, noarchive",
+  robots: noindex,
   jsonLd: [],
 };
 
@@ -24,7 +23,7 @@ const diagnosisGuideOverrides = Object.fromEntries(
     {
       title: guide.shortTitle,
       description: `${guide.scope} Source checked and nurse reviewed.`,
-      robots: "index, follow, max-image-preview:large",
+      robots: indexed,
     },
   ]),
 ) as Record<string, Pick<SeoRouteMeta, "title" | "description" | "robots">>;
@@ -73,27 +72,27 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
   "/sign-in": {
     title: "Secure Account Sign In",
     description: "Sign in to Community Acquired Finance account-based applications.",
-    robots: "noindex, nofollow, noarchive",
+    robots: noindex,
   },
   "/account": {
     title: "Account",
     description: "Manage secure Community Acquired Finance account access.",
-    robots: "noindex, nofollow, noarchive",
+    robots: noindex,
   },
   "/access-processing": {
     title: "Access Processing",
     description: "Check server-verified product access status.",
-    robots: "noindex, nofollow, noarchive",
+    robots: noindex,
   },
-  "/patients-families/diagnosis-explained/heart-failure": {
+  [`${diagnosisPrefix}heart-failure`]: {
     title: "Heart Failure, Explained",
     description: "A structured, plain-English, nurse-reviewed heart-failure guide covering types, causes, tests, treatment goals, medication purpose, home monitoring, warning signs, and care-team questions.",
-    robots: "index, follow, max-image-preview:large",
+    robots: indexed,
   },
-  "/patients-families/diagnosis-explained/copd": {
+  [`${diagnosisPrefix}copd`]: {
     title: "COPD, Explained",
     description: "A structured, plain-English, nurse-reviewed COPD guide covering spirometry, lung-disease patterns, inhaler purpose and technique, pulmonary rehabilitation, oxygen, flare-ups, warning signs, and care-team questions.",
-    robots: "index, follow, max-image-preview:large",
+    robots: indexed,
   },
   ...diagnosisGuideOverrides,
 };
@@ -102,7 +101,7 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
   title: "Free Workplace Benefits Comparison",
   description: "Build or preview a free Benefits Receipt that compares pay, health-plan exposure, retirement benefits, paid leave, employer contributions, vesting, and hidden benefits.",
   canonicalPath: "/tools/benefits-command-center",
-  robots: "index, follow, max-image-preview:large",
+  robots: indexed,
   jsonLd: [
     {
       "@context": "https://schema.org",
@@ -181,7 +180,7 @@ export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
       title: "Benefits Decision Application",
       description: "Private account-based decision workspace.",
       canonicalPath: path,
-      robots: "noindex, nofollow, noarchive",
+      robots: noindex,
       jsonLd: [],
     };
   }
@@ -189,7 +188,7 @@ export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
   const base = resolveSeoMeta(path);
   const override = overrides[path];
   if (!override) return base;
-  const isDiagnosisGuide = path.startsWith("/patients-families/diagnosis-explained/");
+  const isDiagnosisGuide = path.startsWith(diagnosisPrefix);
   return {
     ...base,
     ...override,

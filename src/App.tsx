@@ -14,6 +14,7 @@ const loadIndex = () => import("./pages/Index.tsx");
 const loadStartHere = () => import("./pages/StartHere.tsx");
 const loadHealthcareWorkers = () => import("./pages/HealthcareWorkers.tsx");
 const loadBenefitsDecisionAppPage = () => import("./pages/premium/BenefitsDecisionAppPage.tsx");
+const loadBenefitsDocumentStagingPage = () => import("./pages/premium/BenefitsDocumentStagingPage.tsx");
 const loadSignInPage = () => import("./pages/premium/SignInPage.tsx");
 const loadAccountPage = () => import("./pages/premium/AccountPage.tsx");
 const loadAccessProcessingPage = () => import("./pages/premium/AccessProcessingPage.tsx");
@@ -78,6 +79,7 @@ const Index = lazy(loadIndex);
 const StartHere = lazy(loadStartHere);
 const HealthcareWorkers = lazy(loadHealthcareWorkers);
 const BenefitsDecisionAppPage = lazy(loadBenefitsDecisionAppPage);
+const BenefitsDocumentStagingPage = lazy(loadBenefitsDocumentStagingPage);
 const SignInPage = lazy(loadSignInPage);
 const AccountPage = lazy(loadAccountPage);
 const AccessProcessingPage = lazy(loadAccessProcessingPage);
@@ -146,6 +148,8 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/start-here") return loadStartHere;
   if (pathname === "/healthcare-workers") return loadHealthcareWorkers;
   if (pathname === "/healthcare-workers/paycheck-tools") return loadInsuranceDecisionToolsBundle;
+  if (/^\/app\/benefits-decision\/[^/]+\/documents$/.test(pathname)) return loadBenefitsDocumentStagingPage;
+  if (pathname === "/app/benefits-decision" || /^\/app\/benefits-decision\/[^/]+$/.test(pathname)) return loadBenefitsDecisionAppPage;
   if (pathname === "/build-wealth") return loadBuildWealthHub;
   if (pathname === "/patients-families") return loadPatientsFamilies;
   if (pathname === "/patients-families/hospital-guide") return loadHospitalPatientGuidePage;
@@ -283,6 +287,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route element={<ProtectedPremiumRoutes />}>
               <Route path="/app" element={<Navigate to="/app/benefits-decision" replace />} />
               <Route path="/app/benefits-decision" element={<BenefitsDecisionAppPage />} />
+              <Route path="/app/benefits-decision/:workspaceId/documents" element={<BenefitsDocumentStagingPage />} />
               <Route path="/app/benefits-decision/:workspaceId" element={<BenefitsDecisionAppPage />} />
             </Route>
           </Route>

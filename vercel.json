@@ -47,6 +47,7 @@
     { "source": "/legal", "destination": "/privacy-policy", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/app/benefits-decision/:workspaceId/documents", "destination": "/app/benefits-decision" },
     { "source": "/app/benefits-decision/:workspaceId", "destination": "/app/benefits-decision" }
   ],
   "headers": [

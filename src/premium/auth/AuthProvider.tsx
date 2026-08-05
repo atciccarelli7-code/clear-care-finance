@@ -3,7 +3,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 const WORKSPACE_AUTH_REDIRECT_PATH = "/app/benefits-decision";
 const PURCHASE_AUTH_REDIRECT_PATH = "/products/healthcare-worker-benefits-decision-system?checkout=ready";
-
+// Fixed return contexts replace the former allowedAuthRedirectPaths / safePremiumAuthRedirectPath string interface.
 export type PremiumAuthReturnContext = "workspace" | "purchase";
 export const premiumAuthRedirectPath = (context: PremiumAuthReturnContext = "workspace") =>
   context === "purchase" ? PURCHASE_AUTH_REDIRECT_PATH : WORKSPACE_AUTH_REDIRECT_PATH;

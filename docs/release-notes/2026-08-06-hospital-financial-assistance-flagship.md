@@ -2,7 +2,15 @@
 
 Date: 2026-08-06
 
-Status: release candidate; update with PR, merge, deployment, and production smoke evidence at release
+Status: PR #265 release candidate; exact-head Vercel preview is READY; merge and production smoke remain release gates
+
+## Release record
+
+- Branch: `agent/search-demand-product-buildout`
+- Pull request: #265
+- Preview deployment: `dpl_CSoUuuBveHZThkMAagPTSBFrQ9oH` (`READY`)
+- Preview verification: national hub, tool, North Carolina hub, Atrium policy page, permanent alias redirect, canonical/robots/structured metadata, keyboard completion, result focus, source links, print/download controls, no horizontal overflow, no sensitive inputs, and no selected-route runtime errors passed on 2026-08-06.
+- Merge commit and production deployment: pending release gates.
 
 ## Released product scope
 
@@ -31,6 +39,7 @@ Outside North Carolina: Cleveland Clinic Ohio, Mass General Brigham, Johns Hopki
 - Bundle: 499.83 KiB entry, below the fixed 500 KiB budget; full policy records remain lazy-loaded.
 - Prerender/search: 181 canonical routes, 4 controlled noindex routes, 2 private denial shells, 39 permanent redirects, and zero search-readiness warnings.
 - Database migrations: none.
+- Exact-head browser certification: repository CI pending; deployed cloud-browser verification passed on desktop.
 
 ## Known limits
 

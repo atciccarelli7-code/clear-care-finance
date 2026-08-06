@@ -8,6 +8,10 @@ Base and production SHA: `bb654ae8602836b94189d2a35386235b3b198486`
 
 Starting production deployment: `dpl_HnTQMNScPYxEXpw4JS2kWmQneApr` (`READY`)
 
+Pull request: #265
+
+Exact-head preview: `dpl_CSoUuuBveHZThkMAagPTSBFrQ9oH` (`READY`)
+
 Risk class: High-content-integrity and moderate product risk; no PHI persistence, payment, authentication, upload, or database change
 
 ## Assignment charter and phased disposition
@@ -63,10 +67,10 @@ The program requests six integrated decision products in priority order. The rel
 | SEO and discovery | PASS | One canonical hub/tool/state/system architecture resolves alias duplication and adds only meaningful source-backed pages. |
 | Monetization and conversion | PASS | No paid, affiliate, or obstructive advertising path was introduced; useful action remains primary. |
 | Analytics and experimentation | PASS | Events answer discovery/completion/action questions with fixed non-sensitive identifiers only. |
-| Accessibility, performance, and reliability | PASS pending deployed browser | Semantic controls and keyboardable fixed-choice buttons pass component/build gates; real-browser/a11y/mobile/print checks remain release gates. |
+| Accessibility, performance, and reliability | PASS pending browser CI | Deployed desktop keyboard completion, focus transfer, overflow, metadata, source-link, print-control, and runtime smoke pass; repository mobile/axe browser CI remains a release gate. |
 | Privacy, legal, and user protection | PASS | No definitive eligibility, PHI collection, medical advice, legal advice, tax advice, or ignored-deadline instruction. |
 | Publishing and governance | PASS | Programmatic safeguards are enforced by a reviewed launch set and source-review process. |
-| Quality and release | PASS pending exact-head preview | Local full-suite/build gates pass; preview, merge, and production identifiers remain required. |
+| Quality and release | PASS pending merge | Local full-suite/build gates and exact-head READY preview verification pass; repository CI, merge, production deployment, and production smoke remain required. |
 | Adversarial red team | PASS | Tests cover free, discount, above-range, missing, insured ambiguity, boundaries, Alaska/Hawaii, stale/malformed, excluded provider, and unsupported hospital states. |
 | Process improvement | PASS | Reusable policy schema, FPG engine, bounded result builder, source/SEO index alignment test, query map, measurement spec, and maintenance process are durable. |
 

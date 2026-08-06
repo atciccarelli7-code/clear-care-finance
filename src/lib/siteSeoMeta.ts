@@ -9,36 +9,19 @@ const diagnosisPrefix = "/patients-families/diagnosis-explained/";
 
 export const BENEFITS_DECISION_OFFER_PATH = "/products/healthcare-worker-benefits-decision-system" as const;
 
-const benefitsDecisionDescription = "Try CAF's working healthcare-worker open-enrollment pilot, review the planned $29 account workspace, and keep free benefits education and calculators free.";
-
 export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
   title: "Healthcare Worker Benefits Decision System",
-  description: benefitsDecisionDescription,
+  description: "Try CAF's working healthcare-worker open-enrollment pilot and review the planned $29 account workspace. Free benefits education and calculators remain free.",
   canonicalPath: BENEFITS_DECISION_OFFER_PATH,
   robots: indexed,
   jsonLd: [
     {
       "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Healthcare Workers", item: `${SITE_URL}/healthcare-workers` },
-        { "@type": "ListItem", position: 3, name: "Benefits Decision System", item: `${SITE_URL}${BENEFITS_DECISION_OFFER_PATH}` },
-      ],
-    },
-    {
-      "@context": "https://schema.org",
       "@type": "WebApplication",
       name: "Healthcare Worker Benefits Decision System Pilot",
-      description: benefitsDecisionDescription,
       url: `${SITE_URL}${BENEFITS_DECISION_OFFER_PATH}`,
       applicationCategory: "FinanceApplication",
-      operatingSystem: "Any",
       isAccessibleForFree: true,
-      audience: {
-        "@type": "Audience",
-        audienceType: "Healthcare workers preparing for open enrollment, new-hire enrollment, or a qualifying life event",
-      },
       publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     },
   ],

@@ -13,7 +13,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { OpenEnrollmentSourceAssistant } from "@/components/premium/OpenEnrollmentSourceAssistant";
 import { trackSiteEvent } from "@/lib/analytics";
+import { buildDecisionTrace } from "@/premium/decisionTrace";
 import {
   OPEN_ENROLLMENT_PILOT_VERSION,
   ancillaryKeys,
@@ -65,6 +67,10 @@ const safeState = (raw: Partial<OpenEnrollmentPilotState>): OpenEnrollmentPilotS
     plans: {
       a: { ...initial.plans.a, ...(raw.plans?.a ?? {}) },
       b: { ...initial.plans.b, ...(raw.plans?.b ?? {}) },
+    },
+    sourceAssistance: {
+      a: raw.sourceAssistance?.a ?? null,
+      b: raw.sourceAssistance?.b ?? null,
     },
     ancillary: { ...initial.ancillary, ...(raw.ancillary ?? {}) },
   };
@@ -195,6 +201,7 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
   const medicalRecommendation = useMemo(() => getMedicalRecommendation(state), [state]);
   const retirementSummary = useMemo(() => getRetirementSummary(state), [state]);
   const electionPlan = useMemo(() => buildElectionPlan(state), [state]);
+  const decisionTrace = useMemo(() => buildDecisionTrace(state), [state]);
 
   useEffect(() => {
     try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { /* local persistence is optional */ }
@@ -220,6 +227,10 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
   const acknowledge = (checked: boolean) => {
     setState((current) => ({ ...current, finalReviewAcknowledged: checked }));
     if (checked) trackSiteEvent("benefits_pilot_completed", { event_category: "premium_system", pilot_version: OPEN_ENROLLMENT_PILOT_VERSION });
+  };
+  const printDecisionBrief = () => {
+    trackSiteEvent("benefits_pilot_brief_printed", { event_category: "premium_system", pilot_version: OPEN_ENROLLMENT_PILOT_VERSION });
+    window.print();
   };
 
   const renderStep = () => {
@@ -265,6 +276,7 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
             </div>
           ))}
         </div>
+        <OpenEnrollmentSourceAssistant state={state} onStateChange={setState} />
         <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950"><strong>Privacy boundary:</strong> this pilot does not accept uploads. Do not enter names, member IDs, claims, diagnoses, account numbers, credentials, or confidential documents.</div>
       </div>
     );
@@ -337,15 +349,35 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
 
     return (
       <div>
+        <div className="hidden print:block"><div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Community Acquired Finance</div><h1 className="mt-2 font-display text-3xl font-bold">Benefits Decision Brief</h1></div>
         <div className="print:hidden"><h4 className="font-display text-2xl font-bold">Review the plan before using the employer portal</h4><p className="mt-2 text-sm text-muted-foreground">This is a planning record. It does not submit elections or replace official plan documents.</p></div>
+        <section className={`mt-6 rounded-2xl border p-5 ${decisionTrace.status === "supported" ? "border-emerald-200 bg-emerald-50" : decisionTrace.status === "provisional" ? "border-primary/25 bg-primary-soft/25" : "border-amber-200 bg-amber-50"}`}>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div><div className="text-xs font-bold uppercase tracking-[0.16em]">Decision status</div><h5 className="mt-1 font-display text-xl font-bold">{decisionTrace.label}</h5><p className="mt-2 max-w-3xl text-sm leading-relaxed">{decisionTrace.summary}</p></div>
+            <div className="shrink-0 rounded-xl border border-current/15 bg-white/70 px-4 py-3 text-sm"><strong>{decisionTrace.sourceCoverage.ready}</strong> of <strong>{decisionTrace.sourceCoverage.total}</strong> source groups ready</div>
+          </div>
+        </section>
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
           <section className={cardClass}><FileCheck2 className="h-5 w-5 text-primary" /><h5 className="mt-3 font-display text-xl font-bold">Planned elections</h5><dl className="mt-4 space-y-4 text-sm"><div><dt className="font-semibold">Medical</dt><dd className="text-muted-foreground">{electionPlan.medicalSelection}</dd></div><div><dt className="font-semibold">Interpretation</dt><dd className="text-muted-foreground">{electionPlan.medicalSummary}</dd></div><div><dt className="font-semibold">Healthcare account</dt><dd className="text-muted-foreground">{electionPlan.accountSelection}</dd></div><div><dt className="font-semibold">Retirement</dt><dd className="text-muted-foreground">{electionPlan.retirementSelection}</dd></div></dl></section>
           <section className={cardClass}><WalletCards className="h-5 w-5 text-primary" /><h5 className="mt-3 font-display text-xl font-bold">Payroll planning estimate</h5><div className="mt-4 grid gap-4 sm:grid-cols-2"><div><div className="text-xs text-muted-foreground">Annual selected elections</div><div className="text-2xl font-bold">{money(electionPlan.estimatedAnnualPayrollElections)}</div></div><div><div className="text-xs text-muted-foreground">Per paycheck</div><div className="text-2xl font-bold">{money(electionPlan.estimatedPerPaycheckElections)}</div></div></div><p className="mt-4 text-xs text-muted-foreground">Includes entered medical premiums, account contributions, other-benefit premiums, and retirement contributions. It is before tax effects and is not take-home pay.</p></section>
         </div>
         <section className="mt-5 rounded-2xl border border-border bg-background p-5"><h5 className="font-display text-xl font-bold">Dental, vision, protection, and supplemental choices</h5><div className="mt-4 grid gap-3 sm:grid-cols-2">{electionPlan.ancillarySelections.map((item) => <div key={item.label} className="flex justify-between gap-4 rounded-xl border border-border p-3 text-sm"><span>{item.label}</span><strong>{item.selection}</strong></div>)}</div></section>
         <section className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-5"><div className="flex items-start gap-3"><ListChecks className="mt-0.5 h-5 w-5 shrink-0 text-amber-800" /><div><h5 className="font-display text-xl font-bold text-amber-950">Resolve before submitting</h5>{electionPlan.verificationItems.length ? <ul className="mt-3 space-y-2 text-sm text-amber-950">{electionPlan.verificationItems.map((item) => <li key={item}>• {item}</li>)}</ul> : <p className="mt-3 text-sm text-amber-950">No unresolved items were generated. Still review the official confirmation screen.</p>}</div></div></section>
+        <section className="mt-5 rounded-2xl border border-border bg-background p-5">
+          <h5 className="font-display text-xl font-bold">Why this plan says what it says</h5>
+          <div className="mt-4 grid gap-5 lg:grid-cols-2">
+            <div><h6 className="text-sm font-bold">Decision drivers</h6><ul className="mt-3 space-y-2 text-sm text-muted-foreground">{decisionTrace.drivers.map((item) => <li key={item}>• {item}</li>)}</ul></div>
+            <div><h6 className="text-sm font-bold">What could change it</h6><ul className="mt-3 space-y-2 text-sm text-muted-foreground">{decisionTrace.changeTriggers.map((item) => <li key={item}>• {item}</li>)}</ul></div>
+          </div>
+          <div className="mt-5 border-t border-border pt-5"><h6 className="text-sm font-bold">Model limits and assumptions</h6><ul className="mt-3 space-y-2 text-sm text-muted-foreground">{decisionTrace.assumptions.map((item) => <li key={item}>• {item}</li>)}</ul></div>
+        </section>
+        <section className="mt-5 rounded-2xl border border-border bg-background p-5">
+          <h5 className="font-display text-xl font-bold">Source readiness ledger</h5>
+          <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[38rem] border-collapse text-left text-sm"><thead><tr className="border-b border-border"><th className="pb-2 pr-4">Source group</th><th className="pb-2 pr-4">Status</th><th className="pb-2">Meaning</th></tr></thead><tbody>{decisionTrace.sourceLedger.map((source) => <tr key={source.key} className="border-b border-border/70 align-top"><td className="py-3 pr-4 font-semibold">{source.label}</td><td className="py-3 pr-4 capitalize">{source.status.replaceAll("-", " ")}</td><td className="py-3 text-muted-foreground">{source.implication}</td></tr>)}</tbody></table></div>
+          {(state.sourceAssistance.a || state.sourceAssistance.b) && <p className="mt-4 text-xs leading-relaxed text-muted-foreground">Browser-local source assistance contributed user-confirmed structured values to {state.sourceAssistance.a ? state.plans.a.label || "Plan A" : ""}{state.sourceAssistance.a && state.sourceAssistance.b ? " and " : ""}{state.sourceAssistance.b ? state.plans.b.label || "Plan B" : ""}. Raw excerpts and files were not retained.</p>}
+        </section>
         <section className="mt-5 rounded-2xl border border-primary/25 bg-primary-soft/25 p-5"><h5 className="font-display text-xl font-bold">Final submission checklist</h5><ul className="mt-4 space-y-2 text-sm text-muted-foreground"><li>• Enter elections in the employer’s official portal.</li><li>• Review dependents, payroll costs, beneficiaries, and effective dates.</li><li>• Save the confirmation number or confirmation screen.</li><li>• Retain this plan with the controlling documents.</li></ul><label className="mt-5 flex items-start gap-3 rounded-xl border border-border bg-background p-4 text-sm"><input type="checkbox" checked={state.finalReviewAcknowledged} onChange={(event) => acknowledge(event.target.checked)} className="mt-0.5 h-5 w-5 rounded border-border" /><span>I reviewed the planned elections, unresolved items, and official submission steps.</span></label></section>
-        <div className="mt-6 flex flex-wrap gap-3 print:hidden"><Button type="button" onClick={() => window.print()}><Printer className="h-4 w-4" />Print election plan</Button><Button type="button" variant="outline" onClick={onCommitment}>This would be worth $29 to me</Button><Button type="button" variant="ghost" onClick={reset}><RotateCcw className="h-4 w-4" />Start over</Button></div>
+        <div className="mt-6 flex flex-wrap gap-3 print:hidden"><Button type="button" onClick={printDecisionBrief}><Printer className="h-4 w-4" />Print Benefits Decision Brief</Button><Button type="button" variant="outline" onClick={onCommitment}>This would be worth $29 to me</Button><Button type="button" variant="ghost" onClick={reset}><RotateCcw className="h-4 w-4" />Start over</Button></div>
         {state.finalReviewAcknowledged && <div className="mt-5 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm text-emerald-950" role="status"><CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" /><span>The planning workflow is complete. Submit only through the official employer portal and retain confirmation.</span></div>}
       </div>
     );
@@ -357,7 +389,7 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
         <div className="mx-auto max-w-7xl">
           <div className="print:hidden">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-              <div><div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Browser-local product pilot</div><h2 id="guided-pilot-heading" className="mt-2 font-display text-3xl font-bold md:text-4xl">Complete an open-enrollment election plan</h2><p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">One question set at a time. Answers remain in this browser. No account, payment, document upload, or cloud storage is activated.</p></div>
+            <div><div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Browser-local product pilot</div><h2 id="guided-pilot-heading" className="mt-2 font-display text-3xl font-bold md:text-4xl">Complete an open-enrollment election plan</h2><p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">One focused decision stage at a time. Answers remain in this browser. No account, payment, document upload, or cloud storage is activated.</p></div>
               <div className="min-w-[15rem] rounded-2xl border border-border bg-background p-4"><div className="flex justify-between text-sm font-semibold"><span>Useful completion</span><span>{progress}%</span></div><Progress value={progress} className="mt-3 h-2" /></div>
             </div>
             <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{steps.map((step, index) => { const active = step.id === state.currentStep; const complete = isOpenEnrollmentStepComplete(state, step.id); return <button key={step.id} type="button" onClick={() => go(step.id)} className={`rounded-xl border p-3 text-left ${active ? "border-primary bg-primary-soft/35" : "border-border bg-background"}`}><div className="flex items-center gap-2 text-sm font-bold"><span className="grid h-6 w-6 place-items-center rounded-full bg-muted text-xs">{complete ? "✓" : index + 1}</span>{step.title}</div><p className="mt-1 text-xs text-muted-foreground">{step.description}</p></button>; })}</div>

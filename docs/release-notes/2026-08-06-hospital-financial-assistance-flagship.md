@@ -8,8 +8,7 @@ Status: PR #265 release candidate; unmerged because repository mobile/axe Browse
 
 - Branch: `agent/search-demand-product-buildout`
 - Pull request: #265
-- Exact-head preview deployment: `dpl_2Xt7RW3FqUPEs3QNybtQXaXjMShR` (`READY`)
-- Product-code preview deployment: `dpl_CSoUuuBveHZThkMAagPTSBFrQ9oH` (`READY`)
+- Latest verified product-code preview deployment: `dpl_2Xt7RW3FqUPEs3QNybtQXaXjMShR` (`READY`); later commits only record release evidence and blockers.
 - Preview verification: national hub, tool, North Carolina hub, Atrium policy page, permanent alias redirect, canonical/robots/structured metadata, keyboard completion, result focus, source links, print/download controls, no horizontal overflow, no sensitive inputs, and no selected-route runtime errors passed on 2026-08-06.
 - Release blocker: GitHub created no Actions run after the PR was opened, marked ready, synchronized, closed, and reopened. The local `npm run test:browser:journeys` fallback cannot launch because the Playwright Chromium executable is absent. Mobile and axe certification therefore remain unexecuted.
 - Merge commit and production deployment: intentionally pending the browser-certification gate.

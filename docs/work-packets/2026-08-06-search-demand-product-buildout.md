@@ -10,7 +10,7 @@ Starting production deployment: `dpl_HnTQMNScPYxEXpw4JS2kWmQneApr` (`READY`)
 
 Pull request: #265
 
-Exact-head preview: `dpl_2Xt7RW3FqUPEs3QNybtQXaXjMShR` (`READY`)
+Verified product-code preview: `dpl_2Xt7RW3FqUPEs3QNybtQXaXjMShR` (`READY`); later commits only record release evidence and blockers
 
 Risk class: High-content-integrity and moderate product risk; no PHI persistence, payment, authentication, upload, or database change
 

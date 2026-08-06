@@ -129,7 +129,7 @@ export const incomeBandOptionLabel = (band: IncomeBand, householdSize: number | 
 
 export const isHospitalPolicyStale = (
   policy: HospitalFinancialAssistancePolicy,
-  asOf = new Date("2026-08-06T00:00:00Z"),
+  asOf = new Date(),
 ) => {
   const retrieved = new Date(`${policy.sourceRetrievedAt}T00:00:00Z`);
   if (Number.isNaN(retrieved.getTime())) return true;
@@ -227,7 +227,7 @@ export const buildHospitalAssistanceResult = (
   if (policy.applicationDeadline === null) verificationItems.push("The public source did not establish one universal application deadline; ask for the deadline and lookback period in writing.");
   if (policy.providersExcluded.length) warnings.push("This provider may bill separately. Verify every facility, clinician, laboratory, imaging, anesthesia, ambulance, and other bill against the provider list.");
   if (northCarolinaStateFloorApplies) {
-    verificationItems.push("North Carolina's participating acute-care hospitals committed to a 100% discount below 200% FPG, at least 75% from 200–250%, and at least 50% from 250–300% for insured and uninsured North Carolina residents. Verify that the bill and facility fall within the current NCDHHS program and hospital policy.");
+    verificationItems.push("North Carolina's participating acute-care hospitals committed to a 100% discount below 200% FPG and income-based discounts of 50–100% through 300% FPG for insured and uninsured North Carolina residents. Verify the exact discount, bill, and facility under the current NCDHHS program and hospital policy.");
   }
 
   const documents = unique([

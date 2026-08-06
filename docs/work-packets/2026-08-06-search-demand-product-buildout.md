@@ -10,7 +10,7 @@ Starting production deployment: `dpl_HnTQMNScPYxEXpw4JS2kWmQneApr` (`READY`)
 
 Pull request: #265
 
-Exact-head preview: `dpl_CSoUuuBveHZThkMAagPTSBFrQ9oH` (`READY`)
+Exact-head preview: `dpl_2Xt7RW3FqUPEs3QNybtQXaXjMShR` (`READY`)
 
 Risk class: High-content-integrity and moderate product risk; no PHI persistence, payment, authentication, upload, or database change
 
@@ -67,10 +67,10 @@ The program requests six integrated decision products in priority order. The rel
 | SEO and discovery | PASS | One canonical hub/tool/state/system architecture resolves alias duplication and adds only meaningful source-backed pages. |
 | Monetization and conversion | PASS | No paid, affiliate, or obstructive advertising path was introduced; useful action remains primary. |
 | Analytics and experimentation | PASS | Events answer discovery/completion/action questions with fixed non-sensitive identifiers only. |
-| Accessibility, performance, and reliability | PASS pending browser CI | Deployed desktop keyboard completion, focus transfer, overflow, metadata, source-link, print-control, and runtime smoke pass; repository mobile/axe browser CI remains a release gate. |
+| Accessibility, performance, and reliability | BLOCKED | Deployed desktop keyboard completion, focus transfer, overflow, metadata, source-link, print-control, and runtime smoke pass. GitHub did not create an Actions run and the local Playwright fallback has no Chromium, so mobile/axe certification remains unexecuted. |
 | Privacy, legal, and user protection | PASS | No definitive eligibility, PHI collection, medical advice, legal advice, tax advice, or ignored-deadline instruction. |
 | Publishing and governance | PASS | Programmatic safeguards are enforced by a reviewed launch set and source-review process. |
-| Quality and release | PASS pending merge | Local full-suite/build gates and exact-head READY preview verification pass; repository CI, merge, production deployment, and production smoke remain required. |
+| Quality and release | BLOCKED | Local full-suite/build gates and exact-head READY preview verification pass; repository Browser Certification is unavailable, so merge and production were stopped. |
 | Adversarial red team | PASS | Tests cover free, discount, above-range, missing, insured ambiguity, boundaries, Alaska/Hawaii, stale/malformed, excluded provider, and unsupported hospital states. |
 | Process improvement | PASS | Reusable policy schema, FPG engine, bounded result builder, source/SEO index alignment test, query map, measurement spec, and maintenance process are durable. |
 
@@ -91,6 +91,7 @@ The program requests six integrated decision products in priority order. The rel
 
 - Local gates: TypeScript, lint, 119 test files / 679 tests, production build, governance, privacy/publication, bundle, prerender, structured metadata, sitemap, and search readiness.
 - Deployed gates: exact-head checks, READY preview, desktop/mobile browser flow, keyboard, axe, print, source/application links, alias redirect, analytics payload key inspection, merge, production deployment, and smoke.
+- Observed blocker: GitHub created no Actions run for the exact head after opened, ready-for-review, synchronize, or reopened events. Local Playwright reached the suite but every project failed before page launch because `chromium_headless_shell-1228` is not installed. This is an environment failure, not an application assertion failure.
 - Rollback: revert the focused merge commit. The earlier tool implementation and supporting medical-bill routes remain in Git history; no database rollback is required.
 - Stop condition: any wrong threshold, source mismatch, definitive eligibility language, sensitive payload, broken print/source path, accessibility blocker, or failing release gate.
 

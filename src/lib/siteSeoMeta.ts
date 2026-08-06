@@ -20,9 +20,7 @@ export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
       "@type": "WebApplication",
       name: "Healthcare Worker Benefits Decision System Pilot",
       url: `${SITE_URL}${BENEFITS_DECISION_OFFER_PATH}`,
-      applicationCategory: "FinanceApplication",
       isAccessibleForFree: true,
-      publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     },
   ],
 };

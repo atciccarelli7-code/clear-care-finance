@@ -5,6 +5,7 @@ import { getCanonicalRoutes, repositoryRoot } from "./seo-route-utils.mjs";
 
 const root = repositoryRoot;
 const siteUrl = (process.env.VITE_SITE_URL || "https://communityacquiredfinance.com").replace(/\/$/, "");
+const benefitsDecisionOfferPath = "/products/healthcare-worker-benefits-decision-system";
 
 const escapeXml = (value) =>
   value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
@@ -25,8 +26,8 @@ try {
     throw new Error("No indexable routes were returned by the SEO registry.");
   }
 
-  const uniqueRoutes = Array.from(new Set(routes));
-  if (uniqueRoutes.length !== routes.length) {
+  const uniqueRoutes = Array.from(new Set([...routes, benefitsDecisionOfferPath]));
+  if (uniqueRoutes.length !== routes.length + (routes.includes(benefitsDecisionOfferPath) ? 0 : 1)) {
     throw new Error("Duplicate routes were found in the SEO registry.");
   }
 

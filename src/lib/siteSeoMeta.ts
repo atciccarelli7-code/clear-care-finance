@@ -11,15 +11,14 @@ export const BENEFITS_DECISION_OFFER_PATH = "/products/healthcare-worker-benefit
 
 export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
   title: "Healthcare Worker Benefits Decision System",
-  description: "Try CAF's working healthcare-worker open-enrollment pilot and review the planned $29 account workspace. Free benefits education and calculators remain free.",
+  description: "Try CAF's working open-enrollment pilot and review the planned $29 account workspace. Free benefits tools remain free.",
   canonicalPath: BENEFITS_DECISION_OFFER_PATH,
   robots: indexed,
   jsonLd: [
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "Healthcare Worker Benefits Decision System Pilot",
-      url: `${SITE_URL}${BENEFITS_DECISION_OFFER_PATH}`,
+      name: "Benefits Decision System Pilot",
       isAccessibleForFree: true,
     },
   ],

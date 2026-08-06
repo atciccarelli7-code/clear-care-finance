@@ -10,11 +10,18 @@ const diagnosisPrefix = "/patients-families/diagnosis-explained/";
 export const BENEFITS_DECISION_OFFER_PATH = "/products/healthcare-worker-benefits-decision-system" as const;
 
 export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
-  title: "Healthcare Worker Benefits Decision System Early Access",
-  description: "Review the proposed $29 one-time Open Enrollment Workspace and join a no-charge, price-qualified early-access test. Free CAF education and public tools remain free.",
+  title: "Healthcare Worker Benefits Decision System",
+  description: "Try CAF's open-enrollment pilot and review the planned $29 workspace. Free benefits tools stay free.",
   canonicalPath: BENEFITS_DECISION_OFFER_PATH,
-  robots: noindex,
-  jsonLd: [],
+  robots: indexed,
+  jsonLd: [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "CAF Benefits Pilot",
+      isAccessibleForFree: true,
+    },
+  ],
 };
 
 const diagnosisGuideOverrides = Object.fromEntries(

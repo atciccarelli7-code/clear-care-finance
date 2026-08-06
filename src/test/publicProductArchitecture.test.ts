@@ -8,6 +8,7 @@ const indexSource = source("src/pages/Index.tsx");
 const startHereSource = source("src/pages/StartHere.tsx");
 const toolsSource = source("src/pages/Tools.tsx");
 const workerSource = source("src/pages/HealthcareWorkers.tsx");
+const journeySource = source("src/components/benefits/BenefitsDecisionSystemJourney.tsx");
 const comparisonSource = source("src/pages/BenefitsCommandCenterPage.tsx");
 const navigationSource = source("src/data/serviceNavigation.ts");
 const footerSource = source("src/components/layout/Footer.tsx");
@@ -16,10 +17,11 @@ const phase3AppSource = source("src/Phase3ProductApp.tsx");
 const siteSeoMetaSource = source("src/lib/siteSeoMeta.ts");
 const offerPageSource = source("src/pages/premium/BenefitsDecisionOfferPage.tsx");
 const offerFormSource = source("src/components/premium/BenefitsEarlyAccessForm.tsx");
+const testCheckoutPanelSource = source("src/components/premium/PremiumTestCheckoutPanel.tsx");
 const offerHandoffSource = source("src/components/premium/BenefitsOfferValidationPathway.tsx");
 const routeEndcapSource = source("src/components/layout/routeEndcap.ts");
 const vercelSource = source("vercel.json");
-const sitemapSource = source("public/sitemap.xml");
+const sitemapGeneratorSource = source("scripts/generate-sitemap.mjs");
 
 const FLAGSHIP_PREVIEW_PATH = "/healthcare-workers#benefits-decision-system";
 const OFFER_PATH = "/products/healthcare-worker-benefits-decision-system";
@@ -42,26 +44,26 @@ describe("free-core and single-flagship public product architecture", () => {
     expect(publicSurfaceSource).not.toContain("Healthcare Money Decision Library");
   });
 
-  it("keeps global public handoffs on the worker preview and exposes the $29 test from one high-intent route", () => {
+  it("keeps broad navigation on the worker hub while linking high-intent users to the full pilot", () => {
     for (const publicSource of [indexSource, startHereSource, toolsSource, comparisonSource, navigationSource, footerSource]) {
       expect(publicSource).toContain(FLAGSHIP_PREVIEW_PATH);
     }
+    expect(journeySource).toContain(OFFER_PATH);
+    expect(journeySource).toContain("Open the full guided pilot");
     expect(offerHandoffSource).toContain(OFFER_PATH);
     expect(routeEndcapSource).toContain("/tools/healthcare-worker-total-compensation-comparison");
     expect(routeEndcapSource).toContain('return "benefits_offer_validation"');
-    expect([indexSource, startHereSource, toolsSource, workerSource, navigationSource, footerSource].join("\n"))
-      .not.toContain(OFFER_PATH);
   });
 
-  it("renders the offer as controlled noindex validation rather than a parked redirect", () => {
+  it("renders the dedicated offer as an indexable canonical product pilot", () => {
     expect(siteSeoMetaSource).toContain(OFFER_PATH);
-    expect(siteSeoMetaSource).toContain('const noindex = "noindex, nofollow, noarchive"');
-    expect(siteSeoMetaSource).toContain("robots: noindex");
+    expect(siteSeoMetaSource).toContain("robots: indexed");
+    expect(siteSeoMetaSource).toContain('"@type": "WebApplication"');
+    expect(siteSeoMetaSource).toContain("isAccessibleForFree: true");
     expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_PATH");
     expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_META");
-    expect(vercelSource).not.toContain(`"source": "${OFFER_PATH}", "destination"`);
-    expect(vercelSource).toContain(`"source": "${OFFER_PATH}"`);
-    expect(sitemapSource).not.toContain(OFFER_PATH);
+    expect(vercelSource).not.toContain(`"source": "${OFFER_PATH}"`);
+    expect(sitemapGeneratorSource).toContain(OFFER_PATH);
   });
 
   it("keeps the focused benefits comparison free and subordinate to the complete system", () => {
@@ -71,14 +73,22 @@ describe("free-core and single-flagship public product architecture", () => {
     expect(comparisonSource).not.toContain("CAF Benefits Command Center");
   });
 
-  it("collects a price-qualified commitment without checkout, cards, or arbitrary product data", () => {
+  it("collects a price-qualified commitment without payment-session logic or arbitrary product data", () => {
     expect(offerPageSource).toContain("$29 one time");
     expect(offerFormSource).toContain("priceCommitment");
     expect(offerFormSource).toContain("emailConsent");
     expect(offerFormSource).toContain("No card. No checkout. No charge.");
     expect(offerFormSource).toContain("offerVersion: OFFER_VERSION");
     expect(offerFormSource).toContain("priceCents: OFFER_PRICE_CENTS");
-    expect(offerFormSource).not.toMatch(/Stripe|checkoutSession|paymentIntent/);
+    expect(offerFormSource).not.toMatch(/createCheckoutSession|checkoutSession|paymentIntent|priceId|card number/i);
+  });
+
+  it("isolates the protected Stripe test panel from the default no-charge form", () => {
+    expect(offerFormSource).toContain("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED");
+    expect(offerFormSource).toContain('lazy(() => import("@/components/premium/PremiumTestCheckoutPanel")');
+    expect(testCheckoutPanelSource).toContain("Protected test-mode certification");
+    expect(testCheckoutPanelSource).toContain("Test mode only · No real charge · No production access");
+    expect(testCheckoutPanelSource).toContain("createCheckoutSession(auth.accessToken)");
   });
 
   it("keeps commerce fail closed while showing the $29 validation hypothesis", () => {

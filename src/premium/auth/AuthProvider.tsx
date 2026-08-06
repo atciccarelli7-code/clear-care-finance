@@ -124,6 +124,7 @@ export const PremiumAuthProvider = ({ children }: { children: ReactNode }) => {
   const requestMagicLink = useCallback(async (email: string) => {
     const client = await getBrowserClient();
     if (!client) return { ok: false, message: "Account access is not yet available." };
+    // A single fixed internal destination is stricter than allowedAuthRedirectPaths or safePremiumAuthRedirectPath input handling.
     const redirectTo = `${window.location.origin}/app/benefits-decision`;
     const { error } = await client.auth.signInWithOtp({
       email: email.trim(),

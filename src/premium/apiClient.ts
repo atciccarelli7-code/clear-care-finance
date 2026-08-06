@@ -1,8 +1,10 @@
 import {
   accessResponseSchema,
+  checkoutSessionResponseSchema,
   premiumModuleDefinitionSchema,
   workspaceRecordSchema,
   workspaceStateSchema,
+  PREMIUM_PRODUCT_KEY,
   type AccessStatus,
   type PremiumModuleDefinition,
   type PremiumModuleKey,
@@ -41,6 +43,17 @@ export const getAccessStatus = async (token?: string): Promise<AccessStatus> => 
   });
   const payload = accessResponseSchema.parse(await readJson(response));
   return payload.status;
+};
+
+export const createCheckoutSession = async (token: string): Promise<string> => {
+  const response = await fetch("/api/checkout", {
+    method: "POST",
+    headers: { ...jsonHeaders, Authorization: `Bearer ${token}` },
+    credentials: "same-origin",
+    cache: "no-store",
+    body: JSON.stringify({ productKey: PREMIUM_PRODUCT_KEY }),
+  });
+  return checkoutSessionResponseSchema.parse(await readJson(response)).checkoutUrl;
 };
 
 export const getPremiumModule = async (key: PremiumModuleKey, token: string): Promise<PremiumModuleDefinition> => {

@@ -24,6 +24,7 @@
     { "source": "/for-organizations/patient-education-systems", "destination": "/patients-families/hospital-guide", "permanent": true },
     { "source": "/for-organizations/patient-education-systems/blood-thinner-readiness", "destination": "/articles/blood-thinner-safety-before-going-home", "permanent": true },
     { "source": "/tools/403b-contribution", "destination": "/tools/403b-paycheck-calculator", "permanent": true },
+    { "source": "/tools/hospital-financial-assistance-finder", "destination": "/tools/financial-assistance-checklist", "permanent": true },
     { "source": "/insurance/plan-types", "destination": "/insurance/health-insurance-plan-types", "permanent": true },
     { "source": "/insurance/summary-of-benefits-and-coverage", "destination": "/insurance/how-to-read-an-sbc", "permanent": true },
     { "source": "/commercial-insurance-comparison", "destination": "/insurance/commercial-insurance-comparison", "permanent": true },

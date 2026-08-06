@@ -1,4 +1,5 @@
 import { RUNTIME_ARTICLE_SEO_META, RUNTIME_TOOL_SEO_META, RUNTIME_TOPIC_SEO_META } from "@/data/runtimeSeoManifest";
+import { hospitalFinancialAssistanceSeoSlugs } from "@/data/hospitalFinancialAssistanceSeo";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export type SeoJsonLd = Record<string, unknown>;
@@ -149,6 +150,16 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     title: "Medical Bill Review Toolkit",
     description: "Review a medical bill against the EOB, allowed amount, insurance payment, coding, network status, and financial assistance options before paying.",
     kind: "tool",
+  },
+  "/medical-bills/financial-assistance": {
+    title: "Hospital Financial Assistance & Medical Bill Relief",
+    description: "Find official hospital financial-assistance policies, compare broad income ranges with published thresholds, and build a source-backed action plan before paying a large hospital bill.",
+    kind: "collection",
+  },
+  "/hospital-financial-assistance/north-carolina": {
+    title: "North Carolina Hospital Financial Assistance Policies",
+    description: "Review North Carolina hospital charity-care rules, statewide medical-debt protections, major health-system policies, applications, contacts, and verification steps.",
+    kind: "collection",
   },
   "/insurance/medicare-advantage-vs-medigap": {
     title: "Medicare Advantage vs Medigap",
@@ -364,6 +375,7 @@ export const getIndexableRoutes = () => {
     ...GENERIC_TOOL_META.keys(),
     ...RUNTIME_TOPIC_SEO_META.map((topic) => `/topics/${topic.slug}`),
     ...RUNTIME_ARTICLE_SEO_META.map((article) => `/articles/${article.slug}`),
+    ...hospitalFinancialAssistanceSeoSlugs.map((slug) => `/hospital-financial-assistance/${slug}`),
   ];
 
   return Array.from(new Set(routes.map(normalizePath)));
@@ -461,6 +473,29 @@ export const resolveSeoMeta = (pathname: string): SeoRouteMeta => {
               url: SITE_URL,
             },
           },
+        ],
+      };
+    }
+  }
+
+  if (path.startsWith("/hospital-financial-assistance/") && path !== "/hospital-financial-assistance/north-carolina") {
+    const slug = path.slice("/hospital-financial-assistance/".length);
+    if (hospitalFinancialAssistanceSeoSlugs.includes(slug)) {
+      const policyName = slug.replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase()).replace(/Upmc|Unc|Ecu/g, (name) => name.toUpperCase()).replace("Wakemed", "WakeMed");
+      const title = `${policyName} Financial Assistance Policy & Income Limits`;
+      const description = `Review ${policyName}'s official financial-assistance policy, published income ranges, application, documents, provider limits, contacts, and verification steps.`;
+      return {
+        title,
+        description,
+        canonicalPath: path,
+        robots: "index, follow, max-image-preview:large",
+        jsonLd: [
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Hospital Financial Assistance", path: "/medical-bills/financial-assistance" },
+            { name: policyName, path },
+          ]),
+          pageJsonLd(path, { title, description }),
         ],
       };
     }

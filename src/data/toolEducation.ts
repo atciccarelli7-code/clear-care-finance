@@ -60,8 +60,8 @@ export const TOOL_EDUCATION_BY_TITLE: Record<string, ToolEducation> = {
     readResult: "Missing checklist items are specific questions for the billing office or insurer. They are not automatic proof of an error.",
     beforeActing: "Verify date of service, provider, allowed amount, adjustment, plan payment, denial language, and patient responsibility.",
   },
-  "Financial Assistance Checklist": {
-    purpose: "Screen whether a hospital financial-assistance review appears worth pursuing before paying more, while collecting only broad non-identifying answers.",
+  "Hospital Financial Assistance & Medical Bill Relief Finder": {
+    purpose: "Find a hospital's official financial-assistance policy, screen a broad income range against published thresholds, and build a source-backed action plan without collecting identifying information.",
     readResult: "The result is a qualified direction—strong reason to request review, possible reason to check the policy, or verify key facts first. It is not an eligibility decision or approval.",
     beforeActing: "Request the exact written policy, identify which bills and providers it covers, confirm insurance processing, preserve deadlines, and keep proof of every application or response.",
   },

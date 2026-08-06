@@ -587,8 +587,8 @@ export const RUNTIME_TOOL_SEO_META = [
   },
   {
     "slug": "financial-assistance-checklist",
-    "title": "Financial Assistance Checklist",
-    "description": "Prepare the documents and questions for hospital charity care or financial assistance."
+    "title": "Hospital Financial Assistance & Medical Bill Relief Finder",
+    "description": "Find a hospital's official financial-assistance policy, compare a broad income range with published thresholds, and build a source-backed action plan."
   },
   {
     "slug": "health-insurance-visit-cost-calculator",

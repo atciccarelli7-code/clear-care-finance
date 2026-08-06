@@ -30,6 +30,7 @@ const linkGroups = [
       { to: "/healthcare-workers#benefits-decision-system", label: "Benefits Decision System" },
       { to: "/open-enrollment", label: "Open Enrollment" },
       { to: "/patients-families", label: "Patients & Caregivers" },
+      { to: "/medical-bills/financial-assistance", label: "Hospital Financial Assistance" },
       { to: "/guides", label: "Quick Guides" },
       { to: "/glossary", label: "Glossary" },
     ],

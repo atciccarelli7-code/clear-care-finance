@@ -87,8 +87,8 @@ describe("Header service navigation", () => {
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
     fireEvent.click(within(mobileNav).getByText("Patient and caregiver decisions"));
 
-    const billReview = within(mobileNav).getByRole("link", { name: /Medical Bill Review/ });
-    expect(billReview).toHaveAttribute("href", "/insurance/medical-bill-review-toolkit");
+    const billReview = within(mobileNav).getByRole("link", { name: /Hospital Bill & Assistance/ });
+    expect(billReview).toHaveAttribute("href", "/medical-bills/financial-assistance");
     fireEvent.click(billReview);
 
     expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();

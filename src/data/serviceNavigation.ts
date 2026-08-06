@@ -104,9 +104,9 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
       },
       {
         id: "medical_bill_review",
-        to: "/insurance/medical-bill-review-toolkit",
-        label: "Medical Bill Review",
-        description: "Organize an EOB and provider bill into a practical review and question list.",
+        to: "/medical-bills/financial-assistance",
+        label: "Hospital Bill & Assistance",
+        description: "Find a hospital financial-assistance policy and organize the bill, application, and verification steps.",
         audience: "Medical bills",
       },
       {

@@ -1,65 +1,112 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import FinancialAssistanceScreeningTool from "@/components/calculators/FinancialAssistanceScreeningTool";
+import { trackSiteEvent } from "@/lib/analytics";
 import { loadStoredNavigatorPlan } from "@/lib/financialNavigator";
+
+vi.mock("@/lib/analytics", () => ({ trackSiteEvent: vi.fn() }));
 
 afterEach(() => {
   window.localStorage.clear();
+  vi.clearAllMocks();
 });
 
-describe("FinancialAssistanceScreeningTool", () => {
-  it("renders an uncertainty-first pathway without requiring sensitive data", () => {
-    render(
-      <MemoryRouter>
-        <FinancialAssistanceScreeningTool />
-      </MemoryRouter>,
-    );
+const continueButton = () => screen.getByRole("button", { name: /^continue/i });
 
-    expect(screen.getByText(/does not need a hospital name, patient name, exact income/i)).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /build my screening plan/i }));
+const completeAtriumPath = () => {
+  fireEvent.change(screen.getByLabelText("Where is the hospital?"), { target: { value: "NC" } });
+  fireEvent.click(continueButton());
+  fireEvent.change(screen.getByLabelText(/which hospital or health system/i), { target: { value: "atrium-health" } });
+  fireEvent.click(continueButton());
+  fireEvent.click(screen.getByRole("radio", { name: "4 people" }));
+  fireEvent.click(continueButton());
+  fireEvent.click(screen.getByRole("radio", { name: /more than \$66,000 through \$82,500/i }));
+  fireEvent.click(continueButton());
+  fireEvent.click(screen.getByRole("radio", { name: /^insured/i }));
+  fireEvent.click(continueButton());
+  fireEvent.click(screen.getByRole("radio", { name: /^in collections/i }));
+  fireEvent.click(continueButton());
+  fireEvent.click(screen.getByRole("radio", { name: /i don't know \/ skip/i }));
+  fireEvent.click(continueButton());
+  fireEvent.click(screen.getByRole("button", { name: /build my action plan/i }));
+};
 
-    expect(screen.getByRole("heading", { name: /verify the bill source and insurance status/i })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Official verification resources" })).toBeInTheDocument();
-    expect(screen.getByText(/does not determine eligibility/i)).toBeInTheDocument();
+describe("Hospital Financial Assistance Finder", () => {
+  it("uses one primary question per step and explains the privacy boundary", () => {
+    render(<MemoryRouter><FinancialAssistanceScreeningTool /></MemoryRouter>);
+
+    expect(screen.getByText(/private by design/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 1 of 8/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /choose the hospital's state/i })).toBeInTheDocument();
+    expect(screen.queryByText(/household size used for screening/i)).not.toBeInTheDocument();
   });
 
-  it("produces a strong qualified screening direction for hospital hardship", () => {
-    render(
-      <MemoryRouter>
-        <FinancialAssistanceScreeningTool />
-      </MemoryRouter>,
-    );
+  it("builds a bounded source-backed result for a published free-care range", () => {
+    render(<MemoryRouter><FinancialAssistanceScreeningTool /></MemoryRouter>);
+    completeAtriumPath();
 
-    fireEvent.change(screen.getByLabelText("Who issued the bill?"), { target: { value: "hospital" } });
-    fireEvent.change(screen.getByLabelText("Has insurance finished processing the claim?"), { target: { value: "processed" } });
-    fireEvent.change(screen.getByLabelText("How would paying this balance affect the household?"), { target: { value: "unaffordable" } });
-    fireEvent.change(screen.getByLabelText("What is the account status?"), { target: { value: "collections" } });
-    fireEvent.change(screen.getByLabelText("Is the hospital nonprofit?"), { target: { value: "yes" } });
-    fireEvent.change(screen.getByLabelText("Have you found the written financial-assistance policy?"), { target: { value: "not_found" } });
-    fireEvent.change(screen.getByLabelText("Where are you in the application process?"), { target: { value: "not_requested" } });
-    fireEvent.click(screen.getByRole("button", { name: /build my screening plan/i }));
+    expect(screen.getByRole("heading", { name: /appears to fall within the policy's published free-care range/i })).toBeInTheDocument();
+    expect(screen.getByText(/the hospital must make the final eligibility determination/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Official policy, application, and sources" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /official application/i })).toHaveAttribute("href", expect.stringContaining("atriumhealth.org"));
+    expect(screen.queryByText(/you qualify|you are eligible|you are approved|guaranteed approval/i)).not.toBeInTheDocument();
+  });
 
-    expect(screen.getByRole("heading", { name: /strong reason to request financial-assistance review/i })).toBeInTheDocument();
-    expect(screen.getByText(/request the written financial-assistance policy, plain-language summary/i)).toBeInTheDocument();
-    expect(
-      screen.queryByText(/you qualify|you are eligible|you are approved|application is approved|guaranteed approval/i),
-    ).not.toBeInTheDocument();
+  it("falls back to a national verification plan when the hospital is not listed", () => {
+    render(<MemoryRouter><FinancialAssistanceScreeningTool /></MemoryRouter>);
+    fireEvent.change(screen.getByLabelText("Where is the hospital?"), { target: { value: "TX" } });
+    fireEvent.click(continueButton());
+    fireEvent.change(screen.getByLabelText(/which hospital or health system/i), { target: { value: "not-listed" } });
+    fireEvent.click(continueButton());
+    fireEvent.click(screen.getByRole("radio", { name: /^I don't know/i }));
+    fireEvent.click(continueButton());
+    fireEvent.click(screen.getByRole("radio", { name: /^I don't know/i }));
+    fireEvent.click(continueButton());
+    fireEvent.click(screen.getByRole("radio", { name: /^I don't know/i }));
+    fireEvent.click(continueButton());
+    fireEvent.click(screen.getByRole("radio", { name: /^I don't know/i }));
+    fireEvent.click(continueButton());
+    fireEvent.click(screen.getByRole("radio", { name: /i don't know \/ skip/i }));
+    fireEvent.click(continueButton());
+    fireEvent.click(screen.getByRole("button", { name: /build my action plan/i }));
+
+    expect(screen.getByRole("heading", { name: /use the national action plan/i })).toBeInTheDocument();
+    expect(screen.getByText(/no eligibility terms have been inferred/i)).toBeInTheDocument();
   });
 
   it("saves only the fixed existing action into My Plan", () => {
-    render(
-      <MemoryRouter>
-        <FinancialAssistanceScreeningTool />
-      </MemoryRouter>,
-    );
-
-    fireEvent.click(screen.getByRole("button", { name: /build my screening plan/i }));
+    render(<MemoryRouter><FinancialAssistanceScreeningTool /></MemoryRouter>);
+    completeAtriumPath();
     fireEvent.click(screen.getByRole("button", { name: "Add this action" }));
 
     const plan = loadStoredNavigatorPlan();
     expect(plan?.actionIds).toContain("cost_financial_assistance");
-    expect(JSON.stringify(plan)).not.toMatch(/hospital|income|collection|affordability|insuranceStatus/i);
-    expect(screen.getByRole("button", { name: /added to my plan/i })).toBeDisabled();
+    expect(JSON.stringify(plan)).not.toMatch(/atrium|income|household|collection|insurance/i);
+  });
+
+  it("emits only fixed categorical analytics properties, never the entered answers", () => {
+    render(<MemoryRouter><FinancialAssistanceScreeningTool /></MemoryRouter>);
+    completeAtriumPath();
+
+    const allowedKeys = new Set([
+      "event_category",
+      "tool_id",
+      "surface_id",
+      "return_state",
+      "step_id",
+      "policy_id",
+      "outcome_id",
+      "missing_state",
+    ]);
+    const calls = vi.mocked(trackSiteEvent).mock.calls;
+
+    expect(calls.some(([event]) => event === "tool_completed")).toBe(true);
+    for (const [, properties = {}] of calls) {
+      expect(Object.keys(properties).every((key) => allowedKeys.has(key))).toBe(true);
+    }
+    expect(JSON.stringify(calls)).not.toContain("200_250");
+    expect(JSON.stringify(calls)).not.toContain("2026-05");
+    expect(JSON.stringify(calls)).not.toContain("collections");
   });
 });

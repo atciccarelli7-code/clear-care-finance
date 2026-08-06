@@ -178,6 +178,59 @@ test("Medical Bill Response System routes documents to the correct action and of
   await certifyPage(page, watch);
 });
 
+test("Hospital financial assistance finder completes a source-backed North Carolina plan by keyboard", async ({ page }) => {
+  const watch = installHealthWatch(page);
+  await visit(page, "/tools/financial-assistance-checklist");
+
+  await expect(page.getByText(/Private by design/i)).toBeVisible();
+  await page.getByLabel("Where is the hospital?").selectOption("NC");
+  await page.getByRole("button", { name: /Continue/i }).focus();
+  await page.keyboard.press("Enter");
+
+  await page.getByLabel(/Which hospital or health system/i).selectOption("atrium-health");
+  await page.getByRole("button", { name: /Continue/i }).focus();
+  await page.keyboard.press("Enter");
+
+  await page.getByRole("radiogroup", { name: "Household size" }).getByRole("radio", { name: "2 people" }).focus();
+  await page.keyboard.press("Enter");
+  await page.getByRole("button", { name: /Continue/i }).focus();
+  await page.keyboard.press("Enter");
+
+  await page.getByRole("radiogroup", { name: /Approximate annual household income range/i }).getByRole("radio").first().focus();
+  await page.keyboard.press("Enter");
+  await page.getByRole("button", { name: /Continue/i }).focus();
+  await page.keyboard.press("Enter");
+
+  await page.getByRole("radiogroup", { name: "Insurance status" }).getByRole("radio", { name: /Uninsured or self-pay/i }).focus();
+  await page.keyboard.press("Enter");
+  await page.getByRole("button", { name: /Continue/i }).focus();
+  await page.keyboard.press("Enter");
+
+  await page.getByRole("radiogroup", { name: "Bill stage" }).getByRole("radio", { name: /In collections/i }).focus();
+  await page.keyboard.press("Enter");
+  await page.getByRole("button", { name: /Continue/i }).focus();
+  await page.keyboard.press("Enter");
+
+  await page.getByRole("radio", { name: /I don't know \/ skip/i }).focus();
+  await page.keyboard.press("Enter");
+  await page.getByRole("button", { name: /Continue/i }).focus();
+  await page.keyboard.press("Enter");
+
+  await expect(page.getByRole("heading", { name: /Review the facts before building the plan/i })).toBeVisible();
+  await page.getByRole("button", { name: /Build my action plan/i }).focus();
+  await page.keyboard.press("Enter");
+
+  await expect(page.getByRole("heading", { name: /published free-care range/i })).toBeFocused();
+  await expect(page.getByRole("heading", { name: "Atrium Health" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Documentation checklist" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Information to verify" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Official policy" })).toHaveAttribute("href", /^https:\/\//);
+  await expect(page.getByRole("link", { name: "Official application" })).toHaveAttribute("href", /^https:\/\//);
+  await page.getByRole("button", { name: /Print or save as PDF/i }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-print-intent", "true");
+  await certifyPage(page, watch);
+});
+
 test("Turning 65 journey builds a dated timeline with official verification", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/medicare-care-costs/turning-65");

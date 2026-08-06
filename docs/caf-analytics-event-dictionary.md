@@ -194,3 +194,23 @@ A new event or property requires:
 - production observation before the event is used for a business claim.
 
 Analytics must never be used to reconstruct a person's benefit, medical, insurance, employment, tax, debt, or retirement situation.
+
+## Hospital Financial Assistance Finder funnel
+
+Source contract: `src/components/calculators/FinancialAssistanceScreeningTool.tsx` and `src/lib/analytics.ts`. Full definitions are in `docs/hospital-financial-assistance-measurement-spec.md`.
+
+| Funnel | Event | Trigger | Permitted fixed/categorical properties | Status |
+|---|---|---|---|---|
+| Acquisition | `product_landing_view` | Hub, state hub, policy page, or tool mounts | `event_category`, `tool_id`, `surface_id` | Implemented and tested; production observation pending |
+| Retention | `product_return_session` | Fixed browser marker exists when tool mounts | `event_category`, `tool_id`, `return_state` | Implemented; production observation pending |
+| Activation | `tool_started` | First valid step advances | `event_category`, `tool_id`, `step_id` | Implemented and tested; production observation pending |
+| Activation | `tool_step_completed` | Valid step advances | Prior fields plus fixed `policy_id` on the hospital step | Implemented and tested; production observation pending |
+| Activation | `tool_abandoned` | Started tool unmounts before completion | `event_category`, `tool_id`, `step_id` | Implemented; production observation pending |
+| Value | `tool_completed` | Result/action plan renders | `event_category`, `tool_id`, fixed `policy_id`, fixed `outcome_id` | Implemented and tested; production observation pending |
+| Value | `result_printed`, `result_downloaded` | Print or text download selected | `event_category`, `tool_id`, fixed `outcome_id`; download may add fixed `format_id=text` | Implemented; production observation pending |
+| Value | `tool_result_action` | Copy, reset, or copy-blocked action | `event_category`, `tool_id`, fixed `action_id` | Implemented; production observation pending |
+| Verification | `official_source_clicked`, `application_clicked` | Official source/policy/application opens | `event_category`, `tool_id`, fixed `policy_id`, fixed `action_id` or `surface_id`, fixed `source_id` where applicable | Implemented; production observation pending |
+| Continuation | `supporting_resource_clicked` | Approved internal bill resource opens | `event_category`, `tool_id`, fixed `destination_path` | Implemented; production observation pending |
+| Coverage | `missing_information_flag_shown` | Result contains one or more missing items | `event_category`, `tool_id`, fixed `missing_state` | Implemented; production observation pending |
+
+Household size, income, insurance, bill stage, service date, facility free text, patient/provider identity, balance, account/record identifiers, diagnosis, source contents, result contents, and unrestricted strings are prohibited. Fixed public policy IDs may identify only a published launch-dataset record; they may not contain user-entered hospital text.

@@ -44,6 +44,7 @@ const loadEmployerBenefitsActionPlanPage = () => import("./pages/EmployerBenefit
 const loadMedicareMedicaidEligibilityCheckPage = () => import("./pages/MedicareMedicaidEligibilityCheckPage.tsx");
 const loadPriorAuthorizationNextStepGuidePage = () => import("./pages/PriorAuthorizationNextStepGuidePage.tsx");
 const loadHealthcareWorkerTotalCompensationPage = () => import("./pages/HealthcareWorkerTotalCompensationPage.tsx");
+const loadHospitalFinancialAssistancePages = () => import("./pages/HospitalFinancialAssistancePages.tsx");
 const loadStudentLoans = () => import("./pages/StudentLoans.tsx");
 const loadArticles = () => import("./pages/Articles.tsx");
 const loadArticlePage = () => import("./pages/ArticlePage.tsx");
@@ -107,6 +108,9 @@ const EmployerBenefitsActionPlanPage = lazy(loadEmployerBenefitsActionPlanPage);
 const MedicareMedicaidEligibilityCheckPage = lazy(loadMedicareMedicaidEligibilityCheckPage);
 const PriorAuthorizationNextStepGuidePage = lazy(loadPriorAuthorizationNextStepGuidePage);
 const HealthcareWorkerTotalCompensationPage = lazy(loadHealthcareWorkerTotalCompensationPage);
+const HospitalFinancialAssistanceHubPage = lazy(() => loadHospitalFinancialAssistancePages().then((module) => ({ default: module.HospitalFinancialAssistanceHubPage })));
+const NorthCarolinaFinancialAssistancePage = lazy(() => loadHospitalFinancialAssistancePages().then((module) => ({ default: module.NorthCarolinaFinancialAssistancePage })));
+const HospitalFinancialAssistancePolicyPage = lazy(() => loadHospitalFinancialAssistancePages().then((module) => ({ default: module.HospitalFinancialAssistancePolicyPage })));
 const StudentLoans = lazy(loadStudentLoans);
 const Articles = lazy(loadArticles);
 const ArticlePage = lazy(loadArticlePage);
@@ -172,6 +176,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/tools/medicare-medicaid-eligibility-check") return loadMedicareMedicaidEligibilityCheckPage;
   if (pathname === "/tools/prior-authorization-next-step-guide") return loadPriorAuthorizationNextStepGuidePage;
   if (pathname === "/tools/healthcare-worker-total-compensation-comparison") return loadHealthcareWorkerTotalCompensationPage;
+  if (pathname === "/medical-bills/financial-assistance" || pathname === "/hospital-financial-assistance/north-carolina" || pathname.startsWith("/hospital-financial-assistance/")) return loadHospitalFinancialAssistancePages;
   if (pathname === "/tools/medicare-advantage-plan-helper") return loadInsuranceDecisionToolsBundle;
   if (pathname.startsWith("/tools/")) return loadToolPage;
   if (pathname === "/articles") return loadArticles;
@@ -324,8 +329,12 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/tools/medicare-medicaid-eligibility-check" element={<MedicareMedicaidEligibilityCheckPage />} />
             <Route path="/tools/prior-authorization-next-step-guide" element={<PriorAuthorizationNextStepGuidePage />} />
             <Route path="/tools/healthcare-worker-total-compensation-comparison" element={<HealthcareWorkerTotalCompensationPage />} />
+            <Route path="/tools/hospital-financial-assistance-finder" element={<Navigate to="/tools/financial-assistance-checklist" replace />} />
             <Route path="/tools/medicare-advantage-plan-helper" element={<MedicareAdvantagePlanHelper />} />
             <Route path="/tools/:slug" element={<ToolPage />} />
+            <Route path="/medical-bills/financial-assistance" element={<HospitalFinancialAssistanceHubPage />} />
+            <Route path="/hospital-financial-assistance/north-carolina" element={<NorthCarolinaFinancialAssistancePage />} />
+            <Route path="/hospital-financial-assistance/:hospitalSlug" element={<HospitalFinancialAssistancePolicyPage />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticlePage />} />
             <Route path="/topics" element={<Topics />} />

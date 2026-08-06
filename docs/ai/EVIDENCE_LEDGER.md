@@ -162,6 +162,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Click selection does not establish comprehension, satisfaction, task completion, revenue, or causal lift. Consented analytics are not representative of all visitors. The route inventory uses governed classifications and a ranked backlog, not direct testing of every page with users.
 - **Owner:** Product, information architecture, frontend/systems, analytics/privacy, SEO, accessibility, and quality/release.
 
+### CAF-E-010 — Hospital financial-assistance policy and screening evidence
+
+- **Claim or state:** The 2026 HHS poverty guideline is $15,960 plus $5,680 per additional person in the contiguous states/DC, $19,950 plus $7,100 in Alaska, and $18,360 plus $6,530 in Hawaii. North Carolina's current participating-hospital program publishes a 100% discount below 200% FPG, at least 75% from 200–250%, and at least 50% from 250–300% for insured and uninsured North Carolina residents, subject to program and hospital terms. Eighteen launch records have current official hospital/system policy, application, or controlling financial-assistance sources; absent terms are not inferred.
+- **Domain:** Hospital financial assistance, medical bills, income-screening math, state program rules, privacy, and search architecture.
+- **Source:** HHS/ASPE 2026 poverty guidelines; IRS Sections 501(r)(4) and 501(r)(6); NCDHHS Medical Debt program and hospital-policy list; official Atrium, Novant, Duke, UNC, WakeMed, ECU, Cone, Mission, Cleveland Clinic, Mass General Brigham, Johns Hopkins, Mayo Clinic, UPMC, Stanford, Cedars-Sinai, Northwestern, Mount Sinai, and Providence sources recorded in `src/data/hospitalFinancialAssistancePolicies.ts`; settled Search Console export reconciliation dated 2026-07-29.
+- **Evidence class:** PRIMARY-SOURCE for federal/state/system policy terms; DIRECT-CURRENT for repository, production, and release validation; STALE-OR-INCOMPLETE for lagged Search Console performance; INFERENCE for product prioritization and future demand.
+- **Verified date:** 2026-08-06.
+- **Coverage:** 2026 U.S. poverty-guideline screening and the 18 named system records; North Carolina statewide terms only where NCDHHS says they apply.
+- **Freshness trigger:** January 2027; new annual HHS guidelines; policy effective-date/source change; hospital merger; broken link; reported discrepancy; or calculation defect.
+- **Used by:** `/tools/financial-assistance-checklist`, national/state hubs, 18 policy routes, CAF-D-015, CAF-W-012, measurement/query maps, and maintenance documentation.
+- **Limitations:** A published threshold does not determine eligibility. Coverage can vary by facility, service, provider, residency, date, insurance status, and hospital income/household method. The launch set is not a national directory. Search Console data is lagged and cannot prove demand, causality, comprehension, or ranking lift.
+- **Owner:** Content/evidence integrity, healthcare user research, privacy/legal protection, SEO/discovery, product, analytics, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

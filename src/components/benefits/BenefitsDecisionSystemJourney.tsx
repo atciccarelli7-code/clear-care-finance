@@ -153,6 +153,22 @@ const BenefitsDecisionSystemJourney = () => (
       </div>
     </section>
 
+    <section className="rounded-[2rem] border border-primary/25 bg-primary-soft/30 p-6 shadow-card md:flex md:items-center md:justify-between md:gap-8 md:p-8" aria-label="Open the full Benefits Decision System pilot">
+      <div>
+        <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Working public pilot</div>
+        <h3 className="mt-2 font-display text-2xl font-bold">Try the complete guided open-enrollment journey.</h3>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          The full pilot carries the decision through eight stages and a printable election plan. It is free to try; checkout and paid access remain off during certification.
+        </p>
+      </div>
+      <a
+        href="/products/healthcare-worker-benefits-decision-system"
+        className="mt-5 inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:mt-0"
+      >
+        Open the full guided pilot <ArrowRight className="h-4 w-4" aria-hidden="true" />
+      </a>
+    </section>
+
     <div className="flex items-center gap-2 text-sm font-bold text-primary">
       The design target is guided completion, not software imitation <ArrowRight className="h-4 w-4" aria-hidden="true" />
     </div>

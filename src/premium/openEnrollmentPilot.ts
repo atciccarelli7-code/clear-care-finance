@@ -2,6 +2,10 @@ import {
   calculateHealthPlanScenarios,
   calculateRetirementValue,
 } from "@/premium/calculations";
+import type {
+  BenefitDocumentKind,
+  ExtractedBenefitFactKey,
+} from "@/premium/documentIntakeContracts";
 
 export const OPEN_ENROLLMENT_PILOT_VERSION = 1 as const;
 
@@ -92,6 +96,12 @@ export type HealthPlanInput = {
   prescriptionStatus: PlanVerificationStatus;
 };
 
+export type ConfirmedSourceSummary = {
+  sourceCategory: BenefitDocumentKind;
+  factKeys: ExtractedBenefitFactKey[];
+  confirmedAt: string;
+};
+
 export type OpenEnrollmentPilotState = {
   version: typeof OPEN_ENROLLMENT_PILOT_VERSION;
   currentStep: OpenEnrollmentStepId;
@@ -106,6 +116,10 @@ export type OpenEnrollmentPilotState = {
   plans: {
     a: HealthPlanInput;
     b: HealthPlanInput;
+  };
+  sourceAssistance: {
+    a: ConfirmedSourceSummary | null;
+    b: ConfirmedSourceSummary | null;
   };
   medicalElection: MedicalElection;
   accountElection: AccountElection;
@@ -179,6 +193,7 @@ export const createOpenEnrollmentPilotState = (): OpenEnrollmentPilotState => ({
     a: blankPlan("Plan A"),
     b: blankPlan("Plan B"),
   },
+  sourceAssistance: { a: null, b: null },
   medicalElection: "undecided",
   accountElection: "undecided",
   annualAccountContribution: null,

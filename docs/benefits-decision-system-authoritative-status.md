@@ -1,6 +1,6 @@
 # Healthcare Worker Benefits Decision System — Authoritative Status
 
-Last verified: August 5, 2026
+Last verified: August 6, 2026
 
 This document is the source of truth for the public acquisition layer, working pilot, premium foundation, certification state, commerce controls, privacy boundaries, SEO state, and next growth actions. Future work must revalidate this document against current production, `main`, infrastructure, and tests before recommending changes.
 
@@ -10,8 +10,9 @@ The Healthcare Worker Benefits Decision System is not an unbuilt concept. CAF al
 
 - a substantive public product explanation;
 - a working eight-stage browser-local open-enrollment pilot;
+- a browser-local source assistant for general plan excerpts that blocks sensitive-looking content, discards raw text, and saves only user-confirmed structured values;
 - visible unknowns and verification tasks;
-- calculations, progress, mobile navigation, and a printable election plan;
+- calculations, progress, mobile navigation, and a printable Benefits Decision Brief with decision drivers, assumptions, change triggers, and a source-readiness ledger;
 - a clear free-versus-paid boundary;
 - a private-ready authentication, workspace, entitlement, and Stripe architecture behind disabled gates.
 
@@ -66,6 +67,8 @@ The existing pilot carries a visitor through eight coordinated stages:
 - mobile navigation;
 - browser-local answers;
 - printable final election plan;
+- browser-local plain-text source assistance with explicit user confirmation and no automatic source-readiness inference;
+- supported, provisional, and verification-required decision-trace states;
 - clear statement that CAF does not submit elections.
 
 ### Pilot privacy behavior
@@ -73,6 +76,9 @@ The existing pilot carries a visitor through eight coordinated stages:
 - No account is required for the public pilot.
 - No payment is collected.
 - No raw benefit document is uploaded or stored.
+- General plan excerpts selected or pasted into the source assistant are analyzed locally and discarded after analysis.
+- Only user-confirmed structured values, source category, and fact-key provenance are retained in browser-local state.
+- Source excerpts do not automatically mark a controlling source group ready; the user must assess readiness separately.
 - No medical records, member IDs, credentials, claim files, or payment-card data are requested.
 - Official employer, carrier, administrator, and plan documents control.
 
@@ -109,7 +115,7 @@ The existing pilot carries a visitor through eight coordinated stages:
 
 Project: `CAF Project` (`uzfcvtgnpkvuapgrkfcb`)
 
-Verified August 5, 2026:
+Verified August 6, 2026:
 
 - project status: active and healthy;
 - PostgreSQL 17;
@@ -117,6 +123,7 @@ Verified August 5, 2026:
 - RLS enabled on all reviewed public application tables;
 - current persistent rows include one product and zero profiles, entitlements, workspaces, Stripe events, premium modules, or premium admins;
 - the dormant document-quarantine table contains zero rows.
+- all reviewed public tables retain RLS; the advisor reports only informational no-policy notices for intentionally service-role-only or deny-by-default tables in this scope.
 
 The Supabase security advisor reports informational `RLS enabled, no policy` notices on deliberately service-role-only or deny-by-default tables. These notices must be evaluated against the intended access model before any policy is added. They are not authorization to expose tables publicly.
 
@@ -177,10 +184,10 @@ All surfaces must state accurately:
 - CAF does not submit elections or determine official eligibility or coverage;
 - the user must verify and submit final elections through the employer or benefits administrator.
 
-## SEO state after the reconciliation PR
+## SEO state
 
 - Dedicated canonical product route retained.
-- Product route target robots: index and follow.
+- Product route returns indexable HTML and no production `X-Robots-Tag: noindex` header.
 - Conflicting product-route `X-Robots-Tag: noindex` removed.
 - Product route included in generated sitemap.
 - Factual `WebApplication` and breadcrumb structured data added.
@@ -269,7 +276,7 @@ This reconciliation did not rebuild:
 
 ## Ranked next actions
 
-1. **Engineering/release:** complete PR checks and verify the indexable public product route on preview and production.
+1. **Engineering/release:** complete exact-head preview checks and verify the source assistant, Benefits Decision Brief, indexable route, and private-route boundaries on production.
 2. **Engineering/security:** finish controlled Supabase authentication, workspace, RLS, and entitlement certification.
 3. **Engineering/operations:** create or verify the exact Stripe test-mode product and price and complete the webhook/refund matrix without live charges.
 4. **Founder/product:** distribute the free pilot to a small group of healthcare workers and collect structured workflow feedback.

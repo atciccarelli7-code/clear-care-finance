@@ -27,7 +27,7 @@ const pilotWorkflow = [
   "Review HSA, HRA, FSA, and dependent-care choices",
   "Review dental, vision, disability, life, and supplemental benefits",
   "Set retirement contributions and inspect employer value",
-  "Generate the verification list and printable election plan",
+  "Generate the verification list and printable Benefits Decision Brief",
 ];
 
 const premiumBoundary = [

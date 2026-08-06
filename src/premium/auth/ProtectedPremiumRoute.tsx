@@ -20,6 +20,8 @@ const StateCard = ({ icon: Icon, title, body, action }: { icon: typeof LockKeyho
   </main>
 );
 
+const publicOfferPath = "/products/healthcare-worker-benefits-decision-system";
+
 export const ProtectedPremiumRoute = ({ children }: { children: ReactNode }) => {
   const auth = usePremiumAuth();
   const location = useLocation();
@@ -55,7 +57,7 @@ export const ProtectedPremiumRoute = ({ children }: { children: ReactNode }) => 
     return <StateCard icon={LoaderCircle} title="Checking secure access" body="Verifying the account and product entitlement…" />;
   }
   if (access === "configuration_unavailable") {
-    return <StateCard icon={AlertTriangle} title="Access is not yet available" body={auth.message || "Secure authentication and entitlement services are being prepared. No premium information is available from this route."} action={<Button asChild><Link to="/products/healthcare-worker-benefits-decision-system">View product status</Link></Button>} />;
+    return <StateCard icon={AlertTriangle} title="Access is not yet available" body={auth.message || "Secure authentication and entitlement services are being prepared. No premium information is available from this route."} action={<Button asChild><a href={publicOfferPath}>View product status</a></Button>} />;
   }
   if (access === "signed_out") {
     return <StateCard icon={LockKeyhole} title="Sign in to continue" body="This application requires a verified account and product entitlement." action={<Button asChild><Link to="/sign-in" state={{ from: location.pathname }}>Open secure sign-in</Link></Button>} />;
@@ -67,7 +69,7 @@ export const ProtectedPremiumRoute = ({ children }: { children: ReactNode }) => 
     return <StateCard icon={AlertTriangle} title="Access is not active" body="This entitlement has been revoked or refunded. Contact support if you believe this is an error." action={<Button asChild><Link to="/contact">Contact support</Link></Button>} />;
   }
   if (access === "not_purchased") {
-    return <StateCard icon={LockKeyhole} title="Product access is required" body="No active entitlement is attached to this account. Checkout is not currently available." action={<Button asChild><Link to="/products/healthcare-worker-benefits-decision-system">Review current availability</Link></Button>} />;
+    return <StateCard icon={LockKeyhole} title="Product access is required" body="No active entitlement is attached to this account. Checkout is not currently available." action={<Button asChild><a href={publicOfferPath}>Review current availability</a></Button>} />;
   }
   return <>{children}</>;
 };

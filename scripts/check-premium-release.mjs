@@ -16,7 +16,7 @@ const premiumContracts = read("src/premium/contracts.ts");
 const documentPage = read("src/pages/premium/BenefitsDocumentStagingPage.tsx");
 const localSource = read("src/premium/localBenefitsSource.ts");
 const documentConfig = read("api/_lib/premiumConfig.ts");
-const routeUtils = read("scripts/seo-route-utils.mjs");
+const sitemapGenerator = read("scripts/generate-sitemap.mjs");
 const vercel = read("vercel.json");
 const vercelConfig = JSON.parse(vercel);
 const sitemap = read("public/sitemap.xml");
@@ -77,7 +77,6 @@ if (!app.includes('path="/app/benefits-decision/:workspaceId/documents"') || !ap
 const privateHeaderSources = [
   "/app",
   "/app/(.*)",
-  "/products/healthcare-worker-benefits-decision-system",
   "/account",
   "/sign-in",
   "/access-processing",
@@ -89,7 +88,7 @@ const privateHeadersAreComplete = privateHeaderSources.every((source) => {
   return headers.get("cache-control") === "private, no-store, max-age=0"
     && headers.get("x-robots-tag") === "noindex, nofollow, noarchive";
 });
-if (!privateHeadersAreComplete) failures.push("Private and validation route noindex/no-store headers are missing.");
+if (!privateHeadersAreComplete) failures.push("Private route noindex/no-store headers are missing.");
 const appEntryRedirect = vercelConfig.redirects?.some((redirect) =>
   redirect.source === "/app"
   && redirect.destination === "/app/benefits-decision"
@@ -113,20 +112,24 @@ if (sitemap.includes("/app") || sitemap.includes("/account") || sitemap.includes
 if (sitemap.includes("/products/healthcare-worker-benefits-decision-pack")) failures.push("The retired product route appears in the public sitemap.");
 
 const canonicalProductRoute = "/products/healthcare-worker-benefits-decision-system";
-if (sitemap.includes(canonicalProductRoute)) failures.push("The bounded offer-validation route must remain outside the sitemap.");
-if (!routeUtils.includes(`"${canonicalProductRoute}"`)) failures.push("The bounded offer-validation route is missing from controlled noindex prerendering.");
+if (!sitemapGenerator.includes(canonicalProductRoute)) failures.push("The canonical public product route is missing from sitemap generation.");
+const productHeaderEntry = vercelConfig.headers?.find((candidate) => candidate.source === canonicalProductRoute);
+if (productHeaderEntry?.headers?.some((header) => header.key.toLowerCase() === "x-robots-tag" && /noindex/i.test(header.value))) {
+  failures.push("The canonical public product route must not receive a noindex response header.");
+}
 const productPageIsParked = vercelConfig.redirects?.some((redirect) => redirect.source === canonicalProductRoute);
-if (productPageIsParked) failures.push("The Phase 3 product route must render the validation offer rather than redirect.");
+if (productPageIsParked) failures.push("The Phase 3 product route must render the public pilot rather than redirect.");
 const retiredRouteRedirectsToOffer = vercelConfig.redirects?.some((redirect) =>
   redirect.source === "/products/healthcare-worker-benefits-decision-pack"
   && redirect.destination === canonicalProductRoute
   && redirect.permanent === true,
 );
-if (!retiredRouteRedirectsToOffer) failures.push("The retired product route must redirect to the canonical validation offer.");
-if (!phase3App.includes("BENEFITS_DECISION_OFFER_META") || !phase3App.includes("BENEFITS_DECISION_OFFER_PATH")) failures.push("The Phase 3 application must use the canonical offer metadata source.");
-if (!siteSeoMeta.includes(`"${canonicalProductRoute}"`)) failures.push("The canonical validation offer route metadata is missing.");
-if (!siteSeoMeta.includes('const noindex = "noindex, nofollow, noarchive"') || !siteSeoMeta.includes("robots: noindex")) failures.push("The validation offer metadata must be noindex.");
-if (!siteSeoMeta.includes('title: "Healthcare Worker Benefits Decision System Early Access"')) failures.push("The validation offer metadata title is missing.");
+if (!retiredRouteRedirectsToOffer) failures.push("The retired product route must redirect to the canonical public pilot.");
+if (!phase3App.includes("BENEFITS_DECISION_OFFER_META") || !phase3App.includes("BENEFITS_DECISION_OFFER_PATH")) failures.push("The Phase 3 application must use the canonical product metadata source.");
+if (!siteSeoMeta.includes(`"${canonicalProductRoute}"`)) failures.push("The canonical public product route metadata is missing.");
+if (!siteSeoMeta.includes("robots: indexed")) failures.push("The canonical public product metadata must be indexable.");
+if (!siteSeoMeta.includes('title: "Healthcare Worker Benefits Decision System"')) failures.push("The canonical public product metadata title is missing.");
+if (!siteSeoMeta.includes('"@type": "WebApplication"') || !siteSeoMeta.includes("isAccessibleForFree: true")) failures.push("The public pilot structured-data boundary is missing.");
 if (!productPage.includes("$29") || !productForm.includes("No card. No checkout. No charge.")) failures.push("The price-qualified no-charge boundary is missing.");
 if (!productForm.includes("priceCommitment") || !productForm.includes("emailConsent")) failures.push("The early-access form must require price and email confirmation.");
 if (!productForm.includes("isPremiumTestCheckoutDisplayEnabled") || !productForm.includes("PremiumTestCheckoutPanel")) failures.push("The test Checkout panel must replace—not duplicate—the early-access form when explicitly enabled.");

@@ -19,10 +19,12 @@ const isLiteralRoute = (source) =>
 
 // New consumer guide articles are registered through the article runtime manifest.
 // Preserve the existing Benefits Command Center release exception.
+// The public Benefits Decision System pilot is a canonical acquisition surface.
 // Published Diagnosis, Explained guides are explicitly included after nurse review.
 // Paused institutional patient-education routes are redirects and never enter the sitemap.
 export const ADDITIONAL_INDEXABLE_ROUTES = [
   "/tools/benefits-command-center",
+  "/products/healthcare-worker-benefits-decision-system",
   "/patients-families/diagnosis-explained/heart-failure",
   "/patients-families/diagnosis-explained/copd",
   "/patients-families/diagnosis-explained/acute-kidney-injury",
@@ -34,12 +36,11 @@ export const ADDITIONAL_INDEXABLE_ROUTES = [
   "/patients-families/diagnosis-explained/kidney-failure",
 ];
 
-// Supporting print utilities, the bounded product-validation offer, plus account and access-state
-// pages are prerendered for reliable use and failure states but remain outside the canonical search inventory.
+// Supporting print utilities plus account and access-state pages are prerendered for reliable use
+// and failure states but remain outside the canonical search inventory.
 // Authenticated /app routes are runtime-only and never enter a public route inventory.
 export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [
   "/insurance/hospital-discharge-coverage/printable",
-  "/products/healthcare-worker-benefits-decision-system",
   "/sign-in",
   "/account",
   "/access-processing",

@@ -40,7 +40,7 @@ test.beforeEach(async ({ page }) => {
   await preparePage(page);
 });
 
-test("desktop and intermediate-width visitors can discover free services and the flagship preview", async ({ page }, testInfo) => {
+test("desktop and intermediate-width visitors can discover free services and the flagship system", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-chromium");
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
@@ -72,8 +72,9 @@ test("desktop and intermediate-width visitors can discover free services and the
 
   await flagship.click();
   await expect(page).toHaveURL(/\/healthcare-workers#benefits-decision-system$/);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(/learn workplace benefits for free/i);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(/understand your benefits/i);
   await expect(page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true })).toBeVisible();
+  await expect(page.locator("#benefits-decision-system").getByText("Available now · free", { exact: true })).toBeVisible();
 });
 
 test("short desktop viewports keep lower Explore CAF destinations reachable", async ({ page }, testInfo) => {

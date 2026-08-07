@@ -44,12 +44,15 @@ describe("guided Benefits Decision System journey", () => {
     expect(copy).toContain("without collecting their names");
   });
 
-  it("fails closed on private document upload until the security controls are certified", () => {
-    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("not activated");
-    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("access control");
-    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("malware scanning");
-    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("retention");
-    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("deletion");
+  it("fails closed on private document upload with a clear visitor-facing privacy boundary", () => {
+    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("does not accept or store private document uploads");
+    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("sensitive identifiers");
+    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("claims");
+    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("medical records");
+    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("account credentials");
+    expect(benefitsDecisionSystemBoundary.uploadGate).toContain("payment information");
+    expect(benefitsDecisionSystemBoundary.uploadGate).not.toContain("not activated until");
+    expect(benefitsDecisionSystemBoundary.uploadGate).not.toContain("separately certified");
   });
 
   it("explicitly rejects sensitive identifiers and unauthorized documents", () => {

@@ -118,22 +118,25 @@ if (productHeaderEntry?.headers?.some((header) => header.key.toLowerCase() === "
   failures.push("The canonical public product route must not receive a noindex response header.");
 }
 const productPageIsParked = vercelConfig.redirects?.some((redirect) => redirect.source === canonicalProductRoute);
-if (productPageIsParked) failures.push("The Phase 3 product route must render the public pilot rather than redirect.");
+if (productPageIsParked) failures.push("The Phase 3 product route must render the public decision system rather than redirect.");
 const retiredRouteRedirectsToOffer = vercelConfig.redirects?.some((redirect) =>
   redirect.source === "/products/healthcare-worker-benefits-decision-pack"
   && redirect.destination === canonicalProductRoute
   && redirect.permanent === true,
 );
-if (!retiredRouteRedirectsToOffer) failures.push("The retired product route must redirect to the canonical public pilot.");
+if (!retiredRouteRedirectsToOffer) failures.push("The retired product route must redirect to the canonical public decision system.");
 if (!phase3App.includes("BENEFITS_DECISION_OFFER_META") || !phase3App.includes("BENEFITS_DECISION_OFFER_PATH")) failures.push("The Phase 3 application must use the canonical product metadata source.");
 if (!siteSeoMeta.includes(`"${canonicalProductRoute}"`)) failures.push("The canonical public product route metadata is missing.");
 if (!siteSeoMeta.includes("robots: indexed")) failures.push("The canonical public product metadata must be indexable.");
 if (!siteSeoMeta.includes('title: "Healthcare Worker Benefits Decision System"')) failures.push("The canonical public product metadata title is missing.");
-if (!siteSeoMeta.includes('"@type": "WebApplication"') || !siteSeoMeta.includes("isAccessibleForFree: true")) failures.push("The public pilot structured-data boundary is missing.");
-if (!productPage.includes("$29") || !productForm.includes("No card. No checkout. No charge.")) failures.push("The price-qualified no-charge boundary is missing.");
-if (!productForm.includes("priceCommitment") || !productForm.includes("emailConsent")) failures.push("The early-access form must require price and email confirmation.");
-if (!productForm.includes("isPremiumTestCheckoutDisplayEnabled") || !productForm.includes("PremiumTestCheckoutPanel")) failures.push("The test Checkout panel must replace—not duplicate—the early-access form when explicitly enabled.");
-if (!productPage.includes("Premium foundation built") || !productPage.includes("Live payment and public paid access remain off")) failures.push("The premium readiness copy must distinguish built infrastructure from live commerce.");
+if (!siteSeoMeta.includes('"@type": "WebApplication"') || !siteSeoMeta.includes("isAccessibleForFree: true")) failures.push("The public WebApplication structured-data boundary is missing.");
+if (!productPage.includes("Start the guided system") || !productPage.includes("Progress stays in this browser")) failures.push("The public Benefits Decision System must present a complete browser-local workflow.");
+const leakedPublicReleaseState = ["$29", "early-access", "prelaunch", "checkout remains", "paid access remain off", "Working end-to-end pilot", "Try the guided pilot"];
+for (const phrase of leakedPublicReleaseState) if (productPage.includes(phrase)) failures.push(`The public Benefits Decision System leaks internal release-state language: ${phrase}`);
+if (productPage.includes("BenefitsEarlyAccessForm") || productPage.includes("PAID_PRODUCTS") || productPage.includes("recordBenefitsOfferCta")) failures.push("Dormant paid-validation infrastructure must not be imported by the public product page.");
+
+if (!productForm.includes("priceCommitment") || !productForm.includes("emailConsent")) failures.push("The dormant validation form must retain its explicit price and email confirmations.");
+if (!productForm.includes("isPremiumTestCheckoutDisplayEnabled") || !productForm.includes("PremiumTestCheckoutPanel")) failures.push("The test Checkout panel must replace—not duplicate—the dormant validation form when explicitly enabled.");
 
 const testCheckoutTrustPhrases = [
   "Protected test-mode certification",

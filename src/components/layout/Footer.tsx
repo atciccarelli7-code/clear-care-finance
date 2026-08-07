@@ -60,7 +60,7 @@ export const Footer = () => {
             <span className="min-w-0 break-words">Community Acquired Finance</span>
           </Link>
           <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-            RN-led healthcare financial decision support: useful education and tools for free, with one benefits decision system being prepared for healthcare workers.
+            RN-led healthcare financial decision support with free guides, calculators, and guided tools for healthcare workers, patients, and caregivers.
           </p>
           <p className="text-xs text-muted-foreground">Written by Andrew Ciccarelli, RN, BSN.</p>
         </div>

@@ -6,7 +6,6 @@ import {
   Compass,
   ExternalLink,
   HeartPulse,
-  LockKeyhole,
   ShieldCheck,
   Stethoscope,
   Wallet,
@@ -18,7 +17,8 @@ import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { trackHomepageNavigation } from "@/lib/analytics";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
-const FLAGSHIP_PREVIEW_PATH = "/healthcare-workers#benefits-decision-system";
+const BENEFITS_SYSTEM_PATH = "/products/healthcare-worker-benefits-decision-system";
+const FINANCIAL_ASSISTANCE_PATH = "/medical-bills/financial-assistance";
 
 const decisionPaths = [
   {
@@ -50,9 +50,9 @@ const decisionPaths = [
 const Index = () => (
   <>
     <PageHero
-      eyebrow="Free education + one decision system"
-      title="Learn the decision for free. Use one system when you need help finishing it."
-      description="Community Acquired Finance provides public guides, calculators, and checklists for healthcare workers, patients, and caregivers. The first paid flagship will coordinate the complete healthcare-worker benefits decision in one workspace."
+      eyebrow="RN-led healthcare financial decision support"
+      title="Make the next money or healthcare decision clearer."
+      description="Use free, source-backed guides, calculators, checklists, and guided workflows built for healthcare workers, patients, and caregivers. Start with the decision in front of you and leave with a practical next step."
     >
       <Button asChild variant="hero" size="lg">
         <Link
@@ -67,13 +67,13 @@ const Index = () => (
       </Button>
       <Button asChild variant="outline" size="lg">
         <Link
-          to={FLAGSHIP_PREVIEW_PATH}
+          to={BENEFITS_SYSTEM_PATH}
           onClick={() => {
             trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "benefits_decision_system" });
-            trackHomepageNavigation("hero_action", "benefits_decision_system", FLAGSHIP_PREVIEW_PATH);
+            trackHomepageNavigation("hero_action", "benefits_decision_system", BENEFITS_SYSTEM_PATH);
           }}
         >
-          Preview the Benefits Decision System
+          Open the Benefits Decision System
         </Link>
       </Button>
     </PageHero>
@@ -104,49 +104,52 @@ const Index = () => (
       </div>
     </section>
 
-    <section className="border-y border-border bg-card/30 py-14 md:py-20" aria-labelledby="free-paid-heading">
+    <section className="border-y border-border bg-card/30 py-14 md:py-20" aria-labelledby="guided-workflows-heading">
       <div className="container max-w-6xl min-w-0">
         <SectionHeading
           centered
-          eyebrow="One platform, two layers"
-          title="Free decision preparation. Paid decision completion."
-          description="The business model is designed to preserve useful public education while charging only when CAF coordinates a larger, reusable workflow."
+          eyebrow="Guided workflows available now"
+          title="Go beyond reading when the decision needs a process."
+          description="These workflows organize the inputs, unknowns, calculations, verification steps, and next actions without pretending CAF replaces the official source."
         />
         <div className="mt-9 grid gap-6 lg:grid-cols-2">
-          <article className="rounded-3xl border border-border bg-background p-6 shadow-card md:p-8">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-primary">
-              <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
-            </div>
-            <div className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-primary">Learn and prepare for free</div>
-            <h2 id="free-paid-heading" className="mt-2 font-display text-2xl font-bold">Understand one question and take the next bounded step.</h2>
-            <ul className="mt-5 space-y-3 text-sm leading-relaxed text-muted-foreground">
-              <li>• Plain-English articles, glossary entries, and official verification links</li>
-              <li>• Calculators, checklists, comparisons, and guided decision helpers</li>
-              <li>• Enrollment, billing, coverage, and patient-safety deadlines</li>
-              <li>• Meaningful results without an account or purchase</li>
-            </ul>
-            <Button asChild variant="outline" className="mt-6">
-              <Link to="/tools">Browse all free tools</Link>
-            </Button>
-          </article>
-
           <article className="rounded-3xl border border-primary/25 bg-primary-soft/20 p-6 shadow-card md:p-8">
             <div className="flex items-center justify-between gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-background text-primary">
-                <LockKeyhole className="h-5 w-5" aria-hidden="true" />
+                <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
               </div>
-              <span className="rounded-full border border-primary/20 bg-background px-3 py-1 text-xs font-bold text-primary">Checkout off</span>
+              <span className="rounded-full border border-primary/20 bg-background px-3 py-1 text-xs font-bold text-primary">Free · available now</span>
             </div>
-            <div className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-primary">Coordinate and finish the decision</div>
-            <h2 className="mt-2 font-display text-2xl font-bold">The Healthcare Worker Benefits Decision System</h2>
+            <div className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-primary">For healthcare workers</div>
+            <h2 id="guided-workflows-heading" className="mt-2 font-display text-2xl font-bold">Healthcare Worker Benefits Decision System</h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              The first paid workflow will connect employer-specific plan rules, medical and prescription costs, HSA/HRA/FSA choices, retirement, protection benefits, deadlines, missing information, saved progress, and a printable decision brief.
+              Work through an enrollment event in eight guided stages: household needs, controlling documents, medical-plan exposure, tax-advantaged accounts, other benefits, retirement, unresolved questions, and a printable Benefits Decision Brief.
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Planned early-access test: <strong className="text-foreground">$29 one time</strong>. The system is visible for preview, but it is not available for purchase yet.
+              Progress stays in your browser. No account, payment, confidential document upload, or cloud storage is required for this public workflow.
             </p>
             <Button asChild className="mt-6">
-              <Link to={FLAGSHIP_PREVIEW_PATH}>See the flagship preview <ArrowRight className="h-4 w-4" /></Link>
+              <Link to={BENEFITS_SYSTEM_PATH}>Start the Benefits Decision System <ArrowRight className="h-4 w-4" /></Link>
+            </Button>
+          </article>
+
+          <article className="rounded-3xl border border-border bg-background p-6 shadow-card md:p-8">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+                <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold text-foreground">Free · available now</span>
+            </div>
+            <div className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-primary">For medical bills</div>
+            <h2 className="mt-2 font-display text-2xl font-bold">Hospital Financial Assistance & Medical Bill Relief Finder</h2>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              Screen common financial-assistance pathways, identify the documents and questions to gather, and build an action plan before paying or giving up on a hospital bill.
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              Results are educational and source-backed, not an eligibility determination. Hospital policies and current program rules still control.
+            </p>
+            <Button asChild variant="outline" className="mt-6">
+              <Link to={FINANCIAL_ASSISTANCE_PATH}>Check financial-assistance options <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </article>
         </div>
@@ -158,12 +161,12 @@ const Index = () => (
         centered
         eyebrow="From question to action"
         title="Know what each experience will do before you begin."
-        description="CAF separates routing, the guided answer, paid coordination, and official verification so each screen has one clear job."
+        description="CAF separates routing, guided decision support, and official verification so each screen has one clear job."
       />
       <ol className="mt-9 grid gap-8 md:grid-cols-3">
         {[
-          [Compass, "1", "Start with your goal", "Choose from fixed, plain-English options. No account or private case narrative is required to use the free layer."],
-          [CheckCircle2, "2", "Finish the right level of help", "Use a free result for a bounded question or preview the paid system when several connected benefit decisions must be coordinated."],
+          [Compass, "1", "Start with your goal", "Choose from fixed, plain-English options. No account or private case narrative is required to use the public site."],
+          [CheckCircle2, "2", "Use the right level of help", "Read a focused guide, run a calculator, or complete a guided workflow when several connected decisions need to be organized."],
           [ExternalLink, "3", "Verify and act", "See the practical next action and the official document, plan, agency, employer, provider, or professional that controls the final decision."],
         ].map(([Icon, number, title, description]) => (
           <li key={number as string} className="relative border-l-2 border-primary/20 pl-5">

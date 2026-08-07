@@ -22,11 +22,12 @@ const capture = async (page: Page, testInfo: TestInfo, name: string, focus?: Loc
   await page.screenshot({ path: testInfo.outputPath(fileName), fullPage: false, animations: "disabled" });
 };
 
-test("captures the product-led homepage and guided start", async ({ page }, testInfo) => {
+test("captures the finished product-led homepage and guided start", async ({ page }, testInfo) => {
   await preparePage(page, "/");
-  await expect(page.getByRole("heading", { level: 1, name: /Learn the decision for free/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Make the next money or healthcare decision clearer/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Help me find where to start/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Preview the Benefits Decision System/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Open the Benefits Decision System/i })).toBeVisible();
+  await expect(page.getByText(/Checkout off|prelaunch|planned early-access|not available for purchase yet/i)).toHaveCount(0);
   await capture(page, testInfo, "homepage");
 });
 
@@ -35,17 +36,27 @@ test("captures the free searchable Tools directory", async ({ page }, testInfo) 
   await expect(page.getByRole("heading", { level: 1, name: /Use every public tool on this page without paying/i })).toBeVisible();
   const directoryStatus = page.getByText(/Showing .* tools for all decisions/i);
   await expect(directoryStatus).toBeVisible();
+  await expect(page.getByText(/Preview only|checkout off|not available for purchase yet/i)).toHaveCount(0);
   await capture(page, testInfo, "tools-directory", directoryStatus);
 });
 
-test("captures the healthcare-worker flagship preview", async ({ page }, testInfo) => {
+test("captures the healthcare-worker flagship as an available system", async ({ page }, testInfo) => {
   await preparePage(page, "/healthcare-workers#benefits-decision-system");
-  await expect(page.getByRole("heading", { level: 1, name: /Learn workplace benefits for free/i })).toBeVisible();
-  const previewHeading = page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true });
-  await expect(previewHeading).toBeVisible();
-  const releaseBoundary = page.locator("#benefits-decision-system").getByText(/Planned early-access test:/i);
-  await expect(releaseBoundary).toContainText(/Checkout and paid access remain off/i);
-  await capture(page, testInfo, "benefits-decision-system-preview", previewHeading);
+  await expect(page.getByRole("heading", { level: 1, name: /Understand your benefits/i })).toBeVisible();
+  const systemHeading = page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true });
+  await expect(systemHeading).toBeVisible();
+  await expect(page.locator("#benefits-decision-system").getByText("Available now · free", { exact: true })).toBeVisible();
+  await expect(page.locator("#benefits-decision-system").getByText(/Planned early-access|Checkout and paid access|Working public pilot/i)).toHaveCount(0);
+  await capture(page, testInfo, "benefits-decision-system", systemHeading);
+});
+
+test("captures the finished Benefits Decision System route", async ({ page }, testInfo) => {
+  await preparePage(page, "/products/healthcare-worker-benefits-decision-system");
+  await expect(page.getByRole("heading", { level: 1, name: /Work through open enrollment one decision at a time/i })).toBeVisible();
+  const workflowHeading = page.getByRole("heading", { name: "Complete an open-enrollment election plan", exact: true });
+  await expect(workflowHeading).toBeVisible();
+  await expect(page.getByText(/\$29|early-access|prelaunch|Working end-to-end pilot|worth \$29/i)).toHaveCount(0);
+  await capture(page, testInfo, "benefits-decision-system-route", workflowHeading);
 });
 
 test("captures Hospital Guide before and after an immediate need is selected", async ({ page }, testInfo) => {

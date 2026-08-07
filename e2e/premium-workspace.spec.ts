@@ -19,7 +19,7 @@ test("bounded product route shows the working no-charge, price-qualified $29 pil
   await page.goto("/products/healthcare-worker-benefits-decision-system");
   await expect(page).toHaveURL(/\/products\/healthcare-worker-benefits-decision-system$/);
   await expect(page.getByRole("heading", { level: 1, name: /A complete benefits decision system—not another disconnected free calculator/i })).toBeVisible();
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow, noarchive");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "index, follow, max-image-preview:large");
   await expect(page.getByRole("heading", { name: "Complete an open-enrollment election plan", exact: true })).toBeVisible();
   await expect(page.getByText("No card. No checkout. No charge.", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: /buy|purchase|checkout/i })).toHaveCount(0);
@@ -108,7 +108,7 @@ test("open enrollment pilot reaches a persisted, printable election plan", async
   await expect(page.getByText(/before tax effects and is not take-home pay/i)).toBeVisible();
   await page.getByLabel(/I reviewed the planned elections/i).check();
   await expect(page.getByText(/planning workflow is complete/i)).toBeVisible();
-  await expect(page.getByRole("button", { name: /Print election plan/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Print Benefits Decision Brief/i })).toBeVisible();
 
   await page.reload();
   await expect(page.getByRole("heading", { name: /Review the plan before using the employer portal/i })).toBeVisible();

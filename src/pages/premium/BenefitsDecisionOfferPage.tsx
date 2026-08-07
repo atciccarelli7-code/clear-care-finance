@@ -49,6 +49,22 @@ const notIncluded = [
 const BenefitsDecisionOfferPage = () => {
   useEffect(() => {
     recordBenefitsOfferView();
+
+    const makeScrollableRegionsKeyboardAccessible = () => {
+      document.querySelectorAll<HTMLElement>("#guided-pilot .overflow-x-auto").forEach((region) => {
+        region.tabIndex = 0;
+        region.setAttribute("role", "region");
+        region.setAttribute("aria-label", "Scrollable benefits source-readiness table");
+      });
+    };
+
+    makeScrollableRegionsKeyboardAccessible();
+    const pilot = document.getElementById("guided-pilot");
+    if (!pilot) return undefined;
+
+    const observer = new MutationObserver(makeScrollableRegionsKeyboardAccessible);
+    observer.observe(pilot, { childList: true, subtree: true });
+    return () => observer.disconnect();
   }, []);
 
   const openCommitmentForm = () => {

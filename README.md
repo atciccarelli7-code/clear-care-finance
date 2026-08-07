@@ -9,6 +9,7 @@ The site explains workplace benefits, insurance, retirement accounts, Medicare, 
 - Audience guides for healthcare workers and patients or caregivers
 - Eight reusable topic hubs
 - Source-backed articles and a searchable glossary
+- Hospital Financial Assistance & Medical Bill Relief Finder with a reviewed 18-system launch set
 - Five educational calculators
 - Medicare and Medicaid comparisons, definitions, warnings, and related resources
 - Responsive navigation and shared layout components
@@ -59,6 +60,8 @@ Run premium unit, schema, and production-bundle boundary checks:
     npm run build
 
 The public product page is `/products/healthcare-worker-benefits-decision-system`. Account and application routes fail closed until Supabase is configured. Stripe checkout remains disabled unless the complete server-side test configuration and explicit feature flags pass the release checks.
+
+The hospital-assistance product uses `/tools/financial-assistance-checklist` as its canonical guided-tool URL. Its data model and maintenance process are documented in `docs/hospital-financial-assistance-data-governance.md`; no patient-identifying information or uploaded bills are collected by the initial release.
 
 The Vite development server uses port 8080 by default.
 

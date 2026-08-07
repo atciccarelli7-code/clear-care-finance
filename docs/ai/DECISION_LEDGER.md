@@ -183,6 +183,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** Twenty-eight days; adequate consented completion evidence; direct usability feedback; lower completion or increased backtracking; any accessibility, search, analytics, route, or truthfulness defect; or a proposal to migrate the remaining articles.
 - **Supersedes:** Independent global endcap composition and generic `Open the tool` primary labels. It does not supersede specialized result events, the active insurance/service-navigation evidence contracts, or typed Decision Outcomes.
 
+### CAF-D-015 — Source-governed hospital-assistance flagship
+
+- **Date:** 2026-08-06
+- **Status:** CONFIRMED
+- **Decision:** Make Hospital Financial Assistance & Medical Bill Relief the first search-demand flagship: preserve the indexed `/tools/financial-assistance-checklist` route, add one national hub, one complete North Carolina hub, and only reviewed system pages with official sources and meaningful unique policy data. Keep the launch browser-temporary, avoid PHI, and never state that a user qualifies.
+- **Rationale:** The user job is consequential and action-oriented, the existing medical-bill ecosystem provides reusable adjacent workflows, an earlier Search Console baseline showed the existing resource at 10 impressions and average position 4.8, and source availability supports a high-quality bounded launch set. A mass directory or second finder URL would create thin content and maintenance risk.
+- **Evidence:** Current main/production and route inventory; settled Search Console exports reconciled 2026-07-29; HHS/ASPE 2026 poverty guidelines; IRS Section 501(r); current NCDHHS program; official hospital/system policies and applications; Product 1 tests/build; `docs/work-packets/2026-08-06-search-demand-product-buildout.md`.
+- **Consequences:** Eighteen policy records and 20 new canonical hub/policy routes enter the maintained product system; one finder alias permanently redirects to the existing tool route; missing terms remain missing; Product 2–6 shells are not published; no Supabase migration, upload, payment, or account state is added.
+- **Revisit trigger:** Any policy/source/calculation/privacy defect; January 2027 annual review; 30/60/90-day search and product evidence; a hospital merger or source change; or evidence that a new state can meet the same source and maintenance standard.
+- **Supersedes:** The earlier checklist-level implementation at the same canonical tool route. It does not supersede the broader Medical Bill Response System or distinct supporting articles/tools.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

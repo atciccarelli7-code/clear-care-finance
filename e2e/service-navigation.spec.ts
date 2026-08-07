@@ -64,7 +64,7 @@ test("desktop and intermediate-width visitors can discover free services and the
   const flagship = dialog.getByRole("link", { name: /Benefits Decision System/ });
   await expect(flagship).toContainText(/coordinated open-enrollment decision support/i);
   await expect(dialog.getByRole("link", { name: /Compare job offers/ })).toContainText(/beyond hourly pay/i);
-  await expect(dialog.getByRole("link", { name: /Medical Bill Review/ })).toContainText(/EOB and provider bill/i);
+  await expect(dialog.getByRole("link", { name: /Hospital Bill & Assistance/ })).toContainText(/financial-assistance policy/i);
   await expect(dialog.getByRole("link", { name: /Hospital & Patient Guide/ })).toContainText(/discharge/i);
 
   await expectNoHorizontalOverflow(page);
@@ -125,7 +125,7 @@ test("320-pixel mobile navigation groups choices and restores focus on Escape", 
   await expect(mobileNav.getByText("Free education and trusted sources")).toBeVisible();
 
   const patientGroup = await ensureDisclosureOpen(mobileNav, "Patient and caregiver decisions");
-  await expect(patientGroup.getByRole("link", { name: /Medical Bill Review/ })).toBeVisible();
+  await expect(patientGroup.getByRole("link", { name: /Hospital Bill & Assistance/ })).toBeVisible();
   await expect(patientGroup.getByRole("link", { name: /Prior Authorization Next Step/ })).toBeVisible();
 
   await expectNoHorizontalOverflow(page);

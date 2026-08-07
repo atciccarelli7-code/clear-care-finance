@@ -101,16 +101,16 @@ const BenefitsCommandCenterPage = () => (
             <Layers3 className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Free preparation versus paid guided completion</div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Focused comparison and full guided workflow</div>
             <h2 id="full-system-preview-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
-              Bring the documents and know your situation. The full system guides the rest.
+              Use this comparison for a focused package. Use the full system for open enrollment.
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              This focused comparison remains free. It is manual preparation. Need to coordinate the full open-enrollment decision? The planned paid system begins with the current documents that apply to the purchaser and plain-language questions about household coverage, expected use, risk tolerance, priorities, and employment horizon. It then coordinates source confirmation, prescriptions and networks, saved work, deadlines, verification, scenarios, and the final Benefits Decision Brief. Checkout, paid access, and private document upload remain off.
+              This comparison organizes compensation and benefits manually. The full Benefits Decision System adds an eight-stage open-enrollment workflow for household coverage, plan costs, prescriptions and networks, accounts, retirement, protection benefits, deadlines, source readiness, verification tasks, and the printable Benefits Decision Brief. Both public workflows are available now; the full system keeps progress in your browser and does not accept confidential document uploads.
             </p>
           </div>
           <Button asChild variant="outline">
-            <Link to="/healthcare-workers#benefits-decision-system">See the guided system</Link>
+            <Link to="/products/healthcare-worker-benefits-decision-system">Open the full Decision System</Link>
           </Button>
         </div>
       </section>
@@ -118,7 +118,7 @@ const BenefitsCommandCenterPage = () => (
       <section id="entry-modes" className="container min-w-0 scroll-mt-24 py-10 md:py-14" aria-labelledby="entry-modes-title">
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Choose another way to begin</div>
-          <h2 id="entry-modes-title" className="mt-2 font-display text-2xl font-bold md:text-3xl">Four direct entry modes remain available.</h2>
+          <h2 id="entry-modes-title" className="mt-2 font-display text-2xl font-bold md:text-3xl">Four direct entry modes are available.</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Mode names are fixed and URL-safe. Package values and answers never enter the URL.</p>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

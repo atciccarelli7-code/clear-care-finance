@@ -16,7 +16,6 @@ import {
   Clock,
   FileSearch,
   GraduationCap,
-  LockKeyhole,
   PiggyBank,
   Receipt,
   Scale,
@@ -27,10 +26,10 @@ import {
   Wallet,
 } from "lucide-react";
 
-const paidValue = [
+const systemValue = [
   {
     icon: BookOpenCheck,
-    title: "One connected workspace",
+    title: "One connected workflow",
     description: "Coordinate medical, prescriptions, HSA or HRA, FSA, retirement, disability, life, supplemental benefits, dependents, and paycheck effects in one review.",
   },
   {
@@ -55,14 +54,14 @@ const HealthcareWorkers = () => {
     <>
       <PageHero
         eyebrow="For nurses & healthcare workers"
-        title="Learn workplace benefits for free. Use one guided system when the decision gets complicated."
-        description="CAF keeps explanations, calculators, and checklists public. The paid flagship is designed for the person who brings the current benefits documents and knows their personal situation—but should not have to become a benefits expert to make the decision."
+        title="Understand your benefits. Finish the decision with one guided system."
+        description="CAF keeps explanations, calculators, and checklists public. When open enrollment or a new job creates several connected choices, the Benefits Decision System organizes the current documents, tradeoffs, unknowns, and final verification steps in one browser-local workflow."
       >
         <Button asChild variant="hero" size="lg">
           <a href="#benefits-decision-system">See the guided Decision System <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <Link to="/open-enrollment">Use the free open-enrollment guide</Link>
+          <Link to="/open-enrollment">Use the open-enrollment guide</Link>
         </Button>
       </PageHero>
 
@@ -70,20 +69,20 @@ const HealthcareWorkers = () => {
         <div className="overflow-hidden rounded-[2rem] border border-primary/25 bg-card shadow-card">
           <div className="grid gap-6 border-b border-border bg-primary-soft/25 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-9">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">CAF's single paid flagship</div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">CAF's guided healthcare-worker flagship</div>
               <h2 id="benefits-decision-system-heading" className="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">
                 Healthcare Worker Benefits Decision System
               </h2>
               <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                The purchaser brings the official plan-year documents that apply to them and answers plain-language questions about their household, healthcare-use pattern, budget, priorities, and employment horizon. CAF coordinates the evidence, calculations, tradeoffs, verification work, and final decision brief.
+                Bring the official plan-year documents that apply to you and answer plain-language questions about household coverage, healthcare use, budget, priorities, and employment horizon. CAF organizes the evidence, calculations, tradeoffs, verification work, and final decision brief.
               </p>
             </div>
-            <div className="rounded-2xl border border-border bg-background px-5 py-4 text-sm">
+            <div className="rounded-2xl border border-primary/20 bg-background px-5 py-4 text-sm">
               <div className="flex items-center gap-2 font-bold text-foreground">
-                <LockKeyhole className="h-4 w-4 text-primary" aria-hidden="true" /> Preview only
+                <CheckCircle2 className="h-4 w-4 text-primary" aria-hidden="true" /> Available now · free
               </div>
               <p className="mt-1 max-w-[18rem] leading-relaxed text-muted-foreground">
-                Planned early-access test: <strong className="text-foreground">$29 one time</strong>. Checkout and paid access remain off. Private document upload also remains off.
+                Complete the public workflow in your browser. No account, payment, confidential document upload, or cloud storage is required.
               </p>
             </div>
           </div>
@@ -93,11 +92,11 @@ const HealthcareWorkers = () => {
 
             <div className="mt-10">
               <div className="mb-5">
-                <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">What the purchase coordinates</div>
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">What the system coordinates</div>
                 <h3 className="mt-2 font-display text-2xl font-bold">The value is guided completion—not access to definitions.</h3>
               </div>
               <div className="grid gap-5 md:grid-cols-2">
-                {paidValue.map(({ icon: Icon, title, description }) => (
+                {systemValue.map(({ icon: Icon, title, description }) => (
                   <article key={title} className="rounded-2xl border border-border bg-background/70 p-5">
                     <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
                     <h3 className="mt-3 font-display text-xl font-bold">{title}</h3>
@@ -110,18 +109,18 @@ const HealthcareWorkers = () => {
             <div className="mt-7 grid gap-5 rounded-2xl border border-border bg-muted/20 p-5 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <div className="flex items-center gap-2 text-sm font-bold text-foreground">
-                  <CheckCircle2 className="h-4 w-4 text-primary" aria-hidden="true" /> Free resources remain useful on their own
+                  <CheckCircle2 className="h-4 w-4 text-primary" aria-hidden="true" /> Focused resources remain useful on their own
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  Definitions, deadlines, official links, single-purpose calculators, the Benefits Blueprint, the free Benefits Comparison Workspace, and the open-enrollment guide remain public. The paid value is coordination, saved work, source control, guided review, and the final brief.
+                  Definitions, deadlines, official links, single-purpose calculators, the Benefits Blueprint, the Benefits Comparison Workspace, and the open-enrollment guide remain public. Use the guided system when you want those pieces coordinated into one review and printable brief.
                 </p>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row">
                 <Button asChild>
-                  <Link to="/tools/benefits-command-center">Prepare with the free workspace</Link>
+                  <Link to="/products/healthcare-worker-benefits-decision-system">Start the full guided system</Link>
                 </Button>
                 <Button asChild variant="outline">
-                  <Link to="/tools#all-tools">Browse all free tools</Link>
+                  <Link to="/tools/benefits-command-center">Use the benefits comparison</Link>
                 </Button>
               </div>
             </div>
@@ -154,16 +153,16 @@ const HealthcareWorkers = () => {
 
       <section className="container py-10 md:py-14">
         <NextStepCards
-          eyebrow="Free education and tools"
-          title="Solve one bounded decision without paying"
-          description="Use the focused public resource that matches the immediate question. The paid system becomes relevant only when several benefit decisions must be coordinated and preserved together."
+          eyebrow="Education and focused tools"
+          title="Solve one bounded decision without using the full workflow"
+          description="Use the focused public resource that matches the immediate question. The guided system is most useful when several benefit decisions need to be coordinated and reviewed together."
           cards={[
             {
               eyebrow: "Open enrollment",
               title: "Open Enrollment Guide",
               description: "Prepare the documents, costs, networks, prescriptions, accounts, and questions that matter before making elections.",
               href: "/open-enrollment",
-              cta: "Open the free guide",
+              cta: "Open the guide",
             },
             {
               eyebrow: "Compare opportunities",

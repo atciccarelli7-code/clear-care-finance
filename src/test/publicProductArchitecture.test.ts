@@ -10,6 +10,7 @@ const toolsSource = source("src/pages/Tools.tsx");
 const workerSource = source("src/pages/HealthcareWorkers.tsx");
 const journeySource = source("src/components/benefits/BenefitsDecisionSystemJourney.tsx");
 const comparisonSource = source("src/pages/BenefitsCommandCenterPage.tsx");
+const workflowSource = source("src/components/premium/OpenEnrollmentPilot.tsx");
 const navigationSource = source("src/data/serviceNavigation.ts");
 const footerSource = source("src/components/layout/Footer.tsx");
 const appSource = source("src/App.tsx");
@@ -23,75 +24,82 @@ const routeEndcapSource = source("src/components/layout/routeEndcap.ts");
 const vercelSource = source("vercel.json");
 const sitemapGeneratorSource = source("scripts/generate-sitemap.mjs");
 
-const FLAGSHIP_PREVIEW_PATH = "/healthcare-workers#benefits-decision-system";
 const OFFER_PATH = "/products/healthcare-worker-benefits-decision-system";
+const publicProductSource = [
+  indexSource,
+  startHereSource,
+  toolsSource,
+  workerSource,
+  journeySource,
+  comparisonSource,
+  workflowSource,
+  footerSource,
+  offerPageSource,
+  siteSeoMetaSource,
+].join("\n");
 
-describe("free-core and single-flagship public product architecture", () => {
-  it("makes the free layer explicit across the primary public surfaces", () => {
-    expect(indexSource).toContain("Free decision preparation. Paid decision completion.");
-    expect(toolsSource).toContain("Use every public tool on this page without paying.");
-    expect(startHereSource).toContain("Start Here and every public calculator remain free.");
-    expect(workerSource).toContain("Learn workplace benefits for free.");
-    expect(footerSource).toContain("Free resources");
+const leakedReleaseState = [
+  "Checkout off",
+  "checkout remains disabled",
+  "paid access remain off",
+  "not available for purchase yet",
+  "Planned early-access test",
+  "Working end-to-end pilot",
+  "Working public pilot",
+  "Browser-local product pilot",
+  "Try the guided pilot",
+  "Open the full guided pilot",
+  "I would consider it at $29",
+  "This would be worth $29 to me",
+  "Premium foundation built",
+  "being prepared",
+] as const;
+
+describe("finished public product architecture", () => {
+  it("presents the public benefits system as a complete free browser-local workflow", () => {
+    expect(indexSource).toContain("Guided workflows available now");
+    expect(indexSource).toContain("Free · available now");
+    expect(startHereSource).toContain("complete browser-local Benefits Decision System now");
+    expect(toolsSource).toContain("Free · browser-local");
+    expect(workerSource).toContain("Available now · free");
+    expect(offerPageSource).toContain("Start the guided system");
+    expect(workflowSource).toContain("Browser-local decision system");
+    expect(footerSource).toContain("Benefits Decision System");
   });
 
-  it("presents exactly one visible paid flagship and keeps other product ideas out of public IA", () => {
-    const publicSurfaceSource = [indexSource, startHereSource, toolsSource, workerSource, footerSource, offerPageSource].join("\n");
-
-    expect(publicSurfaceSource).toContain("Healthcare Worker Benefits Decision System");
-    expect(publicSurfaceSource).toContain("Open Enrollment Workspace");
-    expect(publicSurfaceSource).not.toContain("Medical Bill Response & Resolution System");
-    expect(publicSurfaceSource).not.toContain("Healthcare Money Decision Library");
+  it("keeps internal release-state and price-test language out of core public surfaces", () => {
+    for (const phrase of leakedReleaseState) expect(publicProductSource).not.toContain(phrase);
   });
 
-  it("keeps broad navigation on the worker hub while linking high-intent users to the full pilot", () => {
-    for (const publicSource of [indexSource, startHereSource, toolsSource, comparisonSource, navigationSource, footerSource]) {
-      expect(publicSource).toContain(FLAGSHIP_PREVIEW_PATH);
+  it("links primary public surfaces to the canonical completed workflow", () => {
+    for (const publicSource of [indexSource, startHereSource, toolsSource, comparisonSource, journeySource, workerSource]) {
+      expect(publicSource).toContain(OFFER_PATH);
     }
-    expect(journeySource).toContain(OFFER_PATH);
-    expect(journeySource).toContain("Open the full guided pilot");
+    expect(navigationSource).toContain("/healthcare-workers");
     expect(offerHandoffSource).toContain(OFFER_PATH);
     expect(routeEndcapSource).toContain("/tools/healthcare-worker-total-compensation-comparison");
-    expect(routeEndcapSource).toContain('return "benefits_offer_validation"');
   });
 
-  it("renders the dedicated offer as an indexable canonical product pilot", () => {
+  it("renders the dedicated workflow as an indexable free WebApplication", () => {
     expect(siteSeoMetaSource).toContain(OFFER_PATH);
     expect(siteSeoMetaSource).toContain("robots: indexed");
     expect(siteSeoMetaSource).toContain('"@type": "WebApplication"');
     expect(siteSeoMetaSource).toContain("isAccessibleForFree: true");
+    expect(siteSeoMetaSource).toContain("free browser-local Benefits Decision System");
     expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_PATH");
     expect(phase3AppSource).toContain("BENEFITS_DECISION_OFFER_META");
     expect(vercelSource).not.toContain(`"source": "${OFFER_PATH}"`);
     expect(sitemapGeneratorSource).toContain(OFFER_PATH);
   });
 
-  it("keeps the focused benefits comparison free and subordinate to the complete system", () => {
+  it("keeps the focused benefits comparison free and clearly subordinate to the complete system", () => {
     expect(comparisonSource).toContain("Free workplace-benefits comparison");
-    expect(comparisonSource).toContain("This focused comparison remains free.");
-    expect(comparisonSource).toContain("Need to coordinate the full open-enrollment decision?");
+    expect(comparisonSource).toContain("Use this comparison for a focused package. Use the full system for open enrollment.");
+    expect(comparisonSource).toContain("Both public workflows are available now");
     expect(comparisonSource).not.toContain("CAF Benefits Command Center");
   });
 
-  it("collects a price-qualified commitment without payment-session logic or arbitrary product data", () => {
-    expect(offerPageSource).toContain("$29 one time");
-    expect(offerFormSource).toContain("priceCommitment");
-    expect(offerFormSource).toContain("emailConsent");
-    expect(offerFormSource).toContain("No card. No checkout. No charge.");
-    expect(offerFormSource).toContain("offerVersion: OFFER_VERSION");
-    expect(offerFormSource).toContain("priceCents: OFFER_PRICE_CENTS");
-    expect(offerFormSource).not.toMatch(/createCheckoutSession|checkoutSession|paymentIntent|priceId|card number/i);
-  });
-
-  it("isolates the protected Stripe test panel from the default no-charge form", () => {
-    expect(offerFormSource).toContain("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED");
-    expect(offerFormSource).toContain('lazy(() => import("@/components/premium/PremiumTestCheckoutPanel")');
-    expect(testCheckoutPanelSource).toContain("Protected test-mode certification");
-    expect(testCheckoutPanelSource).toContain("Test mode only · No real charge · No production access");
-    expect(testCheckoutPanelSource).toContain("createCheckoutSession(auth.accessToken)");
-  });
-
-  it("keeps commerce fail closed while showing the $29 validation hypothesis", () => {
+  it("keeps dormant paid-commerce infrastructure fail closed and off the public offer page", () => {
     const flagship = PAID_PRODUCTS.find((product) => product.id === "healthcare-worker-benefits-decision-system");
 
     expect(flagship).toMatchObject({
@@ -101,8 +109,19 @@ describe("free-core and single-flagship public product architecture", () => {
       checkoutUrl: "",
     });
     expect(isPaidCommerceEnabled()).toBe(false);
-    expect(workerSource).toContain("Checkout and paid access remain off.");
-    expect(indexSource).toContain("it is not available for purchase yet");
+    expect(offerPageSource).not.toContain("BenefitsEarlyAccessForm");
+    expect(offerPageSource).not.toContain("PAID_PRODUCTS");
+    expect(offerPageSource).not.toContain("recordBenefitsOfferCta");
+    expect(offerPageSource).not.toContain("$29");
+  });
+
+  it("preserves private validation and test-mode commerce components without exposing them publicly", () => {
+    expect(offerFormSource).toContain("priceCommitment");
+    expect(offerFormSource).toContain("emailConsent");
+    expect(offerFormSource).toContain("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED");
+    expect(testCheckoutPanelSource).toContain("Protected test-mode certification");
+    expect(testCheckoutPanelSource).toContain("Test mode only · No real charge · No production access");
+    expect(testCheckoutPanelSource).toContain("createCheckoutSession(auth.accessToken)");
   });
 
   it("preserves private application route boundaries", () => {

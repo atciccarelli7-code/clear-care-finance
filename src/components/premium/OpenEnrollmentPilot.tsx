@@ -193,7 +193,7 @@ const electionOptions: Array<{ value: ElectionChoice; label: string }> = [
   { value: "not-offered", label: "Not offered" },
 ];
 
-export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void }) => {
+export const OpenEnrollmentPilot = () => {
   const [state, setState] = useState<OpenEnrollmentPilotState>(readState);
   const progress = getOpenEnrollmentProgress(state);
   const stepIndex = openEnrollmentStepIds.indexOf(state.currentStep);
@@ -220,7 +220,7 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
   };
   const back = () => go(openEnrollmentStepIds[Math.max(stepIndex - 1, 0)]);
   const reset = () => {
-    if (!window.confirm("Clear this browser-local pilot and start over?")) return;
+    if (!window.confirm("Clear this browser-local workflow and start over?")) return;
     try { window.localStorage.removeItem(STORAGE_KEY); } catch { /* no-op */ }
     setState(createOpenEnrollmentPilotState());
   };
@@ -277,7 +277,7 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
           ))}
         </div>
         <OpenEnrollmentSourceAssistant state={state} onStateChange={setState} />
-        <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950"><strong>Privacy boundary:</strong> this pilot does not accept uploads. Do not enter names, member IDs, claims, diagnoses, account numbers, credentials, or confidential documents.</div>
+        <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950"><strong>Privacy boundary:</strong> this workflow does not accept uploads. Do not enter names, member IDs, claims, diagnoses, account numbers, credentials, or confidential documents.</div>
       </div>
     );
 
@@ -307,7 +307,7 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
           <div><Label htmlFor="pilot-dependent-care">Dependent-care FSA</Label><Select id="pilot-dependent-care" value={state.dependentCareFsa} onChange={(value) => setState((current) => ({ ...current, dependentCareFsa: value as ElectionChoice }))}>{electionOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</Select></div>
           <div><Label htmlFor="pilot-pay-periods">Paychecks per year</Label><NumberInput id="pilot-pay-periods" value={state.payPeriods} onChange={(value) => setState((current) => ({ ...current, payPeriods: value }))} max={53} /></div>
         </div>
-        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">The pilot organizes the election but does not determine tax eligibility. Verify HSA, HRA, FSA, and dependent-care rules in the official materials.</p>
+        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">The workflow organizes the election but does not determine tax eligibility. Verify HSA, HRA, FSA, and dependent-care rules in the official materials.</p>
       </div>
     );
 
@@ -377,7 +377,7 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
           {(state.sourceAssistance.a || state.sourceAssistance.b) && <p className="mt-4 text-xs leading-relaxed text-muted-foreground">Browser-local source assistance contributed user-confirmed structured values to {state.sourceAssistance.a ? state.plans.a.label || "Plan A" : ""}{state.sourceAssistance.a && state.sourceAssistance.b ? " and " : ""}{state.sourceAssistance.b ? state.plans.b.label || "Plan B" : ""}. Raw excerpts and files were not retained.</p>}
         </section>
         <section className="mt-5 rounded-2xl border border-primary/25 bg-primary-soft/25 p-5"><h5 className="font-display text-xl font-bold">Final submission checklist</h5><ul className="mt-4 space-y-2 text-sm text-muted-foreground"><li>• Enter elections in the employer’s official portal.</li><li>• Review dependents, payroll costs, beneficiaries, and effective dates.</li><li>• Save the confirmation number or confirmation screen.</li><li>• Retain this plan with the controlling documents.</li></ul><label className="mt-5 flex items-start gap-3 rounded-xl border border-border bg-background p-4 text-sm"><input type="checkbox" checked={state.finalReviewAcknowledged} onChange={(event) => acknowledge(event.target.checked)} className="mt-0.5 h-5 w-5 rounded border-border" /><span>I reviewed the planned elections, unresolved items, and official submission steps.</span></label></section>
-        <div className="mt-6 flex flex-wrap gap-3 print:hidden"><Button type="button" onClick={printDecisionBrief}><Printer className="h-4 w-4" />Print Benefits Decision Brief</Button><Button type="button" variant="outline" onClick={onCommitment}>This would be worth $29 to me</Button><Button type="button" variant="ghost" onClick={reset}><RotateCcw className="h-4 w-4" />Start over</Button></div>
+        <div className="mt-6 flex flex-wrap gap-3 print:hidden"><Button type="button" onClick={printDecisionBrief}><Printer className="h-4 w-4" />Print Benefits Decision Brief</Button><Button type="button" variant="ghost" onClick={reset}><RotateCcw className="h-4 w-4" />Start over</Button></div>
         {state.finalReviewAcknowledged && <div className="mt-5 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm text-emerald-950" role="status"><CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" /><span>The planning workflow is complete. Submit only through the official employer portal and retain confirmation.</span></div>}
       </div>
     );
@@ -389,7 +389,7 @@ export const OpenEnrollmentPilot = ({ onCommitment }: { onCommitment: () => void
         <div className="mx-auto max-w-7xl">
           <div className="print:hidden">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-            <div><div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Browser-local product pilot</div><h2 id="guided-pilot-heading" className="mt-2 font-display text-3xl font-bold md:text-4xl">Complete an open-enrollment election plan</h2><p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">One focused decision stage at a time. Answers remain in this browser. No account, payment, document upload, or cloud storage is activated.</p></div>
+            <div><div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Browser-local decision system</div><h2 id="guided-pilot-heading" className="mt-2 font-display text-3xl font-bold md:text-4xl">Complete an open-enrollment election plan</h2><p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">One focused decision stage at a time. Answers remain in this browser. No account, payment, confidential document upload, or cloud storage is required.</p></div>
               <div className="min-w-[15rem] rounded-2xl border border-border bg-background p-4"><div className="flex justify-between text-sm font-semibold"><span>Useful completion</span><span>{progress}%</span></div><Progress value={progress} className="mt-3 h-2" /></div>
             </div>
             <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{steps.map((step, index) => { const active = step.id === state.currentStep; const complete = isOpenEnrollmentStepComplete(state, step.id); return <button key={step.id} type="button" onClick={() => go(step.id)} className={`rounded-xl border p-3 text-left ${active ? "border-primary bg-primary-soft/35" : "border-border bg-background"}`}><div className="flex items-center gap-2 text-sm font-bold"><span className="grid h-6 w-6 place-items-center rounded-full bg-muted text-xs">{complete ? "✓" : index + 1}</span>{step.title}</div><p className="mt-1 text-xs text-muted-foreground">{step.description}</p></button>; })}</div>

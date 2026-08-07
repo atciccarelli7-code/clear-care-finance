@@ -123,22 +123,22 @@ const Tools = () => {
         <div className="grid gap-5 rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 shadow-card md:grid-cols-[1fr_auto] md:items-center md:p-8">
           <div>
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">
-              <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Free layer
+              <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Public tools
             </div>
             <h2 id="free-tool-boundary-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
               A useful result stays free.
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              CAF charges only when a larger system coordinates several decisions, preserves work, tracks source status, and produces a final brief. Basic explanations, official verification links, deadlines, and single-purpose results remain public.
+              Use a focused tool for one bounded question. When several workplace-benefit decisions need to be coordinated together, the complete Benefits Decision System is also available as a free browser-local workflow.
             </p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
             <Button asChild>
-              <Link to="/healthcare-workers#benefits-decision-system">
-                Preview the Decision System <ArrowRight className="h-4 w-4" />
+              <Link to="/products/healthcare-worker-benefits-decision-system">
+                Open the Decision System <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <span className="text-center text-xs font-semibold text-muted-foreground">Preview only · checkout off</span>
+            <span className="text-center text-xs font-semibold text-muted-foreground">Free · browser-local</span>
           </div>
         </div>
       </section>
@@ -258,14 +258,14 @@ const Tools = () => {
             <Layers3 className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Need a coordinated workflow?</div>
-            <h2 id="coordinated-workflow-heading" className="mt-2 font-display text-2xl font-bold">The paid system connects tools that remain free individually.</h2>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Need a coordinated benefits workflow?</div>
+            <h2 id="coordinated-workflow-heading" className="mt-2 font-display text-2xl font-bold">Use the Benefits Decision System when several choices connect.</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              The Open Enrollment Workspace will combine plan costs, prescriptions, accounts, retirement, protection benefits, deadlines, verification questions, saved progress, and a final decision brief. It is not available for purchase yet.
+              The guided workflow brings plan costs, prescriptions, accounts, retirement, protection benefits, deadlines, verification questions, browser-local progress, and a final decision brief into one sequence. It is available now without an account or purchase.
             </p>
           </div>
           <Button asChild variant="outline">
-            <Link to="/healthcare-workers#benefits-decision-system">See the flagship preview</Link>
+            <Link to="/products/healthcare-worker-benefits-decision-system">Open the guided system</Link>
           </Button>
         </div>
       </section>

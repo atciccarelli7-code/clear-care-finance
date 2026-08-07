@@ -11,14 +11,14 @@ export const BENEFITS_DECISION_OFFER_PATH = "/products/healthcare-worker-benefit
 
 export const BENEFITS_DECISION_OFFER_META: SeoRouteMeta = {
   title: "Healthcare Worker Benefits Decision System",
-  description: "Try CAF's open-enrollment pilot and review the planned $29 workspace. Free benefits tools stay free.",
+  description: "Use CAF's free browser-local Benefits Decision System to organize open-enrollment choices, verification tasks, and a printable Benefits Decision Brief.",
   canonicalPath: BENEFITS_DECISION_OFFER_PATH,
   robots: indexed,
   jsonLd: [
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "CAF Benefits Pilot",
+      name: "Healthcare Worker Benefits Decision System",
       isAccessibleForFree: true,
     },
   ],
@@ -38,7 +38,7 @@ const diagnosisGuideOverrides = Object.fromEntries(
 const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "robots">> = {
   "/": {
     title: "Healthcare Financial Education and Decision Support",
-    description: "Free RN-led guides, calculators, and checklists for healthcare workers, patients, and caregivers, plus a healthcare-worker benefits decision system in development.",
+    description: "Free RN-led guides, calculators, checklists, and guided workflows for healthcare workers, patients, and caregivers.",
   },
   "/start-here": {
     title: "Financial Navigator: Build Your Next Money Action Plan",
@@ -46,7 +46,7 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
   },
   "/healthcare-workers": {
     title: "Healthcare Worker Benefits, Pay, and Financial Decisions",
-    description: "Use free healthcare-worker benefits, compensation, retirement, paycheck, and open-enrollment resources, and preview CAF's planned Benefits Decision System.",
+    description: "Use healthcare-worker benefits, compensation, retirement, paycheck, and open-enrollment resources, including CAF's guided Benefits Decision System.",
   },
   "/build-wealth": {
     title: "Financial Independence, Retirement, and Investing",
@@ -106,7 +106,7 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
 
 const benefitsCommandCenterMeta: SeoRouteMeta = {
   title: "Free Workplace Benefits Comparison",
-  description: "Build or preview a free Benefits Receipt that compares pay, health-plan exposure, retirement benefits, paid leave, employer contributions, vesting, and hidden benefits.",
+  description: "Build or explore a sample Benefits Receipt that compares pay, health-plan exposure, retirement benefits, paid leave, employer contributions, vesting, and hidden benefits.",
   canonicalPath: "/tools/benefits-command-center",
   robots: indexed,
   jsonLd: [
@@ -123,7 +123,7 @@ const benefitsCommandCenterMeta: SeoRouteMeta = {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       name: "Free Workplace Benefits Comparison",
-      description: "Build or preview a free Benefits Receipt that compares pay, health-plan exposure, retirement benefits, paid leave, employer contributions, vesting, and hidden benefits.",
+      description: "Build or explore a sample Benefits Receipt that compares pay, health-plan exposure, retirement benefits, paid leave, employer contributions, vesting, and hidden benefits.",
       url: `${SITE_URL}/tools/benefits-command-center`,
       applicationCategory: "FinanceApplication",
       operatingSystem: "Any",

@@ -234,3 +234,20 @@
   .text-balance { text-wrap: balance; }
   .break-anywhere { overflow-wrap: anywhere; }
 }
+
+/* Keep wide decision tables scrollable inside the premium pilot instead of
+   allowing their min-content width to expand the mobile document viewport. */
+#guided-pilot .container,
+#guided-pilot .container > div,
+#guided-pilot .container > div > div,
+#guided-pilot section,
+#guided-pilot article,
+#guided-pilot [class*="grid"] > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+#guided-pilot .overflow-x-auto {
+  width: 100%;
+  max-width: 100%;
+}

@@ -9,6 +9,7 @@ const startHereSource = source("src/pages/StartHere.tsx");
 const toolsSource = source("src/pages/Tools.tsx");
 const workerSource = source("src/pages/HealthcareWorkers.tsx");
 const journeySource = source("src/components/benefits/BenefitsDecisionSystemJourney.tsx");
+const journeyDataSource = source("src/data/benefitsDecisionSystemJourney.ts");
 const comparisonSource = source("src/pages/BenefitsCommandCenterPage.tsx");
 const workflowSource = source("src/components/premium/OpenEnrollmentPilot.tsx");
 const navigationSource = source("src/data/serviceNavigation.ts");
@@ -31,6 +32,7 @@ const publicProductSource = [
   toolsSource,
   workerSource,
   journeySource,
+  journeyDataSource,
   comparisonSource,
   workflowSource,
   footerSource,
@@ -53,6 +55,8 @@ const leakedReleaseState = [
   "This would be worth $29 to me",
   "Premium foundation built",
   "being prepared",
+  "not activated until",
+  "separately certified",
 ] as const;
 
 describe("finished public product architecture", () => {

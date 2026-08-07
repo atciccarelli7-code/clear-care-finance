@@ -74,8 +74,10 @@ test("priority articles present one dominant direct handoff without a stacked gl
 
 test("healthcare-worker hub presents one guided flagship and keeps focused actions subordinate", async ({ page }) => {
   await page.goto("/healthcare-workers", { waitUntil: "networkidle" });
+  const flagshipSection = page.locator("#benefits-decision-system");
   await expect(page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true })).toHaveCount(1);
-  await expect(page.locator("#benefits-decision-system").getByText("Available now · free", { exact: true })).toHaveCount(1);
+  await expect(flagshipSection.getByText("Available now · free", { exact: true }).first()).toBeVisible();
+  await expect(flagshipSection.getByText(/Complete the public workflow in your browser\. No account, payment, confidential document upload, or cloud storage is required\./)).toBeVisible();
   await expect(page.getByRole("link", { name: /See the guided Decision System/i })).toHaveAttribute("href", "#benefits-decision-system");
   await expect(page.getByRole("link", { name: /Use the open-enrollment guide/i }).first()).toHaveAttribute("href", "/open-enrollment");
   await expect(page.getByText(/single paid flagship|planned early-access|checkout off/i)).toHaveCount(0);

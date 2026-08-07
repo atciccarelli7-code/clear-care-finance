@@ -149,7 +149,7 @@ export const benefitsDecisionSituationItems: BenefitsDecisionSituationItem[] = [
 
 export const benefitsDecisionSystemBoundary = {
   currentRelease: "Preparation, source identification, guided comparison, verification planning, and decision-brief architecture.",
-  uploadGate: "Private document upload, storage, extraction, and deletion are not activated until access control, encryption, malware scanning, retention, deletion, source citation, and incident-response controls are separately certified.",
+  uploadGate: "This public workflow does not accept or store private document uploads. Use current official plan materials for reference and keep sensitive identifiers, claims, medical records, account credentials, and payment information out of the workflow.",
   controllingDocuments: "Official employer, carrier, and plan documents control. CAF organizes user-provided information and planning estimates; it does not replace the employer, plan administrator, carrier, attorney, tax professional, or licensed adviser.",
   prohibitedData: [
     "Social Security numbers",

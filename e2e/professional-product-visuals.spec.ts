@@ -43,7 +43,8 @@ test("captures the healthcare-worker flagship preview", async ({ page }, testInf
   await expect(page.getByRole("heading", { level: 1, name: /Learn workplace benefits for free/i })).toBeVisible();
   const previewHeading = page.getByRole("heading", { name: "Healthcare Worker Benefits Decision System", exact: true });
   await expect(previewHeading).toBeVisible();
-  await expect(page.getByText(/Checkout and paid access remain off/i)).toBeVisible();
+  const releaseBoundary = page.locator("#benefits-decision-system").getByText(/Planned early-access test:/i);
+  await expect(releaseBoundary).toContainText(/Checkout and paid access remain off/i);
   await capture(page, testInfo, "benefits-decision-system-preview", previewHeading);
 });
 

@@ -17,7 +17,7 @@ export type EntitlementTransition =
 export const transitionEntitlement = (current: EntitlementStatus | null, transition: EntitlementTransition): EntitlementStatus => {
   switch (transition.type) {
     case "mark_processing": return current === "active" || current === "test" ? current : "processing";
-    case "grant": return transition.test ? "test" : "active";
+    case "grant": return current === "refunded" ? "refunded" : transition.test ? "test" : "active";
     case "payment_failed": return current === "active" || current === "test" ? current : "revoked";
     case "refund": return "refunded";
     case "revoke": return "revoked";

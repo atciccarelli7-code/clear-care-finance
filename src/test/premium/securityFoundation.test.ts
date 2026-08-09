@@ -141,6 +141,8 @@ describe("entitlement and webhook transitions", () => {
     expect(transitionEntitlement(null, { type: "mark_processing" })).toBe("processing");
     expect(transitionEntitlement("processing", { type: "grant" })).toBe("active");
     expect(transitionEntitlement("active", { type: "refund" })).toBe("refunded");
+    expect(transitionEntitlement("refunded", { type: "grant" })).toBe("refunded");
+    expect(transitionEntitlement("refunded", { type: "restore" })).toBe("active");
     expect(transitionEntitlement("active", { type: "payment_failed" })).toBe("active");
     expect(transitionEntitlement("processing", { type: "payment_failed" })).toBe("revoked");
     expect(transitionEntitlement("active", { type: "revoke" })).toBe("revoked");

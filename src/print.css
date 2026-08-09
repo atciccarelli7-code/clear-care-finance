@@ -53,7 +53,8 @@
     box-shadow: none !important;
   }
 
-  body:has(.medicare-decision-brief) main > :not(.medicare-decision-brief),
+  body:has(.medicare-decision-brief) #medicare-decision-workspace > :not(.medicare-stage-content),
+  body:has(.medicare-decision-brief) .medicare-stage-content > :not(.medicare-decision-brief),
   body:has(.medicare-decision-brief) .medicare-no-print {
     display: none !important;
   }

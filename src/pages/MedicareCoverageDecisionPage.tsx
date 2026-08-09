@@ -234,7 +234,7 @@ export const MedicareCoverageDecisionSystem = ({ initialState, onStateChange, pe
         <div className="mt-4 grid grid-cols-4 gap-2 md:grid-cols-8">{STAGES.map((stage, index) => <button key={stage.id} type="button" onClick={() => goToStage(stage.id)} aria-current={state.activeStage === stage.id ? "step" : undefined} className={`min-h-11 rounded-xl border px-2 py-2 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${state.activeStage === stage.id ? "border-primary bg-primary text-primary-foreground" : state.completedStages.includes(stage.id) ? "border-emerald-300 bg-emerald-50 text-emerald-900" : "border-border bg-background text-muted-foreground"}`}>{index + 1}<span className="sr-only">. {stage.title}</span></button>)}</div>
       </div>
 
-      <div className="space-y-6">
+      <div className="medicare-stage-content space-y-6">
         {state.activeStage === "situation-timing" && (
           <div className="space-y-6">
             <div className="grid gap-4 md:grid-cols-2">

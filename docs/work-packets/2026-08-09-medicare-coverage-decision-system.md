@@ -68,7 +68,7 @@ Risk class: High; consequential Medicare education, authenticated persistence, p
 
 ## 6. Independent role matrix
 
-Statuses reflect the local release candidate and live Supabase policy check. Exact-head preview and deployed browser evidence remain pending; external Stripe test-mode payment evidence is unavailable.
+Statuses reflect the merged public release, exact-head preview/production checks, cloud browser certification, and live Supabase policy check. External Stripe test-mode payment evidence remains unavailable, so commerce is not ready.
 
 | Role | Status | Finding and required evidence |
 |---|---|---|
@@ -77,21 +77,21 @@ Statuses reflect the local release candidate and live Supabase policy check. Exa
 | Capability router | PASS | GitHub, Vercel, Supabase, Stripe planning, browser validation, and official web research selected |
 | Executive strategy | PASS | Coordinating decision product compounds existing Medicare investments |
 | Product management | PASS | Eight stages, uncertainty states, free/paid boundary, and final brief are implemented and deterministic personas pass |
-| Healthcare user research | PASS pending validation | Turning 65, working past 65, current enrollee, caregiver, limited-income, and switching contexts are represented |
-| Information architecture | PASS pending validation | Canonical product and app routes plus non-destructive internal links require sitemap/canonical proof |
-| UX and design system | PASS pending validation | Progressive disclosure, one-decision-at-a-time flow, mobile comparison, and print require deployed review |
+| Healthcare user research | PASS | Turning 65, working past 65, current enrollee, caregiver, limited-income, switching, and insufficient-information contexts pass deterministic persona tests |
+| Information architecture | PASS | Canonical product/app routes, 182-route sitemap, and non-destructive Medicare entry links passed build and deployed checks |
+| UX and design system | PASS | Progressive disclosure, mobile comparison, evidence ledger, and Decision Brief print passed Chromium and WebKit certification |
 | Content and evidence integrity | PASS | Official-source registry, dated figures, stale behavior, assumptions, and unresolved questions are tested |
 | Frontend engineering | PASS | Typed decision engine, low-sensitivity state, route splitting, and 706-test repository suite pass |
 | Systems architecture | PASS | Product registry, per-product schema parser, API reuse, and third-product extensibility implemented |
 | Backend, data, and security | PASS | Product-aware access/workspace/checkout/webhook/refund tests and live rolled-back RLS isolation matrix pass |
-| Platform and DevOps | PASS pending preview | Exact-head Vercel preview, function count, headers, environment isolation, and rollback required |
+| Platform and DevOps | PASS | Exact-head preview and merge-SHA production deployments are ready; public/private cache and indexing headers passed direct checks |
 | SEO and discovery | WARN | Current Search Console evidence unavailable; preserve URLs and avoid thin pages/cannibalization |
 | Monetization and conversion | WARN | $29 is provisional; terms, refund policy, support, tax posture, and founder live authorization remain open |
 | Analytics and experimentation | PASS | Only fixed event names and categorical properties are emitted; no names, plan facts, costs, or notes |
-| Accessibility, performance, reliability | PASS pending certification | WCAG 2.2 AA checks, mobile/desktop, 200% zoom, keyboard, axe, print, and bundle budgets required |
-| Privacy, legal, user protection | PASS pending copy audit | Educational-only, no TPMO/lead/enrollment activity, minimal data, and explicit uncertainty required |
-| Publishing and governance | PASS pending PR | Public free release and paid commerce authorization remain separate decisions |
-| Quality and release | PASS pending exact-head preview | Full unit/integration/browser/security/payment matrix and production smoke required |
+| Accessibility, performance, reliability | PASS | Keyboard, focus, axe, mobile/desktop, overflow, print, WebKit, Chromium, and bundle budgets passed cloud certification |
+| Privacy, legal, user protection | PASS | Released behavior is educational-only, excludes TPMO/lead/enrollment activity, minimizes data, and preserves explicit uncertainty |
+| Publishing and governance | PASS | PR #268 merged the public free release; paid commerce remains a separate, unapproved gate |
+| Quality and release | PASS public / WARN commerce | Unit, integration, browser, security, preview, and production smoke passed; real Stripe test-mode event-chain evidence is unavailable |
 | Adversarial red team | PASS | Manipulated products/prices/metadata, mixed mappings, processing grants, and false certainty fail closed in tests |
 | Process improvement | PASS | Reusable product/workspace registries, source freshness workflow, and premium documentation are complete |
 
@@ -103,17 +103,17 @@ Statuses reflect the local release candidate and live Supabase policy check. Exa
 | Operations | WARN | Paid support, refunds, retention, and account deletion require owner-approved operating procedures |
 | Finance | WARN | $29, refund terms, and tax posture are unapproved; no live revenue activation |
 | Revenue | WARN | Only paid-workspace interest is measurable until the authorization checklist is approved |
-| Product | PASS pending validation | Full workflow and brief must work before public promotion |
-| Technology | PASS pending gates | Multi-product isolation is the release-critical architecture claim |
-| Data and analytics | PASS pending inspection | No sensitive analytics values or URLs/logs |
+| Product | PASS | Full workflow, verification workspace, and Decision Brief passed deployed browser certification |
+| Technology | PASS | Multi-product registry, workspace, entitlement, webhook, failure, and refund isolation passed automated tests |
+| Data and analytics | PASS | Analytics use controlled categorical values and strip query/fragment data; no provider, drug, plan, note, or identifier values are emitted |
 | Discovery | WARN | No fresh Search Console dataset; preserve proven pages and measure product-entry behavior |
-| Editorial integrity | PASS pending source tests | Dated official sources and stale warnings must be visible |
-| Healthcare user context | PASS pending personas | All eight required personas must produce bounded, explainable outcomes |
-| Privacy/legal | PASS pending final review | Feature narrowed to independent education; unresolved state-specific brokerage questions documented, not guessed |
-| Accessibility/reliability | PASS pending preview | Automated and manual deployed evidence required |
-| Quality/release | PASS pending preview/production | Public release requires exact-head preview, merge, production smoke, and rollback record |
-| Red team | PASS pending tests | No insurer steering, arbitrary price, cross-product grant/revoke, or fake completion |
-| Process improvement | PASS pending docs | Registry/state-parser pattern should make a third product routine |
+| Editorial integrity | PASS | Dated official sources and stale warnings are visible and covered by source-registry tests |
+| Healthcare user context | PASS | All eight required personas produce bounded, explainable outcomes without insurer recommendations |
+| Privacy/legal | PASS for released scope | Feature is narrowed to independent education; any future plan-specific marketing/brokerage expansion requires separate legal approval |
+| Accessibility/reliability | PASS | Exact-head cloud browser, axe, mobile WebKit, desktop Chromium, print, and PDF checks passed |
+| Quality/release | PASS public / WARN commerce | Exact-head preview, merge, production smoke, and rollback record passed; commerce still lacks an external Stripe test chain |
+| Red team | PASS | Insurer steering, arbitrary price, cross-product grant/revoke, stale webhook, and fake completion cases fail closed |
+| Process improvement | PASS | Registry/state-parser/source-ledger patterns and updated premium docs make a third product routine |
 
 ## 8. Inherited-policy challenge
 
@@ -157,14 +157,16 @@ Statuses reflect the local release candidate and live Supabase policy check. Exa
 - On any entitlement isolation defect, disable checkout and entitlement access before investigating.
 - On any medical/legal/sourcing defect, remove or narrow the affected branch and route users to the current official source.
 
-## 12. Final evidence placeholders
+## 12. Final evidence
 
-- PR: pending
-- Merge commit: pending
-- Preview deployment: pending
-- Production deployment: pending
-- Unit/integration evidence: TypeScript and lint pass; 123 files / 706 tests pass; premium 12 files / 69 tests pass; full production build passes with 182 canonical routes and 496.67 KiB entry chunk
-- Browser/accessibility evidence: automated spec committed; local execution blocked because the environment cannot download the pinned browser archive; deployed cloud-browser certification pending
+- PR: [#268](https://github.com/atciccarelli7-code/clear-care-finance/pull/268)
+- Merge commit: [`469490226dbd0cd1699e5d80070ca347cd79fb74`](https://github.com/atciccarelli7-code/clear-care-finance/commit/469490226dbd0cd1699e5d80070ca347cd79fb74)
+- Exact-head preview: `dpl_2aDLkE8iqfRQ3uTaprwMwQDuEZzN`, ready at commit `be307430431e708f2608822683aab243a0bda400`; product route returned 200 and no error/fatal runtime logs were present
+- Production deployment: `dpl_CpBf86vGzCLJoUGbGraJF5Ar86N1`, ready at merge commit `469490226dbd0cd1699e5d80070ca347cd79fb74`
+- Production smoke: public product returned 200 with the intended indexable canonical and no purchase/internal-release copy; protected app returned `private, no-store` and `noindex`; existing Benefits route returned 200; production Medicare checkout returned `503 checkout_disabled`; no error/fatal runtime logs were present
+- Unit/integration evidence: CI [run 31290307408](https://github.com/atciccarelli7-code/clear-care-finance/actions/runs/31290307408) passed; 123 files / 706 tests pass; premium 12 files / 69 tests pass; API TypeScript, lint, full production build, 182 canonical routes, and the 496.82 KiB entry-budget gate pass
+- Decision-journey evidence: [run 31290307410](https://github.com/atciccarelli7-code/clear-care-finance/actions/runs/31290307410) passed
+- Browser/accessibility evidence: [run 31290307405](https://github.com/atciccarelli7-code/clear-care-finance/actions/runs/31290307405) passed desktop Chromium, mobile WebKit, Medicare and Benefits regressions, axe, overflow, print, and PDF checks; artifact `browser-certification-31290307405` has artifact id `9031215853` and SHA-256 `5c5be3800d737be112b39187b158a3d167c37869535bde17207224f138a1d49d`
 - Supabase migration/RLS evidence: applied; two product rows; forced RLS confirmed; rolled-back cross-product two-user matrix passed
-- Stripe test-mode product/price and signed event evidence: pending
-- Commerce status: `NOT READY` until an authorized Stripe test-mode surface completes the signed event matrix
+- Stripe test-mode product/price and signed event evidence: unavailable from the connected Stripe surface; no Stripe objects were changed
+- Commerce status: `NOT READY` until an authorized Stripe test-mode surface completes Checkout, signed webhook grant, duplicate delivery, failure, full refund, revocation, and cross-product isolation with real events

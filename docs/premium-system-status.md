@@ -1,12 +1,16 @@
 # Premium system implementation status
 
-Last updated: July 27, 2026
+Last updated: August 9, 2026
 
 ## Current verdict
 
-**Hardened foundation under private validation**
+**Multi-product foundation implemented; external paid certification remains blocked**
 
 Paid access is not active. Checkout is disabled. No live payment capability is authorized. Production authentication, workspace persistence, protected-content delivery, entitlement enforcement, and public premium access remain fail-closed.
+
+The registry, checkout, webhook, entitlement, access, and workspace layers now recognize both `healthcare-worker-benefits-decision-system` and `medicare-coverage-decision-system`. Product-specific unit and integration tests verify exact server price mapping, rejection of browser price and return-URL authority, test/live separation, processing-state denial, and Benefits/Medicare grant and refund isolation. The Medicare public workflow is documented separately in `docs/medicare-coverage-decision-system.md`.
+
+This code evidence is not an external Stripe test purchase. The connected Stripe surface available for this implementation was live-mode only, so no Medicare Stripe object was created and no payment was attempted. Test product creation, hosted Checkout, webhook delivery, grant, failure, duplicate, refund, and revocation still require an authorized Stripe test-mode surface. Until then, commerce status is `NOT READY` and all payment flags remain off.
 
 ## Current platform evidence
 
@@ -19,6 +23,8 @@ Paid access is not active. Checkout is disabled. No live payment capability is a
   - `202607240001_premium_system_foundation.sql`
   - `202607240002_premium_system_security_followup.sql`
   - `202607270001_restore_premium_admin_policy_execution.sql`
+  - `20260809120000_medicare_multi_product_platform.sql`
+  - `20260809121000_product_entitlement_event_ordering.sql`
 
 ### Vercel
 
@@ -44,7 +50,7 @@ Paid access is not active. Checkout is disabled. No live payment capability is a
   - `20260724233826 premium_system_security_followup`
   - `20260727174018 restore_premium_admin_policy_execution`
 - Current persistent public rows:
-  - `products`: 1
+  - `products`: 2 (`healthcare-worker-benefits-decision-system` and `medicare-coverage-decision-system`, both `private_build`)
   - `profiles`: 0
   - `entitlements`: 0
   - `workspaces`: 0
@@ -52,6 +58,7 @@ Paid access is not active. Checkout is disabled. No live payment capability is a
   - `premium_modules`: 0
   - `premium_admins`: 0
 - RLS is enabled on every public application table.
+- The Medicare product migration is applied. A rolled-back two-user cross-product matrix passed: a Medicare test entitlement revealed the owner Medicare workspace, hid the same owner's unentitled Benefits workspace, hid another user's Medicare workspace, and exposed only the owner's entitlement.
 - Security advisors after the corrective migration: clear.
 - Performance advisors: informational unused-index notices only. Do not remove newly created indexes before representative workload exists.
 
@@ -93,6 +100,7 @@ Mutation denials returned SQLSTATE `42501`. Test users and records were created 
 
 - Canonical public product page:
   - `/products/healthcare-worker-benefits-decision-system`
+  - `/products/medicare-coverage-decision-system`
 - Permanent redirect:
   - `/products/healthcare-worker-benefits-decision-pack`
 - Noindex account and access routes:
@@ -104,6 +112,8 @@ Mutation denials returned SQLSTATE `42501`. Test users and records were created 
   - `/app/benefits-decision`
   - `/app/benefits-decision/new`
   - `/app/benefits-decision/:workspaceId`
+  - `/app/medicare-coverage-decision`
+  - `/app/medicare-coverage-decision/:workspaceId`
 - Eight-module application shell, accessible forms, validation, calculations, verification questions, progress, save/error states, mobile navigation, and browser-print decision brief.
 - Supabase browser authentication abstraction and server bearer-token validation.
 - Database schema for profiles, products, entitlements, workspaces, Stripe events, protected modules, and explicit admins.
@@ -111,8 +121,8 @@ Mutation denials returned SQLSTATE `42501`. Test users and records were created 
 - Server-side entitlement service and transitions.
 - Protected module-content endpoint.
 - User-scoped workspace APIs.
-- Stripe Checkout endpoint with server-only price mapping.
-- Signed raw-body Stripe webhook with event idempotency.
+- Stripe Checkout endpoint with per-product server-only price mapping.
+- Signed raw-body Stripe webhook with event idempotency and product-specific grant, failure, and refund transitions.
 - Default-off release flags and configuration validation.
 - Readiness, schema, boundary, unit, and browser checks.
 - Privacy-conscious analytics taxonomy.
@@ -145,6 +155,8 @@ A visitor cannot:
 |---|---|---|
 | Owner-controlled Supabase project | Active and healthy | Complete |
 | Foundation and security migrations | Applied | Complete |
+| Medicare product registration | Applied, idempotent, `private_build` | Complete |
+| Cross-product RLS isolation | Transactional matrix passed and rolled back | Complete for policy scope |
 | Corrective RLS helper grant | Applied and version-controlled | Complete |
 | Two-user RLS/IDOR matrix | 14/14 checks passed transactionally | Complete for database-policy scope |
 | Supabase magic-link authentication | Implemented | Production disabled; external flow unverified |
@@ -154,7 +166,7 @@ A visitor cannot:
 | Protected module delivery | Implemented | No protected module rows; production disabled |
 | Stripe test Checkout | Implemented | Disabled; external test configuration unverified |
 | Stripe webhook | Implemented | Disabled; hosted signing secret and event matrix unverified |
-| Refund/revocation transitions | Unit-tested | External test-mode validation pending |
+| Refund/revocation transitions | Unit-tested with cross-product isolation | External test-mode validation pending |
 | Account-based cross-device resume | Implemented | External validation pending |
 | Development demo | Implemented | Local development only; excluded from production |
 

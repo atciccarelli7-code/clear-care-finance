@@ -135,8 +135,11 @@ const Tools = () => {
           <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
             <Button asChild>
               <Link to="/products/healthcare-worker-benefits-decision-system">
-                Open the Decision System <ArrowRight className="h-4 w-4" />
+                Open Benefits Decision System <ArrowRight className="h-4 w-4" />
               </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link to="/products/medicare-coverage-decision-system">Open Medicare Decision System</Link>
             </Button>
             <span className="text-center text-xs font-semibold text-muted-foreground">Free · browser-local</span>
           </div>

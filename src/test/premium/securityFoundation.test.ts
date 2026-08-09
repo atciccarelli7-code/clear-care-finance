@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import accessHandler from "../../../api/access/healthcare-worker-benefits-decision-system";
+import accessHandler from "../../../api/access/[productKey]";
 import checkoutHandler from "../../../api/checkout";
 import contentHandler from "../../../api/premium/content";
 import webhookHandler from "../../../api/stripe/webhook";
@@ -54,6 +54,7 @@ describe("feature flags and default denial", () => {
 
   it("recognizes only the server-side product registry", () => {
     expect(getProduct("healthcare-worker-benefits-decision-system")?.expectedPriceUsd).toBe(29);
+    expect(getProduct("medicare-coverage-decision-system")?.expectedPriceUsd).toBe(29);
     expect(getProduct("client-supplied-product")).toBeNull();
   });
 
@@ -77,7 +78,7 @@ describe("API denial states", () => {
   it("reports configuration unavailable when access authority is absent", async () => {
     delete process.env.PREMIUM_AUTH_ENABLED;
     const { res, capture } = response();
-    await accessHandler({ method: "GET", headers: {} }, res);
+    await accessHandler({ method: "GET", headers: {}, query: { productKey: "healthcare-worker-benefits-decision-system" } }, res);
     expect(capture.status).toBe(503);
     expect(capture.body).toMatchObject({ status: "configuration_unavailable" });
     expect(capture.headers["Cache-Control"]).toContain("no-store");
@@ -86,7 +87,7 @@ describe("API denial states", () => {
   it("returns signed_out without querying user data when no bearer token exists", async () => {
     configureAuthFoundation();
     const { res, capture } = response();
-    await accessHandler({ method: "GET", headers: {} }, res);
+    await accessHandler({ method: "GET", headers: {}, query: { productKey: "healthcare-worker-benefits-decision-system" } }, res);
     expect(capture.status).toBe(200);
     expect(capture.body).toMatchObject({ status: "signed_out" });
   });
@@ -140,6 +141,8 @@ describe("entitlement and webhook transitions", () => {
     expect(transitionEntitlement(null, { type: "mark_processing" })).toBe("processing");
     expect(transitionEntitlement("processing", { type: "grant" })).toBe("active");
     expect(transitionEntitlement("active", { type: "refund" })).toBe("refunded");
+    expect(transitionEntitlement("refunded", { type: "grant" })).toBe("refunded");
+    expect(transitionEntitlement("refunded", { type: "restore" })).toBe("active");
     expect(transitionEntitlement("active", { type: "payment_failed" })).toBe("active");
     expect(transitionEntitlement("processing", { type: "payment_failed" })).toBe("revoked");
     expect(transitionEntitlement("active", { type: "revoke" })).toBe("revoked");

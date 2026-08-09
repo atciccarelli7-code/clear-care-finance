@@ -1,8 +1,6 @@
-import { lazy, Suspense, useEffect, useMemo } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -60,6 +58,8 @@ const loadHealthInsurancePlanTypesPage = () => import("./pages/HealthInsurancePl
 const loadSbcGuidePage = () => import("./pages/SbcGuidePage.tsx");
 const loadMedicareCareCostHub = () => import("./pages/MedicareCareCostHub.tsx");
 const loadTurning65MedicarePage = () => import("./pages/Turning65MedicarePage.tsx");
+const loadMedicareCoverageDecisionPage = () => import("./pages/MedicareCoverageDecisionPage.tsx");
+const loadMedicareCoverageDecisionAppPage = () => import("./pages/premium/MedicareCoverageDecisionAppPage.tsx");
 const loadHealthcareCareerDecisionCenterPage = () => import("./pages/HealthcareCareerDecisionCenterPage.tsx");
 const loadMedicareMedicaidGuideLandingPage = () => import("./pages/MedicareMedicaidGuideLandingPage.tsx");
 const loadQuickGuidesLibraryPage = () => import("./pages/QuickGuidesLibraryPage.tsx");
@@ -75,6 +75,28 @@ const loadEditorialPolicy = () => import("./pages/EditorialPolicy.tsx");
 const loadDisclosures = () => import("./pages/Disclosures.tsx");
 const loadAccessibility = () => import("./pages/Accessibility.tsx");
 const loadNotFound = () => import("./pages/NotFound.tsx");
+const RuntimeAnalytics = lazy(() => import("@vercel/analytics/react").then(({ Analytics }) => ({ default: Analytics })));
+const RuntimeSpeedInsights = lazy(() => import("@vercel/speed-insights/react").then(({ SpeedInsights }) => ({ default: SpeedInsights })));
+
+const RuntimeTelemetry = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // Keep optional observability out of hydration and the critical mobile request path.
+    // A short delay preserves route telemetry without competing with the page a visitor came to use.
+    const timer = window.setTimeout(() => setMounted(true), 3_000);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <Suspense fallback={null}>
+      <RuntimeAnalytics />
+      <RuntimeSpeedInsights />
+    </Suspense>
+  );
+};
 
 const Index = lazy(loadIndex);
 const StartHere = lazy(loadStartHere);
@@ -126,6 +148,8 @@ const HealthInsurancePlanTypesPage = lazy(loadHealthInsurancePlanTypesPage);
 const SbcGuidePage = lazy(loadSbcGuidePage);
 const MedicareCareCostHub = lazy(loadMedicareCareCostHub);
 const Turning65MedicarePage = lazy(loadTurning65MedicarePage);
+const MedicareCoverageDecisionPage = lazy(loadMedicareCoverageDecisionPage);
+const MedicareCoverageDecisionAppPage = lazy(loadMedicareCoverageDecisionAppPage);
 const HealthcareCareerDecisionCenterPage = lazy(loadHealthcareCareerDecisionCenterPage);
 const MedicareMedicaidGuideLandingPage = lazy(loadMedicareMedicaidGuideLandingPage);
 const QuickGuidesLibraryPage = lazy(loadQuickGuidesLibraryPage);
@@ -190,6 +214,8 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/insurance/commercial-insurance-comparison") return loadCommercialInsuranceComparisonPage;
   if (pathname === "/medicare-care-costs") return loadMedicareCareCostHub;
   if (pathname === "/medicare-care-costs/turning-65") return loadTurning65MedicarePage;
+  if (pathname === "/products/medicare-coverage-decision-system") return loadMedicareCoverageDecisionPage;
+  if (pathname === "/app/medicare-coverage-decision" || /^\/app\/medicare-coverage-decision\/[^/]+$/.test(pathname)) return loadMedicareCoverageDecisionAppPage;
   if (pathname === "/healthcare-workers/career-decisions") return loadHealthcareCareerDecisionCenterPage;
   if (pathname === "/guides") return loadQuickGuidesLibraryPage;
   if (pathname === "/guides/hospital-discharge-medicare") return loadMedicareMedicaidGuideLandingPage;
@@ -294,6 +320,8 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
               <Route path="/app/benefits-decision" element={<BenefitsDecisionAppPage />} />
               <Route path="/app/benefits-decision/:workspaceId/documents" element={<BenefitsDocumentStagingPage />} />
               <Route path="/app/benefits-decision/:workspaceId" element={<BenefitsDecisionAppPage />} />
+              <Route path="/app/medicare-coverage-decision" element={<MedicareCoverageDecisionAppPage />} />
+              <Route path="/app/medicare-coverage-decision/:workspaceId" element={<MedicareCoverageDecisionAppPage />} />
             </Route>
           </Route>
           <Route element={<Layout />}>
@@ -303,6 +331,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/healthcare-workers" element={<HealthcareWorkers />} />
             <Route path="/products/healthcare-worker-benefits-decision-system" element={<Navigate to="/healthcare-workers" replace />} />
             <Route path="/products/healthcare-worker-benefits-decision-pack" element={<Navigate to="/healthcare-workers" replace />} />
+            <Route path="/products/medicare-coverage-decision-system" element={<MedicareCoverageDecisionPage />} />
             <Route path="/premium/access" element={<Navigate to="/sign-in" replace />} />
             <Route path="/premium/healthcare-compensation-benefits" element={<Navigate to="/app/benefits-decision" replace />} />
             <Route path="/build-wealth" element={<BuildWealthHub />} />
@@ -398,12 +427,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
           </Route>
         </Routes>
       </Suspense>
-      {includeRuntimeTelemetry && (
-        <>
-          <Analytics />
-          <SpeedInsights />
-        </>
-      )}
+      {includeRuntimeTelemetry && <RuntimeTelemetry />}
     </TooltipProvider>
   </QueryClientProvider>
 );

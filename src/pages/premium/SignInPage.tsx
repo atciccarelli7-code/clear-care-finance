@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { KeyRound, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackSiteEvent } from "@/lib/analytics";
@@ -7,6 +7,11 @@ import { usePremiumAuth } from "@/premium/auth/AuthProvider";
 
 export default function SignInPage() {
   const auth = usePremiumAuth();
+  const location = useLocation();
+  const requestedPath = typeof location.state === "object" && location.state && "from" in location.state ? String(location.state.from) : "";
+  const productKey = requestedPath.startsWith("/app/medicare-coverage-decision") ? "medicare-coverage-decision-system" : "healthcare-worker-benefits-decision-system";
+  const productPath = productKey === "medicare-coverage-decision-system" ? "/products/medicare-coverage-decision-system" : "/products/healthcare-worker-benefits-decision-system";
+  const applicationPath = productKey === "medicare-coverage-decision-system" ? "/app/medicare-coverage-decision" : "/app/benefits-decision";
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -22,7 +27,7 @@ export default function SignInPage() {
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setBusy(true);
-    const result = await auth.requestMagicLink(email);
+    const result = await auth.requestMagicLink(email, productKey);
     setMessage(result.message);
     setBusy(false);
   };
@@ -30,7 +35,7 @@ export default function SignInPage() {
   return (
     <main id="main-content" className="min-h-screen bg-[#f3f7f4] px-4 py-10 md:py-16">
       <div className="mx-auto max-w-lg">
-        <Link to="/products/healthcare-worker-benefits-decision-system" className="text-sm font-semibold text-primary hover:underline">← Product overview</Link>
+        <Link to={productPath} className="text-sm font-semibold text-primary hover:underline">← Product overview</Link>
         <section className="mt-7 rounded-[2rem] border border-border bg-white p-7 shadow-card md:p-10" aria-labelledby="sign-in-heading">
           <span className="grid h-12 w-12 place-items-center rounded-2xl bg-primary-soft text-primary"><KeyRound className="h-6 w-6" /></span>
           <h1 id="sign-in-heading" className="mt-5 font-display text-4xl font-bold tracking-tight">Secure account access</h1>
@@ -45,13 +50,13 @@ export default function SignInPage() {
             <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5" role="status">
               <div className="flex items-center gap-2 font-bold text-amber-950"><LockKeyhole className="h-4 w-4" /> Access is not yet available</div>
               <p className="mt-2 text-sm leading-relaxed text-amber-900">{auth.message}</p>
-              <Button asChild className="mt-5"><Link to="/products/healthcare-worker-benefits-decision-system">See current availability</Link></Button>
+              <Button asChild className="mt-5"><Link to={productPath}>See current availability</Link></Button>
             </div>
           ) : auth.isDevelopmentDemo ? (
             <div className="mt-6 rounded-2xl border border-sky-200 bg-sky-50 p-5" role="status">
               <div className="font-bold text-sky-950">Development-only demo session</div>
               <p className="mt-2 text-sm leading-relaxed text-sky-900">No real account, payment, entitlement, or cloud workspace exists in this mode.</p>
-              <Button asChild className="mt-5"><Link to="/app/benefits-decision">Open local demo</Link></Button>
+              <Button asChild className="mt-5"><Link to={applicationPath}>Open local demo</Link></Button>
             </div>
           ) : (
             <form className="mt-7 space-y-4" onSubmit={submit}>

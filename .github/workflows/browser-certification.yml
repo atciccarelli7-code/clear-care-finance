@@ -10,6 +10,7 @@ on:
       - "package.json"
       - "package-lock.json"
       - "playwright.config.ts"
+      - "playwright.medicare.config.ts"
       - "playwright.premium.config.ts"
       - ".github/workflows/browser-certification.yml"
   workflow_dispatch:
@@ -28,7 +29,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit
       - run: npm run build
       - run: npm run test:browser:journeys
       - name: Certify 403(b) match decision outcome
@@ -45,6 +46,8 @@ jobs:
         run: npm run test:performance
       - name: Certify premium public, denial, demo, print, mobile, and accessibility journeys
         run: npm run test:browser:premium
+      - name: Certify Medicare decision system in desktop Chromium and mobile WebKit
+        run: npm run test:browser:medicare
       - name: Capture representative desktop and mobile product visuals
         if: success()
         run: npx playwright test e2e/professional-product-visuals.spec.ts

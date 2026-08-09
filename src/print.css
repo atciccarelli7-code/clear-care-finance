@@ -53,6 +53,32 @@
     box-shadow: none !important;
   }
 
+  body:has(.medicare-decision-brief) #medicare-decision-workspace > :not(.medicare-stage-content),
+  body:has(.medicare-decision-brief) .medicare-stage-content > :not(.medicare-decision-brief),
+  body:has(.medicare-decision-brief) .medicare-no-print {
+    display: none !important;
+  }
+
+  body:has(.medicare-decision-brief) .medicare-decision-brief {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-size: 10pt !important;
+  }
+
+  body:has(.medicare-decision-brief) .medicare-decision-brief a[href^="http"]::after {
+    content: "\A" attr(href);
+    display: block;
+    margin-top: 2pt;
+    color: #475569;
+    font-size: 7.5pt;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
   a {
     color: #111827 !important;
     text-decoration: underline;

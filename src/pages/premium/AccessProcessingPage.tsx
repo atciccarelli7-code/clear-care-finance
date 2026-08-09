@@ -1,14 +1,27 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { CircleCheck, CircleX, LoaderCircle, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { trackSiteEvent } from "@/lib/analytics";
 import { getAccessStatus } from "@/premium/apiClient";
 import type { AccessStatus } from "@/premium/contracts";
 import { usePremiumAuth } from "@/premium/auth/AuthProvider";
 
 export default function AccessProcessingPage() {
   const auth = usePremiumAuth();
+  const [searchParams] = useSearchParams();
+  const productKey = searchParams.get("product") === "medicare-coverage-decision-system" ? "medicare-coverage-decision-system" : "healthcare-worker-benefits-decision-system";
+  const applicationPath = productKey === "medicare-coverage-decision-system" ? "/app/medicare-coverage-decision" : "/app/benefits-decision";
   const [status, setStatus] = useState<AccessStatus>("processing");
+  const activeEventSent = useRef(false);
+
+  useEffect(() => {
+    if (status !== "active" || activeEventSent.current) return;
+    activeEventSent.current = true;
+    const properties = { event_category: "premium_system", product_key: productKey };
+    trackSiteEvent("checkout_success", properties);
+    trackSiteEvent("entitlement_active", properties);
+  }, [productKey, status]);
 
   useEffect(() => {
     if (auth.status === "unavailable") {
@@ -24,7 +37,7 @@ export default function AccessProcessingPage() {
     const check = async () => {
       attempts += 1;
       try {
-        const next = await getAccessStatus(auth.accessToken);
+        const next = await getAccessStatus(auth.accessToken, productKey);
         if (active) setStatus(next);
         if (active && next === "processing" && attempts < 20) window.setTimeout(check, 3000);
       } catch {
@@ -33,7 +46,7 @@ export default function AccessProcessingPage() {
     };
     void check();
     return () => { active = false; };
-  }, [auth.accessToken, auth.isDevelopmentDemo, auth.status]);
+  }, [auth.accessToken, auth.isDevelopmentDemo, auth.status, productKey]);
 
   const displays: Record<AccessStatus, { icon: typeof LoaderCircle; title: string; body: string }> = {
     processing: { icon: LoaderCircle, title: "Access is processing", body: "The server has not confirmed a valid entitlement yet. This page checks again automatically." },
@@ -53,7 +66,7 @@ export default function AccessProcessingPage() {
         <h1 className="mt-5 font-display text-3xl font-bold">{display.title}</h1>
         <p className="mt-3 leading-relaxed text-muted-foreground">{display.body}</p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-          {status === "active" && <Button asChild><Link to="/app/benefits-decision">Open system</Link></Button>}
+          {status === "active" && <Button asChild><Link to={applicationPath}>Open system</Link></Button>}
           {status === "signed_out" && <Button asChild><Link to="/sign-in">Sign in</Link></Button>}
           <Button asChild variant="outline"><Link to="/contact">Contact support</Link></Button>
         </div>

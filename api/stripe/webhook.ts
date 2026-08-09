@@ -9,6 +9,7 @@ import {
   applyRefundEvent,
   claimStripeEvent,
   finishStripeEvent,
+  validateCheckoutSessionMapping,
 } from "../_lib/stripeEvents.js";
 
 export const config = { api: { bodyParser: false } };
@@ -45,15 +46,14 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       return res.status(200).json({ received: true });
     }
     if (action.kind === "refund") {
-      await applyRefundEvent(admin, event.data.object as Stripe.Charge);
+      await applyRefundEvent(admin, event.data.object as Stripe.Charge, event);
     } else if (event.type === "payment_intent.payment_failed") {
-      await applyPaymentFailure(admin, event.data.object as Stripe.PaymentIntent, action.transition);
+      await applyPaymentFailure(admin, event.data.object as Stripe.PaymentIntent, action.transition, event);
     } else {
       const incoming = event.data.object as Stripe.Checkout.Session;
       const session = await stripe.checkout.sessions.retrieve(incoming.id, { expand: ["line_items"] });
-      const priceId = session.line_items?.data[0]?.price?.id;
-      if (session.mode !== "payment" || priceId !== premium.stripe.price) throw new Error("invalid_product_mapping");
-      await applyCheckoutEvent(admin, session, action.transition);
+      validateCheckoutSessionMapping(session, premium.stripe.environment);
+      await applyCheckoutEvent(admin, session, action.transition, event);
     }
     await finishStripeEvent(admin, event.id, "processed");
     return res.status(200).json({ received: true });

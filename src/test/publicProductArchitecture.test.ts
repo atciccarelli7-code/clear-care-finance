@@ -125,7 +125,7 @@ describe("finished public product architecture", () => {
     expect(offerFormSource).toContain("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED");
     expect(testCheckoutPanelSource).toContain("Protected test-mode certification");
     expect(testCheckoutPanelSource).toContain("Test mode only · No real charge · No production access");
-    expect(testCheckoutPanelSource).toContain("createCheckoutSession(auth.accessToken)");
+    expect(testCheckoutPanelSource).toContain("createCheckoutSession(auth.accessToken, productKey)");
   });
 
   it("preserves private application route boundaries", () => {

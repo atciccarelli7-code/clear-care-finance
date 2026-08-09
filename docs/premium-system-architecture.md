@@ -1,15 +1,15 @@
-# Healthcare Worker Benefits Decision System architecture
+# CAF multi-product premium system architecture
 
-Last updated: July 24, 2026
+Last updated: August 9, 2026
 
 This document is the technical source of truth for the Community Acquired Finance account-based premium foundation. It replaces the former PDF/decision-pack and Lemon Squeezy/Redis workspace designs.
 
-## Product and release posture
+## Products and release posture
 
-- Canonical product key: `healthcare-worker-benefits-decision-system`
-- Public route: `/products/healthcare-worker-benefits-decision-system`
+- Registered product keys: `healthcare-worker-benefits-decision-system` and `medicare-coverage-decision-system`
+- Public routes: `/products/healthcare-worker-benefits-decision-system` and `/products/medicare-coverage-decision-system`
 - Application namespace: `/app`
-- Primary application route: `/app/benefits-decision`
+- Application routes: `/app/benefits-decision` and `/app/medicare-coverage-decision`
 - Intended identity and database provider: Supabase
 - Intended payment provider: Stripe Checkout
 - Intended transactional email provider: Resend
@@ -17,7 +17,7 @@ This document is the technical source of truth for the Community Acquired Financ
 - Commerce status: disabled by default
 - Honest readiness: foundation only until external configuration and end-to-end validation are complete
 
-The expected $29 one-time price is a planning target, not an active offer. A browser success URL, client flag, local-storage value, or application route never grants authority.
+The expected $29 one-time price for each current product is a planning target, not an active offer. Each product has its own server price environment variable, workspace schema, application route, and entitlement. A browser success URL, client flag, local-storage value, or application route never grants authority.
 
 ## System diagram
 
@@ -91,7 +91,7 @@ The client wrapper is a user-experience control, not the security boundary. Each
 5. Requires an authenticated Supabase user.
 6. Accepts only the product key.
 7. Rejects browser-supplied price IDs, success URLs, and cancellation URLs.
-8. Resolves the exact Stripe price from the server environment.
+8. Resolves the exact Stripe price from the server registry and that product's environment mapping.
 9. Creates or retrieves the Stripe customer tied to the authenticated user.
 10. Places the user ID and product key in Checkout Session and PaymentIntent metadata.
 11. Creates a one-time payment session with controlled site URLs.
@@ -130,7 +130,7 @@ Supported minimum events:
 - `payment_intent.payment_failed`
 - `charge.refunded`
 
-Successful access is granted only after a signed successful payment event for the exact server-mapped price. Refunds mark the entitlement `refunded`. Failure events revoke non-valid access. Duplicate Stripe event IDs are acknowledged without applying the transition again.
+Successful access is granted only after a signed successful payment event for the exact product and server-mapped price. Refunds and failures resolve the existing entitlement from trusted Stripe identifiers and affect only that entitlement. A Medicare refund cannot revoke Benefits access, and vice versa. Duplicate or older Stripe events are acknowledged without replaying a transition.
 
 Entitlement statuses:
 
@@ -156,7 +156,7 @@ The `workspaces` table stores:
 - versioned, validated JSON state
 - creation and update timestamps
 
-The version 1 state contains:
+Each product registry entry points to a strict versioned Zod workspace parser. The Benefits version 1 state contains:
 
 - active module key
 - completed module keys
@@ -165,11 +165,13 @@ The version 1 state contains:
 - final user-selected decision
 - update timestamp
 
+The Medicare version 1 state contains bounded situation, priority, provider-access, prescription-verification, cost, managed-care, candidate-verification, progress, and source fields. It contains no provider names, medication names, diagnoses, beneficiary identifiers, notes, or uploads. The shared table and APIs are product-generic so a third product does not require a parallel account or workspace stack.
+
 No upload field exists. Server handlers validate state using the shared Zod contract before saving. All service-role queries include the authenticated `user_id` and product key to defend against insecure direct object references. Database RLS independently limits user-owned workspace operations to users with an active or test entitlement.
 
 ## Database and RLS model
 
-Migration: `supabase/migrations/202607240001_premium_system_foundation.sql`
+Migrations: `supabase/migrations/202607240001_premium_system_foundation.sql` plus security follow-ups, `supabase/migrations/20260809120000_medicare_multi_product_platform.sql`, and additive entitlement mode/event-order fields in `supabase/migrations/20260809121000_product_entitlement_event_ordering.sql`.
 
 Tables:
 
@@ -225,18 +227,18 @@ All events use `trackSiteEvent`, respect existing consent, and pass through the 
 
 | Event | Safe properties only |
 |---|---|
-| `premium_product_page_viewed` | fixed product key |
+| `premium_product_page_viewed` | allowlisted product key |
 | `premium_system_preview_viewed` | fixed preview type |
 | `premium_early_access_selected` | fixed action and source |
 | `premium_sign_in_started` | fixed interaction state |
-| `premium_workspace_created` | fixed product key |
+| `premium_workspace_created` | allowlisted product key |
 | `premium_module_started` | fixed module key |
 | `premium_module_completed` | fixed module key |
 | `premium_decision_brief_viewed` | no user values |
 | `premium_print_selected` | fixed output type |
 | `premium_checkout_unavailable` | fixed reason code when implemented at UI boundary |
-| `premium_checkout_started` | fixed product key |
-| `premium_entitlement_activated` | fixed product key and test/live classification only |
+| `premium_checkout_started` | allowlisted product key |
+| `premium_entitlement_activated` | allowlisted product key and test/live classification only |
 
 Never send names, emails, employers, roles, compensation, premiums, deductibles, account contributions, notes, medical information, health information, dates supplied by the user, Stripe IDs, or workspace answer values.
 

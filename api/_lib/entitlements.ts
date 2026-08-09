@@ -16,8 +16,8 @@ export type EntitlementTransition =
 
 export const transitionEntitlement = (current: EntitlementStatus | null, transition: EntitlementTransition): EntitlementStatus => {
   switch (transition.type) {
-    case "mark_processing": return transition.test ? "test" : current === "active" ? "active" : "processing";
-    case "grant": return transition.test ? "test" : "active";
+    case "mark_processing": return current === "active" || current === "test" ? current : "processing";
+    case "grant": return current === "refunded" ? "refunded" : transition.test ? "test" : "active";
     case "payment_failed": return current === "active" || current === "test" ? current : "revoked";
     case "refund": return "refunded";
     case "revoke": return "revoked";
@@ -58,16 +58,23 @@ export type PaymentEntitlementInput = {
   stripePaymentIntentId?: string | null;
   test: boolean;
   transition: EntitlementTransition;
+  stripeEventId?: string;
+  stripeEventCreatedAt?: number;
 };
 
 export const applyPaymentEntitlement = async (input: PaymentEntitlementInput, admin: SupabaseClient = getSupabaseAdmin()) => {
   const { data: existing, error: lookupError } = await admin
     .from("entitlements")
-    .select("id,status")
+    .select("id,status,last_stripe_event_created_at,last_stripe_event_id")
     .eq("user_id", input.userId)
     .eq("product_key", input.productKey)
     .maybeSingle();
   if (lookupError) throw new Error("Entitlement lookup failed");
+  if (
+    existing?.last_stripe_event_created_at &&
+    input.stripeEventCreatedAt &&
+    input.stripeEventCreatedAt < Number(existing.last_stripe_event_created_at)
+  ) return existing.status as EntitlementStatus;
   const status = transitionEntitlement((existing?.status as EntitlementStatus | undefined) || null, input.transition);
   const record = {
     user_id: input.userId,
@@ -78,6 +85,9 @@ export const applyPaymentEntitlement = async (input: PaymentEntitlementInput, ad
     stripe_customer_id: input.stripeCustomerId || null,
     stripe_checkout_session_id: input.stripeCheckoutSessionId || null,
     stripe_payment_intent_id: input.stripePaymentIntentId || null,
+    stripe_livemode: !input.test,
+    last_stripe_event_created_at: input.stripeEventCreatedAt || existing?.last_stripe_event_created_at || null,
+    last_stripe_event_id: input.stripeEventId || existing?.last_stripe_event_id || null,
     updated_at: new Date().toISOString(),
   };
   const query = existing

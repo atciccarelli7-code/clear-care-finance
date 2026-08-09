@@ -1,6 +1,6 @@
 # Premium system release checklist
 
-Last updated: July 24, 2026
+Last updated: August 9, 2026
 
 This checklist is a set of hard gates. An unchecked payment, entitlement, privacy, legal, or support gate means checkout stays disabled.
 
@@ -11,12 +11,14 @@ This checklist is a set of hard gates. An unchecked payment, entitlement, privac
 - [ ] Production deployment recorded
 - [ ] Supabase project and environment recorded without secrets
 - [ ] Stripe mode recorded as disabled, test, or live
-- [ ] Product key is exactly `healthcare-worker-benefits-decision-system`
+- [ ] Every product key is allowlisted in the server registry and the release product is recorded
+- [ ] Every product maps to only its own server-side Stripe price and entitlement
+- [ ] Cross-product grant, failure, and refund isolation pass
 - [ ] Owner approval record linked
 
 ## Product readiness
 
-- [ ] Product is consistently named Healthcare Worker Benefits Decision System
+- [ ] Product is consistently named according to its server registry entry
 - [ ] Public copy does not present a PDF, workbook, packet, download, or static course as the product
 - [ ] Public page explains audience, workflow, modules, outputs, privacy, limitations, availability, and expected-price status
 - [ ] Public CTA matches current availability

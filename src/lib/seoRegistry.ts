@@ -121,6 +121,11 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Build a qualified Medicare enrollment timeline using current coverage, active employment, employer size, HSA, prescription coverage, spouse coverage, and official next steps.",
     kind: "tool",
   },
+  "/products/medicare-coverage-decision-system": {
+    title: "Medicare Coverage Decision System",
+    description: "Organize Medicare timing, coverage architecture, doctors, prescriptions, costs, plan rules, verification, and a printable Decision Brief without insurer sales pressure.",
+    kind: "tool",
+  },
   "/guides": {
     title: "Healthcare Finance Quick Guides",
     description: "Download and use concise, source-backed guides for Medicare, Medicaid, hospital discharge, medical bills, and healthcare financial decisions.",

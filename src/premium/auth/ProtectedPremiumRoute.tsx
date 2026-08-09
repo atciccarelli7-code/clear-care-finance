@@ -4,6 +4,7 @@ import { AlertTriangle, LoaderCircle, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAccessStatus, PremiumApiError } from "../apiClient.js";
 import type { AccessStatus } from "../contracts.js";
+import type { PremiumProductKey } from "../contracts.js";
 import { usePremiumAuth } from "./AuthProvider.js";
 
 const StateCard = ({ icon: Icon, title, body, action }: { icon: typeof LockKeyhole; title: string; body: string; action?: ReactNode }) => (
@@ -20,12 +21,16 @@ const StateCard = ({ icon: Icon, title, body, action }: { icon: typeof LockKeyho
   </main>
 );
 
-const publicOfferPath = "/products/healthcare-worker-benefits-decision-system";
-
 export const ProtectedPremiumRoute = ({ children }: { children: ReactNode }) => {
   const auth = usePremiumAuth();
   const location = useLocation();
   const [access, setAccess] = useState<AccessStatus | "loading">("loading");
+  const productKey: PremiumProductKey = location.pathname.startsWith("/app/medicare-coverage-decision")
+    ? "medicare-coverage-decision-system"
+    : "healthcare-worker-benefits-decision-system";
+  const publicOfferPath = productKey === "medicare-coverage-decision-system"
+    ? "/products/medicare-coverage-decision-system"
+    : "/products/healthcare-worker-benefits-decision-system";
 
   useEffect(() => {
     if (auth.status === "loading") return;
@@ -42,7 +47,7 @@ export const ProtectedPremiumRoute = ({ children }: { children: ReactNode }) => 
       return;
     }
     let active = true;
-    void getAccessStatus(auth.accessToken)
+    void getAccessStatus(auth.accessToken, productKey)
       .then((status) => active && setAccess(status))
       .catch((error) => {
         if (!active) return;
@@ -51,7 +56,7 @@ export const ProtectedPremiumRoute = ({ children }: { children: ReactNode }) => 
     return () => {
       active = false;
     };
-  }, [auth.accessToken, auth.isDevelopmentDemo, auth.status]);
+  }, [auth.accessToken, auth.isDevelopmentDemo, auth.status, productKey]);
 
   if (auth.status === "loading" || access === "loading") {
     return <StateCard icon={LoaderCircle} title="Checking secure access" body="Verifying the account and product entitlement…" />;
@@ -63,7 +68,7 @@ export const ProtectedPremiumRoute = ({ children }: { children: ReactNode }) => 
     return <StateCard icon={LockKeyhole} title="Sign in to continue" body="This application requires a verified account and product entitlement." action={<Button asChild><Link to="/sign-in" state={{ from: location.pathname }}>Open secure sign-in</Link></Button>} />;
   }
   if (access === "processing") {
-    return <StateCard icon={LoaderCircle} title="Access is processing" body="A verified payment event has not finished creating the entitlement. This page will not unlock until the server confirms access." action={<Button asChild><Link to="/access-processing">Check access status</Link></Button>} />;
+    return <StateCard icon={LoaderCircle} title="Access is processing" body="A verified payment event has not finished creating the entitlement. This page will not unlock until the server confirms access." action={<Button asChild><Link to={`/access-processing?product=${encodeURIComponent(productKey)}`}>Check access status</Link></Button>} />;
   }
   if (access === "revoked") {
     return <StateCard icon={AlertTriangle} title="Access is not active" body="This entitlement has been revoked or refunded. Contact support if you believe this is an error." action={<Button asChild><Link to="/contact">Contact support</Link></Button>} />;

@@ -51,14 +51,19 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       if (error) throw new Error("profile_update_failed");
     }
 
-    const metadata = { user_id: user.id, product_key: product.productKey };
+    const metadata = {
+      user_id: user.id,
+      product_key: product.productKey,
+      stripe_environment: config.stripe.environment,
+      release_channel: process.env.VERCEL_ENV || "local",
+    };
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       customer: customerId,
       line_items: [{ price, quantity: 1 }],
       metadata,
       payment_intent_data: { metadata },
-      success_url: `${config.siteUrl}/access-processing`,
+      success_url: `${config.siteUrl}/access-processing?product=${encodeURIComponent(product.productKey)}`,
       cancel_url: `${config.siteUrl}${product.publicRoute}?checkout=cancelled`,
       allow_promotion_codes: false,
       billing_address_collection: "auto",

@@ -20,7 +20,11 @@ export const getPremiumConfig = () => {
   const stripeEnvironment = value("STRIPE_ENVIRONMENT") || "disabled";
   const stripeSecretKey = value("STRIPE_SECRET_KEY");
   const stripeWebhookSecret = value("STRIPE_WEBHOOK_SECRET");
-  const stripePrice = value("STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM");
+  const stripePrices = {
+    "healthcare-worker-benefits-decision-system": value("STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM"),
+    "medicare-coverage-decision-system": value("STRIPE_PRICE_MEDICARE_COVERAGE_DECISION_SYSTEM"),
+  } as const;
+  const stripePrice = stripePrices["healthcare-worker-benefits-decision-system"];
   const documentIntakeMode = readDocumentIntakeMode();
   const flags = {
     publicProductPage: process.env.PREMIUM_PUBLIC_PRODUCT_PAGE_ENABLED !== "false",
@@ -43,12 +47,12 @@ export const getPremiumConfig = () => {
     stripeEnvironment === "test" &&
     stripeSecretKey.startsWith("sk_test_") &&
     stripeWebhookSecret.startsWith("whsec_") &&
-    stripePrice.startsWith("price_");
+    Object.values(stripePrices).some((price) => price.startsWith("price_"));
   const stripeLiveConfigured =
     stripeEnvironment === "live" &&
     stripeSecretKey.startsWith("sk_live_") &&
     stripeWebhookSecret.startsWith("whsec_") &&
-    stripePrice.startsWith("price_");
+    Object.values(stripePrices).some((price) => price.startsWith("price_"));
   const productionRuntime = isProductionRuntime();
   const productionDeployment = process.env.VERCEL_ENV === "production";
   const documentDependenciesReady =
@@ -79,7 +83,7 @@ export const getPremiumConfig = () => {
     siteUrl,
     supportEmail: value("SUPPORT_EMAIL") || "support@communityacquiredfinance.com",
     supabase: { url: supabaseUrl, anonKey: supabaseAnonKey, serviceRoleKey: supabaseServiceRoleKey, configured: supabaseConfigured },
-    stripe: { environment: stripeEnvironment, secretKey: stripeSecretKey, webhookSecret: stripeWebhookSecret, price: stripePrice, testConfigured: stripeTestConfigured, liveConfigured: stripeLiveConfigured },
+    stripe: { environment: stripeEnvironment, secretKey: stripeSecretKey, webhookSecret: stripeWebhookSecret, price: stripePrice, prices: stripePrices, testConfigured: stripeTestConfigured, liveConfigured: stripeLiveConfigured },
     documents: {
       mode: documentIntakeMode,
       bucket: "benefits-document-staging",
@@ -125,6 +129,7 @@ export const capabilityReport = () => {
     stripeTestKeyConfigured: config.stripe.secretKey.startsWith("sk_test_"),
     webhookSecretConfigured: config.stripe.webhookSecret.startsWith("whsec_"),
     stripePriceMapped: config.stripe.price.startsWith("price_"),
+    stripePricesMapped: Object.fromEntries(Object.entries(config.stripe.prices).map(([productKey, price]) => [productKey, price.startsWith("price_")])),
     entitlementEnforcement: capability(config.flags.entitlementEnforcement, config.supabase.configured),
     checkout,
     documentIntake,

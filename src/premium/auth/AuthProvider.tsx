@@ -10,7 +10,7 @@ type PremiumAuthContextValue = {
   userId?: string;
   isDevelopmentDemo: boolean;
   message?: string;
-  requestMagicLink: (email: string) => Promise<{ ok: boolean; message: string }>;
+  requestMagicLink: (email: string, productKey?: "healthcare-worker-benefits-decision-system" | "medicare-coverage-decision-system") => Promise<{ ok: boolean; message: string }>;
   signOut: () => Promise<void>;
 };
 
@@ -121,11 +121,12 @@ export const PremiumAuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [config.developmentDemo]);
 
-  const requestMagicLink = useCallback(async (email: string) => {
+  const requestMagicLink = useCallback(async (email: string, productKey: "healthcare-worker-benefits-decision-system" | "medicare-coverage-decision-system" = "healthcare-worker-benefits-decision-system") => {
     const client = await getBrowserClient();
     if (!client) return { ok: false, message: "Account access is not yet available." };
     // A single fixed internal destination is stricter than allowedAuthRedirectPaths or safePremiumAuthRedirectPath input handling.
-    const redirectTo = `${window.location.origin}/app/benefits-decision`;
+    const applicationPath = productKey === "medicare-coverage-decision-system" ? "/app/medicare-coverage-decision" : "/app/benefits-decision";
+    const redirectTo = `${window.location.origin}${applicationPath}`;
     const { error } = await client.auth.signInWithOtp({
       email: email.trim(),
       options: { emailRedirectTo: redirectTo, shouldCreateUser: true },

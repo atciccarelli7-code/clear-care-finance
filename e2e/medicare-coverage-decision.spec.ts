@@ -40,7 +40,7 @@ test("eight-stage workflow preserves uncertainty and produces a printable Decisi
   await page.locator("#providerFreedom").selectOption("high");
   await page.locator("#specialistAccess").selectOption("high");
   await page.locator("#travelFlexibility").selectOption("high");
-  await page.locator("#networkTolerance").selectOption("low");
+  await page.locator("#network-tolerance").selectOption("low");
   await expect(page.getByText(/verify Medigap availability.*guaranteed-issue rights.*underwriting/i)).toBeVisible();
 
   for (let stage = 2; stage <= 6; stage += 1) {

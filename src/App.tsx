@@ -81,7 +81,12 @@ const RuntimeSpeedInsights = lazy(() => import("@vercel/speed-insights/react").t
 const RuntimeTelemetry = () => {
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    // Keep optional observability out of hydration and the critical mobile request path.
+    // A short delay preserves route telemetry without competing with the page a visitor came to use.
+    const timer = window.setTimeout(() => setMounted(true), 3_000);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   if (!mounted) return null;
 

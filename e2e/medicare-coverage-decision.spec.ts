@@ -43,13 +43,19 @@ test("eight-stage workflow preserves uncertainty and produces a printable Decisi
   await page.locator("#networkTolerance").selectOption("low");
   await expect(page.getByText(/verify Medigap availability.*guaranteed-issue rights.*underwriting/i)).toBeVisible();
 
-  for (let stage = 2; stage <= 7; stage += 1) {
+  for (let stage = 2; stage <= 6; stage += 1) {
     await page.getByRole("button", { name: /Mark reviewed and continue/i }).click();
   }
+
+  await page.locator("#candidate-1-providers-status").selectOption("confirmed");
+  await page.locator("#candidate-1-providers-source").selectOption("provider-confirmation");
+  await page.locator("#candidate-1-providers-date").fill("2026-08-09");
+  await page.getByRole("button", { name: /Mark reviewed and continue/i }).click();
 
   await expect(page.getByRole("heading", { name: "A decision receipt—not a plan recommendation" })).toBeVisible();
   await expect(page.getByText(/Important unresolved questions/i)).toBeVisible();
   await expect(page.getByText(/Medigap availability.*guaranteed-issue rights.*underwriting/i)).toBeVisible();
+  await expect(page.getByText(/1 source · 1 dated/i)).toBeVisible();
   await expect(page.getByRole("link", { name: /Medicare Plan Finder/i })).toHaveAttribute("href", "https://www.medicare.gov/plan-compare/");
   await expect(page.getByRole("link", { name: /Find local SHIP/i })).toHaveAttribute("href", "https://www.shiphelp.org/");
   await expect(page.getByRole("button", { name: /Print or save as PDF/i })).toBeVisible();

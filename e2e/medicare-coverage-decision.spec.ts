@@ -56,8 +56,9 @@ test("eight-stage workflow preserves uncertainty and produces a printable Decisi
   await expect(page.getByText(/Important unresolved questions/i)).toBeVisible();
   await expect(page.getByText(/Medigap availability.*guaranteed-issue rights.*underwriting/i)).toBeVisible();
   await expect(page.getByText(/1 source · 1 dated/i)).toBeVisible();
-  await expect(page.getByRole("link", { name: /Medicare Plan Finder/i })).toHaveAttribute("href", "https://www.medicare.gov/plan-compare/");
-  await expect(page.getByRole("link", { name: /Find local SHIP/i })).toHaveAttribute("href", "https://www.shiphelp.org/");
+  const officialHandoff = page.locator("section").filter({ has: page.getByRole("heading", { name: "Official handoff", exact: true }) });
+  await expect(officialHandoff.getByRole("link", { name: "Medicare Plan Finder", exact: true })).toHaveAttribute("href", "https://www.medicare.gov/plan-compare/");
+  await expect(officialHandoff.getByRole("link", { name: /Find local SHIP/i })).toHaveAttribute("href", "https://www.shiphelp.org/");
   await expect(page.getByRole("button", { name: /Print or save as PDF/i })).toBeVisible();
   expect(await seriousAxeViolations(page)).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);

@@ -39,6 +39,7 @@
     "test:browser": "npm run build && playwright test e2e/flagship-journeys.spec.ts e2e/patient-education-systems.spec.ts e2e/healthcare-offer-verification.spec.ts e2e/private-student-loan-decision-outcome.spec.ts",
     "test:browser:journeys": "playwright test e2e/flagship-journeys.spec.ts e2e/healthcare-offer-verification.spec.ts e2e/private-student-loan-decision-outcome.spec.ts",
     "test:browser:patient-education": "playwright test e2e/patient-education-systems.spec.ts",
+    "test:browser:medicare": "playwright test --config=playwright.medicare.config.ts",
     "test:browser:premium": "playwright test e2e/premium-workspace.spec.ts && playwright test --config=playwright.premium.config.ts",
     "test:performance": "playwright test e2e/route-performance.spec.ts --project=mobile-chromium",
     "test": "npm run ai:governance-check && npm run decision-outcome:check && npm run cta:check && npm run employer-benefits:check && npm run measurement:check && npm run trust:check && npm run institutional:boundary-check && npm run patient-education:manifest-check && npm run patient-education:public-contracts-check && npm run content:freshness-check && npm run guide:content-check && npm run guide:quick-content-check && vitest run",

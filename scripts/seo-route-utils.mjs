@@ -51,6 +51,7 @@ export const ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES = [
 export const PRIVATE_APP_SHELL_ROUTES = [
   "/app/benefits-decision",
   "/app/benefits-decision/new",
+  "/app/medicare-coverage-decision",
 ];
 
 export const loadPermanentRedirects = async () => {

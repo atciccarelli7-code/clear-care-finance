@@ -175,6 +175,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** A published threshold does not determine eligibility. Coverage can vary by facility, service, provider, residency, date, insurance status, and hospital income/household method. The launch set is not a national directory. Search Console data is lagged and cannot prove demand, causality, comprehension, or ranking lift.
 - **Owner:** Content/evidence integrity, healthcare user research, privacy/legal protection, SEO/discovery, product, analytics, and quality/release.
 
+### CAF-E-011 — Medicare decision, marketing boundary, and multi-product isolation evidence
+
+- **Claim or state:** Medicare.gov distinguishes Original Medicare and Medicare Advantage across provider choice, cost structure, drug coverage, prior authorization, and travel; plan-specific drug and local plan comparison belongs in Medicare Plan Finder; working-past-65/HSA and MA-to-Original/Medigap transitions require timing and rights verification. Current 42 CFR Parts 422 and 423 and CMS guidance regulate plan communications, marketing, TPMOs, agents, and brokers; CAF's implementation is narrowed to independent education with no sponsor relationship, compensation, enrollment, leads, insurer ordering, or plan-specific recommendation. The active Supabase project now contains two private-build products, forced RLS, and a transactionally verified product-specific workspace boundary.
+- **Domain:** Medicare education, insurance regulatory boundary, product architecture, payments, database/auth, privacy, and accessibility.
+- **Source:** Medicare.gov comparison, Plan Finder, working-past-65, Medigap, cost-assistance, and plan-type resources; Social Security Medicare sign-up; Medicaid.gov and SHIP; CMS Medicare Communications and Marketing Guidelines page; eCFR 42 CFR Parts 422 and 423; current repository; direct Supabase project `uzfcvtgnpkvuapgrkfcb` migration and rolled-back policy test.
+- **Evidence class:** PRIMARY-SOURCE for Medicare and regulatory facts; DIRECT-CURRENT for repository, production baseline, Supabase product/RLS state, and test results; INFERENCE for legal risk narrowing and product-investment value.
+- **Verified date:** 2026-08-09.
+- **Coverage:** U.S. federal baseline with explicit state-specific handoffs, 2026 plan-year source registry, both CAF premium products, and the Medicare public/private routes.
+- **Freshness trigger:** Source registry review dates; 2027 plan-year update; CMS/eCFR change; state-specific feature; Stripe test/live configuration; schema/RLS change; or regulated commercial relationship.
+- **Used by:** Medicare Coverage Decision System, `src/data/medicareCoverageSources.ts`, product/workspace registries, checkout/webhook/entitlement layers, CAF-D-016, CAF-W-013, and the Medicare work packet.
+- **Limitations:** Educational narrowing is a risk-control decision, not a legal opinion. No authorized Stripe test-mode surface was available, so code-level payment tests do not establish a real hosted Checkout/webhook/refund cycle. Search Console evidence was unavailable and no user study has yet established comprehension or value.
+- **Owner:** Product, content/evidence, healthcare user research, privacy/legal protection, systems/security, accessibility, monetization, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

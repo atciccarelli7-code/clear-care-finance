@@ -1,6 +1,6 @@
 # Premium system setup and activation
 
-Last updated: July 24, 2026
+Last updated: August 9, 2026
 
 This runbook describes the future external setup for the Healthcare Worker Benefits Decision System. It does not authorize commerce. Never paste secrets into source code, GitHub issues, Notion, Linear, screenshots, logs, or customer support messages.
 
@@ -238,10 +238,11 @@ At this point the verdict may become **Ready for private authenticated testing**
 1. Complete the owner&apos;s Stripe account onboarding and security setup.
 2. Enable multi-factor authentication.
 3. Keep the dashboard in test mode.
-4. Create one test product named:
+4. Create one test product for each product being certified. Current registry names are:
 
    ```text
    Healthcare Worker Benefits Decision System
+   Medicare Coverage Decision System
    ```
 
 5. Create one one-time test price using the approved test amount. The current planning target is USD 29, but owner approval must precede configuration.
@@ -256,6 +257,7 @@ Vercel test values:
 STRIPE_ENVIRONMENT=test
 STRIPE_SECRET_KEY=<sk_test_...>
 STRIPE_PRICE_HEALTHCARE_WORKER_BENEFITS_DECISION_SYSTEM=<price_...>
+STRIPE_PRICE_MEDICARE_COVERAGE_DECISION_SYSTEM=<price_...>
 ```
 
 ## 8. Register the Stripe test webhook

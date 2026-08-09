@@ -10,6 +10,7 @@ import {
   type PremiumModuleKey,
   type WorkspaceRecord,
   type WorkspaceState,
+  type PremiumProductKey,
 } from "./contracts.js";
 
 const jsonHeaders = { "Content-Type": "application/json" };
@@ -36,8 +37,8 @@ const readJson = async (response: Response) => {
   return payload;
 };
 
-export const getAccessStatus = async (token?: string): Promise<AccessStatus> => {
-  const response = await fetch("/api/access/healthcare-worker-benefits-decision-system", {
+export const getAccessStatus = async (token?: string, productKey: PremiumProductKey = PREMIUM_PRODUCT_KEY): Promise<AccessStatus> => {
+  const response = await fetch(`/api/access/${encodeURIComponent(productKey)}`, {
     headers: token ? { Authorization: `Bearer ${token}` } : undefined,
     cache: "no-store",
   });
@@ -45,13 +46,13 @@ export const getAccessStatus = async (token?: string): Promise<AccessStatus> => 
   return payload.status;
 };
 
-export const createCheckoutSession = async (token: string): Promise<string> => {
+export const createCheckoutSession = async (token: string, productKey: PremiumProductKey = PREMIUM_PRODUCT_KEY): Promise<string> => {
   const response = await fetch("/api/checkout", {
     method: "POST",
     headers: { ...jsonHeaders, Authorization: `Bearer ${token}` },
     credentials: "same-origin",
     cache: "no-store",
-    body: JSON.stringify({ productKey: PREMIUM_PRODUCT_KEY }),
+    body: JSON.stringify({ productKey }),
   });
   return checkoutSessionResponseSchema.parse(await readJson(response)).checkoutUrl;
 };
@@ -65,7 +66,7 @@ export const getPremiumModule = async (key: PremiumModuleKey, token: string): Pr
 };
 
 export const listWorkspaces = async (token: string): Promise<WorkspaceRecord[]> => {
-  const response = await fetch("/api/workspaces", { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" });
+  const response = await fetch(`/api/workspaces?productKey=${encodeURIComponent(PREMIUM_PRODUCT_KEY)}`, { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" });
   const payload = await readJson(response);
   return workspaceRecordSchema.array().parse(payload.workspaces);
 };
@@ -74,7 +75,7 @@ export const createWorkspace = async (token: string, title: string): Promise<Wor
   const response = await fetch("/api/workspaces", {
     method: "POST",
     headers: { ...jsonHeaders, Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ title }),
+    body: JSON.stringify({ title, productKey: PREMIUM_PRODUCT_KEY }),
   });
   const payload = await readJson(response);
   return workspaceRecordSchema.parse(payload.workspace);

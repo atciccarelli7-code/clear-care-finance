@@ -505,13 +505,13 @@ const MedicareCareCostHub = () => {
         description="A decision hub for patients, caregivers, and healthcare workers who need to understand coverage structure, cost exposure, and the long-term care gap before a crisis."
       >
         <Button asChild variant="hero" size="lg">
-          <a href="#cost-estimator">Estimate Medicare cost risk <ArrowRight className="h-4 w-4" /></a>
+          <Link to="/products/medicare-coverage-decision-system">Build your Medicare Decision Brief <ArrowRight className="h-4 w-4" /></Link>
         </Button>
         <Button asChild variant="outline" size="lg">
           <Link to="/medicare-care-costs/turning-65">Turning 65 timeline</Link>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <a href="#caregiver-checklist">Open caregiver checklist</a>
+          <a href="#cost-estimator">Estimate Medicare cost risk</a>
         </Button>
       </PageHero>
 

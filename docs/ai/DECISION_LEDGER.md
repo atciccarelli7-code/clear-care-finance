@@ -194,6 +194,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** Any policy/source/calculation/privacy defect; January 2027 annual review; 30/60/90-day search and product evidence; a hospital merger or source change; or evidence that a new state can meet the same source and maintenance standard.
 - **Supersedes:** The earlier checklist-level implementation at the same canonical tool route. It does not supersede the broader Medical Bill Response System or distinct supporting articles/tools.
 
+### CAF-D-016 — Independent Medicare decision organization on a reusable product platform
+
+- **Date:** 2026-08-09
+- **Status:** CONFIRMED
+- **Decision:** Make the Medicare Coverage Decision System CAF's coordinating Medicare product layer: preserve the existing search and education routes, put Original Medicare and Medicare Advantage at the first major architecture fork, require official provider/drug/cost/Medigap verification before a conclusion, and keep CAF outside plan sales, enrollment, insurer ranking, compensation, and lead transfer. Generalize the existing premium platform through server-authoritative product and workspace registries so every purchase, grant, failure, refund, and saved workspace stays product-specific.
+- **Rationale:** CAF already had substantial Medicare education and a hardened single-product premium foundation. Another guide would duplicate value; Medicare Advantage-first logic or plan-specific commercial conduct would weaken trust and increase regulatory risk; one-off payment and workspace stacks would create cross-product security risk.
+- **Evidence:** Current main/production and route inventory; Medicare.gov, CMS, Social Security, Medicaid.gov, SHIP, and eCFR sources verified August 9, 2026; direct live Supabase schema/RLS inspection and rolled-back two-user cross-product matrix; deterministic personas and commerce isolation tests; work packet `2026-08-09-medicare-coverage-decision-system.md`.
+- **Consequences:** The complete safety sequence remains free and browser-local. The planned one-time paid value is authenticated persistence and organization only. Provider names, medication names, diagnoses, beneficiary identifiers, notes, and document uploads are excluded from v1. Live payments remain fail-closed until an authorized Stripe test chain and every founder/legal/support/privacy/accessibility gate pass.
+- **Revisit trigger:** Medicare/CMS marketing-rule change; evidence of insurer or broker relationship; request for plan-specific ranking, lead transfer, enrollment, document or medication-name intake; annual 2027 update; privacy/accessibility defect; or authorized Stripe test evidence.
+- **Supersedes:** Single-product assumptions in the premium foundation. It does not supersede the existing Benefits Decision System or any preserved Medicare search-entry route.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 export const PREMIUM_PRODUCT_KEY = "healthcare-worker-benefits-decision-system";
+export const premiumProductKeys = [PREMIUM_PRODUCT_KEY, "medicare-coverage-decision-system"] as const;
+export type PremiumProductKey = (typeof premiumProductKeys)[number];
 
 export const premiumModuleKeys = [
   "define-decision",
@@ -61,7 +63,7 @@ export const workspaceStateSchema = z.object({
   assumptions: z.array(z.string().max(500)).max(100).default([]),
   finalDecision: z.string().max(500).default(""),
   updatedAt: z.string().datetime().optional(),
-});
+}).strict();
 
 export type WorkspaceState = z.infer<typeof workspaceStateSchema>;
 
@@ -84,7 +86,7 @@ export type AccessStatus =
 
 export const accessResponseSchema = z.object({
   status: z.enum(["signed_out", "not_purchased", "processing", "active", "revoked", "configuration_unavailable"]),
-  productKey: z.literal(PREMIUM_PRODUCT_KEY).optional(),
+  productKey: z.enum(premiumProductKeys).optional(),
   reason: z.string().max(160).optional(),
 });
 

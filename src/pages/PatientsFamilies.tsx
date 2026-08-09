@@ -26,6 +26,7 @@ const PatientsFamilies = () => <>
   <PageHero eyebrow="For patients, families & caregivers" title="Start with the situation in front of you." description="RN-led, source-checked pathways for understanding a diagnosis or hospital stay, preparing for discharge, reviewing a bill, responding to delayed care, and verifying Medicare, Medicaid, medication, and long-term-care questions.">
     <Button asChild variant="hero" size="lg"><Link to="/patients-families/hospital-guide" onClick={() => trackSiteEvent("patient_guide_resource_selected", { item_id: "patient_gateway_hero", stage_id: "during_stay", destination_path: "/patients-families/hospital-guide" })}>Open Hospital &amp; Patient Guide <ArrowRight className="h-4 w-4" /></Link></Button>
     <Button asChild variant="outline" size="lg"><Link to="/medical-bills/financial-assistance" onClick={() => trackSiteEvent("supporting_article_to_hub_click", { event_category: "medical_bill", source_path: "/patients-families", destination_path: "/medical-bills/financial-assistance" })}>Find Hospital Financial Assistance</Link></Button>
+    <Button asChild variant="outline" size="lg"><Link to="/products/medicare-coverage-decision-system" onClick={() => trackSiteEvent("medicare_decision_start", { event_category: "medicare_decision", entry_point: "patients_gateway" })}>Organize a Medicare decision</Link></Button>
   </PageHero>
 
   <section className="container pt-10 md:pt-14">

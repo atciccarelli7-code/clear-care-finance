@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { trackSiteEvent } from "@/lib/analytics";
 import { createCheckoutSession, PremiumApiError } from "@/premium/apiClient";
 import { usePremiumAuth } from "@/premium/auth/AuthProvider";
+import type { PremiumProductKey } from "@/premium/contracts";
 
 const checkoutErrorMessage = (error: unknown) => {
   if (error instanceof PremiumApiError) {
@@ -17,7 +18,13 @@ const checkoutErrorMessage = (error: unknown) => {
   return "Stripe test Checkout could not be opened.";
 };
 
-export const PremiumTestCheckoutPanel = () => {
+export const PremiumTestCheckoutPanel = ({
+  productKey = "healthcare-worker-benefits-decision-system",
+  productName = "Healthcare Worker Benefits Decision System",
+}: {
+  productKey?: PremiumProductKey;
+  productName?: string;
+}) => {
   const auth = usePremiumAuth();
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -28,19 +35,20 @@ export const PremiumTestCheckoutPanel = () => {
     setMessage("");
     trackSiteEvent("premium_test_checkout_started", {
       event_category: "premium_system",
-      product_key: "healthcare-worker-benefits-decision-system",
+      product_key: productKey,
       price_cents: 2900,
       stripe_environment: "test",
     });
+    trackSiteEvent("checkout_start", { event_category: "premium_system", product_key: productKey, stripe_environment: "test" });
     try {
-      const checkoutUrl = await createCheckoutSession(auth.accessToken);
+      const checkoutUrl = await createCheckoutSession(auth.accessToken, productKey);
       window.location.assign(checkoutUrl);
     } catch (error) {
       setStatus("error");
       setMessage(checkoutErrorMessage(error));
       trackSiteEvent("premium_test_checkout_error", {
         event_category: "premium_system",
-        product_key: "healthcare-worker-benefits-decision-system",
+        product_key: productKey,
         error_code: error instanceof PremiumApiError ? error.code || "api_error" : "unknown",
       });
     }
@@ -55,7 +63,7 @@ export const PremiumTestCheckoutPanel = () => {
             Protected test-mode certification
           </div>
           <h2 id="premium-test-checkout-title" className="font-display text-2xl font-bold tracking-tight md:text-3xl">
-            Certify the $29 purchase and entitlement flow
+            Certify the $29 {productName} purchase and entitlement flow
           </h2>
           <p className="text-sm leading-relaxed text-slate-700 md:text-base">
             This panel appears only when a protected preview explicitly enables the browser test flag. Stripe must remain in test mode, so no real card can be charged and no production purchase is created.
@@ -91,7 +99,7 @@ export const PremiumTestCheckoutPanel = () => {
             <div>
               <div className="flex items-center gap-2 font-bold text-slate-900"><LockKeyhole className="h-4 w-4" /> Sign in before the test purchase</div>
               <p className="mt-2 text-sm leading-relaxed text-slate-700">The magic link returns to the protected workspace. After sign-in, return to this protected preview to continue the test purchase.</p>
-              <Button asChild className="mt-5 w-full"><Link to="/sign-in">Sign in for test Checkout</Link></Button>
+              <Button asChild className="mt-5 w-full"><Link to="/sign-in" state={{ productKey }}>Sign in for test Checkout</Link></Button>
             </div>
           ) : (
             <div>

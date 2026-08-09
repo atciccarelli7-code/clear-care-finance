@@ -105,6 +105,11 @@ const workspaceRewrite = vercelConfig.rewrites?.some((rewrite) =>
   && rewrite.destination === "/app/benefits-decision",
 );
 if (!workspaceRewrite) failures.push("The private workspace deep-link rewrite is missing.");
+const medicareWorkspaceRewrite = vercelConfig.rewrites?.some((rewrite) =>
+  rewrite.source === "/app/medicare-coverage-decision/:workspaceId"
+  && rewrite.destination === "/app/medicare-coverage-decision",
+);
+if (!medicareWorkspaceRewrite) failures.push("The private Medicare workspace deep-link rewrite is missing.");
 if (vercelConfig.rewrites?.some((rewrite) => rewrite.destination === "/index.html")) {
   failures.push("A clean-URL deployment must not rewrite private routes to /index.html.");
 }
@@ -146,7 +151,7 @@ const testCheckoutTrustPhrases = [
 ];
 for (const phrase of testCheckoutTrustPhrases) if (!testCheckoutPanel.includes(phrase)) failures.push(`The test Checkout panel is missing its trust boundary: ${phrase}`);
 if (!testCheckoutPanel.includes("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED")) failures.push("The test Checkout panel must be protected by its dedicated browser flag.");
-if (!premiumApiClient.includes('body: JSON.stringify({ productKey: PREMIUM_PRODUCT_KEY })')) failures.push("The Checkout client must submit only the fixed server product key.");
+if (!premiumApiClient.includes('body: JSON.stringify({ productKey })') || !premiumApiClient.includes("type PremiumProductKey")) failures.push("The Checkout client must submit only an allowlisted registered product key.");
 if (/priceId|successUrl|cancelUrl/.test(premiumApiClient.split("createCheckoutSession")[1]?.split("export const getPremiumModule")[0] || "")) failures.push("The browser Checkout client must not submit a price or redirect URL.");
 if (!premiumContracts.includes('url.hostname === "checkout.stripe.com"')) failures.push("The Checkout response contract must restrict redirects to Stripe-hosted Checkout.");
 if (!authProvider.includes("allowedAuthRedirectPaths") || !authProvider.includes("safePremiumAuthRedirectPath")) failures.push("Magic-link return paths must use an explicit allowlist.");

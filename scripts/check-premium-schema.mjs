@@ -6,6 +6,8 @@ const read = (file) => readFileSync(path.join(root, file), "utf8");
 const migration = read("supabase/migrations/202607240001_premium_system_foundation.sql");
 const documentMigration = read("supabase/migrations/20260804193729_prelaunch_secure_benefit_document_quarantine.sql");
 const documentIndexMigration = read("supabase/migrations/20260804193854_benefit_document_quarantine_foreign_key_indexes.sql");
+const medicareMigration = read("supabase/migrations/20260809120000_medicare_multi_product_platform.sql");
+const entitlementOrderingMigration = read("supabase/migrations/20260809121000_product_entitlement_event_ordering.sql");
 const required = [
   "create table if not exists public.profiles",
   "create table if not exists public.products",
@@ -48,6 +50,11 @@ if (/create\s+policy/i.test(documentMigration)) failures.push("The document quar
 if (/grant\s+(?:select|insert|update|delete|all).*benefit_document_uploads/i.test(documentMigration)) failures.push("The document quarantine migration must not grant direct document-table access.");
 if (!documentIndexMigration.includes("benefit_document_uploads_product_key_idx")) failures.push("Document product foreign-key index is missing.");
 if (!documentIndexMigration.includes("benefit_document_uploads_workspace_owner_idx")) failures.push("Document workspace-owner foreign-key index is missing.");
+if (!medicareMigration.includes("'medicare-coverage-decision-system'")) failures.push("The Medicare product registry seed is missing.");
+if (!medicareMigration.includes("on conflict (product_key) do nothing")) failures.push("The Medicare product registry seed must be idempotent and must not overwrite operator-controlled status.");
+for (const field of ["stripe_livemode", "last_stripe_event_created_at", "last_stripe_event_id"]) {
+  if (!entitlementOrderingMigration.includes(field)) failures.push(`Entitlement event-order migration is missing ${field}.`);
+}
 
 if (failures.length) {
   console.error("Premium schema check failed:\n");

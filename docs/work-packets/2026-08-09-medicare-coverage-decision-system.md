@@ -81,7 +81,7 @@ Statuses reflect the local release candidate and live Supabase policy check. Exa
 | Information architecture | PASS pending validation | Canonical product and app routes plus non-destructive internal links require sitemap/canonical proof |
 | UX and design system | PASS pending validation | Progressive disclosure, one-decision-at-a-time flow, mobile comparison, and print require deployed review |
 | Content and evidence integrity | PASS | Official-source registry, dated figures, stale behavior, assumptions, and unresolved questions are tested |
-| Frontend engineering | PASS | Typed decision engine, low-sensitivity state, route splitting, and 705-test repository suite pass |
+| Frontend engineering | PASS | Typed decision engine, low-sensitivity state, route splitting, and 706-test repository suite pass |
 | Systems architecture | PASS | Product registry, per-product schema parser, API reuse, and third-product extensibility implemented |
 | Backend, data, and security | PASS | Product-aware access/workspace/checkout/webhook/refund tests and live rolled-back RLS isolation matrix pass |
 | Platform and DevOps | PASS pending preview | Exact-head Vercel preview, function count, headers, environment isolation, and rollback required |
@@ -163,7 +163,7 @@ Statuses reflect the local release candidate and live Supabase policy check. Exa
 - Merge commit: pending
 - Preview deployment: pending
 - Production deployment: pending
-- Unit/integration evidence: TypeScript and lint pass; 123 files / 705 tests pass; premium 12 files / 68 tests pass; full production build passes with 182 canonical routes and 496.67 KiB entry chunk
+- Unit/integration evidence: TypeScript and lint pass; 123 files / 706 tests pass; premium 12 files / 69 tests pass; full production build passes with 182 canonical routes and 496.67 KiB entry chunk
 - Browser/accessibility evidence: automated spec committed; local execution blocked because the environment cannot download the pinned browser archive; deployed cloud-browser certification pending
 - Supabase migration/RLS evidence: applied; two product rows; forced RLS confirmed; rolled-back cross-product two-user matrix passed
 - Stripe test-mode product/price and signed event evidence: pending

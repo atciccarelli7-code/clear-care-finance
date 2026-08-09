@@ -38,3 +38,8 @@ export const workspaceProgressForProduct = (productKey: string, state: unknown) 
   if (!contract) throw new Error("unsupported_workspace_product");
   return contract.progress(state);
 };
+
+export const workspaceTitleForProduct = (productKey: string, submittedTitle: unknown) => {
+  if (productKey === MEDICARE_PRODUCT_KEY) return "Medicare coverage decision";
+  return typeof submittedTitle === "string" ? submittedTitle.trim().slice(0, 120) : "";
+};

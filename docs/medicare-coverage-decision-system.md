@@ -77,7 +77,7 @@ The planned one-time paid entitlement adds convenience only: authenticated save/
 
 ## Privacy and data model
 
-Permitted workspace values are bounded decision categories, generic candidate slots, plan year and structure, user-entered cost figures, verification statuses, bounded official-evidence categories, checked dates, stage completion, and update timestamps. The evidence ledger deliberately does not accept free-form source URLs, plan names, provider names, or notes. The first release has no document uploads and does not request drug names, diagnoses, claim details, or beneficiary identifiers.
+Permitted workspace values are bounded decision categories, generic candidate slots, plan year and structure, user-entered cost figures, verification statuses, bounded official-evidence categories, checked dates, stage completion, and update timestamps. The server generates a generic Medicare workspace title and ignores any client-supplied Medicare title. The evidence ledger deliberately does not accept free-form source URLs, plan names, provider names, or notes. The first release has no document uploads and does not request drug names, diagnoses, claim details, or beneficiary identifiers.
 
 Never request or persist Social Security numbers, Medicare Beneficiary Identifiers, Medicare or insurance card numbers, member IDs, account numbers, payment cards outside Stripe, login credentials, claims, medical records, EOBs, diagnoses, or clinical histories. These values must not enter URLs, analytics, metadata, page titles, or logs. Browser forms use categories where details are unnecessary. A future upload or medication-name feature requires a separate privacy, security, storage, retention, deletion, logging, and legal approval before implementation.
 

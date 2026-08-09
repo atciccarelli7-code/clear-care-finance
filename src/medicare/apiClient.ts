@@ -21,12 +21,12 @@ export const listMedicareWorkspaces = async (token: string): Promise<MedicareWor
   return medicareWorkspaceRecordSchema.array().parse(payload.workspaces);
 };
 
-export const createMedicareWorkspace = async (token: string, title: string): Promise<MedicareWorkspaceRecord> => {
+export const createMedicareWorkspace = async (token: string): Promise<MedicareWorkspaceRecord> => {
   const response = await fetch("/api/workspaces", {
     method: "POST",
     headers: { ...jsonHeaders, Authorization: `Bearer ${token}` },
     credentials: "same-origin",
-    body: JSON.stringify({ title, productKey: MEDICARE_PRODUCT_KEY }),
+    body: JSON.stringify({ productKey: MEDICARE_PRODUCT_KEY }),
   });
   const payload = await readJson(response);
   return medicareWorkspaceRecordSchema.parse(payload.workspace);

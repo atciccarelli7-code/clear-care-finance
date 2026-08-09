@@ -6,6 +6,7 @@ import { applyCheckoutEvent, applyPaymentFailure, applyRefundEvent, validateChec
 import { transitionEntitlement } from "../../../api/_lib/entitlements";
 import { emptyMedicareCoverageState, medicareCoverageStateSchema } from "@/medicare/contracts";
 import { workspaceStateSchema } from "@/premium/contracts";
+import { workspaceTitleForProduct } from "../../../api/_lib/workspaceRegistry";
 
 const original = { ...process.env };
 afterEach(() => {
@@ -138,5 +139,10 @@ describe("product-specific workspace contracts", () => {
     expect(medicareCoverageStateSchema.safeParse(medicare).success).toBe(true);
     expect(workspaceStateSchema.safeParse(medicare).success).toBe(false);
     expect(medicareCoverageStateSchema.safeParse({ version: 1, activeModuleKey: "define-decision" }).success).toBe(false);
+  });
+
+  it("ignores client-supplied Medicare workspace titles while preserving the Benefits title contract", () => {
+    expect(workspaceTitleForProduct(MEDICARE_PRODUCT_KEY, "Medication and provider details")).toBe("Medicare coverage decision");
+    expect(workspaceTitleForProduct(BENEFITS_PRODUCT_KEY, "My benefits comparison")).toBe("My benefits comparison");
   });
 });

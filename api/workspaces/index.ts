@@ -4,7 +4,7 @@ import { methodNotAllowed, parseJsonBody, safeError, sameOrigin, setPrivateHeade
 import { getPremiumConfig } from "../_lib/premiumConfig.js";
 import { BENEFITS_PRODUCT_KEY, getProduct } from "../_lib/productRegistry.js";
 import { ConfigurationUnavailableError, getSupabaseAdmin, requireAuthenticatedUser, UnauthorizedError } from "../_lib/supabase.js";
-import { emptyWorkspaceStateForProduct, parseWorkspaceState } from "../_lib/workspaceRegistry.js";
+import { emptyWorkspaceStateForProduct, parseWorkspaceState, workspaceTitleForProduct } from "../_lib/workspaceRegistry.js";
 
 const mapWorkspace = (row: Record<string, unknown>) => ({
   id: row.id,
@@ -48,7 +48,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     if (!getProduct(productKey)) return safeError(res, 404, "unsupported_product", "The requested product is not available.");
     const access = await checkEntitlement(user.id, productKey);
     if (access.accessStatus !== "active") return safeError(res, 403, "entitlement_required", "Active product access is required.");
-    const title = typeof body.title === "string" ? body.title.trim().slice(0, 120) : "";
+    const title = workspaceTitleForProduct(productKey, body.title);
     if (!title) return safeError(res, 400, "invalid_workspace", "Enter a workspace title.");
     const state = emptyWorkspaceStateForProduct(productKey);
     const { data, error } = await admin

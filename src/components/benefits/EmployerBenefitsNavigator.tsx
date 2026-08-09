@@ -56,8 +56,11 @@ const EmployerBenefitsNavigator = () => {
   const selectedPackage = selectedEmployer.packages.find((benefitsPackage) => packageKey(benefitsPackage) === selectedPackageKey) ?? selectedEmployer.packages[0];
   const selectedEmployeeClass = selectedEmployer.employeeClasses.find((employeeClass) => employeeClass.id === employeeClassId) ?? selectedEmployer.employeeClasses[0];
   const readiness = getEmployerPackageReadiness(selectedPackage);
+  const previousEmployerSlugRef = useRef(selectedEmployer.slug);
 
   useEffect(() => {
+    if (previousEmployerSlugRef.current === selectedEmployer.slug) return;
+    previousEmployerSlugRef.current = selectedEmployer.slug;
     setSelectedPackageKey(packageKey(selectedEmployer.packages[0]));
     setEmployeeClassId(selectedEmployer.employeeClasses[0].id);
     setEmployerName(selectedEmployer.name);
@@ -65,7 +68,7 @@ const EmployerBenefitsNavigator = () => {
     setEmployeePopulation("");
     setSubmissionStatus("idle");
     setSubmissionMessage("");
-  }, [selectedEmployer.slug]);
+  }, [selectedEmployer]);
 
   const startEmployerWorkspace = () => {
     const workspace = createDefaultBenefitsWorkspace();

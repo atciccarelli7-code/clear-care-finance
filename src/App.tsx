@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -77,6 +77,21 @@ const loadAccessibility = () => import("./pages/Accessibility.tsx");
 const loadNotFound = () => import("./pages/NotFound.tsx");
 const RuntimeAnalytics = lazy(() => import("@vercel/analytics/react").then(({ Analytics }) => ({ default: Analytics })));
 const RuntimeSpeedInsights = lazy(() => import("@vercel/speed-insights/react").then(({ SpeedInsights }) => ({ default: SpeedInsights })));
+
+const RuntimeTelemetry = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
+  return (
+    <Suspense fallback={null}>
+      <RuntimeAnalytics />
+      <RuntimeSpeedInsights />
+    </Suspense>
+  );
+};
 
 const Index = lazy(loadIndex);
 const StartHere = lazy(loadStartHere);
@@ -407,12 +422,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
           </Route>
         </Routes>
       </Suspense>
-      {includeRuntimeTelemetry && (
-        <Suspense fallback={null}>
-          <RuntimeAnalytics />
-          <RuntimeSpeedInsights />
-        </Suspense>
-      )}
+      {includeRuntimeTelemetry && <RuntimeTelemetry />}
     </TooltipProvider>
   </QueryClientProvider>
 );

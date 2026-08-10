@@ -201,6 +201,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** GSC tables are intentionally non-additive and cannot be reliably joined at this low volume; rankings and impressions do not establish product value, causality, conversion, or willingness to pay. Consented first-party sessions are not representative of all visitors, and lifecycle events do not establish comprehension or satisfaction.
 - **Owner:** Data/analytics, SEO/discovery, product, privacy/legal protection, and quality/release.
 
+### CAF-E-013 — First-party flagship journey evidence production release
+
+- **Claim or state:** CAF's consent-gated, answer-free flagship lifecycle evidence system is released. PR #270 merged at `5848f129e80efdd389cc367e36b8cd1dcb6e9fef`; production deployment `dpl_CXZYmwB4wq2QAU3dJbgznAeXFHfs` was READY with 12 Node functions and the canonical production alias. A controlled allowlisted POST returned 202 and persisted the exact fixed event fields; an invalid journey returned 400, a foreign origin returned 403, and the controlled row was deleted with zero retained synthetic rows. Exact-head CI #1053, Decision Journey #730, and Browser certification #666 passed.
+- **Domain:** Product analytics, production release, privacy, database security, accessibility, and reliability.
+- **Source:** GitHub PR/run/deployment metadata; Vercel deployment, build, and runtime logs; direct production route/API responses; direct Supabase read and exact-row cleanup; browser artifact `browser-certification-31400534644` digest `sha256:16dc3fc35422f0dff968e800603f26a11bd8ce5dc348b9ae7ea91e0d272d1231`.
+- **Evidence class:** DIRECT-CURRENT for release, runtime, database, and browser evidence; no user-value claim is made.
+- **Verified date:** 2026-08-10.
+- **Coverage:** Five explicitly instrumented flagships, the strict shared journey contract, production server boundary, and private `public.journey_events` store.
+- **Freshness trigger:** Any schema, event-contract, consent, privacy, endpoint, deployment, or flagship-flow change; 2026-09-07; or 25 consented view sessions for any journey.
+- **Used by:** CAF-D-017, CAF-W-014, the dated work packet, and future aggregate product-measurement reports.
+- **Limitations:** The release event was synthetic and deleted. No organic production sample, user comprehension evidence, causality, conversion, retention, or willingness-to-pay evidence exists yet. Preview writes fail closed because privileged Supabase credentials are production-only. Vercel's successful build log contains a non-fatal cancellation diagnostic before `Build Completed`.
+- **Owner:** Product, data/analytics, privacy/legal protection, systems/security, accessibility, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

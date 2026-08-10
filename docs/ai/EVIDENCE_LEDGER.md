@@ -227,6 +227,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** The search sample is small and lagged, query clicks are privacy suppressed, tables are non-additive, scroll distance varies by device, and event-defined result reach cannot establish comprehension, satisfaction, causality, conversion, or willingness to pay.
 - **Owner:** SEO/discovery, product, analytics, UX/accessibility, privacy, and quality/release.
 
+### CAF-E-015 — 403(b) search-to-decision production release
+
+- **Claim or state:** PR #272 released direct, tracked calculator actions on CAF's two current 403(b) search-entry articles and a calculator-first owned end state for the nurse contribution article. The feature head `8e56f8b060b78db273b04070085c9da72cd566d5` reached READY preview `dpl_k3fcGB6vokQnVW5xqhYgnKjdG8AS`; merged main `8ffb942e997efa187d1863fcc56e745ccdbb88a2` reached READY production `dpl_AeFaeXVDGNF24w8FNAfJn65KPiKB` with 12 Node functions and the canonical production alias. Exact-head CI #1058, Decision Journey #732, and Browser certification #668 passed. Direct production inspection verified visible button treatment, correct calculator destinations and canonicals, single end-state hierarchy, and zero horizontal overflow for both entries and the destination. Post-smoke runtime errors were 0, and a necessary-only visit retained 0 synthetic `journey_events` rows.
+- **Domain:** Healthcare-worker acquisition, product activation, analytics, accessibility, reliability, privacy, and release.
+- **Source:** GitHub PR #272 and workflow runs 31410715108, 31410715131, and 31410715113; Vercel preview and production deployment/build/runtime metadata; direct production browser inspection; direct Supabase aggregate query; browser artifact `browser-certification-31410715113`, artifact ID 9071661361, digest `sha256:ecf1e1cb4d72979296c182eaff1906a4f94bf4c08a1ac576e45f0128fc0b09a9`.
+- **Evidence class:** DIRECT-CURRENT for code, automation, deployment, production behavior, runtime, and database state; INFERENCE for expected acquisition and activation impact.
+- **Verified date:** 2026-08-10.
+- **Coverage:** The hospital matching article, nurse per-paycheck contribution article, shared tracked-link composition, existing 403(b) calculator entry, production deployment, and necessary-only analytics behavior.
+- **Freshness trigger:** Route/CTA/component/product/consent/schema/deployment change; a production, privacy, accessibility, or search defect; 2026-09-07; or 25 consented 403(b) tool views.
+- **Used by:** CAF-D-018, CAF-W-015, the dated work packet, and the next aggregate 403(b) journey assessment.
+- **Limitations:** Release and functional behavior are proven; organic discovery, CTA use, start rate, result rate, result quality, satisfaction, causality, conversion, retention, and willingness to pay are not. Consented samples will not represent all visitors. Vercel's successful build retains the known non-fatal cancellation diagnostic before `Build Completed`.
+- **Owner:** SEO/discovery, product, frontend, analytics, accessibility, privacy, platform, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

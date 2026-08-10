@@ -37,6 +37,7 @@ describe("first-party journey evidence client", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
 
     const request = fetchMock.mock.calls[0][1] as RequestInit;
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/evidence-event");
     const payload = JSON.parse(String(request.body));
     expect(payload).toMatchObject({
       eventName: "journey_result_reached",

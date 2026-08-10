@@ -33,7 +33,7 @@ export const recordJourneyEvidence = (event: SanitizedJourneyEvent) => {
   };
 
   try {
-    void fetch("/api/journey-event", {
+    void fetch("/api/evidence-event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

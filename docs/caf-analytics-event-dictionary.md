@@ -33,7 +33,7 @@ Prohibited properties include:
 
 ## Shared first-party journey evidence
 
-Source contract: `src/lib/journeyEventContract.ts`, `src/lib/journeyAnalytics.ts`, `src/lib/firstPartyJourneyEvidence.ts`, `api/journey-event.ts`, and `public.journey_events`.
+Source contract: `src/lib/journeyEventContract.ts`, `src/lib/journeyAnalytics.ts`, `src/lib/firstPartyJourneyEvidence.ts`, the shared `api/evidence-event.ts` endpoint, and `public.journey_events`.
 
 After analytics consent, every event accepted by `trackJourneyEvent` is also sent to CAF's private first-party evidence table. This is a measurement mirror, not a second answer stream: it contains only a random event ID, random browser-session journey ID, allowlisted lifecycle event, fixed journey/surface/phase/variant identifiers, an optional step from 0 through 20, and a server timestamp. The endpoint accepts same-origin POST requests only; browser database roles have no table privileges or policies.
 

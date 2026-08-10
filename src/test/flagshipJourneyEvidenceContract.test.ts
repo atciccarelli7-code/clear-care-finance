@@ -21,7 +21,7 @@ describe("flagship first-party journey evidence", () => {
   });
 
   it("keeps the evidence write behind the strict same-origin server boundary", () => {
-    const endpoint = source("api/journey-event.ts");
+    const endpoint = source("api/evidence-event.ts");
     expect(endpoint).toContain("sameOrigin(req, config.siteUrl)");
     expect(endpoint).toContain("parseJourneyEvidencePayload");
     expect(endpoint).toContain('.from("journey_events").insert');

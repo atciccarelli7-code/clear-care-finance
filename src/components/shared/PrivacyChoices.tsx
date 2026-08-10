@@ -42,7 +42,7 @@ export const PrivacyChoices = () => {
             Privacy choices
           </h2>
           <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-            Necessary site technology stays on. You may allow Google Analytics storage to help us understand which pages are useful.
+            Necessary site technology stays on. You may allow anonymous product-use signals and Google Analytics storage to help us understand which guided tools are useful.
             Advertising storage and personalization remain denied by this site’s consent controls.
           </p>
           <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">

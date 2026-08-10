@@ -98,6 +98,12 @@ describe("Hospital Financial Assistance Finder", () => {
       "policy_id",
       "outcome_id",
       "missing_state",
+      "journey_key",
+      "surface",
+      "phase",
+      "step_index",
+      "variant",
+      "session_journey_id",
     ]);
     const calls = vi.mocked(trackSiteEvent).mock.calls;
 

@@ -8,12 +8,21 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { MEDICARE_COVERAGE_SOURCE_REGISTRY, getStaleMedicareSources } from "@/data/medicareCoverageSources";
 import { trackSiteEvent } from "@/lib/analytics";
+import { trackJourneyEvent } from "@/lib/journeyAnalytics";
 import { buildTurning65Plan, type Turning65Answers } from "@/lib/turning65Medicare";
 import { calculateMedicareCandidateCost, evaluateMedicareArchitecture, medicareProgress, verificationSummary } from "@/lib/medicareCoverageDecision";
 import { useSeo } from "@/lib/seo";
 import { emptyMedicareCoverageState, medicareCoverageStateSchema, medicareStageIds, type MedicareCandidate, type MedicareCoverageState, type MedicareEvidenceSource, type MedicareStageId } from "@/medicare/contracts";
 
 const STORAGE_KEY = "caf:medicare-coverage-decision:v1";
+const JOURNEY = {
+  journey_key: "medicare_coverage_decision",
+  surface: "medicare",
+  variant: "flagship_funnel_v1",
+} as const;
+const trackMedicareHandoff = () => {
+  trackJourneyEvent("journey_handoff_opened", { ...JOURNEY, phase: "handoff", step_index: STAGES.length });
+};
 const LazyMedicareTestCheckoutPanel = import.meta.env.VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED === "true"
   ? lazy(() => import("@/components/premium/PremiumTestCheckoutPanel").then(({ PremiumTestCheckoutPanel }) => ({ default: PremiumTestCheckoutPanel })))
   : null;
@@ -148,10 +157,16 @@ export const MedicareCoverageDecisionSystem = ({ initialState, onStateChange, pe
   const completeAndContinue = () => {
     const completedStages = Array.from(new Set([...state.completedStages, state.activeStage]));
     trackSiteEvent("medicare_stage_complete", { event_category: "medicare_decision", stage_id: state.activeStage });
+    trackJourneyEvent("journey_step_completed", {
+      ...JOURNEY,
+      phase: state.activeStage === "candidate-verification" ? "verify_officially" : "narrow_answer",
+      step_index: activeIndex + 1,
+    });
     if (state.activeStage === "coverage-architecture") trackSiteEvent("medicare_architecture_result", { event_category: "medicare_decision", architecture_type: architecture.result });
     if (state.activeStage === "candidate-verification") {
       const verificationState = state.candidates.every((candidate) => verificationSummary(candidate).complete) ? "complete" : "needs_sources";
       trackSiteEvent("medicare_verification_complete", { event_category: "medicare_decision", verification_state: verificationState });
+      trackJourneyEvent("journey_result_reached", { ...JOURNEY, phase: "result", step_index: STAGES.length });
     }
     if (activeIndex < STAGES.length - 1) goToStage(STAGES[activeIndex + 1].id);
     setState((current) => ({ ...current, completedStages, activeStage: activeIndex < STAGES.length - 1 ? STAGES[activeIndex + 1].id : current.activeStage }));
@@ -174,7 +189,7 @@ export const MedicareCoverageDecisionSystem = ({ initialState, onStateChange, pe
               <h1 className="mt-4 max-w-4xl font-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">Structure your Medicare decision before you compare plans.</h1>
               <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">Work through enrollment timing, Original Medicare versus Medicare Advantage, doctors, prescriptions, cost exposure, plan rules, and verification—one decision at a time.</p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Button size="lg" variant="hero" className="min-h-12 text-base" onClick={() => { setStarted(true); trackSiteEvent("medicare_decision_start", { event_category: "medicare_decision", entry_point: "product" }); }}>Start the free guided decision <ArrowRight className="h-5 w-5" /></Button>
+                <Button size="lg" variant="hero" className="min-h-12 text-base" onClick={() => { setStarted(true); trackSiteEvent("medicare_decision_start", { event_category: "medicare_decision", entry_point: "product" }); trackJourneyEvent("journey_started", { ...JOURNEY, phase: "name_question", step_index: 0 }); }}>Start the free guided decision <ArrowRight className="h-5 w-5" /></Button>
                 <Button asChild size="lg" variant="outline" className="min-h-12 text-base"><Link to="/medicare-care-costs">Browse Medicare resources</Link></Button>
               </div>
               <p className="mt-4 text-sm font-semibold text-muted-foreground">No account required. No Medicare number, diagnoses, medication names, or insurer sales calls.</p>
@@ -295,7 +310,7 @@ export const MedicareCoverageDecisionSystem = ({ initialState, onStateChange, pe
               <Field id="mail-order" label="Would mail order be acceptable?" value={state.prescriptions.mailOrderAcceptable} options={yesNoUnsure} onChange={(value) => patchSection("prescriptions", { mailOrderAcceptable: value as "yes" | "no" | "unsure" })} />
               {(["planFinderComplete", "formularyChecked", "tierChecked", "restrictionsChecked", "pharmacyChecked", "annualEstimateReviewed"] as const).map((key) => <Field key={key} id={key} label={({ planFinderComplete: "All drugs entered in Medicare Plan Finder?", formularyChecked: "Formulary checked?", tierChecked: "Tier and cost sharing checked?", restrictionsChecked: "Prior authorization, step therapy, and limits checked?", pharmacyChecked: "Preferred/in-network pharmacy checked?", annualEstimateReviewed: "Official annual drug estimate reviewed?" } as const)[key]} value={state.prescriptions[key]} options={yesNoUnsure} onChange={(value) => patchSection("prescriptions", { [key]: value })} />)}
             </div>
-            <div className="flex flex-wrap gap-3"><ExternalAction href={OFFICIAL.planFinder} onClick={() => trackSiteEvent("medicare_plan_finder_handoff", { event_category: "medicare_decision", stage_id: "prescriptions-pharmacy" })}>Open Medicare Plan Finder</ExternalAction><Button asChild variant="outline"><Link to="/insurance/medication-coverage-checklist">Open CAF medication checklist</Link></Button></div>
+            <div className="flex flex-wrap gap-3"><ExternalAction href={OFFICIAL.planFinder} onClick={() => { trackSiteEvent("medicare_plan_finder_handoff", { event_category: "medicare_decision", stage_id: "prescriptions-pharmacy" }); trackMedicareHandoff(); }}>Open Medicare Plan Finder</ExternalAction><Button asChild variant="outline"><Link to="/insurance/medication-coverage-checklist">Open CAF medication checklist</Link></Button></div>
           </div>
         )}
 
@@ -340,7 +355,7 @@ export const MedicareCoverageDecisionSystem = ({ initialState, onStateChange, pe
               const summary = verificationSummary(candidate);
               return <Card key={candidate.id} className="rounded-3xl"><CardHeader><CardTitle>{candidate.label} · {candidate.planYear}</CardTitle><CardDescription>{summary.resolved} of {summary.total || items.length} entries resolved · {summary.needsSource} need a source · {summary.changed} changed for next year · {summary.evidenceRecorded} {summary.evidenceRecorded === 1 ? "source" : "sources"} recorded</CardDescription></CardHeader><CardContent className="space-y-3">{items.map((item) => <div key={item} className="grid gap-3 rounded-xl border border-border p-3 md:grid-cols-[minmax(8rem,1fr)_13rem_14rem_11rem] md:items-end"><p className="pb-2 font-bold capitalize">{item.replaceAll("-", " ")}</p><div><Label htmlFor={`${candidate.id}-${item}-status`}>Status</Label><select id={`${candidate.id}-${item}-status`} className="mt-1 h-11 w-full rounded-xl border border-input bg-background px-3 text-base" value={candidate.verification[item] || "source-needed"} onChange={(event) => updateCandidate(index, { verification: { ...candidate.verification, [item]: event.target.value as MedicareCandidate["verification"][string] } })}><option value="source-needed">Source needed</option><option value="not-confirmed">Not confirmed</option><option value="confirmed">Confirmed</option><option value="changed-next-year">Changed for next year</option><option value="not-applicable">Not applicable</option></select></div><div><Label htmlFor={`${candidate.id}-${item}-source`}>Evidence source</Label><select id={`${candidate.id}-${item}-source`} className="mt-1 h-11 w-full rounded-xl border border-input bg-background px-3 text-base" value={candidate.evidenceSources[item] || "not-recorded"} onChange={(event) => updateCandidate(index, { evidenceSources: { ...candidate.evidenceSources, [item]: event.target.value as MedicareEvidenceSource } })}>{evidenceSources.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></div><div><Label htmlFor={`${candidate.id}-${item}-date`}>Checked date</Label><Input id={`${candidate.id}-${item}-date`} className="mt-1 h-11 text-base" type="date" max={new Date().toISOString().slice(0, 10)} value={candidate.evidenceDates[item] || ""} onChange={(event) => updateCandidate(index, { evidenceDates: { ...candidate.evidenceDates, [item]: event.target.value } })} /></div></div>)}</CardContent></Card>;
             })}
-            <div className="flex flex-wrap gap-3"><Button asChild variant="outline"><Link to="/tools/medicare-plan-verification-checklist">Open the standalone verification checklist</Link></Button><ExternalAction href={OFFICIAL.planFinder} onClick={() => trackSiteEvent("medicare_verification_start", { event_category: "medicare_decision", stage_id: "candidate-verification" })}>Check plans on Medicare.gov</ExternalAction></div>
+            <div className="flex flex-wrap gap-3"><Button asChild variant="outline"><Link to="/tools/medicare-plan-verification-checklist">Open the standalone verification checklist</Link></Button><ExternalAction href={OFFICIAL.planFinder} onClick={() => { trackSiteEvent("medicare_verification_start", { event_category: "medicare_decision", stage_id: "candidate-verification" }); trackMedicareHandoff(); }}>Check plans on Medicare.gov</ExternalAction></div>
           </div>
         )}
 
@@ -357,10 +372,10 @@ export const MedicareCoverageDecisionSystem = ({ initialState, onStateChange, pe
               <section className="mt-8"><h3 className="font-display text-xl font-bold">Candidate comparison and cost picture</h3><div className="mt-3 grid gap-4 md:grid-cols-2">{state.candidates.map((candidate) => { const cost = calculateMedicareCandidateCost(candidate); const verified = verificationSummary(candidate); return <div key={candidate.id} className="rounded-2xl border border-border p-4"><h4 className="font-bold">{candidate.label}: {candidate.structure.replaceAll("-", " ")} · {candidate.planYear}</h4><dl className="mt-3 grid grid-cols-2 gap-2 text-sm"><dt>Fixed annual premiums</dt><dd className="font-bold">{cost.fixedAnnualPremiums === null ? "Incomplete" : cost.fixedAnnualPremiums.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}</dd><dt>Expected use</dt><dd className="font-bold">{cost.expectedUse === null ? "Incomplete" : cost.expectedUse.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}</dd><dt>Higher use</dt><dd className="font-bold">{cost.higherUse === null ? "No defensible total" : cost.higherUse.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}</dd><dt>Verification</dt><dd className="font-bold">{verified.resolved}/{verified.total || 11} resolved</dd><dt>Evidence ledger</dt><dd className="font-bold">{verified.evidenceRecorded} {verified.evidenceRecorded === 1 ? "source" : "sources"} · {verified.evidenceDated} dated</dd></dl></div>; })}</div></section>
               <section className="mt-8"><h3 className="font-display text-xl font-bold">Must-verify action checklist</h3><ol className="mt-3 space-y-2 text-muted-foreground"><li>1. Resolve enrollment, employer coordination, HSA, creditable drug coverage, and Medigap timing questions first.</li><li>2. Enter every recurring prescription in Medicare Plan Finder; check formulary, tier, restrictions, pharmacy, and annual estimate.</li><li>3. Verify important provider and hospital categories in current directories and directly with the provider.</li><li>4. Confirm premiums, deductibles, copays, maximum exposure, networks, referrals, authorization, and next-year changes in official plan documents.</li><li>5. Review the final comparison with Medicare.gov or a local SHIP counselor before enrolling.</li></ol></section>
               {architecture.assistancePathway && <section className="mt-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-5"><h3 className="font-display text-xl font-bold text-emerald-950">Cost-assistance pathway</h3><p className="mt-2 leading-relaxed text-emerald-950/80">Check Medicaid, Medicare Savings Programs, and Extra Help with the state agency and official programs. This brief does not determine eligibility or recommend a Special Needs Plan.</p></section>}
-              <section className="mt-8"><h3 className="font-display text-xl font-bold">Official handoff</h3><div className="medicare-no-print mt-3 flex flex-wrap gap-3"><ExternalAction href={OFFICIAL.medicare}>Medicare.gov</ExternalAction><ExternalAction href={OFFICIAL.planFinder} onClick={() => trackSiteEvent("medicare_plan_finder_handoff", { event_category: "medicare_decision", stage_id: "decision-brief" })}>Medicare Plan Finder</ExternalAction><ExternalAction href={OFFICIAL.socialSecurity}>Social Security</ExternalAction><ExternalAction href={OFFICIAL.ship} onClick={() => trackSiteEvent("ship_handoff", { event_category: "medicare_decision", stage_id: "decision-brief" })}>Find local SHIP</ExternalAction><ExternalAction href={OFFICIAL.medicaid}>State Medicaid help</ExternalAction></div></section>
+              <section className="mt-8"><h3 className="font-display text-xl font-bold">Official handoff</h3><div className="medicare-no-print mt-3 flex flex-wrap gap-3"><ExternalAction href={OFFICIAL.medicare} onClick={trackMedicareHandoff}>Medicare.gov</ExternalAction><ExternalAction href={OFFICIAL.planFinder} onClick={() => { trackSiteEvent("medicare_plan_finder_handoff", { event_category: "medicare_decision", stage_id: "decision-brief" }); trackMedicareHandoff(); }}>Medicare Plan Finder</ExternalAction><ExternalAction href={OFFICIAL.socialSecurity} onClick={trackMedicareHandoff}>Social Security</ExternalAction><ExternalAction href={OFFICIAL.ship} onClick={() => { trackSiteEvent("ship_handoff", { event_category: "medicare_decision", stage_id: "decision-brief" }); trackMedicareHandoff(); }}>Find local SHIP</ExternalAction><ExternalAction href={OFFICIAL.medicaid} onClick={trackMedicareHandoff}>State Medicaid help</ExternalAction></div></section>
               <section className="mt-8"><h3 className="font-display text-xl font-bold">Sources</h3>{staleSources.length > 0 && <p className="mt-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-950">One or more source review dates have passed. Verify current official rules before relying on time-sensitive figures.</p>}<ul className="mt-3 space-y-3 text-sm text-muted-foreground">{MEDICARE_COVERAGE_SOURCE_REGISTRY.map((source) => <li key={source.id}><a className="font-bold text-primary underline-offset-4 hover:underline" href={source.url} target="_blank" rel="noreferrer">{source.title}</a> — {source.agency}; supports {source.supports.toLowerCase()}; last verified {source.lastVerified}; next review {source.nextReview}; {source.authority}.</li>)}</ul></section>
             </div>
-            <div className="medicare-no-print flex flex-col gap-3 sm:flex-row sm:justify-end"><Button variant="outline" onClick={() => goToStage("candidate-verification")}><ArrowLeft className="h-4 w-4" />Update verification</Button><Button onClick={() => { trackSiteEvent("medicare_decision_brief_complete", { event_category: "medicare_decision", completion_type: "browser_local" }); trackSiteEvent("medicare_print", { event_category: "medicare_decision", output_type: "browser_print" }); window.print(); }}><Printer className="h-4 w-4" />Print or save as PDF</Button></div>
+            <div className="medicare-no-print flex flex-col gap-3 sm:flex-row sm:justify-end"><Button variant="outline" onClick={() => goToStage("candidate-verification")}><ArrowLeft className="h-4 w-4" />Update verification</Button><Button onClick={() => { trackSiteEvent("medicare_decision_brief_complete", { event_category: "medicare_decision", completion_type: "browser_local" }); trackSiteEvent("medicare_print", { event_category: "medicare_decision", output_type: "browser_print" }); trackJourneyEvent("journey_result_printed", { ...JOURNEY, phase: "result", step_index: STAGES.length }); window.print(); }}><Printer className="h-4 w-4" />Print or save as PDF</Button></div>
           </article>
         )}
       </div>
@@ -390,7 +405,10 @@ const MedicareCoverageDecisionPage = () => {
       description: "A free, independent Medicare decision-organization workflow with no plan sales or enrollment.",
     }],
   });
-  useEffect(() => { trackSiteEvent("medicare_product_view", { event_category: "medicare_decision", surface_id: "public_product" }); }, []);
+  useEffect(() => {
+    trackSiteEvent("medicare_product_view", { event_category: "medicare_decision", surface_id: "public_product" });
+    trackJourneyEvent("journey_viewed", { ...JOURNEY, phase: "name_question", step_index: 0 });
+  }, []);
   return <>
     <MedicareCoverageDecisionSystem />
     {LazyMedicareTestCheckoutPanel && <div className="container pb-16"><Suspense fallback={<p role="status">Loading protected test checkout…</p>}><LazyMedicareTestCheckoutPanel productKey="medicare-coverage-decision-system" productName="Medicare Coverage Decision System" /></Suspense></div>}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { OpenEnrollmentSourceAssistant } from "@/components/premium/OpenEnrollmentSourceAssistant";
 import { trackSiteEvent } from "@/lib/analytics";
+import { trackJourneyEvent } from "@/lib/journeyAnalytics";
 import { buildDecisionTrace } from "@/premium/decisionTrace";
 import {
   OPEN_ENROLLMENT_PILOT_VERSION,
@@ -39,6 +40,11 @@ import {
 } from "@/premium/openEnrollmentPilot";
 
 const STORAGE_KEY = `caf-open-enrollment-pilot-v${OPEN_ENROLLMENT_PILOT_VERSION}`;
+const JOURNEY = {
+  journey_key: "benefits_decision_system",
+  surface: "benefits",
+  variant: "flagship_funnel_v1",
+} as const;
 const inputClass = "mt-2 min-h-12 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20";
 const cardClass = "rounded-2xl border border-border bg-background p-5";
 
@@ -195,6 +201,8 @@ const electionOptions: Array<{ value: ElectionChoice; label: string }> = [
 
 export const OpenEnrollmentPilot = () => {
   const [state, setState] = useState<OpenEnrollmentPilotState>(readState);
+  const initialStepRef = useRef(state.currentStep);
+  const startedRef = useRef(state.currentStep !== "event");
   const progress = getOpenEnrollmentProgress(state);
   const stepIndex = openEnrollmentStepIds.indexOf(state.currentStep);
   const currentComplete = isOpenEnrollmentStepComplete(state, state.currentStep);
@@ -207,6 +215,17 @@ export const OpenEnrollmentPilot = () => {
     try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { /* local persistence is optional */ }
   }, [state]);
 
+  useEffect(() => {
+    trackJourneyEvent("journey_viewed", { ...JOURNEY, phase: "name_question", step_index: 0 });
+    if (initialStepRef.current !== "event") {
+      trackJourneyEvent("journey_resume_clicked", {
+        ...JOURNEY,
+        phase: "narrow_answer",
+        step_index: openEnrollmentStepIds.indexOf(initialStepRef.current),
+      });
+    }
+  }, []);
+
   const patchPlan = (id: "a" | "b", patch: Partial<HealthPlanInput>) => setState((current) => ({
     ...current,
     plans: { ...current.plans, [id]: { ...current.plans[id], ...patch } },
@@ -215,14 +234,28 @@ export const OpenEnrollmentPilot = () => {
   const go = (id: OpenEnrollmentStepId) => setState((current) => ({ ...current, currentStep: id }));
   const next = () => {
     if (!currentComplete) return;
+    if (!startedRef.current) {
+      startedRef.current = true;
+      trackJourneyEvent("journey_started", { ...JOURNEY, phase: "name_question", step_index: 0 });
+    }
     trackSiteEvent("benefits_pilot_step_completed", { event_category: "premium_system", step_id: state.currentStep });
+    trackJourneyEvent("journey_step_completed", {
+      ...JOURNEY,
+      phase: stepIndex >= openEnrollmentStepIds.length - 2 ? "build_action_plan" : "narrow_answer",
+      step_index: stepIndex + 1,
+    });
+    if (state.currentStep === "retirement") {
+      trackJourneyEvent("journey_result_reached", { ...JOURNEY, phase: "result", step_index: openEnrollmentStepIds.length });
+    }
     go(openEnrollmentStepIds[Math.min(stepIndex + 1, openEnrollmentStepIds.length - 1)]);
   };
   const back = () => go(openEnrollmentStepIds[Math.max(stepIndex - 1, 0)]);
   const reset = () => {
     if (!window.confirm("Clear this browser-local workflow and start over?")) return;
     try { window.localStorage.removeItem(STORAGE_KEY); } catch { /* no-op */ }
+    startedRef.current = false;
     setState(createOpenEnrollmentPilotState());
+    trackJourneyEvent("journey_restarted", { ...JOURNEY, phase: "name_question", step_index: 0 });
   };
   const acknowledge = (checked: boolean) => {
     setState((current) => ({ ...current, finalReviewAcknowledged: checked }));
@@ -230,6 +263,7 @@ export const OpenEnrollmentPilot = () => {
   };
   const printDecisionBrief = () => {
     trackSiteEvent("benefits_pilot_brief_printed", { event_category: "premium_system", pilot_version: OPEN_ENROLLMENT_PILOT_VERSION });
+    trackJourneyEvent("journey_result_printed", { ...JOURNEY, phase: "result", step_index: openEnrollmentStepIds.length });
     window.print();
   };
 

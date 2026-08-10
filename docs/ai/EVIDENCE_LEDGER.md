@@ -188,6 +188,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Educational narrowing is a risk-control decision, not a legal opinion. No authorized Stripe test-mode surface was available, so code-level payment tests do not establish a real hosted Checkout/webhook/refund cycle. Search Console evidence was unavailable and no user study has yet established comprehension or value.
 - **Owner:** Product, content/evidence, healthcare user research, privacy/legal protection, systems/security, accessibility, monetization, and quality/release.
 
+### CAF-E-012 — August 10 search baseline and flagship outcome-evidence gap
+
+- **Claim or state:** The August 10, 2026 Search Console Web export covers daily data from 2026-06-21 through 2026-08-08 and reports 17 daily clicks/1,490 impressions, while the page table reports 18 clicks/1,992 impressions. The disclosed query table contains 396 rows, 0 clicks, and 862 impressions because low-volume click queries are privacy suppressed. Qualified near-winners include the hospital 403(b) article (2 clicks, 124 impressions, position 8.15), nurse 403(b) contribution article (1/23/6.04), total-compensation tool (1/10/8.10), facility-fee article (0/48/12.50), check-assistance-before-paying page (0/13/4.92), and EOB/bill matcher (0/9/5.22). The active first-party `growth_events` table contained 12 navigation/offer events and no flagship lifecycle result evidence.
+- **Domain:** Search performance, site analytics, product strategy, database/auth, and privacy.
+- **Source:** Founder-provided August 10 Search Console export `communityacquiredfinance.com-Performance-on-Search-2026-08-10.zip`; current production/main/Vercel reconciliation; direct Supabase project `uzfcvtgnpkvuapgrkfcb` query; July 21 Library research *What Makes Websites Succeed and What Community Acquired Finance Should Become*; detailed reconciliation in the dated work packet.
+- **Evidence class:** DIRECT-CURRENT for GSC, code, production, Vercel, and Supabase; INTERNAL-RECORD for the research paper; INFERENCE for opportunity clustering and the selected intervention.
+- **Verified date:** 2026-08-10.
+- **Coverage:** Web search only for the exported property/window; current first-party event store; five selected released flagships.
+- **Freshness trigger:** New Search Console export; 2026-09-07; 25 consented first-party views for any selected journey; analytics schema/consent change; or a major product/SEO release.
+- **Used by:** CAF-D-017, CAF-W-014, `public.journey_events`, the first-party journey evidence API/client, and `docs/work-packets/2026-08-10-first-party-journey-evidence.md`.
+- **Limitations:** GSC tables are intentionally non-additive and cannot be reliably joined at this low volume; rankings and impressions do not establish product value, causality, conversion, or willingness to pay. Consented first-party sessions are not representative of all visitors, and lifecycle events do not establish comprehension or satisfaction.
+- **Owner:** Data/analytics, SEO/discovery, product, privacy/legal protection, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

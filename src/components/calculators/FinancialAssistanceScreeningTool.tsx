@@ -26,6 +26,7 @@ import {
   type HospitalFinancialAssistancePolicy,
 } from "@/data/hospitalFinancialAssistancePolicies";
 import { trackSiteEvent } from "@/lib/analytics";
+import { trackJourneyEvent } from "@/lib/journeyAnalytics";
 import {
   buildHospitalAssistanceResult,
   DEFAULT_HOSPITAL_ASSISTANCE_ANSWERS,
@@ -42,6 +43,11 @@ import { cn } from "@/lib/utils";
 const TOOL_ID = "hospital-financial-assistance-finder";
 const SOURCE_ROUTE = "/tools/financial-assistance-checklist";
 const RETURN_MARKER = "caf_hospital_assistance_finder_seen_v1";
+const JOURNEY = {
+  journey_key: "hospital_financial_assistance",
+  surface: "medical_bill",
+  variant: "flagship_funnel_v1",
+} as const;
 
 const US_STATES = [
   ["AL", "Alabama"], ["AK", "Alaska"], ["AZ", "Arizona"], ["AR", "Arkansas"], ["CA", "California"],
@@ -201,6 +207,7 @@ export const FinancialAssistanceScreeningTool = () => {
 
   useEffect(() => {
     trackSiteEvent("product_landing_view", { event_category: "decision_products", tool_id: TOOL_ID, surface_id: "tool" });
+    trackJourneyEvent("journey_viewed", { ...JOURNEY, phase: "name_question", step_index: 0 });
     try {
       if (window.localStorage.getItem(RETURN_MARKER) === "true") {
         trackSiteEvent("product_return_session", { event_category: "decision_products", tool_id: TOOL_ID, return_state: "browser_marker" });
@@ -266,10 +273,16 @@ export const FinancialAssistanceScreeningTool = () => {
     if (!startedRef.current) {
       startedRef.current = true;
       trackSiteEvent("tool_started", { event_category: "decision_products", tool_id: TOOL_ID, step_id: currentStep.id });
+      trackJourneyEvent("journey_started", { ...JOURNEY, phase: "name_question", step_index: 0 });
     }
     const properties: Record<string, string> = { event_category: "decision_products", tool_id: TOOL_ID, step_id: currentStep.id };
     if (currentStep.id === "hospital") properties.policy_id = answers.policySlug || "not_listed";
     trackSiteEvent("tool_step_completed", properties);
+    trackJourneyEvent("journey_step_completed", {
+      ...JOURNEY,
+      phase: stepIndex < 2 ? "name_question" : "narrow_answer",
+      step_index: stepIndex + 1,
+    });
     setStepIndex((current) => Math.min(current + 1, STEPS.length - 1));
     setValidationMessage("");
   };
@@ -284,6 +297,7 @@ export const FinancialAssistanceScreeningTool = () => {
       outcome_id: nextResult.status,
       policy_id: answers.policySlug || "not_listed",
     });
+    trackJourneyEvent("journey_result_reached", { ...JOURNEY, phase: "result", step_index: STEPS.length });
   };
 
   const reset = () => {
@@ -304,6 +318,7 @@ export const FinancialAssistanceScreeningTool = () => {
       await navigator.clipboard.writeText(resultAsText(result, selectedPolicy));
       setCopied(true);
       trackSiteEvent("tool_result_action", { event_category: "decision_products", tool_id: TOOL_ID, action_id: "copy_success" });
+      trackJourneyEvent("journey_result_copied", { ...JOURNEY, phase: "result", step_index: STEPS.length });
     } catch {
       setCopied(false);
       trackSiteEvent("tool_result_action", { event_category: "decision_products", tool_id: TOOL_ID, action_id: "copy_blocked" });
@@ -324,6 +339,7 @@ export const FinancialAssistanceScreeningTool = () => {
 
   const printResult = () => {
     trackSiteEvent("result_printed", { event_category: "decision_products", tool_id: TOOL_ID, outcome_id: result?.status ?? "unknown" });
+    trackJourneyEvent("journey_result_printed", { ...JOURNEY, phase: "result", step_index: STEPS.length });
     window.print();
   };
 
@@ -335,6 +351,7 @@ export const FinancialAssistanceScreeningTool = () => {
       action_id: actionId,
       source_id: sourceId,
     });
+    trackJourneyEvent("journey_handoff_opened", { ...JOURNEY, phase: "handoff", step_index: STEPS.length });
   };
 
   const renderStep = () => {

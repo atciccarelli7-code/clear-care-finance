@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useLocation } from "react-router-dom";
 import { PiggyBank, ShieldCheck } from "lucide-react";
 import { DecisionOutcomePanel } from "@/components/shared/DecisionOutcomePanel";
@@ -11,6 +11,7 @@ import {
   RETIREMENT_403B_DECISION_ID,
 } from "@/data/retirement403bDecisionProduct";
 import { createDecisionOutcomeAnalytics } from "@/lib/decisionOutcomeAnalytics";
+import { trackJourneyEvent } from "@/lib/journeyAnalytics";
 import {
   evaluateRetirement403bDecision,
   type Retirement403bContributionType,
@@ -44,6 +45,12 @@ const INITIAL_VALUES: FormValues = {
   employerMatchCapPercent: "6",
   employerNonElectivePercent: "3",
 };
+
+const JOURNEY = {
+  journey_key: "paycheck_403b",
+  surface: "benefits",
+  variant: "flagship_funnel_v1",
+} as const;
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const toNumber = (value: string) => value.trim() === "" ? Number.NaN : Number(value);
@@ -161,9 +168,19 @@ export const Calc403bEmailEstimate = () => {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
+  const journeyStartedRef = useRef(false);
   const analytics = useMemo(() => createDecisionOutcomeAnalytics(RETIREMENT_403B_DECISION_ID), []);
 
-  const markStarted = () => analytics.track("decision_calculator_started", {}, { dedupe: true });
+  useEffect(() => {
+    trackJourneyEvent("journey_viewed", { ...JOURNEY, phase: "name_question", step_index: 0 });
+  }, []);
+
+  const markStarted = () => {
+    analytics.track("decision_calculator_started", {}, { dedupe: true });
+    if (journeyStartedRef.current) return;
+    journeyStartedRef.current = true;
+    trackJourneyEvent("journey_started", { ...JOURNEY, phase: "name_question", step_index: 0 });
+  };
   const clearStaleResult = () => {
     if (decision) analytics.track("decision_assumptions_edited", { action_id: "edit" }, { dedupe: true });
     setDecision(null);
@@ -210,12 +227,15 @@ export const Calc403bEmailEstimate = () => {
       analytics.track("decision_validation_blocked", { block_id: nextDecision.errors[0].code }, { dedupe: true });
     } else {
       analytics.track("decision_valid_result_reached", {}, { dedupe: true });
+      trackJourneyEvent("journey_result_reached", { ...JOURNEY, phase: "result", step_index: 1 });
     }
   };
 
   const restart = () => {
     analytics.track("decision_journey_restarted", { action_id: "restart" });
+    trackJourneyEvent("journey_restarted", { ...JOURNEY, phase: "name_question", step_index: 0 });
     analytics.resetTransitions();
+    journeyStartedRef.current = false;
     setValues(INITIAL_VALUES);
     setDecision(null);
     setCopyStatus("idle");
@@ -236,6 +256,7 @@ export const Calc403bEmailEstimate = () => {
       await navigator.clipboard.writeText(decision.view.portableSummary);
       setCopyStatus("copied");
       analytics.track("decision_portable_output_used", { action_id: "copy" });
+      trackJourneyEvent("journey_result_copied", { ...JOURNEY, phase: "result", step_index: 1 });
     } catch {
       setCopyStatus("failed");
     }
@@ -243,6 +264,7 @@ export const Calc403bEmailEstimate = () => {
 
   const print = () => {
     analytics.track("decision_portable_output_used", { action_id: "print" });
+    trackJourneyEvent("journey_result_printed", { ...JOURNEY, phase: "result", step_index: 1 });
     window.print();
   };
 

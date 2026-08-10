@@ -34,6 +34,26 @@ Export the governed journey events with only these columns:
 
 The report generator fails closed when the export contains a prohibited or non-contract column. It rejects malformed rows rather than silently coercing them into a metric.
 
+For the private first-party store, run this query only from an authorized server/admin database surface, then export the result as CSV. Do not expose the table or this query through a browser role.
+
+```sql
+select
+  event_name,
+  journey_key,
+  surface,
+  coalesce(phase, '') as phase,
+  step_index,
+  coalesce(variant, '') as variant,
+  session_journey_id,
+  created_at::date as event_date,
+  created_at as event_timestamp
+from public.journey_events
+where created_at >= now() - interval '28 days'
+order by created_at;
+```
+
+The query deliberately excludes event IDs and any non-contract database metadata. Keep the exported file outside the repository and delete it when the review no longer needs row-level session evidence.
+
 ### Search Console CSV
 
 Export query-page rows with:

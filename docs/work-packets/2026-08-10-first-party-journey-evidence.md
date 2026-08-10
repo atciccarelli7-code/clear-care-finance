@@ -74,14 +74,14 @@
 | Information architecture / UX | PASS | No visible journey structure or navigation changes; user actions remain uninterrupted on analytics failure |
 | Content and evidence integrity | PASS | No financial, legal, insurance, tax, or medical claim changed |
 | Frontend / systems architecture | PASS | One shared strict contract and helper; existing journey calls compound automatically |
-| Backend, data, security | PASS pending production check | Same-origin endpoint, exact keys, service-only table, forced RLS, least privilege |
-| Platform and DevOps | PASS pending release | Exact-head CI, preview, migration, production smoke, and logs required |
+| Backend, data, security | PASS | Same-origin endpoint, exact keys, service-only table, forced RLS, least privilege, and production write/read/cleanup verified |
+| Platform and DevOps | PASS | Exact-head CI, READY preview/production deployments, production smoke, and clean runtime errors verified |
 | SEO and discovery | PASS | No canonical, route, sitemap, structured-data, or indexability change |
 | Monetization and conversion | WARN | System measures progression but cannot yet prove willingness to pay |
 | Analytics and experimentation | PASS | Five new flagship funnels plus existing strict journeys become first-party queryable |
-| Accessibility, performance, reliability | PASS pending browser | No UI control added; desktop/mobile/runtime certification still required |
+| Accessibility, performance, reliability | PASS | Exact-head desktop/mobile browser, accessibility, print, performance, and runtime certification passed |
 | Privacy, legal, protection | PASS | Explicit analytics consent; public roles receive no table access; disclosure updated |
-| Publishing / quality / release | PASS pending release | Documentation, full suite, browser, advisors, merge, and production evidence required |
+| Publishing / quality / release | PASS | Documentation, full suite, browser artifact, advisors, merge, production API, and runtime evidence recorded |
 | Adversarial red team | PASS | Endpoint rejects non-origin and non-allowlisted payloads; storage excludes all user values |
 | Process improvement | PASS | Future feature prioritization can use result rates, not page impressions alone |
 
@@ -153,13 +153,15 @@ Mitigation: treat all rates as consented-session evidence, report numerator and 
 
 ### Technical validation
 
-- **Status:** PASS locally and in the production database; deployment/runtime closeout pending.
+- **Status:** PASS in local checks, exact-head CI/browser certification, preview, production, and the production database.
 - **Implementation correctness:** 127 test files / 721 tests pass. The first full run exposed one stale HFA analytics-test allowlist; the test was updated to recognize the new coarse journey keys, and the complete suite then passed.
 - **Tests and typing:** Focused parser/client/migration/flagship tests, API TypeScript, lint with zero errors (15 existing Fast Refresh warnings), and the full repository suite pass.
 - **Security and privacy:** Supabase accepted a valid service-role event inside a rolled-back transaction, rejected a non-allowlisted journey/variant, denied anonymous reads, retained forced RLS with no browser policies, and grants only SELECT/INSERT/DELETE to `service_role`.
 - **Build/SEO:** Full production build, 182-route prerender, publication, premium, privacy boundary, sitemap, bundle, and search-readiness gates pass. Entry bundle is 496.87 KiB under the 500 KiB budget.
 - **Advisors:** Security reports only the intentional informational `rls_enabled_no_policy` notice for this private table; performance reports its new read index as unused before production traffic. [Supabase lint reference](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy).
-- **Still required:** Exact-head preview desktop/mobile, consent-denied and consent-allowed endpoint behavior, merge, production route/API/log smoke.
+- **Release evidence:** PR #270 merged as `5848f129e80efdd389cc367e36b8cd1dcb6e9fef`. Preview `dpl_2zp2oDDAp8epqLVkSByg3CNUWp9z` and production `dpl_CXZYmwB4wq2QAU3dJbgznAeXFHfs` were READY at the exact expected SHAs with 12 Node functions. CI #1053, Decision Journey #730, and Browser certification #666 passed; browser artifact `browser-certification-31400534644` has digest `sha256:16dc3fc35422f0dff968e800603f26a11bd8ce5dc348b9ae7ea91e0d272d1231`.
+- **Production API:** A controlled allowlisted event returned 202, was read back with the exact fixed payload, and was deleted. Invalid journey data returned 400, a foreign origin returned 403, Vercel recorded exactly those 202/400/403 requests, and no runtime errors were present. Zero synthetic test rows remain.
+- **Operational caveat:** The protected preview correctly rejected a foreign origin but returned fail-closed 503 for a valid write because privileged Supabase credentials are production-only. Vercel's successful build log also retains the existing non-fatal `The build was canceled` diagnostic before `Build Completed`; deployment and every release gate still completed successfully.
 
 ### Business validation
 
@@ -182,15 +184,16 @@ Mitigation: treat all rates as consented-session evidence, report numerator and 
 - [x] Claims/calculations/SEO routes unchanged.
 - [x] Full tests, lint, type checks, and build.
 - [x] Supabase migration, effective privileges, rolled-back valid/invalid write checks, and advisors.
-- [ ] Exact-head CI.
-- [ ] Preview desktop/mobile, consent states, API response, no runtime/hydration/accessibility regression.
-- [ ] Merge, production deployment, route/API/log smoke.
+- [x] Exact-head CI.
+- [x] Preview desktop/mobile, consent states, API boundary, no runtime/hydration/accessibility regression.
+- [x] Merge, production deployment, route/API/database/log smoke, and synthetic-row cleanup.
 
 ## 17. Executive closeout
 
 - **What changed:** A private aggregate learning loop across priority products.
 - **What did not:** User answers, routes, products, calculations, claims, pricing, Stripe, entitlements, saved work, or ads.
-- **Unresolved warning:** Post-release sample and user-value evidence do not yet exist.
+- **Release:** PR #270 is merged and production deployment `dpl_CXZYmwB4wq2QAU3dJbgznAeXFHfs` is READY on the canonical domain at `5848f129e80efdd389cc367e36b8cd1dcb6e9fef`.
+- **Unresolved warning:** Post-release organic sample and user-value evidence do not yet exist; the controlled release event was deleted and must not be interpreted as usage.
 - **Owner-only action:** None for release; future pricing still requires actual demand evidence and certified test commerce.
 - **Single highest-value next action:** After the minimum sample, improve the highest-impression qualified entry whose start-to-result rate shows a remediable journey break.
 

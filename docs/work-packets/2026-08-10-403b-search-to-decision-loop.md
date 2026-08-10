@@ -83,14 +83,14 @@ The prior analytics cycle was treated as completed and useful. Its lack of rows 
 | Frontend engineering | PASS | Central route configuration avoids page-specific tracking code | Typed action config and focused tests |
 | Systems architecture | PASS | No new state or service is needed | Route-to-route navigation only |
 | Backend, data, and security | PASS | No backend, RLS, auth, or server boundary changes | Zero schema/API diff |
-| Platform and DevOps | PENDING RELEASE | Exact-head CI and READY deployment are required | Preview and production evidence |
+| Platform and DevOps | PASS | Exact-head CI passed and the merged SHA reached a READY production deployment | PR #272; production `dpl_AeFaeXVDGNF24w8FNAfJn65KPiKB` |
 | SEO and discovery | PASS | Existing URLs, titles, canonicals, schema, and indexability stay stable | Search-readiness and canonical checks |
 | Monetization and conversion | WARN | Work improves a prerequisite to paid value, not revenue itself | No price, checkout, or paid claim |
 | Analytics and experimentation | PASS WITH LIMITATION | Existing CTA event plus tool lifecycle can measure aggregate continuation | Report every rate with numerator and denominator; no user-level joining |
-| Accessibility, performance, and reliability | PENDING RELEASE | Button label and hierarchy must work at mobile widths and in axe checks | Browser certification and no overflow |
+| Accessibility, performance, and reliability | PASS | Desktop/mobile labels, hierarchy, axe checks, and horizontal containment passed | Browser certification #668 plus direct production smoke |
 | Privacy, legal, and user protection | PASS | No new data or claims; existing consent behavior is preserved | Necessary-only visit emits no synthetic event |
 | Publishing and governance | PASS | Two existing ad-eligible articles remain intact | Route and publication inventories unchanged |
-| Quality and release | PENDING RELEASE | Compilation alone is insufficient | Full suite, preview, browser, merge, production smoke |
+| Quality and release | PASS | Full suite, exact-head automation, preview, merge, production smoke, and runtime checks passed | Main `8ffb942e997efa187d1863fcc56e745ccdbb88a2` |
 | Adversarial red team | PASS | Biggest risk is optimizing clicks without proving result value | Keep tool lifecycle/result quality as the downstream guardrail |
 | Process improvement | PASS | Search work now has an explicit post-click acceptance test | Reusable hero-action registry and regression test |
 
@@ -108,8 +108,8 @@ The prior analytics cycle was treated as completed and useful. Its lack of rows 
 | Editorial and Evidence | PASS | Action is an estimate and existing verification language remains | No claim or source diff |
 | Healthcare User Context | PASS | Contribution and match questions converge on paycheck affordability and plan verification | No false employer-specific precision |
 | Privacy / Legal / Protection | PASS | No collection expansion or commerce | Existing consent boundary remains |
-| Accessibility / Reliability | PENDING RELEASE | Long mobile labels are the main presentation risk | 320px containment and axe pass |
-| Quality / Release | PENDING RELEASE | Exact head and production must match | CI/browser/deployment checks |
+| Accessibility / Reliability | PASS | Long mobile labels remain contained and axe checks passed | Browser certification #668 and production smoke |
+| Quality / Release | PASS | Exact head passed automation and the merged SHA reached production | CI/browser/deployment checks |
 | Adversarial Red Team | PASS | CTR could rise while result quality remains weak | Track start, result, portable output, and continuation together |
 | Process Improvement | PASS | Work packet states the counterfactual and reversal evidence | Reassess on data, not ceremony |
 
@@ -183,13 +183,13 @@ Scores are directional, 1–10; lower effort/risk is better.
 
 ### Technical validation
 
-- **Status:** PASS locally; exact-head preview/browser and production remain pending.
+- **Status:** PASS locally, on the exact-head preview, and in production.
 - **Implementation correctness:** Focused CTA/route tests and the full repository suite pass: 128 test files/723 tests.
 - **Tests and typing:** Lint has zero errors and 15 existing Fast Refresh warnings. The authoritative build passes API TypeScript and all repository contracts. Broad composite `tsc -b` exposes unrelated pre-existing ES2020 `replaceAll`, stale domain-type, and component declaration errors; no reported error is in this change, and composite `tsc -b` is not a repository release command.
-- **Security and privacy:** No backend or collection diff; production consent behavior must be rechecked.
-- **Accessibility and reliability:** Desktop/mobile/axe checks are encoded; local execution is blocked by the absent Playwright Chromium binary, so exact-head CI is the browser authority.
-- **Deployment and route behavior:** Preview and production pending.
-- **Observability:** Vercel runtime check pending.
+- **Security and privacy:** No backend or collection diff; a necessary-only production smoke retained 0 synthetic `journey_events` rows.
+- **Accessibility and reliability:** Exact-head Browser certification #668 passed the complete suite, including the new two-route desktop/mobile CTA, axe, and overflow checks. Direct production smoke reconfirmed visible button treatment and zero horizontal overflow on both entries and the calculator.
+- **Deployment and route behavior:** Preview `dpl_k3fcGB6vokQnVW5xqhYgnKjdG8AS` was READY at feature head `8e56f8b060b78db273b04070085c9da72cd566d5`; production `dpl_AeFaeXVDGNF24w8FNAfJn65KPiKB` was READY at merged main `8ffb942e997efa187d1863fcc56e745ccdbb88a2` with 12 Node functions and the canonical alias.
+- **Observability:** No production runtime error was present in the post-smoke 30-minute window.
 - **Rollback:** Bounded code revert; no data migration.
 
 ### Business validation
@@ -220,16 +220,16 @@ Scores are directional, 1–10; lower effort/risk is better.
 - [x] No claim, calculation, source, privacy, schema, payment, or entitlement change.
 - [x] Focused unit and CTA-governance tests pass.
 - [x] Full tests, authoritative API TypeScript, lint, build, SEO/publication/privacy/governance checks pass.
-- [ ] Exact-head preview, CI, Decision Journey, and browser certification pass.
-- [ ] Desktop/mobile action, navigation, canonical, axe, overflow, and consent behavior pass.
-- [ ] Merge, production deployment, route smoke, and runtime-log checks pass.
+- [x] Exact-head preview, CI #1058, Decision Journey #732, and Browser certification #668 pass.
+- [x] Desktop/mobile action, navigation, canonical, axe, overflow, and necessary-only consent behavior pass.
+- [x] PR #272 merged at `8ffb942e997efa187d1863fcc56e745ccdbb88a2`; production deployment, route smoke, and runtime-log checks pass.
 
 ## 17. Executive closeout
 
-- **What changed:** Pending release; two evidence-backed article entries receive direct tracked calculator actions and owned end states.
+- **What changed:** Two evidence-backed article entries now expose direct tracked calculator actions and owned end states in production; the shared tracked-link component also preserves intended button styling for every existing consumer.
 - **What did not change:** Products, calculations, claims, sources, routes, search metadata, journey schema, privacy, payments, ads, or entitlements.
 - **Before/after:** 0/2 to 2/2 hero actions; 2/2 to 0/2 redundant mid-article calculator cards; 1/2 to 2/2 direct calculator end states.
-- **Production and release status:** Pending.
+- **Production and release status:** Released through PR #272 at main `8ffb942e997efa187d1863fcc56e745ccdbb88a2`; production deployment `dpl_AeFaeXVDGNF24w8FNAfJn65KPiKB` is READY.
 - **Unresolved warning:** No organic 403(b) lifecycle sample and no satisfaction or willingness-to-pay evidence.
 - **Business consequence:** If the hypothesis holds, more qualified healthcare workers will reach and complete CAF's differentiated decision product.
 - **Owner-only action:** None.
@@ -239,7 +239,7 @@ Scores are directional, 1–10; lower effort/risk is better.
 ## 18. Compounding closeout
 
 - Project context: stable doctrine unchanged.
-- Decision/evidence/work ledgers: pending final release record.
+- Decision/evidence/work ledgers: final production release record captured in CAF-D-018, CAF-E-014/015, and CAF-W-015.
 - Route-level governance: typed hero-action registry and exact-route regression added.
 - Reusable asset: evidence-selected article-to-product hero action pattern.
 - Automated prevention: both target articles must retain the calculator destination, direct end-state hierarchy, accessibility, and containment.

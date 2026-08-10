@@ -72,6 +72,31 @@ test("priority articles present one dominant direct handoff without a stacked gl
   }
 });
 
+test("near-winning 403(b) articles expose a direct calculator action in the hero", async ({ page }) => {
+  const entries = [
+    {
+      path: "/articles/how-hospital-403b-matching-works",
+      heading: "How Does a Hospital 403(b) Match Work? Examples and Vesting",
+      action: "Estimate my contribution and match",
+    },
+    {
+      path: "/articles/how-much-should-a-nurse-put-in-403b-per-paycheck",
+      heading: "How Much Should a Nurse Put in a 403(b) Per Paycheck?",
+      action: "Estimate my paycheck contribution",
+    },
+  ];
+
+  for (const entry of entries) {
+    await page.goto(entry.path, { waitUntil: "networkidle" });
+    const hero = page.locator("section").filter({ has: page.getByRole("heading", { name: entry.heading }) }).first();
+    await expect(hero.getByRole("link", { name: entry.action })).toHaveAttribute("href", "/tools/403b-paycheck-calculator");
+    await expect(hero.getByText(/min read$/)).toBeVisible();
+    await expect(page.getByText("Related tool", { exact: true })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Turn this explanation into the next decision" })).toHaveCount(1);
+    await expectAccessibleAndContained(page);
+  }
+});
+
 test("healthcare-worker hub presents one guided flagship and keeps focused actions subordinate", async ({ page }) => {
   await page.goto("/healthcare-workers", { waitUntil: "networkidle" });
   const flagshipSection = page.locator("#benefits-decision-system");

@@ -216,6 +216,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** 2026-09-07; at least 25 consented view sessions for a journey; privacy/security/runtime defect; endpoint abuse or material cost; or adequate connected analytics that makes the first-party mirror redundant.
 - **Supersedes:** CAF-D-010 only where it treated `/insurance` as the sole first-party evidence surface. It preserves D-010's consent, strict keys, least privilege, minimum-sample, and non-causal interpretation rules.
 
+### CAF-D-018 — Convert qualified 403(b) search entries before expanding product surface
+
+- **Date:** 2026-08-10
+- **Status:** EXPERIMENT
+- **Decision:** Preserve the released 403(b) calculator, article content, search metadata, and answer-free lifecycle evidence. Give the hospital-match and nurse-contribution articles one intent-specific calculator action in the hero, make the calculator the primary final action on both pages, and remove their redundant mid-article tool promos. Do not build another product or activate paid value from this evidence.
+- **Rationale:** These two articles are CAF's strongest current qualified search cluster at 3 clicks/147 impressions and average positions 8.15 and 6.04. Production exposed no calculator action in either hero, and the nurse page's first calculator link was roughly 2,926 CSS pixels below the initial inspected desktop viewport. The existing tool already produces a typed Decision Outcome and consent-gated view/start/result/action evidence, so reducing entry friction compounds released work at low risk.
+- **Evidence:** August 10 GSC export and CAF-E-012; direct production/main/Vercel/Supabase/browser reconciliation; `docs/work-packets/2026-08-10-403b-search-to-decision-loop.md`; 128 test files/723 tests; 182-route build and search-readiness gates.
+- **Consequences:** Two of 182 routes change; hero tool actions move from 0/2 to 2/2, redundant mid-article calculator promos from 2/2 to 0/2, and direct calculator end states from 1/2 to 2/2. All 182 indexable routes, 39 ad-eligible routes, claims, calculations, sources, analytics schemas, answers, pricing, payments, and entitlements remain unchanged. Business impact remains unknown until organic evidence exists.
+- **Revisit trigger:** 2026-09-07 or 25 consented 403(b) tool views, whichever is later; any search, accessibility, privacy, runtime, or result-quality defect; or direct evidence that the calculator is not the right next action.
+- **Supersedes:** No prior strategic decision. It applies CAF-D-017's evidence system to one concrete acquisition-to-result loop while preserving D-017's minimum-sample and non-causal interpretation rules.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

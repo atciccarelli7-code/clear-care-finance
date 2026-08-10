@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AlertTriangle, ArrowRightLeft, BriefcaseBusiness, CheckCircle2, Copy, Printer, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackSiteEvent } from "@/lib/analytics";
+import { trackJourneyEvent } from "@/lib/journeyAnalytics";
 import {
   compareCompensation,
   createDefaultCompensationInput,
@@ -12,6 +13,11 @@ import {
 } from "@/lib/totalCompensation";
 
 const TOOL_ID = "healthcare_worker_total_compensation";
+const JOURNEY = {
+  journey_key: "total_compensation_comparison",
+  surface: "destination",
+  variant: "flagship_funnel_v1",
+} as const;
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -340,25 +346,39 @@ const TotalCompensationComparison = () => {
   const [copied, setCopied] = useState(false);
   const [generatedDate, setGeneratedDate] = useState("");
   const resultHeadingRef = useRef<HTMLHeadingElement>(null);
+  const startedRef = useRef(false);
+  const comparedRef = useRef(false);
 
   useEffect(() => {
     setGeneratedDate(new Date().toLocaleDateString());
     trackSiteEvent("tool_opened", { event_category: "tools", tool_id: TOOL_ID });
+    trackJourneyEvent("journey_viewed", { ...JOURNEY, phase: "name_question", step_index: 0 });
   }, []);
 
+  const markJourneyStarted = () => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    trackJourneyEvent("journey_started", { ...JOURNEY, phase: "name_question", step_index: 0 });
+  };
+
   const updateOffer = (side: "a" | "b", patch: Partial<CompensationInput>) => {
+    markJourneyStarted();
     if (side === "a") setOfferA((current) => ({ ...current, ...patch }));
     else setOfferB((current) => ({ ...current, ...patch }));
   };
 
   const updateQuality = (side: "a" | "b", patch: Partial<QualityOfLifeInput>) => {
+    markJourneyStarted();
     if (side === "a") setOfferA((current) => ({ ...current, qualityOfLife: { ...current.qualityOfLife, ...patch } }));
     else setOfferB((current) => ({ ...current, qualityOfLife: { ...current.qualityOfLife, ...patch } }));
   };
 
   const compare = () => {
+    markJourneyStarted();
+    comparedRef.current = true;
     setComparison(compareCompensation(offerA, offerB));
     trackSiteEvent("tool_comparison_completed", { event_category: "tools", tool_id: TOOL_ID, comparison_type: `${offerA.payType}_vs_${offerB.payType}` });
+    trackJourneyEvent("journey_result_reached", { ...JOURNEY, phase: "result", step_index: 1 });
     window.setTimeout(() => resultHeadingRef.current?.focus(), 0);
   };
 
@@ -367,6 +387,9 @@ const TotalCompensationComparison = () => {
       await navigator.clipboard.writeText(buildCopyText(comparison, offerA, offerB));
       setCopied(true);
       trackSiteEvent("tool_result_copied", { event_category: "tools", tool_id: TOOL_ID });
+      if (comparedRef.current) {
+        trackJourneyEvent("journey_result_copied", { ...JOURNEY, phase: "result", step_index: 1 });
+      }
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
       setCopied(false);
@@ -375,6 +398,9 @@ const TotalCompensationComparison = () => {
 
   const printSummary = () => {
     trackSiteEvent("tool_print_opened", { event_category: "tools", tool_id: TOOL_ID });
+    if (comparedRef.current) {
+      trackJourneyEvent("journey_result_printed", { ...JOURNEY, phase: "result", step_index: 1 });
+    }
     window.print();
   };
 

@@ -31,6 +31,24 @@ Prohibited properties include:
 - income, salary, wage, balances, premiums, deductibles, out-of-pocket values, contributions, overtime, bonuses, tax rates, exact ages, household data, state, ZIP code, or reminder dates;
 - benefit states, checklist answers, decision answers, result text, Receipt contents, notes, comments, free text, query strings, fragments, or complete local-storage records.
 
+## Shared first-party journey evidence
+
+Source contract: `src/lib/journeyEventContract.ts`, `src/lib/journeyAnalytics.ts`, `src/lib/firstPartyJourneyEvidence.ts`, `api/journey-event.ts`, and `public.journey_events`.
+
+After analytics consent, every event accepted by `trackJourneyEvent` is also sent to CAF's private first-party evidence table. This is a measurement mirror, not a second answer stream: it contains only a random event ID, random browser-session journey ID, allowlisted lifecycle event, fixed journey/surface/phase/variant identifiers, an optional step from 0 through 20, and a server timestamp. The endpoint accepts same-origin POST requests only; browser database roles have no table privileges or policies.
+
+| Funnel | Event | Trigger | Permitted fixed properties | Status |
+|---|---|---|---|---|
+| Acquisition | `journey_viewed` | An instrumented journey mounts | `journey_key`, `surface`, `phase`, `step_index`, `variant`, random `session_journey_id` | Implemented and tested; production observation pending |
+| Activation | `journey_started` | First meaningful choice or input change | Same fixed properties | Implemented and tested; production observation pending |
+| Activation | `journey_step_completed` | A valid step advances | Same fixed properties | Implemented and tested; production observation pending |
+| Retention | `journey_resume_clicked`, `journey_restarted` | Browser-local work resumes or is intentionally reset | Same fixed properties | Implemented and tested; production observation pending |
+| Value | `journey_result_reached` | An action plan, comparison, recommendation, or Decision Brief is reached | Same fixed properties | Implemented and tested; production observation pending |
+| Value | `journey_result_copied`, `journey_result_printed` | A portable result action succeeds or begins | Same fixed properties | Implemented and tested; production observation pending |
+| Continuation | `journey_handoff_opened` | A predefined next journey or official verification step opens | Same fixed properties | Implemented where call sites exist; production observation pending |
+
+Initial flagship coverage adds Hospital Financial Assistance, Medicare Coverage, Healthcare Worker Benefits, Healthcare Worker Total Compensation, and the paycheck 403(b) decision. Existing Concierge, Healthcare Offer, and readiness-batch calls also gain first-party visibility through the same helper. No user answer, outcome category, calculation, policy, provider, hospital, employer, plan, URL, query string, referrer, or contact field is accepted by this contract.
+
 ## Growth Engine funnel
 
 Source contract: `src/lib/growthAnalytics.ts`

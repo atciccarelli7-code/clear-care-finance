@@ -205,6 +205,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** Medicare/CMS marketing-rule change; evidence of insurer or broker relationship; request for plan-specific ranking, lead transfer, enrollment, document or medication-name intake; annual 2027 update; privacy/accessibility defect; or authorized Stripe test evidence.
 - **Supersedes:** Single-product assumptions in the premium foundation. It does not supersede the existing Benefits Decision System or any preserved Medicare search-entry route.
 
+### CAF-D-017 — Query product outcomes before expanding flagship surface area
+
+- **Date:** 2026-08-10
+- **Status:** EXPERIMENT
+- **Decision:** Preserve existing third-party analytics and bounded navigation experiments, while mirroring only CAF's strict allowlisted `trackJourneyEvent` lifecycle into a separate consent-gated, service-role-only first-party table. Add explicit view/start/result coverage to the 403(b), total-compensation, Benefits, Hospital Financial Assistance, and Medicare flagships before building another major standalone system.
+- **Rationale:** Current Search Console evidence identifies promising healthcare-worker and patient-cost entry pages, but it cannot show whether users complete the products. Connected first-party evidence contained only 12 navigation/offer rows and no flagship result denominator. CAF already has enough product surface; the economically important unknown is which systems produce meaningful completion and portable outputs.
+- **Evidence:** August 10 GSC export; current production/main/Vercel reconciliation; direct `growth_events` inspection; July 21 strategy research; official Supabase RLS/API security guidance; `docs/work-packets/2026-08-10-first-party-journey-evidence.md`.
+- **Consequences:** At least 11 known fixed journeys become eligible for queryable lifecycle evidence; five priority flagships gain view/start/result coverage; no answers, values, URLs, routes, claims, calculations, pricing, payment, entitlement, advertising, or visible workflow changes. Consented evidence is nonrepresentative and cannot establish satisfaction or causality.
+- **Revisit trigger:** 2026-09-07; at least 25 consented view sessions for a journey; privacy/security/runtime defect; endpoint abuse or material cost; or adequate connected analytics that makes the first-party mirror redundant.
+- **Supersedes:** CAF-D-010 only where it treated `/insurance` as the sole first-party evidence surface. It preserves D-010's consent, strict keys, least privilege, minimum-sample, and non-causal interpretation rules.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

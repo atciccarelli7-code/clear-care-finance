@@ -78,7 +78,7 @@ The prior analytics cycle was treated as completed and useful. Its lack of rows 
 | Product management | PASS | Ready users need direct action, while readers keep the full article | 2/2 hero actions; article remains complete |
 | Healthcare user research | PASS | Match and contribution questions map to the same practical paycheck decision | Use distinct intent-aligned labels and retain verification content |
 | Information architecture | PASS | The tool is the primary action; match and tax treatment are subordinate | One dominant hero action and one hierarchical end state |
-| UX and design system | PASS | Existing hero/button primitives can expose action without redesign | Mobile containment, clear hierarchy, no duplicate mid-card |
+| UX and design system | PASS AFTER FIX | Exact preview showed the shared tracked wrapper dropped `Button asChild` classes | Forward anchor props/ref; assert button classes; recheck visual hierarchy |
 | Content and evidence integrity | PASS | No claim, source, example, or calculation changes | Existing sources and freshness remain intact |
 | Frontend engineering | PASS | Central route configuration avoids page-specific tracking code | Typed action config and focused tests |
 | Systems architecture | PASS | No new state or service is needed | Route-to-route navigation only |
@@ -136,6 +136,7 @@ The prior analytics cycle was treated as completed and useful. Its lack of rows 
 | Ad-eligible routes | 39 | 39 | 0 | Advertising inventory preserved |
 | User-completable 403(b) journeys | 1/1 | 1/1 | 0 | Existing product reused |
 | First-party-instrumented 403(b) journeys | 1/1 | 1/1 | 0 | Existing lifecycle evidence reused |
+| Shared tracked-link primitives that forward button presentation props | 0/1 | 1/1 | +1 | Primary/secondary CTA styling now reaches the rendered anchor |
 | Organic journey rows at decision time | 0 | 0 | 0 | No impact claim is available today |
 
 - **Monetization impact:** Improves access to workflow utility that could later support paid saved-work value; no present revenue claim or change.
@@ -208,6 +209,7 @@ Scores are directional, 1–10; lower effort/risk is better.
 |---|---|---|---|---|
 | Typed search-entry actions | `directionalCtaRoutes.ts` | Exactly two fixed 403(b) hero actions | Unit contract | Product/frontend |
 | Article hierarchy | `ArticlePage.tsx` | Hero action, no duplicate related-tool block, direct final handoff | Unit/e2e/browser | UX/IA/frontend |
+| Tracked-link composition | `DirectionalNextActions.tsx` | `Button asChild` classes and ref reach the anchor without changing event semantics | Component test + deployed visual | Frontend/accessibility |
 | Regression coverage | route unit + Playwright spec | Both routes reach calculator, fit mobile, pass axe | Local + CI | Quality/accessibility |
 | Governance | work packet + ledgers | Evidence, decision, limits, and reassessment recorded | Governance check | Context/process |
 | Release | GitHub/Vercel/production | Exact SHA, READY, canonical smoke, clean logs | Connected systems | Platform/release |

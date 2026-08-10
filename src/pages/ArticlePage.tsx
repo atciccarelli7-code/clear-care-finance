@@ -8,7 +8,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { NextStepCards, type NextStepCard } from "@/components/shared/NextStepCards";
-import { DirectionalNextActions } from "@/components/shared/DirectionalNextActions";
+import { DirectionalActionLink, DirectionalNextActions } from "@/components/shared/DirectionalNextActions";
 import { ContentFreshness } from "@/components/shared/ContentFreshness";
 import { EditorialTransparency } from "@/components/shared/EditorialTransparency";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,7 @@ import { HOSPITAL_GUIDE_ROUTE, getHospitalGuideResourceByArticleSlug } from "@/d
 import {
   audienceForArticleCategory,
   decisionCategoryForArticleCategory,
+  getArticleHeroAction,
   isPriorityDirectionalArticle,
   resolveDirectionalDestination,
 } from "@/lib/directionalCtaRoutes";
@@ -51,6 +52,11 @@ const getArticleNextSteps = (slug: string, category: string, relatedCalculator?:
       { eyebrow: "Run the paycheck math", title: "403(b) Paycheck Contribution Calculator", description: "Estimate your contribution and employer match after verifying the plan formula and vesting rules.", href: "/tools/403b-paycheck-calculator", cta: "Calculate each paycheck" },
       { eyebrow: "Choose a contribution", title: "How much should a nurse put in a 403(b)?", description: "Choose a sustainable starting contribution without creating avoidable paycheck stress.", href: "/articles/how-much-should-a-nurse-put-in-403b-per-paycheck", cta: "Choose a starting rate" },
       { eyebrow: "Complete benefits picture", title: "Healthcare Worker Benefits Blueprint", description: "Connect retirement value to health coverage, tax accounts, and the rest of the employer package.", href: "/tools/healthcare-worker-benefits-blueprint", cta: "Build the blueprint" },
+    ],
+    "how-much-should-a-nurse-put-in-403b-per-paycheck": [
+      { eyebrow: "Run the paycheck math", title: "403(b) Paycheck Contribution Calculator", description: "Estimate your per-paycheck contribution, take-home impact, and employer match before changing payroll.", href: "/tools/403b-paycheck-calculator", cta: "Calculate each paycheck" },
+      { eyebrow: "Verify employer value", title: "How does a hospital 403(b) match work?", description: "Decode the match formula, eligible pay, vesting, payroll timing, and related employer contributions.", href: "/articles/how-hospital-403b-matching-works", cta: "Understand the match" },
+      { eyebrow: "Choose tax treatment", title: "Roth vs. traditional 403(b) for healthcare workers", description: "Compare current take-home pay, current tax savings, and future tax flexibility.", href: "/articles/roth-vs-traditional-403b-healthcare-workers", cta: "Compare tax treatment" },
     ],
   };
   if (priorityActionOverrides[slug]) return priorityActionOverrides[slug];
@@ -446,6 +452,12 @@ const ArticlePage = () => {
   const nextSteps = getArticleNextSteps(article.slug, article.category, article.relatedCalculator);
   const orderedOpenEnrollmentStep = getOpenEnrollmentOrderedStep(article.slug);
   const usesDirectionalHandoff = isPriorityDirectionalArticle(article.slug);
+  const heroAction = getArticleHeroAction(article.slug);
+  const directionalContext = {
+    audienceSegment: audienceForArticleCategory(article.category),
+    decisionCategory: decisionCategoryForArticleCategory(article.category),
+    originPath: `/articles/${article.slug}`,
+  } as const;
   const directionalPrimary = orderedOpenEnrollmentStep
     ? {
         id: `article_${article.slug}_next_primary`,
@@ -506,6 +518,17 @@ const ArticlePage = () => {
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> {article.readTime}</span>
         </div>
+        {heroAction && (
+          <Button asChild variant="hero">
+            <DirectionalActionLink
+              action={heroAction}
+              actionTier="primary"
+              context={{ ...directionalContext, placementId: "article_hero" }}
+            >
+              {heroAction.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </DirectionalActionLink>
+          </Button>
+        )}
       </PageHero>
 
       <article className="container max-w-3xl py-8 md:py-16 space-y-8 md:space-y-12">
@@ -624,7 +647,7 @@ const ArticlePage = () => {
           </Section>
         )}
 
-        {article.relatedCalculator && (
+        {article.relatedCalculator && !heroAction && (
           <div className="rounded-2xl border border-primary/30 bg-primary-soft/40 p-6 md:p-8 flex flex-col sm:flex-row sm:items-center gap-5 justify-between">
             <div>
               <div className="text-xs font-semibold uppercase tracking-wider text-primary mb-1">Related tool</div>
@@ -691,10 +714,8 @@ const ArticlePage = () => {
             primary={directionalPrimary}
             related={directionalRelated}
             context={{
-              audienceSegment: audienceForArticleCategory(article.category),
-              decisionCategory: decisionCategoryForArticleCategory(article.category),
+              ...directionalContext,
               placementId: "article_next_action",
-              originPath: `/articles/${article.slug}`,
             }}
           />
         ) : (

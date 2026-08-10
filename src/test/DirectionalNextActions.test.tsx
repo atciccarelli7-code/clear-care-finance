@@ -29,11 +29,13 @@ describe("DirectionalNextActions", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("link", { name: /compare payoff options/i })).toHaveAttribute("href", "/tools/private-student-loan-payoff-calculator");
+    const primary = screen.getByRole("link", { name: /compare payoff options/i });
+    expect(primary).toHaveAttribute("href", "/tools/private-student-loan-payoff-calculator");
+    expect(primary).toHaveClass("inline-flex", "bg-primary", "text-primary-foreground");
     expect(screen.getByRole("link", { name: /find a repayment path/i })).toHaveAttribute("href", "/tools/student-loan-path-finder");
     expect(screen.getByRole("list", { name: /other useful paths/i })).toContainElement(screen.getByRole("link", { name: /estimate a payment/i }));
 
-    fireEvent.click(screen.getByRole("link", { name: /compare payoff options/i }));
+    fireEvent.click(primary);
     expect(trackSiteEvent).toHaveBeenCalledTimes(1);
     expect(trackSiteEvent).toHaveBeenCalledWith("directional_cta_clicked", expect.objectContaining({
       cta_id: "loan_compare_primary",
@@ -56,4 +58,3 @@ describe("DirectionalNextActions", () => {
     expect(screen.getByRole("link", { name: /compare the two offers/i })).toHaveAttribute("href", "#comparison");
   });
 });
-

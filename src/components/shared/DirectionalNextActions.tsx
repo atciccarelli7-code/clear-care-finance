@@ -1,4 +1,5 @@
 import { ArrowRight, Compass } from "lucide-react";
+import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,24 +19,32 @@ type DirectionalNextActionsProps = {
   context: DirectionalCtaContext;
 };
 
-export const DirectionalActionLink = ({
+type DirectionalActionLinkProps = {
+  action: DirectionalCtaAction;
+  actionTier: CtaActionTier;
+  context: DirectionalCtaContext;
+  children: ReactNode;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
+
+export const DirectionalActionLink = forwardRef<HTMLAnchorElement, DirectionalActionLinkProps>(({
   action,
   actionTier,
   context,
   children,
-}: {
-  action: DirectionalCtaAction;
-  actionTier: CtaActionTier;
-  context: DirectionalCtaContext;
-  children: React.ReactNode;
-}) => {
-  const onClick = () => trackDirectionalCta(action, actionTier, context);
-  if (action.href.startsWith("#")) return <a href={action.href} onClick={onClick}>{children}</a>;
+  onClick,
+  ...anchorProps
+}, ref) => {
+  const handleClick: AnchorHTMLAttributes<HTMLAnchorElement>["onClick"] = (event) => {
+    onClick?.(event);
+    if (!event.defaultPrevented) trackDirectionalCta(action, actionTier, context);
+  };
+  if (action.href.startsWith("#")) return <a {...anchorProps} ref={ref} href={action.href} onClick={handleClick}>{children}</a>;
   if (/^https?:\/\//i.test(action.href)) {
-    return <a href={action.href} target="_blank" rel="noreferrer" onClick={onClick}>{children}</a>;
+    return <a {...anchorProps} ref={ref} href={action.href} target="_blank" rel="noreferrer" onClick={handleClick}>{children}</a>;
   }
-  return <Link to={action.href} onClick={onClick}>{children}</Link>;
-};
+  return <Link {...anchorProps} ref={ref} to={action.href} onClick={handleClick}>{children}</Link>;
+});
+DirectionalActionLink.displayName = "DirectionalActionLink";
 
 export const DirectionalNextActions = ({
   eyebrow = "Recommended next action",

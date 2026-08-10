@@ -214,6 +214,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** The release event was synthetic and deleted. No organic production sample, user comprehension evidence, causality, conversion, retention, or willingness-to-pay evidence exists yet. Preview writes fail closed because privileged Supabase credentials are production-only. Vercel's successful build log contains a non-fatal cancellation diagnostic before `Build Completed`.
 - **Owner:** Product, data/analytics, privacy/legal protection, systems/security, accessibility, and quality/release.
 
+### CAF-E-014 — 403(b) qualified-search cluster and entry-to-tool friction
+
+- **Claim or state:** In the August 10 GSC page export, the hospital 403(b) matching article recorded 2 clicks/124 impressions at average position 8.15, the nurse contribution article recorded 1/23 at 6.04, and the 403(b) calculator recorded 0/8 at 11.38. Direct production inspection found no tool action in either article hero; on the nurse article, the first calculator link was roughly 2,926 CSS pixels below the initial inspected desktop viewport. The released first-party `journey_events` store contained 0 organic rows, so no start, result, usefulness, or abandonment conclusion is available.
+- **Domain:** Search performance, healthcare-worker product acquisition, product UX, analytics, and privacy.
+- **Source:** Founder-provided August 10 Search Console export; direct production DOM/browser inspection at `239c0dd741cf0a814f78e6e01200aff9a40c4e00`; direct Supabase `journey_events` count; current repository routes and measurement contract.
+- **Evidence class:** DIRECT-CURRENT for page rows, production behavior, code, and database count; INFERENCE for opportunity ranking and expected impact.
+- **Verified date:** 2026-08-10.
+- **Coverage:** Two 403(b) article entries, one existing 403(b) decision product, Web search export through 2026-08-08, and the consented first-party store at inspection time.
+- **Freshness trigger:** New GSC export; 2026-09-07; 25 consented 403(b) tool views; search/route/CTA/product change; or privacy/accessibility/runtime defect.
+- **Used by:** CAF-D-018, CAF-W-015, the article hero-action registry, and `docs/work-packets/2026-08-10-403b-search-to-decision-loop.md`.
+- **Limitations:** The search sample is small and lagged, query clicks are privacy suppressed, tables are non-additive, scroll distance varies by device, and event-defined result reach cannot establish comprehension, satisfaction, causality, conversion, or willingness to pay.
+- **Owner:** SEO/discovery, product, analytics, UX/accessibility, privacy, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

@@ -1,4 +1,4 @@
-import type { CtaAudienceSegment, CtaDecisionCategory } from "@/lib/directionalCta";
+import type { CtaAudienceSegment, CtaDecisionCategory, DirectionalCtaAction } from "@/lib/directionalCta";
 
 export const TOOL_START_LABELS: Record<string, string> = {
   openEnrollmentChecklist: "Build my enrollment checklist",
@@ -22,11 +22,31 @@ export const getToolStartLabel = (componentKey: string, fallbackTitle: string) =
 
 export const PRIORITY_DIRECTIONAL_ARTICLE_SLUGS = new Set([
   "how-hospital-403b-matching-works",
+  "how-much-should-a-nurse-put-in-403b-per-paycheck",
   "how-to-read-an-eob",
   "deductible-copay-coinsurance-out-of-pocket-max",
 ]);
 
 export const isPriorityDirectionalArticle = (slug: string) => PRIORITY_DIRECTIONAL_ARTICLE_SLUGS.has(slug);
+
+const ARTICLE_HERO_ACTIONS: Record<string, DirectionalCtaAction> = {
+  "how-hospital-403b-matching-works": {
+    id: "hospital_403b_article_hero_calculator",
+    label: "Estimate my contribution and match",
+    title: "403(b) Paycheck Contribution Calculator",
+    href: "/tools/403b-paycheck-calculator",
+    availabilityStatus: "available",
+  },
+  "how-much-should-a-nurse-put-in-403b-per-paycheck": {
+    id: "nurse_403b_article_hero_calculator",
+    label: "Estimate my paycheck contribution",
+    title: "403(b) Paycheck Contribution Calculator",
+    href: "/tools/403b-paycheck-calculator",
+    availabilityStatus: "available",
+  },
+};
+
+export const getArticleHeroAction = (slug: string) => ARTICLE_HERO_ACTIONS[slug] ?? null;
 
 export const audienceForArticleCategory = (category: string): CtaAudienceSegment => {
   if (["Build Wealth", "Workplace Benefits"].includes(category)) return "healthcare_workers";

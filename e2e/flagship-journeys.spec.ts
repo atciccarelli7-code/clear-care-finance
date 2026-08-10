@@ -231,6 +231,55 @@ test("Hospital financial assistance finder completes a source-backed North Carol
   await certifyPage(page, watch);
 });
 
+test("flagship journey evidence stays off until analytics consent", async ({ page }) => {
+  const payloads: unknown[] = [];
+  await page.route("**/api/evidence-event", async (route) => {
+    payloads.push(route.request().postDataJSON());
+    await route.fulfill({ status: 202, contentType: "application/json", body: '{"accepted":true}' });
+  });
+
+  await visit(page, "/tools/financial-assistance-checklist");
+  await page.getByLabel("Where is the hospital?").selectOption("NC");
+  await page.getByRole("button", { name: /Continue/i }).click();
+  await page.waitForTimeout(250);
+
+  expect(payloads).toEqual([]);
+});
+
+test("analytics consent sends only allowlisted flagship lifecycle evidence", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("caf-privacy-consent-v1", "analytics"));
+  const payloads: Record<string, unknown>[] = [];
+  await page.route("**/api/evidence-event", async (route) => {
+    payloads.push(route.request().postDataJSON() as Record<string, unknown>);
+    await route.fulfill({ status: 202, contentType: "application/json", body: '{"accepted":true}' });
+  });
+
+  await visit(page, "/tools/financial-assistance-checklist");
+  await expect.poll(() => payloads.some((payload) => payload.eventName === "journey_viewed")).toBe(true);
+  await page.getByLabel("Where is the hospital?").selectOption("NC");
+  await page.getByRole("button", { name: /Continue/i }).click();
+  await expect.poll(() => payloads.some((payload) => payload.eventName === "journey_started")).toBe(true);
+
+  for (const payload of payloads) {
+    expect(Object.keys(payload).sort()).toEqual([
+      "eventId",
+      "eventName",
+      "journeyKey",
+      "phase",
+      "sessionJourneyId",
+      "stepIndex",
+      "surface",
+      "variant",
+    ]);
+    expect(payload).toMatchObject({
+      journeyKey: "hospital_financial_assistance",
+      surface: "medical_bill",
+      variant: "flagship_funnel_v1",
+    });
+    expect(JSON.stringify(payload)).not.toContain('"NC"');
+  }
+});
+
 test("Turning 65 journey builds a dated timeline with official verification", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/medicare-care-costs/turning-65");

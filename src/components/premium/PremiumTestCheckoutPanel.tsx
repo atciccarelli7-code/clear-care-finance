@@ -1,4 +1,4 @@
-// Loaded only when BenefitsEarlyAccessForm enables VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED in a protected preview.
+// Nonproduction Stripe certification surface. It is intentionally not imported by the public pre-commerce offer.
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CreditCard, LoaderCircle, LockKeyhole, ShieldCheck, TestTube2 } from "lucide-react";

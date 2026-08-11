@@ -9,7 +9,7 @@ describe("route endcap ownership", () => {
     ["/open-enrollment", "seo_pathway"],
     ["/insurance/medical-bill-review-toolkit", "medical_bill"],
     ["/tools/403b-paycheck-calculator", "benefits_workspace"],
-    ["/tools/healthcare-worker-total-compensation-comparison", "benefits_offer_validation"],
+    ["/tools/healthcare-worker-total-compensation-comparison", "benefits_workspace"],
     ["/privacy-policy", "benefits_offer_privacy"],
   ])("assigns exactly one global owner to %s", (path, owner) => {
     expect(getRouteEndcapOwner(path)).toBe(owner);

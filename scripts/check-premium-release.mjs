@@ -7,7 +7,7 @@ const app = read("src/App.tsx");
 const phase3App = read("src/Phase3ProductApp.tsx");
 const siteSeoMeta = read("src/lib/siteSeoMeta.ts");
 const productPage = read("src/pages/premium/BenefitsDecisionOfferPage.tsx");
-const productForm = read("src/components/premium/BenefitsEarlyAccessForm.tsx");
+const demandOffer = read("src/components/premium/PreCommerceDemandOffer.tsx");
 const testCheckoutPanel = read("src/components/premium/PremiumTestCheckoutPanel.tsx");
 const authProvider = read("src/premium/auth/AuthProvider.tsx");
 const signInPage = read("src/pages/premium/SignInPage.tsx");
@@ -138,10 +138,11 @@ if (!siteSeoMeta.includes('"@type": "WebApplication"') || !siteSeoMeta.includes(
 if (!productPage.includes("Start the guided system") || !productPage.includes("Progress stays in this browser")) failures.push("The public Benefits Decision System must present a complete browser-local workflow.");
 const leakedPublicReleaseState = ["$29", "early-access", "prelaunch", "checkout remains", "paid access remain off", "Working end-to-end pilot", "Try the guided pilot"];
 for (const phrase of leakedPublicReleaseState) if (productPage.includes(phrase)) failures.push(`The public Benefits Decision System leaks internal release-state language: ${phrase}`);
-if (productPage.includes("BenefitsEarlyAccessForm") || productPage.includes("PAID_PRODUCTS") || productPage.includes("recordBenefitsOfferCta")) failures.push("Dormant paid-validation infrastructure must not be imported by the public product page.");
-
-if (!productForm.includes("priceCommitment") || !productForm.includes("emailConsent")) failures.push("The dormant validation form must retain its explicit price and email confirmations.");
-if (!productForm.includes("isPremiumTestCheckoutDisplayEnabled") || !productForm.includes("PremiumTestCheckoutPanel")) failures.push("The test Checkout panel must replace—not duplicate—the dormant validation form when explicitly enabled.");
+if (productPage.includes("PAID_PRODUCTS") || productPage.includes("recordBenefitsOfferView")) failures.push("The product route must not record an offer view before the post-result offer renders.");
+if (!demandOffer.includes("Free today and staying free") || !demandOffer.includes("Proposed $29 workspace")) failures.push("The pre-commerce offer must distinguish the complete free system from proposed paid value.");
+if (!demandOffer.includes("priceCommitment") || !demandOffer.includes("emailConsent") || !demandOffer.includes("Separate email consent")) failures.push("The pre-commerce form must retain separate explicit price and email confirmations.");
+if (!demandOffer.includes("No card. No checkout. No charge. No reservation. No obligation.")) failures.push("The pre-commerce offer must state the no-commerce boundary before commitment.");
+if (demandOffer.includes("PremiumTestCheckoutPanel") || demandOffer.includes("createCheckoutSession")) failures.push("The public demand offer must remain isolated from Stripe test Checkout.");
 
 const testCheckoutTrustPhrases = [
   "Protected test-mode certification",
@@ -150,7 +151,7 @@ const testCheckoutTrustPhrases = [
   "The server—not this page—selects the product, Stripe price, success URL, cancel URL, and entitlement metadata",
 ];
 for (const phrase of testCheckoutTrustPhrases) if (!testCheckoutPanel.includes(phrase)) failures.push(`The test Checkout panel is missing its trust boundary: ${phrase}`);
-if (!testCheckoutPanel.includes("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED")) failures.push("The test Checkout panel must be protected by its dedicated browser flag.");
+if (!envExample.includes("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED=false")) failures.push("The test Checkout browser flag must remain disabled by default.");
 if (!premiumApiClient.includes('body: JSON.stringify({ productKey })') || !premiumApiClient.includes("type PremiumProductKey")) failures.push("The Checkout client must submit only an allowlisted registered product key.");
 if (/priceId|successUrl|cancelUrl/.test(premiumApiClient.split("createCheckoutSession")[1]?.split("export const getPremiumModule")[0] || "")) failures.push("The browser Checkout client must not submit a price or redirect URL.");
 if (!premiumContracts.includes('url.hostname === "checkout.stripe.com"')) failures.push("The Checkout response contract must restrict redirects to Stripe-hosted Checkout.");

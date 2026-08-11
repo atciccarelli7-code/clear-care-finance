@@ -2,6 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   recordInsuranceHubHandoff,
   recordInsuranceHubView,
+  PRECOMMERCE_VERIFICATION_MODE_KEY,
+  recordPreCommerceCommitmentStarted,
+  recordPreCommerceOfferEngagement,
+  recordPreCommerceOfferView,
   recordServiceNavigationOpened,
   recordServiceNavigationSelection,
 } from "@/lib/firstPartyEvidence";
@@ -28,7 +32,39 @@ describe("first-party evidence client", () => {
     expect(recordInsuranceHubHandoff("plan_types")).toBe(false);
     expect(recordServiceNavigationOpened("desktop_header")).toBe(false);
     expect(recordServiceNavigationSelection("mobile_header", "all_tools")).toBe(false);
+    expect(recordPreCommerceOfferView()).toBe(false);
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("deduplicates every observed pre-commerce state without sending user values", () => {
+    window.localStorage.setItem(PRIVACY_CONSENT_KEY, "analytics");
+
+    expect(recordPreCommerceOfferView()).toBe(true);
+    expect(recordPreCommerceOfferView()).toBe(false);
+    expect(recordPreCommerceOfferEngagement()).toBe(true);
+    expect(recordPreCommerceOfferEngagement()).toBe(false);
+    expect(recordPreCommerceCommitmentStarted()).toBe(true);
+    expect(recordPreCommerceCommitmentStarted()).toBe(false);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+
+    const payloads = fetchMock.mock.calls.map((call) => JSON.parse(String((call[1] as RequestInit).body)));
+    expect(payloads.map((payload) => payload.eventName)).toEqual([
+      "precommerce_offer_viewed",
+      "precommerce_offer_engaged",
+      "precommerce_commitment_started",
+    ]);
+    expect(payloads.every((payload) => payload.surface === "benefits_decision_result")).toBe(true);
+    expect(payloads.every((payload) => payload.variant === "benefits_workspace_29_v2")).toBe(true);
+    expect(JSON.stringify(payloads)).not.toMatch(/email|salary|employer|medical|planName|https?:/i);
+  });
+
+  it("uses a separate fixed variant for release verification", () => {
+    window.localStorage.setItem(PRIVACY_CONSENT_KEY, "analytics");
+    window.sessionStorage.setItem(PRECOMMERCE_VERIFICATION_MODE_KEY, "release_verification");
+
+    expect(recordPreCommerceOfferView()).toBe(true);
+    const payload = JSON.parse(String((fetchMock.mock.calls[0][1] as RequestInit).body));
+    expect(payload.variant).toBe("benefits_workspace_29_v2_release_verification");
   });
 
   it("records one insurance view per consented browser session", () => {

@@ -12,7 +12,11 @@ test.beforeEach(async ({ page }) => {
       ? { status: 200, contentType: "application/javascript", body: "" }
       : { status: 204, body: "" });
   });
-  await page.addInitScript(() => localStorage.setItem("caf-privacy-consent-v1", "necessary"));
+  await page.addInitScript(() => {
+    if (!localStorage.getItem("caf-privacy-consent-v1")) {
+      localStorage.setItem("caf-privacy-consent-v1", "necessary");
+    }
+  });
 });
 
 test("canonical product route presents a complete free browser-local decision system", async ({ page }) => {

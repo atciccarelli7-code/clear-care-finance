@@ -18,6 +18,7 @@ describe("route endcap ownership", () => {
   it.each([
     "/articles/how-to-read-an-eob",
     "/articles/how-hospital-403b-matching-works",
+    "/articles/check-hospital-financial-assistance-before-paying",
   ])("lets the directional page own %s", (path) => {
     expect(getRouteEndcapOwner(path)).toBe("page");
   });

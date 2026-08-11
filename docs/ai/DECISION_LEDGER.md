@@ -227,6 +227,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** 2026-09-07 or 25 consented 403(b) tool views, whichever is later; any search, accessibility, privacy, runtime, or result-quality defect; or direct evidence that the calculator is not the right next action.
 - **Supersedes:** No prior strategic decision. It applies CAF-D-017's evidence system to one concrete acquisition-to-result loop while preserving D-017's minimum-sample and non-causal interpretation rules.
 
+### CAF-D-019 — Connect the qualified financial-assistance entry to the existing flagship
+
+- **Date:** 2026-08-11
+- **Status:** EXPERIMENT
+- **Decision:** Preserve the released Hospital Financial Assistance Finder, its claims, sources, workflow, and answer-free lifecycle evidence. Give the current assistance-before-paying article one exact Finder action in the hero and one Finder-first owned end state; keep Medical Bill Review and official policy search subordinate. Do not change the facility-fee/EOB loop, 403(b) experiment, analytics contract, or commerce.
+- **Rationale:** The latest GSC page export places the article at 13 impressions and average position 4.92. Production put its first tool action roughly 2,997 CSS pixels below the inspected desktop viewport and mapped it to a generic tools anchor that resolved to visit-cost estimation. The existing eight-step Finder already supplies the appropriate result, verification, portable actions, and consent-gated lifecycle evidence.
+- **Evidence:** August 10 GSC export; direct current production and exact-head preview inspection; direct `journey_events` aggregate; current repository/Vercel/Supabase reconciliation; CAF-E-016; work packet `2026-08-11-patient-financial-assistance-search-to-action.md`.
+- **Consequences:** One of 182 canonical routes changes; the selected entry moves from zero to one exact hero action, its mismatched calculator mapping is removed, and its page-owned hierarchy replaces a competing global medical-bill endcap. All routes, indexability, article claims, calculations, sources, product logic, event keys, answer boundaries, payments, ads, and entitlements remain unchanged.
+- **Revisit trigger:** 2026-09-07 or 25 consented `hospital_financial_assistance` views, whichever is later; new GSC evidence; any search, destination, accessibility, privacy, runtime, or result-quality defect; or direct evidence that the Finder is not the right next action.
+- **Supersedes:** No prior strategic decision. It applies CAF-D-014 and CAF-D-017 to one patient-cost acquisition loop and preserves CAF-D-018 unchanged while that experiment accumulates evidence.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

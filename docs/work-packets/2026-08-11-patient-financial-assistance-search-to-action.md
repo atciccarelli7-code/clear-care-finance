@@ -137,9 +137,13 @@ Mitigation: release evidence will prove only implementation. Organic entry, star
 
 ### Technical validation
 
-- **Status:** PENDING exact-head and production evidence.
-- Focused CTA/route tests: PASS at implementation checkpoint.
-- Full repository test/build, lint, browser, preview, merge, production smoke, runtime scan: pending.
+- **Status:** PASS through the feature-preview checkpoint; final exact-head and production evidence remain release gates.
+- Focused CTA/route tests: PASS, 17 tests.
+- Full repository suite: PASS, 128 files/725 tests.
+- Lint: PASS with zero errors and 15 existing Fast Refresh warnings.
+- Build: PASS for API TypeScript, governance, publication, privacy, premium, bundle, 182-route prerender, sitemap, and zero-warning search readiness.
+- Feature preview: READY at `dpl_4xCNT3njH8YjDoHLbHgzX4bFcErf` for `ca48616513496a85eaf5917d93ef2b1c9b141ee1`; direct desktop inspection verified the exact article action, single end state, destination step 1 of 8, canonical URLs, and zero overflow.
+- Final exact-head CI/mobile/axe, merge, production smoke, runtime scan, and necessary-only evidence: pending.
 
 ### Business validation
 
@@ -148,8 +152,7 @@ Mitigation: release evidence will prove only implementation. Organic entry, star
 
 ## 12. Closeout
 
-- **Release state:** Pending.
+- **Release state:** PR #274 is draft while final exact-head gates run.
 - **What remains unchanged:** Facility-fee/EOB loop, 403(b) experiment, Finder logic, claims, sources, privacy, analytics schema, auth, payments, prices, ads, email, and routes.
 - **Stop condition:** After this loop is released and production-verified, stop.
 - **Decision trigger:** New GSC export, 25 consented `hospital_financial_assistance` views, 2026-09-07, or an immediate production/privacy/accessibility/search defect.
-

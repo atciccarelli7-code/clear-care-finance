@@ -97,6 +97,27 @@ test("near-winning 403(b) articles expose a direct calculator action in the hero
   }
 });
 
+test("near-winning financial-assistance entry opens the exact guided finder", async ({ page }) => {
+  await page.goto("/articles/check-hospital-financial-assistance-before-paying", { waitUntil: "networkidle" });
+
+  const hero = page.locator("section").filter({
+    has: page.getByRole("heading", { name: "Before You Pay a Hospital Bill, Check Financial Assistance" }),
+  }).first();
+  const primary = hero.getByRole("link", { name: "Check assistance before paying" });
+  await expect(primary).toHaveAttribute("href", "/tools/financial-assistance-checklist");
+  await expect(page.getByText("Related tool", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Turn this explanation into the next decision" })).toHaveCount(1);
+  await expect(page.getByRole("link", { name: "Check assistance steps" })).toHaveAttribute("href", "/tools/financial-assistance-checklist");
+  await expect(page.getByRole("heading", { name: "Turn this explanation into a working medical-bill file" })).toHaveCount(0);
+  await expectAccessibleAndContained(page);
+
+  await primary.click();
+  await expect(page).toHaveURL(/\/tools\/financial-assistance-checklist$/);
+  await expect(page.getByRole("heading", { name: "Hospital Financial Assistance & Medical Bill Relief Finder", exact: true }).first()).toBeVisible();
+  await expect(page.getByText(/step 1 of 8/i).first()).toBeVisible();
+  await expectAccessibleAndContained(page);
+});
+
 test("healthcare-worker hub presents one guided flagship and keeps focused actions subordinate", async ({ page }) => {
   await page.goto("/healthcare-workers", { waitUntil: "networkidle" });
   const flagshipSection = page.locator("#benefits-decision-system");

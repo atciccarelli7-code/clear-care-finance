@@ -58,6 +58,11 @@ const getArticleNextSteps = (slug: string, category: string, relatedCalculator?:
       { eyebrow: "Verify employer value", title: "How does a hospital 403(b) match work?", description: "Decode the match formula, eligible pay, vesting, payroll timing, and related employer contributions.", href: "/articles/how-hospital-403b-matching-works", cta: "Understand the match" },
       { eyebrow: "Choose tax treatment", title: "Roth vs. traditional 403(b) for healthcare workers", description: "Compare current take-home pay, current tax savings, and future tax flexibility.", href: "/articles/roth-vs-traditional-403b-healthcare-workers", cta: "Compare tax treatment" },
     ],
+    "check-hospital-financial-assistance-before-paying": [
+      { eyebrow: "Check eligibility", title: "Hospital Financial Assistance & Medical Bill Relief Finder", description: "Find the hospital's official policy, compare a broad income range with published thresholds, and build a verification checklist before paying.", href: "/tools/financial-assistance-checklist", cta: "Check assistance steps" },
+      { eyebrow: "Review the whole balance", title: "Medical Bill Review Flow", description: "Identify the document, match it to insurance records, request missing details, and decide which question to ask next.", href: "/tools/medical-bill-review-flow", cta: "Review the bill" },
+      { eyebrow: "Official policy sources", title: "Hospital Financial Assistance Hub", description: "Search CAF's source-backed hospital policy records and open the controlling policy or application.", href: "/medical-bills/financial-assistance", cta: "Find a hospital policy" },
+    ],
   };
   if (priorityActionOverrides[slug]) return priorityActionOverrides[slug];
 

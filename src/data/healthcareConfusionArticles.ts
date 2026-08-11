@@ -566,7 +566,7 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       title: "The credit card mistake",
       body: "A patient receives a $3,800 hospital bill after insurance. Before putting it on a credit card, they request the hospital's financial assistance application, itemized bill, and EOB match. They learn they qualify for a partial discount. The balance is reduced before any payment plan is arranged."
     },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Hospital Financial Assistance & Medical Bill Relief Finder", href: "/tools/financial-assistance-checklist" },
     commonMistakes: [
       "Putting a large hospital bill on a credit card before asking about assistance.",
       "Assuming a payment plan is the only option.",

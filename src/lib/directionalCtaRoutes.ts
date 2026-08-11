@@ -25,6 +25,7 @@ export const PRIORITY_DIRECTIONAL_ARTICLE_SLUGS = new Set([
   "how-much-should-a-nurse-put-in-403b-per-paycheck",
   "how-to-read-an-eob",
   "deductible-copay-coinsurance-out-of-pocket-max",
+  "check-hospital-financial-assistance-before-paying",
 ]);
 
 export const isPriorityDirectionalArticle = (slug: string) => PRIORITY_DIRECTIONAL_ARTICLE_SLUGS.has(slug);
@@ -42,6 +43,13 @@ const ARTICLE_HERO_ACTIONS: Record<string, DirectionalCtaAction> = {
     label: "Estimate my paycheck contribution",
     title: "403(b) Paycheck Contribution Calculator",
     href: "/tools/403b-paycheck-calculator",
+    availabilityStatus: "available",
+  },
+  "check-hospital-financial-assistance-before-paying": {
+    id: "hospital_assistance_article_hero_finder",
+    label: "Check assistance before paying",
+    title: "Hospital Financial Assistance & Medical Bill Relief Finder",
+    href: "/tools/financial-assistance-checklist",
     availabilityStatus: "available",
   },
 };

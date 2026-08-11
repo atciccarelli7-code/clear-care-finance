@@ -240,6 +240,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** Release and functional behavior are proven; organic discovery, CTA use, start rate, result rate, result quality, satisfaction, causality, conversion, retention, and willingness to pay are not. Consented samples will not represent all visitors. Vercel's successful build retains the known non-fatal cancellation diagnostic before `Build Completed`.
 - **Owner:** SEO/discovery, product, frontend, analytics, accessibility, privacy, platform, and quality/release.
 
+### CAF-E-016 — Financial-assistance search entry and product-fit evidence
+
+- **Claim or state:** In the August 10 GSC page export, `/articles/check-hospital-financial-assistance-before-paying` recorded 0 clicks/13 impressions at average position 4.92. Direct production inspection found its first tool action roughly 2,997 CSS pixels below the inspected desktop viewport and mapped through `/tools#insurance` to visit-cost estimation. The existing `/tools/financial-assistance-checklist` route is an eight-step source-backed Finder with verification, result, copy, print, handoff, and consent-gated answer-free lifecycle events. The connected `journey_events` store contained 0 organic rows at inspection time.
+- **Domain:** Patient-cost discovery, medical-bill product activation, product UX, analytics, accessibility, and privacy.
+- **Source:** Founder-provided August 10 Search Console export; direct production DOM/browser inspection at `197e97f189c461ecd094002b8c12b617b36042ca`; current repository action/product contracts; direct Supabase aggregate; exact-head preview `dpl_4xCNT3njH8YjDoHLbHgzX4bFcErf` for feature commit `ca48616513496a85eaf5917d93ef2b1c9b141ee1`.
+- **Evidence class:** DIRECT-CURRENT for page rows, production behavior, code, deployment, and database state; INFERENCE for opportunity ranking and expected impact.
+- **Verified date:** 2026-08-11.
+- **Coverage:** One assistance-before-paying search entry, one existing Hospital Financial Assistance flagship, current production/preview, GSC through the supplied August 10 export, and the consented first-party store at inspection time.
+- **Freshness trigger:** New GSC export; 2026-09-07; 25 consented `hospital_financial_assistance` views; route/product/consent/deployment change; or a search/accessibility/privacy/runtime defect.
+- **Used by:** CAF-D-019, CAF-W-016, the action-route regression, and `docs/work-packets/2026-08-11-patient-financial-assistance-search-to-action.md`.
+- **Limitations:** The search sample is small and lagged, query clicks are privacy suppressed, scroll distance varies by device, and capability or event-defined result reach cannot establish usefulness, eligibility, satisfaction, causality, conversion, retention, or willingness to pay.
+- **Owner:** SEO/discovery, patient-cost product, frontend, analytics, accessibility, privacy, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

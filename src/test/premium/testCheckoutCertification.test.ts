@@ -63,10 +63,10 @@ describe("test Checkout repository boundaries", () => {
     expect(panel).toContain('<Link to="/sign-in" state={{ productKey }}>Sign in for test Checkout</Link>');
   });
 
-  it("keeps the browser test flag off by default and lazy-loads the nonproduction panel", () => {
+  it("keeps the browser test flag off and isolates the nonproduction panel from public demand research", () => {
     const env = readFileSync(".env.example", "utf8");
     const panel = readFileSync("src/components/premium/PremiumTestCheckoutPanel.tsx", "utf8");
-    const form = readFileSync("src/components/premium/BenefitsEarlyAccessForm.tsx", "utf8");
+    const demandOffer = readFileSync("src/components/premium/PreCommerceDemandOffer.tsx", "utf8");
     const releaseCheck = readFileSync("scripts/check-premium-release.mjs", "utf8");
 
     expect(env).toContain("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED=false");
@@ -74,9 +74,9 @@ describe("test Checkout repository boundaries", () => {
     expect(panel).toContain("Test mode only · No real charge · No production access");
     expect(panel).toContain("createCheckoutSession(auth.accessToken, productKey)");
     expect(panel).toContain('trackSiteEvent("checkout_start"');
-    expect(form).toContain('import.meta.env.VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED === "true"');
-    expect(form).toContain('lazy(() => import("@/components/premium/PremiumTestCheckoutPanel")');
-    expect(form).toContain("<LazyPremiumTestCheckoutPanel />");
+    expect(demandOffer).not.toContain("PremiumTestCheckoutPanel");
+    expect(demandOffer).not.toContain("createCheckoutSession");
+    expect(demandOffer).toContain("/api/precommerce-commitment");
     expect(releaseCheck).toContain("protectedTestCheckoutPreview");
     expect(releaseCheck).toContain("The Stripe test Checkout panel must never be compiled into production.");
   });

@@ -253,6 +253,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** The search sample is small and lagged, query clicks are privacy suppressed, scroll distance varies by device, and capability or event-defined result reach cannot establish usefulness, eligibility, satisfaction, causality, conversion, retention, or willingness to pay.
 - **Owner:** SEO/discovery, patient-cost product, frontend, analytics, accessibility, privacy, and quality/release.
 
+### CAF-E-017 — Benefits v1 inconsistency and pre-commerce v2 baseline
+
+- **Claim or state:** At inspection, the production Total Compensation endcap advertised a $29 Benefits proposition, but its canonical destination was a complete free browser-local workflow and did not expose a priced offer or commitment form. The canonical route nevertheless recorded a v1 offer view on page load. Supabase contained one `benefits_offer_29_v1` view from one session on 2026-08-06, zero Benefits commitments, and zero Benefits lifecycle rows; provenance for the one view is unknown. The v2 database contract is now applied with forced RLS, no browser grants/policies, service-role-only DML, fixed v2 event constraints, observed/release-verification classes, and bounded exclusion reasons. The operational report returns `No data` for both v2 buckets and retains the v1 row as `unknown_legacy`.
+- **Domain:** Benefits product strategy, monetization, analytics, privacy, database security, and release readiness.
+- **Source:** Current main/production/Vercel reconciliation at `d3da388a1f3055c50b64e21997a3ce2c2e85ea98`; direct Supabase project `uzfcvtgnpkvuapgrkfcb` queries and migration `20260811115156_precommerce_demand_validation_v2`; current repository free and private workspace implementations; July 21 Library research *What Makes Websites Succeed and What Community Acquired Finance Should Become*.
+- **Evidence class:** DIRECT-CURRENT for code, deployment baseline, database counts/schema/security/report; INTERNAL-RECORD for strategy research; INFERENCE for proposition selection and activation economics.
+- **Verified date:** 2026-08-11.
+- **Coverage:** Benefits v1/v2 offer evidence, canonical free workflow, dormant private Benefits workspace, Supabase event/commitment stores, and the $29 one-time hypothesis.
+- **Freshness trigger:** v2 code deployment; any event/commitment/schema/consent/offer change; 25 qualified views; 3 genuine commitments; 50 views with zero commitments; or privacy/security/runtime defect.
+- **Used by:** CAF-D-020, CAF-W-017, the fixed pre-commerce registry, API/UI contract, operational SQL report, and the dated work packet.
+- **Limitations:** `observed` means only “not explicitly marked release verification” and does not prove organic provenance. Necessary-only visitors suppress anonymous denominators but can intentionally submit a commitment. Stated intent cannot establish purchase conversion, revenue, price optimality, satisfaction, retention, or representative demand. The proposed workspace still requires launch-time auth/persistence/fulfillment certification.
+- **Owner:** Product, monetization, data/analytics, backend/security, privacy/legal protection, accessibility, platform, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

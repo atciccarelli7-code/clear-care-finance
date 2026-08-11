@@ -12,7 +12,11 @@ test.beforeEach(async ({ page }) => {
       ? { status: 200, contentType: "application/javascript", body: "" }
       : { status: 204, body: "" });
   });
-  await page.addInitScript(() => localStorage.setItem("caf-privacy-consent-v1", "necessary"));
+  await page.addInitScript(() => {
+    if (!localStorage.getItem("caf-privacy-consent-v1")) {
+      localStorage.setItem("caf-privacy-consent-v1", "necessary");
+    }
+  });
 });
 
 test("canonical product route presents a complete free browser-local decision system", async ({ page }) => {
@@ -31,6 +35,38 @@ test("canonical product route presents a complete free browser-local decision sy
 });
 
 test("open enrollment workflow reaches a persisted, printable election plan", async ({ page }) => {
+  const precommerceEvidence: Array<Record<string, unknown>> = [];
+  page.on("request", (request) => {
+    if (!request.url().includes("/api/evidence-event")) return;
+    try {
+      const payload = request.postDataJSON() as Record<string, unknown>;
+      if (String(payload.eventName).startsWith("precommerce_")) precommerceEvidence.push(payload);
+    } catch { /* non-JSON requests are outside this contract */ }
+  });
+  await page.route("**/api/evidence-event", async (route) => {
+    await route.fulfill({ status: 202, contentType: "application/json", body: JSON.stringify({ accepted: true }) });
+  });
+  await page.route("**/api/precommerce-commitment", async (route) => {
+    const body = route.request().postDataJSON();
+    expect(body).toMatchObject({
+      offerKey: "benefits_decision_workspace_29_v2",
+      email: "qualified@example.com",
+      emailConsent: true,
+      priceCommitment: true,
+      evidenceClass: "observed",
+      website: "",
+    });
+    expect(Object.keys(body).sort()).toEqual([
+      "email",
+      "emailConsent",
+      "evidenceClass",
+      "offerKey",
+      "priceCommitment",
+      "sessionId",
+      "website",
+    ]);
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, saved: true, emailDelivered: false }) });
+  });
   await page.goto("/products/healthcare-worker-benefits-decision-system");
   await page.getByRole("button", { name: /Start the guided system/i }).click();
 
@@ -105,11 +141,42 @@ test("open enrollment workflow reaches a persisted, printable election plan", as
   await page.getByLabel(/I reviewed the planned elections/i).check();
   await expect(page.getByText(/planning workflow is complete/i)).toBeVisible();
   await expect(page.getByRole("button", { name: /Print Benefits Decision Brief/i })).toBeVisible();
-  await expect(page.getByRole("button", { name: /worth \$29|early-access/i })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: /Would a \$29 one-time Benefits Decision Workspace/i })).toBeVisible();
+  await expect(page.getByText(/early-access/i)).toHaveCount(0);
+  await page.getByRole("button", { name: /Review exactly what \$29 would add/i }).click();
+  await expect(page.getByText("Free today and staying free", { exact: true })).toBeVisible();
+  await expect(page.getByText("Proposed $29 workspace", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: /I would seriously consider this at \$29/i }).click();
+  await page.locator("#precommerce-email").fill("qualified@example.com");
+  await page.getByLabel(/Price confirmation:/i).check();
+  await page.getByLabel(/Separate email consent:/i).check();
+  await page.getByRole("button", { name: /Record my price-qualified interest/i }).click();
+  await expect(page.getByText(/price-qualified stated intent is recorded/i)).toBeVisible();
+  expect(precommerceEvidence).toEqual([]);
 
   await page.reload();
   await expect(page.getByRole("heading", { name: /Review the plan before using the employer portal/i })).toBeVisible();
   await expect(page.getByLabel(/I reviewed the planned elections/i)).toBeChecked();
+
+  await page.evaluate(() => localStorage.setItem("caf-privacy-consent-v1", "analytics"));
+  await page.reload();
+  await expect.poll(() => precommerceEvidence.length).toBe(1);
+  await page.getByRole("button", { name: /Review exactly what \$29 would add/i }).click();
+  await expect.poll(() => precommerceEvidence.length).toBe(2);
+  await page.getByRole("button", { name: /I would seriously consider this at \$29/i }).click();
+  await expect.poll(() => precommerceEvidence.length).toBe(3);
+  expect(precommerceEvidence.map((payload) => payload.eventName)).toEqual([
+    "precommerce_offer_viewed",
+    "precommerce_offer_engaged",
+    "precommerce_commitment_started",
+  ]);
+  expect(precommerceEvidence.every((payload) => payload.variant === "benefits_workspace_29_v2")).toBe(true);
+
+  await page.reload();
+  await page.getByRole("button", { name: /Review exactly what \$29 would add/i }).click();
+  await page.getByRole("button", { name: /I would seriously consider this at \$29/i }).click();
+  await page.waitForTimeout(100);
+  expect(precommerceEvidence).toHaveLength(3);
   expect(await seriousAxeViolations(page)).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });

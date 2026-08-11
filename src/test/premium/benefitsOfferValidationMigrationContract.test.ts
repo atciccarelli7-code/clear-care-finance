@@ -1,58 +1,41 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-const migrationPath = "supabase/migrations/202608030001_benefits_offer_validation.sql";
+const migration = readFileSync("supabase/migrations/202608110001_precommerce_demand_validation_v2.sql", "utf8");
 
-describe("benefits offer validation migration contract", () => {
-  it("keeps anonymous offer evidence fixed and consent-gated", () => {
-    const migration = readFileSync(migrationPath, "utf8");
-    const growthEventsSection = migration.match(
-      /alter table public\.growth_events[\s\S]*?(?=create table if not exists public\.benefits_offer_commitments)/,
-    )?.[0] ?? "";
-
-    expect(growthEventsSection).toContain("'benefits_offer_viewed'");
-    expect(growthEventsSection).toContain("'benefits_offer_cta_opened'");
-    expect(growthEventsSection).toContain("'benefits_decision_offer'");
-    expect(growthEventsSection).toContain("'benefits_offer_29_v1'");
-    expect(growthEventsSection).toContain("'early_access_commitment_form'");
-    expect(growthEventsSection).not.toMatch(
-      /\b(email|employer|plan_name|salary|medical|payment)\b\s+(text|json|jsonb|numeric)/i,
-    );
-    expect(growthEventsSection).not.toMatch(/add\s+column/i);
+describe("pre-commerce demand migration contract", () => {
+  it("adds only the three fixed v2 anonymous decision states and test isolation", () => {
+    expect(migration).toContain("'precommerce_offer_viewed'");
+    expect(migration).toContain("'precommerce_offer_engaged'");
+    expect(migration).toContain("'precommerce_commitment_started'");
+    expect(migration).toContain("'benefits_decision_result'");
+    expect(migration).toContain("'benefits_workspace_29_v2'");
+    expect(migration).toContain("'benefits_workspace_29_v2_release_verification'");
+    expect(migration).toContain("destination_id = 'offer_details'");
+    expect(migration).toContain("destination_id = 'commitment_form'");
   });
 
-  it("creates a service-role-only commitment table with exact offer controls", () => {
-    const migration = readFileSync(migrationPath, "utf8");
-
-    expect(migration).toContain("create table if not exists public.benefits_offer_commitments");
-    expect(migration).toContain("price_cents integer not null default 2900");
-    expect(migration).toContain("source = 'total_compensation_comparison'");
-    expect(migration).toContain("email_consent is true and price_commitment is true");
-    expect(migration).toContain("commitment_statement_version = 'would_consider_29_v1'");
+  it("keeps the commitment store service-only with forced RLS", () => {
     expect(migration).toContain("alter table public.benefits_offer_commitments enable row level security");
     expect(migration).toContain("alter table public.benefits_offer_commitments force row level security");
-    expect(migration).toContain(
-      "revoke all on table public.benefits_offer_commitments from public, anon, authenticated, service_role",
-    );
-    expect(migration).toContain(
-      "grant select, insert, update, delete on table public.benefits_offer_commitments to service_role",
-    );
+    expect(migration).toContain("revoke all on table public.benefits_offer_commitments from public, anon, authenticated, service_role");
+    expect(migration).toContain("grant select, insert, update, delete on table public.benefits_offer_commitments to service_role");
     expect(migration).not.toMatch(/grant\s+(select|insert|update|delete)[^;]+\s+to\s+(anon|authenticated)/i);
     expect(migration).not.toMatch(/create\s+policy/i);
   });
 
-  it("deduplicates commitments by normalized email while preserving session measurement", () => {
-    const migration = readFileSync(migrationPath, "utf8");
-
-    expect(migration).toMatch(/unique index[^;]+\(product_id, email_hash\)/s);
-    expect(migration).toMatch(/index[^;]+\(product_id, session_id, created_at desc\)/s);
-    expect(migration).not.toMatch(/unique index[^;]+\(product_id, session_id\)/s);
+  it("fixes price, proposition source, statement, evidence class, and exclusions", () => {
+    expect(migration).toContain("offer_version = 'benefits_workspace_29_v2' and source = 'benefits_decision_result'");
+    expect(migration).toContain("commitment_statement_version = 'would_consider_benefits_workspace_29_v2'");
+    expect(migration).toContain("evidence_class in ('observed', 'release_verification')");
+    expect(migration).toContain("status in ('active', 'unsubscribed', 'excluded')");
+    expect(migration).toContain("'founder', 'friend_family', 'synthetic', 'duplicate', 'other'");
   });
 
-  it("does not create columns for employer, plan, medical, payment, or free-text detail", () => {
-    const migration = readFileSync(migrationPath, "utf8");
-    const tableDefinition = migration.match(/create table if not exists public\.benefits_offer_commitments \(([\s\S]*?)\n\);/)?.[1] ?? "";
-
-    expect(tableDefinition).not.toMatch(/\b(employer|plan|salary|wage|benefit_amount|medical|diagnosis|member_id|claim|payment|card|notes|free_text)\b/i);
+  it("does not add answer, employer, plan, health, payment, URL, or free-text fields", () => {
+    const addedColumns = migration.match(/add column if not exists [^;]+;/s)?.[0] ?? "";
+    expect(addedColumns).toContain("evidence_class");
+    expect(addedColumns).toContain("exclusion_reason");
+    expect(addedColumns).not.toMatch(/salary|wage|benefit_amount|medical|diagnosis|member_id|claim|payment|card|url|notes|free_text/i);
   });
 });

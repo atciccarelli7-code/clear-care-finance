@@ -1,7 +1,6 @@
 import {
-  BENEFITS_OFFER_SURFACE,
-  BENEFITS_OFFER_VARIANT,
   EVIDENCE_SURFACE,
+  PRECOMMERCE_SURFACE,
   SERVICE_NAVIGATION_VARIANT,
   type EvidenceDestinationId,
   type EvidenceEventName,
@@ -13,16 +12,21 @@ import {
   resolveInsuranceDestinationId,
 } from "@/lib/evidenceEventContract";
 import {
+  PRECOMMERCE_OBSERVED_VARIANT,
+  PRECOMMERCE_VERIFICATION_VARIANT,
+  type PreCommerceEvidenceClass,
+  type PreCommerceVariant,
+} from "@/lib/preCommerceOfferContract";
+import {
   PRIVACY_CONSENT_CHANGED_EVENT,
   readPrivacyConsent,
 } from "@/lib/privacyConsent";
 
 const SESSION_KEY = "caf-evidence-session-v1";
 const INSURANCE_VIEWED_KEY = "caf-evidence-viewed:insurance_hub:baseline_v1";
-const BENEFITS_OFFER_VIEWED_KEY = `caf-evidence-viewed:${BENEFITS_OFFER_SURFACE}:${BENEFITS_OFFER_VARIANT}`;
 const INSTALL_KEY = "__cafEvidenceObserverInstalled";
 const DEFAULT_VARIANT: EvidenceVariant = "baseline_v1";
-const BENEFITS_OFFER_PATH = "/products/healthcare-worker-benefits-decision-system";
+export const PRECOMMERCE_VERIFICATION_MODE_KEY = "caf-precommerce-evidence-mode-v1";
 
 declare global {
   interface Window {
@@ -55,6 +59,22 @@ export const getEvidenceSessionId = () => {
   if (typeof window === "undefined") return null;
   return getSessionId();
 };
+
+export const getPreCommerceEvidenceClass = (): PreCommerceEvidenceClass => {
+  if (typeof window === "undefined") return "observed";
+  try {
+    return window.sessionStorage.getItem(PRECOMMERCE_VERIFICATION_MODE_KEY) === "release_verification"
+      ? "release_verification"
+      : "observed";
+  } catch {
+    return "observed";
+  }
+};
+
+const getPreCommerceVariant = (): PreCommerceVariant =>
+  getPreCommerceEvidenceClass() === "release_verification"
+    ? PRECOMMERCE_VERIFICATION_VARIANT
+    : PRECOMMERCE_OBSERVED_VARIANT;
 
 type EvidenceEventInput = {
   eventName: EvidenceEventName;
@@ -129,30 +149,34 @@ export const recordInsuranceHubHandoff = (
   });
 };
 
-export const recordBenefitsOfferView = () => {
-  if (typeof window === "undefined" || window.location.pathname !== BENEFITS_OFFER_PATH) return false;
-  if (readPrivacyConsent() !== "analytics") return false;
+type PreCommerceEventName = "precommerce_offer_viewed" | "precommerce_offer_engaged" | "precommerce_commitment_started";
+
+const recordPreCommerceEvent = (
+  eventName: PreCommerceEventName,
+  destinationId?: "offer_details" | "commitment_form",
+) => {
+  if (typeof window === "undefined" || readPrivacyConsent() !== "analytics") return false;
 
   try {
-    if (window.sessionStorage.getItem(BENEFITS_OFFER_VIEWED_KEY) === "true") return false;
+    const variant = getPreCommerceVariant();
+    const dedupeKey = `caf-evidence:${eventName}:${PRECOMMERCE_SURFACE}:${variant}`;
+    if (window.sessionStorage.getItem(dedupeKey) === "true") return false;
     const accepted = postEvidenceEvent({
-      eventName: "benefits_offer_viewed",
-      surface: BENEFITS_OFFER_SURFACE,
-      variant: BENEFITS_OFFER_VARIANT,
+      eventName,
+      surface: PRECOMMERCE_SURFACE,
+      ...(destinationId ? { destinationId } : {}),
+      variant,
     });
-    if (accepted) window.sessionStorage.setItem(BENEFITS_OFFER_VIEWED_KEY, "true");
+    if (accepted) window.sessionStorage.setItem(dedupeKey, "true");
     return accepted;
   } catch {
     return false;
   }
 };
 
-export const recordBenefitsOfferCta = () => postEvidenceEvent({
-  eventName: "benefits_offer_cta_opened",
-  surface: BENEFITS_OFFER_SURFACE,
-  destinationId: "early_access_commitment_form",
-  variant: BENEFITS_OFFER_VARIANT,
-});
+export const recordPreCommerceOfferView = () => recordPreCommerceEvent("precommerce_offer_viewed");
+export const recordPreCommerceOfferEngagement = () => recordPreCommerceEvent("precommerce_offer_engaged", "offer_details");
+export const recordPreCommerceCommitmentStarted = () => recordPreCommerceEvent("precommerce_commitment_started", "commitment_form");
 
 const navigationOpenedKey = (surface: NavigationSurface) =>
   `caf-evidence-viewed:${surface}:${SERVICE_NAVIGATION_VARIANT}`;
@@ -191,7 +215,6 @@ export const installFirstPartyEvidenceObserver = () => {
 
   const observeRoute = () => {
     if (window.location.pathname === "/insurance") recordInsuranceHubView();
-    if (window.location.pathname === BENEFITS_OFFER_PATH) recordBenefitsOfferView();
   };
 
   const wrapHistoryMethod = (method: "pushState" | "replaceState") => {

@@ -18,10 +18,10 @@ const appSource = source("src/App.tsx");
 const phase3AppSource = source("src/Phase3ProductApp.tsx");
 const siteSeoMetaSource = source("src/lib/siteSeoMeta.ts");
 const offerPageSource = source("src/pages/premium/BenefitsDecisionOfferPage.tsx");
-const offerFormSource = source("src/components/premium/BenefitsEarlyAccessForm.tsx");
+const demandOfferSource = source("src/components/premium/PreCommerceDemandOffer.tsx");
 const testCheckoutPanelSource = source("src/components/premium/PremiumTestCheckoutPanel.tsx");
-const offerHandoffSource = source("src/components/premium/BenefitsOfferValidationPathway.tsx");
 const routeEndcapSource = source("src/components/layout/routeEndcap.ts");
+const commandCenterEntryConfigSource = source("src/components/benefits/benefitsCommandCenterEntryConfig.ts");
 const vercelSource = source("vercel.json");
 const sitemapGeneratorSource = source("scripts/generate-sitemap.mjs");
 
@@ -80,8 +80,8 @@ describe("finished public product architecture", () => {
       expect(publicSource).toContain(OFFER_PATH);
     }
     expect(navigationSource).toContain("/healthcare-workers");
-    expect(offerHandoffSource).toContain(OFFER_PATH);
-    expect(routeEndcapSource).toContain("/tools/healthcare-worker-total-compensation-comparison");
+    expect(commandCenterEntryConfigSource).toContain("/tools/healthcare-worker-total-compensation-comparison");
+    expect(routeEndcapSource).not.toContain("benefits_offer_validation");
   });
 
   it("renders the dedicated workflow as an indexable free WebApplication", () => {
@@ -103,7 +103,7 @@ describe("finished public product architecture", () => {
     expect(comparisonSource).not.toContain("CAF Benefits Command Center");
   });
 
-  it("keeps dormant paid-commerce infrastructure fail closed and off the public offer page", () => {
+  it("keeps paid commerce fail closed while the public page tests only stated intent", () => {
     const flagship = PAID_PRODUCTS.find((product) => product.id === "healthcare-worker-benefits-decision-system");
 
     expect(flagship).toMatchObject({
@@ -113,19 +113,24 @@ describe("finished public product architecture", () => {
       checkoutUrl: "",
     });
     expect(isPaidCommerceEnabled()).toBe(false);
-    expect(offerPageSource).not.toContain("BenefitsEarlyAccessForm");
     expect(offerPageSource).not.toContain("PAID_PRODUCTS");
-    expect(offerPageSource).not.toContain("recordBenefitsOfferCta");
     expect(offerPageSource).not.toContain("$29");
+    expect(demandOfferSource).toContain("Would a $29 one-time Benefits Decision Workspace");
+    expect(demandOfferSource).toContain("Free today and staying free");
+    expect(demandOfferSource).toContain("No card. No checkout. No charge. No reservation. No obligation.");
+    expect(demandOfferSource).toContain("price-qualified stated intent");
+    expect(demandOfferSource).not.toContain("createCheckoutSession");
+    expect(demandOfferSource).not.toContain("PAID_PRODUCTS");
   });
 
-  it("preserves private validation and test-mode commerce components without exposing them publicly", () => {
-    expect(offerFormSource).toContain("priceCommitment");
-    expect(offerFormSource).toContain("emailConsent");
-    expect(offerFormSource).toContain("VITE_PREMIUM_TEST_CHECKOUT_DISPLAY_ENABLED");
+  it("requires separate price confirmation and product-specific email consent", () => {
+    expect(demandOfferSource).toContain("priceCommitment");
+    expect(demandOfferSource).toContain("emailConsent");
+    expect(demandOfferSource).toContain("Separate email consent");
+    expect(demandOfferSource).toContain("/api/precommerce-commitment");
     expect(testCheckoutPanelSource).toContain("Protected test-mode certification");
     expect(testCheckoutPanelSource).toContain("Test mode only · No real charge · No production access");
-    expect(testCheckoutPanelSource).toContain("createCheckoutSession(auth.accessToken, productKey)");
+    expect(demandOfferSource).not.toContain("PremiumTestCheckoutPanel");
   });
 
   it("preserves private application route boundaries", () => {

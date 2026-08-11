@@ -238,6 +238,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** 2026-09-07 or 25 consented `hospital_financial_assistance` views, whichever is later; new GSC evidence; any search, destination, accessibility, privacy, runtime, or result-quality defect; or direct evidence that the Finder is not the right next action.
 - **Supersedes:** No prior strategic decision. It applies CAF-D-014 and CAF-D-017 to one patient-cost acquisition loop and preserves CAF-D-018 unchanged while that experiment accumulates evidence.
 
+### CAF-D-020 — Require coherent post-value stated intent before commerce activation
+
+- **Date:** 2026-08-11
+- **Status:** EXPERIMENT
+- **Decision:** Keep the complete browser-local Healthcare Worker Benefits Decision System, two-plan comparison, verification checklist, Decision Brief, printing, and official-source use free. Test the existing $29 one-time hypothesis only for an additive Benefits Decision Workspace—cross-device saved work, multiple named decisions, deeper multi-option comparison, structured evidence management, and an advanced consolidated brief—after the user reaches the free result. Treat explicit email-backed price confirmation as stated intent, never purchase, revenue, reservation, entitlement, or confirmed willingness to pay.
+- **Rationale:** The v1 Total Compensation handoff pointed to a product that had subsequently become a complete free workflow, while the canonical route logged an offer view without presenting any offer. Its one unknown view and zero commitments therefore could not support a willingness-to-pay decision. A post-result fixed proposition preserves the free core and gives view, engagement, start, and commitment denominators a coherent meaning.
+- **Evidence:** Direct current main/production code and Vercel reconciliation; direct Supabase v1 count, schema, constraints, grants, and RLS inspection; the current free workflow and dormant private workspace implementation; July 21 strategy research; CAF-E-017; work packet `2026-08-11-pre-commerce-demand-validation.md`.
+- **Consequences:** Retire the pre-value v1 handoff/form/API and route-level offer-view logging; start a clean `benefits_workspace_29_v2` cohort; preserve the historical v1 row as unknown; keep analytics events consent-gated and commitments service-only; isolate release verification and allow founder/friend/family exclusion; leave Medicare and all other products without a price offer. Consider—not automatically authorize—real checkout only after at least 25 genuine qualified v2 views, at least 3 genuine active commitments (5 is stronger), at least a 10% commitment/view rate, credible upstream product results, and certifiable deliverability.
+- **Revisit trigger:** The activation threshold; 50 qualified views with zero genuine commitments; a meaningful engagement-to-commitment rejection pattern; proposition misunderstanding; premium deliverability failure; or any privacy, security, accessibility, runtime, or denominator-integrity defect.
+- **Supersedes:** The v1 Benefits demand-validation placement and denominator described in the August 3 plan. It preserves the $29 hypothesis as an experiment, CAF-D-003's free-value-first rule, CAF-D-016's fail-closed commerce boundary, and CAF-D-017's consent/minimum-sample interpretation rules.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

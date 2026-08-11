@@ -5,7 +5,6 @@ import { OpenEnrollmentPilot } from "@/components/premium/OpenEnrollmentPilot";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { PageHero } from "@/components/shared/PageHero";
 import { Button } from "@/components/ui/button";
-import { recordBenefitsOfferView } from "@/lib/firstPartyEvidence";
 
 const workflowSteps = [
   "Identify the enrollment event and deadline",
@@ -28,8 +27,6 @@ const notIncluded = [
 
 const BenefitsDecisionOfferPage = () => {
   useEffect(() => {
-    recordBenefitsOfferView();
-
     const makeScrollableRegionsKeyboardAccessible = () => {
       document.querySelectorAll<HTMLElement>("#guided-pilot .overflow-x-auto").forEach((region) => {
         region.tabIndex = 0;

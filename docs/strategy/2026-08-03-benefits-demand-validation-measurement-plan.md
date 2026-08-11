@@ -1,4 +1,6 @@
-# CAF Phase 3 — Benefits Decision System Demand-Validation Plan
+# CAF Phase 3 — Benefits Decision System Demand-Validation Plan (superseded)
+
+> Superseded on 2026-08-11 by [`2026-08-11-precommerce-demand-validation.md`](./2026-08-11-precommerce-demand-validation.md). The v1 Total Compensation placement and canonical-route offer-view denominator described below were retired because the destination had become a complete free workflow and no longer displayed the priced proposition. Keep this file only as historical experiment context; do not use its v1 events for the v2 commerce decision.
 
 **Date:** August 3, 2026  
 **Product:** Healthcare Worker Benefits Decision System  

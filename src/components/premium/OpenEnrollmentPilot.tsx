@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -38,6 +38,10 @@ import {
   type OpenEnrollmentPilotState,
   type OpenEnrollmentStepId,
 } from "@/premium/openEnrollmentPilot";
+
+const PreCommerceDemandOffer = lazy(() =>
+  import("@/components/premium/PreCommerceDemandOffer").then((module) => ({ default: module.PreCommerceDemandOffer })),
+);
 
 const STORAGE_KEY = `caf-open-enrollment-pilot-v${OPEN_ENROLLMENT_PILOT_VERSION}`;
 const JOURNEY = {
@@ -413,6 +417,7 @@ export const OpenEnrollmentPilot = () => {
         <section className="mt-5 rounded-2xl border border-primary/25 bg-primary-soft/25 p-5"><h5 className="font-display text-xl font-bold">Final submission checklist</h5><ul className="mt-4 space-y-2 text-sm text-muted-foreground"><li>• Enter elections in the employer’s official portal.</li><li>• Review dependents, payroll costs, beneficiaries, and effective dates.</li><li>• Save the confirmation number or confirmation screen.</li><li>• Retain this plan with the controlling documents.</li></ul><label className="mt-5 flex items-start gap-3 rounded-xl border border-border bg-background p-4 text-sm"><input type="checkbox" checked={state.finalReviewAcknowledged} onChange={(event) => acknowledge(event.target.checked)} className="mt-0.5 h-5 w-5 rounded border-border" /><span>I reviewed the planned elections, unresolved items, and official submission steps.</span></label></section>
         <div className="mt-6 flex flex-wrap gap-3 print:hidden"><Button type="button" onClick={printDecisionBrief}><Printer className="h-4 w-4" />Print Benefits Decision Brief</Button><Button type="button" variant="ghost" onClick={reset}><RotateCcw className="h-4 w-4" />Start over</Button></div>
         {state.finalReviewAcknowledged && <div className="mt-5 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm text-emerald-950" role="status"><CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" /><span>The planning workflow is complete. Submit only through the official employer portal and retain confirmation.</span></div>}
+        <Suspense fallback={null}><PreCommerceDemandOffer /></Suspense>
       </div>
     );
   };

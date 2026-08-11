@@ -138,11 +138,12 @@ Mitigation: release evidence will prove only implementation. Organic entry, star
 ### Technical validation
 
 - **Status:** PASS through the feature-preview checkpoint; final exact-head and production evidence remain release gates.
-- Focused CTA/route tests: PASS, 17 tests.
+- Focused product/CTA/route tests: PASS, 19 tests after the accessibility correction.
 - Full repository suite: PASS, 128 files/725 tests.
 - Lint: PASS with zero errors and 15 existing Fast Refresh warnings.
 - Build: PASS for API TypeScript, governance, publication, privacy, premium, bundle, 182-route prerender, sitemap, and zero-warning search readiness.
 - Feature preview: READY at `dpl_4xCNT3njH8YjDoHLbHgzX4bFcErf` for `ca48616513496a85eaf5917d93ef2b1c9b141ee1`; direct desktop inspection verified the exact article action, single end state, destination step 1 of 8, canonical URLs, and zero overflow.
+- Initial Browser certification: CORRECTLY FAILED because the existing Finder progress bar had no accessible name. The reusable product element now has an `aria-label` and a unit regression; the corrected full local suite/build/lint pass.
 - Final exact-head CI/mobile/axe, merge, production smoke, runtime scan, and necessary-only evidence: pending.
 
 ### Business validation

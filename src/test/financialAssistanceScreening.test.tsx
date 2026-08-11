@@ -38,6 +38,7 @@ describe("Hospital Financial Assistance Finder", () => {
 
     expect(screen.getByText(/private by design/i)).toBeInTheDocument();
     expect(screen.getByText(/step 1 of 8/i)).toBeInTheDocument();
+    expect(screen.getByRole("progressbar", { name: "Financial assistance screening progress" })).toHaveAttribute("aria-valuenow", "13");
     expect(screen.getByRole("heading", { name: /choose the hospital's state/i })).toBeInTheDocument();
     expect(screen.queryByText(/household size used for screening/i)).not.toBeInTheDocument();
   });

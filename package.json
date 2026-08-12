@@ -37,7 +37,7 @@
     "preview": "vite preview",
     "preview:test": "vite preview --host 127.0.0.1 --port 4173",
     "test:browser": "npm run build && playwright test e2e/flagship-journeys.spec.ts e2e/patient-education-systems.spec.ts e2e/healthcare-offer-verification.spec.ts e2e/private-student-loan-decision-outcome.spec.ts",
-    "test:browser:journeys": "playwright test e2e/flagship-journeys.spec.ts e2e/healthcare-offer-verification.spec.ts e2e/private-student-loan-decision-outcome.spec.ts",
+    "test:browser:journeys": "playwright test e2e/flagship-journeys.spec.ts e2e/hospital-to-home-navigator.spec.ts e2e/healthcare-offer-verification.spec.ts e2e/private-student-loan-decision-outcome.spec.ts",
     "test:browser:patient-education": "playwright test e2e/patient-education-systems.spec.ts",
     "test:browser:medicare": "playwright test --config=playwright.medicare.config.ts",
     "test:browser:premium": "playwright test e2e/premium-workspace.spec.ts && playwright test --config=playwright.premium.config.ts",

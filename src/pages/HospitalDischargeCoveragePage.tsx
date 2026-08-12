@@ -1,42 +1,27 @@
-import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   AlertTriangle,
   ArrowRight,
   CheckCircle2,
-  ClipboardCheck,
   ExternalLink,
   FileQuestion,
   HeartPulse,
   Home,
   Hospital,
   PhoneCall,
-  Printer,
   Shield,
   Stethoscope,
   Truck,
   WalletCards,
 } from "lucide-react";
+import { HospitalToHomeNavigator } from "@/components/patients/HospitalToHomeNavigator";
 import { PageHero } from "@/components/shared/PageHero";
-import { DischargeCommandCenter } from "@/components/discharge-command-center";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSeo } from "@/lib/seo";
 
 type Tone = "blue" | "green" | "amber" | "slate";
-type NeedId = "walker" | "snf" | "homeHealth" | "oxygen" | "wound" | "transport" | "custodial" | "meds";
-
-type DischargeInput = {
-  payer: "medicare" | "ma" | "commercial" | "medicaid" | "unknown";
-  destination: "home" | "snf" | "inpatientRehab" | "assistedLiving" | "unknown";
-  authStatus: "approved" | "pending" | "denied" | "unknown";
-  networkStatus: "confirmed" | "notConfirmed" | "outOfNetwork" | "unknown";
-  needs: Record<NeedId, boolean>;
-};
-
-const inputClass =
-  "h-11 w-full rounded-xl border border-border bg-background px-3 text-sm text-foreground shadow-sm outline-none transition-smooth focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const Badge = ({ children, tone = "blue" }: { children: string; tone?: Tone }) => {
   const tones: Record<Tone, string> = {
@@ -163,50 +148,14 @@ const futurePlanChecks = [
 ];
 
 const sourceLinks = [
+  ["Medicare.gov — Inpatient or outpatient hospital status", "https://www.medicare.gov/coverage/inpatient-hospital-care/inpatient-outpatient-status"],
   ["Medicare.gov — Durable medical equipment coverage", "https://www.medicare.gov/coverage/durable-medical-equipment-dme-coverage"],
   ["Medicare.gov — Skilled nursing facility care", "https://www.medicare.gov/coverage/skilled-nursing-facility-care"],
   ["Medicare.gov — Home health services", "https://www.medicare.gov/coverage/home-health-services"],
+  ["Medicare.gov — Appeals and fast appeals", "https://www.medicare.gov/providers-services/claims-appeals-complaints/appeals"],
   ["HealthCare.gov — Glossary of health coverage and medical terms", "https://www.healthcare.gov/sbc-glossary/"],
   ["HealthCare.gov — Appealing a health plan decision", "https://www.healthcare.gov/appeal-insurance-company-decision/"],
 ];
-
-const needLabels: { id: NeedId; label: string }[] = [
-  { id: "walker", label: "Walker, wheelchair, commode, hospital bed, or DME" },
-  { id: "snf", label: "Short-term rehab / skilled nursing facility" },
-  { id: "homeHealth", label: "Home health nursing, PT, OT, or speech therapy" },
-  { id: "oxygen", label: "Oxygen or respiratory equipment" },
-  { id: "wound", label: "Wound care or dressing supplies" },
-  { id: "transport", label: "Ambulance, wheelchair van, or stretcher transport" },
-  { id: "custodial", label: "Help bathing, dressing, toileting, meals, or supervision" },
-  { id: "meds", label: "New medications, pharmacy access, or prior authorization" },
-];
-
-const destinationLabels: Record<DischargeInput["destination"], string> = {
-  home: "Home",
-  snf: "Skilled nursing facility / short-term rehab",
-  inpatientRehab: "Inpatient rehabilitation facility",
-  assistedLiving: "Assisted living or long-term care setting",
-  unknown: "Not sure yet",
-};
-
-const payerLabels: Record<DischargeInput["payer"], string> = {
-  medicare: "Original Medicare",
-  ma: "Medicare Advantage",
-  commercial: "Commercial / employer plan",
-  medicaid: "Medicaid or dual coverage",
-  unknown: "Not sure yet",
-};
-
-const SelectField = ({ label, value, options, onChange }: { label: string; value: string; options: [string, string][]; onChange: (value: string) => void }) => (
-  <label className="block rounded-2xl border border-border bg-background/60 p-4">
-    <span className="text-sm font-bold text-foreground">{label}</span>
-    <select className={`${inputClass} mt-3`} value={value} onChange={(event) => onChange(event.target.value)}>
-      {options.map(([optionValue, optionLabel]) => (
-        <option key={optionValue} value={optionValue}>{optionLabel}</option>
-      ))}
-    </select>
-  </label>
-);
 
 const ExplanationCard = ({ item }: { item: (typeof coverageReasons)[number] }) => {
   const Icon = item.icon;
@@ -236,91 +185,21 @@ const ExplanationCard = ({ item }: { item: (typeof coverageReasons)[number] }) =
 
 const HospitalDischargeCoveragePage = () => {
   useSeo({
-    title: "Hospital Discharge Coverage Guide for Families",
+    title: "Hospital-to-Home Coverage & Cost Navigator",
     description:
-      "A family-facing guide to insurance coverage at hospital discharge, including DME, walkers, short-term rehab, SNF days, home health, oxygen, transportation, prior authorization, and custodial care gaps.",
+      "Build a personalized hospital discharge coverage and cost brief for home health, rehab, DME, medications, transportation, authorization, denials, and caregiver gaps.",
     canonicalPath: "/insurance/hospital-discharge-coverage",
   });
-
-  const [input, setInput] = useState<DischargeInput>({
-    payer: "unknown",
-    destination: "home",
-    authStatus: "unknown",
-    networkStatus: "unknown",
-    needs: {
-      walker: true,
-      snf: false,
-      homeHealth: true,
-      oxygen: false,
-      wound: false,
-      transport: false,
-      custodial: false,
-      meds: false,
-    },
-  });
-
-  const checklist = useMemo(() => {
-    const items = [
-      `Confirm the expected discharge destination: ${destinationLabels[input.destination]}.`,
-      `Confirm the payer being used for discharge services: ${payerLabels[input.payer]}.`,
-      input.authStatus === "approved"
-        ? "Save the authorization number, approved service, approved dates, approved provider/facility, and what happens when the approved period ends."
-        : "Ask whether prior authorization is required, submitted, pending, denied, or not started.",
-      input.networkStatus === "confirmed"
-        ? "Save the in-network facility, agency, supplier, pharmacy, and transportation names."
-        : "Ask whether the SNF/rehab facility, home health agency, DME supplier, pharmacy, and transport provider are in network.",
-      "Ask whether the discharge need is skilled care, custodial care, or both.",
-      "Ask what is covered, what is not covered, how long approval lasts, and what the estimated patient cost could be.",
-      "Ask for the backup plan if the first facility, agency, supplier, or authorization request fails.",
-    ];
-
-    if (input.payer === "medicare" && (input.destination === "snf" || input.needs.snf)) {
-      items.push("For Original Medicare SNF coverage: ask whether there was a qualifying inpatient stay, whether the patient has days left in the benefit period, and what day of SNF coverage this would be.");
-    }
-
-    if ((input.payer === "ma" || input.payer === "commercial") && (input.destination === "snf" || input.needs.snf || input.needs.homeHealth || input.needs.walker)) {
-      items.push("For Medicare Advantage or commercial insurance: ask for the authorization reference number, clinical criteria used, approved dates, and appeal or peer-to-peer options if denied.");
-    }
-
-    if (input.networkStatus === "outOfNetwork") {
-      items.push("If the provider is out of network: ask for in-network alternatives, whether a single-case agreement is possible, and what the private-pay estimate would be.");
-    }
-
-    if (input.authStatus === "denied") {
-      items.push("If denied: ask for the denial reason in writing, the appeal deadline, whether expedited appeal is available, and what documentation could change the decision.");
-    }
-
-    if (input.needs.walker) items.push("For DME: ask who is writing the order, which supplier will fill it, whether it is rent or purchase, and whether delivery can happen before discharge.");
-    if (input.needs.snf) items.push("For STR/SNF: ask how many days are approved, what skilled need supports the stay, what the daily copay is, and what happens if progress stalls.");
-    if (input.needs.homeHealth) items.push("For home health: ask which agency accepted the referral, what visits are ordered, when the first visit is expected, and whether the patient meets the plan's skilled/homebound requirements.");
-    if (input.needs.custodial) items.push("For personal care needs: ask directly whether insurance covers aide hours, supervision, meals, toileting, bathing, or dressing help — many plans do not cover this by itself.");
-    if (input.needs.transport) items.push("For transport: ask what level of transportation is medically necessary, who documents it, and what happens if the payer denies it after the ride.");
-    if (input.needs.meds) items.push("For medications: confirm pharmacy access, formulary status, prior authorization, dose limits, and whether the first fill is affordable today.");
-
-    return items;
-  }, [input]);
-
-  const riskFlags = useMemo(() => {
-    const flags = [];
-    if (input.authStatus !== "approved") flags.push("Authorization is not clearly approved yet.");
-    if (input.networkStatus !== "confirmed") flags.push("Network status is not clearly confirmed yet.");
-    if (input.destination === "snf" || input.needs.snf) flags.push("SNF/STR coverage depends on skilled need, benefit structure, authorization, and facility acceptance.");
-    if (input.needs.custodial) flags.push("Custodial/personal care may require private pay, Medicaid, VA benefits, family support, or community resources.");
-    if (input.needs.walker || input.needs.oxygen) flags.push("DME usually needs the right order, documentation, supplier, and delivery timing.");
-    return flags;
-  }, [input]);
-
-  const callScript = `I am trying to understand discharge coverage, not argue with the discharge plan. Can you tell me what level of care is being recommended, what insurance has approved or denied, whether the provider or supplier is in network, what documentation is missing, what the patient cost could be, and what backup options we have if coverage does not come through before discharge?`;
 
   return (
     <>
       <PageHero
         eyebrow="Hospital discharge"
-        title="When Insurance Says No at Discharge: A Family Guide"
-        description="Understand why a walker, short-term rehab bed, home health visit, oxygen setup, transport, or aide support may not be covered — and what to ask before discharge day."
+        title="Hospital-to-Home Coverage & Cost Navigator"
+        description="Turn a proposed discharge into a personalized brief: what could delay coverage, what could create an unexpected bill, who owns each verification, and what to ask before leaving."
       >
         <Button asChild variant="hero" size="lg">
-          <a href="#coverage-checklist">Build checklist <ArrowRight className="h-4 w-4" /></a>
+          <a href="#coverage-checklist">Build my discharge brief <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
           <a href="#coverage-translator">Translate the denial</a>
@@ -336,6 +215,7 @@ const HospitalDischargeCoveragePage = () => {
             Hospital &amp; Patient Guide <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
+        <HospitalToHomeNavigator />
         <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-5 shadow-card md:p-8">
           <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
             <div>
@@ -455,98 +335,6 @@ const HospitalDischargeCoveragePage = () => {
           </div>
         </section>
 
-        <section id="coverage-checklist" className="scroll-mt-24">
-          <SectionHeading
-            centered
-            eyebrow="Checklist builder"
-            title="Build a discharge coverage checklist"
-            description="Fill in what you know. The output gives families practical questions for case management, the insurer, the receiving facility, the DME supplier, or the home health agency."
-          />
-          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-            <Card className="rounded-3xl border-border/80 shadow-card">
-              <CardHeader>
-                <CardTitle className="font-display text-2xl">Discharge details</CardTitle>
-                <CardDescription>Use best available information. Unknown is acceptable.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <SelectField
-                  label="Main payer"
-                  value={input.payer}
-                  onChange={(value) => setInput((current) => ({ ...current, payer: value as DischargeInput["payer"] }))}
-                  options={[["unknown", "Not sure yet"], ["medicare", "Original Medicare"], ["ma", "Medicare Advantage"], ["commercial", "Commercial / employer plan"], ["medicaid", "Medicaid or dual coverage"]]}
-                />
-                <SelectField
-                  label="Expected destination"
-                  value={input.destination}
-                  onChange={(value) => setInput((current) => ({ ...current, destination: value as DischargeInput["destination"] }))}
-                  options={[["home", "Home"], ["snf", "Skilled nursing facility / short-term rehab"], ["inpatientRehab", "Inpatient rehabilitation facility"], ["assistedLiving", "Assisted living or long-term care setting"], ["unknown", "Not sure yet"]]}
-                />
-                <SelectField
-                  label="Authorization status"
-                  value={input.authStatus}
-                  onChange={(value) => setInput((current) => ({ ...current, authStatus: value as DischargeInput["authStatus"] }))}
-                  options={[["unknown", "Not sure"], ["approved", "Approved"], ["pending", "Pending"], ["denied", "Denied"]]}
-                />
-                <SelectField
-                  label="Network status"
-                  value={input.networkStatus}
-                  onChange={(value) => setInput((current) => ({ ...current, networkStatus: value as DischargeInput["networkStatus"] }))}
-                  options={[["unknown", "Not sure"], ["confirmed", "Confirmed in network"], ["notConfirmed", "Not confirmed"], ["outOfNetwork", "Out of network"]]}
-                />
-                <div className="space-y-2">
-                  <span className="text-sm font-bold text-foreground">Known discharge needs</span>
-                  <div className="grid gap-2">
-                    {needLabels.map((need) => (
-                      <label key={need.id} className="flex cursor-pointer items-start gap-3 rounded-2xl border border-border bg-background/60 p-3 text-sm">
-                        <input
-                          className="mt-1 h-4 w-4 rounded border-border"
-                          type="checkbox"
-                          checked={Boolean(input.needs[need.id])}
-                          onChange={(event) => setInput((current) => ({ ...current, needs: { ...current.needs, [need.id]: event.target.checked } }))}
-                        />
-                        <span className="font-medium leading-relaxed text-foreground">{need.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="rounded-3xl border-primary/20 bg-primary-soft/30 shadow-card">
-              <CardHeader>
-                <Badge tone={input.authStatus === "approved" ? "green" : input.authStatus === "denied" ? "amber" : "blue"}>Family checklist</Badge>
-                <CardTitle className="font-display text-2xl">Questions to ask before discharge</CardTitle>
-                <CardDescription>Save names, dates, times, reference numbers, authorization numbers, and copies of notices.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-5">
-                {riskFlags.length > 0 && (
-                  <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
-                    <div className="mb-2 flex items-center gap-2 font-bold text-amber-950"><AlertTriangle className="h-4 w-4" /> Risk flags to clarify</div>
-                    <ul className="space-y-2 text-sm leading-relaxed text-amber-950/85">
-                      {riskFlags.map((flag) => <li key={flag}>{flag}</li>)}
-                    </ul>
-                  </div>
-                )}
-                <ul className="space-y-3 text-sm text-muted-foreground">
-                  {checklist.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <ClipboardCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="rounded-2xl border border-primary/20 bg-card p-4 text-sm leading-relaxed text-foreground">
-                  <div className="mb-1 font-bold">Call script</div>
-                  {callScript}
-                </div>
-                <Button type="button" variant="outline" onClick={() => window.print()}>
-                  <Printer className="h-4 w-4" /> Print/save checklist
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
         <section>
           <SectionHeading
             centered
@@ -639,7 +427,6 @@ const HospitalDischargeCoveragePage = () => {
             </CardContent>
           </Card>
         </section>
-        <DischargeCommandCenter />
       </div>
     </>
   );

@@ -6,7 +6,7 @@
 
 ## Purpose
 
-Measure whether visitors enter, complete, resume, copy, print, restart, or hand off from a guided CAF journey without collecting the content of the decision.
+Measure whether visitors enter, complete, resume, save, copy, print, restart, or hand off from a guided CAF journey without collecting the content of the decision.
 
 The event stream is intentionally incapable of reconstructing a visitor’s medical, insurance, employment, tax, debt, retirement, benefits, or household situation.
 
@@ -20,6 +20,7 @@ The event stream is intentionally incapable of reconstructing a visitor’s medi
 | `journey_back_selected` | The visitor deliberately moves to a prior phase. |
 | `journey_exited_unexpectedly` | A future governed implementation may record an interrupted exit using only coarse context. |
 | `journey_result_reached` | The canonical destination displays a recognizable result or action plan. |
+| `journey_result_saved` | The visitor deliberately saves a fixed, non-sensitive task state in the browser-local Decision Plan. |
 | `journey_result_copied` | The visitor copies the result or action plan. |
 | `journey_result_printed` | The visitor prints or saves the result as PDF. |
 | `journey_resume_clicked` | A returning visitor opens previously saved non-sensitive progress. |
@@ -82,7 +83,7 @@ During migration, a single interaction must not emit both a legacy terminal even
 
 ### Action-use rate
 
-Unique sessions with `journey_result_copied` or `journey_result_printed` divided by unique sessions with `journey_result_reached`.
+Unique sessions with `journey_result_saved`, `journey_result_copied`, or `journey_result_printed` divided by unique sessions with `journey_result_reached`.
 
 ### Handoff rate
 

@@ -9,6 +9,7 @@ export const JOURNEY_EVENT_NAMES = new Set([
   "journey_back_selected",
   "journey_exited_unexpectedly",
   "journey_result_reached",
+  "journey_result_saved",
   "journey_result_copied",
   "journey_result_printed",
   "journey_resume_clicked",
@@ -65,6 +66,7 @@ const FORBIDDEN_HEADER_PATTERNS = [
 const SEARCH_CONSOLE_REQUIRED_COLUMNS = new Set(["query", "page", "clicks", "impressions", "ctr", "position"]);
 const TERMINAL_EVENT_NAMES = new Set([
   "journey_result_reached",
+  "journey_result_saved",
   "journey_result_copied",
   "journey_result_printed",
   "journey_resume_clicked",
@@ -294,14 +296,16 @@ export const summarizeJourneyRecords = (records) => {
     const completionStarts = measuredCount(metric, "journey_started", completionMode);
     const results = measuredCount(metric, "journey_result_reached", completionMode);
     const resultSessions = measuredCount(metric, "journey_result_reached", resultActionMode);
+    const saved = measuredCount(metric, "journey_result_saved", resultActionMode);
     const copied = measuredCount(metric, "journey_result_copied", resultActionMode);
     const printed = measuredCount(metric, "journey_result_printed", resultActionMode);
     const actionSessions = resultActionMode === "unique_sessions"
       ? new Set([
+          ...metric.unique_sessions.journey_result_saved,
           ...metric.unique_sessions.journey_result_copied,
           ...metric.unique_sessions.journey_result_printed,
         ]).size
-      : copied + printed;
+      : saved + copied + printed;
     const handoffs = measuredCount(metric, "journey_handoff_opened", resultActionMode);
 
     return {

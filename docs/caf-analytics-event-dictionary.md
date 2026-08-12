@@ -44,7 +44,7 @@ After analytics consent, every event accepted by `trackJourneyEvent` is also sen
 | Activation | `journey_step_completed` | A valid step advances | Same fixed properties | Implemented and tested; production observation pending |
 | Retention | `journey_resume_clicked`, `journey_restarted` | Browser-local work resumes or is intentionally reset | Same fixed properties | Implemented and tested; production observation pending |
 | Value | `journey_result_reached` | An action plan, comparison, recommendation, or Decision Brief is reached | Same fixed properties | Implemented and tested; production observation pending |
-| Value | `journey_result_copied`, `journey_result_printed` | A portable result action succeeds or begins | Same fixed properties | Implemented and tested; production observation pending |
+| Value | `journey_result_saved`, `journey_result_copied`, `journey_result_printed` | A browser-local save succeeds, a portable result is copied, or print begins | Same fixed properties | Implemented and tested; production observation pending |
 | Continuation | `journey_handoff_opened` | A predefined next journey or official verification step opens | Same fixed properties | Implemented where call sites exist; production observation pending |
 
 Initial flagship coverage adds Hospital Financial Assistance, Medicare Coverage, Healthcare Worker Benefits, Healthcare Worker Total Compensation, and the paycheck 403(b) decision. Existing Concierge, Healthcare Offer, and readiness-batch calls also gain first-party visibility through the same helper. No user answer, outcome category, calculation, policy, provider, hospital, employer, plan, URL, query string, referrer, or contact field is accepted by this contract.

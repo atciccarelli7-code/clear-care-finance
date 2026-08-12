@@ -9,6 +9,7 @@ const flagships = [
   ["src/components/premium/OpenEnrollmentPilot.tsx", "benefits_decision_system"],
   ["src/components/calculators/FinancialAssistanceScreeningTool.tsx", "hospital_financial_assistance"],
   ["src/pages/MedicareCoverageDecisionPage.tsx", "medicare_coverage_decision"],
+  ["src/components/patients/HospitalToHomeNavigator.tsx", "hospital_to_home"],
 ] as const;
 
 describe("flagship first-party journey evidence", () => {

@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { DECISION_WORKSPACE_STORAGE_KEY } from "../src/lib/decisionWorkspace";
 
 const next = async (page: import("@playwright/test").Page) => {
   await page.getByRole("button", { name: /^(continue|build my brief)$/i }).click();
@@ -39,7 +40,7 @@ test("builds a private owner-assigned Medicare discharge brief and isolates it f
   const resultHeading = page.getByRole("heading", { name: "Discharge Coverage & Cost Brief" });
   await expect(resultHeading).toBeFocused();
   await expect(page.getByText(/observation or changed status may affect cost/i)).toBeVisible();
-  await expect(page.getByText("Hospital case manager", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("Hospital case manager or social worker", { exact: true }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: /Medicare — skilled nursing facility care/i })).toHaveAttribute(
     "href",
     "https://www.medicare.gov/coverage/skilled-nursing-facility-care",
@@ -49,9 +50,17 @@ test("builds a private owner-assigned Medicare discharge brief and isolates it f
   await page.getByRole("button", { name: /Mark complete: request a same-day discharge huddle/i }).click();
   await page.getByRole("button", { name: /Save task state/i }).click();
   await expect(page.getByText(/Saved to My Decision Plan/i)).toBeVisible();
-  const saved = await page.evaluate(() => localStorage.getItem("caf-decision-workspace-v1"));
-  expect(saved).toContain("Hospital-to-Home Coverage & Cost");
-  expect(saved).not.toMatch(/original-medicare|observation|durable medical equipment|caregiver/i);
+  const saved = await page.evaluate((key) => localStorage.getItem(key), DECISION_WORKSPACE_STORAGE_KEY);
+  expect(saved).not.toBeNull();
+  const workspace = JSON.parse(saved ?? "{}") as { records?: Array<Record<string, unknown>> };
+  expect(workspace.records).toHaveLength(1);
+  expect(workspace.records?.[0]).toMatchObject({
+    journeyId: "hospital_to_home",
+    fixedCategory: "Hospital-to-Home Coverage & Cost",
+    destinationRoute: "/insurance/hospital-discharge-coverage",
+  });
+  expect(Object.keys(workspace.records?.[0] ?? {})).not.toContain("answers");
+  expect(Object.keys(workspace.records?.[0] ?? {})).not.toContain("brief");
 
   const accessibility = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])

@@ -249,6 +249,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** The activation threshold; 50 qualified views with zero genuine commitments; a meaningful engagement-to-commitment rejection pattern; proposition misunderstanding; premium deliverability failure; or any privacy, security, accessibility, runtime, or denominator-integrity defect.
 - **Supersedes:** The v1 Benefits demand-validation placement and denominator described in the August 3 plan. It preserves the $29 hypothesis as an experiment, CAF-D-003's free-value-first rule, CAF-D-016's fail-closed commerce boundary, and CAF-D-017's consent/minimum-sample interpretation rules.
 
+### CAF-D-021 — Consolidate Hospital-to-Home before building a case platform
+
+- **Date:** 2026-08-13
+- **Status:** EXPERIMENT
+- **Decision:** Make `/insurance/hospital-discharge-coverage` CAF's canonical Hospital-to-Home Coverage & Cost Navigator. Preserve its indexed source guide, replace the shallow checklist and generic command center with an 8–10-question branched brief, reuse browser-local generic task state and the service-only journey evidence store, and defer accounts, documents, a generalized case platform, human operations, and a second price test.
+- **Rationale:** Hospital-to-Home scored 83/95 against denial organization (74), bill-resolution case work (65), employer-document benefits (63), and passive acquisition waiting (58). It combines immediate user urgency, RN/case-management sequencing, extensive existing CAF assets, low sensitivity, one-route consolidation, low founder cost, and fast learning. The next-best denial organizer requires notice-specific deadlines and stronger evidence architecture to be trustworthy.
+- **Evidence:** Current production/main/Vercel/Supabase and 182-route inventory; latest available July 29 search export; zero current journey rows and zero Benefits v2 commitments; current official Medicare status/SNF/home-health/DME/appeal sources; competitor product inspection; CAF-E-018; work packet `2026-08-12-hospital-to-home-navigator.md`; PR #277; exact-head CI #1074, Decision Journey #741, Browser certification #677; production `dpl_3ec87UXsGyPQVCaQ5YLWBUGudRGQ`.
+- **Consequences:** One of 182 canonical routes changes and zero routes are added. Every result action has an owner and evidence status; unknowns remain explicit; the complete result stays free. `hospital_to_home` and `journey_result_saved` become queryable fixed identifiers without storing answers or brief content. The Benefits-only $29 test remains the sole price experiment. No new table, policy, account requirement, upload, payment, provider directory, or human service is introduced.
+- **Revisit trigger:** No business conclusion before 25 consented viewed sessions. Go only if start/view is at least 35%, result/start at least 40%, and high-intent/result at least 20%. Iterate for concentrated step abandonment or result/view of 10–25%. Stop expansion after 50 views if start/view or result/view is below 10%, high-intent use is zero, or direct feedback shows the brief does not improve action ownership. Any safety, privacy, source, accessibility, or runtime defect triggers immediate review.
+- **Supersedes:** Only the shallow discharge checklist/command-center implementation at the same canonical route. It applies CAF-D-017's evidence boundary and preserves CAF-D-020's Benefits price experiment and CAF-D-016's independent Medicare conduct boundary.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

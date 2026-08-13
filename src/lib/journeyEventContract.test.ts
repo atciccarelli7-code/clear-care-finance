@@ -15,6 +15,8 @@ const validPayload = {
 describe("journey evidence server contract", () => {
   it("accepts a fixed anonymous journey payload", () => {
     expect(parseJourneyEvidencePayload(validPayload)).toEqual(validPayload);
+    expect(parseJourneyEvidencePayload({ ...validPayload, journeyKey: "hospital_to_home", surface: "hospital_guide" })).not.toBeNull();
+    expect(parseJourneyEvidencePayload({ ...validPayload, eventName: "journey_result_saved" })).not.toBeNull();
   });
 
   it("rejects unknown or sensitive properties", () => {

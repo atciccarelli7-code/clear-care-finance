@@ -162,6 +162,7 @@ Permitted event names:
 - `journey_exited_unexpectedly`
 - `journey_result_reached`
 - `journey_result_copied`
+- `journey_result_saved`
 - `journey_result_printed`
 - `journey_resume_clicked`
 - `journey_restarted`

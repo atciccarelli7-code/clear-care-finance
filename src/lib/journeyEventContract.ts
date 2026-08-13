@@ -5,6 +5,7 @@ export const JOURNEY_EVENT_NAMES = [
   "journey_back_selected",
   "journey_exited_unexpectedly",
   "journey_result_reached",
+  "journey_result_saved",
   "journey_result_copied",
   "journey_result_printed",
   "journey_resume_clicked",
@@ -44,6 +45,7 @@ export const FIRST_PARTY_JOURNEY_KEYS = [
   "benefits_decision_system",
   "hospital_financial_assistance",
   "medicare_coverage_decision",
+  "hospital_to_home",
 ] as const;
 
 export const FIRST_PARTY_JOURNEY_VARIANTS = ["flagship_funnel_v1"] as const;

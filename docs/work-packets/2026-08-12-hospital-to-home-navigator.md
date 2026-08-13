@@ -2,7 +2,7 @@
 
 **Work ID:** CAF-W-018
 **Date opened:** 2026-08-12
-**Status:** In progress — implementation complete; release evidence pending
+**Status:** Complete — released and production-certified 2026-08-13
 
 ## 1. Assignment charter
 
@@ -23,7 +23,7 @@
 | GitHub/main | Main `f9119ccfc4a67ec18f6080da74f158b8c63a83ba`; clean clone; 182 indexable canonical routes | 2026-08-12 | Current source and generated route inventory |
 | Product inventory | 72 articles, 36 tools, 19 financial-assistance routes, 11 patient routes, 10 insurance routes; at least 15 discharge-adjacent indexed routes | 2026-08-12 | Route counts describe surface area, not quality or demand |
 | Existing discharge product | The canonical page combined a long source-backed guide, a shallow local checklist, and a generic one-owner command center | 2026-08-12 | Useful content existed, but action ownership and branch-specific risk logic were fragmented |
-| Vercel/runtime | Production `dpl_J1c2G4Dh1xUR4vsyJ1baNGpW55HU` was READY on the main SHA with 12 Node functions | 2026-08-12 | Pre-change baseline; final deployment still pending |
+| Vercel/runtime | Production `dpl_J1c2G4Dh1xUR4vsyJ1baNGpW55HU` was READY on the main SHA with 12 Node functions | 2026-08-12 | Pre-change baseline; superseded by the certified production release in section 14 |
 | Supabase | Project `uzfcvtgnpkvuapgrkfcb` is ACTIVE_HEALTHY on Postgres 17.6.1; `journey_events` has forced RLS and service-role-only privileges | 2026-08-12 | Direct schema/policy inspection; no browser role can write the table |
 | Analytics | `journey_events`: 0 rows; `growth_events`: 12 sparse navigation rows; Benefits v2 commitments: 0 | 2026-08-12 | No product or willingness-to-pay conclusion is possible |
 | Search | Latest available repository export contained 13 clicks and 1,139 impressions across 105 rows | 2026-07-29 export, reviewed 2026-08-12 | Search Console connector was unavailable; no reliable current hospital-to-home query denominator |
@@ -104,14 +104,14 @@
 | Frontend engineering | PASS | Typed pure logic separated from rendering; old duplicate component removed | Unit/component tests | Full lint/type/build |
 | Systems architecture | PASS | No premature case platform; existing Decision Plan reused | Architecture diff | Generic task state only |
 | Backend, data, and security | PASS | One allowlisted key/event; no answer fields; service-only RLS unchanged | Migration and API contract | Migration + advisors + production payload inspection |
-| Platform and DevOps | PENDING | Release must follow current PR and Vercel conventions | Branch and deployment | Ready preview, merged PR, ready production |
+| Platform and DevOps | PASS | PR #277 merged only after exact-head gates; production is READY at the merged SHA | GitHub/Vercel release record | Ready preview, merged PR, ready production |
 | SEO and discovery | PASS | Canonical, sitemap, metadata, source content, and internal routes remain | 182-route build | Search gates and live route 200 |
 | Monetization and conversion | PASS | No premium gate or second price test; free value must prove use first | UI and CAF-D-020 | No `$29`, checkout, or entitlement in route |
 | Analytics and experimentation | PASS | Fixed start/result/high-intent and step reach answer the decision | SQL report | Production event storage/cleanup proof |
-| Accessibility, performance, and reliability | PENDING | Focus, labels, progress, print isolation, bundle discipline designed | Unit/E2E/build | Hosted axe/mobile/desktop and runtime check |
+| Accessibility, performance, and reliability | PASS | Hosted mobile/desktop axe, focus, print, overflow, broad performance, and runtime gates pass | Browser certification #677; production inspection | Hosted axe/mobile/desktop and runtime check |
 | Privacy, legal, and user protection | PASS | Fixed choices are transient; generic task state only; explicit prohibited-data copy | Storage/payload tests | No answer or brief content in storage/telemetry |
-| Publishing and governance | PENDING | Packet, ledgers, report, release evidence required | This packet | Close ledgers after production |
-| Quality and release | PENDING | Focused suite passes; full suite and hosted certification remain | Test outputs | Full validation and exact-head checks |
+| Publishing and governance | PASS | Packet, ledgers, SQL report, and release evidence are closed | This packet; CAF-D-021/E-018/W-018 | Close ledgers after production |
+| Quality and release | PASS | Full CI, Decision Journey, Browser certification, merge, and production checks pass | CI #1074; Decision #741; Browser #677 | Full validation and exact-head checks |
 | Adversarial red team | PASS | Strongest attack is unproven demand plus Medicare rule nuance | Gate findings | Honest uncertainty and stop rule |
 | Process improvement | PASS | One SQL query and one durable E2E replace dashboard/manual ambiguity | New artifacts | Operators can reproduce decision metrics |
 
@@ -130,8 +130,8 @@
 | Editorial and Evidence Officer | Evidence integrity | PASS | Sources and evidence labels remain visible | Result/source inventory | Trust preserved | Link and claim review |
 | Healthcare User and Clinical Context Officer | Healthcare research | PASS | Product assigns financial-navigation tasks without making medical decisions | Branch logic | RN reasoning appears in sequence | Discharge disclaimer and owner labels |
 | Privacy / Legal | Privacy and protection | PASS | No identity, diagnosis, member ID, medication name, document, or free text | UI/storage/API | Low-sensitivity experiment | Negative payload tests |
-| Accessibility / Reliability | Accessibility, reliability | PENDING | Focus and print defects were corrected before release | Test additions | Must certify hosted | Axe and responsive checks |
-| Quality / Release | Quality, DevOps | PENDING | Release not yet complete | Branch state | No completion claim yet | PR/CI/production evidence |
+| Accessibility / Reliability | Accessibility, reliability | PASS | Focus, print isolation, mobile/desktop axe, overflow, and broad browser regressions pass | Browser certification #677 and production route | Certified at exact merged tree |
+| Quality / Release | Quality, DevOps | PASS | PR #277 merged and exact SHA reached canonical production | GitHub/Vercel/Supabase records | Release complete and synthetic evidence removed |
 | Red Team | Adversarial red team | PASS | Checklist competitors and zero current demand weaken certainty, but not the bounded consolidation case | External/current evidence | Experiment, not strategy fait accompli | Stop/iterate thresholds |
 | Process Improvement | Process role | PASS | Report turns events into a decision | SQL | Less founder analysis time | Reproducible output |
 
@@ -230,19 +230,19 @@ Hospital-to-Home wins because it concentrates existing CAF assets into one urgen
 
 ### Technical validation
 
-- **Status:** WARN pending hosted browser, migration, full suite, PR/CI, and production certification.
-- **Implementation correctness:** Focused pure-logic, component, contract, and evidence tests pass (17 tests).
-- **Tests and typing:** Focused ESLint and build passed; full repository suite still pending.
-- **Security and privacy:** No answer persistence/telemetry; migration only expands allowlists; live RLS/advisors pending.
-- **Accessibility and reliability:** Result focus and print isolation corrected; durable Playwright/axe mobile+desktop spec added but local Chromium binary is unavailable.
-- **Deployment and route behavior:** Pending preview and production.
-- **Observability:** SQL report exists; production event storage/cleanup pending.
+- **Status:** PASS for the bounded release. Business validation remains separate and unresolved.
+- **Implementation correctness:** Full repository suite passed at 133 files / 748 tests; final focused decision, component, contract, and migration set passed at 4 files / 11 tests.
+- **Tests and typing:** ESLint finished with zero errors and 15 pre-existing Fast Refresh warnings. CI #1074 passed lint, publication, privacy, premium, API TypeScript, full unit, build, browser, prerender, and governance gates.
+- **Security and privacy:** No answer or brief persistence/telemetry; migration only expanded fixed allowlists. Live `journey_events` remains forced-RLS with no policies and only service-role select/insert/delete grants. Security advisors returned no new warning/error. A separate dependency audit still reports pre-existing development/build and routing advisories; no untrusted destination or server exposure was added here.
+- **Accessibility and reliability:** Browser certification #677 passed the Hospital-to-Home journey and the repository's full hosted mobile/desktop, axe, print, performance, premium, Medicare, and visual sequence. Two prior runs exposed a brittle new test contract and transient Google Fonts 404s; the contract was corrected and the unchanged suite passed on failed-job retry.
+- **Deployment and route behavior:** Exact preview `dpl_TQFycfgrwWUVCvTpghF3jfBffk3J` was READY at `2256439f0a09c92724fb14f51e29ad3e8b434a79`. PR #277 squash-merged to `4e2b884cf5faaecd5b229dfee5ace0416e759b38`; production `dpl_3ec87UXsGyPQVCaQ5YLWBUGudRGQ` is READY at that SHA on the canonical domain with 12 Node functions.
+- **Observability:** Production stored the exact 15-event certification lifecycle (view, start, 10 steps, result, save, copy) for one fixed session. Those 15 rows were deleted by exact session ID; no synthetic Hospital-to-Home rows remain.
 - **Rollback:** Reversible one-route code and allowlist change.
 
 ### Business validation
 
 - **Status:** WARN. The experiment is strategically justified, but usefulness, acquisition, and willingness to pay are unvalidated.
-- **User usefulness:** Strong branch/sequence hypothesis; no production behavior yet.
+- **User usefulness:** The target production path generated a complete eight-action owner-assigned brief with risks, unknowns, warnings, and six official links. Organic usefulness remains unvalidated.
 - **Strategic alignment:** Deepens and consolidates rather than broadens.
 - **Revenue and sustainability:** Unknown; no H2H price signal is requested.
 - **Opportunity cost:** Low relative to the alternatives because existing content, components, storage, analytics, and sources are reused.
@@ -270,22 +270,22 @@ Hospital-to-Home wins because it concentrates existing CAF assets into one urgen
 - [x] Business validation has an explicit disposition.
 - [x] Claims and calculations were reviewed against current official sources.
 - [x] Architecture and security boundaries were reviewed.
-- [ ] Analytics events validated through the production journey and synthetic rows removed.
-- [ ] Hosted accessibility, responsive behavior, print, performance, and degraded states pass.
+- [x] Analytics events validated through the production journey and synthetic rows removed.
+- [x] Hosted accessibility, responsive behavior, print, performance, and degraded states pass.
 - [x] Local SEO, canonical, sitemap, and indexability effects pass.
 - [x] Publication ownership, freshness, and correction paths remain intact.
-- [ ] Full tests, lint, type checks, build, and repository-specific checks pass at final head.
-- [ ] Latest PR head, preview, comments, and review threads inspected.
+- [x] Full tests, lint, type checks, build, and repository-specific checks pass at final head.
+- [x] Latest PR head, preview, comments, and review threads inspected.
 - [x] Red-team blockers resolved or re-scoped.
-- [ ] Production smoke validation passes.
+- [x] Production smoke validation passes.
 
 ## 17. Executive closeout
 
-- **What changed:** Pending final release record.
+- **What changed:** The canonical discharge guide now begins with one branched Hospital-to-Home navigator that produces a free owner-assigned Discharge Coverage & Cost Brief; the shallow duplicate command center was retired.
 - **What did not change:** Route inventory, benefits offer, payments, accounts, entitlements, PHI boundary, source guide, provider comparison, and human operations.
 - **Before-and-after metrics:** Section 10; real behavior remains unknown.
-- **Production and release status:** Pending.
-- **Validation performed:** Focused tests/lint/build; current-source review; remaining gates in section 16.
+- **Production and release status:** Released through PR #277 at merged SHA `4e2b884cf5faaecd5b229dfee5ace0416e759b38`; Vercel production `dpl_3ec87UXsGyPQVCaQ5YLWBUGudRGQ` is READY on the canonical alias.
+- **Validation performed:** Full unit/contract suite, lint, API TypeScript, build/governance/prerender/search gates, exact-head CI and Decision Journey, mobile/desktop Browser certification, live Supabase migration/RLS/advisors, canonical production flow, route/sitemap smoke, event persistence/cleanup, and runtime error/log review.
 - **Unresolved warnings:** Current search demand, product usefulness, representative behavior, and WTP.
 - **Business consequences:** The next investment can be tied to observed free-product use rather than strategic enthusiasm.
 - **Owner-only actions:** None before evidence thresholds, absent a safety defect.
@@ -295,11 +295,11 @@ Hospital-to-Home wins because it concentrates existing CAF assets into one urgen
 
 ## 18. Compounding closeout
 
-- **Project context updated:** Pending final release.
-- **Decision ledger updated:** Pending CAF-D-021.
-- **Evidence ledger updated:** Pending CAF-E-018.
-- **Work ledger updated:** Pending CAF-W-018.
-- **Route-level governance updated:** Existing canonical preserved; final record pending.
+- **Project context updated:** This work packet is the dated source of truth.
+- **Decision ledger updated:** CAF-D-021.
+- **Evidence ledger updated:** CAF-E-018.
+- **Work ledger updated:** CAF-W-018.
+- **Route-level governance updated:** Existing canonical, indexability, and 182-route sitemap were preserved; no redirect or new route was required.
 - **Skill or prompt improved:** No skill change required.
 - **Reusable component/template/query created:** Typed brief logic, focused progressive component, production SQL report.
 - **Automated check or regression test added:** Decision branches, privacy/storage contract, result focus, print isolation, mobile/desktop axe E2E.

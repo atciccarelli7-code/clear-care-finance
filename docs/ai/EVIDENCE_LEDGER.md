@@ -266,6 +266,19 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** `observed` means only “not explicitly marked release verification” and does not prove organic provenance. Necessary-only visitors suppress anonymous denominators but can intentionally submit a commitment. Stated intent cannot establish purchase conversion, revenue, price optimality, satisfaction, retention, or representative demand. The proposed workspace still requires launch-time auth/persistence/fulfillment certification.
 - **Owner:** Product, monetization, data/analytics, backend/security, privacy/legal protection, accessibility, platform, and quality/release.
 
+### CAF-E-018 — Hospital-to-Home current state, release, and zero-organic baseline
+
+- **Claim or state:** At selection time CAF had 182 canonical routes, at least 15 discharge-adjacent surfaces, a canonical discharge page combining long-form source content with a shallow checklist and generic command center, zero `journey_events`, 12 sparse `growth_events`, and zero Benefits v2 commitments. The latest accessible repository search export contained 13 clicks and 1,139 impressions across 105 rows but did not establish current Hospital-to-Home demand. The released canonical route now generates an owner-assigned brief after 8–10 relevant fixed questions. Production certification persisted exactly one view, one start, ten step completions, one result, one save, and one copy under a single fixed session; all 15 certification rows were deleted and no synthetic Hospital-to-Home rows remain.
+- **Domain:** Care-transition product strategy, Medicare/discharge coverage, UX, accessibility, privacy, analytics, SEO, database security, and release reliability.
+- **Source:** Direct main/production route and repository inventory; latest available July 29 search export; direct Supabase baseline/schema/constraint/grant/RLS/advisor queries; Medicare.gov status, SNF, home-health, DME, and appeal pages verified 2026-08-12/13; competitor first-party pages; PR #277 and its exact-head workflow/deployment metadata; production browser flow; exact production event rows and cleanup result.
+- **Evidence class:** DIRECT-CURRENT for code, route, deployment, database, event, and production behavior; PRIMARY-SOURCE for Medicare facts; FIRST-PARTY-COMPETITOR for alternative availability; INTERNAL-RECORD for supplied strategy research; INFERENCE for opportunity ranking, differentiation, and expected business value.
+- **Verified date:** 2026-08-13.
+- **Coverage:** Canonical Hospital-to-Home route, related current architecture, first-party evidence boundary, Benefits comparison baseline, current Medicare source anchors, exact release and production certification.
+- **Freshness trigger:** 25 consented Hospital-to-Home views; 50-view stop denominator; new Search Console evidence; official Medicare or payer-rule change; route/analytics/privacy/source/deployment change; direct user feedback; or safety/accessibility/runtime defect.
+- **Used by:** CAF-D-021, CAF-W-018, journey event allowlists, the operational SQL report, and `docs/work-packets/2026-08-12-hospital-to-home-navigator.md`.
+- **Limitations:** Search Console was unavailable and the latest export was small and stale. Consented lifecycle rows are nonrepresentative and cannot establish comprehension, usefulness, satisfaction, causality, willingness to pay, or safety in every payer/facility context. The controlled production session proves transport and event semantics only and was removed. Competitor descriptions do not prove outcomes. `graph 2.html` was unavailable and was not used.
+- **Owner:** Product, healthcare/case-management, engineering, data, security/privacy, accessibility, SEO/discovery, compliance/evidence, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

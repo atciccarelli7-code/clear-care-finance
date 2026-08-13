@@ -55,7 +55,7 @@ test("builds a private owner-assigned Medicare discharge brief and isolates it f
   const workspace = JSON.parse(saved ?? "{}") as { records?: Array<Record<string, unknown>> };
   expect(workspace.records).toHaveLength(1);
   expect(workspace.records?.[0]).toMatchObject({
-    journeyId: "hospital_to_home",
+    journeyId: "hospital-discharge",
     fixedCategory: "Hospital-to-Home Coverage & Cost",
     destinationRoute: "/insurance/hospital-discharge-coverage",
   });

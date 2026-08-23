@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { getSearchIntentSeoOverride } from "@/data/searchIntentSeoOverrides";
 
 export const SITE_NAME = "Community Acquired Finance";
 
@@ -36,6 +37,28 @@ const setJsonLd = (jsonLd: Record<string, unknown>[]) => {
   });
 };
 
+const alignJsonLdWithSearchIntent = (
+  jsonLd: Record<string, unknown>[] | undefined,
+  title: string,
+  description: string,
+) => jsonLd?.map((item) => {
+  const schemaType = item["@type"];
+  if (schemaType === "BreadcrumbList" && Array.isArray(item.itemListElement)) {
+    const entries = item.itemListElement as Array<Record<string, unknown>>;
+    return {
+      ...item,
+      itemListElement: entries.map((entry, index) =>
+        index === entries.length - 1 ? { ...entry, name: title } : entry,
+      ),
+    };
+  }
+  if (schemaType === "Article") return { ...item, headline: title, description };
+  if (schemaType === "WebPage" || schemaType === "CollectionPage" || schemaType === "WebApplication") {
+    return { ...item, name: title, description };
+  }
+  return item;
+});
+
 export const absoluteUrl = (path: string) => `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
 export const useSeo = ({
@@ -56,26 +79,32 @@ export const useSeo = ({
   jsonLd?: Record<string, unknown>[];
 }) => {
   useEffect(() => {
-    const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+    const searchIntentOverride = getSearchIntentSeoOverride(canonicalPath);
+    const effectiveTitle = searchIntentOverride?.title ?? title;
+    const effectiveDescription = searchIntentOverride?.description ?? description;
+    const effectiveJsonLd = searchIntentOverride
+      ? alignJsonLdWithSearchIntent(jsonLd, effectiveTitle, effectiveDescription)
+      : jsonLd;
+    const fullTitle = effectiveTitle.includes(SITE_NAME) ? effectiveTitle : `${effectiveTitle} | ${SITE_NAME}`;
     const canonical = absoluteUrl(canonicalPath);
 
     document.title = fullTitle;
-    setMeta('meta[name="description"]', "content", description);
+    setMeta('meta[name="description"]', "content", effectiveDescription);
     setMeta('link[rel="canonical"]', "href", canonical);
     setMeta('meta[property="og:title"]', "content", fullTitle);
-    setMeta('meta[property="og:description"]', "content", description);
+    setMeta('meta[property="og:description"]', "content", effectiveDescription);
     setMeta('meta[property="og:type"]', "content", type);
     setMeta('meta[property="og:url"]', "content", canonical);
     setMeta('meta[property="og:site_name"]', "content", SITE_NAME);
     setMeta('meta[name="twitter:card"]', "content", "summary");
     setMeta('meta[name="twitter:title"]', "content", fullTitle);
-    setMeta('meta[name="twitter:description"]', "content", description);
+    setMeta('meta[name="twitter:description"]', "content", effectiveDescription);
 
     if (author) setMeta('meta[name="author"]', "content", author);
     if (robots) {
       setMeta('meta[name="robots"]', "content", robots);
       setMeta('meta[name="googlebot"]', "content", robots);
     }
-    if (jsonLd) setJsonLd(jsonLd);
+    if (effectiveJsonLd) setJsonLd(effectiveJsonLd);
   }, [title, description, canonicalPath, type, author, robots, jsonLd]);
 };

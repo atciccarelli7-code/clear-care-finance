@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { getSearchIntentTitle } from "@/data/searchIntentTitles";
 
 export const SITE_NAME = "Community Acquired Finance";
 
@@ -56,7 +57,8 @@ export const useSeo = ({
   jsonLd?: Record<string, unknown>[];
 }) => {
   useEffect(() => {
-    const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+    const effectiveTitle = getSearchIntentTitle(canonicalPath) ?? title;
+    const fullTitle = effectiveTitle.includes(SITE_NAME) ? effectiveTitle : `${effectiveTitle} | ${SITE_NAME}`;
     const canonical = absoluteUrl(canonicalPath);
 
     document.title = fullTitle;

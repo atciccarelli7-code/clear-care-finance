@@ -1,5 +1,4 @@
 import { ADDITIONAL_DIAGNOSIS_GUIDES } from "@/data/conditionGuideCatalog";
-import { getSearchIntentSeoOverride } from "@/data/searchIntentSeoOverrides";
 import { resolveSeoMeta, type SeoJsonLd, type SeoRouteMeta } from "@/lib/seoRegistry";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
@@ -177,7 +176,6 @@ const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, descriptio
       };
     }
     if (type === "CollectionPage" || type === "WebPage" || type === "WebApplication") return { ...item, name: title, description };
-    if (type === "Article") return { ...item, headline: title, description };
     return item;
   });
 
@@ -195,8 +193,7 @@ export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
   }
   if (path === benefitsCommandCenterMeta.canonicalPath) return benefitsCommandCenterMeta;
   const base = resolveSeoMeta(path);
-  const searchIntentOverride = getSearchIntentSeoOverride(path);
-  const override = searchIntentOverride ?? overrides[path];
+  const override = overrides[path];
   if (!override) return base;
   const isDiagnosisGuide = path.startsWith(diagnosisPrefix);
   return {

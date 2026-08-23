@@ -1,4 +1,5 @@
 import { ADDITIONAL_DIAGNOSIS_GUIDES } from "@/data/conditionGuideCatalog";
+import { getSearchIntentTitle } from "@/data/searchIntentTitles";
 import { resolveSeoMeta, type SeoJsonLd, type SeoRouteMeta } from "@/lib/seoRegistry";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
@@ -193,6 +194,14 @@ export const resolveSiteSeoMeta = (pathname: string): SeoRouteMeta => {
   }
   if (path === benefitsCommandCenterMeta.canonicalPath) return benefitsCommandCenterMeta;
   const base = resolveSeoMeta(path);
+  const searchIntentTitle = getSearchIntentTitle(path);
+  if (searchIntentTitle) {
+    return {
+      ...base,
+      title: searchIntentTitle,
+      jsonLd: updateJsonLd(base.jsonLd, searchIntentTitle, base.description),
+    };
+  }
   const override = overrides[path];
   if (!override) return base;
   const isDiagnosisGuide = path.startsWith(diagnosisPrefix);

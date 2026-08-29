@@ -1,7 +1,7 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, Quote } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { ALL_ARTICLES } from "@/data/allArticles";
+import type { Article } from "@/data/articles";
 import { ARTICLE_VOICE_NOTES } from "@/data/articleVoiceNotes";
 import { OPEN_ENROLLMENT_ARTICLE_SLUGS } from "@/data/openEnrollmentPath";
 import { PageHero } from "@/components/shared/PageHero";
@@ -36,7 +36,12 @@ const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: str
   </div>
 );
 
-const getArticleNextSteps = (slug: string, category: string, relatedCalculator?: { label: string; href: string }): NextStepCard[] => {
+const getArticleNextSteps = (
+  slug: string,
+  category: string,
+  relatedCalculator: { label: string; href: string } | undefined,
+  articleCatalog: Article[],
+): NextStepCard[] => {
   const priorityActionOverrides: Record<string, NextStepCard[]> = {
     "20-dollar-tylenol-hospital-prices": [
       { eyebrow: "Read the working number", title: "Allowed Amount on a Medical Bill", description: "Separate the provider's billed charge from the amount the plan recognizes when it processes a covered claim.", href: "/articles/allowed-amount-medical-bills", cta: "Understand allowed amount" },
@@ -105,7 +110,7 @@ const getArticleNextSteps = (slug: string, category: string, relatedCalculator?:
   if (hospitalGuideResource) {
     const relatedArticle = hospitalGuideResource.relatedArticles[0];
     const relatedArticleData = relatedArticle?.startsWith("/articles/")
-      ? ALL_ARTICLES.find((article) => `/articles/${article.slug}` === relatedArticle)
+      ? articleCatalog.find((article) => `/articles/${article.slug}` === relatedArticle)
       : undefined;
 
     return [
@@ -447,12 +452,12 @@ type OrderedArticleStep = {
   cta: string;
 };
 
-const getOpenEnrollmentOrderedStep = (slug: string): OrderedArticleStep | null => {
+const getOpenEnrollmentOrderedStep = (slug: string, articleCatalog: Article[]): OrderedArticleStep | null => {
   const index = OPEN_ENROLLMENT_ARTICLE_SLUGS.indexOf(slug as typeof OPEN_ENROLLMENT_ARTICLE_SLUGS[number]);
   if (index === -1) return null;
 
   const nextSlug = OPEN_ENROLLMENT_ARTICLE_SLUGS[index + 1];
-  const nextArticle = nextSlug ? ALL_ARTICLES.find((article) => article.slug === nextSlug) : null;
+  const nextArticle = nextSlug ? articleCatalog.find((article) => article.slug === nextSlug) : null;
 
   if (nextArticle) {
     return {
@@ -473,24 +478,19 @@ const getOpenEnrollmentOrderedStep = (slug: string): OrderedArticleStep | null =
   };
 };
 
-const ArticlePage = () => {
-  const { slug = "" } = useParams();
-  const article = ALL_ARTICLES.find((a) => a.slug === slug);
-
+export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Article; articleCatalog?: Article[] }) => {
   useSeo({
-    title: article?.title ?? "Article",
-    description: article?.description ?? article?.promise ?? "Plain-English healthcare finance article from Community Acquired Finance.",
-    canonicalPath: article ? `/articles/${article.slug}` : "/articles",
+    title: article.title,
+    description: article.description ?? article.promise,
+    canonicalPath: `/articles/${article.slug}`,
     type: "article",
-    author: article?.author,
+    author: article.author,
   });
-
-  if (!article) return <Navigate to="/articles" replace />;
 
   const voiceNote = ARTICLE_VOICE_NOTES[article.slug];
   const showOutOfPocketMaxTool = ["how-to-read-an-eob", "deductible-copay-coinsurance-out-of-pocket-max"].includes(article.slug);
-  const nextSteps = getArticleNextSteps(article.slug, article.category, article.relatedCalculator);
-  const orderedOpenEnrollmentStep = getOpenEnrollmentOrderedStep(article.slug);
+  const nextSteps = getArticleNextSteps(article.slug, article.category, article.relatedCalculator, articleCatalog);
+  const orderedOpenEnrollmentStep = getOpenEnrollmentOrderedStep(article.slug, articleCatalog);
   const usesDirectionalHandoff = isPriorityDirectionalArticle(article.slug);
   const heroAction = getArticleHeroAction(article.slug);
   const directionalContext = {
@@ -860,4 +860,4 @@ const ArticlePage = () => {
   );
 };
 
-export default ArticlePage;
+export default ArticlePageView;

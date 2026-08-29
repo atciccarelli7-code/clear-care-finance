@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ALL_ARTICLES } from "@/data/allArticles";
+import { CORE_ARTICLES } from "@/data/coreArticles";
 import { FOUNDER_HOSPITAL_ECONOMICS_ARTICLES } from "@/data/founderHospitalEconomicsArticles";
 import { PUBLISHER_ARTICLE_REVIEWS } from "@/data/publisherArticleReviews";
 import { resolveContentGovernance } from "@/lib/contentGovernance";
@@ -41,6 +42,7 @@ describe("founder hospital-economics publication package", () => {
       expect(article.systemLens?.items).toHaveLength(5);
       expect(article.sources.length).toBeGreaterThanOrEqual(4);
       expect(ALL_ARTICLES.some((candidate) => candidate.slug === article.slug)).toBe(true);
+      expect(CORE_ARTICLES.some((candidate) => candidate.slug === article.slug)).toBe(false);
     }
   });
 

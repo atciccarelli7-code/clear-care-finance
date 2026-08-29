@@ -73,19 +73,19 @@ test.beforeEach(async ({ page }) => {
   await installIntentStubs(page);
 });
 
-test("homepage sends uncertain visitors to Start Here and preserves browser history", async ({ page }) => {
+test("homepage sends readers to the publication and preserves browser history", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/");
   await expect(page.getByText(/Decision Concierge/i)).toHaveCount(0);
   await expect(page.getByRole("button", { name: /Continue saved work/i })).toHaveCount(0);
-  await page.getByRole("link", { name: /Help me find where to start/i }).click();
-  await expect(page).toHaveURL(/\/start-here$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Find the right next step/i })).toBeVisible();
+  await page.getByRole("link", { name: /Read the publication/i }).click();
+  await expect(page).toHaveURL(/\/articles$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
   await page.goForward();
-  await expect(page).toHaveURL(/\/start-here$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Find the right next step/i })).toBeVisible();
+  await expect(page).toHaveURL(/\/articles$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
   await certifyPage(page, watch);
 });
 
@@ -382,7 +382,7 @@ test("Hospital and Patient Guide mode routes to blood thinner and oxygen safety 
 test("About page presents publisher identity without retired sales inventory", async ({ page }) => {
   const watch = installHealthWatch(page);
   await visit(page, "/about");
-  await expect(page.getByRole("heading", { level: 1, name: /Healthcare money explained by someone who sees the confusion up close/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Healthcare money and systems explained from inside the work/i })).toBeVisible();
   await expect(page.getByText(/Institutional patient-education sales are paused/i)).toHaveCount(0);
   await certifyPage(page, watch);
 });

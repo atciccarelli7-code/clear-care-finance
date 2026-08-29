@@ -31,6 +31,8 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium webkit
       - run: npm run build
+      - name: Certify publisher-first homepage, articles, tools, metadata, and accessibility
+        run: npx playwright test e2e/publisher-first-publication.spec.ts
       - run: npm run test:browser:journeys
       - name: Certify 403(b) match decision outcome
         run: npx playwright test e2e/retirement-403b-decision-outcome.spec.ts
@@ -38,8 +40,6 @@ jobs:
         run: npx playwright test e2e/health-insurance-cost-share-decision-outcome.spec.ts
       - name: Certify structured service navigation
         run: npx playwright test e2e/service-navigation.spec.ts
-      - name: Certify publisher-first homepage, articles, tools, metadata, and accessibility
-        run: npx playwright test e2e/publisher-first-publication.spec.ts
       - name: Certify directional CTA hierarchy and breakpoints
         run: npx playwright test e2e/directional-cta.spec.ts
       - name: Certify employer benefits navigator and source intake boundaries

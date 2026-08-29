@@ -38,6 +38,41 @@ const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: str
 
 const getArticleNextSteps = (slug: string, category: string, relatedCalculator?: { label: string; href: string }): NextStepCard[] => {
   const priorityActionOverrides: Record<string, NextStepCard[]> = {
+    "20-dollar-tylenol-hospital-prices": [
+      { eyebrow: "Read the working number", title: "Allowed Amount on a Medical Bill", description: "Separate the provider's billed charge from the amount the plan recognizes when it processes a covered claim.", href: "/articles/allowed-amount-medical-bills", cta: "Understand allowed amount" },
+      { eyebrow: "Check the documents", title: "EOB-to-Bill Match Checker", description: "Compare the provider bill with the allowed amount, insurer payment, adjustment, and patient responsibility on the final EOB.", href: "/tools/eob-to-bill-match-checker", cta: "Match EOB and bill" },
+      { eyebrow: "Large or confusing balance", title: "Medical Bill Review Toolkit", description: "Organize the itemized bill, EOB, network questions, assistance options, calls, and follow-up before paying.", href: "/insurance/medical-bill-review-toolkit", cta: "Review the bill" },
+    ],
+    "what-nonprofit-hospital-actually-means": [
+      { eyebrow: "Keep learning", title: "Hospital Economics Hub", description: "Follow the money, staffing, capacity, and payment concepts that shape what hospitals do.", href: "/topics/hospital-economics", cta: "Explore hospital economics" },
+      { eyebrow: "Patient protection", title: "Hospital Financial Assistance", description: "Find an official hospital policy and prepare the application and verification questions before paying a large bill.", href: "/medical-bills/financial-assistance", cta: "Find a policy" },
+      { eyebrow: "How CAF checks claims", title: "Research and Editorial Methodology", description: "See how CAF separates founder perspective, primary evidence, editorial judgment, and corrections.", href: "/methodology", cta: "Review the method" },
+    ],
+    "why-hospitals-care-about-length-of-stay": [
+      { eyebrow: "The next bottleneck", title: "Why “Just Send Them to Rehab” Is Not That Simple", description: "See the clinical, facility, payer, authorization, capacity, and logistics gates between recommendation and transfer.", href: "/articles/why-just-send-them-to-rehab-is-not-simple", cta: "Follow the rehab chain" },
+      { eyebrow: "Prepare the transition", title: "Hospital-to-Home Coverage Navigator", description: "Organize the likely post-hospital setting, coverage questions, authorization steps, and backup plan.", href: "/insurance/hospital-discharge-coverage", cta: "Build a transition plan" },
+      { eyebrow: "Full patient journey", title: "Hospital & Patient Guide", description: "Connect the hospital stay, medicines, discharge, equipment, follow-up, coverage, and bills.", href: "/patients-families/hospital-guide", cta: "Open the guide" },
+    ],
+    "why-just-send-them-to-rehab-is-not-simple": [
+      { eyebrow: "Build the next-step plan", title: "Hospital-to-Home Coverage Navigator", description: "Identify the recommended setting, controlling coverage path, authorization status, barriers, and safe backup questions.", href: "/insurance/hospital-discharge-coverage", cta: "Open the navigator" },
+      { eyebrow: "Status can change coverage", title: "Observation vs. Inpatient Status", description: "Understand why hospital nights do not always count as inpatient days and how that can affect Original Medicare SNF coverage.", href: "/articles/observation-vs-inpatient-status", cta: "Check hospital status" },
+      { eyebrow: "Authorization delayed or denied", title: "Prior Authorization Next-Step Guide", description: "Prepare the written-decision, criteria, documentation, contact, and appeal questions for the payer and clinical team.", href: "/tools/prior-authorization-next-step-guide", cta: "Prepare next steps" },
+    ],
+    "allowed-amount-medical-bills": [
+      { eyebrow: "Why the charge looks strange", title: "The $20 Tylenol Isn’t Really About the Tylenol", description: "Follow one hospital line item through gross charge, payer rules, payment, and patient responsibility.", href: "/articles/20-dollar-tylenol-hospital-prices", cta: "See the price layers" },
+      { eyebrow: "Check the documents", title: "EOB-to-Bill Match Checker", description: "Compare the allowed amount, insurer payment, adjustments, and patient responsibility with the provider bill.", href: "/tools/eob-to-bill-match-checker", cta: "Match EOB and bill" },
+      { eyebrow: "Large or confusing balance", title: "Medical Bill Review Toolkit", description: "Organize the itemized bill, EOB, network questions, assistance options, and follow-up before paying.", href: "/insurance/medical-bill-review-toolkit", cta: "Review the bill" },
+    ],
+    "facility-fee-vs-professional-fee": [
+      { eyebrow: "Understand the price layers", title: "The $20 Tylenol Isn’t Really About the Tylenol", description: "See why a charge, negotiated amount, payment, patient balance, and hospital cost are not the same number.", href: "/articles/20-dollar-tylenol-hospital-prices", cta: "Follow the money" },
+      { eyebrow: "Check the processed claim", title: "How to Read an EOB", description: "Identify separate providers, allowed amounts, insurer payments, adjustments, and patient responsibility.", href: "/articles/how-to-read-an-eob", cta: "Read the EOB" },
+      { eyebrow: "Review multiple bills", title: "Medical Bill Review Toolkit", description: "Reconcile facility and professional claims before paying a large or unexpected balance.", href: "/insurance/medical-bill-review-toolkit", cta: "Review the bills" },
+    ],
+    "observation-vs-inpatient-status": [
+      { eyebrow: "Why status can affect the next setting", title: "Why “Just Send Them to Rehab” Is Not That Simple", description: "Connect hospital status to the clinical, facility, payer, authorization, and bed gates behind post-acute placement.", href: "/articles/why-just-send-them-to-rehab-is-not-simple", cta: "Follow the rehab chain" },
+      { eyebrow: "Prepare the transition", title: "Hospital-to-Home Coverage Navigator", description: "Organize the recommended setting, coverage path, authorization status, unresolved barriers, and safe backup questions.", href: "/insurance/hospital-discharge-coverage", cta: "Build the plan" },
+      { eyebrow: "Medicare context", title: "Medicare, Medicaid, and Long-Term Care Hub", description: "Review Original Medicare, Medicare Advantage, skilled care, custodial care, and post-hospital cost questions.", href: "/medicare-care-costs", cta: "Open the hub" },
+    ],
     "how-to-read-an-eob": [
       { eyebrow: "Check the bill", title: "EOB-to-Bill Match Checker", description: "Compare the provider bill against the allowed amount, insurer payment, adjustment, and patient responsibility.", href: "/tools/eob-to-bill-match-checker", cta: "Match EOB and bill" },
       { eyebrow: "Estimate exposure", title: "Out-of-Pocket Max Estimator", description: "Estimate how much covered in-network cost-sharing room may remain this plan year.", href: "/tools/out-of-pocket-max-estimator", cta: "Estimate the cap" },
@@ -570,7 +605,61 @@ const ArticlePage = () => {
           </div>
         )}
 
-        {article.sections && article.sections.length > 0 ? (
+        {article.systemMap && (
+          <section className="rounded-3xl border border-primary/20 bg-primary-soft/25 p-5 shadow-card md:p-7" aria-labelledby="article-system-map-heading">
+            <div className="max-w-2xl">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">How the system moves</div>
+              <h2 id="article-system-map-heading" className="mt-2 font-display text-xl font-bold text-foreground md:text-2xl">
+                {article.systemMap.title}
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{article.systemMap.description}</p>
+            </div>
+            <ol className="mt-6 grid gap-3 md:grid-cols-2">
+              {article.systemMap.steps.map((step, index) => (
+                <li key={step.title} className="relative rounded-2xl border border-border bg-background/90 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-extrabold text-primary-foreground">
+                      {index + 1}
+                    </span>
+                    <div>
+                      <h3 className="font-display text-base font-bold text-foreground">{step.title}</h3>
+                      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        {article.editorialSections && article.editorialSections.length > 0 ? (
+          <div className="space-y-10 md:space-y-14">
+            {article.editorialSections.map((section) => (
+              <section key={section.title} className="scroll-mt-24">
+                <h2 className="font-display text-xl font-bold tracking-tight text-foreground md:text-2xl">{section.title}</h2>
+                <div className="mt-4 space-y-4 text-[0.98rem] leading-[1.75] text-muted-foreground md:text-base">
+                  {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                  {section.keyPoints && section.keyPoints.length > 0 && (
+                    <ul className="space-y-2.5 pt-1">
+                      {section.keyPoints.map((point) => (
+                        <li key={point} className="flex items-start gap-2.5">
+                          <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {section.callout && (
+                    <aside className="rounded-2xl border border-primary/20 bg-primary-soft/30 p-4 text-sm leading-relaxed md:p-5 md:text-base">
+                      <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{section.callout.label}</div>
+                      <p className="mt-2 text-foreground/90">{section.callout.body}</p>
+                    </aside>
+                  )}
+                </div>
+              </section>
+            ))}
+          </div>
+        ) : article.sections && article.sections.length > 0 ? (
           <Section icon={BookOpen} title="Fact sheet">
             <div className="grid gap-4 md:gap-5">
               {article.sections.map((s, i) => (
@@ -613,6 +702,26 @@ const ArticlePage = () => {
               <p key={i}>{p}</p>
             ))}
           </Section>
+        )}
+
+        {article.systemLens && (
+          <section className="space-y-5" aria-labelledby="article-system-lens-heading">
+            <div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">The CAF system lens</div>
+              <h2 id="article-system-lens-heading" className="mt-2 font-display text-xl font-bold text-foreground md:text-2xl">
+                {article.systemLens.title ?? "Where the incentives collide"}
+              </h2>
+              {article.systemLens.description && <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{article.systemLens.description}</p>}
+            </div>
+            <dl className="grid gap-3 md:grid-cols-2">
+              {article.systemLens.items.map((item) => (
+                <div key={item.question} className="rounded-2xl border border-border bg-card p-4 md:p-5">
+                  <dt className="font-display text-base font-bold text-foreground">{item.question}</dt>
+                  <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.answer}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
         )}
 
         {article.example && (

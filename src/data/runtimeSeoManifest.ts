@@ -21,643 +21,764 @@ export type RuntimeToolSeoMeta = {
   description: string;
 };
 
-export const RUNTIME_ARTICLE_SEO_META = [
-  {
-    "slug": "what-employer-benefit-changes-should-i-compare",
-    "title": "What Employer-Benefit Changes Should I Compare During Open Enrollment?",
-    "description": "Compare the changes that can alter cost, access, employer value, or protection before you repeat last year's elections.",
-    "category": "Workplace Benefits",
-    "publishedAt": "2026-07-12",
-    "lastReviewedAt": "2026-07-12"
-  },
-  {
-    "slug": "does-medicare-cover-long-term-care",
-    "title": "Does Medicare Cover Long-Term Care?",
-    "description": "A plain-English answer to the Medicare long-term care gap, including the difference between skilled care and custodial care.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "does-medicare-cover-rehab-after-hospital-stay",
-    "title": "Does Medicare Cover Rehab After a Hospital Stay?",
-    "description": "Understand when Medicare may cover short-term rehab, what can block coverage, and what families should ask before discharge.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "medicare-vs-medicaid-what-is-the-difference",
-    "title": "Medicare vs Medicaid: What Is the Difference?",
-    "description": "Separate Medicare and Medicaid in plain English so patients and families know which program solves which problem.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "what-does-medicare-not-cover",
-    "title": "What Does Medicare Not Cover?",
-    "description": "A plain-English list of common Medicare coverage gaps that create surprise costs for patients and families.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "why-do-i-still-owe-money-with-medicare",
-    "title": "Why Do I Still Owe Money With Medicare?",
-    "description": "Explain why Medicare can pay part of a claim while the patient still owes premiums, deductibles, copays, coinsurance, or uncovered costs.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "how-much-should-a-nurse-put-in-403b-per-paycheck",
-    "title": "How Much Should a Nurse Put in a 403(b) Per Paycheck?",
-    "description": "A practical paycheck framework for nurses and healthcare workers deciding what 403(b) contribution percentage to start with.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "how-hospital-403b-matching-works",
-    "title": "How Does a Hospital 403(b) Match Work? Examples and Vesting",
-    "description": "See how hospital 403(b) matching works, including common formulas, contribution examples, vesting, eligible pay, and 401(a) employer deposits.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-13"
-  },
-  {
-    "slug": "how-to-pick-retirement-investments-at-work",
-    "title": "How to Pick Retirement Investments at Work",
-    "description": "A plain-English guide to target-date funds, S&P 500 index funds, expense ratios, risk, and changing investments inside a workplace retirement account.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "healthcare-worker-money-map",
-    "title": "The Healthcare Worker Money Map",
-    "description": "A plain-English order of operations for turning a healthcare paycheck into savings, retirement contributions, and long-term wealth.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "how-healthcare-workers-can-invest-without-picking-stocks",
-    "title": "How Healthcare Workers Can Invest Without Picking Stocks",
-    "description": "A simple investing guide for healthcare workers who want long-term growth without turning investing into a second job.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "savings-rate-that-actually-changes-your-life",
-    "title": "The Savings Rate That Actually Changes Your Life",
-    "description": "Why savings rate matters more than tiny budgeting hacks, especially for healthcare workers trying to buy back time.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "roth-vs-traditional-403b-healthcare-workers",
-    "title": "Roth vs Traditional 403(b) for Healthcare Workers",
-    "description": "A practical way to think about current tax savings, future tax flexibility, and paycheck stress when choosing 403(b) contributions.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "can-healthcare-workers-reach-financial-independence",
-    "title": "Can Healthcare Workers Reach Financial Independence?",
-    "description": "A realistic FI guide for workers who want more freedom without pretending every shift is easy or every budget is painless.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "cash-vs-investing-when-you-feel-behind",
-    "title": "Should You Keep Cash or Invest It? A Practical Decision Framework",
-    "description": "Use a practical cash-versus-investing framework based on emergency reserves, near-term expenses, debt, employer matching, and time horizon.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-15"
-  },
-  {
-    "slug": "can-you-live-off-dividends-passive-income-guide",
-    "title": "Can You Live Off Dividends? A Plain-English Passive Income Guide",
-    "description": "A grounded explanation of dividend income, total return, and why passive income still needs a large asset base.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "money-stress-after-hard-shift",
-    "title": "Money Stress After a Hard Shift",
-    "description": "How to stop stress from turning into spending, avoidance, or panic decisions after exhausting healthcare work.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "earn-more-without-burning-out-bedside",
-    "title": "How to Earn More Without Burning Out at Bedside",
-    "description": "A career-income guide for healthcare workers who want more money and more options without relying only on extra shifts.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "managing-money-has-never-been-easier-or-harder",
-    "title": "Managing Money Has Never Been Easier—or Harder",
-    "description": "Why financial apps make money easier to manage but harder to stop thinking about—and how selective friction can improve spending and investing decisions.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "use-credit-cards-without-credit-card-debt",
-    "title": "How to Use a Credit Card Without Carrying Credit Card Debt",
-    "description": "Learn how to use a credit card, build credit, set up full-balance autopay, use secured-card guardrails, and avoid expensive credit-card debt.",
-    "category": "Build Wealth",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "open-enrollment-mistakes-healthcare-workers",
-    "title": "Open Enrollment Mistakes Healthcare Workers Make Every Year",
-    "description": "Avoid the benefit choices that quietly raise risk, reduce take-home pay, or leave healthcare workers underprotected.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "premium-deductible-out-of-pocket-open-enrollment",
-    "title": "Premium, Deductible, and Out-of-Pocket Max: How to Compare Health Plans",
-    "description": "Learn the three numbers that decide whether a health plan is cheap, risky, or actually a good fit.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "spouse-family-health-insurance-open-enrollment",
-    "title": "Can You Add a Spouse to Your Health Insurance? Rules, Costs, and Dual Coverage",
-    "description": "Learn when you can add a spouse to health insurance, how qualifying life events work, and how to compare surcharges, dual coverage, and family costs.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-13"
-  },
-  {
-    "slug": "prescription-coverage-open-enrollment-checklist",
-    "title": "How to Check Prescription Drug Coverage Before Choosing a Health Plan",
-    "description": "Check prescription drug coverage before choosing a health plan, including formularies, tiers, pharmacies, deductibles, and prior authorization.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-13"
-  },
-  {
-    "slug": "network-checklist-open-enrollment",
-    "title": "In-Network Is Not One Checkbox: What to Verify During Open Enrollment",
-    "description": "Use a practical network checklist before choosing a plan for the next year.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "disability-insurance-healthcare-workers-open-enrollment",
-    "title": "Disability Insurance for Healthcare Workers: The Benefit You Should Not Ignore",
-    "description": "Understand short-term and long-term disability before an injury or illness threatens your income.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "employer-life-insurance-open-enrollment",
-    "title": "Employer Life Insurance: Helpful, But Usually Not a Full Plan",
-    "description": "Know what basic life, supplemental life, guaranteed issue, and portability mean before checking the box.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "accident-critical-illness-hospital-indemnity-open-enrollment",
-    "title": "Accident vs. Critical Illness vs. Hospital Indemnity Insurance",
-    "description": "Compare accident, critical illness, and hospital indemnity insurance by benefit trigger, payout, exclusions, and fit with your health plan.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-13"
-  },
-  {
-    "slug": "dental-vision-insurance-open-enrollment",
-    "title": "Dental and Vision Insurance: What to Check Before Adding Them",
-    "description": "Avoid overbuying add-ons by checking annual maximums, frequency limits, and real expected use.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "health-fsa-vs-dependent-care-fsa",
-    "title": "Health FSA vs Dependent Care FSA: Same Name, Totally Different Use",
-    "description": "Do not mix up medical expense money with childcare or dependent-care money.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "open-enrollment-paycheck-impact",
-    "title": "How Open Enrollment Changes Your Paycheck",
-    "description": "See how benefit elections stack up before your first paycheck of the new plan year surprises you.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "beneficiaries-open-enrollment-checklist",
-    "title": "The 10-Minute Open Enrollment Task That Prevents a Legal Mess",
-    "description": "Use open enrollment to update beneficiaries before life changes create avoidable problems.",
-    "category": "Open Enrollment",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "from-the-bedside-medicare-prescription-cost",
-    "title": "Why Is My Prescription So Expensive If I Have Medicare?",
-    "description": "A bedside Medicare drug-cost story showing why a covered prescription can still create a painful pharmacy bill — and what to ask before giving up on it.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "from-the-bedside-long-term-care-medicaid-hospital-delay",
-    "title": "From the Bedside: Long-Term Care Medicaid Should Not Wait Until a Crisis",
-    "description": "A bedside look at why older adults can get stuck in the hospital while families scramble for long-term care Medicaid, nursing home placement, and a plan to preserve function.",
-    "category": "Medicaid"
-  },
-  {
-    "slug": "why-am-i-getting-a-blood-thinner-in-the-hospital",
-    "title": "Why Am I Getting a Blood Thinner in the Hospital?",
-    "description": "A plain-English explanation of why hospitals use blood thinners, what common options do differently, and what to ask before accepting or declining a dose.",
-    "category": "Hospital Stay",
-    "publishedAt": "2026-07-16",
-    "lastReviewedAt": "2026-07-17"
-  },
-  {
-    "slug": "why-did-the-hospital-stop-or-change-my-home-medications",
-    "title": "Why Did the Hospital Stop or Change My Home Medications?",
-    "description": "A plain-English guide to temporary medication holds, substitutions, timing changes, and the questions that prevent confusion at discharge.",
-    "category": "Hospital Stay",
-    "publishedAt": "2026-07-16",
-    "lastReviewedAt": "2026-07-17"
-  },
-  {
-    "slug": "safe-hospital-discharge-first-72-hours",
-    "title": "Safe Hospital Discharge and the First 72 Hours at Home",
-    "description": "Use one practical plan to verify medicines, follow-up, equipment, home support, and unresolved questions before the first night at home.",
-    "category": "Hospital & Patient Guide",
-    "publishedAt": "2026-07-19",
-    "lastReviewedAt": "2026-07-19"
-  },
-  {
-    "slug": "blood-thinner-safety-before-going-home",
-    "title": "Blood Thinner Safety: What to Verify Before Going Home",
-    "description": "Prepare the exact questions and written information needed to use a prescribed blood thinner safely without guessing at medicine-specific rules.",
-    "category": "Hospital & Patient Guide",
-    "publishedAt": "2026-07-19",
-    "lastReviewedAt": "2026-07-19"
-  },
-  {
-    "slug": "copd-recovery-after-hospital",
-    "title": "COPD Recovery After a Hospital Visit",
-    "description": "Organize the medicines, inhalers, equipment, recovery plan, follow-up, and access questions that matter after a COPD-related hospital visit.",
-    "category": "Hospital & Patient Guide",
-    "publishedAt": "2026-07-19",
-    "lastReviewedAt": "2026-07-19"
-  },
-  {
-    "slug": "heart-failure-plan-after-discharge",
-    "title": "Heart Failure: Understanding the Plan After Discharge",
-    "description": "Turn a complicated heart-failure discharge plan into a clear list of medicines, daily tracking, follow-up, and questions for the treating team.",
-    "category": "Hospital & Patient Guide",
-    "publishedAt": "2026-07-19",
-    "lastReviewedAt": "2026-07-19"
-  },
-  {
-    "slug": "new-home-oxygen-nebulizer-guide",
-    "title": "New Home Oxygen and Nebulizer Guide",
-    "description": "Prepare the equipment, safety, supplier, backup-power, cleaning, and follow-up questions needed before the first night with home oxygen or a nebulizer.",
-    "category": "Hospital & Patient Guide",
-    "publishedAt": "2026-07-19",
-    "lastReviewedAt": "2026-07-19"
-  },
-  {
-    "slug": "diagnosis-explained",
-    "title": "Diagnosis, Explained: Our Plain-English Guide System",
-    "description": "The RN-designed format, publication gates, and nurse-reviewed plain-English diagnosis guides available from Community Acquired Finance.",
-    "category": "Patients & Caregivers",
-    "publishedAt": "2026-07-22",
-    "lastReviewedAt": "2026-07-23"
-  },
-  {
-    "slug": "how-healthcare-workers-should-compare-job-offers",
-    "title": "How Healthcare Workers Should Compare Two Job Offers",
-    "description": "Compare salary, overtime, differentials, benefits, PTO, insurance premiums, commute burden, and schedule tradeoffs before accepting a healthcare job.",
-    "category": "Healthcare Worker Pay",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "why-one-hospital-visit-can-create-multiple-bills",
-    "title": "Why One Hospital Visit Can Create Multiple Bills",
-    "description": "Understand why a single ER visit, surgery, or hospital stay can produce separate bills from different groups.",
-    "category": "Hospital Bills",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "facility-fee-vs-professional-fee",
-    "title": "Facility Fee vs. Professional Fee: Why One Visit Can Produce Two Bills",
-    "description": "Learn the difference between a facility fee and professional fee, why one visit can create two bills, and what to verify before paying.",
-    "category": "Hospital Bills",
-    "lastReviewedAt": "2026-07-13"
-  },
-  {
-    "slug": "observation-vs-inpatient-status",
-    "title": "Observation vs Inpatient Status: The Hospital Word That Can Change the Bill",
-    "description": "Understand why staying overnight does not always mean a patient was formally admitted as an inpatient.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "in-network-hospital-out-of-network-bills",
-    "title": "In-Network Hospital Does Not Always Mean Every Bill Is In-Network",
-    "description": "Understand why separate clinicians or services can create network surprises even when the hospital itself is covered.",
-    "category": "Insurance",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "allowed-amount-medical-bills",
-    "title": "Allowed Amount: The Number That Actually Matters on a Medical Bill",
-    "description": "Learn why the billed charge is not always the number your insurance uses to calculate your share.",
-    "category": "Insurance",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "prior-authorization-explained",
-    "title": "What Is Prior Authorization? Why Insurance Can Delay Doctor-Recommended Care",
-    "description": "Learn what prior authorization is, why insurance may delay doctor-recommended care, and what to do when a request is pending or denied.",
-    "category": "Insurance",
-    "lastReviewedAt": "2026-07-13"
-  },
-  {
-    "slug": "check-hospital-financial-assistance-before-paying",
-    "title": "Before You Pay a Hospital Bill, Check Financial Assistance",
-    "description": "Know when to ask for charity care or financial assistance before draining savings or using a credit card.",
-    "category": "Hospital Bills"
-  },
-  {
-    "slug": "insurance-is-future-planning",
-    "title": "Insurance Is Future Planning, Not Just a Monthly Bill",
-    "description": "See why health insurance, Medicare, Medicaid, and long-term care planning matter most before a hospitalization, diagnosis, rehab stay, or daily-care need turns coverage into a family financial decision.",
-    "category": "Insurance"
-  },
-  {
-    "slug": "medicare-advantage-vs-original-medicare-2026",
-    "title": "Medicare Advantage vs. Original Medicare in 2026: Key Tradeoffs",
-    "description": "Compare Medicare Advantage and Original Medicare in 2026 by provider access, premiums, cost sharing, drug coverage, prior authorization, travel, and Medigap.",
-    "category": "Medicare",
-    "lastReviewedAt": "2026-07-15"
-  },
-  {
-    "slug": "hsa-vs-fsa-healthcare-workers",
-    "title": "HSA vs FSA: The Plain-English Guide for Healthcare Workers",
-    "description": "Know when an HSA, FSA, or both can help lower taxes without creating open-enrollment regret.",
-    "category": "Workplace Benefits",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "medicare-medicaid-changes-january-2027",
-    "title": "Medicare and Medicaid Changes Scheduled for January 1, 2027",
-    "description": "A plain-English guide to the scheduled 2027 Medicaid eligibility rollout and the practical areas Medicare patients, caregivers, and hospitals should watch.",
-    "category": "Medicare & Medicaid"
-  },
-  {
-    "slug": "obbb-overtime-tax-deduction-healthcare-workers",
-    "title": "The OBBB Overtime Tax Deduction, Explained for Healthcare Workers",
-    "description": "Understand why the new overtime rule matters, what part of overtime may qualify, and why it is not the same as making every overtime dollar tax-free.",
-    "category": "Workplace Benefits"
-  },
-  {
-    "slug": "backup-care-plans-for-busy-healthcare-workers",
-    "title": "Backup Childcare for Healthcare Workers: A Shift-Proof Plan",
-    "description": "Create a backup childcare plan for nursing shifts, weekends, call, illness, and school closures, including employer benefits and cost planning.",
-    "category": "Spending",
-    "lastReviewedAt": "2026-07-13"
-  },
-  {
-    "slug": "workplace-benefits-definitions",
-    "title": "Workplace Benefits Definitions",
-    "description": "Decode open enrollment paperwork without calling HR.",
-    "category": "Workplace Benefits"
-  },
-  {
-    "slug": "deductible-copay-coinsurance-out-of-pocket-max",
-    "title": "Deductible vs. Copay vs. Coinsurance vs. Out-of-Pocket Maximum",
-    "description": "Learn the difference between a deductible, copay, coinsurance, and out-of-pocket maximum with a simple medical-bill example.",
-    "category": "Insurance",
-    "lastReviewedAt": "2026-07-13"
-  },
-  {
-    "slug": "how-to-read-an-eob",
-    "title": "How to Read an Explanation of Benefits (EOB) Before Paying a Medical Bill",
-    "description": "Learn how to read an Explanation of Benefits, match it to a medical bill, and verify allowed amount, insurance payment, and patient responsibility.",
-    "category": "Hospital Bills",
-    "lastReviewedAt": "2026-07-13"
-  },
-  {
-    "slug": "why-er-visit-is-expensive",
-    "title": "Why an ER Visit Can Be So Expensive",
-    "description": "Understand the pieces that can turn one emergency visit into several separate charges.",
-    "category": "Hospital Bills",
-    "lastReviewedAt": "2026-07-31"
-  },
-  {
-    "slug": "medicare-options-explained",
-    "title": "Medicare Options Explained",
-    "description": "Understand Original Medicare, Medicare Advantage, Part D, Medigap, and Medicaid without getting buried in insurance language.",
-    "category": "Medicare",
-    "publishedAt": "2026-06-01",
-    "lastReviewedAt": "2026-07-12"
-  },
-  {
-    "slug": "discharge-coverage-guide",
-    "title": "Discharge Coverage Guide",
-    "description": "Understand which post-hospital costs Medicare may cover after discharge — and which questions families should ask early.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "short-term-rehab-after-hospital",
-    "title": "Short-Term Rehab After the Hospital",
-    "description": "Learn what Medicare and Medicaid may cover when a patient needs rehab after hospitalization.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "home-health-after-discharge",
-    "title": "Home Health After Discharge",
-    "description": "Understand what Medicare home health can help with after discharge — and what it usually does not replace.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "durable-medical-equipment-after-discharge",
-    "title": "Durable Medical Equipment After Discharge",
-    "description": "Learn how walkers, wheelchairs, oxygen, hospital beds, and other equipment may be covered after discharge.",
-    "category": "Medicare"
-  },
-  {
-    "slug": "long-term-care-and-custodial-care",
-    "title": "Skilled Care vs. Custodial Care: What Medicare Usually Covers",
-    "description": "Learn the difference between skilled care and custodial care, what Medicare may cover, and when Medicaid or separate long-term-care planning may matter.",
-    "category": "Medicare",
-    "lastReviewedAt": "2026-07-15"
-  },
-  {
-    "slug": "medicaid-dual-eligibility-ltss",
-    "title": "Medicaid, Dual Eligibility, and LTSS",
-    "description": "Understand where Medicaid fits when Medicare does not cover the long-term care a family hoped for.",
-    "category": "Medicaid"
-  },
-  {
-    "slug": "plain-english-glossary",
-    "title": "Plain-English Healthcare Finance Glossary",
-    "description": "Insurance and Medicare terms defined like a human, not like a benefits packet.",
-    "category": "Insurance"
-  },
-  {
-    "slug": "hospital-cafe-habit",
-    "title": "How Much Does Hospital Cafeteria Spending Cost Per Year?",
-    "description": "Calculate the yearly cost of hospital cafeteria meals and coffee, then build a realistic shift-work spending plan instead of an all-or-nothing budget.",
-    "category": "Spending",
-    "lastReviewedAt": "2026-07-15"
-  },
-  {
-    "slug": "healthcare-worker-discounts",
-    "title": "Healthcare Worker Discounts and Perks Directory",
-    "description": "Use healthcare discounts without letting them become an excuse to buy things you did not need.",
-    "category": "Workplace Benefits"
-  },
-  {
-    "slug": "burnout-overspending-overeating",
-    "title": "Burnout, Overspending, and Overeating After Hard Shifts",
-    "description": "Understand why hard shifts can trigger expensive or unhealthy coping patterns — without shame.",
-    "category": "Spending",
-    "lastReviewedAt": "2026-07-31"
-  }
-] satisfies RuntimeArticleSeoMeta[];
+const ARTICLE_ROWS = [
+  [
+    "20-dollar-tylenol-hospital-prices",
+    "The $20 Tylenol Isn’t Really About the Tylenol",
+    "Why a hospital Tylenol charge is not the pill's true cost: understand gross charges, negotiated rates, insurer payment, patient responsibility, and hospital cost.",
+    "Hospital Prices",
+    "2026-08-29",
+    "2026-08-29"
+  ],
+  [
+    "what-nonprofit-hospital-actually-means",
+    "What a Nonprofit Hospital Actually Is (and Isn’t)",
+    "Understand what nonprofit hospital status means, why tax-exempt hospitals can earn surpluses, what Section 501(r) requires, and how to evaluate the claim.",
+    "Hospital Economics",
+    "2026-08-29",
+    "2026-08-29"
+  ],
+  [
+    "why-hospitals-care-about-length-of-stay",
+    "Why Hospitals Care So Much About Length of Stay",
+    "Why hospitals track length of stay: patient safety, staffed-bed capacity, Medicare DRG payment, discharge barriers, ED boarding, and readmission risk.",
+    "Hospital Operations",
+    "2026-08-29",
+    "2026-08-29"
+  ],
+  [
+    "why-just-send-them-to-rehab-is-not-simple",
+    "Why “Just Send Them to Rehab” Is Not That Simple",
+    "Why hospital rehab placement takes time: IRF vs SNF, therapy documentation, facility acceptance, Medicare rules, prior authorization, beds, and appeals.",
+    "Hospital Discharge",
+    "2026-08-29",
+    "2026-08-29"
+  ],
+  [
+    "what-employer-benefit-changes-should-i-compare",
+    "What Employer-Benefit Changes Should I Compare During Open Enrollment?",
+    "Compare the changes that can alter cost, access, employer value, or protection before you repeat last year's elections.",
+    "Workplace Benefits",
+    "2026-07-12",
+    "2026-07-12"
+  ],
+  [
+    "does-medicare-cover-long-term-care",
+    "Does Medicare Cover Long-Term Care?",
+    "A plain-English answer to the Medicare long-term care gap, including the difference between skilled care and custodial care.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "does-medicare-cover-rehab-after-hospital-stay",
+    "Does Medicare Cover Rehab After a Hospital Stay?",
+    "Understand when Medicare may cover short-term rehab, what can block coverage, and what families should ask before discharge.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "medicare-vs-medicaid-what-is-the-difference",
+    "Medicare vs Medicaid: What Is the Difference?",
+    "Separate Medicare and Medicaid in plain English so patients and families know which program solves which problem.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "what-does-medicare-not-cover",
+    "What Does Medicare Not Cover?",
+    "A plain-English list of common Medicare coverage gaps that create surprise costs for patients and families.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "why-do-i-still-owe-money-with-medicare",
+    "Why Do I Still Owe Money With Medicare?",
+    "Explain why Medicare can pay part of a claim while the patient still owes premiums, deductibles, copays, coinsurance, or uncovered costs.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "how-much-should-a-nurse-put-in-403b-per-paycheck",
+    "How Much Should a Nurse Put in a 403(b) Per Paycheck?",
+    "A practical paycheck framework for nurses and healthcare workers deciding what 403(b) contribution percentage to start with.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "how-hospital-403b-matching-works",
+    "How Does a Hospital 403(b) Match Work? Examples and Vesting",
+    "See how hospital 403(b) matching works, including common formulas, contribution examples, vesting, eligible pay, and 401(a) employer deposits.",
+    "Build Wealth",
+    null,
+    "2026-07-13"
+  ],
+  [
+    "how-to-pick-retirement-investments-at-work",
+    "How to Pick Retirement Investments at Work",
+    "A plain-English guide to target-date funds, S&P 500 index funds, expense ratios, risk, and changing investments inside a workplace retirement account.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "healthcare-worker-money-map",
+    "The Healthcare Worker Money Map",
+    "A plain-English order of operations for turning a healthcare paycheck into savings, retirement contributions, and long-term wealth.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "how-healthcare-workers-can-invest-without-picking-stocks",
+    "How Healthcare Workers Can Invest Without Picking Stocks",
+    "A simple investing guide for healthcare workers who want long-term growth without turning investing into a second job.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "savings-rate-that-actually-changes-your-life",
+    "The Savings Rate That Actually Changes Your Life",
+    "Why savings rate matters more than tiny budgeting hacks, especially for healthcare workers trying to buy back time.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "roth-vs-traditional-403b-healthcare-workers",
+    "Roth vs Traditional 403(b) for Healthcare Workers",
+    "A practical way to think about current tax savings, future tax flexibility, and paycheck stress when choosing 403(b) contributions.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "can-healthcare-workers-reach-financial-independence",
+    "Can Healthcare Workers Reach Financial Independence?",
+    "A realistic FI guide for workers who want more freedom without pretending every shift is easy or every budget is painless.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "cash-vs-investing-when-you-feel-behind",
+    "Should You Keep Cash or Invest It? A Practical Decision Framework",
+    "Use a practical cash-versus-investing framework based on emergency reserves, near-term expenses, debt, employer matching, and time horizon.",
+    "Build Wealth",
+    null,
+    "2026-07-15"
+  ],
+  [
+    "can-you-live-off-dividends-passive-income-guide",
+    "Can You Live Off Dividends? A Plain-English Passive Income Guide",
+    "A grounded explanation of dividend income, total return, and why passive income still needs a large asset base.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "money-stress-after-hard-shift",
+    "Money Stress After a Hard Shift",
+    "How to stop stress from turning into spending, avoidance, or panic decisions after exhausting healthcare work.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "earn-more-without-burning-out-bedside",
+    "How to Earn More Without Burning Out at Bedside",
+    "A career-income guide for healthcare workers who want more money and more options without relying only on extra shifts.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "managing-money-has-never-been-easier-or-harder",
+    "Managing Money Has Never Been Easier—or Harder",
+    "Why financial apps make money easier to manage but harder to stop thinking about—and how selective friction can improve spending and investing decisions.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "use-credit-cards-without-credit-card-debt",
+    "How to Use a Credit Card Without Carrying Credit Card Debt",
+    "Learn how to use a credit card, build credit, set up full-balance autopay, use secured-card guardrails, and avoid expensive credit-card debt.",
+    "Build Wealth",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "open-enrollment-mistakes-healthcare-workers",
+    "Open Enrollment Mistakes Healthcare Workers Make Every Year",
+    "Avoid the benefit choices that quietly raise risk, reduce take-home pay, or leave healthcare workers underprotected.",
+    "Open Enrollment",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "premium-deductible-out-of-pocket-open-enrollment",
+    "Premium, Deductible, and Out-of-Pocket Max: How to Compare Health Plans",
+    "Learn the three numbers that decide whether a health plan is cheap, risky, or actually a good fit.",
+    "Open Enrollment",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "spouse-family-health-insurance-open-enrollment",
+    "Can You Add a Spouse to Your Health Insurance? Rules, Costs, and Dual Coverage",
+    "Learn when you can add a spouse to health insurance, how qualifying life events work, and how to compare surcharges, dual coverage, and family costs.",
+    "Open Enrollment",
+    null,
+    "2026-07-13"
+  ],
+  [
+    "prescription-coverage-open-enrollment-checklist",
+    "How to Check Prescription Drug Coverage Before Choosing a Health Plan",
+    "Check prescription drug coverage before choosing a health plan, including formularies, tiers, pharmacies, deductibles, and prior authorization.",
+    "Open Enrollment",
+    null,
+    "2026-07-13"
+  ],
+  [
+    "network-checklist-open-enrollment",
+    "In-Network Is Not One Checkbox: What to Verify During Open Enrollment",
+    "Use a practical network checklist before choosing a plan for the next year.",
+    "Open Enrollment",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "disability-insurance-healthcare-workers-open-enrollment",
+    "Disability Insurance for Healthcare Workers: The Benefit You Should Not Ignore",
+    "Understand short-term and long-term disability before an injury or illness threatens your income.",
+    "Open Enrollment",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "employer-life-insurance-open-enrollment",
+    "Employer Life Insurance: Helpful, But Usually Not a Full Plan",
+    "Know what basic life, supplemental life, guaranteed issue, and portability mean before checking the box.",
+    "Open Enrollment",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "accident-critical-illness-hospital-indemnity-open-enrollment",
+    "Accident vs. Critical Illness vs. Hospital Indemnity Insurance",
+    "Compare accident, critical illness, and hospital indemnity insurance by benefit trigger, payout, exclusions, and fit with your health plan.",
+    "Open Enrollment",
+    null,
+    "2026-07-13"
+  ],
+  [
+    "dental-vision-insurance-open-enrollment",
+    "Dental and Vision Insurance: What to Check Before Adding Them",
+    "Avoid overbuying add-ons by checking annual maximums, frequency limits, and real expected use.",
+    "Open Enrollment",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "health-fsa-vs-dependent-care-fsa",
+    "Health FSA vs Dependent Care FSA: Same Name, Totally Different Use",
+    "Do not mix up medical expense money with childcare or dependent-care money.",
+    "Open Enrollment",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "open-enrollment-paycheck-impact",
+    "How Open Enrollment Changes Your Paycheck",
+    "See how benefit elections stack up before your first paycheck of the new plan year surprises you.",
+    "Open Enrollment",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "beneficiaries-open-enrollment-checklist",
+    "The 10-Minute Open Enrollment Task That Prevents a Legal Mess",
+    "Use open enrollment to update beneficiaries before life changes create avoidable problems.",
+    "Open Enrollment",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "from-the-bedside-medicare-prescription-cost",
+    "Why Is My Prescription So Expensive If I Have Medicare?",
+    "A bedside Medicare drug-cost story showing why a covered prescription can still create a painful pharmacy bill — and what to ask before giving up on it.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "from-the-bedside-long-term-care-medicaid-hospital-delay",
+    "From the Bedside: Long-Term Care Medicaid Should Not Wait Until a Crisis",
+    "A bedside look at why older adults can get stuck in the hospital while families scramble for long-term care Medicaid, nursing home placement, and a plan to preserve function.",
+    "Medicaid",
+    null,
+    null
+  ],
+  [
+    "why-am-i-getting-a-blood-thinner-in-the-hospital",
+    "Why Am I Getting a Blood Thinner in the Hospital?",
+    "A plain-English explanation of why hospitals use blood thinners, what common options do differently, and what to ask before accepting or declining a dose.",
+    "Hospital Stay",
+    "2026-07-16",
+    "2026-07-17"
+  ],
+  [
+    "why-did-the-hospital-stop-or-change-my-home-medications",
+    "Why Did the Hospital Stop or Change My Home Medications?",
+    "A plain-English guide to temporary medication holds, substitutions, timing changes, and the questions that prevent confusion at discharge.",
+    "Hospital Stay",
+    "2026-07-16",
+    "2026-07-17"
+  ],
+  [
+    "safe-hospital-discharge-first-72-hours",
+    "Safe Hospital Discharge and the First 72 Hours at Home",
+    "Use one practical plan to verify medicines, follow-up, equipment, home support, and unresolved questions before the first night at home.",
+    "Hospital & Patient Guide",
+    "2026-07-19",
+    "2026-07-19"
+  ],
+  [
+    "blood-thinner-safety-before-going-home",
+    "Blood Thinner Safety: What to Verify Before Going Home",
+    "Prepare the exact questions and written information needed to use a prescribed blood thinner safely without guessing at medicine-specific rules.",
+    "Hospital & Patient Guide",
+    "2026-07-19",
+    "2026-07-19"
+  ],
+  [
+    "copd-recovery-after-hospital",
+    "COPD Recovery After a Hospital Visit",
+    "Organize the medicines, inhalers, equipment, recovery plan, follow-up, and access questions that matter after a COPD-related hospital visit.",
+    "Hospital & Patient Guide",
+    "2026-07-19",
+    "2026-07-19"
+  ],
+  [
+    "heart-failure-plan-after-discharge",
+    "Heart Failure: Understanding the Plan After Discharge",
+    "Turn a complicated heart-failure discharge plan into a clear list of medicines, daily tracking, follow-up, and questions for the treating team.",
+    "Hospital & Patient Guide",
+    "2026-07-19",
+    "2026-07-19"
+  ],
+  [
+    "new-home-oxygen-nebulizer-guide",
+    "New Home Oxygen and Nebulizer Guide",
+    "Prepare the equipment, safety, supplier, backup-power, cleaning, and follow-up questions needed before the first night with home oxygen or a nebulizer.",
+    "Hospital & Patient Guide",
+    "2026-07-19",
+    "2026-07-19"
+  ],
+  [
+    "diagnosis-explained",
+    "Diagnosis, Explained: Our Plain-English Guide System",
+    "The RN-designed format, publication gates, and nurse-reviewed plain-English diagnosis guides available from Community Acquired Finance.",
+    "Patients & Caregivers",
+    "2026-07-22",
+    "2026-07-23"
+  ],
+  [
+    "how-healthcare-workers-should-compare-job-offers",
+    "How Healthcare Workers Should Compare Two Job Offers",
+    "Compare salary, overtime, differentials, benefits, PTO, insurance premiums, commute burden, and schedule tradeoffs before accepting a healthcare job.",
+    "Healthcare Worker Pay",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "why-one-hospital-visit-can-create-multiple-bills",
+    "Why One Hospital Visit Can Create Multiple Bills",
+    "Understand why a single ER visit, surgery, or hospital stay can produce separate bills from different groups.",
+    "Hospital Bills",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "facility-fee-vs-professional-fee",
+    "Facility Fee vs. Professional Fee: Why One Visit Can Produce Two Bills",
+    "Learn the difference between a facility fee and professional fee, why one visit can create two bills, and what to verify before paying.",
+    "Hospital Bills",
+    null,
+    "2026-07-13"
+  ],
+  [
+    "observation-vs-inpatient-status",
+    "Observation vs Inpatient Status: The Hospital Word That Can Change the Bill",
+    "Understand why staying overnight does not always mean a patient was formally admitted as an inpatient.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "in-network-hospital-out-of-network-bills",
+    "In-Network Hospital Does Not Always Mean Every Bill Is In-Network",
+    "Understand why separate clinicians or services can create network surprises even when the hospital itself is covered.",
+    "Insurance",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "allowed-amount-medical-bills",
+    "Allowed Amount: The Number That Actually Matters on a Medical Bill",
+    "Learn why the billed charge is not always the number your insurance uses to calculate your share.",
+    "Insurance",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "prior-authorization-explained",
+    "What Is Prior Authorization? Why Insurance Can Delay Doctor-Recommended Care",
+    "Learn what prior authorization is, why insurance may delay doctor-recommended care, and what to do when a request is pending or denied.",
+    "Insurance",
+    null,
+    "2026-07-13"
+  ],
+  [
+    "check-hospital-financial-assistance-before-paying",
+    "Before You Pay a Hospital Bill, Check Financial Assistance",
+    "Know when to ask for charity care or financial assistance before draining savings or using a credit card.",
+    "Hospital Bills",
+    null,
+    null
+  ],
+  [
+    "insurance-is-future-planning",
+    "Insurance Is Future Planning, Not Just a Monthly Bill",
+    "See why health insurance, Medicare, Medicaid, and long-term care planning matter most before a hospitalization, diagnosis, rehab stay, or daily-care need turns coverage into a family financial decision.",
+    "Insurance",
+    null,
+    null
+  ],
+  [
+    "medicare-advantage-vs-original-medicare-2026",
+    "Medicare Advantage vs. Original Medicare in 2026: Key Tradeoffs",
+    "Compare Medicare Advantage and Original Medicare in 2026 by provider access, premiums, cost sharing, drug coverage, prior authorization, travel, and Medigap.",
+    "Medicare",
+    null,
+    "2026-07-15"
+  ],
+  [
+    "hsa-vs-fsa-healthcare-workers",
+    "HSA vs FSA: The Plain-English Guide for Healthcare Workers",
+    "Know when an HSA, FSA, or both can help lower taxes without creating open-enrollment regret.",
+    "Workplace Benefits",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "medicare-medicaid-changes-january-2027",
+    "Medicare and Medicaid Changes Scheduled for January 1, 2027",
+    "A plain-English guide to the scheduled 2027 Medicaid eligibility rollout and the practical areas Medicare patients, caregivers, and hospitals should watch.",
+    "Medicare & Medicaid",
+    null,
+    null
+  ],
+  [
+    "obbb-overtime-tax-deduction-healthcare-workers",
+    "The OBBB Overtime Tax Deduction, Explained for Healthcare Workers",
+    "Understand why the new overtime rule matters, what part of overtime may qualify, and why it is not the same as making every overtime dollar tax-free.",
+    "Workplace Benefits",
+    null,
+    null
+  ],
+  [
+    "backup-care-plans-for-busy-healthcare-workers",
+    "Backup Childcare for Healthcare Workers: A Shift-Proof Plan",
+    "Create a backup childcare plan for nursing shifts, weekends, call, illness, and school closures, including employer benefits and cost planning.",
+    "Spending",
+    null,
+    "2026-07-13"
+  ],
+  [
+    "workplace-benefits-definitions",
+    "Workplace Benefits Definitions",
+    "Decode open enrollment paperwork without calling HR.",
+    "Workplace Benefits",
+    null,
+    null
+  ],
+  [
+    "deductible-copay-coinsurance-out-of-pocket-max",
+    "Deductible vs. Copay vs. Coinsurance vs. Out-of-Pocket Maximum",
+    "Learn the difference between a deductible, copay, coinsurance, and out-of-pocket maximum with a simple medical-bill example.",
+    "Insurance",
+    null,
+    "2026-07-13"
+  ],
+  [
+    "how-to-read-an-eob",
+    "How to Read an Explanation of Benefits (EOB) Before Paying a Medical Bill",
+    "Learn how to read an Explanation of Benefits, match it to a medical bill, and verify allowed amount, insurance payment, and patient responsibility.",
+    "Hospital Bills",
+    null,
+    "2026-07-13"
+  ],
+  [
+    "why-er-visit-is-expensive",
+    "Why an ER Visit Can Be So Expensive",
+    "Understand the pieces that can turn one emergency visit into several separate charges.",
+    "Hospital Bills",
+    null,
+    "2026-07-31"
+  ],
+  [
+    "medicare-options-explained",
+    "Medicare Options Explained",
+    "Understand Original Medicare, Medicare Advantage, Part D, Medigap, and Medicaid without getting buried in insurance language.",
+    "Medicare",
+    "2026-06-01",
+    "2026-07-12"
+  ],
+  [
+    "discharge-coverage-guide",
+    "Discharge Coverage Guide",
+    "Understand which post-hospital costs Medicare may cover after discharge — and which questions families should ask early.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "short-term-rehab-after-hospital",
+    "Short-Term Rehab After the Hospital",
+    "Learn what Medicare and Medicaid may cover when a patient needs rehab after hospitalization.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "home-health-after-discharge",
+    "Home Health After Discharge",
+    "Understand what Medicare home health can help with after discharge — and what it usually does not replace.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "durable-medical-equipment-after-discharge",
+    "Durable Medical Equipment After Discharge",
+    "Learn how walkers, wheelchairs, oxygen, hospital beds, and other equipment may be covered after discharge.",
+    "Medicare",
+    null,
+    null
+  ],
+  [
+    "long-term-care-and-custodial-care",
+    "Skilled Care vs. Custodial Care: What Medicare Usually Covers",
+    "Learn the difference between skilled care and custodial care, what Medicare may cover, and when Medicaid or separate long-term-care planning may matter.",
+    "Medicare",
+    null,
+    "2026-07-15"
+  ],
+  [
+    "medicaid-dual-eligibility-ltss",
+    "Medicaid, Dual Eligibility, and LTSS",
+    "Understand where Medicaid fits when Medicare does not cover the long-term care a family hoped for.",
+    "Medicaid",
+    null,
+    null
+  ],
+  [
+    "plain-english-glossary",
+    "Plain-English Healthcare Finance Glossary",
+    "Insurance and Medicare terms defined like a human, not like a benefits packet.",
+    "Insurance",
+    null,
+    null
+  ],
+  [
+    "hospital-cafe-habit",
+    "How Much Does Hospital Cafeteria Spending Cost Per Year?",
+    "Calculate the yearly cost of hospital cafeteria meals and coffee, then build a realistic shift-work spending plan instead of an all-or-nothing budget.",
+    "Spending",
+    null,
+    "2026-07-15"
+  ],
+  [
+    "healthcare-worker-discounts",
+    "Healthcare Worker Discounts and Perks Directory",
+    "Use healthcare discounts without letting them become an excuse to buy things you did not need.",
+    "Workplace Benefits",
+    null,
+    null
+  ],
+  [
+    "burnout-overspending-overeating",
+    "Burnout, Overspending, and Overeating After Hard Shifts",
+    "Understand why hard shifts can trigger expensive or unhealthy coping patterns — without shame.",
+    "Spending",
+    null,
+    "2026-07-31"
+  ]
+] as const;
+const TOPIC_ROWS = [
+  [
+    "medicare-medicaid",
+    "Medicare & Medicaid",
+    "A quick guide to what each program does, how Medicare's parts fit together, and where long-term care gaps can appear."
+  ],
+  [
+    "workplace-benefits",
+    "Healthcare Worker Benefits Hub",
+    "Move from match and paycheck decisions to health-plan math, HSA or FSA choices, disability coverage, life insurance, and beneficiaries in one connected path."
+  ],
+  [
+    "retirement-accounts",
+    "Retirement Accounts",
+    "403(b), 401(a), 457(b), Roth vs Traditional — the workplace retirement vocabulary in plain English."
+  ],
+  [
+    "health-insurance",
+    "Health Insurance",
+    "Premium, deductible, copay, coinsurance, out-of-pocket max — translated into normal English."
+  ],
+  [
+    "patient-medical-costs",
+    "Patient Medical Costs",
+    "Hospital bills, EOBs, surprise charges — what's normal, what isn't, and what to ask."
+  ],
+  [
+    "hospital-economics",
+    "Hospital Economics: Prices, Payment, Capacity, and Discharge",
+    "See the money, operating constraints, and competing incentives behind the hospital bill, the staffed bed, and the pressure to move care forward."
+  ],
+  [
+    "behavior-burnout",
+    "Behavior & Burnout",
+    "Money habits that happen after hard shifts — without shame or fake discipline advice."
+  ],
+  [
+    "discounts-perks",
+    "Healthcare Worker Discounts & Perks",
+    "Use discounts as a tool, not as a shopping trigger."
+  ]
+] as const;
+const TOOL_ROWS = [
+  [
+    "obbb-overtime-deduction-estimator",
+    "OBBB Overtime Deduction Estimator",
+    "Estimate qualifying overtime premium, the deduction cap, and rough federal income-tax savings."
+  ],
+  [
+    "open-enrollment-final-checklist",
+    "Open Enrollment Final Checklist",
+    "Run a final, printable review of health, tax account, disability, life, and supplemental elections."
+  ],
+  [
+    "open-enrollment-paycheck-impact-calculator",
+    "Open Enrollment Paycheck Impact Calculator",
+    "Estimate how pre-tax and after-tax benefit elections may change take-home pay."
+  ],
+  [
+    "supplemental-benefits-decision-helper",
+    "Supplemental Benefits Decision Helper",
+    "Compare premiums and likely payout for accident, critical illness, and hospital indemnity coverage."
+  ],
+  [
+    "hsa-vs-fsa-decision-helper",
+    "HSA vs FSA Decision Helper",
+    "Compare tax savings, employer money, deductible risk, forfeiture risk, and provider needs."
+  ],
+  [
+    "hospital-bill-review-checklist",
+    "Hospital Bill Review Checklist",
+    "Organize the first review of a large, confusing, or surprising healthcare balance."
+  ],
+  [
+    "financial-assistance-checklist",
+    "Hospital Financial Assistance & Medical Bill Relief Finder",
+    "Find a hospital's official financial-assistance policy, compare a broad income range with published thresholds, and build a source-backed action plan."
+  ],
+  [
+    "health-insurance-visit-cost-calculator",
+    "Patient Cost Share Calculator",
+    "Estimate covered in-network patient responsibility using the plan's deductible, copay or coinsurance rule, allowed amount, and out-of-pocket progress."
+  ],
+  [
+    "student-loan-path-finder",
+    "Student Loan Path Finder",
+    "Separate federal forgiveness paths from private-loan payoff decisions before choosing a strategy."
+  ],
+  [
+    "private-student-loan-payoff-calculator",
+    "Private Student Loan Payoff Calculator",
+    "Compare a confirmed private-loan payoff plan with complete refinance-quote terms, total cost, fees, and safeguards."
+  ],
+  [
+    "pslf-progress-estimator",
+    "PSLF Progress Estimator",
+    "Estimate payments remaining to 120 and identify the records that still need official verification."
+  ],
+  [
+    "student-loan-payment-calculator",
+    "Student Loan Payment Calculator",
+    "Estimate monthly payment, total paid, and interest over time for a balance, APR, and term."
+  ],
+  [
+    "medicare-cost-exposure-tool",
+    "Medicare Cost Exposure Tool",
+    "Create a rough planning snapshot for premiums, deductibles, prescriptions, and coinsurance."
+  ],
+  [
+    "hospital-cafe-savings-calculator",
+    "Hospital Cafe Savings Rate Calculator",
+    "See what recurring shift spending adds up to and what redirecting part of it could become."
+  ],
+  [
+    "medical-appointment-cost-preparation",
+    "Medical Appointment Cost Preparation Tool",
+    "Prepare network, authorization, estimate, facility-fee, separate-bill, payment, and financial-assistance questions before planned care."
+  ],
+  [
+    "state-medicaid-long-term-care-router",
+    "State Medicaid and Long-Term Care Program Router",
+    "Find the official state starting point for Medicaid coverage, Medicare cost help, nursing-facility care, or home- and community-based services."
+  ],
+  [
+    "childcare-benefits-decision-guide",
+    "Dependent Care FSA and Childcare Benefits Decision Guide",
+    "Coordinate a 2026 Dependent Care FSA, employer childcare help, predictable expenses, and federal tax-credit questions."
+  ],
+  [
+    "roth-vs-traditional-decision-helper",
+    "Roth vs Traditional Retirement Contribution Decision Helper",
+    "Compare current deduction value, possible future tax rates, pension income, cash flow, account mix, and retirement-access planning."
+  ],
+  [
+    "observation-vs-inpatient-status-guide",
+    "Observation vs Inpatient Hospital Status Guide",
+    "Prepare the written-status, notice, coverage, skilled-care, discharge, and deadline questions to ask the hospital and payer."
+  ],
+  [
+    "medicare-plan-verification-checklist",
+    "Medicare Plan Verification Checklist",
+    "Verify providers, prescriptions, prior authorization, costs, travel, supplemental benefits, annual changes, and enrollment timing."
+  ],
+  [
+    "debt-vs-retirement-router",
+    "Debt vs Retirement Contribution Decision Router",
+    "Order emergency savings, employer match, high-cost debt, federal loan protections, and sustainable retirement progress."
+  ]
+] as const;
 
-export const RUNTIME_TOPIC_SEO_META = [
-  {
-    "slug": "medicare-medicaid",
-    "title": "Medicare & Medicaid",
-    "description": "A quick guide to what each program does, how Medicare's parts fit together, and where long-term care gaps can appear."
-  },
-  {
-    "slug": "workplace-benefits",
-    "title": "Healthcare Worker Benefits Hub",
-    "description": "Move from match and paycheck decisions to health-plan math, HSA or FSA choices, disability coverage, life insurance, and beneficiaries in one connected path."
-  },
-  {
-    "slug": "retirement-accounts",
-    "title": "Retirement Accounts",
-    "description": "403(b), 401(a), 457(b), Roth vs Traditional — the workplace retirement vocabulary in plain English."
-  },
-  {
-    "slug": "health-insurance",
-    "title": "Health Insurance",
-    "description": "Premium, deductible, copay, coinsurance, out-of-pocket max — translated into normal English."
-  },
-  {
-    "slug": "patient-medical-costs",
-    "title": "Patient Medical Costs",
-    "description": "Hospital bills, EOBs, surprise charges — what's normal, what isn't, and what to ask."
-  },
-  {
-    "slug": "hospital-economics",
-    "title": "Hospital Economics",
-    "description": "Why hospitals make decisions that feel confusing from the bedside or the bill."
-  },
-  {
-    "slug": "behavior-burnout",
-    "title": "Behavior & Burnout",
-    "description": "Money habits that happen after hard shifts — without shame or fake discipline advice."
-  },
-  {
-    "slug": "discounts-perks",
-    "title": "Healthcare Worker Discounts & Perks",
-    "description": "Use discounts as a tool, not as a shopping trigger."
-  }
-] satisfies RuntimeTopicSeoMeta[];
+export const RUNTIME_ARTICLE_SEO_META: RuntimeArticleSeoMeta[] = ARTICLE_ROWS.map(([slug, title, description, category, publishedAt, lastReviewedAt]) => ({
+  slug, title, description, category,
+  ...(publishedAt ? { publishedAt } : {}),
+  ...(lastReviewedAt ? { lastReviewedAt } : {}),
+}));
 
-export const RUNTIME_TOOL_SEO_META = [
-  {
-    "slug": "obbb-overtime-deduction-estimator",
-    "title": "OBBB Overtime Deduction Estimator",
-    "description": "Estimate qualifying overtime premium, the deduction cap, and rough federal income-tax savings."
-  },
-  {
-    "slug": "open-enrollment-final-checklist",
-    "title": "Open Enrollment Final Checklist",
-    "description": "Run a final, printable review of health, tax account, disability, life, and supplemental elections."
-  },
-  {
-    "slug": "open-enrollment-paycheck-impact-calculator",
-    "title": "Open Enrollment Paycheck Impact Calculator",
-    "description": "Estimate how pre-tax and after-tax benefit elections may change take-home pay."
-  },
-  {
-    "slug": "supplemental-benefits-decision-helper",
-    "title": "Supplemental Benefits Decision Helper",
-    "description": "Compare premiums and likely payout for accident, critical illness, and hospital indemnity coverage."
-  },
-  {
-    "slug": "hsa-vs-fsa-decision-helper",
-    "title": "HSA vs FSA Decision Helper",
-    "description": "Compare tax savings, employer money, deductible risk, forfeiture risk, and provider needs."
-  },
-  {
-    "slug": "hospital-bill-review-checklist",
-    "title": "Hospital Bill Review Checklist",
-    "description": "Organize the first review of a large, confusing, or surprising healthcare balance."
-  },
-  {
-    "slug": "financial-assistance-checklist",
-    "title": "Hospital Financial Assistance & Medical Bill Relief Finder",
-    "description": "Find a hospital's official financial-assistance policy, compare a broad income range with published thresholds, and build a source-backed action plan."
-  },
-  {
-    "slug": "health-insurance-visit-cost-calculator",
-    "title": "Patient Cost Share Calculator",
-    "description": "Estimate covered in-network patient responsibility using the plan's deductible, copay or coinsurance rule, allowed amount, and out-of-pocket progress."
-  },
-  {
-    "slug": "student-loan-path-finder",
-    "title": "Student Loan Path Finder",
-    "description": "Separate federal forgiveness paths from private-loan payoff decisions before choosing a strategy."
-  },
-  {
-    "slug": "private-student-loan-payoff-calculator",
-    "title": "Private Student Loan Payoff Calculator",
-    "description": "Compare a confirmed private-loan payoff plan with complete refinance-quote terms, total cost, fees, and safeguards."
-  },
-  {
-    "slug": "pslf-progress-estimator",
-    "title": "PSLF Progress Estimator",
-    "description": "Estimate payments remaining to 120 and identify the records that still need official verification."
-  },
-  {
-    "slug": "student-loan-payment-calculator",
-    "title": "Student Loan Payment Calculator",
-    "description": "Estimate monthly payment, total paid, and interest over time for a balance, APR, and term."
-  },
-  {
-    "slug": "medicare-cost-exposure-tool",
-    "title": "Medicare Cost Exposure Tool",
-    "description": "Create a rough planning snapshot for premiums, deductibles, prescriptions, and coinsurance."
-  },
-  {
-    "slug": "hospital-cafe-savings-calculator",
-    "title": "Hospital Cafe Savings Rate Calculator",
-    "description": "See what recurring shift spending adds up to and what redirecting part of it could become."
-  },
-  {
-    "slug": "medical-appointment-cost-preparation",
-    "title": "Medical Appointment Cost Preparation Tool",
-    "description": "Prepare network, authorization, estimate, facility-fee, separate-bill, payment, and financial-assistance questions before planned care."
-  },
-  {
-    "slug": "state-medicaid-long-term-care-router",
-    "title": "State Medicaid and Long-Term Care Program Router",
-    "description": "Find the official state starting point for Medicaid coverage, Medicare cost help, nursing-facility care, or home- and community-based services."
-  },
-  {
-    "slug": "childcare-benefits-decision-guide",
-    "title": "Dependent Care FSA and Childcare Benefits Decision Guide",
-    "description": "Coordinate a 2026 Dependent Care FSA, employer childcare help, predictable expenses, and federal tax-credit questions."
-  },
-  {
-    "slug": "roth-vs-traditional-decision-helper",
-    "title": "Roth vs Traditional Retirement Contribution Decision Helper",
-    "description": "Compare current deduction value, possible future tax rates, pension income, cash flow, account mix, and retirement-access planning."
-  },
-  {
-    "slug": "observation-vs-inpatient-status-guide",
-    "title": "Observation vs Inpatient Hospital Status Guide",
-    "description": "Prepare the written-status, notice, coverage, skilled-care, discharge, and deadline questions to ask the hospital and payer."
-  },
-  {
-    "slug": "medicare-plan-verification-checklist",
-    "title": "Medicare Plan Verification Checklist",
-    "description": "Verify providers, prescriptions, prior authorization, costs, travel, supplemental benefits, annual changes, and enrollment timing."
-  },
-  {
-    "slug": "debt-vs-retirement-router",
-    "title": "Debt vs Retirement Contribution Decision Router",
-    "description": "Order emergency savings, employer match, high-cost debt, federal loan protections, and sustainable retirement progress."
-  }
-] satisfies RuntimeToolSeoMeta[];
+export const RUNTIME_TOPIC_SEO_META: RuntimeTopicSeoMeta[] = TOPIC_ROWS.map(([slug, title, description]) => ({ slug, title, description }));
+
+export const RUNTIME_TOOL_SEO_META: RuntimeToolSeoMeta[] = TOOL_ROWS.map(([slug, title, description]) => ({ slug, title, description }));

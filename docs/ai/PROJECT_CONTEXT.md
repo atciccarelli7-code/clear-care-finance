@@ -1,6 +1,6 @@
 # Community Acquired Finance Project Context
 
-Last substantively reviewed: 2026-07-31
+Last substantively reviewed: 2026-08-29
 
 ## Purpose
 
@@ -8,13 +8,13 @@ This is the compact, durable orientation record for AI-assisted work. Read it be
 
 ## Platform identity
 
-Community Acquired Finance is a healthcare financial decision-support platform for healthcare workers, patients, and caregivers.
+Community Acquired Finance is an RN-led healthcare economics, healthcare finance, navigation, and healthcare-system publication for patients, caregivers, and healthcare workers, supported by practical decision tools.
 
 Central promise:
 
-> Help people navigate the financial decisions created by healthcare employment, healthcare consumption, illness, insurance, discharge, caregiving, and long-term planning.
+> Explain the money, incentives, and operational machinery behind healthcare from inside the system, then help readers navigate the decisions that machinery creates.
 
-Do not reduce the platform to personal finance for nurses, a medical-bill website, a generic content library, or an advertising vehicle.
+Do not reduce CAF to personal finance for nurses, a medical-bill website, a generic content library, a SaaS dashboard, or an advertising vehicle.
 
 ## Audience architecture
 
@@ -22,12 +22,13 @@ Healthcare workers, patients, and caregivers are equally important at the brand 
 
 Current phased direction:
 
-1. Build one exceptional healthcare-worker flagship decision system.
-2. Reuse its decision-system architecture for hospital-to-home and discharge support.
-3. Expand through the same architecture into patient, diagnosis-specific, Medicare, Medicaid, and caregiving pathways.
-4. Avoid launching several incomplete audience experiences for superficial balance.
+1. Turn the strongest founder healthcare-system observations into exceptional source-backed articles.
+2. Earn search, direct, newsletter, and returning readership around distinctive editorial clusters.
+3. Connect articles to the existing calculators, guides, and Decision Outcome systems only when those utilities advance the reader's job.
+4. Consider advertising, affiliates, sponsorships, or premium products only after audience and demand evidence justify them.
+5. Avoid scaled AI content, generic topic expansion, and new products built only because the infrastructure exists.
 
-The homepage and primary navigation should make all three audiences feel intentionally served while directing each visitor to a clear starting path.
+The homepage and primary navigation should lead with the publication while keeping patients, caregivers, and healthcare workers intentionally served and preserving direct access to tools.
 
 ## Product principles
 

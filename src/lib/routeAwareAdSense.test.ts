@@ -87,7 +87,7 @@ describe("route-aware AdSense guard", () => {
 
   it("exposes the reconciled publisher inventory without duplicate routes", () => {
     const routes = getExplicitAdEligibleRoutes();
-    expect(routes).toHaveLength(39);
+    expect(routes).toHaveLength(41);
     expect(new Set(routes).size).toBe(routes.length);
     expect(routes.every((route) => route.startsWith("/articles/"))).toBe(true);
   });

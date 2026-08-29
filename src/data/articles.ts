@@ -9,6 +9,34 @@ export type ArticleSection = {
   example?: string;
 };
 
+export type EditorialArticleSection = {
+  title: string;
+  paragraphs: string[];
+  keyPoints?: string[];
+  callout?: {
+    label: string;
+    body: string;
+  };
+};
+
+export type ArticleSystemMap = {
+  title: string;
+  description: string;
+  steps: Array<{
+    title: string;
+    body: string;
+  }>;
+};
+
+export type ArticleSystemLens = {
+  title?: string;
+  description?: string;
+  items: Array<{
+    question: string;
+    answer: string;
+  }>;
+};
+
 export type Article = {
   slug: string;
   title: string;
@@ -19,6 +47,9 @@ export type Article = {
   summary: string;                  // 60-second summary
   body: string[];                   // plain-English paragraphs (fallback)
   sections?: ArticleSection[];      // optional fact-sheet sections
+  editorialSections?: EditorialArticleSection[]; // narrative sections for reported/explanatory features
+  systemMap?: ArticleSystemMap;     // compact process or money-flow explanation
+  systemLens?: ArticleSystemLens;   // who sets rules, pays, carries risk, and absorbs work
   example?: { title: string; body: string };
   relatedCalculator?: { label: string; href: string };
   commonMistakes?: string[];

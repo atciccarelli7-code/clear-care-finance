@@ -17,6 +17,7 @@ import { WEALTH_ARTICLES } from "./wealthArticles";
 import { RETIREMENT_INVESTMENT_ARTICLES } from "./retirementInvestmentArticles";
 import { SEARCH_MOAT_ARTICLES } from "./searchMoatArticles";
 import { TOTAL_COMPENSATION_ARTICLE } from "./totalCompensationArticle";
+import { FOUNDER_HOSPITAL_ECONOMICS_ARTICLES } from "./founderHospitalEconomicsArticles";
 import { applySearchConsoleArticleEnhancements } from "./searchConsoleArticleEnhancements";
 import { applySearchOpportunityArticleEnhancements } from "./searchOpportunityArticleEnhancements";
 import { applyPublisherArticleReviewMetadata } from "./publisherArticleReviews";
@@ -33,6 +34,7 @@ const OPEN_ENROLLMENT_ARTICLES_READY = OPEN_ENROLLMENT_ARTICLES.map((article) =>
 );
 
 const BASE_ARTICLES = [
+  ...FOUNDER_HOSPITAL_ECONOMICS_ARTICLES,
   ...SEARCH_MOAT_ARTICLES,
   ...RETIREMENT_INVESTMENT_ARTICLES,
   ...WEALTH_ARTICLES,

@@ -183,7 +183,7 @@ export const Header = () => {
                 className={`inline-flex items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-2 text-[0.78rem] font-semibold transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=open]:bg-muted/60 ${
                   serviceActive ? "bg-primary-soft/75 text-primary" : "text-muted-foreground hover:bg-muted/55 hover:text-foreground"
                 }`}
-                aria-label="Open Explore CAF service navigation"
+                aria-label="Open the complete CAF navigation"
               >
                 Explore CAF <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
@@ -195,9 +195,9 @@ export const Header = () => {
               className="max-h-[var(--radix-popover-content-available-height)] w-[min(94vw,70rem)] overflow-y-auto overscroll-contain rounded-2xl border-border p-3 shadow-hover [scrollbar-gutter:stable]"
             >
               <div className="px-2 pb-3 pt-1">
-                <h2 className="text-sm font-bold text-foreground">Explore CAF services</h2>
+                <h2 className="text-sm font-bold text-foreground">Explore all of CAF</h2>
                 <p className="mt-1 max-w-2xl text-xs font-normal leading-relaxed text-muted-foreground">
-                  Choose the decision or outcome you need. Every destination remains educational and source-backed.
+                  Browse the publication, subject hubs, patient and worker guides, and practical tools. Every destination remains educational and source-backed.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4">
@@ -279,7 +279,7 @@ export const Header = () => {
             <div className="my-4 border-t border-border" aria-hidden="true" />
             <div className="px-1 pb-2">
               <div className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">Explore CAF</div>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Open a group to find the decision or outcome you need.</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Open a group to read, learn, or find a practical next step.</p>
             </div>
 
             <div className="space-y-2">

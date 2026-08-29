@@ -37,7 +37,7 @@ const websiteJsonLd: SeoJsonLd = {
   "@type": "WebSite",
   name: SITE_NAME,
   url: SITE_URL,
-  description: "RN-led, plain-English financial education for healthcare workers, patients, families, and caregivers.",
+  description: "RN-led reporting and practical guidance about healthcare costs, hospital economics, insurance, care transitions, and healthcare-worker finances.",
   publisher: {
     "@type": "Organization",
     name: SITE_NAME,
@@ -47,8 +47,8 @@ const websiteJsonLd: SeoJsonLd = {
 
 const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
   "/": {
-    title: "Healthcare Money Explained Clearly",
-    description: "RN-led guides and calculators for medical bills, insurance, Medicare, Medicaid, workplace benefits, retirement, and healthcare-worker pay.",
+    title: "The Money and Machinery Behind American Healthcare",
+    description: "RN-led, source-backed reporting on hospital prices, insurance rules, payment incentives, discharge barriers, patient costs, and healthcare-worker finances.",
     kind: "collection",
   },
   "/start-here": {
@@ -250,13 +250,13 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     kind: "tool",
   },
   "/articles": {
-    title: "Healthcare Finance Articles",
-    description: "Browse RN-led, source-backed articles about medical bills, insurance, Medicare, Medicaid, retirement, workplace benefits, and healthcare-worker finances.",
+    title: "Healthcare Economics and Finance Articles",
+    description: "Read RN-led, source-backed articles about hospital economics, medical bills, insurance, care transitions, Medicare, Medicaid, and healthcare-worker finances.",
     kind: "collection",
   },
   "/topics": {
-    title: "Healthcare Finance Topic Guides",
-    description: "Explore organized topic guides for Medicare, Medicaid, workplace benefits, retirement accounts, health insurance, medical costs, and hospital economics.",
+    title: "Healthcare Economics and Finance Topic Guides",
+    description: "Explore hospital economics, healthcare costs, insurance, care transitions, Medicare, Medicaid, workplace benefits, and healthcare-worker finance topic guides.",
     kind: "collection",
   },
   "/glossary": {

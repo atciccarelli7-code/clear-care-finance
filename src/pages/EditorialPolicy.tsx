@@ -15,7 +15,7 @@ const EditorialPolicy = () => (
     <PageHero eyebrow="Editorial standards" title="Editorial Policy" description="How CAF approaches sources, clinical risk, author and reviewer claims, corrections, privacy, advertising, and educational boundaries." />
 
     <div className="container max-w-3xl space-y-6 py-12 md:py-16">
-      <p className="text-sm text-muted-foreground">Effective date: July 19, 2026</p>
+      <p className="text-sm text-muted-foreground">Effective date: August 29, 2026</p>
 
       <Section title="Purpose and audience">
         <p>CAF explains financial and practical decisions surrounding healthcare, employment, insurance, hospitalization, benefits, and recovery in plain English. The audience is the general public, with specialized clarity from an RN perspective.</p>
@@ -68,6 +68,7 @@ const EditorialPolicy = () => (
       <Section title="AI-assisted workflow">
         <p>AI may assist drafting, research organization, coding, testing, formatting, and editing. Human judgment remains responsible for source quality, safety boundaries, credentials, practical usefulness, and final publication decisions.</p>
         <p>AI must not invent citations, experience, credentials, reviewer findings, approvals, patient stories, outcomes, or certainty.</p>
+        <p>Founder notes and book drafts are treated as protected source material. CAF preserves the original writing, extracts potential reader questions, verifies factual claims independently, removes or composites identifying details, and publishes only when an idea adds distinctive reader value. Manuscript additions are never published automatically.</p>
       </Section>
 
       <Section title="Independence">

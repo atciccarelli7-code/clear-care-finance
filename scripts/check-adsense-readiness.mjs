@@ -123,8 +123,8 @@ try {
     assert(canonicalSet.has(route), `${route} is reviewed but missing from the canonical registry.`);
   }
 
-  assert(explicitAdRoutes.length === 39, `Expected 39 reconciled ad-eligible articles; found ${explicitAdRoutes.length}.`);
-  assert(articleByPath.size === 71, `Expected 71 published article reviews; found ${articleByPath.size}.`);
+  assert(explicitAdRoutes.length === 41, `Expected 41 reconciled ad-eligible articles; found ${explicitAdRoutes.length}.`);
+  assert(articleByPath.size === 75, `Expected 75 published article reviews; found ${articleByPath.size}.`);
 
   const forbiddenAdTypes = new Set([
     "topic-guide",
@@ -218,6 +218,8 @@ try {
     {
       name: "Rehab and discharge",
       routes: [
+        "/articles/why-hospitals-care-about-length-of-stay",
+        "/articles/why-just-send-them-to-rehab-is-not-simple",
         "/articles/does-medicare-cover-rehab-after-hospital-stay",
         "/articles/short-term-rehab-after-hospital",
         "/articles/discharge-coverage-guide",

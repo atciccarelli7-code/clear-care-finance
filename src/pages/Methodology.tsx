@@ -42,8 +42,8 @@ const Methodology = () => {
     <>
       <PageHero
         eyebrow="Sources / Methodology"
-        title="How the site chooses sources and builds articles."
-        description="A simple explanation of source standards, calculator limits, article structure, and how updates are handled."
+        title="How CAF turns firsthand questions into source-backed reporting."
+        description="How founder observations are preserved, tested against authoritative evidence, edited for readers, connected to practical tools, and updated when the underlying rules change."
       />
 
       <div className="container py-12 md:py-16 space-y-14">
@@ -62,8 +62,9 @@ const Methodology = () => {
         <section className="max-w-3xl space-y-5">
           <SectionHeading eyebrow="Article method" title="The preferred article format" />
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card space-y-3 text-muted-foreground leading-relaxed">
-            <p>Most articles are built as quick practical guides: who it is for, a 60-second summary, plain-English definitions, fact-sheet bullets, a realistic example, common mistakes, a key takeaway, and source notes.</p>
-            <p>That format is intentional. The goal is not textbook length. The goal is to help a tired healthcare worker, patient, spouse, adult child, or caregiver understand the next question to ask.</p>
+            <p>CAF often begins with a question or contradiction Andrew encountered through nursing and care-transition work. The original thesis, analogy, or unusual observation is preserved when it helps; factual claims are then separated from interpretation and checked against current primary or authoritative sources.</p>
+            <p>Major explainers answer the reader near the beginning, show how the issue looks from several seats in the system, add evidence and limitations, and end with practical questions or a relevant CAF utility. Other pages use a shorter guide format when that better matches the decision. Length follows usefulness, not a word-count target.</p>
+            <p>The founder's rough writing remains source material rather than published evidence. CAF does not silently copy unresolved claims into an article, invent firsthand experience, or automatically publish every manuscript addition.</p>
           </div>
         </section>
 

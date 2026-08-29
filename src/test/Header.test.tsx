@@ -42,7 +42,7 @@ describe("Header service navigation", () => {
     fireEvent.click(menuButton);
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    expect(within(mobileNav).getByRole("link", { name: /Start Here/ })).toHaveFocus();
+    expect(within(mobileNav).getByRole("link", { name: /Read CAF/ })).toHaveFocus();
     expect(document.body.style.overflow).toBe("hidden");
     expect(document.documentElement.style.overflow).toBe("hidden");
 
@@ -59,7 +59,7 @@ describe("Header service navigation", () => {
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
 
-    const firstLink = within(mobileNav).getByRole("link", { name: /Start Here/ });
+    const firstLink = within(mobileNav).getByRole("link", { name: /Read CAF/ });
     const lastLink = within(mobileNav).getByRole("link", { name: "Monthly email" });
 
     lastLink.focus();
@@ -77,7 +77,7 @@ describe("Header service navigation", () => {
 
     expect(within(mobileNav).getByText("Healthcare-worker decisions")).toBeInTheDocument();
     expect(within(mobileNav).getByText("Patient and caregiver decisions")).toBeInTheDocument();
-    expect(within(mobileNav).getByText("Free education and trusted sources")).toBeInTheDocument();
+    expect(within(mobileNav).getByText("Subject hubs and guides")).toBeInTheDocument();
     expect(within(mobileNav).getByRole("link", { name: /Medicare & Medicaid/ })).toHaveAttribute("aria-current", "page");
   });
 
@@ -96,7 +96,7 @@ describe("Header service navigation", () => {
 
   it("exposes an accessible desktop service-navigation trigger", () => {
     renderHeader();
-    const trigger = screen.getByRole("button", { name: "Open Explore CAF service navigation" });
+    const trigger = screen.getByRole("button", { name: "Open the complete CAF navigation" });
 
     expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
     expect(trigger).toHaveAttribute("aria-expanded", "false");

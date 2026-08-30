@@ -22,13 +22,13 @@ const capture = async (page: Page, testInfo: TestInfo, name: string, focus?: Loc
   await page.screenshot({ path: testInfo.outputPath(fileName), fullPage: false, animations: "disabled" });
 };
 
-test("captures the finished product-led homepage and guided start", async ({ page }, testInfo) => {
+test("captures the publisher-first homepage", async ({ page }, testInfo) => {
   await preparePage(page, "/");
-  await expect(page.getByRole("heading", { level: 1, name: /Make the next money or healthcare decision clearer/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Help me find where to start/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Open the Benefits Decision System/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Understand the money and machinery behind American healthcare/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Read the publication/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Use a guide or tool/i })).toBeVisible();
   await expect(page.getByText(/Checkout off|prelaunch|planned early-access|not available for purchase yet/i)).toHaveCount(0);
-  await capture(page, testInfo, "homepage");
+  await capture(page, testInfo, "homepage-publisher-first");
 });
 
 test("captures the free searchable Tools directory", async ({ page }, testInfo) => {
@@ -82,7 +82,7 @@ test("captures a standardized answer-first decision result", async ({ page }, te
 
 test("captures the verified founder and trust presentation", async ({ page }, testInfo) => {
   await preparePage(page, "/about");
-  await expect(page.getByRole("heading", { level: 1, name: /Healthcare money explained by someone who sees the confusion up close/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Healthcare money and systems explained from inside the work/i })).toBeVisible();
   await expect(page.getByText(/Andrew Ciccarelli, RN, BSN/).first()).toBeVisible();
   await capture(page, testInfo, "about-founder-trust");
 });

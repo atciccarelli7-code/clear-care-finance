@@ -13,24 +13,25 @@ const LogoMark = () => (
 
 const linkGroups = [
   {
-    title: "Free resources",
+    title: "Read CAF",
     links: [
-      { to: "/start-here", label: "Start Here" },
-      { to: "/tools", label: "Free Calculators & Tools" },
       { to: "/articles", label: "Articles" },
-      { to: "/build-wealth", label: "Money & Retirement" },
-      { to: "/insurance", label: "Benefits & Insurance" },
+      { to: "/topics/hospital-economics", label: "Hospitals & Insurance" },
+      { to: "/insurance", label: "Healthcare Costs" },
+      { to: "/patients-families", label: "Patients & Caregivers" },
       { to: "/medicare-care-costs", label: "Medicare & Medicaid" },
+      { to: "/healthcare-workers", label: "Healthcare Workers" },
     ],
   },
   {
-    title: "Healthcare decisions",
+    title: "Guides & tools",
     links: [
-      { to: "/healthcare-workers", label: "Healthcare Workers" },
-      { to: "/healthcare-workers#benefits-decision-system", label: "Benefits Decision System" },
-      { to: "/open-enrollment", label: "Open Enrollment" },
-      { to: "/patients-families", label: "Patients & Caregivers" },
+      { to: "/start-here", label: "Start Here" },
+      { to: "/tools", label: "All Free Tools" },
+      { to: "/insurance/medical-bill-review-toolkit", label: "Medical Bill Review" },
       { to: "/medical-bills/financial-assistance", label: "Hospital Financial Assistance" },
+      { to: "/products/healthcare-worker-benefits-decision-system", label: "Benefits Decision System" },
+      { to: "/open-enrollment", label: "Open Enrollment" },
       { to: "/guides", label: "Quick Guides" },
       { to: "/glossary", label: "Glossary" },
     ],
@@ -60,7 +61,7 @@ export const Footer = () => {
             <span className="min-w-0 break-words">Community Acquired Finance</span>
           </Link>
           <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-            RN-led healthcare financial decision support with free guides, calculators, and guided tools for healthcare workers, patients, and caregivers.
+            RN-led reporting and practical guides about the money, incentives, and machinery behind American healthcare.
           </p>
           <p className="text-xs text-muted-foreground">Written by Andrew Ciccarelli, RN, BSN.</p>
         </div>

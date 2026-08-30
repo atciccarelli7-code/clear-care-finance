@@ -10,7 +10,8 @@ const hasText = (value: string | undefined, minimumLength = 1) =>
 
 const hasSubstantiveStructure = (article: Article) =>
   article.body.filter((paragraph) => paragraph.trim().length > 0).length >= 3 ||
-  (article.sections?.length ?? 0) >= 2;
+  (article.sections?.length ?? 0) >= 2 ||
+  (article.editorialSections?.length ?? 0) >= 3;
 
 const hasPracticalDecisionSupport = (article: Article) =>
   Boolean(
@@ -20,6 +21,11 @@ const hasPracticalDecisionSupport = (article: Article) =>
       (article.numberedSteps?.length ?? 0) > 0 ||
       (article.questionsToAsk?.length ?? 0) > 0 ||
       (article.comparisonTable?.rows.length ?? 0) > 0 ||
+      (article.systemMap?.steps.length ?? 0) > 2 ||
+      (article.systemLens?.items.length ?? 0) > 2 ||
+      (article.editorialSections?.some((section) =>
+        Boolean(section.callout || (section.keyPoints?.length ?? 0) > 1),
+      ) ?? false) ||
       (article.sections?.some((section) =>
         Boolean(section.example || section.watchOut || (section.keyPoints?.length ?? 0) > 1),
       ) ?? false),
@@ -75,7 +81,9 @@ export const getAdEligibleArticleIssues = (
     "Ad-eligible article needs an example, checklist, comparison, common mistakes, questions, or another practical decision aid.",
   );
   require(
-    article.body.filter((paragraph) => paragraph.trim().length > 0).length >= 4 || (article.sections?.length ?? 0) >= 3,
+    article.body.filter((paragraph) => paragraph.trim().length > 0).length >= 4 ||
+      (article.sections?.length ?? 0) >= 3 ||
+      (article.editorialSections?.length ?? 0) >= 4,
     "editorialDepth",
     "Ad-eligible article needs multiple layers of original explanation rather than a navigation-led or definition-only page.",
   );

@@ -61,8 +61,8 @@ const leakedReleaseState = [
 
 describe("finished public product architecture", () => {
   it("presents the public benefits system as a complete free browser-local workflow", () => {
-    expect(indexSource).toContain("Guided workflows available now");
-    expect(indexSource).toContain("Free · available now");
+    expect(indexSource).toContain("Featured reporting and explainers");
+    expect(indexSource).toContain("remain free supporting utilities");
     expect(startHereSource).toContain("complete browser-local Benefits Decision System now");
     expect(toolsSource).toContain("Free · browser-local");
     expect(workerSource).toContain("Available now · free");

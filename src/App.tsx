@@ -45,7 +45,8 @@ const loadHealthcareWorkerTotalCompensationPage = () => import("./pages/Healthca
 const loadHospitalFinancialAssistancePages = () => import("./pages/HospitalFinancialAssistancePages.tsx");
 const loadStudentLoans = () => import("./pages/StudentLoans.tsx");
 const loadArticles = () => import("./pages/Articles.tsx");
-const loadArticlePage = () => import("./pages/ArticlePage.tsx");
+const loadArticlePage = () => import("./pages/CoreArticlePage.tsx");
+const loadFounderArticlePage = () => import("./pages/FounderArticlePage.tsx");
 const loadTopics = () => import("./pages/Topics.tsx");
 const loadTopicPage = () => import("./pages/TopicPage.tsx");
 const loadGlossary = () => import("./pages/Glossary.tsx");
@@ -171,6 +172,15 @@ const Disclosures = lazy(loadDisclosures);
 const Accessibility = lazy(loadAccessibility);
 const NotFound = lazy(loadNotFound);
 
+const FOUNDER_ARTICLE_PATHS = [
+  "/articles/20-dollar-tylenol-hospital-prices",
+  "/articles/what-nonprofit-hospital-actually-means",
+  "/articles/why-hospitals-care-about-length-of-stay",
+  "/articles/why-just-send-them-to-rehab-is-not-simple",
+] as const;
+
+const FounderArticlePage = lazy(loadFounderArticlePage);
+
 const routeLoader = (pathname: string) => {
   if (pathname === "/") return loadIndex;
   if (pathname === "/start-here") return loadStartHere;
@@ -204,6 +214,7 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/tools/medicare-advantage-plan-helper") return loadInsuranceDecisionToolsBundle;
   if (pathname.startsWith("/tools/")) return loadToolPage;
   if (pathname === "/articles") return loadArticles;
+  if (FOUNDER_ARTICLE_PATHS.some((path) => path === pathname)) return loadFounderArticlePage;
   if (pathname.startsWith("/articles/")) return loadArticlePage;
   if (pathname === "/topics") return loadTopics;
   if (pathname.startsWith("/topics/")) return loadTopicPage;
@@ -365,6 +376,9 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/hospital-financial-assistance/north-carolina" element={<NorthCarolinaFinancialAssistancePage />} />
             <Route path="/hospital-financial-assistance/:hospitalSlug" element={<HospitalFinancialAssistancePolicyPage />} />
             <Route path="/articles" element={<Articles />} />
+            {FOUNDER_ARTICLE_PATHS.map((path) => (
+              <Route key={path} path={path} element={<FounderArticlePage />} />
+            ))}
             <Route path="/articles/:slug" element={<ArticlePage />} />
             <Route path="/topics" element={<Topics />} />
             <Route path="/topics/:slug" element={<TopicPage />} />

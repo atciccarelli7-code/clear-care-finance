@@ -17,29 +17,35 @@ const REVIEWED_AT = "2026-07-31";
 const STANDARD_NEXT_REVIEW = "2027-01-31";
 const SENSITIVE_NEXT_REVIEW = "2026-10-31";
 
+type ReviewTiming = {
+  reviewedAt?: string;
+  nextReviewAt?: string;
+};
+
 const eligible = (
   slug: string,
   contentTier: "flagship" | "substantial" = "substantial",
+  timing: ReviewTiming = {},
 ): PublisherArticleReview => ({
   slug,
   route: `/articles/${slug}`,
   disposition: "ad-eligible",
   contentTier,
-  reviewedAt: REVIEWED_AT,
-  nextReviewAt: STANDARD_NEXT_REVIEW,
+  reviewedAt: timing.reviewedAt ?? REVIEWED_AT,
+  nextReviewAt: timing.nextReviewAt ?? STANDARD_NEXT_REVIEW,
   reviewScope:
     "Publisher-value review covering authoritative sources, original explanatory depth, practical decision support, distinct search intent, and suitability for light advertising outside sensitive or interactive contexts.",
   reason:
     "Affirmatively reviewed publisher article with authoritative sources, original explanatory depth, practical decision support, and no interactive or sensitive workflow context.",
 });
 
-const sensitive = (slug: string): PublisherArticleReview => ({
+const sensitive = (slug: string, timing: ReviewTiming = {}): PublisherArticleReview => ({
   slug,
   route: `/articles/${slug}`,
   disposition: "ad-free-sensitive",
   contentTier: "standard",
-  reviewedAt: REVIEWED_AT,
-  nextReviewAt: SENSITIVE_NEXT_REVIEW,
+  reviewedAt: timing.reviewedAt ?? REVIEWED_AT,
+  nextReviewAt: timing.nextReviewAt ?? SENSITIVE_NEXT_REVIEW,
   reviewScope:
     "Publisher-suitability review covering patient sensitivity, Medicare or Medicaid context, medication and discharge safety, coverage denials, financial assistance, and risk of advertising near consequential healthcare decisions.",
   reason:
@@ -59,6 +65,10 @@ const editorial = (slug: string, reason: string): PublisherArticleReview => ({
 });
 
 export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
+  eligible("20-dollar-tylenol-hospital-prices", "flagship", { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" }),
+  eligible("what-nonprofit-hospital-actually-means", "substantial", { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" }),
+  sensitive("why-hospitals-care-about-length-of-stay", { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" }),
+  sensitive("why-just-send-them-to-rehab-is-not-simple", { reviewedAt: "2026-08-29", nextReviewAt: "2026-11-30" }),
   eligible("what-employer-benefit-changes-should-i-compare"),
   eligible("how-much-should-a-nurse-put-in-403b-per-paycheck"),
   eligible("how-hospital-403b-matching-works"),

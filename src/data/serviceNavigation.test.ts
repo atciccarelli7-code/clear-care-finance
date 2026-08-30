@@ -17,13 +17,14 @@ const sitemapRoutes = () => {
 };
 
 describe("service navigation registry", () => {
-  it("keeps five primary destinations and expresses the approved public architecture", () => {
+  it("keeps the publication and core audiences in the primary architecture", () => {
     expect(PRIMARY_NAVIGATION_ITEMS).toEqual([
-      { to: "/start-here", label: "Start Here" },
-      { to: "/tools", label: "Free Tools" },
+      { to: "/articles", label: "Articles" },
+      { to: "/topics/hospital-economics", label: "Hospitals & Insurance" },
+      { to: "/insurance", label: "Healthcare Costs" },
       { to: "/healthcare-workers", label: "Healthcare Workers" },
       { to: "/patients-families", label: "Patients & Caregivers" },
-      { to: "/methodology", label: "Trust & Methods" },
+      { to: "/tools", label: "Guides & Tools" },
     ]);
     expect(SERVICE_NAVIGATION_GROUPS).toHaveLength(4);
     expect(SERVICE_NAVIGATION_GROUPS.every((group) => group.items.length >= 2 && group.items.length <= 5)).toBe(true);
@@ -53,14 +54,22 @@ describe("service navigation registry", () => {
     expect(missingRoutes).toEqual([]);
   });
 
-  it("surfaces one flagship preview and at least seven concrete free decision services globally", () => {
+  it("surfaces the publication and at least seven concrete free decision services globally", () => {
     const items = SERVICE_NAVIGATION_GROUPS.flatMap((group) => group.items);
-    const flagship = items.filter((item) => item.id === "benefits_command_center");
-    expect(flagship).toHaveLength(1);
-    expect(flagship[0]).toMatchObject({
+    const publication = items.filter((item) => item.id === "articles");
+    expect(publication).toHaveLength(1);
+    expect(publication[0]).toMatchObject({
+      label: "Articles",
+      to: "/articles",
+      audience: "Publication",
+    });
+
+    const benefitsSystem = items.filter((item) => item.id === "benefits_command_center");
+    expect(benefitsSystem).toHaveLength(1);
+    expect(benefitsSystem[0]).toMatchObject({
       label: "Benefits Decision System",
-      to: "/healthcare-workers#benefits-decision-system",
-      audience: "Flagship preview",
+      to: "/products/healthcare-worker-benefits-decision-system",
+      audience: "Free guided workflow",
     });
 
     const concreteFreeServiceIds = new Set([
@@ -79,9 +88,9 @@ describe("service navigation registry", () => {
 
   it("uses three priority mobile actions and omits the emptied duplicate-start group", () => {
     expect(MOBILE_PRIORITY_ITEMS).toEqual([
-      { id: "start_here", to: "/start-here", label: "Start Here", description: "Find the right next step." },
+      { id: "articles", to: "/articles", label: "Read CAF", description: "Browse the publication." },
       { id: "all_tools", to: "/tools", label: "Free tools", description: "Open every calculator and guide." },
-      { id: "articles", to: "/articles", label: "Free education", description: "Browse source-backed explanations." },
+      { id: "start_here", to: "/start-here", label: "Start Here", description: "Find the right next step." },
     ]);
     expect(MOBILE_GROUP_ITEMS).toHaveLength(3);
     expect(MOBILE_GROUP_ITEMS.map((group) => group.id)).toEqual(

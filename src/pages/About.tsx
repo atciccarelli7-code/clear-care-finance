@@ -13,7 +13,7 @@ const About = () => {
   useSeo({
     title: "About Andrew Ciccarelli, RN, BSN",
     description:
-      "Community Acquired Finance is written by Andrew Ciccarelli, RN, BSN, using bedside, charge, and admissions-discharge-transfer nursing experience to explain healthcare and personal-finance decisions.",
+      "Community Acquired Finance is an RN-led publication by Andrew Ciccarelli, RN, BSN, explaining healthcare costs, hospital economics, insurance, care transitions, and healthcare-worker finances.",
     canonicalPath: "/about",
     jsonLd: [{
       "@context": "https://schema.org",
@@ -27,7 +27,7 @@ const About = () => {
         name: "Community Acquired Finance",
         url: "https://communityacquiredfinance.com",
       },
-      knowsAbout: ["bedside nursing", "care transitions", "discharge education", "health insurance cost sharing", "healthcare worker benefits", "plain-English healthcare financial education"],
+      knowsAbout: ["bedside nursing", "hospital operations", "care transitions", "discharge education", "health insurance cost sharing", "healthcare worker benefits", "plain-English healthcare finance"],
     }],
   });
 
@@ -37,8 +37,8 @@ const About = () => {
     <>
       <PageHero
         eyebrow="About"
-        title="Healthcare money explained by someone who sees the confusion up close."
-        description="Community Acquired Finance is built by Andrew Ciccarelli, RN, BSN, for patients, caregivers, healthcare workers, and anyone who needs a calmer way to understand financial and healthcare decisions."
+        title="Healthcare money and systems explained from inside the work."
+        description="Community Acquired Finance is an independent, RN-led publication built by Andrew Ciccarelli, RN, BSN. It helps patients, caregivers, and healthcare workers understand the money, rules, and operational machinery behind care."
       >
         <Button asChild variant="hero" size="lg"><Link to="/start-here">Help me find where to start</Link></Button>
         <Button asChild variant="outline" size="lg"><Link to="/methodology">Sources and methodology</Link></Button>
@@ -53,7 +53,7 @@ const About = () => {
             <div className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-trust">Founder</div>
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight">Andrew Ciccarelli, RN, BSN</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Registered nurse with verified bedside, charge, and admissions-discharge-transfer experience. Founder and primary author of Community Acquired Finance.
+              Registered nurse with verified bedside, charge, admissions-discharge-transfer, and care-transition experience. Founder and primary author of Community Acquired Finance.
             </p>
           </aside>
 
@@ -64,7 +64,7 @@ const About = () => {
               {[
                 ["What I repeatedly observed", "Patients, families, and healthcare workers were expected to understand medication access, discharge logistics, insurance rules, bills, benefits, retirement accounts, and total compensation while already under time pressure."],
                 ["Why people remained confused", "Responsibility was distributed across clinicians, pharmacies, case managers, insurers, employers, suppliers, agencies, and official documents. Each party could explain one part without giving the person a coherent next action."],
-                ["Why I built CAF", "I wanted a calm layer that helps people recognize the real question, prepare the right documents, ask the right person, and see what must be verified before a problem becomes urgent."],
+                ["Why I built CAF", "I wanted a publication that explains why the system behaves this way, then gives people a calm way to recognize the real question, ask the right person, and verify the answer before a problem becomes urgent."],
                 ["What CAF can and cannot do", "CAF can provide source-backed education, fixed-choice tools, calculations, checklists, and action plans. It cannot diagnose, make coverage or eligibility determinations, provide individualized financial or legal advice, or replace controlling documents and qualified professionals."],
               ].map(([title, body]) => (
                 <section key={title} className="grid gap-2 py-5 sm:grid-cols-[0.55fr_1.45fr] sm:gap-6">

@@ -5,6 +5,26 @@ export type ArticleVoiceNote = {
 };
 
 export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
+  "20-dollar-tylenol-hospital-prices": {
+    eyebrow: "From inside the hospital system",
+    title: "The clinician giving the medication usually cannot quote the financial result.",
+    body: "I work inside a hospital system, and even I do not routinely see what patients eventually see on the financial side. The nurse can verify the medication, explain why it is being given, and watch whether it helps. That does not mean the nurse can see the payer contract, the allowed amount, the claim adjustments, or the final patient responsibility. The $20 Tylenol is really a story about those disconnected layers.",
+  },
+  "what-nonprofit-hospital-actually-means": {
+    eyebrow: "The contradiction behind the label",
+    title: "Public expectations meet business constraints.",
+    body: "American hospitals are often expected to behave like public institutions while operating inside labor, debt, insurance, and capital markets. That does not excuse every charge, collection decision, expansion, or executive salary. It does explain why 'nonprofit' cannot mean 'financially indifferent.' A hospital can need a positive margin and still deserve hard questions about how it earns and uses that margin.",
+  },
+  "why-hospitals-care-about-length-of-stay": {
+    eyebrow: "From patient-flow work",
+    title: "A bed is staffed capacity, not furniture.",
+    body: "An empty room does not necessarily mean the hospital can safely place the next patient there. The room needs the right nursing capacity, equipment, monitoring, unit capability, and support services. When a safe discharge is delayed, the consequence can travel backward through the hospital until an admitted patient is waiting in the emergency department for the staffed bed that has not opened yet.",
+  },
+  "why-just-send-them-to-rehab-is-not-simple": {
+    eyebrow: "From care-transition work",
+    title: "A recommendation starts the process; it does not finish it.",
+    body: "A physician order is not a reservation. A referral is not an acceptance. Insurance coverage is not a bed. A bed is not necessarily a staffed bed. Families often hear 'rehab is recommended' as if the destination has been decided. Inside the process, that sentence is the beginning of several separate clinical, coverage, facility, and logistics decisions.",
+  },
   "deductible-copay-coinsurance-out-of-pocket-max": {
     eyebrow: "A de-identified bedside lesson",
     title: "Medication affordability can be a coverage-literacy problem.",

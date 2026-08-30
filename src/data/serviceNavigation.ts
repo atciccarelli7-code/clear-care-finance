@@ -21,19 +21,27 @@ export type ServiceNavigationGroup = {
 };
 
 export const PRIMARY_NAVIGATION_ITEMS: readonly PrimaryNavigationItem[] = [
-  { to: "/start-here", label: "Start Here" },
-  { to: "/tools", label: "Free Tools" },
+  { to: "/articles", label: "Articles" },
+  { to: "/topics/hospital-economics", label: "Hospitals & Insurance" },
+  { to: "/insurance", label: "Healthcare Costs" },
   { to: "/healthcare-workers", label: "Healthcare Workers" },
   { to: "/patients-families", label: "Patients & Caregivers" },
-  { to: "/methodology", label: "Trust & Methods" },
+  { to: "/tools", label: "Guides & Tools" },
 ] as const;
 
 export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
   {
     id: "start",
-    label: "Choose how to begin",
-    description: "Use one guided starting point or browse the complete free resource library.",
+    label: "Read or find a starting point",
+    description: "Browse the publication first, or use a guided starting point when the question is not clear yet.",
     items: [
+      {
+        id: "articles",
+        to: "/articles",
+        label: "Articles",
+        description: "Read RN-led, source-backed explanations of healthcare money, incentives, insurance, and patient transitions.",
+        audience: "Publication",
+      },
       {
         id: "start_here",
         to: "/start-here",
@@ -55,10 +63,10 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
     items: [
       {
         id: "benefits_command_center",
-        to: "/healthcare-workers#benefits-decision-system",
+        to: "/products/healthcare-worker-benefits-decision-system",
         label: "Benefits Decision System",
-        description: "Preview CAF's first paid flagship and see what coordinated open-enrollment decision support will add beyond the free tools.",
-        audience: "Flagship preview",
+        description: "Use the free, browser-based workflow to organize an enrollment event without uploading confidential documents.",
+        audience: "Free guided workflow",
       },
       {
         id: "benefits_change_detector",
@@ -127,8 +135,8 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
   },
   {
     id: "coverage_learning",
-    label: "Free education and trusted sources",
-    description: "Open a hub or library when you need broader education before choosing a tool or system.",
+    label: "Subject hubs and guides",
+    description: "Open a focused subject desk when you need broader context before choosing a practical utility.",
     items: [
       {
         id: "benefits_insurance",
@@ -156,26 +164,26 @@ export const SERVICE_NAVIGATION_GROUPS: readonly ServiceNavigationGroup[] = [
       },
       {
         id: "topic_guides",
-        to: "/topics",
-        label: "Topic Guides",
-        description: "Browse related articles and tools through a structured subject pathway.",
+        to: "/topics/hospital-economics",
+        label: "Hospital Economics",
+        description: "Understand hospital prices, nonprofit status, reimbursement, margins, capacity, patient flow, and discharge incentives.",
       },
     ],
   },
 ] as const;
 
 export const MOBILE_PRIORITY_DESTINATION_IDS: readonly NavigationDestinationId[] = [
-  "start_here",
-  "all_tools",
   "articles",
+  "all_tools",
+  "start_here",
 ] as const;
 
 export const MOBILE_PRIORITY_ITEMS: readonly ServiceNavigationItem[] = [
   {
-    id: "start_here",
-    to: "/start-here",
-    label: "Start Here",
-    description: "Find the right next step.",
+    id: "articles",
+    to: "/articles",
+    label: "Read CAF",
+    description: "Browse the publication.",
   },
   {
     id: "all_tools",
@@ -184,10 +192,10 @@ export const MOBILE_PRIORITY_ITEMS: readonly ServiceNavigationItem[] = [
     description: "Open every calculator and guide.",
   },
   {
-    id: "articles",
-    to: "/articles",
-    label: "Free education",
-    description: "Browse source-backed explanations.",
+    id: "start_here",
+    to: "/start-here",
+    label: "Start Here",
+    description: "Find the right next step.",
   },
 ] as const;
 

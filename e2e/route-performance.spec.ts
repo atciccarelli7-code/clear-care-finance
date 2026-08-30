@@ -60,13 +60,19 @@ test.describe("mobile-controlling route-group performance governance", () => {
       const metrics = await page.evaluate(() => {
         const resources = performance.getEntriesByType("resource") as PerformanceResourceTiming[];
         const bytesFor = (entry: PerformanceResourceTiming) => entry.transferSize || entry.encodedBodySize;
-        const applicationResources = resources.filter((entry) => !new URL(entry.name).pathname.startsWith("/_vercel/"));
+        // These budgets govern CAF's own application payload. Third-party fonts, ads,
+        // and ad-quality calls are intentionally excluded because their request fan-out
+        // and transfer sizes are controlled externally and are not deterministic release gates.
+        const applicationResources = resources.filter((entry) => {
+          const url = new URL(entry.name);
+          return url.origin === window.location.origin && !url.pathname.startsWith("/_vercel/");
+        });
         return {
           lcpMs: window.__cafPerformance?.lcpMs ?? 0,
           cls: Number((window.__cafPerformance?.cls ?? 0).toFixed(4)),
           longTaskMs: Math.round(window.__cafPerformance?.longTaskMs ?? 0),
-          javascriptBytes: resources.filter((entry) => new URL(entry.name).pathname.endsWith(".js")).reduce((sum, entry) => sum + bytesFor(entry), 0),
-          totalBytes: resources.reduce((sum, entry) => sum + bytesFor(entry), 0),
+          javascriptBytes: applicationResources.filter((entry) => new URL(entry.name).pathname.endsWith(".js")).reduce((sum, entry) => sum + bytesFor(entry), 0),
+          totalBytes: applicationResources.reduce((sum, entry) => sum + bytesFor(entry), 0),
           // Vercel instrumentation is fulfilled with an empty body above so optional
           // analytics cannot affect app reliability or the application-request budget.
           requestCount: applicationResources.length + 1,

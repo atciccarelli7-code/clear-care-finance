@@ -38,8 +38,8 @@ const diagnosisGuideOverrides = Object.fromEntries(
 
 const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "robots">> = {
   "/": {
-    title: "Healthcare Financial Education and Decision Support",
-    description: "Free RN-led guides, calculators, checklists, and guided workflows for healthcare workers, patients, and caregivers.",
+    title: "The Money and Machinery Behind American Healthcare",
+    description: "RN-led, source-backed reporting on hospital prices, insurance rules, payment incentives, discharge barriers, patient costs, and healthcare-worker finances.",
   },
   "/start-here": {
     title: "Financial Navigator: Build Your Next Money Action Plan",
@@ -62,12 +62,12 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
     description: "Browse free calculators, checklists, comparisons, and guides for benefits, medical bills, Medicare, student loans, retirement, and everyday money.",
   },
   "/articles": {
-    title: "Financial Education Articles",
-    description: "Browse source-backed articles about retirement, investing, credit, workplace benefits, insurance, medical bills, Medicare, Medicaid, and healthcare finances.",
+    title: "Healthcare Economics and Finance Articles",
+    description: "Read RN-led, source-backed articles about hospital economics, medical bills, insurance, care transitions, Medicare, Medicaid, and healthcare-worker finances.",
   },
   "/topics": {
-    title: "Financial and Healthcare Topic Guides",
-    description: "Explore organized guides for retirement accounts, workplace benefits, health insurance, medical costs, Medicare, Medicaid, and hospital economics.",
+    title: "Healthcare Economics and Finance Topic Guides",
+    description: "Explore hospital economics, healthcare costs, insurance, care transitions, Medicare, Medicaid, workplace benefits, and healthcare-worker finance topic guides.",
   },
   "/newsletter": {
     title: "Community Acquired Finance Newsletter",
@@ -166,7 +166,7 @@ const diagnosisGuideJsonLd = (path: string, title: string, description: string):
 const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, description: string) =>
   jsonLd?.map((item) => {
     const type = item["@type"];
-    if (type === "WebSite") return { ...item, description: "RN-led healthcare financial education and decision support for healthcare workers, patients, and caregivers." };
+    if (type === "WebSite") return { ...item, description: "RN-led reporting and practical guidance about healthcare costs, hospital economics, insurance, care transitions, and healthcare-worker finances." };
     if (type === "BreadcrumbList" && Array.isArray(item.itemListElement)) {
       const entries = item.itemListElement as Array<Record<string, unknown>>;
       return {

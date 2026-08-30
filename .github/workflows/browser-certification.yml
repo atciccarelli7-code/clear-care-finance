@@ -31,6 +31,8 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium webkit
       - run: npm run build
+      - name: Certify publisher-first homepage, articles, tools, metadata, and accessibility
+        run: npx playwright test e2e/publisher-first-publication.spec.ts
       - run: npm run test:browser:journeys
       - name: Certify 403(b) match decision outcome
         run: npx playwright test e2e/retirement-403b-decision-outcome.spec.ts

@@ -103,7 +103,9 @@ test("makes the article library discoverable and searchable", async ({ page }) =
 
   await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
   await expect(page.getByText("77 RN-led, source-backed articles", { exact: false })).toBeVisible();
-  await expect(page.getByRole("heading", { name: /Inside hospitals: prices, margins, capacity/i })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /Inside hospitals: prices, capacity, classification, and the work after discharge/i }),
+  ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Questions Google is already testing CAF against" })).toBeVisible();
 
   await page.getByRole("textbox", { name: "Search the CAF article library" }).fill("Tylenol");

@@ -3,13 +3,17 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import type { Article } from "@/data/articles";
 
+type ArticleCardArticle = Pick<Article, "slug" | "title" | "category" | "readTime" | "promise"> & {
+  specialTag?: string;
+};
+
 interface ArticleCardProps {
-  article: Article;
+  article: ArticleCardArticle;
   onClick?: MouseEventHandler<HTMLAnchorElement>;
 }
 
 export const ArticleCard = ({ article, onClick }: ArticleCardProps) => {
-  const specialTag = (article as Article & { specialTag?: string }).specialTag;
+  const specialTag = article.specialTag;
 
   return (
     <Link

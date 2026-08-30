@@ -21,6 +21,41 @@ const MEDICARE_HOSPITAL_BENEFITS = {
   note: "Official Medicare fact sheet explaining inpatient, outpatient, and observation status."
 };
 
+const MEDICARE_HOSPITAL_STATUS = {
+  name: "Medicare.gov",
+  pageTitle: "Inpatient or outpatient hospital status affects your costs",
+  url: "https://www.medicare.gov/coverage/inpatient-hospital-care/inpatient-outpatient-status",
+  note: "Current official explanation of formal inpatient admission, outpatient observation, the two-midnight benchmark, cost-sharing differences, and MOON requirements."
+};
+
+const MEDICARE_SNF_STATUS = {
+  name: "Medicare.gov",
+  pageTitle: "Skilled nursing facility care",
+  url: "https://www.medicare.gov/coverage/skilled-nursing-facility-care",
+  note: "Current Original Medicare SNF eligibility rules, observation-day treatment, three-day-rule waivers, Medicare Advantage distinctions, and 2026 cost sharing."
+};
+
+const CMS_MOON = {
+  name: "Centers for Medicare & Medicaid Services",
+  pageTitle: "Medicare Outpatient Observation Notice (MOON)",
+  url: "https://www.cms.gov/medicare/forms-notices/beneficiary-notices-initiative/ffs-ma-moon",
+  note: "Current CMS notice materials for Original Medicare and Medicare Advantage patients receiving outpatient observation services."
+};
+
+const MEDICARE_STATUS_CHANGE_APPEAL = {
+  name: "Medicare.gov",
+  pageTitle: "Appeal when a hospital changes your status from inpatient to outpatient observation",
+  url: "https://www.medicare.gov/providers-services/claims-appeals-complaints/appeals/original-medicare/appeal-part-a-hospital-status-change",
+  note: "Official prospective appeal instructions for eligible Original Medicare patients first admitted as inpatients and then changed to outpatient observation status."
+};
+
+const CMS_RETROSPECTIVE_STATUS_APPEAL = {
+  name: "Centers for Medicare & Medicaid Services",
+  pageTitle: "Hospital Appeals — Change of Inpatient Status (Alexander v. Azar)",
+  url: "https://www.cms.gov/medicare/appeals-grievances/original-medicare-appeals/hospital-appeals-change-inpatient-status-alexander-v-azar",
+  note: "Current CMS eligibility and filing information, including the January 2, 2026 end of the ordinary retrospective filing period and the separate prospective fast-appeal process."
+};
+
 const HEALTHCARE_ALLOWED_AMOUNT = {
   name: "HealthCare.gov",
   pageTitle: "Allowed amount glossary",
@@ -222,74 +257,169 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
   },
   {
     slug: "observation-vs-inpatient-status",
-    title: "Observation vs Inpatient Status: The Hospital Word That Can Change the Bill",
+    title: "Observation vs. Inpatient Status: The Hospital Classification That Can Change the Bill",
     category: "Medicare",
-    readTime: "7 min read",
-    promise: "Understand why staying overnight does not always mean a patient was formally admitted as an inpatient.",
-    audience: "Patients, caregivers, healthcare workers, and families trying to understand hospital status, Medicare cost-sharing, and discharge planning.",
-    summary: "Hospital status matters. A patient can spend the night in the hospital and still be considered outpatient under observation status if a formal inpatient admission order was not written. That distinction can affect Medicare cost-sharing and whether a later skilled nursing facility stay qualifies under Medicare rules. Families should ask early: Is the patient inpatient, outpatient, or under observation? What date and time did inpatient admission start, if it started at all?",
+    readTime: "12 min read",
+    promise: "Separate the bed from the legal payment status, then understand the MOON, Original Medicare SNF rule, Medicare Advantage exceptions, and the narrow status-change appeal.",
+    description: "Observation versus inpatient status in 2026: formal admission, the two-midnight benchmark, Part A and Part B costs, MOON notices, SNF coverage, waivers, and appeals.",
+    audience: "Patients, caregivers, healthcare workers, and families trying to understand hospital status, Medicare cost sharing, a possible skilled nursing facility stay, or a change from inpatient to observation.",
+    summary: "A patient can sleep in a hospital bed, receive nursing care, tests, and medicines, and still be an outpatient receiving observation services. Under Medicare, inpatient status starts only after a practitioner orders inpatient admission and the hospital formally admits the patient. The distinction can change whether Original Medicare Part A or Part B pays hospital facility services and whether hospital days count toward the usual three-day inpatient stay required for later SNF coverage. Medicare Advantage plans and approved waiver programs may use different SNF rules. A MOON explains observation status; a separate, narrow appeal applies when an eligible Original Medicare patient was first admitted inpatient and then changed to outpatient observation.",
     body: [
-      "Observation status is one of the most confusing hospital terms because it conflicts with common sense.",
-      "Most people think sleeping in a hospital bed means inpatient admission. Medicare's own hospital benefits materials warn that a person may still be considered outpatient even after spending the night in the hospital if the doctor has not written an inpatient admission order.",
-      "This matters most when the patient may need skilled nursing facility care after discharge or when the family is trying to understand Part A versus Part B cost-sharing."
+      "Observation status is confusing because the clinical experience and the payment classification can look almost identical from the bed.",
+      "A room, wristband, meals, nursing care, laboratory tests, imaging, and an overnight stay do not establish Medicare inpatient status. A formal inpatient order and hospital admission do.",
+      "The practical question is not only what label appears in the chart. It is which program or plan applies, when inpatient status began, how the hospital services will be billed, whether a later SNF stay depends on inpatient days, which notice was provided, and whether the narrow status-change appeal fits."
     ],
-    sections: [
+    publishedAt: "2026-06-21",
+    lastReviewedAt: "2026-08-30",
+    rulesEffectiveAt: "2026-08-30",
+    nextReviewAt: "2026-11-30",
+    timeSensitive: true,
+    reviewScope: "Current Medicare inpatient and observation definitions, Part A and Part B cost framing, MOON requirements, Original Medicare SNF qualifying-stay rules and waivers, Medicare Advantage distinctions, and 2025–2026 status-change appeals.",
+    updateNote: "Rebuilt around the founder's classification insight and rechecked against current Medicare/CMS notice, SNF, and appeal rules; the canonical URL is preserved.",
+    author: "Andrew Ciccarelli, BSN, RN",
+    systemMap: {
+      title: "How one hospital stay gets two different descriptions",
+      description: "Clinical location and payment status answer different questions. The status can also change during the same stay.",
+      steps: [
+        { title: "The patient receives hospital care", body: "Emergency, observation, and inpatient care can use the same rooms, nurses, tests, medicines, and monitoring." },
+        { title: "A practitioner and hospital determine status", body: "Observation remains outpatient. Inpatient status begins only after an inpatient order and formal admission under the applicable rules." },
+        { title: "The payer applies the classification", body: "Original Medicare generally routes inpatient facility care through Part A and outpatient observation through Part B; Medicare Advantage costs and coverage can differ by plan." },
+        { title: "The classification can affect the next step", body: "For Original Medicare SNF coverage, observation and emergency time do not count toward the usual three-day inpatient stay, although approved waivers and Medicare Advantage plan rules can change the answer." },
+      ],
+    },
+    editorialSections: [
       {
-        title: "Inpatient status",
-        definition: "A formal hospital admission that starts when a doctor writes an order admitting the patient as an inpatient and the hospital formally admits the patient.",
-        keyPoints: [
-          "Usually paid under Medicare Part A for covered hospital services.",
-          "The day before discharge is generally the last inpatient day.",
-          "Inpatient days can matter for certain post-hospital skilled nursing facility coverage rules.",
-          "The status should be documented, not assumed."
-        ]
-      },
-      {
-        title: "Observation status",
-        definition: "Outpatient hospital services used to help the doctor decide whether the patient needs inpatient admission or can be discharged.",
-        keyPoints: [
-          "Can occur in the emergency department or another hospital area.",
-          "The patient may be in a hospital bed and still be outpatient.",
-          "Medicare Part B cost-sharing may apply to outpatient hospital services.",
-          "Observation time generally does not count the same as formal inpatient admission for Medicare SNF coverage rules."
+        title: "The bed does not decide the status",
+        paragraphs: [
+          "Andrew's manuscript describes the disconnect plainly: the patient may see the same room, the same nurse, the same meals, and the same hospital name while the legal payment category changes underneath the experience. That observation is accurate, but it needs a boundary—the clinical work can overlap without the statuses being interchangeable.",
+          "Medicare.gov says a person becomes an inpatient when a practitioner orders inpatient admission and the hospital formally admits the person. Someone receiving emergency-department services, observation, outpatient surgery, tests, or other hospital services without that inpatient order is an outpatient, even after an overnight stay.",
+          "Status is therefore not a shorthand for how sick the person is. An outpatient can need serious evaluation and treatment; an inpatient order reflects the practitioner and hospital's determination under the applicable admission rules, documentation, and clinical judgment."
         ],
-        watchOut: "Do not use overnight stay as the test. Ask what the official status is."
+        callout: {
+          label: "Founder observation",
+          body: "The patient experiences a hospital stay. Medicare and the hospital still have to classify which part of that stay was inpatient and which part was outpatient."
+        }
       },
       {
-        title: "Why families should ask early",
-        keyPoints: [
-          "Discharge planning may depend on whether Medicare sees the stay as inpatient or outpatient.",
-          "The patient may need rehab, SNF care, home health, or DME after leaving.",
-          "The status can affect how hospital services are billed.",
-          "Changing status later can be difficult, so ask while the patient is still there."
+        title: "Observation is outpatient care used while the next decision remains open",
+        paragraphs: [
+          "Medicare describes observation services as hospital outpatient services used while a doctor decides whether the patient needs inpatient admission or can be discharged. Observation can occur in an emergency department or another hospital area.",
+          "The classification answers a payment and coverage question; it does not imply that the work is casual, unnecessary, or free. The hospital still supplies staff, monitoring, medicines, diagnostics, and space. The patient can still be frightened, uncomfortable, and clinically complex.",
+          "Observation also is not a promise that the patient will later become inpatient. The clinical course may support discharge, formal inpatient admission, transfer, or another plan. Ask about current status each day rather than inferring it from yesterday's conversation."
         ]
       },
       {
-        title: "Questions to ask",
+        title: "The two-midnight benchmark is not a bedside stopwatch",
+        paragraphs: [
+          "Medicare.gov says inpatient admission is generally appropriate when the practitioner expects the patient to need two or more midnights of medically necessary hospital care. The practitioner must still order inpatient admission and the hospital must formally admit the patient.",
+          "That general benchmark is not a promise that crossing midnight twice automatically converts the stay. Nor does a stay shorter than two midnights automatically prove observation was correct in every case. Clinical judgment, documented expectation, exceptions, procedures, and Medicare policy all matter.",
+          "For the reader, the useful question is not 'Have we hit the clock yet?' It is 'What is the current status, when did it begin, and who can explain the documented reason?' The hospital's utilization-review or case-management team may be able to explain the classification process, while Medicare or the plan controls payment and coverage."
+        ]
+      },
+      {
+        title: "Hospital costs can move in either direction",
+        paragraphs: [
+          "For Original Medicare, covered inpatient hospital facility services generally fall under Part A, while outpatient observation hospital services generally fall under Part B. Professional services from physicians and other practitioners are generally Part B even during an inpatient stay.",
+          "It is inaccurate to promise that observation always costs more. Medicare.gov notes that one outpatient service copayment cannot exceed the inpatient hospital deductible, while the combined copayments for all outpatient services can exceed that deductible. The final result depends on the services, Part B enrollment, supplemental coverage, prescription handling, and the person's other insurance.",
+          "Medicare Advantage plans can use different cost sharing and coverage administration. The plan's evidence of coverage, current network and authorization rules, and a plan representative are better sources for an individual estimate than a national article."
+        ],
+        callout: {
+          label: "Do not use a slogan as a bill estimate",
+          body: "Observation may produce a higher or lower patient bill than inpatient status. Ask for a status-specific estimate and verify how the plan treats the hospital and any next setting."
+        }
+      },
+      {
+        title: "The clearest downstream consequence is the Original Medicare SNF rule",
+        paragraphs: [
+          "Original Medicare generally requires a medically necessary inpatient hospital stay of at least three consecutive days before Part A can cover a qualifying skilled nursing facility stay. The count starts with the day of formal inpatient admission and does not include the day the patient leaves the hospital.",
+          "Time in the emergency department or under observation before inpatient admission does not count toward those three inpatient days, even when it includes an overnight stay. The patient must also satisfy the other SNF requirements, including daily skilled need, timing, and a Medicare-certified facility.",
+          "There are important exceptions. Medicare.gov says an approved Accountable Care Organization may use a Skilled Nursing Facility 3-Day Rule Waiver, and Medicare Advantage plans may also waive the three-day minimum. That is why 'observation means Medicare never covers rehab' is too broad. Ask which Medicare pathway applies and whether a waiver or plan rule changes the requirement."
+        ],
+        keyPoints: [
+          "Original Medicare: count formal inpatient days, not nights in the building.",
+          "Observation and emergency time before admission do not count toward the usual three-day inpatient stay.",
+          "A qualifying hospital stay is only one part of SNF eligibility.",
+          "Approved ACO waivers and Medicare Advantage plan rules may change the three-day requirement."
+        ]
+      },
+      {
+        title: "The MOON is an explanation, not a universal appeal ticket",
+        paragraphs: [
+          "Hospitals and critical access hospitals use the Medicare Outpatient Observation Notice, or MOON, to tell Original Medicare and Medicare Advantage patients that they are outpatients receiving observation services rather than inpatients. Medicare.gov says the hospital must provide it when observation services continue for more than 24 hours.",
+          "The MOON should explain why the patient is receiving observation services and how outpatient status may affect hospital cost sharing and later SNF coverage. Ask questions before signing if the explanation is unclear, and keep a copy with the discharge and billing records.",
+          "Receiving a MOON does not by itself mean the hospital first admitted the person as inpatient, made an improper decision, or triggered the newer status-change appeal. The notice and the appeal solve different problems."
+        ]
+      },
+      {
+        title: "The newer status-change appeal is narrow",
+        paragraphs: [
+          "Starting February 14, 2025, an eligible Original Medicare patient can ask for a fast appeal when the hospital first admitted the patient as inpatient and then changed the status to outpatient receiving observation services during the visit. The hospital should provide a Medicare Change of Status Notice, CMS-10868, explaining the financial and SNF consequences and how to contact the Beneficiary and Family Centered Care Quality Improvement Organization.",
+          "That pathway does not apply to every patient who begins and remains in observation. It is specifically about a change from inpatient to outpatient observation and has additional eligibility and timing rules. Medicare.gov advises filing while still in the hospital when possible, although the notice explains post-discharge rights as well.",
+          "CMS also created a retrospective process for certain past stays, but the ordinary 365-day filing window ended January 2, 2026. Late requests require a good-cause showing. Older articles that simply say all past stays can now be appealed are incomplete as of this review."
+        ],
+        callout: {
+          label: "Which paper matters?",
+          body: "MOON means the person is receiving outpatient observation. CMS-10868 addresses an eligible change from inpatient to outpatient observation and explains the fast-appeal route."
+        }
+      },
+      {
+        title: "Ask early enough for the answer to change the plan",
+        paragraphs: [
+          "Ask the current status, when it began, which notice applies, and whether a post-hospital SNF is being considered. Then ask the hospital team and payer different questions: the hospital can explain the order and planning process; Medicare or the plan can verify coverage rules and cost sharing.",
+          "If the next setting is rehab, ask whether it is a skilled nursing facility, inpatient rehabilitation facility, home health, or outpatient therapy. Those settings follow different coverage and clinical rules. Do not use the general word 'rehab' as proof that the three-day SNF rule controls.",
+          "CAF cannot determine whether a particular stay should be inpatient or observation, estimate the final bill without plan-specific records, or decide an appeal. The value of asking early is that status, notice, coverage, and backup-plan questions become visible while the care team and records are still close at hand."
+        ],
         keyPoints: [
           "Is the patient inpatient, outpatient, or observation?",
-          "Was a formal inpatient order written?",
-          "What date and time did inpatient status begin?",
-          "Could the status affect skilled nursing facility coverage?",
-          "Who can explain the billing and discharge implications?",
-          "Can case management or utilization review explain the status decision?"
+          "Was a formal inpatient order written, and what date and time did inpatient status begin?",
+          "Was the patient ever inpatient and then changed to observation?",
+          "Should the patient receive a MOON, a Medicare Change of Status Notice, or another notice?",
+          "Is a skilled nursing facility being considered, and which Medicare or plan rule applies?",
+          "Does an approved waiver or Medicare Advantage plan remove the usual three-day minimum?",
+          "Who can provide a status-specific cost estimate and the written appeal instructions?"
         ]
       }
     ],
-    example: {
-      title: "Overnight but outpatient",
-      body: "A Medicare patient goes to the ER, is moved to a hospital bed, receives labs and imaging, and stays overnight. The family assumes the patient was admitted. Later, they learn the stay was observation status, which is outpatient, because there was no formal inpatient admission order."
+    systemLens: {
+      title: "Why the status feels invisible from the bed",
+      items: [
+        { question: "Who makes the rule?", answer: "Federal Medicare rules, CMS notices and appeals, practitioner judgment, hospital admission and utilization-review processes, and Medicare Advantage plan rules govern different parts." },
+        { question: "Who pays?", answer: "Original Medicare Part A or Part B, a Medicare Advantage plan, supplemental coverage, and the patient may each pay different portions depending on status and service." },
+        { question: "Who carries the financial risk?", answer: "The hospital carries payment-classification and compliance risk; the payer carries covered-service risk; the patient carries cost-sharing, Part B enrollment, and downstream noncoverage risk." },
+        { question: "Who performs the work?", answer: "Practitioners, nurses, utilization-review staff, case managers, billing teams, payer reviewers, patients, and caregivers each handle a different part of the classification and transition." },
+        { question: "Who absorbs the consequence?", answer: "The patient and family can face a changed bill or SNF plan; the hospital may carry unpaid or appealed services; the care team must rebuild the transition when a coverage assumption fails." }
+      ]
+    },
+    comparisonTable: {
+      headers: ["Question", "Inpatient", "Observation / outpatient"],
+      rows: [
+        ["What establishes it?", "A practitioner orders inpatient admission and the hospital formally admits the patient.", "Hospital outpatient observation or other outpatient services occur without a current inpatient admission."],
+        ["How Original Medicare generally pays hospital facility care", "Part A, subject to the benefit period, deductible, coinsurance, coverage, and other rules.", "Part B, with service-level cost sharing and other outpatient rules; total cost can be higher or lower."],
+        ["Does the time count toward Original Medicare's usual SNF three-day stay?", "Formal inpatient days can count; the discharge day does not.", "Emergency and observation time before admission does not count, though approved waivers or Medicare Advantage rules may differ."],
+        ["Which notice or appeal may matter?", "An eligible change from inpatient to observation should trigger CMS-10868 and the status-change appeal instructions.", "MOON explains outpatient observation; a MOON alone does not prove eligibility for the status-change appeal."]
+      ]
     },
     relatedCalculator: { label: "Medicare Cost Exposure Tool", href: "/tools#medicare" },
+    questionsHeading: "Questions for the hospital and Medicare plan",
+    questionsToAsk: [
+      "What is the current status, and when did it begin?",
+      "Was the patient first admitted inpatient and later changed to observation?",
+      "Which written notice applies, and may I keep a copy?",
+      "How will the hospital facility services be billed under this coverage?",
+      "If SNF care is being considered, do the inpatient days meet the applicable rule?",
+      "Does an ACO waiver or Medicare Advantage plan rule change the three-day requirement?",
+      "What deadline and organization control any appeal?"
+    ],
     commonMistakes: [
       "Assuming overnight equals inpatient.",
-      "Waiting until discharge day to ask about status.",
-      "Assuming the room location proves the billing status.",
-      "Confusing medical seriousness with Medicare billing classification.",
-      "Planning SNF placement without asking whether Medicare coverage criteria are met."
+      "Treating the two-midnight benchmark as an automatic clock instead of a documented admission framework.",
+      "Assuming observation always costs more or always costs less.",
+      "Applying Original Medicare's usual three-day SNF rule to every Medicare Advantage plan or waiver program.",
+      "Assuming every observation patient qualifies for the inpatient-to-observation status-change appeal.",
+      "Waiting until after SNF placement to verify which hospital days count."
     ],
-    takeaway: "Hospital status is not based only on where the patient sleeps. Ask whether the patient is inpatient, outpatient, or observation, and ask early enough for the answer to matter.",
-    sources: [MEDICARE_HOSPITAL_BENEFITS]
+    takeaway: "Hospital status is a formal classification, not a description of the room or seriousness of illness. Ask what the status is, when it began, which notice applies, and how the exact Medicare or plan pathway treats the hospital stay and any next setting.",
+    sources: [MEDICARE_HOSPITAL_STATUS, MEDICARE_SNF_STATUS, CMS_MOON, MEDICARE_STATUS_CHANGE_APPEAL, CMS_RETROSPECTIVE_STATUS_APPEAL, MEDICARE_HOSPITAL_BENEFITS]
   },
   {
     slug: "in-network-hospital-out-of-network-bills",

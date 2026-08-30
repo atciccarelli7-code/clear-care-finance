@@ -173,6 +173,8 @@ const Accessibility = lazy(loadAccessibility);
 const NotFound = lazy(loadNotFound);
 
 const FOUNDER_ARTICLE_PATHS = [
+  "/articles/why-hospitals-become-the-systems-shock-absorber",
+  "/articles/home-with-family-is-not-a-free-care-plan",
   "/articles/20-dollar-tylenol-hospital-prices",
   "/articles/what-nonprofit-hospital-actually-means",
   "/articles/why-hospitals-care-about-length-of-stay",

@@ -55,6 +55,22 @@ const ARTICLE_ROWS = [
     "2026-08-29"
   ],
   [
+    "why-hospitals-become-the-systems-shock-absorber",
+    "Why the Hospital Becomes the System’s Shock Absorber",
+    "Why hospitals absorb failures in access, behavioral health, post-acute care, transportation, coverage, and caregiving—and where the hospital still owns the bottleneck.",
+    "Hospital Economics",
+    "2026-08-30",
+    "2026-08-30"
+  ],
+  [
+    "home-with-family-is-not-a-free-care-plan",
+    "“Home With Family” Is Not a Free Care Plan",
+    "What 'home with family' can require after discharge, what Medicare home health does not replace, and how to make the hidden caregiver plan explicit.",
+    "Patients & Caregivers",
+    "2026-08-30",
+    "2026-08-30"
+  ],
+  [
     "what-employer-benefit-changes-should-i-compare",
     "What Employer-Benefit Changes Should I Compare During Open Enrollment?",
     "Compare the changes that can alter cost, access, employer value, or protection before you repeat last year's elections.",
@@ -416,11 +432,11 @@ const ARTICLE_ROWS = [
   ],
   [
     "observation-vs-inpatient-status",
-    "Observation vs Inpatient Status: The Hospital Word That Can Change the Bill",
-    "Understand why staying overnight does not always mean a patient was formally admitted as an inpatient.",
+    "Observation vs. Inpatient Status: The Hospital Classification That Can Change the Bill",
+    "Observation versus inpatient status in 2026: formal admission, the two-midnight benchmark, Part A and Part B costs, MOON notices, SNF coverage, waivers, and appeals.",
     "Medicare",
-    null,
-    null
+    "2026-06-21",
+    "2026-08-30"
   ],
   [
     "in-network-hospital-out-of-network-bills",

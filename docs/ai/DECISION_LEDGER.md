@@ -271,6 +271,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** A safety, privacy, source, route, or search defect; 28- and 90-day post-release Search Console review; adequate return-reader/newsletter/article-to-tool evidence; or clear demand that justifies a specific new product. Revenue alone is not the early success test.
 - **Supersedes:** CAF-D-013 and earlier product-first presentation decisions only where they make workflows the primary homepage and navigation identity. It preserves CAF-D-003 user-value-first monetization, CAF-D-005 decision architecture, all existing products, D015-D021 evidence and safety boundaries, and the broad audiences.
 
+### CAF-D-023 — Rank manuscript ideas against canonical updates before creating URLs
+
+- **Date:** 2026-08-30
+- **Status:** CONFIRMED
+- **Decision:** For every manuscript-derived candidate, compare a new article against an in-place canonical upgrade, table, diagram, FAQ, tool pathway, topic-hub change, newsletter, or book-only treatment. Publish only when the founder insight is distinctive, the reader job is clear, the evidence can support the mechanism, and CAF would value the asset without search traffic. The first extension publishes two new systems explainers and upgrades observation status at its existing canonical URL.
+- **Rationale:** The manuscript contains more ideas than CAF should turn into pages. A URL-first process would reward page count, split existing intent, and raise source-maintenance risk. The observation page already had 56 impressions and a valid canonical destination, while the shock-absorber and family-work theses are materially distinct from existing pages and connect to established care-transition tools.
+- **Evidence:** Full 406-paragraph manuscript review; the August 28 Search Console baseline of 20 clicks/3,449 impressions; 186-route pre-batch inventory; current CMS, Medicare.gov, eCFR, AHRQ, BLS, ACL, DOL, and MedPAC evidence; strategic research `What Makes Websites Succeed and What Community Acquired Finance Should Become`; CAF-E-020; work packet `2026-08-30-founder-led-publisher-expansion.md`.
+- **Consequences:** Expected inventory rises narrowly from 186 to 188 canonical routes and 75 to 77 articles. Observation remains one canonical URL. One general systems explainer is ad-eligible; family-care and observation guidance remain ad-free. Hospital margin by service line, the broad healthcare identity-crisis thesis, and documentation-as-system-record remain unpublished until a stronger evidence and reader frame exists.
+- **Revisit trigger:** New manuscript additions; evidence that the new routes duplicate existing intent; controlling Medicare/discharge-source change; 28- and 90-day settled Search Console and reader evidence; or a source, safety, privacy, performance, or editorial defect.
+- **Supersedes:** No confirmed decision. It operationalizes CAF-D-022 and the update-before-duplicate principle in the CAF Content Engine.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

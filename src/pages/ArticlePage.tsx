@@ -43,6 +43,16 @@ const getArticleNextSteps = (
   articleCatalog: Article[],
 ): NextStepCard[] => {
   const priorityActionOverrides: Record<string, NextStepCard[]> = {
+    "why-hospitals-become-the-systems-shock-absorber": [
+      { eyebrow: "Follow the capacity chain", title: "Why Hospitals Care So Much About Length of Stay", description: "See how staffed beds, discharge barriers, payment, safety, and emergency-department boarding connect.", href: "/articles/why-hospitals-care-about-length-of-stay", cta: "Follow patient flow" },
+      { eyebrow: "Prepare the handoff", title: "Hospital-to-Home Coverage Navigator", description: "Name the recommended setting, coverage path, authorization, capacity, transport, caregiver, and backup-plan questions.", href: "/insurance/hospital-discharge-coverage", cta: "Open the navigator" },
+      { eyebrow: "Keep learning", title: "Hospital Economics Hub", description: "Explore prices, payment, nonprofit status, capacity, classification, and the incentives behind hospital behavior.", href: "/topics/hospital-economics", cta: "Open the hub" },
+    ],
+    "home-with-family-is-not-a-free-care-plan": [
+      { eyebrow: "Make the home plan explicit", title: "Hospital-to-Home Coverage Navigator", description: "Organize the setting, paid services, coverage, equipment, transport, caregiver tasks, unresolved barriers, and safe backup.", href: "/insurance/hospital-discharge-coverage", cta: "Build the plan" },
+      { eyebrow: "First days at home", title: "Safe Hospital Discharge: The First 72 Hours", description: "Turn written discharge instructions into a medication, equipment, follow-up, warning-sign, and contact plan.", href: "/articles/safe-hospital-discharge-first-72-hours", cta: "Plan the first 72 hours" },
+      { eyebrow: "Coverage boundary", title: "Home Health After Discharge", description: "Separate intermittent skilled home health from round-the-clock personal and household support.", href: "/articles/home-health-after-discharge", cta: "Understand home health" },
+    ],
     "20-dollar-tylenol-hospital-prices": [
       { eyebrow: "Read the working number", title: "Allowed Amount on a Medical Bill", description: "Separate the provider's billed charge from the amount the plan recognizes when it processes a covered claim.", href: "/articles/allowed-amount-medical-bills", cta: "Understand allowed amount" },
       { eyebrow: "Check the documents", title: "EOB-to-Bill Match Checker", description: "Compare the provider bill with the allowed amount, insurer payment, adjustment, and patient responsibility on the final EOB.", href: "/tools/eob-to-bill-match-checker", cta: "Match EOB and bill" },

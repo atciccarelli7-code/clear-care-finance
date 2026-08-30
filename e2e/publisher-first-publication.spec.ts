@@ -26,6 +26,18 @@ const founderArticles = [
     systemMap: "Recommendation to transfer: the steps between hospital and rehab",
     systemLens: "Why nobody can promise rehab alone",
   },
+  {
+    slug: "why-hospitals-become-the-systems-shock-absorber",
+    title: "Why the Hospital Becomes the System’s Shock Absorber",
+    systemMap: "How a problem moves until somebody can hold it",
+    systemLens: "Who owns a problem that crosses organizational lines?",
+  },
+  {
+    slug: "home-with-family-is-not-a-free-care-plan",
+    title: "“Home With Family” Is Not a Free Care Plan",
+    systemMap: "Where the work goes when the destination is home",
+    systemLens: "Who pays when care moves home?",
+  },
 ] as const;
 
 const assertHealthyPage = async (page: Page) => {
@@ -90,7 +102,7 @@ test("makes the article library discoverable and searchable", async ({ page }) =
   await page.goto("/articles", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
-  await expect(page.getByText("75 RN-led, source-backed articles", { exact: false })).toBeVisible();
+  await expect(page.getByText("77 RN-led, source-backed articles", { exact: false })).toBeVisible();
   await expect(page.getByRole("heading", { name: /Inside hospitals: prices, margins, capacity/i })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Questions Google is already testing CAF against" })).toBeVisible();
 
@@ -133,6 +145,21 @@ for (const article of founderArticles) {
     expect(pageErrors, pageErrors.join("\n")).toEqual([]);
   });
 }
+
+test("upgrades observation status in place and keeps the care-transition route ad-free", async ({ page }) => {
+  await page.goto("/articles/observation-vs-inpatient-status", { waitUntil: "networkidle" });
+
+  await expect(page.getByRole("heading", { level: 1, name: /Observation vs\. Inpatient Status/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "How one hospital stay gets two different descriptions" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Why the status feels invisible from the bed" })).toBeVisible();
+  await expect(page.getByText("The MOON is an explanation, not a universal appeal ticket", { exact: false })).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    "https://communityacquiredfinance.com/articles/observation-vs-inpatient-status",
+  );
+  await expect(page.locator('script[src*="pagead2.googlesyndication.com"]')).toHaveCount(0);
+  await assertHealthyPage(page);
+});
 
 test("keeps a legacy calculator and the canonical hospital-to-home utility working", async ({ page }) => {
   await page.goto("/tools/403b-paycheck-calculator", { waitUntil: "networkidle" });

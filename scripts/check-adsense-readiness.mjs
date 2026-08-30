@@ -123,8 +123,8 @@ try {
     assert(canonicalSet.has(route), `${route} is reviewed but missing from the canonical registry.`);
   }
 
-  assert(explicitAdRoutes.length === 41, `Expected 41 reconciled ad-eligible articles; found ${explicitAdRoutes.length}.`);
-  assert(articleByPath.size === 75, `Expected 75 published article reviews; found ${articleByPath.size}.`);
+  assert(explicitAdRoutes.length === 42, `Expected 42 reconciled ad-eligible articles; found ${explicitAdRoutes.length}.`);
+  assert(articleByPath.size === 77, `Expected 77 published article reviews; found ${articleByPath.size}.`);
 
   const forbiddenAdTypes = new Set([
     "topic-guide",

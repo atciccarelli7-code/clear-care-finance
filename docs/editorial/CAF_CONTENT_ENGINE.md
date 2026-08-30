@@ -1,6 +1,6 @@
 # CAF Content Engine
 
-Last reviewed: 2026-08-29
+Last reviewed: 2026-08-30
 
 ## Purpose
 
@@ -134,10 +134,27 @@ Do not rewrite a distinctive thesis merely because the first sample is small. Im
 | Hospitals as businesses and the meaning of nonprofit | The thesis that public expectations and business constraints collide | `/articles/what-nonprofit-hospital-actually-means` | Corrects “nonprofit means no profit”; adds 501(c)(3), Section 501(r), CHNA, financial-assistance, Schedule H, margin, and governance distinctions. |
 | Why hospitals care about length of stay and a bed is more than furniture | “A bed is scarce staffed capacity, not furniture” and the patient/hospital tension around discharge | `/articles/why-hospitals-care-about-length-of-stay` | Qualifies national occupancy, payer-contract variation, Medicare IPPS, readmission incentives, ED boarding, and the shortest-safe-stay boundary. |
 | “Just send them to rehab” | “A physician order is not a reservation. A referral is not an acceptance. Insurance coverage is not a bed. A bed is not necessarily a staffed bed.” | `/articles/why-just-send-them-to-rehab-is-not-simple` | Separates IRF, SNF, home health, and outpatient therapy; adds Original Medicare rules, MA authorization evidence, facility capability, appeal, network, and logistics gates. |
+| The hospital as the place where failures elsewhere become visible | The hospital as a system “shock absorber,” plus the question of whether the institution holding a problem created the whole problem | `/articles/why-hospitals-become-the-systems-shock-absorber` | Narrows the metaphor into an emergency-access, boarding, staffed-flow, discharge-planning, and risk-transfer mechanism; explicitly preserves the counterargument that hospitals can create or worsen their own bottlenecks. |
+| “Home with family” as a transfer of work rather than a complete plan | The bedside observation that medication, mobility, transportation, coordination, monitoring, and financial risk can move to a household | `/articles/home-with-family-is-not-a-free-care-plan` | Uses national eldercare data only for its defined age-65+ population; distinguishes intermittent Medicare home health from round-the-clock help; adds caregiver consent, capacity, job-protection, local-support, and backup-plan boundaries. |
+| The bed can look inpatient while the payment classification is outpatient | The founder's recurring concern that labels inside healthcare carry consequences patients cannot see from the room | Updated canonical `/articles/observation-vs-inpatient-status` | Preserves the existing URL and separates formal admission, the two-midnight benchmark, Part A/Part B cost treatment, the Original Medicare SNF rule, ACO waivers, Medicare Advantage variation, MOON notice requirements, and the narrow status-change appeal. |
+
+## Selected and deferred manuscript register — 2026-08-30
+
+| Candidate | Decision | Reason and revisit trigger |
+|---|---|---|
+| Hospital as system shock absorber | **Publish** | Distinctive founder mechanism, strong reader value, and current EMTALA, AHRQ, discharge-planning, and MedPAC evidence. Revisit on new national boarding/capacity evidence or 2027-02-28. |
+| Family as unpaid extension of the care team | **Publish, ad-free** | Distinctive care-transition insight with practical questions and strong BLS/AHRQ/Medicare/ACL/DOL evidence. Keep ad-free because it is consequential caregiver guidance; review by 2026-11-30. |
+| Observation status and the invisible classification | **Improve existing canonical, ad-free** | Existing Search Console exposure and a clear canonical page made an in-place evidence upgrade more valuable than a new query-variant URL. Review current Medicare rules by 2026-11-30. |
+| A hospital can be profitable while losing money on important services | **Hold for deeper research** | Valuable thesis, but a responsible article needs service-line accounting, allocation-method limits, payer-mix evidence, and examples that do not imply every hospital has the same cross-subsidy. |
+| Healthcare's identity crisis: care system, labor system, public program, insurer, regulator, business, and political system | **Keep book-adjacent for now** | Strong umbrella argument but too broad for one useful canonical article. Revisit when a narrower reader question and evidence frame emerge. |
+| Documentation as the system's operational record | **Hold for a narrower reader job** | The manuscript insight is real, but the best public format is unresolved and could drift into clinical or legal advice. Revisit around a specific billing, authorization, handoff, or patient-record decision. |
+
+The register is not a content calendar. A held idea remains protected source material, not an obligation to create a URL.
 
 ## Current baseline and ownership
 
 - August 28, 2026 last-six-month Google Web export: **20 clicks and 3,449 impressions** in the sitewide Chart/Devices totals.
+- Current publisher inventory after the August 30 batch: **188 canonical routes**, **77 articles**, **42 explicitly ad-eligible routes**, **146 ad-free routes**, and **39 permanent redirects**.
 - The Pages table totals are not a substitute for sitewide totals; the query table suppresses low-volume data.
 - Early metrics are attention and utility signals, not proof of product-market fit or revenue readiness.
 - Andrew owns final editorial judgment. AI can extract, research, edit, test, and propose; it cannot invent experience, approve its own unsupported claims, or publish manuscript additions automatically.

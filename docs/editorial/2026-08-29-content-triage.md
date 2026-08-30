@@ -1,16 +1,16 @@
-# CAF content inventory and triage — 2026-08-29
+# CAF content inventory and triage — 2026-08-29, updated 2026-08-30
 
 ## Decision
 
-CAF's existing work is an asset, not a liability. The bounded publisher-first release preserves all 182 existing canonical routes, adds four substantial articles, improves the homepage, article library, hospital-economics hub, and contextual links on three exposed articles, and keeps the existing redirect/noindex protections. No useful canonical URL is deleted on a 20-click evidence base.
+CAF's existing work is an asset, not a liability. The initial publisher-first release preserved all 182 existing canonical routes and added four substantial articles. The August 30 founder-led batch preserves those 186 routes, adds two substantial articles, and improves the existing observation-status canonical in place. No useful canonical URL is deleted on a 20-click evidence base.
 
-After generation, the expected public indexable inventory is **186 canonical routes**, including **75 articles**. All existing tools and decision systems remain available.
+After generation, the public indexable inventory is **188 canonical routes**, including **77 articles**. All existing tools and decision systems remain available.
 
 ## Whole-inventory classification
 
-| Inventory family | Existing canonical count | Decision | What happens now |
+| Inventory family | Current canonical count | Decision | What happens now |
 |---|---:|---|---|
-| Article directory + articles | 72 | KEEP / IMPROVE | Keep all 71 existing articles; add four; improve discovery and the internal-link path on the allowed-amount, facility-fee, and observation-status articles. |
+| Article directory + articles | 78 | KEEP / IMPROVE | Keep all 77 articles; feature six founder-derived pieces; substantially upgrade observation status without a duplicate URL; preserve explanation-to-tool paths. |
 | Topic directory + topic hubs | 9 | KEEP / IMPROVE | Keep all eight hubs; materially rebuild Hospital Economics around prices, payment, capacity, discharge, definitions, primary sources, and the four founder pieces. |
 | Tool directory + tools | 36 | KEEP | Preserve all 35 canonical tools. Present them as supporting utilities reached from explanations and decision contexts. |
 | Hospital financial-assistance directory | 19 | KEEP / MONITOR | Preserve the hub, state page, and hospital/system policy pages. Several already rank near page one; current impressions do not justify URL churn. |
@@ -21,7 +21,7 @@ After generation, the expected public indexable inventory is **186 canonical rou
 | Canonical product/system routes | 2 | KEEP | Preserve as optional free workflows; do not lead the brand with an unproven SaaS promise. |
 | Core, trust, and other public routes | 18 | KEEP / IMPROVE | Reposition the homepage and article library; retain About, Methodology, Editorial Policy, Disclosures, Privacy, Contact, Accessibility, newsletter, and other trust surfaces. |
 
-The counts above describe the pre-release 182-route sitemap. Four new article routes bring the expected post-release total to 186.
+The counts above describe the generated 188-route sitemap after the August 30 batch.
 
 ## Page-level actions in this release
 
@@ -34,7 +34,9 @@ The counts above describe the pre-release 182-route sitemap. Four new article ro
 | `/topics/hospital-economics` | 0 clicks, 43 impressions, position 75.40 | Rebuilt positioning, definitions, primary sources, and related-article cluster. |
 | `/articles/allowed-amount-medical-bills` | 0 clicks, 308 impressions, position 58.94 | Featured as an existing search opportunity; connected to the new hospital-price explainer, EOB matcher, and bill-review toolkit. Do not create another allowed-amount URL. |
 | `/articles/facility-fee-vs-professional-fee` | 0 clicks, 86 impressions, position 10.15 | Featured near-winner; added contextual links to the hospital-price explainer, EOB guide, and bill-review toolkit. Preserve its distinct “multiple bills” intent. |
-| `/articles/observation-vs-inpatient-status` | 0 clicks, 56 impressions, position 72.27 | Featured and connected to the rehab explainer, hospital-to-home navigator, and Medicare/care-cost hub. Preserve as the canonical classification/coverage explainer. |
+| `/articles/observation-vs-inpatient-status` | 0 clicks, 56 impressions, position 72.27 | Rebuilt in place with current Medicare status, two-midnight, MOON, SNF, waiver, Medicare Advantage, and narrow appeal distinctions; remains ad-free and connected to the rehab explainer, Hospital-to-Home navigator, and Medicare hub. |
+| `/articles/why-hospitals-become-the-systems-shock-absorber` | Founder manuscript mechanism; no post-release traffic evidence | New evidence-backed systems explainer separating emergency access, boarding, staffed flow, discharge planning, external constraints, and hospital-owned bottlenecks. Affirmatively ad-eligible after editorial review. |
+| `/articles/home-with-family-is-not-a-free-care-plan` | Founder manuscript observation; no post-release traffic evidence | New care-transition explainer making caregiver tasks, capacity, coverage, training, cost, and backup ownership explicit. Kept ad-free and connected to Hospital-to-Home. |
 | `/about`, `/methodology`, `/editorial-policy` | About: 3 clicks/41 impressions/position 7.95; methodology and policy are trust infrastructure | Publication identity, accurate care-transition experience, founder-source method, manuscript privacy, and explicit no-auto-publish policy. |
 
 ### KEEP — protect and monitor
@@ -60,7 +62,7 @@ The counts above describe the pre-release 182-route sitemap. Four new article ro
 
 ### REDIRECT — preserve existing consolidation
 
-The retired organization program remains outside the index. Preserve the eight existing permanent redirects: six `/for-organizations` publication/procurement routes to `/about`, the patient-education-system route to the Hospital & Patient Guide, and the blood-thinner readiness route to the consumer blood-thinner article. Search Console still shows a few impressions for legacy organization URLs, so the redirect should remain until Google fully recrawls it.
+The retired organization program remains outside the index. Preserve all **39** current permanent redirects, including the `/for-organizations` consolidation, legacy article/tool paths, the patient-education-system route, and the blood-thinner readiness route. Search Console still shows some legacy impressions, so redirects should remain until replacement evidence and recrawl behavior justify a change.
 
 ### DEINDEX — preserve existing protections
 

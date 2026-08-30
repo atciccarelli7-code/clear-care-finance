@@ -14,11 +14,9 @@ import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { ArticleCard } from "@/components/shared/ArticleCard";
-import { FOUNDER_HOSPITAL_ECONOMICS_ARTICLES } from "@/data/founderHospitalEconomicsArticles";
+import { FEATURED_PUBLISHER_ARTICLES } from "@/data/featuredPublisherArticles";
 import { trackHomepageNavigation } from "@/lib/analytics";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
-
-const featuredArticles = FOUNDER_HOSPITAL_ECONOMICS_ARTICLES;
 
 const editorialDesks = [
   {
@@ -118,7 +116,7 @@ const Index = () => (
         description="These articles begin with firsthand RN observations, then test the argument against current government rules, payment evidence, and the parts of the system patients rarely see."
       />
       <div className="mt-9 grid gap-5 md:grid-cols-2">
-        {featuredArticles.map((article) => (
+        {FEATURED_PUBLISHER_ARTICLES.map((article) => (
           <ArticleCard
             key={article.slug}
             article={article}

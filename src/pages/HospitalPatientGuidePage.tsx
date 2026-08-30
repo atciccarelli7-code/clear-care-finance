@@ -142,6 +142,7 @@ const HELP_MODES: HelpMode[] = [
 ];
 
 const relatedHelp = [
+  [Home, "‘Home with family’ care plan", "Name the unpaid work, professional services, training, coverage, and backup hidden inside a discharge home.", "/articles/home-with-family-is-not-a-free-care-plan"],
   [BadgeDollarSign, "Hospital discharge coverage", "Rehabilitation, home health, equipment, prescriptions, authorization, and backup care.", "/insurance/hospital-discharge-coverage"],
   [ShieldCheck, "Medicare discharge checklist", "Hospital status, skilled-care requirements, networks, authorization, costs, and notices.", "/tools/hospital-discharge-medicare-checklist"],
   [BookOpenCheck, "Medical Bill Response System", "Identify the document, compare payer and provider information, and build the next actions.", "/insurance/medical-bill-review-toolkit"],

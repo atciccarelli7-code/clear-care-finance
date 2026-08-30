@@ -5,6 +5,16 @@ export type ArticleVoiceNote = {
 };
 
 export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
+  "why-hospitals-become-the-systems-shock-absorber": {
+    eyebrow: "From inside patient flow",
+    title: "The place holding the problem did not always create the whole problem.",
+    body: "I have watched the hospital absorb consequences from outside its walls: a missing post-acute bed, delayed authorization, no safe ride, limited home support, or a service the next setting could not provide. The hospital still owns its staffing and flow decisions. But if we only blame the room where the delay becomes visible, we miss the rule, payment, capacity, or handoff that sent the problem there.",
+  },
+  "home-with-family-is-not-a-free-care-plan": {
+    eyebrow: "From care-transition work",
+    title: "The word ‘family’ can hide an entire staffing plan.",
+    body: "I have heard discharge plans compressed into phrases like ‘home with family’ when the real plan included medicines, rides, meals, mobility help, appointments, supervision, equipment, and somebody staying available when the plan changed. Family care can be exactly what a person wants. It still has to be named, taught, agreed to, and backed up like real work.",
+  },
   "20-dollar-tylenol-hospital-prices": {
     eyebrow: "From inside the hospital system",
     title: "The clinician giving the medication usually cannot quote the financial result.",
@@ -19,6 +29,11 @@ export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
     eyebrow: "From patient-flow work",
     title: "A bed is staffed capacity, not furniture.",
     body: "An empty room does not necessarily mean the hospital can safely place the next patient there. The room needs the right nursing capacity, equipment, monitoring, unit capability, and support services. When a safe discharge is delayed, the consequence can travel backward through the hospital until an admitted patient is waiting in the emergency department for the staffed bed that has not opened yet.",
+  },
+  "observation-vs-inpatient-status": {
+    eyebrow: "From the patient side of classification",
+    title: "The room can look the same while the coverage category changes.",
+    body: "A patient can see the same bed, wristband, nurse, meals, tests, and hospital name while Medicare sees outpatient observation rather than inpatient admission. That disconnect is why status must be asked, documented, and connected to the actual plan—not guessed from how serious the stay felt or how many nights passed.",
   },
   "why-just-send-them-to-rehab-is-not-simple": {
     eyebrow: "From care-transition work",

@@ -109,6 +109,7 @@ test("makes the article library discoverable and searchable", async ({ page }) =
   await expect(page.getByRole("heading", { name: "The questions CAF helps you understand" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Explore the core library" })).toBeVisible();
   await expect(page.getByText(/Questions Google is already testing CAF against/i)).toHaveCount(0);
+  await expect(page.getByText(/Google users are already asking/i)).toHaveCount(0);
   await expect(page.getByRole("link", { name: /Hospital economics & operations · \d+ articles/i })).toBeVisible();
   await expect(page.getByRole("button", { name: "Care transitions & discharge" })).toHaveAttribute("aria-pressed", "false");
 

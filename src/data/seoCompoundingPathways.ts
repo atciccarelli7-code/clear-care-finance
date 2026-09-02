@@ -213,9 +213,9 @@ const HUB_PATHWAYS: Record<string, SeoCompoundingPathway> = {
   },
   "/articles": {
     id: "article_library_start",
-    eyebrow: "Evidence-led starting points",
-    title: "Start with the questions Google users are already asking",
-    description: "These guides represent the strongest early search signals and the clearest healthcare-finance decisions on the site.",
+    eyebrow: "Practical starting points",
+    title: "Turn a confusing document or decision into the next useful question",
+    description: "These guides connect workplace benefits, insurance cost sharing, claims, and hospital bills to the larger healthcare system behind them.",
     cards: [
       card("nurse_403b_contribution", "article", "Healthcare-worker retirement", "How much should a nurse put in a 403(b)?", "Choose a sustainable contribution and understand the employer match.", "/articles/how-much-should-a-nurse-put-in-403b-per-paycheck", "Read the 403(b) guide"),
       card("cost_sharing_terms", "article", "Insurance basics", "Deductible, copay, coinsurance, and out-of-pocket maximum", "Understand the terms that determine patient responsibility.", "/articles/deductible-copay-coinsurance-out-of-pocket-max", "Learn the terms"),

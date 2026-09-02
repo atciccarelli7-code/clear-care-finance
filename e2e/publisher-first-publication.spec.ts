@@ -106,9 +106,21 @@ test("makes the article library discoverable and searchable", async ({ page }) =
   await expect(
     page.getByRole("heading", { name: /Inside hospitals: prices, capacity, classification, and the work after discharge/i }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Questions Google is already testing CAF against" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The questions CAF helps you understand" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Explore the core library" })).toBeVisible();
+  await expect(page.getByText(/Questions Google is already testing CAF against/i)).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /Hospital economics & operations · \d+ articles/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Care transitions & discharge" })).toHaveAttribute("aria-pressed", "false");
+
+  await page.getByRole("button", { name: "Care transitions & discharge" }).click();
+  await expect(page.getByRole("button", { name: "Care transitions & discharge" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("link", { name: /Safe Hospital Discharge and the First 72 Hours at Home/i })).toBeVisible();
+
+  await page.getByText("Additional practical guides (11)").click();
+  await expect(page.getByRole("link", { name: /Can You Live Off Dividends/i })).toBeVisible();
 
   await page.getByRole("textbox", { name: "Search the CAF article library" }).fill("Tylenol");
+  await page.getByRole("button", { name: "All core articles" }).click();
   await expect(page.getByRole("link", { name: /The \$20 Tylenol Isn’t Really About the Tylenol/i }).last()).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://communityacquiredfinance.com/articles");
   await assertHealthyPage(page);

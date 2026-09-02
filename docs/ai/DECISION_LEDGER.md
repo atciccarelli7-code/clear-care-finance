@@ -282,6 +282,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** New manuscript additions; evidence that the new routes duplicate existing intent; controlling Medicare/discharge-source change; 28- and 90-day settled Search Console and reader evidence; or a source, safety, privacy, performance, or editorial defect.
 - **Supersedes:** No confirmed decision. It operationalizes CAF-D-022 and the update-before-duplicate principle in the CAF Content Engine.
 
+### CAF-D-024 — Focus the article archive without destructive URL churn
+
+- **Date:** 2026-09-02
+- **Status:** CONFIRMED
+- **Decision:** Organize the 77-article library into five reader-facing editorial desks, keep six founder-led systems articles as flagships, retain 52 articles in the core library, mark eight for in-place rework, and de-emphasize eleven generic/reference-led articles in a secondary archive section. Preserve every current article canonical, sitemap entry, and indexability state; make no new consolidation, retirement, redirect, canonical, or robots change on the current evidence.
+- **Rationale:** The publication-first strategy is already confirmed, but the archive exposed all articles with equal weight and surfaced internal SEO language about what Google was testing. The current search baseline is too small and non-additive for destructive URL decisions, and external backlink data are unavailable. Presentation hierarchy is reversible and solves the identity problem without discarding residual search value.
+- **Evidence:** Complete current production/repository/article/template/navigation/sitemap/robots/redirect audit; August 28 Search Console export; 77-article classification registry and audit; existing founder-led pathway review; CAF-E-021; work packet `2026-09-02-editorial-library-pruning.md`.
+- **Consequences:** Six flagships lead the archive; five durable subject questions replace raw implementation-category filters; 60 non-flagship core/rework articles remain in the default library; eleven pages remain indexed, searchable, and available in a collapsed secondary section. Two care-transition legacy pages gain explicit routes into founder-led rehab/family-care reporting. Canonical routes remain 188, articles 77, redirects 39, and indexable inventory unchanged.
+- **Revisit trigger:** 28 and 90 settled days after release; a new Search Console/page-query export; available backlink data; evidence of query cannibalization; an obsolete or unsafe page; or proof that a de-emphasized page serves a distinctive high-value audience job.
+- **Supersedes:** The equal-weight article-directory treatment and its public “Google is testing” module. It refines CAF-D-022 and CAF-D-023 without changing the publication-first identity, content-expansion standard, or existing canonical preservation rules.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

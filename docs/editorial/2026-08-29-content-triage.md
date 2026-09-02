@@ -1,4 +1,4 @@
-# CAF content inventory and triage — 2026-08-29, updated 2026-08-30
+# CAF content inventory and triage — 2026-08-29, updated 2026-09-02
 
 ## Decision
 
@@ -6,11 +6,13 @@ CAF's existing work is an asset, not a liability. The initial publisher-first re
 
 After generation, the public indexable inventory is **188 canonical routes**, including **77 articles**. All existing tools and decision systems remain available.
 
+The complete 77-article, single-disposition audit is now authoritative at `docs/editorial/2026-09-02-editorial-library-audit.md`: 6 FLAGSHIP, 52 KEEP, 8 REWORK, 0 CONSOLIDATE, 11 DE-EMPHASIZE, and 0 RETIRE. All canonical article URLs remain indexed; eleven weaker legacy/reference pages are now separated from the default archive grid without deindexing.
+
 ## Whole-inventory classification
 
 | Inventory family | Current canonical count | Decision | What happens now |
 |---|---:|---|---|
-| Article directory + articles | 78 | KEEP / IMPROVE | Keep all 77 articles; feature six founder-derived pieces; substantially upgrade observation status without a duplicate URL; preserve explanation-to-tool paths. |
+| Article directory + articles | 78 | CLASSIFIED / IMPROVE | Keep all 77 canonical article URLs; feature six founder-led pieces; keep 52 in the core library; mark eight for in-place rework; de-emphasize eleven without deindexing; preserve explanation-to-tool paths. |
 | Topic directory + topic hubs | 9 | KEEP / IMPROVE | Keep all eight hubs; materially rebuild Hospital Economics around prices, payment, capacity, discharge, definitions, primary sources, and the four founder pieces. |
 | Tool directory + tools | 36 | KEEP | Preserve all 35 canonical tools. Present them as supporting utilities reached from explanations and decision contexts. |
 | Hospital financial-assistance directory | 19 | KEEP / MONITOR | Preserve the hub, state page, and hospital/system policy pages. Several already rank near page one; current impressions do not justify URL churn. |
@@ -30,7 +32,7 @@ The counts above describe the generated 188-route sitemap after the August 30 ba
 | Route | Current evidence | Change |
 |---|---|---|
 | `/` | 4 clicks, 55 impressions, position 5.65 in the Pages export; product-first presentation did not reflect founder direction | Publisher-first hero, featured reporting, subject desks, CAF system lens, supporting tools, author trust, and readership CTA. |
-| `/articles` | 0 clicks, 54 impressions, position 21.13 | Publication identity, four founder features, visible early-search opportunities, subject discovery, and complete searchable library. |
+| `/articles` | 0 clicks, 54 impressions, position 21.13 | Six founder-led flagships, five durable reader-facing editorial desks, a focused core library, full-library search, and a quieter additional-guides section. Removed public copy about Google's testing behavior. |
 | `/topics/hospital-economics` | 0 clicks, 43 impressions, position 75.40 | Rebuilt positioning, definitions, primary sources, and related-article cluster. |
 | `/articles/allowed-amount-medical-bills` | 0 clicks, 308 impressions, position 58.94 | Featured as an existing search opportunity; connected to the new hospital-price explainer, EOB matcher, and bill-review toolkit. Do not create another allowed-amount URL. |
 | `/articles/facility-fee-vs-professional-fee` | 0 clicks, 86 impressions, position 10.15 | Featured near-winner; added contextual links to the hospital-price explainer, EOB guide, and bill-review toolkit. Preserve its distinct “multiple bills” intent. |

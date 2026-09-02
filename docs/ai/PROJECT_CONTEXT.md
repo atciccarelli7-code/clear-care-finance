@@ -1,6 +1,6 @@
 # Community Acquired Finance Project Context
 
-Last substantively reviewed: 2026-08-29
+Last substantively reviewed: 2026-09-02
 
 ## Purpose
 
@@ -29,6 +29,8 @@ Current phased direction:
 5. Avoid scaled AI content, generic topic expansion, and new products built only because the infrastructure exists.
 
 The homepage and primary navigation should lead with the publication while keeping patients, caregivers, and healthcare workers intentionally served and preserving direct access to tools.
+
+The public article library uses five durable reader-facing editorial areas: Hospital economics & operations; Costs, bills & insurance; Care transitions & discharge; Medicare & Medicaid; and Healthcare worker money & benefits. These are presentation-level desks, not a requirement to rewrite every implementation category. The complete article disposition registry is maintained in `src/data/editorialLibraryAudit.ts` and `docs/editorial/2026-09-02-editorial-library-audit.md`.
 
 ## Product principles
 

@@ -73,6 +73,16 @@ const getArticleNextSteps = (
       { eyebrow: "Status can change coverage", title: "Observation vs. Inpatient Status", description: "Understand why hospital nights do not always count as inpatient days and how that can affect Original Medicare SNF coverage.", href: "/articles/observation-vs-inpatient-status", cta: "Check hospital status" },
       { eyebrow: "Authorization delayed or denied", title: "Prior Authorization Next-Step Guide", description: "Prepare the written-decision, criteria, documentation, contact, and appeal questions for the payer and clinical team.", href: "/tools/prior-authorization-next-step-guide", cta: "Prepare next steps" },
     ],
+    "discharge-coverage-guide": [
+      { eyebrow: "Why the handoff stalls", title: "Why “Just Send Them to Rehab” Is Not That Simple", description: "Follow the clinical, facility, payer, authorization, capacity, and logistics gates behind a post-acute placement.", href: "/articles/why-just-send-them-to-rehab-is-not-simple", cta: "Follow the rehab chain" },
+      { eyebrow: "Make the home plan explicit", title: "“Home With Family” Is Not a Free Care Plan", description: "See the unpaid labor, equipment, transportation, medication, monitoring, and risk transferred to a household at discharge.", href: "/articles/home-with-family-is-not-a-free-care-plan", cta: "Understand the home burden" },
+      { eyebrow: "Prepare the handoff", title: "Hospital-to-Home Coverage Navigator", description: "Organize the recommended setting, coverage path, authorization status, barriers, caregiver tasks, and safe backup plan.", href: "/insurance/hospital-discharge-coverage", cta: "Build the plan" },
+    ],
+    "short-term-rehab-after-hospital": [
+      { eyebrow: "Understand the system", title: "Why “Just Send Them to Rehab” Is Not That Simple", description: "Connect the rehab recommendation to acceptance criteria, payer authorization, bed capacity, transportation, and a workable backup plan.", href: "/articles/why-just-send-them-to-rehab-is-not-simple", cta: "Follow the placement chain" },
+      { eyebrow: "Medicare coverage", title: "Does Medicare Cover Rehab After a Hospital Stay?", description: "Separate inpatient status, skilled need, benefit rules, Medicare Advantage authorization, and patient cost exposure.", href: "/articles/does-medicare-cover-rehab-after-hospital-stay", cta: "Check Medicare rules" },
+      { eyebrow: "Prepare the transition", title: "Hospital-to-Home Coverage Navigator", description: "List the recommended setting, controlling coverage path, unresolved barriers, and safe alternatives before discharge.", href: "/insurance/hospital-discharge-coverage", cta: "Build the plan" },
+    ],
     "allowed-amount-medical-bills": [
       { eyebrow: "Why the charge looks strange", title: "The $20 Tylenol Isn’t Really About the Tylenol", description: "Follow one hospital line item through gross charge, payer rules, payment, and patient responsibility.", href: "/articles/20-dollar-tylenol-hospital-prices", cta: "See the price layers" },
       { eyebrow: "Check the documents", title: "EOB-to-Bill Match Checker", description: "Compare the allowed amount, insurer payment, adjustments, and patient responsibility with the provider bill.", href: "/tools/eob-to-bill-match-checker", cta: "Match EOB and bill" },

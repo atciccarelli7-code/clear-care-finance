@@ -301,6 +301,17 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** EMTALA does not make the hospital responsible for solving every social or access problem. AHRQ boarding evidence does not prove every local bottleneck has the same cause. MedPAC aggregates do not identify staffed capability at a particular hospital. BLS eldercare estimates cover unpaid care related to aging for people 65+ and do not measure every family-care arrangement. Medicare rules do not generalize to every Medicare Advantage or commercial plan. FMLA is generally job protection, not a new source of pay, and eligibility is bounded. Local browser certification is blocked by the missing executable and must be supplied by hosted exact-head CI. No post-release traffic, reader-value, AdSense, RPM, or revenue effect exists yet.
 - **Owner:** Editorial, healthcare research, evidence, product, SEO/discovery, monetization, accessibility/performance, privacy, and quality/release.
 
+### CAF-E-021 — Complete article-library classification and conservative pruning evidence
+
+- **Date captured:** 2026-09-02
+- **Claim or state:** Current main and production contain 188 canonical/indexable routes, 77 public articles, 39 permanent redirects, and six founder-led flagship articles. The August 28 Search Console baseline is 20 clicks/3,449 impressions sitewide; its page table is non-additive at 21 clicks/3,974 impressions. Several generic pages have isolated clicks or page-one tests, while many aligned pages have no disclosed row. All 77 public articles have now been classified exactly once: 6 FLAGSHIP, 52 KEEP, 8 REWORK, 0 CONSOLIDATE, 11 DE-EMPHASIZE, and 0 RETIRE. Current evidence supports archive-level de-emphasis but not deletion, deindexing, canonical replacement, or redirects.
+- **Source:** Direct production HTML and route checks; exact main commit and Vercel deployment reconciliation; complete `ALL_ARTICLES`, article-template, navigation, sitemap, robots, canonical, redirect, and internal-link inspection; direct connected read of Google Sheet `communityacquiredfinance.com-Performance-on-Search-2026-08-28`; complete audit `docs/editorial/2026-09-02-editorial-library-audit.md`.
+- **Evidence class:** DIRECT-CURRENT for repository, production, deployment, Search Console export, and inventory state; SUPPORTED-INFERENCE for classification and archive hierarchy; CONSERVATIVE-PRECAUTION for preserving URLs without backlink data.
+- **Used for:** CAF-D-024, CAF-W-021, five editorial desks, the secondary additional-guides section, related-reading overrides, and classification regression tests.
+- **Freshness trigger:** New Search Console or analytics export; available backlink evidence; route/content/taxonomy change; 28/90 settled days; query cannibalization; or content safety/freshness defect.
+- **Limitations:** The search sample is tiny, privacy filtered, lagged, and non-additive by table. Page impressions do not prove usefulness or satisfaction. External backlinks and reliable article-level engagement were unavailable. Classification is editorial judgment, not a claim that every kept page is equally strong.
+- **Owner:** Editorial, information architecture, SEO/discovery, content integrity, analytics, frontend, and quality/release.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

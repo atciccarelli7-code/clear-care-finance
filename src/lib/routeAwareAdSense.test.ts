@@ -87,9 +87,14 @@ describe("route-aware AdSense guard", () => {
 
   it("exposes the reconciled publisher inventory without duplicate routes", () => {
     const routes = getExplicitAdEligibleRoutes();
-    expect(routes).toHaveLength(42);
+    expect(routes).toHaveLength(44);
     expect(new Set(routes).size).toBe(routes.length);
     expect(routes.every((route) => route.startsWith("/articles/"))).toBe(true);
+    expect(routes).toEqual(expect.arrayContaining([
+      "/articles/hospitals-are-businesses-and-public-utilities",
+      "/articles/hospital-profitable-unprofitable-service",
+    ]));
+    expect(routes).not.toContain("/articles/prior-authorization-explained");
   });
 
   it("loads the managed script once on eligible publisher-content", () => {

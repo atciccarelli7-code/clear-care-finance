@@ -50,13 +50,15 @@ try {
   assertUnique(topics, "topic");
   assertUnique(genericTools, "tool");
 
+  const articleCategories = Array.from(new Set(articles.map((article) => article.category)));
+  const articleDates = ["", ...Array.from(new Set(articles.flatMap((article) => [article.publishedAt, article.lastReviewedAt]).filter(Boolean)))];
   const articleRows = articles.map((article) => [
     article.slug,
     article.title,
     article.description,
-    article.category,
-    article.publishedAt ?? null,
-    article.lastReviewedAt ?? null,
+    articleCategories.indexOf(article.category),
+    articleDates.indexOf(article.publishedAt ?? ""),
+    articleDates.indexOf(article.lastReviewedAt ?? ""),
   ]);
   const topicRows = topics.map((topic) => [topic.slug, topic.title, topic.description]);
   const toolRows = genericTools.map((tool) => [tool.slug, tool.title, tool.description]);
@@ -65,13 +67,15 @@ try {
     `export type RuntimeArticleSeoMeta = {\n  slug: string;\n  title: string;\n  description: string;\n  category: string;\n  publishedAt?: string;\n  lastReviewedAt?: string;\n};\n\n` +
     `export type RuntimeTopicSeoMeta = {\n  slug: string;\n  title: string;\n  description: string;\n};\n\n` +
     `export type RuntimeToolSeoMeta = {\n  slug: string;\n  title: string;\n  description: string;\n};\n\n` +
+    `const ARTICLE_CATEGORIES = ${JSON.stringify(articleCategories)} as const;\n` +
+    `const ARTICLE_DATES = ${JSON.stringify(articleDates)} as const;\n` +
     `const ARTICLE_ROWS = ${JSON.stringify(articleRows, null, 2)} as const;\n` +
     `const TOPIC_ROWS = ${JSON.stringify(topicRows, null, 2)} as const;\n` +
     `const TOOL_ROWS = ${JSON.stringify(toolRows, null, 2)} as const;\n\n` +
-    `export const RUNTIME_ARTICLE_SEO_META: RuntimeArticleSeoMeta[] = ARTICLE_ROWS.map(([slug, title, description, category, publishedAt, lastReviewedAt]) => ({\n` +
-    `  slug, title, description, category,\n` +
-    `  ...(publishedAt ? { publishedAt } : {}),\n` +
-    `  ...(lastReviewedAt ? { lastReviewedAt } : {}),\n` +
+    `export const RUNTIME_ARTICLE_SEO_META: RuntimeArticleSeoMeta[] = ARTICLE_ROWS.map(([slug, title, description, categoryIndex, publishedAtIndex, lastReviewedAtIndex]) => ({\n` +
+    `  slug, title, description, category: ARTICLE_CATEGORIES[categoryIndex],\n` +
+    `  ...(ARTICLE_DATES[publishedAtIndex] ? { publishedAt: ARTICLE_DATES[publishedAtIndex] } : {}),\n` +
+    `  ...(ARTICLE_DATES[lastReviewedAtIndex] ? { lastReviewedAt: ARTICLE_DATES[lastReviewedAtIndex] } : {}),\n` +
     `}));\n\n` +
     `export const RUNTIME_TOPIC_SEO_META: RuntimeTopicSeoMeta[] = TOPIC_ROWS.map(([slug, title, description]) => ({ slug, title, description }));\n\n` +
     `export const RUNTIME_TOOL_SEO_META: RuntimeToolSeoMeta[] = TOOL_ROWS.map(([slug, title, description]) => ({ slug, title, description }));\n`;

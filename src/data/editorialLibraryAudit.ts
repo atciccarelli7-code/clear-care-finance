@@ -8,6 +8,9 @@ export type EditorialClassification =
 
 export const EDITORIAL_LIBRARY_CLASSIFICATIONS: Record<EditorialClassification, readonly string[]> = {
   FLAGSHIP: [
+    "hospitals-are-businesses-and-public-utilities",
+    "prior-authorization-explained",
+    "hospital-profitable-unprofitable-service",
     "why-hospitals-become-the-systems-shock-absorber",
     "home-with-family-is-not-a-free-care-plan",
     "20-dollar-tylenol-hospital-prices",
@@ -53,7 +56,6 @@ export const EDITORIAL_LIBRARY_CLASSIFICATIONS: Record<EditorialClassification, 
     "observation-vs-inpatient-status",
     "in-network-hospital-out-of-network-bills",
     "allowed-amount-medical-bills",
-    "prior-authorization-explained",
     "check-hospital-financial-assistance-before-paying",
     "insurance-is-future-planning",
     "medicare-advantage-vs-original-medicare-2026",

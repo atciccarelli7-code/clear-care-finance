@@ -1,6 +1,6 @@
 # CAF Content Engine
 
-Last reviewed: 2026-08-30
+Last reviewed: 2026-09-03
 
 ## Purpose
 
@@ -65,6 +65,8 @@ Every passage is screened for one or more assets:
 - product-demand signal to hold for later.
 
 Publish nothing when the idea is generic, redundant, weakly supported, unsafe, too dependent on one anecdote, or unable to answer “why should this exist on CAF?” Prefer an update to the canonical article over a competing URL.
+
+Score the ten strongest candidates from 1–5 on founder originality, insider operational insight, reader usefulness, mechanism importance, evidence strength, misconception value, discovery potential, internal-link potential, evergreen value, and CAF distinctiveness. The score supports judgment; it does not overrule the duplicate-intent gate, source risk, or the requirement that CAF would still value the piece with zero search traffic.
 
 ### 4. Research in source order
 
@@ -137,6 +139,9 @@ Do not rewrite a distinctive thesis merely because the first sample is small. Im
 | The hospital as the place where failures elsewhere become visible | The hospital as a system “shock absorber,” plus the question of whether the institution holding a problem created the whole problem | `/articles/why-hospitals-become-the-systems-shock-absorber` | Narrows the metaphor into an emergency-access, boarding, staffed-flow, discharge-planning, and risk-transfer mechanism; explicitly preserves the counterargument that hospitals can create or worsen their own bottlenecks. |
 | “Home with family” as a transfer of work rather than a complete plan | The bedside observation that medication, mobility, transportation, coordination, monitoring, and financial risk can move to a household | `/articles/home-with-family-is-not-a-free-care-plan` | Uses national eldercare data only for its defined age-65+ population; distinguishes intermittent Medicare home health from round-the-clock help; adds caregiver consent, capacity, job-protection, local-support, and backup-plan boundaries. |
 | The bed can look inpatient while the payment classification is outpatient | The founder's recurring concern that labels inside healthcare carry consequences patients cannot see from the room | Updated canonical `/articles/observation-vs-inpatient-status` | Preserves the existing URL and separates formal admission, the two-midnight benchmark, Part A/Part B cost treatment, the Original Medicare SNF rule, ACO waivers, Medicare Advantage variation, MOON notice requirements, and the narrow status-change appeal. |
+| Hospitals operate as businesses while communities expect infrastructure-like readiness | The grocery-store thought experiment and the tension that workers should understand the hospital is a business while leaders should remember it is not only a business | `/articles/hospitals-are-businesses-and-public-utilities` | Narrows “care before bank balance” to EMTALA's actual screening, stabilization, and transfer scope; adds readiness financing, ownership variation, 2024 margin evidence, price/accountability counterevidence, and limits of the public-utility analogy. |
+| A doctor's recommendation does not decide insurance coverage | The founder's healthcare identity-crisis question about who actually controls care when clinician judgment, payer rules, facility capacity, and patient cost do not align | Updated canonical `/articles/prior-authorization-explained` | Separates recommendation, submission, authorization, network, delivery, and claim payment; adds scoped 2026 federal process rules, a bounded 2019 Medicare Advantage denial sample, legitimate utilization-management purposes, and plan-specific appeal limits. |
+| A hospital can be profitable while one payer, service, or stay loses money | The founder's fixed-payment example and question about how profitable and essential services coexist inside one institution | `/articles/hospital-profitable-unprofitable-service` | Corrects the example to distinguish Medicare IPPS from other payer contracts; separates case, service-line, payer, operating, and total margins; adds allocation-method and cross-subsidy limits plus governance counterarguments. |
 
 ## Selected and deferred manuscript register — 2026-08-30
 
@@ -151,10 +156,23 @@ Do not rewrite a distinctive thesis merely because the first sample is small. Im
 
 The register is not a content calendar. A held idea remains protected source material, not an obligation to create a URL.
 
+## Selected and deferred manuscript register — 2026-09-03
+
+| Candidate | Decision | Reason and revisit trigger |
+|---|---|---|
+| Hospitals as businesses with public-infrastructure expectations | **Publish** | Highest combined founder originality, institutional mechanism, evidence depth, and relationship to the existing hospital-economics cluster. Revisit on controlling EMTALA/payment evidence or 2027-03-03. |
+| Doctor recommendation versus insurance coverage decision | **Improve existing canonical, ad-free** | The existing prior-authorization URL already owns the reader intent. A current, adversarial rebuild creates more value than a query variant and keeps consequential coverage guidance ad-free. Revisit by 2026-12-03 or on rule change. |
+| Overall hospital profit versus service-line or case loss | **Publish** | Previously held evidence gap is now adequately bounded through CMS payment/cost-report sources, current MedPAC margins, limited cross-subsidy research, and explicit allocation/governance limitations. Revisit on current service-line evidence or 2027-03-03. |
+| Documentation as the operational record | **Hold** | Strong founder insight, but the public reader job remains too broad and the topic can drift into clinical/legal advice. Revisit only around a specific authorization, coding, handoff, or record-correction problem. |
+| Insurance finances access rather than deciding care alone | **Hold as synthesis** | Important but materially overlaps the rebuilt prior-authorization canonical. Revisit if a distinct multi-payer reader question emerges. |
+| Every actor can be rational while the system result is irrational | **Keep book-adjacent** | Strong umbrella thesis, weak standalone boundary. Revisit when one mechanism can carry the article without repeating current flagships. |
+
+The complete scored ten-candidate record is in `docs/editorial/2026-09-03-founder-candidate-pipeline.md`.
+
 ## Current baseline and ownership
 
 - August 28, 2026 last-six-month Google Web export: **20 clicks and 3,449 impressions** in the sitewide Chart/Devices totals.
-- Current publisher inventory after the August 30 batch: **188 canonical routes**, **77 articles**, **42 explicitly ad-eligible routes**, **146 ad-free routes**, and **39 permanent redirects**.
+- Current publisher inventory before the September 3 release: **188 canonical routes**, **77 articles**, **42 explicitly ad-eligible routes**, **146 ad-free routes**, and **39 permanent redirects**. The release packet records the generated after-state rather than assuming it here.
 - The Pages table totals are not a substitute for sitewide totals; the query table suppresses low-volume data.
 - Early metrics are attention and utility signals, not proof of product-market fit or revenue readiness.
 - Andrew owns final editorial judgment. AI can extract, research, edit, test, and propose; it cannot invent experience, approve its own unsupported claims, or publish manuscript additions automatically.

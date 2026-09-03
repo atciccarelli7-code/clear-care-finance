@@ -294,6 +294,8 @@ export const TOPICS: Topic[] = [
       { term: "Operating margin", meaning: "Operating revenue minus operating expense, divided by operating revenue. Positive margin can fund payroll, reserves, debt, facilities, and future care even when the hospital is nonprofit." },
     ],
     relatedArticleSlugs: [
+      "hospitals-are-businesses-and-public-utilities",
+      "hospital-profitable-unprofitable-service",
       "why-hospitals-become-the-systems-shock-absorber",
       "home-with-family-is-not-a-free-care-plan",
       "20-dollar-tylenol-hospital-prices",

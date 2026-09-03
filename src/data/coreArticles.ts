@@ -44,7 +44,10 @@ const CORE_BASE_ARTICLES = [
   ...CONSUMER_PATIENT_GUIDE_ARTICLES,
   DIAGNOSIS_EXPLAINED_ARTICLE,
   TOTAL_COMPENSATION_ARTICLE,
-  ...HEALTHCARE_CONFUSION_ARTICLES,
+  // The original prior-authorization explainer was rebuilt as a founder-led
+  // flagship while preserving its canonical URL. Keep one published source
+  // of truth and leave the legacy object out of the runtime catalog.
+  ...HEALTHCARE_CONFUSION_ARTICLES.filter((article) => article.slug !== "prior-authorization-explained"),
   INSURANCE_FUTURE_PLANNING_ARTICLE,
   MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE,
   HSA_FSA_ARTICLE,

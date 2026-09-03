@@ -179,6 +179,9 @@ const FOUNDER_ARTICLE_PATHS = [
   "/articles/what-nonprofit-hospital-actually-means",
   "/articles/why-hospitals-care-about-length-of-stay",
   "/articles/why-just-send-them-to-rehab-is-not-simple",
+  "/articles/hospitals-are-businesses-and-public-utilities",
+  "/articles/prior-authorization-explained",
+  "/articles/hospital-profitable-unprofitable-service",
 ] as const;
 
 const FounderArticlePage = lazy(loadFounderArticlePage);

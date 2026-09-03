@@ -65,6 +65,9 @@ const editorial = (slug: string, reason: string): PublisherArticleReview => ({
 });
 
 export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
+  eligible("hospitals-are-businesses-and-public-utilities", "flagship", { reviewedAt: "2026-09-03", nextReviewAt: "2027-03-03" }),
+  sensitive("prior-authorization-explained", { reviewedAt: "2026-09-03", nextReviewAt: "2026-12-03" }),
+  eligible("hospital-profitable-unprofitable-service", "flagship", { reviewedAt: "2026-09-03", nextReviewAt: "2027-03-03" }),
   eligible("why-hospitals-become-the-systems-shock-absorber", "flagship", { reviewedAt: "2026-08-30", nextReviewAt: "2027-02-28" }),
   sensitive("home-with-family-is-not-a-free-care-plan", { reviewedAt: "2026-08-30", nextReviewAt: "2026-11-30" }),
   eligible("20-dollar-tylenol-hospital-prices", "flagship", { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" }),
@@ -125,7 +128,6 @@ export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
   sensitive("heart-failure-plan-after-discharge"),
   sensitive("new-home-oxygen-nebulizer-guide"),
   sensitive("observation-vs-inpatient-status", { reviewedAt: "2026-08-30", nextReviewAt: "2026-11-30" }),
-  sensitive("prior-authorization-explained"),
   sensitive("check-hospital-financial-assistance-before-paying"),
   sensitive("insurance-is-future-planning"),
   sensitive("medicare-advantage-vs-original-medicare-2026"),

@@ -293,6 +293,17 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** 28 and 90 settled days after release; a new Search Console/page-query export; available backlink data; evidence of query cannibalization; an obsolete or unsafe page; or proof that a de-emphasized page serves a distinctive high-value audience job.
 - **Supersedes:** The equal-weight article-directory treatment and its public “Google is testing” module. It refines CAF-D-022 and CAF-D-023 without changing the publication-first identity, content-expansion standard, or existing canonical preservation rules.
 
+### CAF-D-025 — Publish mechanisms, preserve canonicals, and require adversarial founder sourcing
+
+- **Date:** 2026-09-03
+- **Status:** CONFIRMED
+- **Decision:** Score manuscript candidates across ten editorial criteria, then apply a duplicate-intent and evidence gate before the total. Publish two distinct hospital-economics mechanisms—business/public-infrastructure tension and overall-versus-service margin—and rebuild prior authorization at its existing canonical URL. Require every founder-derived piece to separate founder reasoning, sourced facts, editorial synthesis, and the strongest complication.
+- **Rationale:** The three selections contain specific founder logic, answer durable healthcare-system questions, deepen existing flagship clusters, and remain worth publishing without search traffic. Prior authorization already had the correct public URL. The seven alternatives were broader, more duplicative, less evidenced, or less supported by original founder material.
+- **Evidence:** Full read-only review of the 406-paragraph founder manuscript; complete ten-candidate scorecard; current article/canonical inventory; CMS EMTALA, IPPS, prior-authorization, and HCRIS sources; Federal Register; HHS OIG; March/July 2026 MedPAC; GAO price-transparency review; bounded peer-reviewed cross-subsidy research; CAF-E-022; work packet `2026-09-03-founder-article-engine.md`.
+- **Consequences:** Canonical inventory increases narrowly from 188 to 190 and public articles from 77 to 79. Flagships increase from six to nine, including the existing prior-authorization canonical. Two new general explainers are affirmatively ad-eligible; prior authorization remains ad-free-sensitive. No redirect, retired URL, navigation redesign, tool, backend, account, payment, or manuscript mutation is introduced.
+- **Revisit trigger:** A controlling EMTALA, Medicare IPPS, prior-authorization, or appeal rule changes; evidence of intent duplication; a source, accessibility, privacy, or runtime defect; 2026-12-03 for prior authorization; 2027-03-03 for the hospital-economics pieces; or settled reader/Search evidence.
+- **Supersedes:** No confirmed decision. It operationalizes CAF-D-022 through CAF-D-024 and closes the service-line evidence gap explicitly recorded in CAF-D-023.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

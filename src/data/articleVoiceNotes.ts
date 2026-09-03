@@ -5,6 +5,21 @@ export type ArticleVoiceNote = {
 };
 
 export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
+  "hospitals-are-businesses-and-public-utilities": {
+    eyebrow: "From Andrew's manuscript",
+    title: "A hospital can be a business without being only a business.",
+    body: "I started with a grocery-store thought experiment because the contradiction is easier to see outside healthcare. Hospitals must pay for staff, equipment, technology, buildings, and everything required to stay ready. But when someone arrives with an emergency, we do not want the first question to be whether the transaction is profitable. Understanding the business constraint should make the public mission more concrete, not less important.",
+  },
+  "prior-authorization-explained": {
+    eyebrow: "From inside the handoff",
+    title: "A recommendation starts the coverage process; it does not finish it.",
+    body: "A clinician can be clear about the next medically appropriate step while the payer, provider, facility, pharmacy, or supplier still has a separate decision to make. I have learned to stop using the word ‘approval’ by itself. The useful question is who approved what: the clinical plan, the benefit, the authorization, the receiving service, or the final claim.",
+  },
+  "hospital-profitable-unprofitable-service": {
+    eyebrow: "From Andrew's payment-system notes",
+    title: "The payment and the cost of the care are not the same number.",
+    body: "The fixed-payment example was how I first made hospital economics understandable to myself: if payment is set through a case-based method, one stay can use fewer resources than the payment and another can use more. The researched version is more complicated—Medicare adjusts payment, other payers use different contracts, and shared costs must be allocated—but the core lesson holds. ‘The hospital made money’ is incomplete until we say at which level.",
+  },
   "why-hospitals-become-the-systems-shock-absorber": {
     eyebrow: "From inside patient flow",
     title: "The place holding the problem did not always create the whole problem.",

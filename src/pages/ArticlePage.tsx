@@ -43,10 +43,25 @@ const getArticleNextSteps = (
   articleCatalog: Article[],
 ): NextStepCard[] => {
   const priorityActionOverrides: Record<string, NextStepCard[]> = {
+    "hospitals-are-businesses-and-public-utilities": [
+      { eyebrow: "See where the burden lands", title: "Why the Hospital Becomes the System’s Shock Absorber", description: "Follow unresolved access, coverage, capacity, and discharge problems until the hospital or household has to contain them.", href: "/articles/why-hospitals-become-the-systems-shock-absorber", cta: "Follow the system" },
+      { eyebrow: "Ownership and public obligation", title: "What a Nonprofit Hospital Actually Is (and Isn’t)", description: "Separate nonprofit ownership, tax exemption, community benefit, financial assistance, margin, and governance.", href: "/articles/what-nonprofit-hospital-actually-means", cta: "Understand nonprofit status" },
+      { eyebrow: "Follow the accounting", title: "How a Hospital Can Be Profitable Overall and Still Lose Money on a Service", description: "Compare overall, payer, service-line, and case economics without turning one margin into the whole story.", href: "/articles/hospital-profitable-unprofitable-service", cta: "Compare the ledgers" },
+    ],
+    "prior-authorization-explained": [
+      { eyebrow: "Prepare the next move", title: "Prior Authorization Next-Step Guide", description: "Record the exact request, submission, status, missing evidence, written reason, decision date, and review path.", href: "/tools/prior-authorization-next-step-guide", cta: "Organize the authorization" },
+      { eyebrow: "When the request is post-acute care", title: "Why “Just Send Them to Rehab” Is Not That Simple", description: "See how a recommendation still needs clinical fit, facility acceptance, coverage, authorization, capacity, and transport.", href: "/articles/why-just-send-them-to-rehab-is-not-simple", cta: "Follow the rehab gates" },
+      { eyebrow: "Hospital-to-home planning", title: "Hospital-to-Home Coverage Navigator", description: "Align the recommended setting, payer path, accepting provider, equipment, transport, caregiver work, and backup plan.", href: "/insurance/hospital-discharge-coverage", cta: "Build the handoff" },
+    ],
+    "hospital-profitable-unprofitable-service": [
+      { eyebrow: "Start with the price layers", title: "The $20 Tylenol Isn’t Really About the Tylenol", description: "Separate gross charge, cash price, negotiated amount, payment, patient responsibility, and hospital cost.", href: "/articles/20-dollar-tylenol-hospital-prices", cta: "Follow the hospital price" },
+      { eyebrow: "See the operating consequence", title: "Why Hospitals Care So Much About Length of Stay", description: "Connect prospective payment, safe care, staffed capacity, discharge barriers, and the cost of delay.", href: "/articles/why-hospitals-care-about-length-of-stay", cta: "Follow the stay" },
+      { eyebrow: "The institutional contradiction", title: "Hospitals Are Businesses. Why We Ask Them to Behave Like Public Utilities", description: "See why continuous readiness, emergency obligations, fragmented payment, and public accountability collide.", href: "/articles/hospitals-are-businesses-and-public-utilities", cta: "Understand readiness" },
+    ],
     "why-hospitals-become-the-systems-shock-absorber": [
       { eyebrow: "Follow the capacity chain", title: "Why Hospitals Care So Much About Length of Stay", description: "See how staffed beds, discharge barriers, payment, safety, and emergency-department boarding connect.", href: "/articles/why-hospitals-care-about-length-of-stay", cta: "Follow patient flow" },
       { eyebrow: "Prepare the handoff", title: "Hospital-to-Home Coverage Navigator", description: "Name the recommended setting, coverage path, authorization, capacity, transport, caregiver, and backup-plan questions.", href: "/insurance/hospital-discharge-coverage", cta: "Open the navigator" },
-      { eyebrow: "Keep learning", title: "Hospital Economics Hub", description: "Explore prices, payment, nonprofit status, capacity, classification, and the incentives behind hospital behavior.", href: "/topics/hospital-economics", cta: "Open the hub" },
+      { eyebrow: "The larger contradiction", title: "Hospitals Are Businesses. Why We Ask Them to Behave Like Public Utilities", description: "See why continuous readiness and public obligations still depend on revenue, margin, capital, and accountability.", href: "/articles/hospitals-are-businesses-and-public-utilities", cta: "Understand readiness" },
     ],
     "home-with-family-is-not-a-free-care-plan": [
       { eyebrow: "Make the home plan explicit", title: "Hospital-to-Home Coverage Navigator", description: "Organize the setting, paid services, coverage, equipment, transport, caregiver tasks, unresolved barriers, and safe backup.", href: "/insurance/hospital-discharge-coverage", cta: "Build the plan" },
@@ -54,12 +69,12 @@ const getArticleNextSteps = (
       { eyebrow: "Coverage boundary", title: "Home Health After Discharge", description: "Separate intermittent skilled home health from round-the-clock personal and household support.", href: "/articles/home-health-after-discharge", cta: "Understand home health" },
     ],
     "20-dollar-tylenol-hospital-prices": [
+      { eyebrow: "Follow the hospital ledger", title: "How a Hospital Can Be Profitable Overall and Still Lose Money on a Service", description: "See why overall, payer, service-line, and case economics can point in different directions.", href: "/articles/hospital-profitable-unprofitable-service", cta: "Compare the ledgers" },
       { eyebrow: "Read the working number", title: "Allowed Amount on a Medical Bill", description: "Separate the provider's billed charge from the amount the plan recognizes when it processes a covered claim.", href: "/articles/allowed-amount-medical-bills", cta: "Understand allowed amount" },
-      { eyebrow: "Check the documents", title: "EOB-to-Bill Match Checker", description: "Compare the provider bill with the allowed amount, insurer payment, adjustment, and patient responsibility on the final EOB.", href: "/tools/eob-to-bill-match-checker", cta: "Match EOB and bill" },
       { eyebrow: "Large or confusing balance", title: "Medical Bill Review Toolkit", description: "Organize the itemized bill, EOB, network questions, assistance options, calls, and follow-up before paying.", href: "/insurance/medical-bill-review-toolkit", cta: "Review the bill" },
     ],
     "what-nonprofit-hospital-actually-means": [
-      { eyebrow: "Keep learning", title: "Hospital Economics Hub", description: "Follow the money, staffing, capacity, and payment concepts that shape what hospitals do.", href: "/topics/hospital-economics", cta: "Explore hospital economics" },
+      { eyebrow: "The larger contradiction", title: "Hospitals Are Businesses. Why We Ask Them to Behave Like Public Utilities", description: "Connect ownership and tax status to continuous readiness, emergency obligations, financial viability, and public accountability.", href: "/articles/hospitals-are-businesses-and-public-utilities", cta: "Understand readiness" },
       { eyebrow: "Patient protection", title: "Hospital Financial Assistance", description: "Find an official hospital policy and prepare the application and verification questions before paying a large bill.", href: "/medical-bills/financial-assistance", cta: "Find a policy" },
       { eyebrow: "How CAF checks claims", title: "Research and Editorial Methodology", description: "See how CAF separates founder perspective, primary evidence, editorial judgment, and corrections.", href: "/methodology", cta: "Review the method" },
     ],

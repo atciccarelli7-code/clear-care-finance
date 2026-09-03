@@ -38,6 +38,24 @@ const founderArticles = [
     systemMap: "Where the work goes when the destination is home",
     systemLens: "Who pays when care moves home?",
   },
+  {
+    slug: "hospitals-are-businesses-and-public-utilities",
+    title: "Hospitals Are Businesses. Why We Ask Them to Behave Like Public Utilities",
+    systemMap: "The hospital has to be ready before the revenue is known",
+    systemLens: "Who pays for readiness?",
+  },
+  {
+    slug: "prior-authorization-explained",
+    title: "Your Doctor Recommended It. Why That Still Isn’t a Coverage Decision",
+    systemMap: "A recommendation has to pass several different gates",
+    systemLens: "Who controls each part of the decision?",
+  },
+  {
+    slug: "hospital-profitable-unprofitable-service",
+    title: "How a Hospital Can Be Profitable Overall and Still Lose Money on a Service",
+    systemMap: "One hospital contains several financial ledgers",
+    systemLens: "Where can the surplus or shortfall go?",
+  },
 ] as const;
 
 const assertHealthyPage = async (page: Page) => {
@@ -79,7 +97,7 @@ test("makes the publication the public front door while keeping tools subordinat
   await expect(page.getByRole("heading", { name: /Written from nursing and care-transition experience/i })).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://communityacquiredfinance.com/");
 
-  for (const article of founderArticles) {
+  for (const article of founderArticles.slice(0, 6)) {
     await expect(page.getByRole("link", { name: new RegExp(article.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) }).first()).toHaveAttribute(
       "href",
       `/articles/${article.slug}`,
@@ -102,12 +120,15 @@ test("makes the article library discoverable and searchable", async ({ page }) =
   await page.goto("/articles", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
-  await expect(page.getByText("77 RN-led, source-backed articles", { exact: false })).toBeVisible();
+  await expect(page.getByText("79 RN-led, source-backed articles", { exact: false })).toBeVisible();
   await expect(
     page.getByRole("heading", { name: /Inside hospitals: prices, capacity, classification, and the work after discharge/i }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "The questions CAF helps you understand" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Explore the core library" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Hospitals Are Businesses/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Your Doctor Recommended It/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /How a Hospital Can Be Profitable Overall/i })).toBeVisible();
   await expect(page.getByText(/Questions Google is already testing CAF against/i)).toHaveCount(0);
   await expect(page.getByText(/Google users are already asking/i)).toHaveCount(0);
   await expect(page.getByRole("link", { name: /Hospital economics & operations · \d+ articles/i })).toBeVisible();

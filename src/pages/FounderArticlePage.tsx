@@ -1,11 +1,13 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { FOUNDER_HOSPITAL_ECONOMICS_ARTICLES } from "@/data/founderHospitalEconomicsArticles";
 import { FOUNDER_HEALTHCARE_SYSTEMS_ARTICLES } from "@/data/founderHealthcareSystemsArticles";
+import { FOUNDER_ARTICLE_ENGINE_ARTICLES } from "@/data/founderArticleEngineArticles";
 import { ArticlePageView } from "./ArticlePage";
 
 const FOUNDER_ARTICLES = [
   ...FOUNDER_HEALTHCARE_SYSTEMS_ARTICLES,
   ...FOUNDER_HOSPITAL_ECONOMICS_ARTICLES,
+  ...FOUNDER_ARTICLE_ENGINE_ARTICLES,
 ];
 
 const FounderArticlePage = () => {

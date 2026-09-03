@@ -16,6 +16,9 @@ import { publishedArticles } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
 
 const featuredArticleSlugs = [
+  "hospitals-are-businesses-and-public-utilities",
+  "prior-authorization-explained",
+  "hospital-profitable-unprofitable-service",
   "why-hospitals-become-the-systems-shock-absorber",
   "home-with-family-is-not-a-free-care-plan",
   "20-dollar-tylenol-hospital-prices",
@@ -88,7 +91,7 @@ const Articles = () => {
         <div className="mb-12">
           <div className="max-w-3xl">
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Featured now</div>
-            <h2 className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">Inside hospitals: prices, capacity, classification, and the work after discharge</h2>
+            <h2 className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">Inside hospitals: public obligations, payment decisions, capacity, and the work after discharge</h2>
             <p className="mt-3 leading-relaxed text-muted-foreground">
               These pieces begin with Andrew's nursing and care-transition observations, then add the payment rules, primary evidence, and practical implications that are usually missing from the conversation.
             </p>

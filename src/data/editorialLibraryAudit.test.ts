@@ -8,7 +8,7 @@ describe("editorial library governance", () => {
     const classified = Object.values(EDITORIAL_LIBRARY_CLASSIFICATIONS).flat();
     const publicSlugs = ALL_ARTICLES.map((article) => article.slug);
 
-    expect(classified).toHaveLength(77);
+    expect(classified).toHaveLength(79);
     expect(new Set(classified).size).toBe(classified.length);
     expect([...classified].sort()).toEqual([...publicSlugs].sort());
   });

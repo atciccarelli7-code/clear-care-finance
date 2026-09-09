@@ -1,4 +1,4 @@
-import { BookOpen, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Source } from "@/data/sources";
 import { trackSiteEvent } from "@/lib/analytics";
 
@@ -13,7 +13,7 @@ export const SourceList = ({ sources, title }: SourceListProps) => {
     <div className="min-w-0 space-y-4 break-words">
       {title && <h3 className="font-display text-lg font-bold break-words">{title}</h3>}
       <ul className="min-w-0 space-y-3">
-        {sources.map((s) => (
+        {sources.map((s, index) => (
           <li key={s.url} className="min-w-0">
             <a
               href={s.url}
@@ -27,7 +27,9 @@ export const SourceList = ({ sources, title }: SourceListProps) => {
               })}
               className="group flex min-w-0 max-w-full items-start gap-3 break-words rounded-xl border border-border bg-card p-4 transition-smooth hover:border-primary/40 hover:shadow-hover sm:gap-4"
             >
-              <BookOpen className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-smooth shrink-0 mt-0.5" />
+              <span className="inline-flex h-7 min-w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft px-2 text-xs font-extrabold text-primary" aria-hidden="true">
+                {index + 1}
+              </span>
               <div className="flex-1 min-w-0 break-words">
                 <div className="flex min-w-0 flex-wrap items-center gap-2">
                   <span className="font-semibold text-foreground group-hover:text-primary transition-smooth break-words">{s.name}</span>

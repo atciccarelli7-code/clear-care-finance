@@ -3,6 +3,24 @@ import { expect, test, type Page } from "@playwright/test";
 
 const founderArticles = [
   {
+    slug: "patient-in-the-bed-and-patient-in-the-chart",
+    title: "The Patient in the Bed and the Patient in the Chart",
+    systemMap: "How the patient becomes a decision another organization can act on",
+    systemLens: "What actually shapes the downstream decision?",
+  },
+  {
+    slug: "what-happens-while-hospital-is-waiting-on-insurance",
+    title: "What Happens While the Hospital Is “Waiting on Insurance”?",
+    systemMap: "The discharge chain that four words can hide",
+    systemLens: "Who controls the wait, and who feels it?",
+  },
+  {
+    slug: "medically-ready-is-not-the-same-as-ready-for-home",
+    title: "Medically Ready Is Not the Same as Ready for Home",
+    systemMap: "What changes when the hospital stops doing the work around you",
+    systemLens: "What medical readiness does—and does not—answer",
+  },
+  {
     slug: "20-dollar-tylenol-hospital-prices",
     title: "The $20 Tylenol Isn’t Really About the Tylenol",
     systemMap: "One clinical encounter, several money numbers",
@@ -39,6 +57,17 @@ const founderArticles = [
     systemLens: "Who pays when care moves home?",
   },
 ] as const;
+
+const homepageFeaturedSlugs = new Set([
+  "patient-in-the-bed-and-patient-in-the-chart",
+  "what-happens-while-hospital-is-waiting-on-insurance",
+  "medically-ready-is-not-the-same-as-ready-for-home",
+  "why-hospitals-become-the-systems-shock-absorber",
+  "home-with-family-is-not-a-free-care-plan",
+  "why-just-send-them-to-rehab-is-not-simple",
+]);
+
+const homepageFeaturedArticles = founderArticles.filter((article) => homepageFeaturedSlugs.has(article.slug));
 
 const assertHealthyPage = async (page: Page) => {
   await expect(page.locator("h1")).toHaveCount(1);
@@ -79,7 +108,8 @@ test("makes the publication the public front door while keeping tools subordinat
   await expect(page.getByRole("heading", { name: /Written from nursing and care-transition experience/i })).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://communityacquiredfinance.com/");
 
-  for (const article of founderArticles) {
+  expect(homepageFeaturedArticles).toHaveLength(6);
+  for (const article of homepageFeaturedArticles) {
     await expect(page.getByRole("link", { name: new RegExp(article.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) }).first()).toHaveAttribute(
       "href",
       `/articles/${article.slug}`,
@@ -102,7 +132,7 @@ test("makes the article library discoverable and searchable", async ({ page }) =
   await page.goto("/articles", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
-  await expect(page.getByText("77 RN-led, source-backed articles", { exact: false })).toBeVisible();
+  await expect(page.getByText("80 RN-led, source-backed articles", { exact: false })).toBeVisible();
   await expect(
     page.getByRole("heading", { name: /Inside hospitals: prices, capacity, classification, and the work after discharge/i }),
   ).toBeVisible();

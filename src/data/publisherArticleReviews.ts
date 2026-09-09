@@ -183,16 +183,6 @@ const reviewForSlug = (slug: string): PublisherArticleReview | undefined => {
   return undefined;
 };
 
-const ALL_REVIEWED_SLUGS = [
-  ...AD_ELIGIBLE_SLUGS,
-  ...SENSITIVE_SLUGS,
-  ...Object.keys(EDITORIAL_REASONS),
-];
-
-export const PUBLISHER_ARTICLE_REVIEWS = ALL_REVIEWED_SLUGS
-  .map((slug) => reviewForSlug(slug))
-  .filter((review): review is PublisherArticleReview => Boolean(review));
-
 export const getPublisherArticleReview = (pathname: string) => {
   const clean = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "");
   if (!clean.startsWith("/articles/")) return undefined;

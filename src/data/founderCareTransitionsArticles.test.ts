@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { FOUNDER_CARE_TRANSITIONS_ARTICLES } from "@/data/founderCareTransitionsArticles";
 import { ALL_ARTICLES } from "@/data/allArticles";
+import { resolveContentGovernance } from "@/lib/contentGovernance";
 
 const expectedSlugs = [
   "patient-in-the-bed-and-patient-in-the-chart",
@@ -45,6 +46,17 @@ describe("founder care-transition article batch", () => {
         expect(number).toBeGreaterThanOrEqual(1);
         expect(number).toBeLessThanOrEqual(article.sources.length);
       });
+    });
+  });
+
+  it("records the Astra-reviewed articles as indexable but ad-free-sensitive", () => {
+    expectedSlugs.forEach((slug) => {
+      const governance = resolveContentGovernance(`/articles/${slug}`, { knownRoute: true });
+      expect(governance.publicAvailable).toBe(true);
+      expect(governance.indexable).toBe(true);
+      expect(governance.reviewStatus).toBe("reviewed");
+      expect(governance.adEligible).toBe(false);
+      expect(governance.sensitiveContext).toBe(true);
     });
   });
 

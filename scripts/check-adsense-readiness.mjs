@@ -54,7 +54,7 @@ try {
   const governanceModule = await vite.ssrLoadModule("/src/lib/contentGovernance.ts");
   const publicationQuality = await vite.ssrLoadModule("/src/lib/publicationQuality.ts");
   const articleModule = await vite.ssrLoadModule("/src/data/allArticles.ts");
-  const publisherReviewModule = await vite.ssrLoadModule("/src/data/publisherArticleReviews.ts");
+  const publisherReviewModule = await vite.ssrLoadModule("/src/data/publisherArticleReviewLedger.ts");
   const voiceNoteModule = await vite.ssrLoadModule("/src/data/articleVoiceNotes.ts");
 
   const { permanentRedirects, canonicalRoutes } = await getCanonicalRoutes(

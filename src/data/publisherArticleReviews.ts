@@ -1,5 +1,3 @@
-import type { Article } from "./articles";
-
 export type PublisherArticleDisposition = "ad-eligible" | "ad-free-sensitive" | "ad-free-editorial";
 
 export type PublisherArticleReview = {
@@ -13,9 +11,12 @@ export type PublisherArticleReview = {
   reason: string;
 };
 
+type RuntimePublisherArticleReview = Pick<
+  PublisherArticleReview,
+  "slug" | "route" | "disposition" | "contentTier" | "reviewedAt" | "reason"
+>;
+
 const DEFAULT_REVIEWED_AT = "2026-07-31";
-const DEFAULT_ELIGIBLE_NEXT_REVIEW = "2027-01-31";
-const DEFAULT_SENSITIVE_NEXT_REVIEW = "2026-10-31";
 
 const AD_ELIGIBLE_SLUGS = new Set([
   "why-hospitals-become-the-systems-shock-absorber",
@@ -98,13 +99,13 @@ const SENSITIVE_SLUGS = new Set([
   "medicaid-dual-eligibility-ltss",
 ]);
 
-const EDITORIAL_REASONS: Record<string, string> = {
-  "diagnosis-explained": "Reviewed and kept ad-free because it explains the publication system rather than serving as a standalone decision-support article.",
-  "obbb-overtime-tax-deduction-healthcare-workers": "Reviewed and kept ad-free pending a dedicated current-law tax review before any publisher monetization.",
-  "workplace-benefits-definitions": "Reviewed and kept ad-free because the current page is definition-led reference content rather than sufficiently layered publisher inventory.",
-  "plain-english-glossary": "Reviewed and kept ad-free because it duplicates glossary-style reference intent and is not standalone publisher inventory.",
-  "healthcare-worker-discounts": "Reviewed and kept ad-free because the directory-like discount intent creates navigation and commercial-presentation risk.",
-};
+const EDITORIAL_SLUGS = new Set([
+  "diagnosis-explained",
+  "obbb-overtime-tax-deduction-healthcare-workers",
+  "workplace-benefits-definitions",
+  "plain-english-glossary",
+  "healthcare-worker-discounts",
+]);
 
 const FLAGSHIP_ELIGIBLE_SLUGS = new Set([
   "why-hospitals-become-the-systems-shock-absorber",
@@ -113,32 +114,21 @@ const FLAGSHIP_ELIGIBLE_SLUGS = new Set([
   "how-to-read-an-eob",
 ]);
 
-const REVIEW_TIMING: Record<string, { reviewedAt: string; nextReviewAt: string }> = {
-  "patient-in-the-bed-and-patient-in-the-chart": { reviewedAt: "2026-09-08", nextReviewAt: "2027-03-08" },
-  "what-happens-while-hospital-is-waiting-on-insurance": { reviewedAt: "2026-09-08", nextReviewAt: "2027-01-15" },
-  "medically-ready-is-not-the-same-as-ready-for-home": { reviewedAt: "2026-09-08", nextReviewAt: "2027-03-08" },
-  "why-hospitals-become-the-systems-shock-absorber": { reviewedAt: "2026-08-30", nextReviewAt: "2027-02-28" },
-  "home-with-family-is-not-a-free-care-plan": { reviewedAt: "2026-08-30", nextReviewAt: "2026-11-30" },
-  "20-dollar-tylenol-hospital-prices": { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" },
-  "what-nonprofit-hospital-actually-means": { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" },
-  "why-hospitals-care-about-length-of-stay": { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" },
-  "why-just-send-them-to-rehab-is-not-simple": { reviewedAt: "2026-08-29", nextReviewAt: "2026-11-30" },
-  "observation-vs-inpatient-status": { reviewedAt: "2026-08-30", nextReviewAt: "2026-11-30" },
+const REVIEWED_AT: Record<string, string> = {
+  "patient-in-the-bed-and-patient-in-the-chart": "2026-09-08",
+  "what-happens-while-hospital-is-waiting-on-insurance": "2026-09-08",
+  "medically-ready-is-not-the-same-as-ready-for-home": "2026-09-08",
+  "why-hospitals-become-the-systems-shock-absorber": "2026-08-30",
+  "home-with-family-is-not-a-free-care-plan": "2026-08-30",
+  "20-dollar-tylenol-hospital-prices": "2026-08-29",
+  "what-nonprofit-hospital-actually-means": "2026-08-29",
+  "why-hospitals-care-about-length-of-stay": "2026-08-29",
+  "why-just-send-them-to-rehab-is-not-simple": "2026-08-29",
+  "observation-vs-inpatient-status": "2026-08-30",
 };
 
-const ELIGIBLE_REVIEW_SCOPE =
-  "Publisher-value review covering authoritative sources, original explanatory depth, practical decision support, distinct search intent, and suitability for light advertising outside sensitive or interactive contexts.";
-const ELIGIBLE_REASON =
-  "Affirmatively reviewed publisher article with authoritative sources, original explanatory depth, practical decision support, and no interactive or sensitive workflow context.";
-const SENSITIVE_REVIEW_SCOPE =
-  "Publisher-suitability review covering patient sensitivity, Medicare or Medicaid context, medication and discharge safety, coverage denials, financial assistance, and risk of advertising near consequential healthcare decisions.";
-const SENSITIVE_REASON =
-  "Affirmatively reviewed but kept ad-free because the article addresses a sensitive patient, medication, discharge, Medicare, Medicaid, denial, or financial-assistance decision.";
-const EDITORIAL_REVIEW_SCOPE =
-  "Publisher-suitability review covering standalone explanatory value, duplication, navigation dependence, freshness burden, and commercial-presentation risk.";
-
-const reviewForSlug = (slug: string): PublisherArticleReview | undefined => {
-  const timing = REVIEW_TIMING[slug];
+const reviewForSlug = (slug: string): RuntimePublisherArticleReview | undefined => {
+  const reviewedAt = REVIEWED_AT[slug] ?? DEFAULT_REVIEWED_AT;
 
   if (AD_ELIGIBLE_SLUGS.has(slug)) {
     return {
@@ -146,10 +136,8 @@ const reviewForSlug = (slug: string): PublisherArticleReview | undefined => {
       route: `/articles/${slug}`,
       disposition: "ad-eligible",
       contentTier: FLAGSHIP_ELIGIBLE_SLUGS.has(slug) ? "flagship" : "substantial",
-      reviewedAt: timing?.reviewedAt ?? DEFAULT_REVIEWED_AT,
-      nextReviewAt: timing?.nextReviewAt ?? DEFAULT_ELIGIBLE_NEXT_REVIEW,
-      reviewScope: ELIGIBLE_REVIEW_SCOPE,
-      reason: ELIGIBLE_REASON,
+      reviewedAt,
+      reason: "Reviewed publisher article eligible under CAF's route-level advertising policy.",
     };
   }
 
@@ -159,24 +147,19 @@ const reviewForSlug = (slug: string): PublisherArticleReview | undefined => {
       route: `/articles/${slug}`,
       disposition: "ad-free-sensitive",
       contentTier: "standard",
-      reviewedAt: timing?.reviewedAt ?? DEFAULT_REVIEWED_AT,
-      nextReviewAt: timing?.nextReviewAt ?? DEFAULT_SENSITIVE_NEXT_REVIEW,
-      reviewScope: SENSITIVE_REVIEW_SCOPE,
-      reason: SENSITIVE_REASON,
+      reviewedAt,
+      reason: "Reviewed healthcare decision content intentionally kept ad-free.",
     };
   }
 
-  const editorialReason = EDITORIAL_REASONS[slug];
-  if (editorialReason) {
+  if (EDITORIAL_SLUGS.has(slug)) {
     return {
       slug,
       route: `/articles/${slug}`,
       disposition: "ad-free-editorial",
       contentTier: "standard",
-      reviewedAt: DEFAULT_REVIEWED_AT,
-      nextReviewAt: DEFAULT_SENSITIVE_NEXT_REVIEW,
-      reviewScope: EDITORIAL_REVIEW_SCOPE,
-      reason: editorialReason,
+      reviewedAt,
+      reason: "Reviewed editorial content intentionally kept ad-free.",
     };
   }
 
@@ -191,21 +174,3 @@ export const getPublisherArticleReview = (pathname: string) => {
 
 export const getAdEligiblePublisherRoutes = () =>
   Array.from(AD_ELIGIBLE_SLUGS, (slug) => `/articles/${slug}` as `/articles/${string}`);
-
-export const applyPublisherArticleReviewMetadata = (articles: Article[]): Article[] =>
-  articles.map((article) => {
-    const review = reviewForSlug(article.slug);
-    if (!review || review.disposition !== "ad-eligible") return article;
-
-    const nextReviewAt =
-      article.nextReviewAt && article.nextReviewAt < review.nextReviewAt
-        ? article.nextReviewAt
-        : review.nextReviewAt;
-
-    return {
-      ...article,
-      lastReviewedAt: article.lastReviewedAt ?? review.reviewedAt,
-      nextReviewAt,
-      reviewScope: article.reviewScope ?? review.reviewScope,
-    };
-  });

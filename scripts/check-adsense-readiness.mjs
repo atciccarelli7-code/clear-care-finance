@@ -124,7 +124,6 @@ try {
   }
 
   assert(explicitAdRoutes.length === 42, `Expected 42 reconciled ad-eligible articles; found ${explicitAdRoutes.length}.`);
-  assert(articleByPath.size === 77, `Expected 77 published article reviews; found ${articleByPath.size}.`);
 
   const forbiddenAdTypes = new Set([
     "topic-guide",

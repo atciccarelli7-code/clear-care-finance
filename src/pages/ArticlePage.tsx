@@ -6,6 +6,7 @@ import { ARTICLE_VOICE_NOTES } from "@/data/articleVoiceNotes";
 import { OPEN_ENROLLMENT_ARTICLE_SLUGS } from "@/data/openEnrollmentPath";
 import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
+import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { NextStepCards, type NextStepCard } from "@/components/shared/NextStepCards";
 import { DirectionalActionLink, DirectionalNextActions } from "@/components/shared/DirectionalNextActions";
@@ -56,7 +57,7 @@ const getArticleNextSteps = (
     "20-dollar-tylenol-hospital-prices": [
       { eyebrow: "Read the working number", title: "Allowed Amount on a Medical Bill", description: "Separate the provider's billed charge from the amount the plan recognizes when it processes a covered claim.", href: "/articles/allowed-amount-medical-bills", cta: "Understand allowed amount" },
       { eyebrow: "Check the documents", title: "EOB-to-Bill Match Checker", description: "Compare the provider bill with the allowed amount, insurer payment, adjustment, and patient responsibility on the final EOB.", href: "/tools/eob-to-bill-match-checker", cta: "Match EOB and bill" },
-      { eyebrow: "Large or confusing balance", title: "Medical Bill Review Toolkit", description: "Organize the itemized bill, EOB, network questions, assistance options, calls, and follow-up before paying.", href: "/insurance/medical-bill-review-toolkit", cta: "Review the bill" },
+      { eyebrow: "The next system question", title: "What a Nonprofit Hospital Actually Is (and Isn’t)", description: "If a hospital is nonprofit, why does it still charge for care? Follow the difference between tax status, patient bills, and financial-assistance obligations.", href: "/articles/what-nonprofit-hospital-actually-means", cta: "Understand nonprofit hospitals" },
     ],
     "what-nonprofit-hospital-actually-means": [
       { eyebrow: "Keep learning", title: "Hospital Economics Hub", description: "Follow the money, staffing, capacity, and payment concepts that shape what hospitals do.", href: "/topics/hospital-economics", cta: "Explore hospital economics" },
@@ -866,6 +867,16 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
             <h2 className="font-display text-xl md:text-2xl font-bold">Sources</h2>
             <SourceList sources={article.sources} />
           </div>
+        )}
+
+        {article.slug === "20-dollar-tylenol-hospital-prices" && (
+          <NewsletterSignup
+            compact
+            source="article-20-dollar-tylenol-hospital-prices"
+            title="Keep following the money behind healthcare"
+            description="Get CAF’s monthly explanation of hospital money, insurance rules, and care transitions, with sources and a useful next read."
+            successMessage="You are on the CAF list. Thank you for reading."
+          />
         )}
 
         <DisclaimerBox />

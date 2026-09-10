@@ -162,8 +162,8 @@ const StudentLoans = () => {
       <section className="container pb-10 md:pb-14">
         <NewsletterSignup
           source="student-loans"
-          title="Get the Healthcare Worker Money Map"
-          description="A weekly plain-English email on paychecks, benefits, student loans, insurance choices, debt payoff, and investing for healthcare workers."
+          title="Follow healthcare-worker money and benefits"
+          description="CAF’s monthly healthcare-system explanation connects money and benefits to the rules behind them, with sources and a useful next read."
         />
       </section>
 

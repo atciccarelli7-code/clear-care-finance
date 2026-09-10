@@ -312,6 +312,15 @@ Use this structure when a material fact requires ongoing governance:
 - **Limitations:** The search sample is tiny, privacy filtered, lagged, and non-additive by table. Page impressions do not prove usefulness or satisfaction. External backlinks and reliable article-level engagement were unavailable. Classification is editorial judgment, not a claim that every kept page is equally strong.
 - **Owner:** Editorial, information architecture, SEO/discovery, content integrity, analytics, frontend, and quality/release.
 
+### CAF-E-022 — Audience baseline and founder discovery
+
+- **Retrieved:** 2026-09-10
+- **Source:** Full Google Sheet `1D6gL_FpHxhgV7ZEiHLg4mGRyDOjSYxl9H1BggB6XUlU`, old Sheet `1fBTepaQtnzC0k9WqIdcl7gKv0UZE9Kigp5h-2CC1hCs`, current main/production, live Google results, CMS price-transparency/EOB sources.
+- **Class:** DIRECT-CURRENT for retrieved exports and implementation; PRIMARY-SOURCE for CMS; SUPPORTED-INFERENCE for demand verdict/intent.
+- **Findings:** 27 property clicks/4,257 impressions; 17 clicked URLs; six flagship pages 2/322. Last14 days 7/1,106 vs previous14 3/1,661. Page sums 28/4,793 are not property totals. Query table discloses only one click.
+- **Limits:** No joined page-query-date data, backlink export, engaged sessions, returners, provider contact/delivery counts. Non-mutating email endpoint validation does not prove signup saving/delivery.
+- **Used for:** CAF-D-025 and CAF-W-022; full scoreboard and sources in the September10 work packet. Replaces earlier search baseline for future comparison; no causal lift claimed.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

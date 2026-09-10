@@ -179,25 +179,17 @@ function greeting(firstName?: string) {
   return firstName?.trim() ? `Hi ${escapeHtml(firstName.trim())},` : "Hi,";
 }
 
-function buildHealthcareWorkerMoneyMapEmail(firstName: string | undefined, unsubscribeUrl: string) {
+function buildPublicationWelcomeEmail(firstName: string | undefined, unsubscribeUrl: string) {
   return emailFrame({
-    preheader: "A practical starting point for healthcare-worker money decisions.",
-    title: "Your Healthcare Worker Money Map",
+    preheader: "Follow the money, incentives, and rules behind American healthcare.",
+    title: "Welcome to Community Acquired Finance",
     greeting: greeting(firstName),
     body: `
-      <p style="margin:0 0 18px;">Thanks for signing up. Community Acquired Finance organizes healthcare-worker paychecks, benefits, insurance, debt, healthcare costs, and investing without spam or generic finance noise.</p>
-      <div style="background:#f6f8f5;border:1px solid #d8ded3;border-radius:18px;padding:20px;margin:24px 0;">
-        <p style="margin:0 0 12px;color:#004022;font-weight:700;">Use this first-pass order:</p>
-        <ol style="margin:0;padding-left:22px;">
-          <li style="margin-bottom:8px;">Protect cash flow and maintain an emergency buffer.</li>
-          <li style="margin-bottom:8px;">Capture valuable employer retirement and benefit dollars.</li>
-          <li style="margin-bottom:8px;">Compare insurance by total risk, not only premium.</li>
-          <li>Keep investing simple enough to sustain during stressful work seasons.</li>
-        </ol>
-      </div>
-      <p style="margin:0;">Expect low-frequency, practical explanations and tool updates.</p>`,
-    ctaLabel: "Open the Healthcare Worker Hub",
-    ctaHref: `${siteUrl}/healthcare-workers`,
+      <p style="margin:0 0 18px;">Thanks for reading. CAF is an RN-led publication explaining hospital money, insurance rules, care transitions, and healthcare-worker benefits.</p>
+      <p style="margin:0 0 18px;">Our monthly email connects one healthcare-system question to the sources behind the explanation and a useful next read. Guides and tools support the explanation when there is a practical decision to make.</p>
+      <p style="margin:0;">Start with why nonprofit hospitals still send bills, why discharge can move work to a family, or why a hospital charge is not the amount a patient ultimately owes.</p>`,
+    ctaLabel: "Read the CAF publication",
+    ctaHref: `${siteUrl}/articles`,
     unsubscribeUrl,
   });
 }
@@ -350,8 +342,8 @@ function emailPayload(type: EmailType, firstName: string | undefined, estimate: 
     };
   }
   return {
-    subject: "Welcome — your Healthcare Worker Money Map",
-    html: buildHealthcareWorkerMoneyMapEmail(firstName, unsubscribeUrl),
+    subject: "Welcome to Community Acquired Finance",
+    html: buildPublicationWelcomeEmail(firstName, unsubscribeUrl),
     sequenceStatus: "not_applicable" as const,
   };
 }

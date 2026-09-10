@@ -1,5 +1,13 @@
 # CAF audience validation — September 10, 2026
 
+## September 10 Search Console refresh
+
+The newer [September 10 export](https://docs.google.com/spreadsheets/d/1p2bwgRaJ1pAx19LhdWWt9dyk4aTF92TXqRlp2FwoQ6g/edit) supersedes the September 7 export for current totals. It covers June 21–September 8 (80 daily rows): **30 clicks, 4,665 impressions and 0.643% CTR**. This adds three clicks and 408 impressions in September 6–8. Page-table totals are 31 clicks/5,213 impressions and remain non-additive with property totals.
+
+The fixed six-flagship cohort now has **560 impressions, four clicks and 0.714% CTR**, up from 322/2. Tylenol accounts for all four clicks and 300 impressions; the other five have 260 impressions and no clicks. Since the prior export, Tylenol added 109 impressions and two clicks, nonprofit hospitals added 39 impressions, home-with-family 35, shock absorber 25, rehab 15 and length of stay 15. This strengthens the early-discovery signal but does not establish portfolio-wide demand or retention, so the verdict remains **B — INCONCLUSIVE — NEED MORE DATA**.
+
+Latest seven days: 9 clicks/850 impressions/1.059% CTR versus 1/434/0.230% in the prior seven. Latest 14: 10/1,284/0.779% versus 3/1,514/0.198%. Absolute clicks improved while the latest 14-day impressions remain 230 lower. The query table still discloses only one click (`andrew ciccarelli`), so non-branded clicks remain unknown. The Tylenol journey remains the highest-value bounded experiment; no additional implementation is justified by these three days.
+
 ## Executive verdict and assignment charter
 
 **B — INCONCLUSIVE — NEED MORE DATA.** Continue one bounded publication measurement cycle. The new founder portfolio is receiving discovery, particularly Tylenol, but has not demonstrated a repeat audience or commercially meaningful demand. The six flagships have 322 page impressions and two page clicks; all two clicks belong to Tylenol. Five have no clicks. Their August 29–30 publication dates leave only about a week in this export. Neither abandonment nor increased investment is supported yet.

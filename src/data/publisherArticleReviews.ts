@@ -1,5 +1,3 @@
-import type { Article } from "./articles";
-
 export type PublisherArticleDisposition = "ad-eligible" | "ad-free-sensitive" | "ad-free-editorial";
 
 export type PublisherArticleReview = {
@@ -13,174 +11,166 @@ export type PublisherArticleReview = {
   reason: string;
 };
 
-const REVIEWED_AT = "2026-07-31";
-const STANDARD_NEXT_REVIEW = "2027-01-31";
-const SENSITIVE_NEXT_REVIEW = "2026-10-31";
+type RuntimePublisherArticleReview = Pick<
+  PublisherArticleReview,
+  "slug" | "route" | "disposition" | "contentTier" | "reviewedAt" | "reason"
+>;
 
-type ReviewTiming = {
-  reviewedAt?: string;
-  nextReviewAt?: string;
+const DEFAULT_REVIEWED_AT = "2026-07-31";
+
+const AD_ELIGIBLE_SLUGS = new Set([
+  "why-hospitals-become-the-systems-shock-absorber",
+  "20-dollar-tylenol-hospital-prices",
+  "what-nonprofit-hospital-actually-means",
+  "what-employer-benefit-changes-should-i-compare",
+  "how-much-should-a-nurse-put-in-403b-per-paycheck",
+  "how-hospital-403b-matching-works",
+  "how-to-pick-retirement-investments-at-work",
+  "healthcare-worker-money-map",
+  "how-healthcare-workers-can-invest-without-picking-stocks",
+  "savings-rate-that-actually-changes-your-life",
+  "roth-vs-traditional-403b-healthcare-workers",
+  "can-healthcare-workers-reach-financial-independence",
+  "cash-vs-investing-when-you-feel-behind",
+  "can-you-live-off-dividends-passive-income-guide",
+  "money-stress-after-hard-shift",
+  "earn-more-without-burning-out-bedside",
+  "managing-money-has-never-been-easier-or-harder",
+  "use-credit-cards-without-credit-card-debt",
+  "open-enrollment-mistakes-healthcare-workers",
+  "premium-deductible-out-of-pocket-open-enrollment",
+  "spouse-family-health-insurance-open-enrollment",
+  "prescription-coverage-open-enrollment-checklist",
+  "network-checklist-open-enrollment",
+  "disability-insurance-healthcare-workers-open-enrollment",
+  "employer-life-insurance-open-enrollment",
+  "accident-critical-illness-hospital-indemnity-open-enrollment",
+  "dental-vision-insurance-open-enrollment",
+  "health-fsa-vs-dependent-care-fsa",
+  "open-enrollment-paycheck-impact",
+  "beneficiaries-open-enrollment-checklist",
+  "how-healthcare-workers-should-compare-job-offers",
+  "why-one-hospital-visit-can-create-multiple-bills",
+  "facility-fee-vs-professional-fee",
+  "in-network-hospital-out-of-network-bills",
+  "allowed-amount-medical-bills",
+  "hsa-vs-fsa-healthcare-workers",
+  "backup-care-plans-for-busy-healthcare-workers",
+  "deductible-copay-coinsurance-out-of-pocket-max",
+  "how-to-read-an-eob",
+  "why-er-visit-is-expensive",
+  "hospital-cafe-habit",
+  "burnout-overspending-overeating",
+]);
+
+const SENSITIVE_SLUGS = new Set([
+  "patient-in-the-bed-and-patient-in-the-chart",
+  "what-happens-while-hospital-is-waiting-on-insurance",
+  "medically-ready-is-not-the-same-as-ready-for-home",
+  "home-with-family-is-not-a-free-care-plan",
+  "why-hospitals-care-about-length-of-stay",
+  "why-just-send-them-to-rehab-is-not-simple",
+  "does-medicare-cover-long-term-care",
+  "does-medicare-cover-rehab-after-hospital-stay",
+  "medicare-vs-medicaid-what-is-the-difference",
+  "what-does-medicare-not-cover",
+  "why-do-i-still-owe-money-with-medicare",
+  "from-the-bedside-medicare-prescription-cost",
+  "from-the-bedside-long-term-care-medicaid-hospital-delay",
+  "why-am-i-getting-a-blood-thinner-in-the-hospital",
+  "why-did-the-hospital-stop-or-change-my-home-medications",
+  "safe-hospital-discharge-first-72-hours",
+  "blood-thinner-safety-before-going-home",
+  "copd-recovery-after-hospital",
+  "heart-failure-plan-after-discharge",
+  "new-home-oxygen-nebulizer-guide",
+  "observation-vs-inpatient-status",
+  "prior-authorization-explained",
+  "check-hospital-financial-assistance-before-paying",
+  "insurance-is-future-planning",
+  "medicare-advantage-vs-original-medicare-2026",
+  "medicare-medicaid-changes-january-2027",
+  "medicare-options-explained",
+  "discharge-coverage-guide",
+  "short-term-rehab-after-hospital",
+  "home-health-after-discharge",
+  "durable-medical-equipment-after-discharge",
+  "long-term-care-and-custodial-care",
+  "medicaid-dual-eligibility-ltss",
+]);
+
+const EDITORIAL_SLUGS = new Set([
+  "diagnosis-explained",
+  "obbb-overtime-tax-deduction-healthcare-workers",
+  "workplace-benefits-definitions",
+  "plain-english-glossary",
+  "healthcare-worker-discounts",
+]);
+
+const FLAGSHIP_ELIGIBLE_SLUGS = new Set([
+  "why-hospitals-become-the-systems-shock-absorber",
+  "20-dollar-tylenol-hospital-prices",
+  "deductible-copay-coinsurance-out-of-pocket-max",
+  "how-to-read-an-eob",
+]);
+
+const REVIEWED_AT: Record<string, string> = {
+  "patient-in-the-bed-and-patient-in-the-chart": "2026-09-08",
+  "what-happens-while-hospital-is-waiting-on-insurance": "2026-09-08",
+  "medically-ready-is-not-the-same-as-ready-for-home": "2026-09-08",
+  "why-hospitals-become-the-systems-shock-absorber": "2026-08-30",
+  "home-with-family-is-not-a-free-care-plan": "2026-08-30",
+  "20-dollar-tylenol-hospital-prices": "2026-08-29",
+  "what-nonprofit-hospital-actually-means": "2026-08-29",
+  "why-hospitals-care-about-length-of-stay": "2026-08-29",
+  "why-just-send-them-to-rehab-is-not-simple": "2026-08-29",
+  "observation-vs-inpatient-status": "2026-08-30",
 };
 
-const eligible = (
-  slug: string,
-  contentTier: "flagship" | "substantial" = "substantial",
-  timing: ReviewTiming = {},
-): PublisherArticleReview => ({
-  slug,
-  route: `/articles/${slug}`,
-  disposition: "ad-eligible",
-  contentTier,
-  reviewedAt: timing.reviewedAt ?? REVIEWED_AT,
-  nextReviewAt: timing.nextReviewAt ?? STANDARD_NEXT_REVIEW,
-  reviewScope:
-    "Publisher-value review covering authoritative sources, original explanatory depth, practical decision support, distinct search intent, and suitability for light advertising outside sensitive or interactive contexts.",
-  reason:
-    "Affirmatively reviewed publisher article with authoritative sources, original explanatory depth, practical decision support, and no interactive or sensitive workflow context.",
-});
+const reviewForSlug = (slug: string): RuntimePublisherArticleReview | undefined => {
+  const reviewedAt = REVIEWED_AT[slug] ?? DEFAULT_REVIEWED_AT;
 
-const sensitive = (slug: string, timing: ReviewTiming = {}): PublisherArticleReview => ({
-  slug,
-  route: `/articles/${slug}`,
-  disposition: "ad-free-sensitive",
-  contentTier: "standard",
-  reviewedAt: timing.reviewedAt ?? REVIEWED_AT,
-  nextReviewAt: timing.nextReviewAt ?? SENSITIVE_NEXT_REVIEW,
-  reviewScope:
-    "Publisher-suitability review covering patient sensitivity, Medicare or Medicaid context, medication and discharge safety, coverage denials, financial assistance, and risk of advertising near consequential healthcare decisions.",
-  reason:
-    "Affirmatively reviewed but kept ad-free because the article addresses a sensitive patient, medication, discharge, Medicare, Medicaid, denial, or financial-assistance decision.",
-});
+  if (AD_ELIGIBLE_SLUGS.has(slug)) {
+    return {
+      slug,
+      route: `/articles/${slug}`,
+      disposition: "ad-eligible",
+      contentTier: FLAGSHIP_ELIGIBLE_SLUGS.has(slug) ? "flagship" : "substantial",
+      reviewedAt,
+      reason: "Reviewed publisher article eligible under CAF's route-level advertising policy.",
+    };
+  }
 
-const editorial = (slug: string, reason: string): PublisherArticleReview => ({
-  slug,
-  route: `/articles/${slug}`,
-  disposition: "ad-free-editorial",
-  contentTier: "standard",
-  reviewedAt: REVIEWED_AT,
-  nextReviewAt: SENSITIVE_NEXT_REVIEW,
-  reviewScope:
-    "Publisher-suitability review covering standalone explanatory value, duplication, navigation dependence, freshness burden, and commercial-presentation risk.",
-  reason,
-});
+  if (SENSITIVE_SLUGS.has(slug)) {
+    return {
+      slug,
+      route: `/articles/${slug}`,
+      disposition: "ad-free-sensitive",
+      contentTier: "standard",
+      reviewedAt,
+      reason: "Reviewed healthcare decision content intentionally kept ad-free.",
+    };
+  }
 
-export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
-  eligible("why-hospitals-become-the-systems-shock-absorber", "flagship", { reviewedAt: "2026-08-30", nextReviewAt: "2027-02-28" }),
-  sensitive("home-with-family-is-not-a-free-care-plan", { reviewedAt: "2026-08-30", nextReviewAt: "2026-11-30" }),
-  eligible("20-dollar-tylenol-hospital-prices", "flagship", { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" }),
-  eligible("what-nonprofit-hospital-actually-means", "substantial", { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" }),
-  sensitive("why-hospitals-care-about-length-of-stay", { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" }),
-  sensitive("why-just-send-them-to-rehab-is-not-simple", { reviewedAt: "2026-08-29", nextReviewAt: "2026-11-30" }),
-  eligible("what-employer-benefit-changes-should-i-compare"),
-  eligible("how-much-should-a-nurse-put-in-403b-per-paycheck"),
-  eligible("how-hospital-403b-matching-works"),
-  eligible("how-to-pick-retirement-investments-at-work"),
-  eligible("healthcare-worker-money-map"),
-  eligible("how-healthcare-workers-can-invest-without-picking-stocks"),
-  eligible("savings-rate-that-actually-changes-your-life"),
-  eligible("roth-vs-traditional-403b-healthcare-workers"),
-  eligible("can-healthcare-workers-reach-financial-independence"),
-  eligible("cash-vs-investing-when-you-feel-behind"),
-  eligible("can-you-live-off-dividends-passive-income-guide"),
-  eligible("money-stress-after-hard-shift"),
-  eligible("earn-more-without-burning-out-bedside"),
-  eligible("managing-money-has-never-been-easier-or-harder"),
-  eligible("use-credit-cards-without-credit-card-debt"),
-  eligible("open-enrollment-mistakes-healthcare-workers"),
-  eligible("premium-deductible-out-of-pocket-open-enrollment"),
-  eligible("spouse-family-health-insurance-open-enrollment"),
-  eligible("prescription-coverage-open-enrollment-checklist"),
-  eligible("network-checklist-open-enrollment"),
-  eligible("disability-insurance-healthcare-workers-open-enrollment"),
-  eligible("employer-life-insurance-open-enrollment"),
-  eligible("accident-critical-illness-hospital-indemnity-open-enrollment"),
-  eligible("dental-vision-insurance-open-enrollment"),
-  eligible("health-fsa-vs-dependent-care-fsa"),
-  eligible("open-enrollment-paycheck-impact"),
-  eligible("beneficiaries-open-enrollment-checklist"),
-  eligible("how-healthcare-workers-should-compare-job-offers"),
-  eligible("why-one-hospital-visit-can-create-multiple-bills"),
-  eligible("facility-fee-vs-professional-fee"),
-  eligible("in-network-hospital-out-of-network-bills"),
-  eligible("allowed-amount-medical-bills"),
-  eligible("hsa-vs-fsa-healthcare-workers"),
-  eligible("backup-care-plans-for-busy-healthcare-workers"),
-  eligible("deductible-copay-coinsurance-out-of-pocket-max", "flagship"),
-  eligible("how-to-read-an-eob", "flagship"),
-  eligible("why-er-visit-is-expensive"),
-  eligible("hospital-cafe-habit"),
-  eligible("burnout-overspending-overeating"),
-  sensitive("does-medicare-cover-long-term-care"),
-  sensitive("does-medicare-cover-rehab-after-hospital-stay"),
-  sensitive("medicare-vs-medicaid-what-is-the-difference"),
-  sensitive("what-does-medicare-not-cover"),
-  sensitive("why-do-i-still-owe-money-with-medicare"),
-  sensitive("from-the-bedside-medicare-prescription-cost"),
-  sensitive("from-the-bedside-long-term-care-medicaid-hospital-delay"),
-  sensitive("why-am-i-getting-a-blood-thinner-in-the-hospital"),
-  sensitive("why-did-the-hospital-stop-or-change-my-home-medications"),
-  sensitive("safe-hospital-discharge-first-72-hours"),
-  sensitive("blood-thinner-safety-before-going-home"),
-  sensitive("copd-recovery-after-hospital"),
-  sensitive("heart-failure-plan-after-discharge"),
-  sensitive("new-home-oxygen-nebulizer-guide"),
-  sensitive("observation-vs-inpatient-status", { reviewedAt: "2026-08-30", nextReviewAt: "2026-11-30" }),
-  sensitive("prior-authorization-explained"),
-  sensitive("check-hospital-financial-assistance-before-paying"),
-  sensitive("insurance-is-future-planning"),
-  sensitive("medicare-advantage-vs-original-medicare-2026"),
-  sensitive("medicare-medicaid-changes-january-2027"),
-  sensitive("medicare-options-explained"),
-  sensitive("discharge-coverage-guide"),
-  sensitive("short-term-rehab-after-hospital"),
-  sensitive("home-health-after-discharge"),
-  sensitive("durable-medical-equipment-after-discharge"),
-  sensitive("long-term-care-and-custodial-care"),
-  sensitive("medicaid-dual-eligibility-ltss"),
-  editorial(
-    "diagnosis-explained",
-    "Reviewed and kept ad-free because it explains the publication system rather than serving as a standalone decision-support article.",
-  ),
-  editorial(
-    "obbb-overtime-tax-deduction-healthcare-workers",
-    "Reviewed and kept ad-free pending a dedicated current-law tax review before any publisher monetization.",
-  ),
-  editorial(
-    "workplace-benefits-definitions",
-    "Reviewed and kept ad-free because the current page is definition-led reference content rather than sufficiently layered publisher inventory.",
-  ),
-  editorial(
-    "plain-english-glossary",
-    "Reviewed and kept ad-free because it duplicates glossary-style reference intent and is not standalone publisher inventory.",
-  ),
-  editorial(
-    "healthcare-worker-discounts",
-    "Reviewed and kept ad-free because the directory-like discount intent creates navigation and commercial-presentation risk.",
-  ),
-];
+  if (EDITORIAL_SLUGS.has(slug)) {
+    return {
+      slug,
+      route: `/articles/${slug}`,
+      disposition: "ad-free-editorial",
+      contentTier: "standard",
+      reviewedAt,
+      reason: "Reviewed editorial content intentionally kept ad-free.",
+    };
+  }
 
-const REVIEW_BY_ROUTE = new Map(PUBLISHER_ARTICLE_REVIEWS.map((review) => [review.route, review]));
-const REVIEW_BY_SLUG = new Map(PUBLISHER_ARTICLE_REVIEWS.map((review) => [review.slug, review]));
+  return undefined;
+};
 
-export const getPublisherArticleReview = (pathname: string) => REVIEW_BY_ROUTE.get(pathname);
+export const getPublisherArticleReview = (pathname: string) => {
+  const clean = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "");
+  if (!clean.startsWith("/articles/")) return undefined;
+  return reviewForSlug(clean.slice("/articles/".length));
+};
 
 export const getAdEligiblePublisherRoutes = () =>
-  PUBLISHER_ARTICLE_REVIEWS.filter((review) => review.disposition === "ad-eligible").map((review) => review.route);
-
-export const applyPublisherArticleReviewMetadata = (articles: Article[]): Article[] =>
-  articles.map((article) => {
-    const review = REVIEW_BY_SLUG.get(article.slug);
-    if (!review || review.disposition !== "ad-eligible") return article;
-
-    const nextReviewAt =
-      article.nextReviewAt && article.nextReviewAt < review.nextReviewAt
-        ? article.nextReviewAt
-        : review.nextReviewAt;
-
-    return {
-      ...article,
-      lastReviewedAt: article.lastReviewedAt ?? review.reviewedAt,
-      nextReviewAt,
-      reviewScope: article.reviewScope ?? review.reviewScope,
-    };
-  });
+  Array.from(AD_ELIGIBLE_SLUGS, (slug) => `/articles/${slug}` as `/articles/${string}`);

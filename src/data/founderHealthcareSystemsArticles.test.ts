@@ -3,7 +3,7 @@ import { ALL_ARTICLES } from "@/data/allArticles";
 import { FOUNDER_HEALTHCARE_SYSTEMS_ARTICLES } from "@/data/founderHealthcareSystemsArticles";
 import { FEATURED_PUBLISHER_ARTICLES } from "@/data/featuredPublisherArticles";
 import { HEALTHCARE_CONFUSION_ARTICLES } from "@/data/healthcareConfusionArticles";
-import { PUBLISHER_ARTICLE_REVIEWS } from "@/data/publisherArticleReviews";
+import { PUBLISHER_ARTICLE_REVIEWS } from "@/data/publisherArticleReviewLedger";
 import { resolveContentGovernance } from "@/lib/contentGovernance";
 
 const newSlugs = [

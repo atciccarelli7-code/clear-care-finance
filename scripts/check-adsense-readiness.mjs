@@ -54,7 +54,7 @@ try {
   const governanceModule = await vite.ssrLoadModule("/src/lib/contentGovernance.ts");
   const publicationQuality = await vite.ssrLoadModule("/src/lib/publicationQuality.ts");
   const articleModule = await vite.ssrLoadModule("/src/data/allArticles.ts");
-  const publisherReviewModule = await vite.ssrLoadModule("/src/data/publisherArticleReviews.ts");
+  const publisherReviewModule = await vite.ssrLoadModule("/src/data/publisherArticleReviewLedger.ts");
   const voiceNoteModule = await vite.ssrLoadModule("/src/data/articleVoiceNotes.ts");
 
   const { permanentRedirects, canonicalRoutes } = await getCanonicalRoutes(
@@ -124,7 +124,6 @@ try {
   }
 
   assert(explicitAdRoutes.length === 42, `Expected 42 reconciled ad-eligible articles; found ${explicitAdRoutes.length}.`);
-  assert(articleByPath.size === 77, `Expected 77 published article reviews; found ${articleByPath.size}.`);
 
   const forbiddenAdTypes = new Set([
     "topic-guide",

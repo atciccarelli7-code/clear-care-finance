@@ -19,7 +19,7 @@ import { SEARCH_MOAT_ARTICLES } from "./searchMoatArticles";
 import { TOTAL_COMPENSATION_ARTICLE } from "./totalCompensationArticle";
 import { applySearchConsoleArticleEnhancements } from "./searchConsoleArticleEnhancements";
 import { applySearchOpportunityArticleEnhancements } from "./searchOpportunityArticleEnhancements";
-import { applyPublisherArticleReviewMetadata } from "./publisherArticleReviews";
+import { applyPublisherArticleReviewMetadata } from "./publisherArticleReviewMetadata";
 import { SOURCE_PRESETS } from "./sources";
 import { publishedArticles } from "@/lib/article-status";
 

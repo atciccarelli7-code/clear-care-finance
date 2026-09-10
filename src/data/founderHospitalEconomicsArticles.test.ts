@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { CORE_ARTICLES } from "@/data/coreArticles";
 import { FOUNDER_HOSPITAL_ECONOMICS_ARTICLES } from "@/data/founderHospitalEconomicsArticles";
-import { PUBLISHER_ARTICLE_REVIEWS } from "@/data/publisherArticleReviews";
+import { PUBLISHER_ARTICLE_REVIEWS } from "@/data/publisherArticleReviewLedger";
 import { resolveContentGovernance } from "@/lib/contentGovernance";
 
 const expectedSlugs = [

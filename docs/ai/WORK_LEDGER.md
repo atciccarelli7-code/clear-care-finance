@@ -398,3 +398,12 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Unresolved warning:** Backlink and reliable article-level engagement data remain unavailable. Search and reader impact cannot be inferred until a settled post-release window.
 - **Reassessment trigger:** 28/90 settled days, new Search/analytics/backlink evidence, query cannibalization, or any content/search/runtime defect.
 - **Links:** `docs/work-packets/2026-09-02-editorial-library-pruning.md`; `docs/editorial/2026-09-02-editorial-library-audit.md`; CAF-D-024; CAF-E-021.
+
+### CAF-W-022 — Bounded audience validation and Tylenol reader journey
+
+- **Date:** 2026-09-10
+- **Decision/evidence:** CAF-D-025 / CAF-E-022.
+- **Scope:** Reconciled full current/older search exports, main, production and open PRs; inspected live search competition and publication. Clarified illustrative $20, connected Tylenol to nonprofit analysis, added existing compact signup on one article, aligned newsletter/welcome copy.
+- **Validation:** Build/SEO/publication/bundle gates and 16 focused tests pass; lint zero errors/15 existing warnings. Full app TypeScript has 38 identical baseline errors; API type check passes. No real email sent. Remote release pending; see work packet for current disposition.
+- **Compounding:** Fixed six-page cohort, property/page/query denominator rules, 30-day experiment and decision thresholds; signup test distinguishes saved contact from delivered email.
+- **Limits/next action:** Article engagement, returning audience and contact-delivery counts unavailable. Evaluate the first settled30-day window after confirmed release; do not expand content on impressions alone.

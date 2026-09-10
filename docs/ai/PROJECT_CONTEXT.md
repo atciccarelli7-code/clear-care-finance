@@ -104,6 +104,10 @@ Every substantial assignment must also use:
 - When evidence supports changing a provisional direction, present the conflict and recommended change.
 - Record all meaningful decisions in the decision ledger with a revisit trigger.
 
+## Audience validation baseline
+
+As of the September 10, 2026 review, use the September 7 Search Console workbook through September 5: 27 property clicks and 4,257 impressions. Six founder flagships have 2 clicks/322 page impressions. Audience demand remains inconclusive. CAF-D-025 and `docs/work-packets/2026-09-10-audience-validation.md` define the fixed cohort, measurement limitations and next cycle. Do not infer non-branded or retained readership from missing data.
+
 ## Current strategic uncertainties
 
 These must be re-evaluated with current evidence rather than assumed:

@@ -55,8 +55,8 @@ export function NewsletterSignup({
   className,
   compact = false,
   source = "site",
-  title = "Get the Monthly Money Map",
-  description = "One practical monthly email for healthcare workers and patients trying to make better decisions about paychecks, benefits, insurance, debt, and healthcare costs.",
+  title = "Understand the money behind healthcare",
+  description = "One monthly CAF explanation of hospital money, insurance rules, care transitions, and healthcare-worker benefits, with sources and a useful next read.",
   buttonLabel = "Join the monthly list",
   emailType = "newsletter",
   successMessage,
@@ -125,7 +125,7 @@ export function NewsletterSignup({
             ? "You are on the workbook launch list. No payment was collected."
             : emailType === "benefits-system-interest"
               ? "You are on the early-access list. No payment was collected."
-            : "You are in. Check your inbox for the Healthcare Worker Money Map.";
+            : "You are on the CAF list. Check your inbox for your welcome email.";
       const defaultLimited =
         emailType === "medical-bill-product-interest"
           ? "Your workbook interest was saved. Email delivery is still pending external sender verification."

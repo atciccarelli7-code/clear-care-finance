@@ -300,3 +300,12 @@ This ledger records material strategic, product, technical, editorial, commercia
 - Do not label a model recommendation `CONFIRMED` without founder confirmation or an established operating policy.
 - Keep implementation details in the work ledger unless they establish a durable rule.
 - Record uncertainty and revisit triggers explicitly.
+
+### CAF-D-025 — Validate the strongest founder search journey before expanding
+
+- **Date:** 2026-09-10
+- **Status:** EXPERIMENT
+- **Decision:** B — inconclusive. Preserve the publication strategy for one bounded 30-day measurement cycle; improve the Tylenol clarification, nonprofit next read and article-local newsletter capture. No new articles, tools, redesign or monetization.
+- **Evidence:** September 7 Search Console export through September 5: 27 clicks/4,257 impressions; six flagships 2 clicks/322 page impressions; only one query click disclosed; CAF-E-022.
+- **Consequences:** One of 77 article journeys changes, 188 canonical URLs preserved; publication newsletter copy aligned. Do not infer non-branded traffic, returning readers, delivery or product-market fit from incomplete evidence.
+- **Revisit trigger:** First settled 30-day post-release dataset; 60/90-day behavioral and discovery thresholds in `docs/work-packets/2026-09-10-audience-validation.md`.

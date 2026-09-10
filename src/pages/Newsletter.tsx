@@ -11,7 +11,7 @@ const Newsletter = () => {
   useSeo({
     title: "Community Acquired Finance Monthly Newsletter",
     description:
-      "Join Community Acquired Finance Monthly for practical updates on healthcare-worker paychecks, benefits, insurance, medical bills, calculators, and healthcare costs.",
+      "Get CAF’s monthly explanation of the money, incentives, insurance rules, and care transitions behind American healthcare.",
     canonicalPath: "/newsletter",
   });
 
@@ -19,8 +19,8 @@ const Newsletter = () => {
     <>
       <PageHero
         eyebrow="Monthly newsletter"
-        title="Practical healthcare-money guidance, once a month."
-        description="Get concise educational updates for healthcare workers, patients, caregivers, and families—without spam, sales pressure, or individualized advice."
+        title="Understand the machinery behind healthcare, once a month."
+        description="RN-led explanations of hospital money, insurance rules, and care transitions—with sources, practical context, and a useful next read."
       >
         <Button asChild variant="hero" size="lg">
           <a href="#join-newsletter">Join the monthly list <ArrowRight className="h-4 w-4" /></a>
@@ -61,14 +61,14 @@ const Newsletter = () => {
           <SectionHeading
             centered
             eyebrow="What you’ll get"
-            title="A practical healthcare-money update"
+            title="One useful explanation of how healthcare works"
             description="Each issue is designed to be short enough to read quickly and useful enough to save."
           />
           <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-2">
             {[
-              "One plain-English healthcare money topic",
-              "One calculator, checklist, or decision tool",
-              "One patient, caregiver, or insurance workflow",
+              "A founder-led explanation of a healthcare-system question",
+              "Primary sources behind the explanation",
+              "A related article that follows the next system mechanism",
               "One practical action to take or question to verify",
             ].map((item) => (
               <div key={item} className="flex gap-3 rounded-2xl border border-border bg-background p-5 shadow-sm">
@@ -86,7 +86,7 @@ const Newsletter = () => {
         <NewsletterSignup
           source="newsletter-page"
           title="Join Community Acquired Finance updates"
-          description="Get low-frequency notes on healthcare-worker paychecks, benefits, insurance, medical bills, Medicare, Medicaid, calculators, and practical decision tools."
+          description="Get a monthly explanation of hospital money, insurance rules, care transitions, or healthcare-worker benefits, with sources and a useful next read."
           buttonLabel="Join the update list"
         />
       </section>

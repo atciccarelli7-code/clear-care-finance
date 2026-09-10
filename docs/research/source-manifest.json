@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-03",
+  "notes": [
+    "This manifest contains links and metadata only.",
+    "Private source contents and personal data must remain outside GitHub.",
+    "Notion is the authoritative evidence registry until a reviewed machine-readable sync process exists."
+  ],
+  "sources": [
+    {
+      "id": "caf-productization-synthesis-2026-08-03",
+      "title": "CAF Productization Deep Research Synthesis — August 3, 2026",
+      "domain": "synthesis-decisions",
+      "sourceType": "synthesis",
+      "status": "extracted",
+      "confidence": "inference",
+      "sensitivity": "internal",
+      "reviewedAt": "2026-08-03",
+      "affectedAssets": ["business-architecture", "information-architecture", "product-portfolio"],
+      "limitations": ["Does not prove demand or willingness to pay"],
+      "nextAction": "Reconcile against market scorecards, first-party evidence, economics, and commitment tests",
+      "driveUrl": "https://docs.google.com/document/d/17Idv3HwtfhR3AuXQcPQRc56DtoPs1OEtngAPoeFLD08/edit",
+      "notionUrl": "https://app.notion.com/p/3b1d92ac80d0815d9684f6230f215aa2"
+    },
+    {
+      "id": "novant-benefits-guide-2026",
+      "title": "Novant Health 2026 Team Member Benefits Guide",
+      "domain": "first-party-interviews",
+      "sourceType": "first-party",
+      "status": "extracted",
+      "confidence": "frontline_evidence",
+      "sensitivity": "private",
+      "jurisdiction": "North Carolina; employer-specific",
+      "effectiveFrom": "2026-01-01",
+      "reviewedAt": "2026-08-03",
+      "affectedAssets": ["open-enrollment-workspace", "job-offer-comparison", "benefits-data-model"],
+      "limitations": [
+        "Employer-year-specific values cannot be generalized",
+        "Summary guide may not control over formal plan documents",
+        "Problem complexity does not prove willingness to pay"
+      ],
+      "nextAction": "Obtain searchable PDF, controlling plan documents, enrollment walkthrough, and founder decision narrative",
+      "notionUrl": "https://app.notion.com/p/3b1d92ac80d081d08d88c25229ad191f"
+    },
+    {
+      "id": "caf-medicare-medicaid-visual-guide",
+      "title": "CAF Medicare and Medicaid Visual Guide — Webflow Embed",
+      "domain": "ux-competitors",
+      "sourceType": "synthesis",
+      "status": "extracted",
+      "confidence": "inference",
+      "sensitivity": "internal",
+      "jurisdiction": "United States",
+      "reviewedAt": "2026-08-03",
+      "affectedAssets": ["medicare-content", "medicaid-content", "visual-components"],
+      "limitations": ["Annual values and derived claims require current primary-source verification"],
+      "nextAction": "Separate reusable presentation components from dated factual content and register each annual value"
+    },
+    {
+      "id": "caf-research-operating-system",
+      "title": "CAF Research Intelligence System",
+      "domain": "technical-architecture",
+      "sourceType": "technical",
+      "status": "extracted",
+      "confidence": "inference",
+      "sensitivity": "internal",
+      "reviewedAt": "2026-08-03",
+      "affectedAssets": ["research-governance", "build-readiness"],
+      "limitations": ["Documentation is not an implementation approval"],
+      "nextAction": "Review PR 250 and keep branch unmerged until research governance is accepted"
+    }
+  ]
+}

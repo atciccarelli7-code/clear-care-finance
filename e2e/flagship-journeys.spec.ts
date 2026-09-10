@@ -386,3 +386,27 @@ test("About page presents publisher identity without retired sales inventory", a
   await expect(page.getByText(/Institutional patient-education sales are paused/i)).toHaveCount(0);
   await certifyPage(page, watch);
 });
+
+test("Tylenol reader can continue the publication or join with explicit consent", async ({ page }) => {
+  const watch = installHealthWatch(page);
+  let signupBody: Record<string, unknown> | undefined;
+  await page.route("**/api/send", async (route) => {
+    signupBody = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, saved: true, emailDelivered: false }) });
+  });
+  await visit(page, "/articles/20-dollar-tylenol-hospital-prices");
+  await expect(page.getByText(/not a national average or a quoted price for your care/)).toBeVisible();
+  const signup = page.locator('section[aria-labelledby="newsletter-signup-article-20-dollar-tylenol-hospital-prices"]');
+  await signup.getByLabel("Email", { exact: true }).fill("test@example.com");
+  await signup.getByRole("button", { name: "Join the monthly list" }).click();
+  await expect(signup.getByRole("status")).toContainText("Check the consent box");
+  expect(signupBody).toBeUndefined();
+  await signup.getByRole("checkbox").check();
+  await signup.getByRole("button", { name: "Join the monthly list" }).click();
+  await expect(signup.getByRole("status")).toContainText("Welcome email delivery is still being finalized");
+  expect(signupBody).toMatchObject({ source: "article-20-dollar-tylenol-hospital-prices", consent: true });
+  await certifyPage(page, watch);
+  await page.getByRole("link", { name: /Understand nonprofit hospitals/ }).click();
+  await expect(page).toHaveURL(/\/articles\/what-nonprofit-hospital-actually-means$/);
+  await expect(page.getByRole("heading", { level: 1, name: /What a Nonprofit Hospital/ })).toBeVisible();
+});

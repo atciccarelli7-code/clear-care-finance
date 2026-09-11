@@ -8,6 +8,7 @@ export type EditorialClassification =
 
 export const EDITORIAL_LIBRARY_CLASSIFICATIONS: Record<EditorialClassification, readonly string[]> = {
   FLAGSHIP: [
+    "how-a-hospital-actually-makes-money",
     "patient-in-the-bed-and-patient-in-the-chart",
     "what-happens-while-hospital-is-waiting-on-insurance",
     "medically-ready-is-not-the-same-as-ready-for-home",

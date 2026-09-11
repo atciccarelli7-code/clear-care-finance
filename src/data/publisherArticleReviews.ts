@@ -19,6 +19,7 @@ type RuntimePublisherArticleReview = Pick<
 const DEFAULT_REVIEWED_AT = "2026-07-31";
 
 const AD_ELIGIBLE_SLUGS = new Set([
+  "how-a-hospital-actually-makes-money",
   "why-hospitals-become-the-systems-shock-absorber",
   "20-dollar-tylenol-hospital-prices",
   "what-nonprofit-hospital-actually-means",
@@ -108,6 +109,7 @@ const EDITORIAL_SLUGS = new Set([
 ]);
 
 const FLAGSHIP_ELIGIBLE_SLUGS = new Set([
+  "how-a-hospital-actually-makes-money",
   "why-hospitals-become-the-systems-shock-absorber",
   "20-dollar-tylenol-hospital-prices",
   "deductible-copay-coinsurance-out-of-pocket-max",
@@ -115,6 +117,7 @@ const FLAGSHIP_ELIGIBLE_SLUGS = new Set([
 ]);
 
 const REVIEWED_AT: Record<string, string> = {
+  "how-a-hospital-actually-makes-money": "2026-09-10",
   "patient-in-the-bed-and-patient-in-the-chart": "2026-09-08",
   "what-happens-while-hospital-is-waiting-on-insurance": "2026-09-08",
   "medically-ready-is-not-the-same-as-ready-for-home": "2026-09-08",

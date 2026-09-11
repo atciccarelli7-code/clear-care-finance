@@ -38,11 +38,15 @@ describe("founder hospital-money article", () => {
     }
   });
 
-  it("has an explicit publisher review and light-ad eligibility", () => {
+  it("has an explicit publisher review while monetization remains deferred", () => {
     const review = PUBLISHER_ARTICLE_REVIEWS.find((candidate) => candidate.slug === slug);
+    const governance = resolveContentGovernance(`/articles/${slug}`, { knownRoute: true });
+
     expect(review).toBeDefined();
-    expect(review?.contentTier).toBe("flagship");
-    expect(resolveContentGovernance(`/articles/${slug}`, { knownRoute: true }).adEligible).toBe(true);
+    expect(review?.disposition).toBe("ad-free-editorial");
+    expect(review?.reviewedAt).toBe("2026-09-10");
+    expect(governance.reviewStatus).toBe("reviewed");
+    expect(governance.adEligible).toBe(false);
   });
 
   it("preserves the payment and discharge guardrails", () => {

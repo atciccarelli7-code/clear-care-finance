@@ -19,7 +19,6 @@ type RuntimePublisherArticleReview = Pick<
 const DEFAULT_REVIEWED_AT = "2026-07-31";
 
 const AD_ELIGIBLE_SLUGS = new Set([
-  "how-a-hospital-actually-makes-money",
   "why-hospitals-become-the-systems-shock-absorber",
   "20-dollar-tylenol-hospital-prices",
   "what-nonprofit-hospital-actually-means",
@@ -101,6 +100,7 @@ const SENSITIVE_SLUGS = new Set([
 ]);
 
 const EDITORIAL_SLUGS = new Set([
+  "how-a-hospital-actually-makes-money",
   "diagnosis-explained",
   "obbb-overtime-tax-deduction-healthcare-workers",
   "workplace-benefits-definitions",
@@ -109,7 +109,6 @@ const EDITORIAL_SLUGS = new Set([
 ]);
 
 const FLAGSHIP_ELIGIBLE_SLUGS = new Set([
-  "how-a-hospital-actually-makes-money",
   "why-hospitals-become-the-systems-shock-absorber",
   "20-dollar-tylenol-hospital-prices",
   "deductible-copay-coinsurance-out-of-pocket-max",
@@ -162,7 +161,9 @@ const reviewForSlug = (slug: string): RuntimePublisherArticleReview | undefined 
       disposition: "ad-free-editorial",
       contentTier: "standard",
       reviewedAt,
-      reason: "Reviewed editorial content intentionally kept ad-free.",
+      reason: slug === "how-a-hospital-actually-makes-money"
+        ? "Reviewed founder-led hospital-economics article intentionally kept ad-free during the current audience-validation cycle; monetize only after the next publisher review."
+        : "Reviewed editorial content intentionally kept ad-free.",
     };
   }
 

@@ -3,6 +3,12 @@ import { expect, test, type Page } from "@playwright/test";
 
 const founderArticles = [
   {
+    slug: "how-a-hospital-actually-makes-money",
+    title: "How a Hospital Actually Makes Money",
+    systemMap: "How one inpatient stay turns into hospital economics",
+    systemLens: "Who controls the money around a hospital stay?",
+  },
+  {
     slug: "patient-in-the-bed-and-patient-in-the-chart",
     title: "The Patient in the Bed and the Patient in the Chart",
     systemMap: "How the patient becomes a decision another organization can act on",
@@ -132,7 +138,7 @@ test("makes the article library discoverable and searchable", async ({ page }) =
   await page.goto("/articles", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
-  await expect(page.getByText("80 RN-led, source-backed articles", { exact: false })).toBeVisible();
+  await expect(page.getByText("81 RN-led, source-backed articles", { exact: false })).toBeVisible();
   await expect(
     page.getByRole("heading", { name: /Inside hospitals: prices, capacity, classification, and the work after discharge/i }),
   ).toBeVisible();

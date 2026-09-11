@@ -39,13 +39,17 @@ const sensitive = (slug: string, timing: ReviewTiming = {}): PublisherArticleRev
     "Affirmatively reviewed but kept ad-free because the article addresses a sensitive patient, medication, discharge, Medicare, Medicaid, denial, or financial-assistance decision.",
 });
 
-const editorial = (slug: string, reason: string): PublisherArticleReview => ({
+const editorial = (
+  slug: string,
+  reason: string,
+  timing: ReviewTiming = {},
+): PublisherArticleReview => ({
   slug,
   route: `/articles/${slug}`,
   disposition: "ad-free-editorial",
   contentTier: "standard",
-  reviewedAt: REVIEWED_AT,
-  nextReviewAt: SENSITIVE_NEXT_REVIEW,
+  reviewedAt: timing.reviewedAt ?? REVIEWED_AT,
+  nextReviewAt: timing.nextReviewAt ?? SENSITIVE_NEXT_REVIEW,
   reviewScope:
     "Publisher-suitability review covering standalone explanatory value, duplication, navigation dependence, freshness burden, and commercial-presentation risk.",
   reason,
@@ -55,6 +59,11 @@ export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
   sensitive("patient-in-the-bed-and-patient-in-the-chart", { reviewedAt: "2026-09-08", nextReviewAt: "2027-03-08" }),
   sensitive("what-happens-while-hospital-is-waiting-on-insurance", { reviewedAt: "2026-09-08", nextReviewAt: "2027-01-15" }),
   sensitive("medically-ready-is-not-the-same-as-ready-for-home", { reviewedAt: "2026-09-08", nextReviewAt: "2027-03-08" }),
+  editorial(
+    "how-a-hospital-actually-makes-money",
+    "Reviewed founder-led hospital-economics article intentionally kept ad-free during the current audience-validation cycle; reconsider light advertising at the next publisher review rather than expanding monetization mid-experiment.",
+    { reviewedAt: "2026-09-10", nextReviewAt: "2026-10-10" },
+  ),
   eligible("why-hospitals-become-the-systems-shock-absorber", "flagship", { reviewedAt: "2026-08-30", nextReviewAt: "2027-02-28" }),
   sensitive("home-with-family-is-not-a-free-care-plan", { reviewedAt: "2026-08-30", nextReviewAt: "2026-11-30" }),
   eligible("20-dollar-tylenol-hospital-prices", "flagship", { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" }),

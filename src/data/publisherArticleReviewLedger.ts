@@ -55,6 +55,7 @@ export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
   sensitive("patient-in-the-bed-and-patient-in-the-chart", { reviewedAt: "2026-09-08", nextReviewAt: "2027-03-08" }),
   sensitive("what-happens-while-hospital-is-waiting-on-insurance", { reviewedAt: "2026-09-08", nextReviewAt: "2027-01-15" }),
   sensitive("medically-ready-is-not-the-same-as-ready-for-home", { reviewedAt: "2026-09-08", nextReviewAt: "2027-03-08" }),
+  eligible("how-a-hospital-actually-makes-money", "flagship", { reviewedAt: "2026-09-10", nextReviewAt: "2027-03-10" }),
   eligible("why-hospitals-become-the-systems-shock-absorber", "flagship", { reviewedAt: "2026-08-30", nextReviewAt: "2027-02-28" }),
   sensitive("home-with-family-is-not-a-free-care-plan", { reviewedAt: "2026-08-30", nextReviewAt: "2026-11-30" }),
   eligible("20-dollar-tylenol-hospital-prices", "flagship", { reviewedAt: "2026-08-29", nextReviewAt: "2027-02-28" }),

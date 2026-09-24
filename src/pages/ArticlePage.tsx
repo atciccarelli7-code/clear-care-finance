@@ -3,6 +3,7 @@ import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRi
 import type { LucideIcon } from "lucide-react";
 import type { Article } from "@/data/articles";
 import { ARTICLE_VOICE_NOTES } from "@/data/articleVoiceNotes";
+import { getEditorialSeries } from "@/data/editorialSeries";
 import { OPEN_ENROLLMENT_ARTICLE_SLUGS } from "@/data/openEnrollmentPath";
 import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
@@ -511,6 +512,17 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
   const voiceNote = ARTICLE_VOICE_NOTES[article.slug];
   const showOutOfPocketMaxTool = ["how-to-read-an-eob", "deductible-copay-coinsurance-out-of-pocket-max"].includes(article.slug);
   const nextSteps = getArticleNextSteps(article.slug, article.category, article.relatedCalculator, articleCatalog);
+  const editorialSeries = getEditorialSeries(article.slug);
+  const seriesNextSteps = editorialSeries ? [
+    {
+      eyebrow: "Read next in this series",
+      title: editorialSeries.next.title,
+      description: "Continue Andrew’s explanation of the rules, incentives, and work behind healthcare.",
+      href: `/articles/${editorialSeries.next.slug}`,
+      cta: "Read the next article",
+    },
+    ...nextSteps.filter((step) => step.href !== `/articles/${editorialSeries.next.slug}`),
+  ] : nextSteps;
   const orderedOpenEnrollmentStep = getOpenEnrollmentOrderedStep(article.slug, articleCatalog);
   const usesDirectionalHandoff = isPriorityDirectionalArticle(article.slug);
   const heroAction = getArticleHeroAction(article.slug);
@@ -841,7 +853,15 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
           </section>
         )}
 
-        {usesDirectionalHandoff && directionalPrimary ? (
+        {editorialSeries ? (
+          <NextStepCards
+            eyebrow="Continue the series"
+            title={editorialSeries.title}
+            description={editorialSeries.description}
+            cards={seriesNextSteps}
+            columns="two"
+          />
+        ) : usesDirectionalHandoff && directionalPrimary ? (
           <DirectionalNextActions
             eyebrow="Recommended next action"
             title="Turn this explanation into the next decision"
@@ -869,12 +889,12 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
           </div>
         )}
 
-        {article.slug === "20-dollar-tylenol-hospital-prices" && (
+        {editorialSeries && (
           <NewsletterSignup
             compact
-            source="article-20-dollar-tylenol-hospital-prices"
+            source={`article-${article.slug}`}
             title="Keep following the money behind healthcare"
-            description="Get CAF’s monthly explanation of hospital money, insurance rules, and care transitions, with sources and a useful next read."
+            description="Get one strong healthcare-system explanation each month from Andrew Ciccarelli, RN, BSN. Follow the money, incentives, and care transitions—with sources and a useful next read."
             successMessage="You are on the CAF list. Thank you for reading."
           />
         )}

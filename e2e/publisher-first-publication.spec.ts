@@ -180,7 +180,7 @@ for (const article of founderArticles) {
     await expect(page.getByRole("heading", { name: article.systemMap })).toBeVisible();
     await expect(page.getByRole("heading", { name: article.systemLens })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Key takeaway" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Sources" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Sources", exact: true, level: 2 })).toBeVisible();
     await expect(page.getByLabel("Article authorship and review")).toContainText("Andrew Ciccarelli, BSN, RN");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",

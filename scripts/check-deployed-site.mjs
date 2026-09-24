@@ -256,31 +256,66 @@ export const validateSitemapDocument = ({
   };
 };
 
-const buildHeaders = () => {
+const buildHeaders = (bypassSecret) => {
   const headers = new Headers({
     accept: "text/html,application/xhtml+xml,application/xml;q=0.9,text/plain;q=0.8,*/*;q=0.5",
     "user-agent": "CAF-Deployed-Site-Smoke/1.0",
   });
-  const bypassSecret = process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim();
   if (bypassSecret) {
     headers.set("x-vercel-protection-bypass", bypassSecret);
-    headers.set("x-vercel-set-bypass-cookie", "true");
   }
   return headers;
 };
 
-const fetchWithRetry = async (url, { attempts, delayMs }) => {
+class DeploymentAccessError extends Error {}
+
+// Never forward deployment credentials to a redirect destination or an unrelated project.
+export const fetchDeployment = async (url, {
+  environment = "preview",
+  bypassSecret = process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim(),
+  fetchImpl = fetch,
+} = {}) => {
+  const initial = new URL(url);
+  const trustedPreview = initial.protocol === "https:" &&
+    /^clear-care-finance-[a-z0-9-]+-communityacquiredfinance\.vercel\.app$/.test(initial.hostname);
+  const credential = environment === "preview" && trustedPreview ? bypassSecret : undefined;
+  let current = initial;
+  for (let redirects = 0; redirects <= 5; redirects += 1) {
+    const response = await fetchImpl(current.toString(), {
+      headers: buildHeaders(credential),
+      redirect: "manual",
+      signal: AbortSignal.timeout(20_000),
+    });
+    if ([301, 302, 303, 307, 308].includes(response.status)) {
+      const location = response.headers.get("location");
+      if (!location) throw new DeploymentAccessError("Deployment returned a redirect without a Location header.");
+      const next = new URL(location, current);
+      if (next.origin !== initial.origin) {
+        if (next.hostname === "vercel.com" || next.hostname.endsWith(".vercel.com")) {
+          throw new DeploymentAccessError("Vercel deployment protection blocked the smoke check. Configure a valid VERCEL_AUTOMATION_BYPASS_SECRET for this project's preview; application checks have not run.");
+        }
+        throw new DeploymentAccessError("Deployment redirected to another origin; stopped without forwarding credentials.");
+      }
+      current = next;
+      continue;
+    }
+    if ([401, 403].includes(response.status) && trustedPreview) {
+      throw new DeploymentAccessError("Preview access denied. Check VERCEL_AUTOMATION_BYPASS_SECRET and deployment protection; application checks have not run.");
+    }
+    return response;
+  }
+  throw new DeploymentAccessError("Deployment exceeded five same-origin redirects.");
+};
+
+const fetchWithRetry = async (url, { attempts, delayMs, environment }) => {
   let lastError;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
-      const response = await fetch(url, {
-        headers: buildHeaders(),
-        redirect: "follow",
-        signal: AbortSignal.timeout(20_000),
-      });
+      const response = await fetchDeployment(url, { environment });
       if (response.ok || (response.status < 500 && response.status !== 404)) return response;
       lastError = new Error(`HTTP ${response.status}`);
     } catch (error) {
+      if (error instanceof DeploymentAccessError) throw error;
       lastError = error;
     }
     if (attempt < attempts) await sleep(delayMs);
@@ -319,7 +354,7 @@ export const runSmokeChecks = async ({
     const routeUrl = new URL(route.path, `${normalizedBaseUrl}/`).toString();
     const started = Date.now();
     try {
-      const response = await fetchWithRetry(routeUrl, { attempts, delayMs });
+      const response = await fetchWithRetry(routeUrl, { attempts, delayMs, environment: resolvedEnvironment });
       const body = await response.text();
       results.push({
         ...validateHtmlDocument({
@@ -348,7 +383,7 @@ export const runSmokeChecks = async ({
     const routeUrl = new URL(specialPath, `${normalizedBaseUrl}/`).toString();
     const started = Date.now();
     try {
-      const response = await fetchWithRetry(routeUrl, { attempts, delayMs });
+      const response = await fetchWithRetry(routeUrl, { attempts, delayMs, environment: resolvedEnvironment });
       const body = await response.text();
       const result =
         specialPath === "/robots.txt"

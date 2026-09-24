@@ -15,7 +15,7 @@ const cmsIppsFinal2026: Source = {
   name: "Centers for Medicare & Medicaid Services",
   pageTitle: "FY 2026 IPPS Final Rule Home Page",
   url: "https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps/fy-2026-ipps-final-rule-home-page",
-  note: "Current FY 2026 inpatient payment tables, including MS-DRG relative weights, length-of-stay statistics, and payment-adjustment files.",
+  note: "FY 2026 inpatient payment tables, applicable through September 30, 2026, including MS-DRG relative weights, length-of-stay statistics, and payment-adjustment files. Review the annual update when FY 2027 takes effect on October 1, 2026.",
 };
 
 const cmsReadmissions: Source = {
@@ -78,7 +78,7 @@ export const FOUNDER_HOSPITAL_MONEY_ARTICLES: Article[] = [
     ],
     publishedAt: PUBLISHED_AT,
     lastReviewedAt: PUBLISHED_AT,
-    nextReviewAt: "2027-03-10",
+    nextReviewAt: "2026-10-01",
     reviewScope: "Medicare IPPS and MS-DRG mechanics, FY 2026 length-of-stay tables, readmission and quality payment programs, hospital price-transparency definitions, Medicare outpatient payment, and Medicaid hospital-payment variation.",
     author: AUTHOR,
     systemMap: {

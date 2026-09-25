@@ -1,5 +1,22 @@
 # Community Acquired Finance Decision Ledger
 
+### CAF-D-027 — Preserve the publication design, remove reading friction
+
+- **Date:** 2026-09-25; **Status:** CONFIRMED visual scope, INFERENCE audience benefit.
+- **Decision:** Opaque sticky header, larger mobile toggle, direct Articles destination, article-only compact attribution/review presentation, larger narrative type, archive search jump. Keep homepage, palette, content and infrastructure.
+- **Evidence:** Direct rendered desktop/mobile review and local tests; CAF-E-024.
+- **Boundary:** No release while protected-preview access remains blocked. Revert the visual commit if regression evidence appears.
+
+### CAF-D-026 — Bounded founder reader-growth implementation
+
+- **Date:** 2026-09-24
+- **Status:** CONFIRMED scope; EXPERIMENT audience effect
+- **Decision:** Founder authorizes consistent flagship next-read/newsletter paths, a publication-only Newsletter page, restrained author visibility, and conditional PR286 publication. Two existing-component series cover ten flagships; preserve utility actions and all existing ranking-page titles/descriptions. Align Newsletter metadata only.
+- **Evidence:** Current main/PR, direct production HTTP, ten-article audit, CMS/MACPAC verification and local release checks; CAF-E-023.
+- **Consequences:** Direct next-founder coverage 3/10 to 10/10; endcaps 1/10 to 10/10; no redesign or monetization. Annotate actual deployment date and preserve original six-page audience cohort separately from newer articles.
+- **Release boundary:** No merge while protected-preview certification lacks its credential or any substantive check fails.
+- **Revisit:** Authenticated exact-head preview; October 1 payment-source review; first 28 settled post-release days. Refines CAF-D-025 only within this explicitly authorized scope.
+
 This ledger records material strategic, product, technical, editorial, commercial, and operating decisions. It prevents prior choices from becoming invisible assumptions.
 
 ## Status definitions

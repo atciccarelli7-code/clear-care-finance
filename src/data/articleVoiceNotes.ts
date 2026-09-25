@@ -5,6 +5,11 @@ export type ArticleVoiceNote = {
 };
 
 export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
+  "how-a-hospital-actually-makes-money": {
+    eyebrow: "From inside hospital operations",
+    title: "Good care and good hospital economics are not always enemies.",
+    body: "Hospitals care about length of stay, capacity, documentation, readmissions, and financial performance because those things shape whether the system can keep moving. That can sound cold from the bedside. But diagnosing earlier, treating correctly, preventing complications, and building a safe discharge plan sooner can be better for the patient and the hospital at the same time. The tension starts when a clean metric meets a patient whose real life is not clean at all.",
+  },
   "why-hospitals-become-the-systems-shock-absorber": {
     eyebrow: "From inside patient flow",
     title: "The place holding the problem did not always create the whole problem.",

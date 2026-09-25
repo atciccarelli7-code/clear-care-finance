@@ -148,7 +148,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/94 backdrop-blur-xl supports-[backdrop-filter]:bg-background/88">
+    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background">
       <div className="container flex h-16 items-center justify-between gap-3">
         <Link
           to="/"
@@ -233,7 +233,7 @@ export const Header = () => {
           </Button>
           <button
             ref={menuButtonRef}
-            className="rounded-lg p-2 transition-smooth hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 xl:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-lg transition-smooth hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 xl:hidden"
             onClick={toggleMobileMenu}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-controls="mobile-menu"
@@ -246,7 +246,7 @@ export const Header = () => {
       </div>
 
       {mobileOpen && (
-        <div id="mobile-menu" className="mobile-menu-panel border-t border-border bg-background animate-fade-in xl:hidden">
+        <div id="mobile-menu" className="mobile-menu-panel border-t border-border bg-background xl:hidden">
           <nav
             ref={mobileMenuRef}
             className="container mobile-menu-scroll py-4"

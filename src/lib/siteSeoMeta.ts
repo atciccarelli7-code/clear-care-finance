@@ -71,7 +71,7 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
   },
   "/newsletter": {
     title: "Community Acquired Finance Newsletter",
-    description: "Get practical, low-frequency updates on retirement, workplace benefits, insurance, medical bills, Medicare, Medicaid, and new financial tools.",
+    description: "One healthcare-system explanation each month from Andrew Ciccarelli, RN, BSN: hospital money, insurance rules, and care transitions, with primary sources.",
   },
   "/insurance/medical-bill-review-toolkit": {
     title: "Medical Bill Response System",

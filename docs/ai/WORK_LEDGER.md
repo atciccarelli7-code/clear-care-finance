@@ -1,5 +1,22 @@
 # Community Acquired Finance Work Ledger
 
+### CAF-W-024 — Editorial reading and mobile navigation refinement
+
+- **Date:** 2026-09-25; CAF-D-027 / CAF-E-024.
+- **Implemented:** Shared header/menu fixes, direct mobile Articles link, compact article hero/byline/review disclosures, preserved print evidence, larger narrative type, archive search shortcut.
+- **Validation:** Desktop/mobile rendered review; build and bundle limits pass, 802 tests and 69 browser cases pass. Existing app type errors unchanged; preview access remains blocked.
+- **Preserved:** Homepage identity, source content, utilities, URLs, metadata infrastructure, analytics, consent and monetization boundaries. Newer PR286 test fix retained.
+- **Release/stop:** PR286 update only; no production merge until exact-head release gates pass. No further redesign warranted by reviewed evidence.
+
+### CAF-W-023 — Founder series and newsletter continuation
+
+- **Date:** 2026-09-24; CAF-D-026 / CAF-E-023.
+- **Implemented:** Two named reading series across ten flagships; retained utility destinations; nine missing article endcaps; four Newsletter article examples, author link and publication promise; static/client Newsletter metadata alignment. Existing article headlines, voice, tools and monetization preserved.
+- **Release cleanup:** Exact Sources heading locator; protected-preview diagnostic and credential-safe redirect behavior; smoke regressions included in normal suite; hospital-payment source review advanced to October 1.
+- **Validation:** Build/search/governance gates PASS, lint zero errors; 32/32 desktop/mobile browser cases. Full tests initially 801/802 due solely to unchanged Windows CRLF fixture; original Git bytes restore affected 12/12 with no repository diff. See work packet for focused counts.
+- **Release:** Prepared for PR286; no merge/production change while bypass credential and authenticated preview gate are unresolved. No claims about email delivery or returning readership.
+- **Compounding:** Explicit series registry, all-flagship regression coverage, actionable preview diagnostics, preserved historical cohort and intervention date. Stop expanding scope; next action is secure preview access and exact-head release certification.
+
 This ledger records the outcome and reusable learning from material assignments. It is not a backlog and should not become a transcript.
 
 ## Entry template

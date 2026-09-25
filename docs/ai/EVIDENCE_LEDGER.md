@@ -1,5 +1,20 @@
 # Community Acquired Finance Evidence Ledger
 
+### CAF-E-024 — Rendered editorial reading review
+
+- **Retrieved:** 2026-09-25; DIRECT-CURRENT production/local browser review, GitHub state, local automated checks.
+- **Finding:** Header transparency and oversized article preamble were visible; compact attribution and readable text improve hierarchy. Independent review caught a print disclosure regression, now fixed and tested.
+- **Validation:** Build PASS, lint zero errors, 802 unit/integration tests and 69 browser cases PASS; one mobile-only desktop skip. Existing app type errors remain. Screenshots under local `artifacts/visual-review`; complete details in `docs/work-packets/2026-09-25-editorial-reading-refinement.md`.
+- **Limits:** No production shipment, measured conversion uplift, live email delivery or authenticated preview success claimed.
+
+### CAF-E-023 — Reader-growth baseline and PR286 access gate
+
+- **Retrieved:** 2026-09-24; DIRECT-CURRENT GitHub/main/PR, production HTTP and local tests; PRIMARY-SOURCE CMS/MACPAC.
+- **Findings:** PR286 OPEN with new article absent production (404). Ten flagships have next-step UI and author attribution; 3/10 direct next flagship, 1/10 endcap. Newsletter's current medical-bill module is free resources; cached paid-workbook page is stale. Preview redirects to Vercel protection; repository/environment bypass secret absent.
+- **Validation:** Full build passes, lint zero errors, 32/32 browser checks and focused article/newsletter/smoke coverage pass. Full-suite Windows-only CRLF assertion explained and affected tests pass with original Git LF bytes; no application change. See work packet for exact counts and limitations.
+- **Limits:** No fresh search, subscriber/delivery or Vercel runtime logs; signup browser transport mocked. No production shipment or post-merge validation claimed.
+- **Used for:** CAF-D-026, CAF-W-023; `docs/work-packets/2026-09-24-reader-growth.md`.
+
 This ledger defines where material project facts must be verified, how evidence is classified, and when it becomes stale. It is a governance index, not a substitute for retrieving the underlying source.
 
 ## Evidence classes

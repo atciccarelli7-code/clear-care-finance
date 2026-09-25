@@ -49,7 +49,7 @@ Routes designated as ad-free must not contain the route-managed AdSense script i
 - A small retry window absorbs normal deployment propagation.
 - Results are printed in the GitHub job summary and uploaded as a JSON artifact for 14 days.
 
-If Vercel deployment protection blocks GitHub Actions, add a repository Actions secret named `VERCEL_AUTOMATION_BYPASS_SECRET`. The verifier sends it only as Vercel's protection-bypass header. It is never written to the report or logs.
+If Vercel deployment protection blocks GitHub Actions, add a repository Actions secret named `VERCEL_AUTOMATION_BYPASS_SECRET`. The verifier sends it only as Vercel's protection-bypass header to HTTPS preview hosts matching `clear-care-finance-*-communityacquiredfinance.vercel.app`. Production and unrelated hosts never receive the credential. Redirects are handled manually and must remain on the initial origin; Vercel login redirects and denied preview requests fail with an explicit configuration error, rather than validating the login page as the application. No bypass cookie is requested, and the credential is never written to the report or logs. A project/team hostname change requires reviewing this allowlist.
 
 ## Manual execution
 
@@ -67,7 +67,7 @@ Preview:
 
 ```bash
 VERCEL_AUTOMATION_BYPASS_SECRET="..." npm run smoke:deployed -- \
-  --base-url https://your-preview.vercel.app \
+  --base-url https://clear-care-finance-DEPLOYMENT-communityacquiredfinance.vercel.app \
   --environment preview
 ```
 
@@ -87,3 +87,7 @@ Use this order:
 6. Re-run the workflow against the same deployment when appropriate.
 
 Do not weaken an assertion solely to make the workflow green. Change an assertion only when the site's explicit product, privacy, indexing, or security standard has changed and the controlling documentation is updated in the same pull request.
+
+## Protected preview release gate
+
+If the automation secret is missing or invalid, the deployment may be READY while the application remains unverified. Provision the existing Vercel project's automation-bypass secret through the GitHub repository Actions secret settings, then rerun this workflow on the exact deployment. Do not disable deployment protection, skip this check, substitute production for the preview, or interpret a login-page response as success. Unit coverage verifies authenticated same-origin requests, prevention of cross-origin credential forwarding, denied access, and bounded redirects; it does not replace a successful check of the deployed application.

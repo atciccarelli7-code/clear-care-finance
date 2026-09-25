@@ -406,7 +406,7 @@ test("Tylenol reader can continue the publication or join with explicit consent"
   await expect(signup.getByRole("status")).toContainText("Welcome email delivery is still being finalized");
   expect(signupBody).toMatchObject({ source: "article-20-dollar-tylenol-hospital-prices", consent: true });
   await certifyPage(page, watch);
-  await page.getByRole("link", { name: /Understand nonprofit hospitals/ }).click();
+  await page.getByRole("link", { name: /What a Nonprofit Hospital Actually/ }).click();
   await expect(page).toHaveURL(/\/articles\/what-nonprofit-hospital-actually-means$/);
   await expect(page.getByRole("heading", { level: 1, name: /What a Nonprofit Hospital/ })).toBeVisible();
 });

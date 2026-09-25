@@ -11,7 +11,7 @@ import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { NextStepCards, type NextStepCard } from "@/components/shared/NextStepCards";
 import { DirectionalActionLink, DirectionalNextActions } from "@/components/shared/DirectionalNextActions";
-import { ContentFreshness } from "@/components/shared/ContentFreshness";
+import { ArticleFreshness as ContentFreshness } from "@/components/shared/ArticleFreshness";
 import { EditorialTransparency } from "@/components/shared/EditorialTransparency";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
@@ -587,7 +587,7 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
 
   return (
     <>
-      <PageHero eyebrow={article.category} title={article.title} description={article.promise}>
+      <PageHero reading eyebrow={article.category} title={article.title} description={article.promise}>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> {article.readTime}</span>
         </div>
@@ -604,17 +604,19 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
         )}
       </PageHero>
 
-      <article className="container max-w-3xl py-8 md:py-16 space-y-8 md:space-y-12">
-        <ContentFreshness
-          publishedAt={article.publishedAt}
-          lastReviewedAt={article.lastReviewedAt}
-          rulesEffectiveAt={article.rulesEffectiveAt}
-          nextReviewAt={article.nextReviewAt}
-          timeSensitive={article.timeSensitive}
-          reviewScope={article.reviewScope}
-          updateNote={article.updateNote}
-        />
-        <EditorialTransparency author={article.author} reviewer={article.reviewer} />
+      <article className="container max-w-3xl py-6 md:py-8 space-y-8 md:space-y-12">
+        <div className="space-y-3 border-b border-border pb-5">
+          <EditorialTransparency inline author={article.author} reviewer={article.reviewer} />
+          <ContentFreshness
+            publishedAt={article.publishedAt}
+            lastReviewedAt={article.lastReviewedAt}
+            rulesEffectiveAt={article.rulesEffectiveAt}
+            nextReviewAt={article.nextReviewAt}
+            timeSensitive={article.timeSensitive}
+            reviewScope={article.reviewScope}
+            updateNote={article.updateNote}
+          />
+        </div>
         <Section icon={Users} title="Who this is for">
           <p>{article.audience}</p>
         </Section>
@@ -670,8 +672,8 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
             {article.editorialSections.map((section) => (
               <section key={section.title} className="scroll-mt-24">
                 <h2 className="font-display text-xl font-bold tracking-tight text-foreground md:text-2xl">{section.title}</h2>
-                <div className="mt-4 space-y-4 text-[0.98rem] leading-[1.75] text-muted-foreground md:text-base">
-                  {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                <div className="mt-4 space-y-5 text-[1.0625rem] leading-[1.75] text-foreground/90 md:text-lg md:leading-[1.75]">
+                  {section.paragraphs.map((paragraph, index) => <p key={`${index}-${paragraph}`}>{paragraph}</p>)}
                   {section.keyPoints && section.keyPoints.length > 0 && (
                     <ul className="space-y-2.5 pt-1">
                       {section.keyPoints.map((point) => (

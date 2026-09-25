@@ -7,12 +7,13 @@ interface PageHeroProps {
   description?: string;
   children?: ReactNode;
   className?: string;
+  reading?: boolean;
 }
 
-export const PageHero = ({ eyebrow, title, description, children, className }: PageHeroProps) => (
+export const PageHero = ({ eyebrow, title, description, children, className, reading = false }: PageHeroProps) => (
   <section className={cn("relative w-full min-w-0 overflow-hidden border-b border-border/70 bg-card/30", className)}>
     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent" />
-    <div className="container relative mx-auto max-w-4xl min-w-0 space-y-4 py-14 text-center md:space-y-5 md:py-20">
+    <div className={cn("container relative mx-auto max-w-4xl min-w-0 space-y-4 text-center md:space-y-5", reading ? "py-8 md:py-12" : "py-14 md:py-20")}>
       {eyebrow && (
         <div className="flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-primary">
           <span className="h-px w-7 bg-primary/35" aria-hidden="true" />

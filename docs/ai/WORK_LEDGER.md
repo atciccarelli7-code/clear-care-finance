@@ -1,5 +1,13 @@
 # Community Acquired Finance Work Ledger
 
+### CAF-W-024 — Editorial reading and mobile navigation refinement
+
+- **Date:** 2026-09-25; CAF-D-027 / CAF-E-024.
+- **Implemented:** Shared header/menu fixes, direct mobile Articles link, compact article hero/byline/review disclosures, preserved print evidence, larger narrative type, archive search shortcut.
+- **Validation:** Desktop/mobile rendered review; build and bundle limits pass, 802 tests and 69 browser cases pass. Existing app type errors unchanged; preview access remains blocked.
+- **Preserved:** Homepage identity, source content, utilities, URLs, metadata infrastructure, analytics, consent and monetization boundaries. Newer PR286 test fix retained.
+- **Release/stop:** PR286 update only; no production merge until exact-head release gates pass. No further redesign warranted by reviewed evidence.
+
 ### CAF-W-023 — Founder series and newsletter continuation
 
 - **Date:** 2026-09-24; CAF-D-026 / CAF-E-023.

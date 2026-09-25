@@ -1,5 +1,12 @@
 # Community Acquired Finance Evidence Ledger
 
+### CAF-E-024 — Rendered editorial reading review
+
+- **Retrieved:** 2026-09-25; DIRECT-CURRENT production/local browser review, GitHub state, local automated checks.
+- **Finding:** Header transparency and oversized article preamble were visible; compact attribution and readable text improve hierarchy. Independent review caught a print disclosure regression, now fixed and tested.
+- **Validation:** Build PASS, lint zero errors, 802 unit/integration tests and 69 browser cases PASS; one mobile-only desktop skip. Existing app type errors remain. Screenshots under local `artifacts/visual-review`; complete details in `docs/work-packets/2026-09-25-editorial-reading-refinement.md`.
+- **Limits:** No production shipment, measured conversion uplift, live email delivery or authenticated preview success claimed.
+
 ### CAF-E-023 — Reader-growth baseline and PR286 access gate
 
 - **Retrieved:** 2026-09-24; DIRECT-CURRENT GitHub/main/PR, production HTTP and local tests; PRIMARY-SOURCE CMS/MACPAC.

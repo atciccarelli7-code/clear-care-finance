@@ -1,5 +1,12 @@
 # Community Acquired Finance Decision Ledger
 
+### CAF-D-027 — Preserve the publication design, remove reading friction
+
+- **Date:** 2026-09-25; **Status:** CONFIRMED visual scope, INFERENCE audience benefit.
+- **Decision:** Opaque sticky header, larger mobile toggle, direct Articles destination, article-only compact attribution/review presentation, larger narrative type, archive search jump. Keep homepage, palette, content and infrastructure.
+- **Evidence:** Direct rendered desktop/mobile review and local tests; CAF-E-024.
+- **Boundary:** No release while protected-preview access remains blocked. Revert the visual commit if regression evidence appears.
+
 ### CAF-D-026 — Bounded founder reader-growth implementation
 
 - **Date:** 2026-09-24

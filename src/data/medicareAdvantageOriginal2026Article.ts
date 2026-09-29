@@ -8,6 +8,10 @@ export const MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE: Article = {
   promise: "Compare Medicare Advantage and Original Medicare using the 2026 costs, network rules, prior authorization friction, and patient-centered questions that families should check before choosing coverage.",
   audience: "Older adults, caregivers, patients, families, and healthcare workers helping someone compare Medicare Advantage, Original Medicare, Part D, and Medigap options for 2026.",
   summary: "Medicare Advantage and Original Medicare are two different ways to receive Medicare coverage. Medicare Advantage may bundle drug coverage and extra benefits, and it must cap covered Part A and Part B out-of-pocket costs. Original Medicare usually offers broader doctor and hospital choice, but it does not have a built-in yearly out-of-pocket maximum unless the person has Medigap, Medicaid, employer retiree coverage, union coverage, or another supplement. In 2026, the decision should come down to doctors, hospitals, medications, premiums, out-of-pocket exposure, prior authorization rules, travel needs, post-hospital care, and whether the person can afford the plan if they actually get sick.",
+  topCallout: {
+    label: "2027 plan-year note",
+    body: "As of September 29, 2026, CMS has not yet announced the official 2027 Part B standard premium or deductible. The 2026 Part B figures below remain the current official amounts for 2026.",
+  },
   body: [
     "Medicare Advantage is not automatically better because it has a low premium. Original Medicare is not automatically safer unless the person understands the cost-sharing and supplemental coverage gap.",
     "The useful question is not which option sounds better in a brochure. The useful question is which coverage structure works when the patient needs specialists, hospital care, expensive medications, rehab, skilled nursing, home health, durable medical equipment, or care away from home.",
@@ -129,12 +133,30 @@ export const MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE: Article = {
       ],
       watchOut: "The best plan is not universal. It is patient-specific, medication-specific, provider-specific, county-specific, and year-specific."
     }
+    {
+      title: "Enrollment timing: what to do before December 7",
+      definition: "Medicare Open Enrollment runs October 15 through December 7, 2026. Changes made during this period for 2027 coverage generally take effect January 1, 2027.",
+      keyPoints: [
+        "Recheck the 2027 provider network for the doctors, hospitals, pharmacies, rehab facilities, home health agencies, and DME suppliers the person expects to use.",
+        "Recheck every recurring prescription on the 2027 formulary, including drug tier, preferred pharmacy, quantity limits, step therapy, and prior authorization.",
+        "Review the plan’s 2027 prior-authorization and referral rules for services the person is likely to need.",
+        "Compare the 2027 medical maximum out-of-pocket, copays, coinsurance, premiums, and supplemental benefits with the current plan rather than assuming the 2026 amounts carry forward.",
+        "CMS set the 2027 defined-standard Part D deductible at $700 and the annual Part D out-of-pocket threshold at $2,400. A specific Part D or MA-PD plan may use a lower deductible, so verify the plan’s actual 2027 design."
+      ],
+      watchOut: "Open Enrollment is a comparison window, not a reason to switch automatically. A plan that worked in 2026 may still fit in 2027, but networks, formularies, benefits, and cost-sharing should be rechecked before December 7."
+    },
   ],
   example: {
     title: "The plan that looked cheap until discharge",
     body: "A patient chooses a low-premium Medicare Advantage HMO because the primary doctor is in-network and the plan includes dental and vision benefits. Later, after a hospitalization, the family wants a specific rehab facility, but the facility is out-of-network and skilled nursing placement requires prior authorization. The premium was low, but the real issue became discharge friction, network fit, and approval timing."
   },
   relatedCalculator: { label: "Medicare Advantage Plan Helper", href: "/tools/medicare-advantage-plan-helper" },
+  closingAction: {
+    title: "Test the plan against the care you actually use",
+    body: "Use the Medicare Advantage Plan Helper to put provider access, prescriptions, prior-authorization rules, and out-of-pocket exposure in one place. It does not choose a Medicare path for you; it makes the tradeoffs easier to verify before enrollment. Confirm final 2027 details with Medicare.gov and the plan’s current documents.",
+    href: "/tools/medicare-advantage-plan-helper",
+    cta: "Open the plan helper",
+  },
   commonMistakes: [
     "Choosing a Medicare Advantage plan because the premium is low without checking the plan’s max out-of-pocket exposure.",
     "Assuming Original Medicare has an annual out-of-pocket maximum by itself.",
@@ -180,6 +202,24 @@ export const MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE: Article = {
       pageTitle: "How Medigap works",
       url: "https://www.medicare.gov/health-drug-plans/medigap/basics/how-medigap-works",
       note: "Official explanation of how Medicare Supplement insurance works with Original Medicare."
-    }
+    }    {
+      name: "Medicare.gov",
+      pageTitle: "Medicare Open Enrollment",
+      url: "https://www.medicare.gov/health-drug-plans/open-enrollment",
+      note: "Official Medicare dates and effective-date guidance for October 15 through December 7 Open Enrollment and January 1 coverage changes."
+    },
+    {
+      name: "CMS",
+      pageTitle: "Announcement of Calendar Year (CY) 2027 Medicare Advantage Capitation Rates and Part C and Part D Payment Policies",
+      url: "https://www.cms.gov/files/document/2027-announcement.pdf",
+      note: "Official 2027 Part D defined-standard benefit parameters, including the $700 deductible and $2,400 annual out-of-pocket threshold."
+    },
+    {
+      name: "CMS",
+      pageTitle: "2026 Medicare Trustees Report",
+      url: "https://www.cms.gov/oact/tr/2026",
+      note: "CMS report distinguishing estimated future Part B financing from official beneficiary premium rates; official 2027 Part B premium and deductible had not been announced as of September 29, 2026."
+    },
+
   ],
 };

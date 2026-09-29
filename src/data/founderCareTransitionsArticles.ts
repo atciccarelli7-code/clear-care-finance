@@ -57,7 +57,7 @@ const lottTrial: Source = {
 };
 
 const functionalDocumentationStudy: Source = {
-  name: "International Journal of Nursing Studies / PubMed",
+  name: "Scandinavian Journal of Caring Sciences / PubMed",
   pageTitle: "Comparison of nurses’ and physicians’ documentation of functional abilities of older patients in acute care (2008)",
   url: "https://pubmed.ncbi.nlm.nih.gov/18840217/",
   note: "Older Nordic study retained only as an illustration that important functional information can be absent from routine clinical documentation, not as a current U.S. estimate.",

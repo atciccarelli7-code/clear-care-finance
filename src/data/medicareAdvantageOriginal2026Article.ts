@@ -132,7 +132,7 @@ export const MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE: Article = {
         "Can the person afford the premium plus the likely cost-sharing, not just the premium?"
       ],
       watchOut: "The best plan is not universal. It is patient-specific, medication-specific, provider-specific, county-specific, and year-specific."
-    }
+    },
     {
       title: "Enrollment timing: what to do before December 7",
       definition: "Medicare Open Enrollment runs October 15 through December 7, 2026. Changes made during this period for 2027 coverage generally take effect January 1, 2027.",

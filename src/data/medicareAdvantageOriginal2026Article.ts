@@ -202,7 +202,8 @@ export const MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE: Article = {
       pageTitle: "How Medigap works",
       url: "https://www.medicare.gov/health-drug-plans/medigap/basics/how-medigap-works",
       note: "Official explanation of how Medicare Supplement insurance works with Original Medicare."
-    }    {
+    },
+    {
       name: "Medicare.gov",
       pageTitle: "Medicare Open Enrollment",
       url: "https://www.medicare.gov/health-drug-plans/open-enrollment",
@@ -220,6 +221,5 @@ export const MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE: Article = {
       url: "https://www.cms.gov/oact/tr/2026",
       note: "CMS report distinguishing estimated future Part B financing from official beneficiary premium rates; official 2027 Part B premium and deductible had not been announced as of September 29, 2026."
     },
-
   ],
 };

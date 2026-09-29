@@ -52,6 +52,7 @@ const editorial = (slug: string, reason: string): PublisherArticleReview => ({
 });
 
 export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
+  sensitive("what-medicare-advantage-looks-like-from-hospital-side", { reviewedAt: "2026-09-29", nextReviewAt: "2027-01-15" }),
   sensitive("patient-in-the-bed-and-patient-in-the-chart", { reviewedAt: "2026-09-08", nextReviewAt: "2027-03-08" }),
   sensitive("what-happens-while-hospital-is-waiting-on-insurance", { reviewedAt: "2026-09-08", nextReviewAt: "2027-01-15" }),
   sensitive("medically-ready-is-not-the-same-as-ready-for-home", { reviewedAt: "2026-09-08", nextReviewAt: "2027-03-08" }),

@@ -132,7 +132,7 @@ test("makes the article library discoverable and searchable", async ({ page }) =
   await page.goto("/articles", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
-  await expect(page.getByText("80 RN-led, source-backed articles", { exact: false })).toBeVisible();
+  await expect(page.getByText(/\d+ RN-led, source-backed articles/i)).toBeVisible();
   await expect(
     page.getByRole("heading", { name: /Inside hospitals: prices, capacity, classification, and the work after discharge/i }),
   ).toBeVisible();

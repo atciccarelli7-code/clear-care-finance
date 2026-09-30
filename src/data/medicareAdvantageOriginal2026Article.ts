@@ -10,7 +10,7 @@ export const MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE: Article = {
   summary: "Medicare Advantage and Original Medicare are two different ways to receive Medicare coverage. Medicare Advantage may bundle drug coverage and extra benefits, and it must cap covered Part A and Part B out-of-pocket costs. Original Medicare usually offers broader doctor and hospital choice, but it does not have a built-in yearly out-of-pocket maximum unless the person has Medigap, Medicaid, employer retiree coverage, union coverage, or another supplement. In 2026, the decision should come down to doctors, hospitals, medications, premiums, out-of-pocket exposure, prior authorization rules, travel needs, post-hospital care, and whether the person can afford the plan if they actually get sick.",
   topCallout: {
     label: "2027 plan-year note",
-    body: "As of September 29, 2026, CMS has not yet announced the official 2027 Part B standard premium or deductible. The 2026 Part B figures below remain the current official amounts for 2026.",
+    body: "As of September 30, 2026, CMS has not yet announced the official 2027 Part B standard premium or deductible. The 2026 Part B figures below remain the current official amounts for 2026.",
   },
   body: [
     "Medicare Advantage is not automatically better because it has a low premium. Original Medicare is not automatically safer unless the person understands the cost-sharing and supplemental coverage gap.",
@@ -219,7 +219,7 @@ export const MEDICARE_ADVANTAGE_ORIGINAL_2026_ARTICLE: Article = {
       name: "CMS",
       pageTitle: "2026 Medicare Trustees Report",
       url: "https://www.cms.gov/oact/tr/2026",
-      note: "CMS report distinguishing estimated future Part B financing from official beneficiary premium rates; official 2027 Part B premium and deductible had not been announced as of September 29, 2026."
+      note: "CMS report distinguishing estimated future Part B financing from official beneficiary premium rates; official 2027 Part B premium and deductible had not been announced as of September 30, 2026."
     },
   ],
 };

@@ -65,6 +65,16 @@ export type Article = {
   description?: string;             // backward-compat for cards
   author?: string;
   reviewer?: string;
+  topCallout?: {
+    label: string;
+    body: string;
+  };
+  closingAction?: {
+    title: string;
+    body: string;
+    href: string;
+    cta: string;
+  };
   comparisonTable?: {
     headers: [string, string, string];
     rows: Array<[string, string, string]>;

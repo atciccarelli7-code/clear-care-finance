@@ -16,7 +16,7 @@ const maMedicalNecessity: Source = {
 
 const mobilityDocumentationStudy: Source = {
   name: "Physical Therapy / PubMed",
-  pageTitle: "Written Mobility Communication in Acute Care Medical Wards (2025)",
+  pageTitle: "Written Mobility Communication in Acute Care Medical Wards: An Observational Study of Physical Therapists’ and Nurses’ Documentation Practice",
   url: "https://pubmed.ncbi.nlm.nih.gov/39255376/",
   note: "Four-site observational study showing mobility information spread across many documentation sources and variably missing or inconsistent between professions.",
 };
@@ -57,8 +57,8 @@ const lottTrial: Source = {
 };
 
 const functionalDocumentationStudy: Source = {
-  name: "International Journal of Nursing Studies / PubMed",
-  pageTitle: "Comparison of nurses’ and physicians’ documentation of functional abilities of older patients in acute care (2008)",
+  name: "Scandinavian Journal of Caring Sciences / PubMed",
+  pageTitle: "Comparison of nurses’ and physicians’ documentation of functional abilities of older patients in acute care—patient records compared with standardized assessment",
   url: "https://pubmed.ncbi.nlm.nih.gov/18840217/",
   note: "Older Nordic study retained only as an illustration that important functional information can be absent from routine clinical documentation, not as a current U.S. estimate.",
 };
@@ -72,8 +72,8 @@ const oigPriorAuth2022: Source = {
 
 const oigSnf2026: Source = {
   name: "HHS Office of Inspector General",
-  pageTitle: "Medicare Advantage Organizations Overturned Nearly All Appealed Prior Authorization Denials for Skilled Nursing Facility Admission",
-  url: "https://oig.hhs.gov/documents/audit/11694/OEI-09-24-00331.pdf",
+  pageTitle: "Medicare Advantage Organizations Overturned Nearly All Appealed Prior Authorization Denials for Skilled Nursing Facility Admission, Raising Concerns About Initial Denials",
+  url: "https://oig.hhs.gov/reports/all/2026/medicare-advantage-organizations-overturned-nearly-all-appealed-prior-authorization-denials-for-skilled-nursing-facility-admission-raising-concerns-about-initial-denials/",
   note: "June 2026 OIG report using June 2024 SNF authorization data; appeal results are a selected subset and do not establish that all initial denials were improper.",
 };
 

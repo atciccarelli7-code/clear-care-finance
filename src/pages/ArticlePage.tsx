@@ -611,6 +611,13 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
           <p className="text-foreground/90">{article.summary}</p>
         </Section>
 
+        {article.topCallout && (
+          <aside className="rounded-2xl border border-primary/25 bg-primary-soft/35 p-5 shadow-card md:p-6">
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{article.topCallout.label}</div>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/90 md:text-base">{article.topCallout.body}</p>
+          </aside>
+        )}
+
         {voiceNote && (
           <div className="rounded-2xl border border-primary/20 bg-primary-soft/40 p-5 shadow-card md:p-6">
             <div className="flex items-start gap-3">
@@ -841,7 +848,20 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
           </section>
         )}
 
-        {usesDirectionalHandoff && directionalPrimary ? (
+        {article.closingAction ? (
+          <section className="rounded-[1.75rem] border border-primary/20 bg-primary-soft/35 p-5 shadow-card md:p-7">
+            <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+              <div className="min-w-0">
+                <div className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-primary">Put it into practice</div>
+                <h2 className="mt-2 font-display text-xl font-bold leading-tight md:text-2xl">{article.closingAction.title}</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{article.closingAction.body}</p>
+              </div>
+              <Button asChild variant="hero" className="shrink-0">
+                <Link to={article.closingAction.href}>{article.closingAction.cta} <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
+            </div>
+          </section>
+        ) : usesDirectionalHandoff && directionalPrimary ? (
           <DirectionalNextActions
             eyebrow="Recommended next action"
             title="Turn this explanation into the next decision"
@@ -861,6 +881,7 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
             cards={nextSteps}
           />
         )}
+
 
         {article.sources.length > 0 && (
           <div className="space-y-4">

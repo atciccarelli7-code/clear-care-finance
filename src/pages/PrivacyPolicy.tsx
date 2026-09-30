@@ -69,6 +69,12 @@ const PrivacyPolicy = () => {
           <p>Paid product pages and authenticated premium workspaces are designated ad-free. Advertising does not control product logic, source selection, rankings, calculations, or editorial conclusions.</p>
         </Section>
 
+        <Section title="Advertising and third-party cookies">
+          <p>Community Acquired Finance may use Google AdSense or other authorized third-party advertising vendors on pages that are eligible for advertising. Third party vendors, including Google, use cookies to serve ads based on a user&apos;s prior visits to your website or other websites. Google&apos;s use of advertising cookies enables it and its partners to serve ads to your users based on their visit to your sites and/or other sites on the Internet.</p>
+          <p>Community Acquired Finance currently starts Google Consent Mode with advertising storage, advertising user data, and advertising personalization denied. Choosing Allow analytics changes analytics storage only; it does not grant advertising storage or advertising personalization through this site&apos;s current consent controls. Where advertising technology is used, Google and other vendors may still process information as permitted by the applicable consent signals, their policies, and law.</p>
+          <p>Users may opt out of personalized advertising through <a className="font-semibold text-primary underline underline-offset-4" href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>. Users may also visit the <a className="font-semibold text-primary underline underline-offset-4" href="https://optout.aboutads.info" target="_blank" rel="noopener noreferrer">Digital Advertising Alliance opt-out page</a> to review additional choices for participating third-party vendors. These third-party controls are separate from Community Acquired Finance&apos;s own Necessary only and Allow analytics choices.</p>
+        </Section>
+
         <Section title="How information may be used">
           <p>Information may be used to:</p>
           <ul className="list-disc space-y-1 pl-5">

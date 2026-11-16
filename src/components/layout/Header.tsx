@@ -149,7 +149,7 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/94 backdrop-blur-xl supports-[backdrop-filter]:bg-background/88">
-      <div className="container flex h-16 items-center justify-between gap-3">
+      <div className="container flex h-16 items-center justify-between gap-3 xl:max-w-[84rem]">
         <Link
           to="/"
           className="flex min-w-0 shrink-0 items-center gap-2.5 rounded-lg font-display font-semibold tracking-tight text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -160,7 +160,7 @@ export const Header = () => {
           <span className="whitespace-nowrap text-base 2xl:hidden">CAF</span>
         </Link>
 
-        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 xl:flex" aria-label="Primary navigation">
+        <nav className="hidden min-w-max flex-1 items-center justify-center gap-0.5 xl:flex" aria-label="Primary navigation">
           {PRIMARY_NAVIGATION_ITEMS.map((item) => (
             <NavLink
               key={item.to}

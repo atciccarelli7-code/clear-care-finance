@@ -19,6 +19,7 @@ const authoritativeHosts = new Set([
   "medicare.gov",
   "medpac.gov",
   "oig.hhs.gov",
+  "psnet.ahrq.gov",
   "rand.org",
   "www.ahrq.gov",
   "www.cms.gov",

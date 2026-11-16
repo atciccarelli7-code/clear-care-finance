@@ -44,6 +44,10 @@ const getArticleNextSteps = (
   articleCatalog: Article[],
 ): NextStepCard[] => {
   const priorityActionOverrides: Record<string, NextStepCard[]> = {
+    "home-health-after-discharge": [
+      { eyebrow: "Plan the handoff", title: "Hospital-to-Home Coverage Navigator", description: "Organize the first visit, equipment, coverage questions, and help between visits.", href: "/insurance/hospital-discharge-coverage", cta: "Plan the transition" },
+      { eyebrow: "Share the work", title: "“Home With Family” Is Not a Free Care Plan", description: "List the tasks a household is being asked to take on and check who can actually do them.", href: "/articles/home-with-family-is-not-a-free-care-plan", cta: "Map the caregiver tasks" },
+    ],
     "patient-in-the-bed-and-patient-in-the-chart": [
       { eyebrow: "Follow the referral", title: "What Happens While the Hospital Is “Waiting on Insurance”?", description: "See how the submitted record leads to a plan decision and what can still hold up a transfer.", href: "/articles/what-happens-while-hospital-is-waiting-on-insurance", cta: "Follow the authorization" },
       { eyebrow: "Prepare for discharge", title: "Hospital-to-Home Coverage Navigator", description: "Organize the recommended care setting, coverage and questions for the discharge team.", href: "/insurance/hospital-discharge-coverage", cta: "Build a transition plan" },

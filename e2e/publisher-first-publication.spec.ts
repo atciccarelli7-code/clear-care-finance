@@ -1,6 +1,15 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
+test("home health readers can plan for gaps between visits", async ({ page }) => {
+  await page.goto("/articles/home-health-after-discharge", { waitUntil: "networkidle" });
+  await expect(page.getByRole("heading", { name: "Who will be there at 10 p.m.?" })).toBeVisible();
+  await expect(page.getByText(/hypothetical week with ten hours of visits/)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Options to check in the Charlotte area" })).toBeVisible();
+  await page.getByRole("link", { name: /plan the transition/i }).click();
+  await expect(page).toHaveURL(/\/insurance\/hospital-discharge-coverage$/);
+});
+
 test("hospital economics explains the bill, the extra day, and who bears the cost", async ({ page }) => {
   await page.goto("/articles/20-dollar-tylenol-hospital-prices");
   await expect(page.getByText(/try and learn it and teach it rather than just stay angry/)).toBeVisible();

@@ -40,6 +40,40 @@ test.beforeEach(async ({ page }) => {
   await preparePage(page);
 });
 
+test("desktop header leaves space between the wordmark, navigation, and email", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium");
+
+  await page.goto("/");
+  const header = page.getByRole("banner");
+  const home = header.getByRole("link", { name: "Community Acquired Finance home" });
+  const articles = header.getByRole("link", { name: "Articles", exact: true });
+  const explore = header.getByRole("button", { name: "Open the complete CAF navigation" });
+  const email = header.getByRole("link", { name: "Monthly email", exact: true });
+
+  for (const width of [1280, 1440, 1535, 1536, 1600, 1920]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.evaluate(() => document.fonts.ready);
+
+    const [homeBox, articlesBox, exploreBox, emailBox] = await Promise.all(
+      [home, articles, explore, email].map((element) => element.boundingBox()),
+    );
+    expect(homeBox, `home at ${width}px`).not.toBeNull();
+    expect(articlesBox, `Articles at ${width}px`).not.toBeNull();
+    expect(exploreBox, `Explore CAF at ${width}px`).not.toBeNull();
+    expect(emailBox, `Monthly email at ${width}px`).not.toBeNull();
+
+    expect(articlesBox!.x - (homeBox!.x + homeBox!.width), `wordmark to Articles gap at ${width}px`).toBeGreaterThanOrEqual(8);
+    expect(emailBox!.x - (exploreBox!.x + exploreBox!.width), `Explore CAF to email gap at ${width}px`).toBeGreaterThanOrEqual(8);
+    expect(emailBox!.x + emailBox!.width).toBeLessThan(width);
+
+    await explore.click();
+    await expect(page.getByRole("dialog", { name: "Explore CAF services" })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(explore).toBeFocused();
+    await expectNoHorizontalOverflow(page);
+  }
+});
+
 test("desktop and intermediate-width visitors can discover the publication, free services, and the flagship system", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-chromium");
   await page.setViewportSize({ width: 1280, height: 900 });

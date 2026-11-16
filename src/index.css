@@ -251,3 +251,13 @@
   width: 100%;
   max-width: 100%;
 }
+
+@media print {
+  .article-review-details::details-content {
+    content-visibility: visible;
+    display: block;
+  }
+  .article-review-details > * {
+    display: block;
+  }
+}

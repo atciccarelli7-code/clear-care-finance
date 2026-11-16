@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   CANONICAL_ORIGIN,
+  fetchDeployment,
   MANAGED_ADSENSE_SCRIPT_ID,
   normalizeBaseUrl,
   resolveEnvironment,
@@ -131,5 +132,89 @@ describe("deployed-site smoke helpers", () => {
 
     expect(sitemap.passed).toBe(false);
     expect(sitemap.errors.join("\n")).toMatch(/non-canonical sitemap location/);
+  });
+});
+
+
+describe("protected deployment requests", () => {
+  const preview = "https://clear-care-finance-example-communityacquiredfinance.vercel.app";
+  const secret = "test-only-credential";
+
+  it("authenticates same-origin preview requests, including redirects", async () => {
+    const calls = [];
+    const response = await fetchDeployment(`${preview}/start-here/`, {
+      bypassSecret: secret,
+      fetchImpl: async (url, options) => {
+        calls.push({ url, options });
+        return calls.length === 1
+          ? new Response(null, { status: 308, headers: { location: "/start-here" } })
+          : new Response("healthy application");
+      },
+    });
+    expect(await response.text()).toBe("healthy application");
+    expect(calls).toHaveLength(2);
+    expect(calls[1].url).toBe(`${preview}/start-here`);
+    for (const { options } of calls) {
+      expect(options.redirect).toBe("manual");
+      expect(options.headers.get("x-vercel-protection-bypass")).toBe(secret);
+      expect(options.headers.has("x-vercel-set-bypass-cookie")).toBe(false);
+    }
+  });
+
+  it.each([
+    ["https://vercel.com/login?next=private", /deployment protection blocked/],
+    ["https://example.com/collect", /another origin/],
+  ])("fails closed before following %s", async (location, message) => {
+    let calls = 0;
+    await expect(fetchDeployment(preview, {
+      bypassSecret: secret,
+      fetchImpl: async () => {
+        calls += 1;
+        return new Response(null, { status: 302, headers: { location } });
+      },
+    })).rejects.toThrow(message);
+    expect(calls).toBe(1);
+  });
+
+  it.each([
+    [CANONICAL_ORIGIN, "production"],
+    [preview, "production"],
+    ["https://other-project.vercel.app", "preview"],
+    ["https://example.com", "preview"],
+    ["http://clear-care-finance-example-communityacquiredfinance.vercel.app", "preview"],
+  ])("does not send preview credentials to %s (%s)", async (url, environment) => {
+    await fetchDeployment(url, {
+      environment,
+      bypassSecret: secret,
+      fetchImpl: async (_url, options) => {
+        expect(options.headers.has("x-vercel-protection-bypass")).toBe(false);
+        return new Response("healthy");
+      },
+    });
+  });
+
+  it("reports denied preview access without exposing the credential", async () => {
+    try {
+      await fetchDeployment(preview, {
+        bypassSecret: secret,
+        fetchImpl: async () => new Response(null, { status: 401 }),
+      });
+      expect.fail("A denied preview must fail");
+    } catch (error) {
+      expect(error.message).toContain("Preview access denied");
+      expect(error.message).not.toContain(secret);
+    }
+  });
+
+  it("bounds redirect loops", async () => {
+    let calls = 0;
+    await expect(fetchDeployment(preview, {
+      bypassSecret: secret,
+      fetchImpl: async () => {
+        calls += 1;
+        return new Response(null, { status: 308, headers: { location: "/loop" } });
+      },
+    })).rejects.toThrow("exceeded five");
+    expect(calls).toBe(6);
   });
 });

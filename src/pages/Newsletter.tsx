@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarDays, Calculator, Mail, ShieldCheck, Stethoscope } from "lucide-react";
+import { ArrowRight, CalendarDays, BookOpen, Mail, ShieldCheck, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MedicalBillProductFoundation } from "@/components/medical-bill/MedicalBillProductFoundation";
+import { NextStepCards } from "@/components/shared/NextStepCards";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -9,9 +9,9 @@ import { useSeo } from "@/lib/seo";
 
 const Newsletter = () => {
   useSeo({
-    title: "Community Acquired Finance Monthly Newsletter",
+    title: "Community Acquired Finance Newsletter",
     description:
-      "Get CAF’s monthly explanation of the money, incentives, insurance rules, and care transitions behind American healthcare.",
+      "One healthcare-system explanation each month from Andrew Ciccarelli, RN, BSN: hospital money, insurance rules, and care transitions, with primary sources.",
     canonicalPath: "/newsletter",
   });
 
@@ -20,13 +20,13 @@ const Newsletter = () => {
       <PageHero
         eyebrow="Monthly newsletter"
         title="Understand the machinery behind healthcare, once a month."
-        description="RN-led explanations of hospital money, insurance rules, and care transitions—with sources, practical context, and a useful next read."
+        description="One strong healthcare-system explanation each month from Andrew Ciccarelli, RN, BSN—with sources, practical context, and a useful next read."
       >
         <Button asChild variant="hero" size="lg">
           <a href="#join-newsletter">Join the monthly list <ArrowRight className="h-4 w-4" /></a>
         </Button>
         <Button asChild variant="outline" size="lg">
-          <a href="#medical-bill-resources">Open free medical-bill resources</a>
+          <a href="#example-articles">Read a few examples</a>
         </Button>
       </PageHero>
 
@@ -36,14 +36,14 @@ const Newsletter = () => {
             <Mail className="mb-4 h-7 w-7 text-primary" />
             <h2 className="font-display text-xl font-bold text-foreground">Low-frequency, not noisy</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Practical notes, updated guides, and useful tools only when there is something worth reading or using.
+              Roughly one thoughtful explanation a month about how American healthcare works, with a related article to keep reading.
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-card p-6 shadow-card">
             <Stethoscope className="mb-4 h-7 w-7 text-primary" />
-            <h2 className="font-display text-xl font-bold text-foreground">Healthcare-specific</h2>
+            <h2 className="font-display text-xl font-bold text-foreground">Written by Andrew</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Built around decisions healthcare workers, patients, and caregivers actually face: benefits, insurance, bills, and care transitions.
+              Andrew Ciccarelli, RN, BSN connects nursing and care-transition experience to the money, incentives, and rules behind care. <Link className="text-primary underline" to="/about">Meet the author</Link>.
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-card p-6 shadow-card">
@@ -80,14 +80,27 @@ const Newsletter = () => {
         </div>
       </section>
 
-      <MedicalBillProductFoundation />
+      <section id="example-articles" className="container scroll-mt-24 py-12 md:py-16">
+        <NextStepCards
+          eyebrow="A few examples"
+          title="The questions CAF follows"
+          description="Start with Andrew’s hospital-system explanations. Founder observations shape the questions; primary sources support the factual claims."
+          columns="two"
+          cards={[
+            { title: "The $20 Tylenol Isn’t Really About the Tylenol", description: "Why a hospital line-item charge is different from cost, payment, and the patient’s responsibility.", href: "/articles/20-dollar-tylenol-hospital-prices", cta: "Read the article" },
+            { title: "Why Hospitals Care So Much About Length of Stay", description: "How payment, staffed beds, discharge barriers, and patient safety connect.", href: "/articles/why-hospitals-care-about-length-of-stay", cta: "Read the article" },
+            { title: "What a Nonprofit Hospital Actually Is (and Isn’t)", description: "What tax status explains—and what it does not explain—about hospital money.", href: "/articles/what-nonprofit-hospital-actually-means", cta: "Read the article" },
+            { title: "“Home With Family” Is Not a Free Care Plan", description: "The work, coordination, and risk that can move from a hospital to a household.", href: "/articles/home-with-family-is-not-a-free-care-plan", cta: "Read the article" },
+          ]}
+        />
+      </section>
 
       <section id="join-newsletter" className="container scroll-mt-24 py-12 md:py-16">
         <NewsletterSignup
           source="newsletter-page"
-          title="Join Community Acquired Finance updates"
-          description="Get a monthly explanation of hospital money, insurance rules, care transitions, or healthcare-worker benefits, with sources and a useful next read."
-          buttonLabel="Join the update list"
+          title="Get the next explanation in your inbox"
+          description="Join Andrew’s monthly CAF newsletter about hospital money, insurance rules, and care transitions—with sources and a useful next read."
+          buttonLabel="Join the monthly list"
         />
       </section>
 
@@ -95,14 +108,14 @@ const Newsletter = () => {
         <div className="rounded-3xl bg-gradient-primary p-6 text-primary-foreground shadow-hover md:p-10">
           <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] opacity-80">Use the resources directly</div>
-              <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Every core guide and calculator is available without joining the email list.</h2>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] opacity-80">Keep reading</div>
+              <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Read the publication at your own pace.</h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-90 md:text-base">
-                Browse the site whenever you need a paycheck calculator, benefits checklist, medical-bill workflow, Medicare explanation, or patient-care guide.
+                Every article is available without joining the email list. Explore hospital economics, insurance, and the work behind care transitions.
               </p>
             </div>
             <Button asChild size="lg" variant="secondary">
-              <Link to="/tools"><Calculator className="h-4 w-4" /> Browse tools</Link>
+              <Link to="/articles"><BookOpen className="h-4 w-4" /> Browse articles</Link>
             </Button>
           </div>
         </div>

@@ -100,6 +100,7 @@ const SENSITIVE_SLUGS = new Set([
 ]);
 
 const EDITORIAL_SLUGS = new Set([
+  "how-a-hospital-actually-makes-money",
   "diagnosis-explained",
   "obbb-overtime-tax-deduction-healthcare-workers",
   "workplace-benefits-definitions",
@@ -115,6 +116,7 @@ const FLAGSHIP_ELIGIBLE_SLUGS = new Set([
 ]);
 
 const REVIEWED_AT: Record<string, string> = {
+  "how-a-hospital-actually-makes-money": "2026-09-10",
   "patient-in-the-bed-and-patient-in-the-chart": "2026-09-08",
   "what-happens-while-hospital-is-waiting-on-insurance": "2026-09-08",
   "medically-ready-is-not-the-same-as-ready-for-home": "2026-09-08",
@@ -159,7 +161,9 @@ const reviewForSlug = (slug: string): RuntimePublisherArticleReview | undefined 
       disposition: "ad-free-editorial",
       contentTier: "standard",
       reviewedAt,
-      reason: "Reviewed editorial content intentionally kept ad-free.",
+      reason: slug === "how-a-hospital-actually-makes-money"
+        ? "Reviewed founder-led hospital-economics article intentionally kept ad-free during the current audience-validation cycle; monetize only after the next publisher review."
+        : "Reviewed editorial content intentionally kept ad-free.",
     };
   }
 

@@ -23,6 +23,38 @@ export type RuntimeToolSeoMeta = {
 
 const ARTICLE_ROWS = [
   [
+    "patient-in-the-bed-and-patient-in-the-chart",
+    "The Patient in the Bed and the Patient in the Chart",
+    "What a clinician sees in the room has to survive documentation, handoffs, coverage rules and outside review before another organization can act on it.",
+    "Hospital Discharge",
+    "2026-09-08",
+    "2026-09-08"
+  ],
+  [
+    "what-happens-while-hospital-is-waiting-on-insurance",
+    "What Happens While the Hospital Is “Waiting on Insurance”?",
+    "The patient may be medically ready to leave. The hospital may be ready to discharge them. But until the next organization says yes, everyone keeps waiting—and the hospital keeps operating around that wait.",
+    "Hospital Discharge",
+    "2026-09-08",
+    "2026-09-08"
+  ],
+  [
+    "medically-ready-is-not-the-same-as-ready-for-home",
+    "Medically Ready Is Not the Same as Ready for Home",
+    "No longer needing acute hospital care is not quite the same thing as being ready for everything waiting at home.",
+    "Hospital Discharge",
+    "2026-09-08",
+    "2026-09-08"
+  ],
+  [
+    "how-a-hospital-actually-makes-money",
+    "How a Hospital Actually Makes Money",
+    "How hospitals actually get paid: Medicare MS-DRGs, length of stay, quality penalties, negotiated prices, Medicaid variation, and why good care and hospital economics sometimes point in the same direction.",
+    "Hospital Economics",
+    "2026-09-10",
+    "2026-09-10"
+  ],
+  [
     "20-dollar-tylenol-hospital-prices",
     "The $20 Tylenol Isn’t Really About the Tylenol",
     "Why a hospital Tylenol charge is not the pill's true cost: understand gross charges, negotiated rates, insurer payment, patient responsibility, and hospital cost.",

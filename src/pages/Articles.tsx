@@ -82,7 +82,11 @@ const Articles = () => {
         eyebrow="The CAF publication"
         title="Healthcare finance and the business of care, explained from inside the system."
         description={`${published.length} RN-led, source-backed articles about hospital money, insurance rules, patient costs, Medicare, Medicaid, care transitions, and healthcare-worker finances.`}
-      />
+      >
+        <a href="#article-search" className="inline-flex min-h-11 items-center gap-2 rounded-lg px-4 py-2 font-semibold text-primary underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Search className="h-4 w-4" aria-hidden="true" /> Search or browse by subject
+        </a>
+      </PageHero>
 
       <section className="container py-12">
         <div className="mb-12">
@@ -126,7 +130,7 @@ const Articles = () => {
           </div>
         </nav>
 
-        <div className="mb-5">
+        <div id="article-search" className="mb-5 scroll-mt-24" tabIndex={-1}>
           <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Explore the core library</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             Browse the main publication by subject, or search all {published.length} articles by the words on your bill, plan, discharge paperwork, or workplace benefit.

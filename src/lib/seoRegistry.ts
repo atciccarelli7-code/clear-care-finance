@@ -265,7 +265,7 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
   },
   "/newsletter": {
     title: "Community Acquired Finance Newsletter",
-    description: "Get practical, low-frequency updates on healthcare-worker finances, medical bills, insurance, benefits, Medicare, and new calculators.",
+    description: "One healthcare-system explanation each month from Andrew Ciccarelli, RN, BSN: hospital money, insurance rules, and care transitions, with primary sources.",
   },
   "/about": {
     title: "About Community Acquired Finance",

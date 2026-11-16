@@ -18,7 +18,7 @@ const formatDate = (value?: string) => {
   return new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long", day: "numeric" }).format(parsed);
 };
 
-const DateItem = ({ label, value }: { label: string; value?: string }) => {
+export const DateItem = ({ label, value }: { label: string; value?: string }) => {
   const formatted = formatDate(value);
   if (!formatted || !value) return null;
   return (
@@ -40,6 +40,7 @@ export const ContentFreshness = ({
   compact = false,
 }: ContentFreshnessProps) => {
   if (!publishedAt && !lastReviewedAt && !rulesEffectiveAt && !nextReviewAt && !reviewScope && !updateNote) return null;
+
 
   return (
     <aside

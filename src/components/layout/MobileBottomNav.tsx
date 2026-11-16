@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Calculator, Compass, HeartPulse, ShieldCheck, type LucideIcon } from "lucide-react";
+import { Calculator, BookOpen, HeartPulse, ShieldCheck, type LucideIcon } from "lucide-react";
 
 type MobileNavItem = {
   to: string;
@@ -8,9 +8,9 @@ type MobileNavItem = {
 };
 
 const items: MobileNavItem[] = [
-  { to: "/start-here", label: "Start", icon: Compass },
+  { to: "/articles", label: "Articles", icon: BookOpen },
   { to: "/tools", label: "Tools", icon: Calculator },
-  { to: "/insurance", label: "Benefits", icon: ShieldCheck },
+  { to: "/insurance", label: "Costs", icon: ShieldCheck },
   { to: "/medicare-care-costs", label: "Medicare", icon: HeartPulse },
 ];
 

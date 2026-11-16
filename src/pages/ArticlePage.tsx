@@ -3,6 +3,7 @@ import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRi
 import type { LucideIcon } from "lucide-react";
 import type { Article } from "@/data/articles";
 import { ARTICLE_VOICE_NOTES } from "@/data/articleVoiceNotes";
+import { getEditorialSeries } from "@/data/editorialSeries";
 import { OPEN_ENROLLMENT_ARTICLE_SLUGS } from "@/data/openEnrollmentPath";
 import { PageHero } from "@/components/shared/PageHero";
 import { SourceList } from "@/components/shared/SourceList";
@@ -10,7 +11,7 @@ import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { DisclaimerBox } from "@/components/shared/DisclaimerBox";
 import { NextStepCards, type NextStepCard } from "@/components/shared/NextStepCards";
 import { DirectionalActionLink, DirectionalNextActions } from "@/components/shared/DirectionalNextActions";
-import { ContentFreshness } from "@/components/shared/ContentFreshness";
+import { ArticleFreshness as ContentFreshness } from "@/components/shared/ArticleFreshness";
 import { EditorialTransparency } from "@/components/shared/EditorialTransparency";
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
@@ -511,6 +512,17 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
   const voiceNote = ARTICLE_VOICE_NOTES[article.slug];
   const showOutOfPocketMaxTool = ["how-to-read-an-eob", "deductible-copay-coinsurance-out-of-pocket-max"].includes(article.slug);
   const nextSteps = getArticleNextSteps(article.slug, article.category, article.relatedCalculator, articleCatalog);
+  const editorialSeries = getEditorialSeries(article.slug);
+  const seriesNextSteps = editorialSeries ? [
+    {
+      eyebrow: "Read next in this series",
+      title: editorialSeries.next.title,
+      description: "Continue Andrew’s explanation of the rules, incentives, and work behind healthcare.",
+      href: `/articles/${editorialSeries.next.slug}`,
+      cta: "Read the next article",
+    },
+    ...nextSteps.filter((step) => step.href !== `/articles/${editorialSeries.next.slug}`),
+  ] : nextSteps;
   const orderedOpenEnrollmentStep = getOpenEnrollmentOrderedStep(article.slug, articleCatalog);
   const usesDirectionalHandoff = isPriorityDirectionalArticle(article.slug);
   const heroAction = getArticleHeroAction(article.slug);
@@ -575,7 +587,7 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
 
   return (
     <>
-      <PageHero eyebrow={article.category} title={article.title} description={article.promise}>
+      <PageHero reading eyebrow={article.category} title={article.title} description={article.promise}>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> {article.readTime}</span>
         </div>
@@ -592,17 +604,19 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
         )}
       </PageHero>
 
-      <article className="container max-w-3xl py-8 md:py-16 space-y-8 md:space-y-12">
-        <ContentFreshness
-          publishedAt={article.publishedAt}
-          lastReviewedAt={article.lastReviewedAt}
-          rulesEffectiveAt={article.rulesEffectiveAt}
-          nextReviewAt={article.nextReviewAt}
-          timeSensitive={article.timeSensitive}
-          reviewScope={article.reviewScope}
-          updateNote={article.updateNote}
-        />
-        <EditorialTransparency author={article.author} reviewer={article.reviewer} />
+      <article className="container max-w-3xl py-6 md:py-8 space-y-8 md:space-y-12">
+        <div className="space-y-3 border-b border-border pb-5">
+          <EditorialTransparency inline author={article.author} reviewer={article.reviewer} />
+          <ContentFreshness
+            publishedAt={article.publishedAt}
+            lastReviewedAt={article.lastReviewedAt}
+            rulesEffectiveAt={article.rulesEffectiveAt}
+            nextReviewAt={article.nextReviewAt}
+            timeSensitive={article.timeSensitive}
+            reviewScope={article.reviewScope}
+            updateNote={article.updateNote}
+          />
+        </div>
         <Section icon={Users} title="Who this is for">
           <p>{article.audience}</p>
         </Section>
@@ -658,8 +672,8 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
             {article.editorialSections.map((section) => (
               <section key={section.title} className="scroll-mt-24">
                 <h2 className="font-display text-xl font-bold tracking-tight text-foreground md:text-2xl">{section.title}</h2>
-                <div className="mt-4 space-y-4 text-[0.98rem] leading-[1.75] text-muted-foreground md:text-base">
-                  {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                <div className="mt-4 space-y-5 text-[1.0625rem] leading-[1.75] text-foreground/90 md:text-lg md:leading-[1.75]">
+                  {section.paragraphs.map((paragraph, index) => <p key={`${index}-${paragraph}`}>{paragraph}</p>)}
                   {section.keyPoints && section.keyPoints.length > 0 && (
                     <ul className="space-y-2.5 pt-1">
                       {section.keyPoints.map((point) => (
@@ -841,7 +855,15 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
           </section>
         )}
 
-        {usesDirectionalHandoff && directionalPrimary ? (
+        {editorialSeries ? (
+          <NextStepCards
+            eyebrow="Continue the series"
+            title={editorialSeries.title}
+            description={editorialSeries.description}
+            cards={seriesNextSteps}
+            columns="two"
+          />
+        ) : usesDirectionalHandoff && directionalPrimary ? (
           <DirectionalNextActions
             eyebrow="Recommended next action"
             title="Turn this explanation into the next decision"
@@ -869,12 +891,12 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
           </div>
         )}
 
-        {article.slug === "20-dollar-tylenol-hospital-prices" && (
+        {editorialSeries && (
           <NewsletterSignup
             compact
-            source="article-20-dollar-tylenol-hospital-prices"
+            source={`article-${article.slug}`}
             title="Keep following the money behind healthcare"
-            description="Get CAF’s monthly explanation of hospital money, insurance rules, and care transitions, with sources and a useful next read."
+            description="Get one strong healthcare-system explanation each month from Andrew Ciccarelli, RN, BSN. Follow the money, incentives, and care transitions—with sources and a useful next read."
             successMessage="You are on the CAF list. Thank you for reading."
           />
         )}

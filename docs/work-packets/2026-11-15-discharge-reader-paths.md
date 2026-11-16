@@ -8,6 +8,7 @@
 - The live sitemap contained 192 URLs. Sampled pages exposed separate canonical URLs and meaningful HTML. Robots allowed the public and advertising crawlers. The earlier audit and article disposition ledger separate ad placement from indexability. No URL or ad inventory change follows from this evidence.
 - The current founder manuscript's capacity, post-acute eligibility, and caregiver-work sections inform the revised reader actions. The transfer timeline is marked hypothetical. The existing articles retain the founder's argument about fragmented authority and the counterpoint that utilization review and facility safety assessment serve legitimate purposes.
 - The prior internal record references low-value content. The current exact notice and account decision date were unavailable. Google's published readiness and publisher inventory guidance supports original contributions and usable navigation. It does not identify a specific CAF route as a rejection cause.
+- Live privacy copy named AdSense but lacked direct ad preference links and specific third-party web beacon and IP address disclosure. Add these under the existing conditional ad-serving language in line with [Google's required privacy content](https://support.google.com/adsense/answer/1348695) and [publisher privacy disclosures](https://support.google.com/adsense/answer/10502938). The change is copy and links only.
 
 ## Changes and validation
 

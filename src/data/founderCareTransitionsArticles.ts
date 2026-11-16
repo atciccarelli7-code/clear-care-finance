@@ -57,7 +57,7 @@ const lottTrial: Source = {
 };
 
 const functionalDocumentationStudy: Source = {
-  name: "International Journal of Nursing Studies / PubMed",
+  name: "Scandinavian Journal of Caring Sciences / PubMed",
   pageTitle: "Comparison of nurses’ and physicians’ documentation of functional abilities of older patients in acute care (2008)",
   url: "https://pubmed.ncbi.nlm.nih.gov/18840217/",
   note: "Older Nordic study retained only as an illustration that important functional information can be absent from routine clinical documentation, not as a current U.S. estimate.",
@@ -115,7 +115,7 @@ const uhcUtilizationManagement: Source = {
 const cmsPriorAuthorizationFaq: Source = {
   name: "Centers for Medicare & Medicaid Services",
   pageTitle: "Interoperability and Prior Authorization — Frequently Asked Questions",
-  url: "https://www.cms.gov/initiatives/burden-reduction/overview/interoperability/frequently-asked-questions/prior-authorization-api",
+  url: "https://www.cms.gov/initiatives/burden-reduction/overview/interoperability/frequently-asked-questions/improving-prior-authorization-processes",
   note: "Current CMS implementation guidance on 2026 decision timeframes, extensions, public metrics, and the role of clinical review.",
 };
 

@@ -1,6 +1,22 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
+test("hospital economics explains the bill, the extra day, and who bears the cost", async ({ page }) => {
+  await page.goto("/articles/20-dollar-tylenol-hospital-prices");
+  await expect(page.getByText(/try and learn it and teach it rather than just stay angry/)).toBeVisible();
+  await expect(page.getByText(/the plan assigns \$30 to you/)).toBeVisible();
+  await expect(page.locator('a[href="/tools/eob-to-bill-match-checker"]').first()).toBeVisible();
+
+  await page.goto("/articles/what-nonprofit-hospital-actually-means");
+  await expect(page.getByText(/when a department switches to a lower-priced supply/)).toBeVisible();
+
+  await page.goto("/articles/why-hospitals-care-about-length-of-stay", { waitUntil: "networkidle" });
+  await expect(page.getByText(/the hospital still has \$2,000 left on the case/)).toBeVisible();
+  await expect(page.getByText(/A covered readmission can still be paid/)).toBeVisible();
+  await page.getByRole("link", { name: /if the team is waiting on insurance/i }).click();
+  await expect(page).toHaveURL(/\/articles\/what-happens-while-hospital-is-waiting-on-insurance$/);
+});
+
 test("legacy guides answer distinct decisions and link to the right next step", async ({ page }) => {
   const examples = [
     ["healthcare-worker-money-map", "Build the pay-period plan from a check without overtime"],

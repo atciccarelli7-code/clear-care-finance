@@ -79,7 +79,7 @@ const getArticleNextSteps = (
     "why-hospitals-care-about-length-of-stay": [
       { eyebrow: "The next bottleneck", title: "Why “Just Send Them to Rehab” Is Not That Simple", description: "See the clinical, facility, payer, authorization, capacity, and logistics gates between recommendation and transfer.", href: "/articles/why-just-send-them-to-rehab-is-not-simple", cta: "Follow the rehab chain" },
       { eyebrow: "Prepare the transition", title: "Hospital-to-Home Coverage Navigator", description: "Organize the likely post-hospital setting, coverage questions, authorization steps, and backup plan.", href: "/insurance/hospital-discharge-coverage", cta: "Build a transition plan" },
-      { eyebrow: "Full patient journey", title: "Hospital & Patient Guide", description: "Connect the hospital stay, medicines, discharge, equipment, follow-up, coverage, and bills.", href: "/patients-families/hospital-guide", cta: "Open the guide" },
+      { eyebrow: "If the team is waiting on insurance", title: "What Happens While the Hospital Is “Waiting on Insurance”?", description: "Find out whether the request is pending, denied, or approved while another transfer step is still open.", href: "/articles/what-happens-while-hospital-is-waiting-on-insurance", cta: "Find the next step" },
     ],
     "why-just-send-them-to-rehab-is-not-simple": [
       { eyebrow: "Find out what is pending", title: "What Happens While the Hospital Is “Waiting on Insurance”?", description: "Use the status checklist to tell a plan decision from a placement or transport delay.", href: "/articles/what-happens-while-hospital-is-waiting-on-insurance", cta: "Identify the hold-up" },

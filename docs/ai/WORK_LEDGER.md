@@ -418,3 +418,8 @@ This ledger records the outcome and reusable learning from material assignments.
 
 - Reworked five existing guides with concrete decisions about base pay, bill timing, income from dividends, home discharge coverage and SNF selection.
 - Candidate evidence, source checks and release criteria: `docs/work-packets/2026-11-15-legacy-reader-decisions.md`.
+
+### 2026-11-15 — Founder manuscript integration
+
+- Brought Andrew's latest hospital economics manuscript into three existing articles. Added a worked EOB, clarified the extra-day and readmission incentives, and explained how staffing and supply savings can be evaluated.
+- Scope, evidence and review boundaries: `docs/work-packets/2026-11-15-founder-manuscript-integration.md`.

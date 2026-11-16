@@ -88,6 +88,20 @@ const cmsReadmissions: Source = {
   note: "Current description of Medicare's readmission measures and payment reductions, which are capped at 3 percent.",
 };
 
+const ahrqNursingStaffing: Source = {
+  name: "Agency for Healthcare Research and Quality",
+  pageTitle: "Nursing and Patient Safety",
+  url: "https://psnet.ahrq.gov/primer/nursing-and-patient-safety",
+  note: "Explains how acuity, admissions, transfers, discharges, skill mix, and available support affect nursing workload and staffing.",
+};
+
+const cmsOutlierPayments: Source = {
+  name: "Centers for Medicare & Medicaid Services",
+  pageTitle: "Outlier Payments",
+  url: "https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps/outlier-payments",
+  note: "Explains the cost threshold for additional IPPS payments on unusually costly eligible cases.",
+};
+
 const medicareSnf: Source = {
   name: "Medicare.gov",
   pageTitle: "Skilled nursing facility care",
@@ -136,6 +150,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
     lastReviewedAt: "2026-08-29",
     nextReviewAt: "2027-02-28",
     reviewScope: "Hospital price-transparency definitions, EOB terminology, Medicare inpatient payment, commercial-price evidence, and practical bill-review boundaries.",
+    updateNote: "November 2026 editorial update restores the author's bedside perspective and adds an example of a processed claim.",
     author: AUTHOR,
     systemMap: {
       title: "One clinical encounter, several money numbers",
@@ -153,7 +168,8 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
         paragraphs: [
           "Imagine sitting down at a restaurant and asking the server what the steak costs. The server can explain the meal and bring it safely to the table, but cannot tell you the price. The chef knows how to cook it, not how your dining plan processes it. The meal arrives. Later, a statement lists the steak, napkin, utensils, seasonings, kitchen time, and a restaurant charge—then another company decides what each line means for you.",
           "Make sense? No? Welcome to healthcare costs.",
-          "The analogy is imperfect, because a hospital is not a restaurant and emergency care is not an ordinary shopping decision. But it captures the disorienting part: the clinicians delivering care are often separated from the contracts and benefit rules that determine the financial result. I work inside a hospital system, and I still do not routinely see what a patient eventually sees on the financial side.",
+          "As a nurse, I can explain why you need the medication, how I check that it is safe to give, and what I am watching for afterward. If you ask what you will owe, that answer depends on how your plan processes the claim. I work inside a hospital system and still rarely see the financial information you get after you leave.",
+          "That is the part that frustrates me. I have chosen to try and learn it and teach it rather than just stay angry. I want patients to be able to focus on getting well and still have a way to make sense of what they are asked to pay.",
         ],
         callout: {
           label: "The central mistake",
@@ -174,6 +190,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
           "The gross charge is the hospital's undiscounted list amount. A discounted cash price is what the hospital has established for a person paying cash or cash equivalent. A payer-specific negotiated charge reflects an agreement with a particular payer and plan. The allowed amount on an EOB is the amount the plan recognizes for the covered service under its rules. Insurer payment and patient responsibility then divide that recognized amount according to the benefit design.",
           "Hospital cost is another number entirely. It refers to resources used to provide care and keep the organization operating. Public cost reports and internal accounting can estimate costs, but a patient's charge line is not a receipt showing the hospital's acquisition cost plus a retail markup.",
           "For an in-network claim, a patient often should focus first on the final EOB's allowed amount, insurer payment, adjustment, and patient responsibility. But gross charges can still matter, especially for uninsured or self-pay patients, out-of-network situations, and bills processed incorrectly. The right lesson is not to ignore charges; it is to identify their role.",
+          "Say an explanation of benefits for a covered in-network service lists a $200 charge and a $120 allowed amount. Your insurer pays $90 and the plan assigns $30 to you. The $80 difference between the charge and the allowed amount is the adjustment in this example. Compare the provider's bill with the $30 patient share, and check whether any payment you already made was credited.",
         ],
       },
       {
@@ -262,6 +279,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
     lastReviewedAt: "2026-08-29",
     nextReviewAt: "2027-02-28",
     reviewScope: "Federal 501(c)(3) hospital requirements, Section 501(r), Schedule H, use of surplus, compensation boundaries, and 2024 MedPAC hospital-margin context.",
+    updateNote: "November 2026 editorial update adds questions about what staffing and supply decisions save and where the work goes.",
     author: AUTHOR,
     systemMap: {
       title: "What happens when a nonprofit hospital earns more than it spends",
@@ -291,7 +309,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
         paragraphs: [
           "Hospitals have to meet payroll, replace imaging equipment, maintain buildings, buy medications and supplies, fund cybersecurity, absorb emergencies, comply with regulation, and borrow for long-lived projects. A hospital that exactly breaks even in a good year has little room for a bad payer mix, a cyberattack, a staffing shock, a major capital repair, or a sudden drop in volume.",
           "This does not mean every hospital needs the same margin or that growth should always outrank staffing and access. It means 'positive margin' and 'public purpose' are not opposites. Financial durability is one way an essential institution stays available.",
-          "MedPAC's March 2026 report illustrates why national hospital finance cannot be reduced to one number. In fiscal year 2024, the hospitals in its analysis had a 6.5 percent all-payer operating margin in aggregate, while the aggregate margin on fee-for-service Medicare inpatient and outpatient services was negative 12.1 percent. Those are different measures across a national group, not proof that every Medicare patient loses money or every hospital is thriving. They show that payer, service, efficiency, geography, and hospital mix matter.",
+          "MedPAC's March 2026 report illustrates why national hospital finance cannot be reduced to one number. In fiscal year 2024, the hospitals in its analysis had a 6.5 percent all-payer operating margin in aggregate, including coronavirus relief funds, while the aggregate margin on fee-for-service Medicare inpatient and outpatient services was negative 12.1 percent. The figures measure different things across a national group. The economics of any one hospital depend on its payers, services, operating costs, and community.",
         ],
       },
       {
@@ -307,7 +325,8 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
         paragraphs: [
           "The nonprofit debate often collapses into two claims: either the hospital must be benevolent because it is nonprofit, or the designation is meaningless because the hospital charges money and pays executives. Both are too easy.",
           "Hospitals need capable leadership, and tax law permits reasonable compensation. Communities are still entitled to ask whether compensation was independently approved, whether comparability data were appropriate, whether charity-care screening works, whether eligible patients are pursued for payment, and whether capital expansion reflects community need. A positive margin can fund safer care; it can also be deployed in ways the public reasonably questions.",
-          "The honest position is not to excuse every hospital decision. It is to separate the need for financial viability from the quality of the choices made with that viability.",
+          "I want the hospital to have enough money to keep the doors open and care for the next patient. I also want its leaders to explain where they draw the line on savings. A staffing target can count hours and patients while leaving questions about how sick those patients are, how many admissions and discharges the team has, and what backup is available. Those details matter when judging how much work the schedule can safely support.",
+          "The same questions apply when a department switches to a lower-priced supply. How well does it work for patients? Do staff need more of it to do the same job? Did the people using it have a chance to test it and report problems? The purchase price answers one question. Leaders still have to decide what they are prepared to trade for the savings.",
         ],
         callout: {
           label: "The tension",
@@ -365,7 +384,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
       "Reading community-benefit totals without checking definitions, access, and local need.",
     ],
     takeaway: "Nonprofit is a meaningful legal and ownership structure with real public obligations, but it is not a character certificate. Evaluate the hospital’s finances, assistance policy, community benefit, governance, and patient experience together.",
-    sources: [irsHospitalRequirements, irs501r, irsCommunityNeeds, irsFinancialAssistance, irsScheduleH, medpacHospitalChapter],
+    sources: [irsHospitalRequirements, irs501r, irsCommunityNeeds, irsFinancialAssistance, irsScheduleH, medpacHospitalChapter, ahrqNursingStaffing],
   },
   {
     slug: "why-hospitals-care-about-length-of-stay",
@@ -386,6 +405,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
     lastReviewedAt: "2026-08-29",
     nextReviewAt: "2027-02-28",
     reviewScope: "2024 hospital capacity and margin evidence, Medicare IPPS and readmission incentives, AHRQ ED boarding findings, and discharge-safety boundaries.",
+    updateNote: "November 2026 editorial update adds a worked example for an extra hospital day and clarifies how Medicare measures and pays for readmissions.",
     author: AUTHOR,
     systemMap: {
       title: "How one delayed discharge can reach the emergency department",
@@ -422,6 +442,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
         title: "Length of stay changes the hospital’s economics",
         paragraphs: [
           "For most Original Medicare acute inpatient stays, the hospital facility receives a prospectively determined payment for the discharge based on the MS-DRG and adjustments. The payment reflects average resources for similar cases rather than reimbursing every actual day or item. If a stay continues because a nonacute barrier remains, the hospital often continues paying for nursing, meals, pharmacy, housekeeping, space, and overhead without receiving another base payment for each extra day. Exception and outlier rules matter, and the exact economics differ by case.",
+          "A DRG's average length of stay is a reference point. In a simplified example, suppose the expected facility payment is $15,000 and the hospital has incurred $12,000 in costs. If an extra day adds $1,000 in costs and payment stays the same, the hospital still has $2,000 left on the case. If the extra day adds $4,000, costs exceed payment by $1,000. The cost of the care drives the difference. Certain transfers can change the payment, and cases with unusually high costs can qualify for an outlier payment.",
           "Commercial contracts can pay by DRG, case rate, per diem, fee schedule, percent of charges, or other arrangements. Medicaid programs vary by state. It is inaccurate to say every hospital is always paid one fixed amount or that every additional day is unreimbursed.",
           "Still, the general incentive is clear: hospitals have financial reasons to avoid preventable days and operational reasons to make capacity available for the next patient. Those incentives can align with patient welfare when the extra day provides no acute benefit. They can become dangerous when a metric outruns clinical judgment or when the next setting is unsafe.",
         ],
@@ -429,7 +450,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
       {
         title: "The system also punishes unsafe or low-quality discharge",
         paragraphs: [
-          "Through the Hospital Readmissions Reduction Program, CMS can reduce eligible hospitals' fee-for-service base operating DRG payments for excess readmissions, with reductions capped at 3 percent. Medicare also links inpatient payment to quality and hospital-acquired conditions through other programs.",
+          "Medicare tracks unplanned returns within 30 days for the conditions and procedures covered by its Hospital Readmissions Reduction Program. The program can reduce future Medicare fee-for-service base operating DRG payments across an eligible hospital, by up to 3 percent in the applicable fiscal year. A covered readmission can still be paid under the usual billing rules. The 30-day window is how CMS counts certain returns for the measure.",
           "More important than the payment formula, an avoidable readmission can harm the patient and consume even more capacity. Medication errors, missing follow-up, unavailable equipment, caregiver confusion, or an unrealistic plan can turn a fast discharge into a failed transition.",
           "This is why the crude story—hospitals make money by throwing patients out—is incomplete. Hospitals face pressure in both directions: move care forward and protect the bed, but do not create a preventable return or unsafe outcome. Those incentives do not guarantee the right decision. They explain why good discharge planning is part of clinical quality, not merely logistics.",
         ],
@@ -487,7 +508,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
       "Using 'medically ready' as if it means the home, facility, equipment, coverage, and caregiver plan are already solved.",
     ],
     takeaway: "Hospitals track length of stay because time in a staffed bed affects safety, cost, capacity, and everyone waiting behind that patient. The ethical objective is efficient care plus a safe transition—not a discharge clock detached from the person.",
-    sources: [cmsIpps, medpacHospitalChapter, ahrqBoarding, cmsReadmissions, cmsPriceTransparency],
+    sources: [cmsIpps, medpacHospitalChapter, ahrqBoarding, cmsReadmissions, cmsOutlierPayments, cmsPriceTransparency],
   },
   {
     slug: "why-just-send-them-to-rehab-is-not-simple",

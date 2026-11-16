@@ -317,93 +317,57 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
     title: "Home Health After Discharge",
     category: "Medicare",
     readTime: "6 min read",
-    promise: "Understand what Medicare home health can help with after discharge — and what it usually does not replace.",
-    audience: "Patients, caregivers, families planning a discharge home, bedside clinicians, and case managers.",
-    summary: "Home health is skilled care delivered at home. Medicare-covered home health is usually part-time or intermittent, not full-time caregiving. A patient generally needs a provider order, a skilled need, homebound status, and a Medicare-certified home health agency. If the real need is daily custodial help, meals, supervision, or 24-hour care, families need a separate plan.",
-    body: [
-      "Home health can make a discharge home safer, but it is often misunderstood.",
-      "Families may hear home health and imagine a caregiver staying for hours. Medicare home health usually means intermittent skilled visits, such as nursing or therapy, when coverage requirements are met.",
-      "Before going home, ask exactly what services were ordered, which agency accepted the referral, when the first visit will happen, and what support is not included."
+    promise: "Plan who will help between Medicare home health visits, especially on the first night and during the first week.",
+    audience: "Patients and caregivers planning a hospital discharge home.",
+    summary: "A home health nurse or therapist can help during scheduled visits. Before going home, ask when the agency expects to start and who will cover the tasks the patient cannot safely do between visits.",
+    body: [],
+    lastReviewedAt: "2026-11-15",
+    nextReviewAt: "2027-05-15",
+    reviewScope: "Medicare home health eligibility, discharge planning and North Carolina and VA home support options.",
+    editorialSections: [
+      {
+        title: "Who will be there at 10 p.m.?",
+        paragraphs: [
+          "When a family hears that home health is coming, I understand the relief. A scheduled visit can be a real part of the plan. As a case manager, I also want to know who will be there when the person needs help getting to the bathroom that night.",
+          "Take a hypothetical week with ten hours of visits. That leaves 158 hours between or outside visits. Those hours include time the person may be able to manage on their own. Mark the times they need help and see whether the visits and available caregivers cover those tasks.",
+          "Bring a specific gap back to the discharge team. For example, “My mother needs someone beside her to get to the bathroom, and nobody can be there after 6 p.m.” That gives the team a concrete problem to address while discussing the discharge plan.",
+        ],
+        keyPoints: [
+          "Arrival: who will help the patient get inside, and will any equipment they need already be there?",
+          "First night: who can help at the times the patient needs it, and who is the backup?",
+          "First week: which agency accepted the referral, when is the first confirmed visit, and who can help in the meantime?",
+        ],
+      },
+      {
+        title: "What Medicare home health can cover",
+        paragraphs: [
+          "Medicare generally requires a qualifying skilled need and homebound status, a clinician's order, and care through a Medicare-certified agency. Using a walker can help explain why leaving home is difficult. Eligibility depends on the whole situation. Covered services can include part-time or intermittent skilled nursing, qualifying therapies, and limited aide care alongside qualifying skilled services.",
+          "Medicare's home health benefit excludes round-the-clock home care, meal delivery, homemaker services unrelated to the care plan, and personal care when that is the only help needed. If the person needs those services, tell the team exactly what help and hours are missing.",
+        ],
+      },
+      {
+        title: "Options to check in the Charlotte area",
+        paragraphs: [
+          "Start with the person's ZIP code, coverage, and the tasks and hours they need help with. Ask each program about eligibility, availability, and start dates before relying on it for a discharge plan.",
+        ],
+        keyPoints: [
+          "PACE: for eligible adults age 55 or older who need a nursing-home level of care, live in a participating service area, and can live safely in the community with help. The North Carolina directory lists PACE of the Southern Piedmont in Charlotte. Confirm the address with the program.",
+          "NC Medicaid Personal Care Services: ask about an assessment for help with tasks such as bathing, dressing, or toileting.",
+          "NC Medicaid Private Duty Nursing: ask the medical team about this benefit if the person has complex needs requiring ongoing skilled nursing at home.",
+          "VA Homemaker and Home Health Aide care: ask the VA team about community-care eligibility, clinical requirements, and local availability.",
+        ],
+      },
     ],
-    sections: [
-      {
-        title: "Home health",
-        definition: "Skilled nursing, therapy, or related medical support provided in the patient’s home after an illness, injury, hospitalization, or decline.",
-        keyPoints: [
-          "May help a patient recover, maintain function, or slow decline.",
-          "May include nursing, physical therapy, occupational therapy, speech therapy, medical social services, limited aide support, supplies, or equipment tied to the care plan.",
-          "Usually ordered by a clinician and delivered by a Medicare-certified home health agency.",
-          "Not the same as having someone stay with the patient all day."
-        ],
-        watchOut: "Medicare home health usually means intermittent skilled visits, not full-time supervision."
-      },
-      {
-        title: "Skilled need",
-        definition: "A medical or therapy need that requires licensed professionals or trained technical personnel.",
-        keyPoints: [
-          "Examples include wound care, medication teaching, IV or nutrition therapy, monitoring an unstable condition, physical therapy, occupational therapy, or speech therapy.",
-          "The skilled need supports Medicare home health coverage.",
-          "Documentation should explain why the care is skilled and medically necessary."
-        ],
-        watchOut: "Needing help at home is not always the same as having a Medicare-covered skilled home health need."
-      },
-      {
-        title: "Homebound status",
-        definition: "A coverage requirement meaning leaving home is difficult, medically discouraged, or requires help, equipment, special transportation, or considerable effort.",
-        keyPoints: [
-          "A patient can leave home occasionally and still be considered homebound in some situations.",
-          "The issue is whether leaving home is difficult because of illness, injury, weakness, equipment needs, or safety limitations.",
-          "Homebound status must be supported by clinical documentation."
-        ],
-        watchOut: "Homebound does not mean the person is literally never allowed to leave the house."
-      },
-      {
-        title: "What may be covered",
-        keyPoints: [
-          "Part-time or intermittent skilled nursing visits.",
-          "Physical therapy, occupational therapy, or speech-language pathology.",
-          "Medical social services.",
-          "Part-time or intermittent home health aide care when tied to covered skilled services.",
-          "Medical supplies related to covered care."
-        ],
-        watchOut: "Ask how many visits are expected. A referral for home health does not mean daily help."
-      },
-      {
-        title: "What Medicare usually does not replace",
-        keyPoints: [
-          "24-hour-a-day care at home.",
-          "Meal delivery.",
-          "Homemaker services like shopping and cleaning when unrelated to the care plan.",
-          "Custodial or personal care when that is the only care needed.",
-          "Long-term supervision for dementia or safety needs."
-        ],
-        watchOut: "A patient may need these supports, but Medicare home health may not be the payer."
-      },
-      {
-        title: "Medicaid and home support",
-        definition: "Medicaid may help cover home and community-based services for people who qualify under state rules.",
-        keyPoints: [
-          "Some programs help with personal care, aides, adult day services, or other long-term supports.",
-          "Eligibility may depend on income, resources, disability, age, functional need, and state program availability.",
-          "Waiting lists may apply in some programs."
-        ],
-        watchOut: "Medicaid can be important for long-term help at home, but it is state-specific and not automatic."
-      }
+    takeaway: "Confirm which visits are arranged, then put a person or service next to each task that needs help between visits. Tell the care team where the plan still has a gap.",
+    sources: [
+      SOURCE_PRESETS.medicareHomeHealth,
+      { name: "Electronic Code of Federal Regulations", pageTitle: "42 CFR 482.43 — Discharge planning", url: "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-G/part-482/subpart-C/section-482.43" },
+      { name: "NC Medicaid", pageTitle: "Program of All-Inclusive Care for the Elderly (PACE)", url: "https://medicaid.ncdhhs.gov/beneficiaries/long-term-services-and-supports/program-all-inclusive-care-elderly" },
+      { name: "NC Medicaid", pageTitle: "PACE organizations and service areas", url: "https://medicaid.ncdhhs.gov/ncpace-service-area/download?attachment=" },
+      { name: "NC Medicaid", pageTitle: "Personal Care Services", url: "https://medicaid.ncdhhs.gov/beneficiaries/long-term-services-and-supports/personal-care-services" },
+      { name: "NC Medicaid", pageTitle: "Private Duty Nursing", url: "https://medicaid.ncdhhs.gov/beneficiaries/long-term-services-and-supports/private-duty-nursing" },
+      { name: "U.S. Department of Veterans Affairs", pageTitle: "Homemaker and Home Health Aide Care", url: "https://www.va.gov/geriatrics/guide/longtermcare/homemaker_and_home_health_aide_care.asp" },
     ],
-    example: {
-      title: "Home health is not a sitter",
-      body: "A patient is discharged with nursing and physical therapy visits. The family expects someone to be there every day to help with meals, bathroom trips, and supervision. The agency explains that Medicare home health covers intermittent skilled visits, not all-day caregiving. The family still needs a separate plan for daily support."
-    },
-    commonMistakes: [
-      "Assuming home health means full-time help at home.",
-      "Confusing skilled visits with private-duty caregiving.",
-      "Waiting until discharge day to ask when the first visit will happen.",
-      "Assuming aide help is covered even when there is no skilled need.",
-      "Underestimating how much supervision the patient needs.",
-      "Forgetting to ask what is not covered."
-    ],
-    takeaway: "Home health can be a strong discharge support, but it is not full-time home care. If the real need is daily custodial help, meals, supervision, homemaker support, or 24-hour care, families need a separate plan.",
-    sources: [SOURCE_PRESETS.medicareHomeHealth, SOURCE_PRESETS.medicaidLtss],
   },
   {
     slug: "durable-medical-equipment-after-discharge",

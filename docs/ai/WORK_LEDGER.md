@@ -423,3 +423,8 @@ This ledger records the outcome and reusable learning from material assignments.
 
 - Brought Andrew's latest hospital economics manuscript into three existing articles. Added a worked EOB, clarified the extra-day and readmission incentives, and explained how staffing and supply savings can be evaluated.
 - Scope, evidence and review boundaries: `docs/work-packets/2026-11-15-founder-manuscript-integration.md`.
+
+### 2026-11-15 — Home health between visits
+
+- Reworked the existing home health article around the first night and first week after discharge. Consolidated eligibility information and added source links for Charlotte-area support pathways.
+- Kept the existing canonical URL and sensitive publisher disposition. Added a mobile and desktop browser check for the article and its navigator link. Continued from the Explore CAF header fix in PR #291.

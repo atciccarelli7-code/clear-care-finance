@@ -44,6 +44,18 @@ const getArticleNextSteps = (
   articleCatalog: Article[],
 ): NextStepCard[] => {
   const priorityActionOverrides: Record<string, NextStepCard[]> = {
+    "patient-in-the-bed-and-patient-in-the-chart": [
+      { eyebrow: "Follow the referral", title: "What Happens While the Hospital Is “Waiting on Insurance”?", description: "See how the submitted record leads to a plan decision and what can still hold up a transfer.", href: "/articles/what-happens-while-hospital-is-waiting-on-insurance", cta: "Follow the authorization" },
+      { eyebrow: "Prepare for discharge", title: "Hospital-to-Home Coverage Navigator", description: "Organize the recommended care setting, coverage and questions for the discharge team.", href: "/insurance/hospital-discharge-coverage", cta: "Build a transition plan" },
+    ],
+    "what-happens-while-hospital-is-waiting-on-insurance": [
+      { eyebrow: "Check the next handoff", title: "Why “Just Send Them to Rehab” Is Not That Simple", description: "Find out what the receiving facility still needs after an insurer makes a decision.", href: "/articles/why-just-send-them-to-rehab-is-not-simple", cta: "Follow the rehab transfer" },
+      { eyebrow: "If the plan says no", title: "Prior Authorization Next-Step Guide", description: "Organize the written decision, reason, supporting records and review questions.", href: "/tools/prior-authorization-next-step-guide", cta: "Prepare for a plan decision" },
+    ],
+    "medically-ready-is-not-the-same-as-ready-for-home": [
+      { eyebrow: "Get ready for the first night", title: "Safe Hospital Discharge: The First 72 Hours", description: "Organize medications, equipment, follow-up and whom to call once you get home.", href: "/articles/safe-hospital-discharge-first-72-hours", cta: "Plan the first 72 hours" },
+      { eyebrow: "Check the home services", title: "Home Health After Discharge", description: "See what intermittent skilled visits can cover and what help you may need between visits.", href: "/articles/home-health-after-discharge", cta: "Understand home health" },
+    ],
     "why-hospitals-become-the-systems-shock-absorber": [
       { eyebrow: "Follow the capacity chain", title: "Why Hospitals Care So Much About Length of Stay", description: "See how staffed beds, discharge barriers, payment, safety, and emergency-department boarding connect.", href: "/articles/why-hospitals-care-about-length-of-stay", cta: "Follow patient flow" },
       { eyebrow: "Prepare the handoff", title: "Hospital-to-Home Coverage Navigator", description: "Name the recommended setting, coverage path, authorization, capacity, transport, caregiver, and backup-plan questions.", href: "/insurance/hospital-discharge-coverage", cta: "Open the navigator" },
@@ -70,6 +82,7 @@ const getArticleNextSteps = (
       { eyebrow: "Full patient journey", title: "Hospital & Patient Guide", description: "Connect the hospital stay, medicines, discharge, equipment, follow-up, coverage, and bills.", href: "/patients-families/hospital-guide", cta: "Open the guide" },
     ],
     "why-just-send-them-to-rehab-is-not-simple": [
+      { eyebrow: "Find out what is pending", title: "What Happens While the Hospital Is “Waiting on Insurance”?", description: "Use the status checklist to tell a plan decision from a placement or transport delay.", href: "/articles/what-happens-while-hospital-is-waiting-on-insurance", cta: "Identify the hold-up" },
       { eyebrow: "Build the next-step plan", title: "Hospital-to-Home Coverage Navigator", description: "Identify the recommended setting, controlling coverage path, authorization status, barriers, and safe backup questions.", href: "/insurance/hospital-discharge-coverage", cta: "Open the navigator" },
       { eyebrow: "Status can change coverage", title: "Observation vs. Inpatient Status", description: "Understand why hospital nights do not always count as inpatient days and how that can affect Original Medicare SNF coverage.", href: "/articles/observation-vs-inpatient-status", cta: "Check hospital status" },
       { eyebrow: "Authorization delayed or denied", title: "Prior Authorization Next-Step Guide", description: "Prepare the written-decision, criteria, documentation, contact, and appeal questions for the payer and clinical team.", href: "/tools/prior-authorization-next-step-guide", cta: "Prepare next steps" },

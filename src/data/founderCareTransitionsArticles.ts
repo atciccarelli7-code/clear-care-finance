@@ -57,7 +57,7 @@ const lottTrial: Source = {
 };
 
 const functionalDocumentationStudy: Source = {
-  name: "International Journal of Nursing Studies / PubMed",
+  name: "Scandinavian Journal of Caring Sciences / PubMed",
   pageTitle: "Comparison of nurses’ and physicians’ documentation of functional abilities of older patients in acute care (2008)",
   url: "https://pubmed.ncbi.nlm.nih.gov/18840217/",
   note: "Older Nordic study retained only as an illustration that important functional information can be absent from routine clinical documentation, not as a current U.S. estimate.",
@@ -115,7 +115,7 @@ const uhcUtilizationManagement: Source = {
 const cmsPriorAuthorizationFaq: Source = {
   name: "Centers for Medicare & Medicaid Services",
   pageTitle: "Interoperability and Prior Authorization — Frequently Asked Questions",
-  url: "https://www.cms.gov/initiatives/burden-reduction/overview/interoperability/frequently-asked-questions/prior-authorization-api",
+  url: "https://www.cms.gov/initiatives/burden-reduction/overview/interoperability/frequently-asked-questions/improving-prior-authorization-processes",
   note: "Current CMS implementation guidance on 2026 decision timeframes, extensions, public metrics, and the role of clinical review.",
 };
 
@@ -555,6 +555,13 @@ export const FOUNDER_CARE_TRANSITIONS_ARTICLES: Article[] = [
           `The patient in the chart keeps traveling.`,
         ],
       },
+      {
+        title: "What to ask when the chart and the bedside tell different stories",
+        paragraphs: [
+          `Describe one thing you saw and what help it took. For example, “She walked to the door with a walker and someone holding her up. At home she would need to make that trip alone.” Ask the bedside nurse or therapist whether the latest assessment captures the assistance she needed and whether the version sent with the referral reflects it. CMS identifies specific, objective records as important support for skilled nursing coverage. [4]`,
+          `If the plan has already issued a decision, ask case management whether it turned on missing information, a coverage criterion, or something else. [1] A fresh note may resolve a missing fact. The OIG also found denials where the record already supported coverage, so ask what review is available. [9]`,
+        ],
+      },
     ],
     systemLens: {
       title: "What actually shapes the downstream decision?",
@@ -596,7 +603,7 @@ export const FOUNDER_CARE_TRANSITIONS_ARTICLES: Article[] = [
     nextReviewAt: "2027-01-15",
     timeSensitive: true,
     reviewScope: "Current prior-authorization timeframes and API rules, one payer’s SNF process, discharge-delay literature, Medicare Advantage length-of-stay evidence, and hospital payment and contracting incentives.",
-    updateNote: "Publication version incorporates an adversarial September 2026 review of authorization timing, causal claims, Medicare Advantage length-of-stay estimates, and hospital payment incentives.",
+    updateNote: "November 2026 update adds a bedside checklist for distinguishing a pending authorization from a denied request or an approved transfer still waiting for placement.",
     author: AUTHOR,
     systemMap: {
       title: "The discharge chain that four words can hide",
@@ -663,6 +670,16 @@ export const FOUNDER_CARE_TRANSITIONS_ARTICLES: Article[] = [
           `Does this patient qualify for this level of care under this coverage?`,
           `That is a legitimate question.`,
           `The problem is what happens while healthcare waits for the answer.`,
+        ],
+      },
+      {
+        title: "Four updates that tell you who can act next",
+        paragraphs: [
+          `“We’re sending it.” Ask case management which care setting was requested, who is sending the request, and whether the plan has received it. A referral sent to a facility and an authorization request received by a plan are two different events. [1] [11]`,
+          `“It’s pending.” Ask for the receipt date and time, a reference number if available, whether the request is standard or expedited, and whether the plan needs anything else. The submitting team can usually confirm the status with the plan. [6] [11]`,
+          `“The plan said no.” Ask for the written decision, the specific reason, and the appeal instructions and deadline. Ask the plan and discharge team whether expedited review applies and who can help provide supporting records. [9] [12]`,
+          `“It’s approved, but we’re still here.” Ask what was approved, whether the receiving facility has confirmed acceptance and a staffed bed, and whether transport is arranged. At this stage, case management and the receiving facility can tell you which step remains open.`,
+          `Consider a hypothetical transfer: the patient is ready Monday, the plan receives the request Tuesday, approves Thursday, and the facility has a staffed bed Friday. The time from Monday to Friday affects the patient and hospital. The plan's review accounts for Tuesday to Thursday. Knowing which interval you are in tells you who to ask for the next update.`,
         ],
       },
       {
@@ -839,7 +856,7 @@ export const FOUNDER_CARE_TRANSITIONS_ARTICLES: Article[] = [
         paragraphs: [
           `Federal policy is beginning to recognize that.`,
           `As of January 1, 2026, Medicare Advantage organizations generally must make decisions on non-drug prior-authorization requests within 72 hours for expedited requests and seven calendar days for standard requests, while still acting faster when the patient's medical condition requires it. Similar timeframes apply to specified Medicaid and CHIP payers under the rule, with payer-specific details and lawful extensions. [6]`,
-          `Seven days is an ordinary standard deadline, not a statement that seven days is clinically or operationally appropriate for every request. Under applicable program rules, extensions of up to 14 calendar days can be permitted in specified circumstances. [6]`,
+          `For a Medicare Advantage prior authorization, the decision clock starts when the plan receives the request. [6] It measures time to the plan's decision, while the hospital's discharge timeline also includes time before submission and after the decision. For standard requests, a limited extension can be permitted in specified circumstances. [11]`,
           `CMS also requires affected payers to publicly report prior-authorization metrics such as approval and denial percentages and average and median decision time. The first 2025 metrics were due by March 31, 2026. Those aggregate reports still do not tell us how long medically ready hospital patients wait for a particular post-acute placement. [6]`,
           `That data should make future versions of this article better.`,
           `Because the important question is not merely:`,
@@ -1016,6 +1033,18 @@ export const FOUNDER_CARE_TRANSITIONS_ARTICLES: Article[] = [
       cmsMaContractIllustration,
       cmsPriorAuthFinalRule,
       cmsPriorAuthSavings,
+      {
+        name: "Electronic Code of Federal Regulations",
+        pageTitle: "42 CFR §422.568 — Standard timeframes and notice requirements",
+        url: "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-M/section-422.568",
+        note: "Defines when the standard Medicare Advantage decision clock begins and the conditions for extension.",
+      },
+      {
+        name: "Medicare.gov",
+        pageTitle: "Filing an appeal",
+        url: "https://www.medicare.gov/providers-services/claims-appeals-complaints/appeals",
+        note: "Explains written Medicare Advantage appeal instructions and how to get help with a coverage decision.",
+      },
     ],
   }),
   article({
@@ -1340,6 +1369,13 @@ export const FOUNDER_CARE_TRANSITIONS_ARTICLES: Article[] = [
           `Often, that somebody is the patient.`,
           `Maybe the first step toward improving discharge is simply being more precise about what we are actually promising when we say someone is ready.`,
           `Medically ready to leave the hospital is not always the same thing as ready for everything waiting at home.`,
+        ],
+      },
+      {
+        title: "Walk through the first evening before leaving",
+        paragraphs: [
+          `Start with one ordinary task: getting from the car to the bathroom. Ask the nurse or therapist what help that takes today, who will be there when you arrive, and how the plan changes if that person cannot be there. [1] Then do the same with the first medication dose, any equipment you need that night, and the first home-health visit. [7]`,
+          `If a service was ordered, ask who has accepted the referral and when you should expect contact. If the start time is unsettled, tell the discharge team which task you cannot safely manage in the gap. That gives the team a concrete problem to address before you go. [1] [6] [7]`,
         ],
       },
     ],

@@ -8,6 +8,28 @@ type HealthWatch = {
   httpErrors: string[];
 };
 
+test("discharge reporting helps readers find the next person who can act", async ({ page }) => {
+  await page.goto("/articles/patient-in-the-bed-and-patient-in-the-chart");
+  await expect(page.getByRole("heading", { name: "What to ask when the chart and the bedside tell different stories" })).toBeVisible();
+
+  const nextStep = page.locator("section").filter({
+    has: page.getByRole("heading", { name: "Next useful step", exact: true }),
+  });
+  await nextStep.getByRole("link", { name: /follow the authorization/i }).click();
+  await expect(page).toHaveURL(/\/what-happens-while-hospital-is-waiting-on-insurance$/);
+  await expect(page.getByRole("heading", { name: "Four updates that tell you who can act next" })).toBeVisible();
+  await expect(page.getByText(/The plan's review accounts for Tuesday to Thursday/)).toBeVisible();
+
+  await nextStep.getByRole("link", { name: /follow the rehab transfer/i }).click();
+  await expect(page).toHaveURL(/\/why-just-send-them-to-rehab-is-not-simple$/);
+  await expect(page.getByText(/Some Original Medicare patients may qualify for a waiver/)).toBeVisible();
+
+  await page.goto("/articles/medically-ready-is-not-the-same-as-ready-for-home");
+  await expect(page.getByRole("heading", { name: "Walk through the first evening before leaving" })).toBeVisible();
+  await nextStep.getByRole("link", { name: /plan the first 72 hours/i }).click();
+  await expect(page).toHaveURL(/\/safe-hospital-discharge-first-72-hours$/);
+});
+
 const installHealthWatch = (page: Page): HealthWatch => {
   const watch: HealthWatch = { consoleErrors: [], pageErrors: [], requestFailures: [], httpErrors: [] };
   page.on("console", (message) => {

@@ -407,3 +407,9 @@ This ledger records the outcome and reusable learning from material assignments.
 - **Validation:** Build/SEO/publication/bundle gates and 16 focused tests pass; lint zero errors/15 existing warnings. Full app TypeScript has 38 identical baseline errors; API type check passes. No real email sent. Remote release pending; see work packet for current disposition.
 - **Compounding:** Fixed six-page cohort, property/page/query denominator rules, 30-day experiment and decision thresholds; signup test distinguishes saved contact from delivered email.
 - **Limits/next action:** Article engagement, returning audience and contact-delivery counts unavailable. Evaluate the first settled30-day window after confirmed release; do not expand content on impressions alone.
+
+### 2026-11-15 — Discharge reporting reader paths
+
+- Improved four existing founder articles around authorization status, documentation, first-night readiness and rehab coverage. Reused the current sitemap, publisher classifications and navigation events.
+- Baseline, source evidence, rollback and verification plan: `docs/work-packets/2026-11-15-discharge-reader-paths.md`.
+- Reassess after a current AdSense account notice or the first settled 28-day readership window.

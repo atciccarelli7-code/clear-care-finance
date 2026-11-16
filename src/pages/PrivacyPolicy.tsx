@@ -66,6 +66,8 @@ const PrivacyPolicy = () => {
 
         <Section title="Google advertising technology">
           <p>On pages that are not designated as ad-free, the site may conditionally load Google AdSense technology. Google and other authorized advertising vendors may use cookies or similar technologies to serve, limit, measure, or personalize ads when permitted by applicable consent signals and law.</p>
+          <p>When ads are served, third-party advertising vendors, including Google, may place or read cookies and use web beacons, IP addresses, or other identifiers to serve and measure ads. Where personalization is permitted, Google and its partners can use advertising cookies to serve ads based on visits to this site or other websites.</p>
+          <p>You can manage Google ad personalization in <a className="text-primary underline underline-offset-2" href="https://myadcenter.google.com/">Google My Ad Center</a> and opt out of personalized ads from participating third-party vendors through <a className="text-primary underline underline-offset-2" href="https://optout.aboutads.info/">WebChoices</a>. See <a className="text-primary underline underline-offset-2" href="https://policies.google.com/technologies/partner-sites">how Google uses data from partner sites</a>.</p>
           <p>Paid product pages and authenticated premium workspaces are designated ad-free. Advertising does not control product logic, source selection, rankings, calculations, or editorial conclusions.</p>
         </Section>
 

@@ -19,6 +19,7 @@ export const EDITORIAL_LIBRARY_CLASSIFICATIONS: Record<EditorialClassification, 
     "why-just-send-them-to-rehab-is-not-simple",
   ],
   KEEP: [
+    "what-medicare-advantage-looks-like-from-hospital-side",
     "what-employer-benefit-changes-should-i-compare",
     "does-medicare-cover-long-term-care",
     "does-medicare-cover-rehab-after-hospital-stay",

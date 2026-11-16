@@ -546,7 +546,7 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
         title: "Original Medicare SNF coverage has a specific checklist",
         paragraphs: [
           "For the Original Medicare skilled nursing facility benefit, Medicare.gov states that Part A coverage generally requires a medically necessary inpatient hospital stay of at least three consecutive days, not counting the discharge day; entry to the SNF within a short time, generally 30 days; a need for daily skilled nursing or therapy related to the qualifying stay; available Part A days; and care in a Medicare-certified SNF. Observation and emergency-department time before formal inpatient admission generally do not count toward the three-day requirement.",
-          "There are exceptions and alternate pathways. Certain Accountable Care Organizations may use an approved three-day-rule waiver, and Medicare Advantage plans may waive the three-day minimum. Coverage is limited and cost sharing changes over a benefit period. A recommendation for 'rehab' does not make long-term custodial care a Medicare benefit.",
+          "Some Original Medicare patients may qualify for a waiver through an approved Accountable Care Organization or a CMS payment model. Medicare Advantage plans may also waive the minimum. If the hospital says there are too few qualifying inpatient days, ask what date the inpatient admission began and whether a waiver applies to this patient and receiving facility. For Medicare Advantage, ask the plan which SNF coverage and authorization rules apply. Coverage is limited and cost sharing can change over the stay.",
           "Inpatient rehabilitation facility coverage is a different benefit. Medicare describes it as medically necessary intensive rehabilitation after serious illness, injury, or surgery, with coordinated care and physician supervision. Do not apply the SNF checklist to an IRF or assume an IRF recommendation is a SNF acceptance.",
         ],
         callout: {
@@ -622,6 +622,18 @@ export const FOUNDER_HOSPITAL_ECONOMICS_ARTICLES: Article[] = [
       "Letting a verbal denial or vague pending status pass without asking for the exact decision, reason, and deadline.",
     ],
     takeaway: "Rehab placement is a chain, not an order: clinical recommendation, complete referral, facility capability and acceptance, payer rules, an appropriate staffed bed, and safe logistics must all line up. Name the broken link before deciding what to do next.",
-    sources: [medicareSnf, medicareIrf, oigSnfPriorAuthorization, oigIrfPriorAuthorization, ahrqBoarding],
+    sources: [
+      medicareSnf,
+      medicareIrf,
+      oigSnfPriorAuthorization,
+      oigIrfPriorAuthorization,
+      ahrqBoarding,
+      {
+        name: "Centers for Medicare & Medicaid Services",
+        pageTitle: "TEAM skilled nursing facility three-day rule waiver",
+        url: "https://www.cms.gov/files/document/mm14098-implementing-transforming-episode-accountability-model-skilled-nursing-facility-3-day-rule.pdf",
+        note: "Explains a payment-model waiver for eligible episodes and qualified receiving facilities beginning in 2026.",
+      },
+    ],
   },
 ];

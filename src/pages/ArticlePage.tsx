@@ -88,9 +88,9 @@ const getArticleNextSteps = (
       { eyebrow: "Authorization delayed or denied", title: "Prior Authorization Next-Step Guide", description: "Prepare the written-decision, criteria, documentation, contact, and appeal questions for the payer and clinical team.", href: "/tools/prior-authorization-next-step-guide", cta: "Prepare next steps" },
     ],
     "discharge-coverage-guide": [
+      { eyebrow: "Start with the discharge plan", title: "Hospital-to-Home Coverage Navigator", description: "Organize the recommended setting, coverage questions, equipment, and the backup plan.", href: "/insurance/hospital-discharge-coverage", cta: "Build the plan" },
       { eyebrow: "Why the handoff stalls", title: "Why “Just Send Them to Rehab” Is Not That Simple", description: "Follow the clinical, facility, payer, authorization, capacity, and logistics gates behind a post-acute placement.", href: "/articles/why-just-send-them-to-rehab-is-not-simple", cta: "Follow the rehab chain" },
       { eyebrow: "Make the home plan explicit", title: "“Home With Family” Is Not a Free Care Plan", description: "See the unpaid labor, equipment, transportation, medication, monitoring, and risk transferred to a household at discharge.", href: "/articles/home-with-family-is-not-a-free-care-plan", cta: "Understand the home burden" },
-      { eyebrow: "Prepare the handoff", title: "Hospital-to-Home Coverage Navigator", description: "Organize the recommended setting, coverage path, authorization status, barriers, caregiver tasks, and safe backup plan.", href: "/insurance/hospital-discharge-coverage", cta: "Build the plan" },
     ],
     "short-term-rehab-after-hospital": [
       { eyebrow: "Understand the system", title: "Why “Just Send Them to Rehab” Is Not That Simple", description: "Connect the rehab recommendation to acceptance criteria, payer authorization, bed capacity, transportation, and a workable backup plan.", href: "/articles/why-just-send-them-to-rehab-is-not-simple", cta: "Follow the placement chain" },
@@ -341,11 +341,11 @@ const getArticleNextSteps = (
           cta: "Read the map",
         },
         {
-          eyebrow: "Spending pattern",
-          title: "Savings Rate That Changes Your Life",
-          description: "Separate relief purchases that help from leakage that keeps you stuck.",
-          href: "/articles/savings-rate-that-actually-changes-your-life",
-          cta: "Build flexibility",
+          eyebrow: "Plan for the end of a shift",
+          title: "Burnout, Overspending, and Overeating After Hard Shifts",
+          description: "Plan food, recovery time, and spending before the next hard shift.",
+          href: "/articles/burnout-overspending-overeating",
+          cta: "Plan your next shift",
         },
         {
           eyebrow: "Career pressure",

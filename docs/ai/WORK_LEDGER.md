@@ -413,3 +413,8 @@ This ledger records the outcome and reusable learning from material assignments.
 - Improved four existing founder articles around authorization status, documentation, first-night readiness and rehab coverage. Reused the current sitemap, publisher classifications and navigation events.
 - Baseline, source evidence, rollback and verification plan: `docs/work-packets/2026-11-15-discharge-reader-paths.md`.
 - Reassess after a current AdSense account notice or the first settled 28-day readership window.
+
+### 2026-11-15 — Improve reader decisions on existing CAF pages
+
+- Reworked five existing guides with concrete decisions about base pay, bill timing, income from dividends, home discharge coverage and SNF selection.
+- Candidate evidence, source checks and release criteria: `docs/work-packets/2026-11-15-legacy-reader-decisions.md`.

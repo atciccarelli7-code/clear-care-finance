@@ -1,6 +1,12 @@
 import type { Article } from "./articles";
 import { SOURCE_PRESETS } from "./sources";
 
+const cfpbCashFlowBudget = {
+  name: "Consumer Financial Protection Bureau",
+  pageTitle: "Your Money, Your Goals: Cash flow budget and bill calendar",
+  url: "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_financial-empowerment_toolkit.pdf",
+};
+
 export const WEALTH_ARTICLES: Article[] = [
   {
     slug: "healthcare-worker-money-map",
@@ -65,10 +71,10 @@ export const WEALTH_ARTICLES: Article[] = [
       }
     ],
     example: {
-      title: "A 12-hour shift paycheck plan",
-      body: "A nurse reviews one biweekly paycheck. First, rent, utilities, groceries, and loan payments are covered. Next, enough goes to the 403(b) to receive the full match. A fixed transfer builds emergency savings. Any overtime above the normal paycheck is split between high-interest debt and extra retirement savings. The plan is simple enough to repeat."
+      title: "Build the pay-period plan from a check without overtime",
+      body: "Suppose a nurse takes home $1,450 in a normal two-week pay period and $1,700 after picking up a shift. Use $1,450 for the recurring plan. If bills due before the next payday, groceries, and commuting total $1,300, the normal check leaves $150. The larger check adds $250 of one-time room. Compare net checks with similar deductions and set aside any extra childcare or parking before allocating the rest. If a retirement contribution already came out of the paycheck, keep it out of the cash-expense column."
     },
-    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools/403b-paycheck-calculator" },
     commonMistakes: [
       "Treating overtime like guaranteed base income.",
       "Missing the employer match while trying to pick the perfect investment.",
@@ -77,7 +83,7 @@ export const WEALTH_ARTICLES: Article[] = [
       "Waiting to invest until everything feels perfectly organized."
     ],
     takeaway: "The best healthcare-worker money plan is simple: stabilize the paycheck, capture employer money, avoid high-interest debt traps, and invest consistently enough that time can do the heavy lifting.",
-    sources: [SOURCE_PRESETS.irs, SOURCE_PRESETS.federalReserve, SOURCE_PRESETS.bls]
+    sources: [cfpbCashFlowBudget, SOURCE_PRESETS.irs, SOURCE_PRESETS.federalReserve, SOURCE_PRESETS.bls]
   },
   {
     slug: "how-healthcare-workers-can-invest-without-picking-stocks",
@@ -468,8 +474,8 @@ export const WEALTH_ARTICLES: Article[] = [
       }
     ],
     example: {
-      title: "The dividend dream meets the math",
-      body: "A worker wants $50,000 of annual passive income. At a 3% dividend yield, that would require about $1.67 million before taxes and without considering inflation or dividend cuts. The dream is not impossible, but the portfolio size is the real driver."
+      title: "Could dividends replace one pickup shift a month?",
+      body: "Suppose skipping a shift leaves a $300 monthly gap after you account for taxes and the childcare or commuting costs you would avoid. That is $3,600 a year. At an illustrative 3% distribution yield, $120,000 would produce $3,600 before investment taxes. If the payout fell by a quarter, it would provide $2,700 a year, or $225 a month on average, leaving a $75 monthly gap even before taxes. Look at the actual payout schedule, what the distribution consists of, and what you would use to cover a shortfall."
     },
     relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
     commonMistakes: [
@@ -480,7 +486,15 @@ export const WEALTH_ARTICLES: Article[] = [
       "Trying to live off income before the asset base is large enough."
     ],
     takeaway: "Dividends can be part of financial independence, but they are not a shortcut. Build the asset base first, then choose an income strategy that is flexible, diversified, and realistic.",
-    sources: [SOURCE_PRESETS.investorGovCompoundInterest, SOURCE_PRESETS.investorGovAssetAllocation]
+    sources: [
+      {
+        name: "U.S. Securities and Exchange Commission",
+        pageTitle: "Fund Distributions – Investor Bulletin",
+        url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/fund-distributions-investor-bulletin",
+      },
+      SOURCE_PRESETS.investorGovCompoundInterest,
+      SOURCE_PRESETS.investorGovAssetAllocation,
+    ]
   },
   {
     slug: "money-stress-after-hard-shift",
@@ -489,7 +503,7 @@ export const WEALTH_ARTICLES: Article[] = [
     readTime: "6 min read",
     promise: "How to stop stress from turning into spending, avoidance, or panic decisions after exhausting healthcare work.",
     audience: "Healthcare workers who feel anxious about money, want to earn more badly, or notice that burnout pushes them toward spending, avoidance, or all-or-nothing financial decisions.",
-    summary: "Money stress is not only a math problem. After a hard shift, the brain wants relief. That relief can become delivery food, impulse purchases, avoidance, overtime overuse, or panic investing. The answer is not shame. The answer is a small system built before the stress hits: automatic transfers, spending buffers, simple rules for overtime, and a short list of money tasks that do not require perfect motivation.",
+    summary: "After a hard shift, start with the next payday and the bills and essentials due before it. If there is a cash shortfall, identify the earliest payment that needs attention. If the essentials are covered, leave bigger decisions about investments or extra shifts for a time when you can look at them calmly.",
     body: [
       "A bad relationship with money often shows up as urgency: I need to earn more, I need to fix everything, I need passive income now, I need a better job, I need the market to work. Those feelings are understandable, especially when the work is draining and the future feels expensive.",
       "But stress is a poor financial planner. It wants immediate relief. It does not care whether the relief is a delivery order, a random purchase, an extra shift that makes burnout worse, or an investment decision made out of fear.",
@@ -500,18 +514,18 @@ export const WEALTH_ARTICLES: Article[] = [
         title: "Name the pattern",
         definition: "Stress spending is not a character flaw. It is often an attempt to feel better quickly after overload.",
         keyPoints: [
-          "Long shifts reduce decision quality.",
-          "Burnout makes future goals feel less real than immediate comfort.",
-          "Naming the pattern creates space to change it without shame."
+          "Notice which decisions feel urgent after a difficult shift.",
+          "Give scheduled payments and essentials their own check.",
+          "Write down what can wait so you have a clear place to pick up later."
         ]
       },
       {
-        title: "Pre-decide the basics",
-        definition: "Automated decisions reduce the need for willpower after work.",
+        title: "Check what needs attention before payday",
+        definition: "Use your available balance and bill dates to decide what needs action tonight and what can wait until you have rested.",
         keyPoints: [
-          "Automate retirement contributions and savings transfers where possible.",
-          "Use a planned spending amount so every purchase does not become a moral debate.",
-          "Set rules for overtime before you are desperate for more money."
+          "Check the next payday and list what will come out before it, including scheduled payments, food, and transportation.",
+          "If you find a shortfall, note the amount and the earliest due date. Ask the billing company whether a due-date change or payment arrangement is available.",
+          "If the essentials are covered, write down the bigger money decision and choose a time to look at it when rested."
         ]
       },
       {
@@ -535,10 +549,9 @@ export const WEALTH_ARTICLES: Article[] = [
       }
     ],
     example: {
-      title: "The post-shift loop",
-      body: "A clinician leaves a brutal shift feeling underpaid, behind, and angry. They order food, scroll finance content, and decide they need to change everything tomorrow. A better system is smaller: automatic 403(b) contribution, automatic cash transfer, one planned comfort purchase, and one weekly money check-in when rested."
+      title: "Payday is Friday, but the bill is due Wednesday",
+      body: "Suppose you have $180 available, a $165 bill due Wednesday, and $40 in groceries and gas needed before Friday. The immediate problem is a $25 timing gap. Write down the bill and due date, then check whether the company can move the payment or offer an arrangement. Picking up an extra shift only helps with this bill if the pay arrives in time."
     },
-    relatedCalculator: { label: "Hospital Cafe Savings Rate Calculator", href: "/tools#cafe" },
     commonMistakes: [
       "Trying to fix money at midnight after a bad shift.",
       "Using shame as the main budgeting tool.",
@@ -547,7 +560,7 @@ export const WEALTH_ARTICLES: Article[] = [
       "Replacing a money plan with constant finance content."
     ],
     takeaway: "Money stress needs systems, not shame. Build the automatic pieces while calm so a hard shift does not get to control the whole financial plan.",
-    sources: [SOURCE_PRESETS.federalReserve, SOURCE_PRESETS.bls]
+    sources: [cfpbCashFlowBudget, SOURCE_PRESETS.federalReserve, SOURCE_PRESETS.bls]
   },
   {
     slug: "earn-more-without-burning-out-bedside",

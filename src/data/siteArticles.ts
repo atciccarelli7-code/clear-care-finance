@@ -113,7 +113,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
     readTime: "6 min read",
     promise: "Understand which post-hospital costs Medicare may cover after discharge — and which questions families should ask early.",
     audience: "Patients, caregivers, bedside clinicians, case managers, and families planning a hospital discharge.",
-    summary: "Discharge planning is not just a clinical handoff. It can also decide what Medicare may or may not cover next. Skilled nursing facility coverage, home health, durable medical equipment, therapy, medications, and custodial help all follow different rules. The most important early question is whether the patient is inpatient, observation, or outpatient, because status can affect post-hospital coverage.",
+    summary: "Start with the care setting the team recommends. For a facility transfer, confirm the type of facility, who can accept the patient, and which coverage rules apply. For a discharge home, verify home health, equipment, medication access, and help with daily tasks separately. Hospital admission status is especially important when checking Original Medicare coverage for a skilled nursing facility.",
     body: [
       "A hospital discharge can feel like the end of the emergency, but financially it is often the beginning of a new set of questions.",
       "Families may hear words like skilled nursing, home health, durable medical equipment, observation, inpatient, custodial care, prior authorization, and discharge appeal while they are already tired and overwhelmed.",
@@ -186,8 +186,8 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       }
     ],
     example: {
-      title: "A discharge that changes the bill",
-      body: "A patient spends two nights in the hospital after a fall and then needs rehab. The family assumes the rehab stay is covered because the patient was in a hospital bed. Before discharge, the case manager explains that the stay was observation, not inpatient. That distinction can affect whether Medicare covers the skilled nursing facility stay."
+      title: "A home discharge with two separate coverage checks",
+      body: "Suppose the team recommends home physical therapy and a walker. Ask the discharge team which home health agency accepted the referral, when it expects to start, and whom to call if the visit is delayed. Ask separately who is supplying the walker, when it will be available, and what the supplier and plan say you may owe. Medicare home health and equipment can have different costs and requirements. If the walker is needed to get inside safely, tell the discharge team that it needs to be available for the trip home."
     },
     commonMistakes: [
       "Assuming discharge needs are automatically covered.",
@@ -214,7 +214,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
     readTime: "6 min read",
     promise: "Learn what Medicare and Medicaid may cover when a patient needs rehab after hospitalization.",
     audience: "Patients, caregivers, families comparing discharge options, bedside clinicians, and case managers.",
-    summary: "Short-term rehab usually means skilled nursing facility care after a hospital stay. Medicare may cover it for a limited time when specific rules are met, but the patient usually needs a skilled nursing or therapy need, qualifying timing, and a Medicare-certified facility. Observation status, Medicare Advantage prior authorization, daily copays, and the difference between skilled care and custodial care can change the answer.",
+    summary: "Ask which setting the team means by rehab. A skilled nursing facility (SNF) and an inpatient rehabilitation facility (IRF) have different Medicare coverage rules. This guide focuses on checking SNF coverage, comparing facilities, and planning what happens if skilled coverage ends before the patient can safely go home.",
     body: [
       "Short-term rehab can be one of Medicare’s most useful post-hospital benefits, but it is not automatic and it is not unlimited nursing home coverage.",
       "The central question is whether the patient needs skilled recovery care that meets coverage rules, not simply whether the patient is weak, scared, or unsafe alone.",
@@ -223,9 +223,9 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
     sections: [
       {
         title: "Short-term rehab",
-        definition: "A temporary skilled nursing facility stay meant to help a patient recover after illness, injury, surgery, stroke, infection, fall, or hospitalization.",
+        definition: "Short-term rehab describes a goal. The discharge team may recommend a skilled nursing facility or a different setting, such as an inpatient rehabilitation facility for intensive rehabilitation with physician supervision.",
         keyPoints: [
-          "Often called SNF care or skilled nursing facility care.",
+          "Ask the team to name the recommended setting before checking coverage. Original Medicare's qualifying hospital stay rule for SNFs does not determine coverage for inpatient rehabilitation facilities.",
           "May include skilled nursing, physical therapy, occupational therapy, speech therapy, medications, meals, and facility supplies.",
           "The goal is usually recovery, stabilization, function improvement, or a safe transition to a lower level of care.",
           "It is not the same as permanent room-and-board nursing home care."
@@ -288,8 +288,8 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       }
     ],
     example: {
-      title: "Coverage stops before independence returns",
-      body: "A patient improves enough that skilled therapy coverage ends, but they still need help bathing, toileting, preparing meals, and getting safely to the bathroom. That remaining need may be custodial. The family may need to plan for home support, private pay, Medicaid eligibility, or a different level of care."
+      title: "Compare two skilled nursing facilities for the same referral",
+      body: "Suppose the team recommends a SNF that can provide wound care and therapy. Ask each facility whether it can manage the wound and accept the patient, and confirm coverage and expected daily costs with the plan using each facility's name. If one facility can provide the care but has no staffed bed, ask case management which other referrals are active. Also ask who will reassess skilled need and what support would be required if coverage ends while the patient still needs help at home."
     },
     commonMistakes: [
       "Assuming Medicare always pays for rehab after a hospital stay.",
@@ -302,6 +302,11 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
     takeaway: "Short-term rehab is skilled recovery care, not unlimited long-term care. Ask early about hospital status, skilled need, facility certification, network rules, prior authorization, daily costs, and the backup plan if coverage ends.",
     sources: [
       SOURCE_PRESETS.medicareSnf,
+      {
+        name: "Medicare.gov",
+        pageTitle: "Inpatient rehabilitation care",
+        url: "https://www.medicare.gov/coverage/inpatient-rehabilitation-care",
+      },
       SOURCE_PRESETS.medicareMedigapCompareBenefits,
       SOURCE_PRESETS.medicareLongTermCare,
       SOURCE_PRESETS.medicaidLtss

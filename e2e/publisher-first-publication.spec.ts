@@ -1,6 +1,27 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
+test("legacy guides answer distinct decisions and link to the right next step", async ({ page }) => {
+  const examples = [
+    ["healthcare-worker-money-map", "Build the pay-period plan from a check without overtime"],
+    ["can-you-live-off-dividends-passive-income-guide", "Could dividends replace one pickup shift a month?"],
+    ["short-term-rehab-after-hospital", "Compare two skilled nursing facilities for the same referral"],
+    ["discharge-coverage-guide", "A home discharge with two separate coverage checks"],
+  ];
+  for (const [slug, heading] of examples) {
+    await page.goto(`/articles/${slug}`);
+    await expect(page.getByRole("heading", { name: heading, exact: true })).toBeVisible();
+  }
+  await expect(page.getByRole("link", { name: /start with the discharge plan/i }))
+    .toHaveAttribute("href", "/insurance/hospital-discharge-coverage");
+
+  await page.goto("/articles/money-stress-after-hard-shift", { waitUntil: "networkidle" });
+  await expect(page.getByRole("heading", { name: "Payday is Friday, but the bill is due Wednesday" })).toBeVisible();
+  await expect(page.getByText(/\$25 timing gap/)).toBeVisible();
+  await page.getByRole("link", { name: /plan your next shift/i }).click();
+  await expect(page).toHaveURL(/\/articles\/burnout-overspending-overeating$/);
+});
+
 const founderArticles = [
   {
     slug: "patient-in-the-bed-and-patient-in-the-chart",

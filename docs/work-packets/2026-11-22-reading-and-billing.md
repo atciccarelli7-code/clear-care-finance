@@ -25,3 +25,5 @@ Verify the production sender and save → welcome → issue → unsubscribe flow
 ## Review and release
 
 Editorial review verified the hypothetical arithmetic, original notes, and claim-specific sources. Product, UX, discovery and release reviews prioritized the sampled reader paths and stable URLs. The remaining warnings are limited measurement coverage, protected-preview smoke access, and the separate policy draft's source freshness and preview checks. Revenue, payments, backend permissions and new data collection are outside this release.
+
+Local validation: production build and route checks passed, including the unchanged JavaScript budget. All 34 publication browser checks passed at mobile and desktop widths with external fonts stubbed for the restricted test environment. The focused unit rerun passed. The full Windows sweep encountered a pre-existing line-ending assertion and a Benefits workspace test that passed on rerun. Hosted release checks are tracked in PR #294.

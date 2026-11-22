@@ -610,6 +610,13 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
       </PageHero>
 
       <article className="container max-w-3xl py-8 md:py-16 space-y-8 md:space-y-12">
+        {article.slug === "medicare-medicaid-changes-january-2027" && (
+          <aside className="rounded-2xl border border-primary/30 bg-muted/30 p-5">
+            <h2 className="font-display text-xl font-bold">Looking for current dates and policy status?</h2>
+            <p className="mt-2 text-sm text-muted-foreground">This is a background explainer. The central hub keeps the verified timeline, official sources, proposals and state rollout questions together.</p>
+            <Link to="/medicare-medicaid-changes" className="mt-3 inline-block font-semibold text-primary underline underline-offset-4">Open Medicare & Medicaid Changes</Link>
+          </aside>
+        )}
         <ContentFreshness
           publishedAt={article.publishedAt}
           lastReviewedAt={article.lastReviewedAt}

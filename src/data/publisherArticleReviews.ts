@@ -115,6 +115,7 @@ const FLAGSHIP_ELIGIBLE_SLUGS = new Set([
 ]);
 
 const REVIEWED_AT: Record<string, string> = {
+  "medicare-medicaid-changes-january-2027": "2026-11-22",
   "patient-in-the-bed-and-patient-in-the-chart": "2026-09-08",
   "what-happens-while-hospital-is-waiting-on-insurance": "2026-09-08",
   "medically-ready-is-not-the-same-as-ready-for-home": "2026-09-08",

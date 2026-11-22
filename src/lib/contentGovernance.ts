@@ -70,6 +70,7 @@ const HUB_ROUTES = new Set([
   "/open-enrollment",
   "/insurance",
   "/medicare-care-costs",
+  "/medicare-medicaid-changes",
   "/glossary",
 ]);
 const NON_TOOL_WORKFLOWS = new Set([
@@ -243,6 +244,7 @@ export const resolveContentGovernance = (
   }
 
   if (HUB_ROUTES.has(route)) {
+    const isChangesHub = route === "/medicare-medicaid-changes";
     return {
       route,
       publicAvailable: true,
@@ -250,8 +252,8 @@ export const resolveContentGovernance = (
       contentTier: "navigation",
       indexable: true,
       adEligible: false,
-      sensitiveContext: false,
-      interactiveContext: false,
+      sensitiveContext: isChangesHub,
+      interactiveContext: isChangesHub,
       reviewStatus: "needs-review",
       reason: "Broad audience and topic hubs are ad-free by default even when they remain indexable.",
     };

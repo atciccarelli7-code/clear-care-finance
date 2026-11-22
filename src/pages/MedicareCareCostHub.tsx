@@ -516,6 +516,11 @@ const MedicareCareCostHub = () => {
       </PageHero>
 
       <div className="container space-y-16 py-12 md:space-y-20 md:py-16">
+        <aside className="rounded-2xl border border-border bg-muted/20 p-5">
+          <h2 className="font-display text-xl font-bold">What is changing in Medicare and Medicaid?</h2>
+          <p className="mt-2 text-muted-foreground">Separate provider payment rules from beneficiary costs and state eligibility changes.</p>
+          <Link to="/medicare-medicaid-changes" className="mt-3 inline-block text-primary underline underline-offset-4">Read the verified changes timeline and archive</Link>
+        </aside>
         <section className="grid gap-5 md:grid-cols-3" aria-label="What this Medicare care cost hub helps with">
           {topCards.map((card) => (
             <InfoCard key={card.title} card={card} />

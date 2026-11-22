@@ -2,6 +2,12 @@
 
 This ledger records the outcome and reusable learning from material assignments. It is not a backlog and should not become a transcript.
 
+### 2026-11-22 — Medicare & Medicaid Changes hub
+
+- Built one searchable evergreen policy timeline with official item citations, manual statuses, federal/NC scopes, November 22 verification dates, archive and practical care-transition actions. Preserved the old January article URL as background with a prominent handoff; retained existing coverage/cost utilities.
+- Added source registry/editorial workflow and regression/browser checks. Production build, 53 focused tests and both desktop/mobile journeys pass. Broader tests/type checks expose documented pre-existing baseline failures.
+- Details and modified files: `docs/work-packets/2026-11-22-medicare-medicaid-changes.md`. Release held for current owner-account constraints; no merge/deployment. Next source checkpoint: NC transition election/CMS approval by December 11.
+
 ## Entry template
 
 ### `[WORK ID] — [Outcome]`

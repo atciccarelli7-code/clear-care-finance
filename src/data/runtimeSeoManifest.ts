@@ -23,6 +23,30 @@ export type RuntimeToolSeoMeta = {
 
 const ARTICLE_ROWS = [
   [
+    "patient-in-the-bed-and-patient-in-the-chart",
+    "The Patient in the Bed and the Patient in the Chart",
+    "What a clinician sees in the room has to survive documentation, handoffs, coverage rules and outside review before another organization can act on it.",
+    "Hospital Discharge",
+    "2026-09-08",
+    "2026-09-08"
+  ],
+  [
+    "what-happens-while-hospital-is-waiting-on-insurance",
+    "What Happens While the Hospital Is “Waiting on Insurance”?",
+    "The patient may be medically ready to leave. The hospital may be ready to discharge them. But until the next organization says yes, everyone keeps waiting—and the hospital keeps operating around that wait.",
+    "Hospital Discharge",
+    "2026-09-08",
+    "2026-09-08"
+  ],
+  [
+    "medically-ready-is-not-the-same-as-ready-for-home",
+    "Medically Ready Is Not the Same as Ready for Home",
+    "No longer needing acute hospital care is not quite the same thing as being ready for everything waiting at home.",
+    "Hospital Discharge",
+    "2026-09-08",
+    "2026-09-08"
+  ],
+  [
     "20-dollar-tylenol-hospital-prices",
     "The $20 Tylenol Isn’t Really About the Tylenol",
     "Why a hospital Tylenol charge is not the pill's true cost: understand gross charges, negotiated rates, insurer payment, patient responsibility, and hospital cost.",
@@ -69,6 +93,14 @@ const ARTICLE_ROWS = [
     "Patients & Caregivers",
     "2026-08-30",
     "2026-08-30"
+  ],
+  [
+    "what-medicare-advantage-looks-like-from-hospital-side",
+    "What Medicare Advantage Looks Like From the Hospital Side",
+    "A case-manager view of what changes when a Medicare patient needs rehab, post-acute care, equipment, or another service that has to move through a private Medicare Advantage plan.",
+    "Medicare & Medicaid",
+    "2026-09-29",
+    "2026-09-29"
   ],
   [
     "what-employer-benefit-changes-should-i-compare",
@@ -496,11 +528,11 @@ const ARTICLE_ROWS = [
   ],
   [
     "medicare-medicaid-changes-january-2027",
-    "Medicare and Medicaid Changes Scheduled for January 1, 2027",
-    "A plain-English guide to the scheduled 2027 Medicaid eligibility rollout and the practical areas Medicare patients, caregivers, and hospitals should watch.",
+    "January Policy Changes and Care Transitions",
+    "Care-transition questions to ask when healthcare policy changes.",
     "Medicare & Medicaid",
     null,
-    null
+    "2026-11-22"
   ],
   [
     "obbb-overtime-tax-deduction-healthcare-workers",
@@ -577,10 +609,10 @@ const ARTICLE_ROWS = [
   [
     "home-health-after-discharge",
     "Home Health After Discharge",
-    "Understand what Medicare home health can help with after discharge — and what it usually does not replace.",
+    "Plan who will help between Medicare home health visits, especially on the first night and during the first week.",
     "Medicare",
     null,
-    null
+    "2026-11-15"
   ],
   [
     "durable-medical-equipment-after-discharge",

@@ -2,11 +2,12 @@ import { CompactArticleCard } from "./CompactArticleCard";
 import { SectionHeading } from "./SectionHeading";
 import { ALL_ARTICLES } from "@/data/allArticles";
 import { isArticleDraft } from "@/lib/article-status";
+import { Link } from "react-router-dom";
 
 const learningPathGroups = [
   {
     title: "Policy changes to watch",
-    description: "Start here for planned Medicare and Medicaid changes that may affect patients, caregivers, hospitals, and discharge planning.",
+    description: "Background on why policy changes matter for care transitions. Use the changes hub for current dates, status and official sources.",
     slugs: [
       "medicare-medicaid-changes-january-2027",
     ],
@@ -51,6 +52,7 @@ const getPublishedArticles = (slugs: string[]) =>
 
 export const MedicareLearningPath = () => (
   <div className="min-w-0">
+    <p className="mb-6 rounded-2xl border border-border bg-muted/20 p-5"><Link to="/medicare-medicaid-changes" className="font-semibold text-primary underline underline-offset-4">Medicare & Medicaid Changes: verified dates, affected groups and next steps</Link></p>
     <SectionHeading
       eyebrow="Articles"
       title="Medicare learning path"

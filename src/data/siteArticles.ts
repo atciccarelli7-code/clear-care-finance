@@ -209,88 +209,36 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
   },
   {
     slug: "short-term-rehab-after-hospital",
-    title: "Short-Term Rehab After the Hospital",
+    title: "Short-Term Rehab After the Hospital: How to Compare Facilities",
+    reviewScope: "Facility capability, admission availability, coverage verification, and transfer planning.",
     category: "Medicare",
     readTime: "6 min read",
-    promise: "Learn what Medicare and Medicaid may cover when a patient needs rehab after hospitalization.",
+    promise: "Compare what each facility can provide, whether it can admit the patient, and what still has to happen before transfer.",
     audience: "Patients, caregivers, families comparing discharge options, bedside clinicians, and case managers.",
-    summary: "Ask which setting the team means by rehab. A skilled nursing facility (SNF) and an inpatient rehabilitation facility (IRF) have different Medicare coverage rules. This guide focuses on checking SNF coverage, comparing facilities, and planning what happens if skilled coverage ends before the patient can safely go home.",
-    body: [
-      "Short-term rehab can be one of Medicare’s most useful post-hospital benefits, but it is not automatic and it is not unlimited nursing home coverage.",
-      "The central question is whether the patient needs skilled recovery care that meets coverage rules, not simply whether the patient is weak, scared, or unsafe alone.",
-      "Families should ask about hospital status, skilled need, facility certification, plan network rules, prior authorization, daily costs, and what happens if coverage stops before home is safe."
+    summary: "Ask which setting the team means by rehab. A skilled nursing facility (SNF) and an inpatient rehabilitation facility (IRF) have different Medicare coverage rules. Once you know the setting, compare facilities on care capability, availability, coverage, cost and transfer timing.",
+    body: [],
+    editorialSections: [
+      {
+        title: "Start with the care the patient needs",
+        paragraphs: [
+          "Ask the discharge team to name the setting and the specific care it needs to provide. A skilled nursing facility and an inpatient rehabilitation facility serve different needs. Ask which services the recommended setting must be equipped to provide.",
+          "Ask each facility whether it can deliver the actual care described in the referral. An opening alone tells you little about whether the facility has the staff, equipment or services the patient needs.",
+        ],
+      },
+      {
+        title: "Compare two replies to the same referral",
+        paragraphs: [
+          "Suppose the hospital recommends a skilled nursing facility for wound care and therapy. Facility A confirms it can provide both, but has no staffed bed until Tuesday. Facility B has a bed tomorrow and can provide therapy, but has not confirmed it can manage the wound. Ask case management to verify the earliest appropriate admission and whether a backup referral is active.",
+          "If a facility confirms care and a bed, check coverage and cost with the facility and the plan. Ask whether authorization is required, whether it has been issued and what the patient may owe. Confirm how the records, medicines and transportation will reach the receiving facility.",
+        ],
+      },
+      {
+        title: "Make the plan for when rehab ends",
+        paragraphs: [
+          "Ask when the facility will reassess the patient and what help may still be needed at home. If covered care could end before a workable home plan is in place, ask who will coordinate the next setting, what it could cost and which payer or program would need to make a decision.",
+        ],
+      },
     ],
-    sections: [
-      {
-        title: "Short-term rehab",
-        definition: "Short-term rehab describes a goal. The discharge team may recommend a skilled nursing facility or a different setting, such as an inpatient rehabilitation facility for intensive rehabilitation with physician supervision.",
-        keyPoints: [
-          "Ask the team to name the recommended setting before checking coverage. Original Medicare's qualifying hospital stay rule for SNFs does not determine coverage for inpatient rehabilitation facilities.",
-          "May include skilled nursing, physical therapy, occupational therapy, speech therapy, medications, meals, and facility supplies.",
-          "The goal is usually recovery, stabilization, function improvement, or a safe transition to a lower level of care.",
-          "It is not the same as permanent room-and-board nursing home care."
-        ],
-        watchOut: "Needs rehab does not automatically mean Medicare will pay."
-      },
-      {
-        title: "Skilled nursing facility",
-        definition: "A Medicare-certified facility that can provide skilled nursing or therapy services after a qualifying hospital stay or qualifying event.",
-        keyPoints: [
-          "The facility must be able to provide the skilled services the patient needs.",
-          "Original Medicare coverage depends on Medicare rules and available benefit days.",
-          "Medicare Advantage plans may require network placement and prior authorization.",
-          "Families should ask whether the facility is Medicare-certified and in-network if applicable."
-        ],
-        watchOut: "A facility can accept a patient clinically but still create insurance or network issues."
-      },
-      {
-        title: "Skilled care requirement",
-        definition: "The patient must need care that requires licensed nursing or therapy professionals or trained technical personnel.",
-        keyPoints: [
-          "Examples can include daily skilled therapy, wound care, IV medications, injections, skilled monitoring, complex teaching, or therapy after a medical event.",
-          "Help with bathing, dressing, toileting, eating, or supervision may be necessary but is not automatically skilled care.",
-          "Continued coverage depends on continued skilled need and documentation."
-        ],
-        watchOut: "Weakness and safety concerns matter, but Medicare coverage usually depends on skilled need, not custodial need alone."
-      },
-      {
-        title: "Inpatient vs. observation status",
-        definition: "Hospital status that can affect whether Original Medicare covers skilled nursing facility care after discharge.",
-        keyPoints: [
-          "Original Medicare generally requires a qualifying inpatient hospital stay for SNF coverage.",
-          "Time in observation or the emergency room before inpatient admission generally does not count the same way.",
-          "A patient may stay overnight in the hospital without being formally admitted as inpatient.",
-          "Families should ask about status early."
-        ],
-        watchOut: "Three nights in the hospital is not always the same as a qualifying inpatient hospital stay."
-      },
-      {
-        title: "What coverage may look like",
-        definition: "Original Medicare Part A may cover SNF care for a limited time when all coverage requirements are met.",
-        keyPoints: [
-          "Coverage is tied to benefit periods and available SNF days.",
-          "The patient does not automatically get 100 days.",
-          "Medigap may help with some Original Medicare SNF coinsurance depending on the policy.",
-          "Medicare Advantage plans may approve an initial stay and reassess continued authorization."
-        ],
-        watchOut: "Up to 100 days means only if requirements continue to be met."
-      },
-      {
-        title: "When Medicaid may matter",
-        definition: "Medicaid may become important if short-term rehab ends but the patient cannot safely return home and qualifies under state rules.",
-        keyPoints: [
-          "Medicaid may help with nursing facility care or home and community-based services for eligible people.",
-          "Eligibility depends on state financial and medical rules.",
-          "Application, documentation, and level-of-care review may be required.",
-          "Medicaid planning should start early if long-term care may be needed."
-        ],
-        watchOut: "Medicaid is not automatic, and facilities may handle Medicaid-pending cases differently."
-      }
-    ],
-    example: {
-      title: "Compare two skilled nursing facilities for the same referral",
-      body: "Suppose the team recommends a SNF that can provide wound care and therapy. Ask each facility whether it can manage the wound and accept the patient, and confirm coverage and expected daily costs with the plan using each facility's name. If one facility can provide the care but has no staffed bed, ask case management which other referrals are active. Also ask who will reassess skilled need and what support would be required if coverage ends while the patient still needs help at home."
-    },
     commonMistakes: [
       "Assuming Medicare always pays for rehab after a hospital stay.",
       "Confusing observation status with inpatient status.",
@@ -299,7 +247,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       "Not checking Medicare Advantage prior authorization and network rules.",
       "Waiting until coverage stops to ask about Medicaid or private-pay costs."
     ],
-    takeaway: "Short-term rehab is skilled recovery care, not unlimited long-term care. Ask early about hospital status, skilled need, facility certification, network rules, prior authorization, daily costs, and the backup plan if coverage ends.",
+    takeaway: "Compare facilities by what they can safely provide, when they can admit, which costs are verified and who owns the next step.",
     sources: [
       SOURCE_PRESETS.medicareSnf,
       {
@@ -336,6 +284,13 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
           "Arrival: who will help the patient get inside, and will any equipment they need already be there?",
           "First night: who can help at the times the patient needs it, and who is the backup?",
           "First week: which agency accepted the referral, when is the first confirmed visit, and who can help in the meantime?",
+        ],
+      },
+      {
+        title: "Check what the agency has confirmed",
+        paragraphs: [
+          "In the workflow I use, I check whether an agency has accepted the referral and whether the chosen agency has been selected to provide care. If the team thinks the agency accepted but the agency is still reviewing, I document the agency’s current status and update the physician and nurse. I tell the family what is pending without guessing why.",
+          "Before leaving, ask which agency accepted, what service starts first and whether the visit is confirmed or still an estimated window. Get the agency’s phone number and ask who to contact if the visit does not happen. If help is needed before that visit, tell the discharge team which task and time still need a plan.",
         ],
       },
       {

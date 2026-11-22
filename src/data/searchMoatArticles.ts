@@ -220,6 +220,17 @@ export const SEARCH_MOAT_ARTICLES: Article[] = [
         ]
       },
       {
+        title: "What Medicare’s 100 days actually means",
+        definition: "Original Medicare Part A can cover up to 100 skilled nursing facility days in a benefit period while all coverage requirements are met.",
+        keyPoints: [
+          "Covered days 1–20 have no daily coinsurance. The Part A deductible can still apply if it has not already been paid for the benefit period.",
+          "Covered days 21–100 have daily coinsurance. Some Medigap policies help with it. Medicare Advantage cost sharing can differ, including in the first 20 days.",
+          "After day 100, Part A no longer pays for the facility stay in that benefit period. Other covered Medicare services may still be available.",
+          "Coverage can end earlier. A person may qualify for skilled care to maintain function or slow decline when the other requirements are met.",
+        ],
+        watchOut: "Ask the facility and plan for the expected last covered day, the reason coverage ends, any applicable notice or appeal deadline, and the next day’s estimated cost.",
+      },
+      {
         title: "Questions to ask before choosing a facility",
         keyPoints: [
           "What skilled need is being documented?",
@@ -242,7 +253,22 @@ export const SEARCH_MOAT_ARTICLES: Article[] = [
       "Confusing short-term rehab with long-term nursing home care."
     ],
     takeaway: "Medicare can cover short-term skilled rehab after a hospital stay, but only when specific coverage rules are met. Ask about hospital status, skilled need, authorization, network, daily cost, and the backup plan before discharge.",
-    sources: [SOURCE_PRESETS.medicareSnf, SOURCE_PRESETS.medicareCosts, SOURCE_PRESETS.medicareCompareOriginalAdvantage, SOURCE_PRESETS.medicareLongTermCare],
+    sources: [
+      SOURCE_PRESETS.medicareSnf, SOURCE_PRESETS.medicareCosts, SOURCE_PRESETS.medicareCompareOriginalAdvantage,
+      SOURCE_PRESETS.medicareLongTermCare, SOURCE_PRESETS.medicareMedigapCompareBenefits,
+      {
+        name: "CMS",
+        pageTitle: "Frequently Asked Questions Regarding the Jimmo Settlement Agreement",
+        url: "https://www.cms.gov/center/special-topic/jimmo-settlement/faqs",
+        note: "Explains when skilled care to maintain function can be covered.",
+      },
+      {
+        name: "CMS",
+        pageTitle: "Skilled Nursing Facility Billing Reference",
+        url: "https://www.cms.gov/Outreach-and-Education/Medicare-Learning-Network-MLN/MLNProducts/EnrollmentResources/provider-resources/snf/",
+        note: "Explains benefit periods, exhaustion of Part A days, and other potentially covered services.",
+      },
+    ],
   },
   {
     slug: "medicare-vs-medicaid-what-is-the-difference",

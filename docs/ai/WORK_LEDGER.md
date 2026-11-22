@@ -428,3 +428,8 @@ This ledger records the outcome and reusable learning from material assignments.
 
 - Reworked the existing home health article around the first night and first week after discharge. Consolidated eligibility information and added source links for Charlotte-area support pathways.
 - Kept the existing canonical URL and sensitive publisher disposition. Added a mobile and desktop browser check for the article and its navigator link. Continued from the Explore CAF header fix in PR #291.
+
+### 2026-11-22 — Reading and billing journeys
+
+- Implemented the chart essay presentation pilot, earlier article discovery, the two-claim bill walkthrough and repaired follow-up link, home-health handoff questions, and distinct rehab coverage and facility-selection guidance. Preserved canonical URLs and ad classifications.
+- [Release scope and measurement baseline](../work-packets/2026-11-22-reading-and-billing.md). Recheck the live branch and use the existing next-step events to measure the first settled 28-day window. Newsletter delivery and the separate policy hub have independent acceptance checks.

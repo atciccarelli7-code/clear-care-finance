@@ -30,7 +30,7 @@ test("legacy guides answer distinct decisions and link to the right next step", 
   const examples = [
     ["healthcare-worker-money-map", "Build the pay-period plan from a check without overtime"],
     ["can-you-live-off-dividends-passive-income-guide", "Could dividends replace one pickup shift a month?"],
-    ["short-term-rehab-after-hospital", "Compare two skilled nursing facilities for the same referral"],
+    ["short-term-rehab-after-hospital", "Compare two replies to the same referral"],
     ["discharge-coverage-guide", "A home discharge with two separate coverage checks"],
   ];
   for (const [slug, heading] of examples) {
@@ -104,17 +104,17 @@ const founderArticles = [
   },
 ] as const;
 
-const homepageFeaturedSlugs = new Set([
-  "patient-in-the-bed-and-patient-in-the-chart",
-  "what-happens-while-hospital-is-waiting-on-insurance",
-  "medically-ready-is-not-the-same-as-ready-for-home",
-  "why-hospitals-become-the-systems-shock-absorber",
-  "home-with-family-is-not-a-free-care-plan",
-  "why-just-send-them-to-rehab-is-not-simple",
-]);
-
-const homepageFeaturedArticles = founderArticles.filter((article) => homepageFeaturedSlugs.has(article.slug));
-
+const homepageFeaturedArticles = [
+  ...founderArticles.filter(({ slug }) => [
+    "patient-in-the-bed-and-patient-in-the-chart",
+    "what-happens-while-hospital-is-waiting-on-insurance",
+    "why-hospitals-become-the-systems-shock-absorber",
+    "home-with-family-is-not-a-free-care-plan",
+  ].includes(slug)),
+  { slug: "20-dollar-tylenol-hospital-prices", title: "The $20 Tylenol Isn’t Really About the Tylenol" },
+  { slug: "home-health-after-discharge", title: "Home Health After Discharge" },
+];
+ 
 const assertHealthyPage = async (page: Page) => {
   await expect(page.locator("h1")).toHaveCount(1);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -127,6 +127,9 @@ const assertHealthyPage = async (page: Page) => {
 };
 
 test.beforeEach(async ({ page }) => {
+  await page.route("https://fonts.googleapis.com/**", (route) =>
+    route.fulfill({ status: 200, contentType: "text/css", body: "" }),
+  );
   await page.route("**/_vercel/**", async (route) => {
     const isScript = new URL(route.request().url()).pathname.endsWith(".js");
     await route.fulfill(isScript
@@ -148,7 +151,7 @@ test("makes the publication the public front door while keeping tools subordinat
 
   await expect(page.getByRole("heading", { level: 1, name: "Understand the money and machinery behind American healthcare." })).toBeVisible();
   await expect(page.getByRole("link", { name: /Read the publication/i })).toHaveAttribute("href", "/articles");
-  await expect(page.getByRole("heading", { name: /Healthcare makes more sense when you can see who pays/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Start with these stories" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "The same event looks different from every seat." })).toBeVisible();
   await expect(page.getByRole("heading", { name: "When the explanation needs a next step." })).toBeVisible();
   await expect(page.getByRole("heading", { name: /Written from nursing and care-transition experience/i })).toBeVisible();
@@ -177,8 +180,9 @@ test("makes the publication the public front door while keeping tools subordinat
 test("makes the article library discoverable and searchable", async ({ page }) => {
   await page.goto("/articles", { waitUntil: "networkidle" });
 
-  await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
-  await expect(page.getByText(/\d+ RN-led, source-backed articles/)).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "CAF Article Library" })).toBeVisible();
+  const search = page.getByRole("textbox", { name: "Search the CAF article library" });
+  await expect(search).toBeInViewport();
   await expect(
     page.getByRole("heading", { name: /Inside hospitals: prices, capacity, classification, and the work after discharge/i }),
   ).toBeVisible();
@@ -193,10 +197,13 @@ test("makes the article library discoverable and searchable", async ({ page }) =
   await expect(page.getByRole("button", { name: "Care transitions & discharge" })).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByRole("link", { name: /Safe Hospital Discharge and the First 72 Hours at Home/i })).toBeVisible();
 
+  await page.getByRole("button", { name: "All core articles" }).click();
   await page.getByText("Additional practical guides (11)").click();
   await expect(page.getByRole("link", { name: /Can You Live Off Dividends/i })).toBeVisible();
 
-  await page.getByRole("textbox", { name: "Search the CAF article library" }).fill("Tylenol");
+  await search.fill("home health");
+  await expect(page.locator("main a[href^='/articles/']").first()).toHaveAttribute("href", "/articles/home-health-after-discharge");
+  await search.fill("Tylenol");
   await page.getByRole("button", { name: "All core articles" }).click();
   await expect(page.getByRole("link", { name: /The \$20 Tylenol Isn’t Really About the Tylenol/i }).last()).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://communityacquiredfinance.com/articles");
@@ -216,7 +223,15 @@ for (const article of founderArticles) {
     await page.goto(`/articles/${article.slug}`, { waitUntil: "networkidle" });
 
     await expect(page.getByRole("heading", { level: 1, name: article.title })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "60-second summary" })).toBeVisible();
+    if (article.slug === "patient-in-the-bed-and-patient-in-the-chart") {
+      const opening = page.getByRole("heading", { name: "There are really two versions of every hospitalized patient" });
+      await expect(opening).toBeInViewport();
+      await expect(page.getByRole("link", { name: /^Reviewed/ })).toHaveAttribute("href", "#article-review");
+      expect(await page.getByRole("heading", { name: article.systemMap }).evaluate((heading) => heading.getBoundingClientRect().top))
+        .toBeGreaterThan((await opening.boundingBox())!.y);
+    } else {
+      await expect(page.getByRole("heading", { name: "60-second summary" })).toBeVisible();
+    }
     await expect(page.getByRole("heading", { name: article.systemMap })).toBeVisible();
     await expect(page.getByRole("heading", { name: article.systemLens })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Key takeaway" })).toBeVisible();
@@ -262,4 +277,17 @@ test("keeps a legacy calculator and the canonical hospital-to-home utility worki
   await expect(page.getByRole("heading", { level: 1, name: "Hospital-to-Home Coverage & Cost Navigator" })).toBeVisible();
   await expect(page.getByText(/Do not enter names, diagnoses, member IDs/i)).toBeVisible();
   await assertHealthyPage(page);
+});
+
+test("takes a mismatched bill from the article to the follow-up dashboard", async ({ page }) => {
+  await page.goto("/articles/why-one-hospital-visit-can-create-multiple-bills");
+  await expect(page.getByRole("heading", { name: "Worked example: Two bills and two EOBs" })).toBeVisible();
+  await expect(page.getByText(/ask the group’s billing office about the \$360 difference/)).toBeVisible();
+  await page.getByRole("link", { name: /Start reviewing your bills/ }).click();
+  await expect(page).toHaveURL(/#document-router$/);
+  await page.getByRole("button", { name: /Documents do not match/ }).click();
+  await page.getByRole("link", { name: "Compare the documents" }).click();
+  await page.getByRole("link", { name: /Track follow-up/ }).click();
+  await expect(page).toHaveURL(/#call-tracker$/);
+  await expect(page.locator("#call-tracker").getByRole("heading", { name: "Medical Bill Case Dashboard" })).toBeInViewport();
 });

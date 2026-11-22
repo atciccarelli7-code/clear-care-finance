@@ -102,12 +102,12 @@ test("homepage sends readers to the publication and preserves browser history", 
   await expect(page.getByRole("button", { name: /Continue saved work/i })).toHaveCount(0);
   await page.getByRole("link", { name: /Read the publication/i }).click();
   await expect(page).toHaveURL(/\/articles$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "CAF Article Library" })).toBeVisible();
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
   await page.goForward();
   await expect(page).toHaveURL(/\/articles$/);
-  await expect(page.getByRole("heading", { level: 1, name: /Healthcare finance and the business of care/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "CAF Article Library" })).toBeVisible();
   await certifyPage(page, watch);
 });
 

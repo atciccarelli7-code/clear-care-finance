@@ -219,7 +219,7 @@ export const FOUNDER_CARE_TRANSITIONS_ARTICLES: Article[] = [
     nextReviewAt: "2027-03-08",
     timeSensitive: true,
     reviewScope: "Medicare Advantage medical-necessity rules, SNF documentation, Medicare home-oxygen coverage, functional-documentation evidence, and 2022/2026 OIG prior-authorization findings.",
-    updateNote: "Publication version incorporates an adversarial September 2026 fact-check of oxygen criteria, SNF documentation, therapy-recommendation language, and Medicare Advantage denial data.",
+    updateNote: "Clarified oxygen coverage, skilled nursing documentation, therapy recommendations, and what Medicare Advantage denial data can show.",
     author: AUTHOR,
     systemMap: {
       title: "How the patient becomes a decision another organization can act on",

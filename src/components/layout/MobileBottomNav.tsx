@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Calculator, Compass, HeartPulse, ShieldCheck, type LucideIcon } from "lucide-react";
+import { BookOpen, Calculator, Compass, HeartPulse, ShieldCheck, type LucideIcon } from "lucide-react";
 
 type MobileNavItem = {
   to: string;
@@ -9,8 +9,9 @@ type MobileNavItem = {
 
 const items: MobileNavItem[] = [
   { to: "/start-here", label: "Start", icon: Compass },
+  { to: "/articles", label: "Articles", icon: BookOpen },
   { to: "/tools", label: "Tools", icon: Calculator },
-  { to: "/insurance", label: "Benefits", icon: ShieldCheck },
+  { to: "/insurance", label: "Costs", icon: ShieldCheck },
   { to: "/medicare-care-costs", label: "Medicare", icon: HeartPulse },
 ];
 
@@ -19,7 +20,7 @@ export const MobileBottomNav = () => (
     className="fixed inset-x-0 bottom-0 z-50 border-t border-border/80 bg-card/95 px-2 pt-2 pb-[calc(0.5rem_+_env(safe-area-inset-bottom))] shadow-soft backdrop-blur-xl md:hidden"
     aria-label="Primary mobile navigation"
   >
-    <div className="mx-auto grid max-w-md grid-cols-4 gap-1">
+    <div className="mx-auto grid max-w-md grid-cols-5 gap-1">
       {items.map(({ to, label, icon: Icon }) => (
         <NavLink
           key={to}

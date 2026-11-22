@@ -92,7 +92,7 @@ const EobBillMatchCheckerPage = () => {
             { eyebrow: "Flow", title: "Medical Bill Review Flow", description: "Use the broader workflow if you are not sure what document you have, what to request, or whether to pause before paying.", href: "/tools/medical-bill-review-flow", cta: "Review bill" },
             { eyebrow: "EOB", title: "How to Read an EOB", description: "Find allowed amount, adjustment, plan payment, denial language, and patient responsibility.", href: "/articles/how-to-read-an-eob", cta: "Read guide" },
             { eyebrow: "Hub", title: "Medical Bill Review Toolkit", description: "Use the complete hub for itemized bills, financial assistance, official resources, and problem-specific pathways.", href: "/insurance/medical-bill-review-toolkit", cta: "Open toolkit" },
-            { eyebrow: "Track", title: "Call and Deadline Tracker", description: "Keep a local-only timeline of departments, call references, requested documents, promised actions, and follow-up dates.", href: "/insurance/medical-bill-review-toolkit#call-tracker", cta: "Track follow-up" },
+            { eyebrow: "Track", title: "Medical Bill Case Dashboard", description: "Record who should act next and the follow-up date on this device.", href: "/insurance/medical-bill-review-toolkit#call-tracker", cta: "Track follow-up" },
           ]}
         />
 

@@ -16,7 +16,6 @@ const reviewMetadata = (scope: string) => ({
   lastReviewedAt: REVIEW_DATE,
   nextReviewAt: NEXT_REVIEW_DATE,
   reviewScope: scope,
-  updateNote: "Updated after reviewing Google Search Console impressions, ranking position, and query intent for Community Acquired Finance.",
 });
 
 const enhanceArticle = (article: Article): Article => {
@@ -395,6 +394,21 @@ const enhanceArticle = (article: Article): Article => {
     case "how-to-read-an-eob":
       return {
         ...article,
+        questionsHeading: "What to ask your insurer or the billing office",
+        sources: [
+          {
+            name: "CMS",
+            pageTitle: "How to read a health insurance explanation of benefits",
+            url: "https://www.cms.gov/initiatives/your-patient-rights/medical-bill-rights/get-help/guides-resources/read-explanation-benefits",
+            note: "Explains claim fields, patient responsibility and what to do when a bill differs.",
+          },
+          {
+            name: "CMS",
+            pageTitle: "How to read your medical bill",
+            url: "https://www.cms.gov/initiatives/your-patient-rights/medical-bill-rights/get-help/guides-resources/how-read-your-bill",
+            note: "Shows how to match the bill to the EOB and ask for clarification.",
+          },
+        ],
         ...reviewMetadata("Explanation of Benefits fields, billed amount, allowed amount, adjustments, plan payment, patient responsibility, denial reasons, and provider-bill matching."),
         title: "How to Read an Explanation of Benefits (EOB) Before Paying a Medical Bill",
         promise: "Match the EOB to the provider bill and verify the allowed amount, plan payment, adjustments, and patient responsibility before paying.",

@@ -120,62 +120,43 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
     readTime: "6 min read",
     promise: "Understand why a single ER visit, surgery, or hospital stay can produce separate bills from different groups.",
     audience: "Patients, caregivers, and healthcare workers explaining why one episode of care can create more than one medical bill.",
+    reviewScope: "Separate facility and clinician claims, how to match an EOB to a bill, and what to check when amounts differ.",
     summary: "A hospital visit is often not billed like one simple purchase. The facility may bill for the hospital space, supplies, equipment, nursing support, labs, imaging, medications, and overhead. Clinicians or outside groups may bill separately for professional work, interpretation, anesthesia, pathology, ambulance transport, or follow-up services. A second bill is not automatically a duplicate, but it should match the date, provider, service, and Explanation of Benefits.",
-    body: [
-      "A hospital visit can feel like one event to the patient, but the billing system may treat it as several connected services.",
-      "That is why one ER visit, surgery, or admission can create multiple bills from the hospital, emergency physician group, anesthesiology group, radiology group, lab, pathology group, ambulance company, or a separate outpatient department.",
-      "The practical rule is not to panic and not to pay blindly. Match each bill to the date of service, provider name, service description, insurance Explanation of Benefits, and patient responsibility."
-    ],
-    sections: [
+    body: [],
+    editorialSections: [
       {
-        title: "The core idea",
-        definition: "One visit can involve more than one billing entity.",
-        keyPoints: [
-          "The hospital or facility may bill for the building, staff support, equipment, supplies, medications, and facility resources.",
-          "A clinician group may bill separately for professional services.",
-          "Radiology, anesthesia, pathology, lab, or ambulance services may generate separate claims.",
-          "Separate bills can arrive weeks apart."
+        title: "Why two bills can belong to one visit",
+        paragraphs: [
+          "The hospital may bill for the facility, staff support and supplies. A separate clinician group can bill for its professional services. Each claim can be processed separately, even when both have the same service date.",
+          "Match the patient, billing provider, service date and service description on each bill to that claim on your insurer’s explanation of benefits (EOB). Use the claim number if both documents show it. The EOB explains how the plan processed the claim. The provider statement is the request for payment.",
         ],
-        watchOut: "Do not assume every second bill is a duplicate, but do not pay it until it matches the EOB."
       },
       {
-        title: "Common bills after one visit",
-        keyPoints: [
-          "Hospital or facility bill.",
-          "Emergency physician, hospitalist, surgeon, or APP professional bill.",
-          "Radiology bill for reading an X-ray, CT, MRI, or ultrasound.",
-          "Anesthesia bill for procedures or surgery.",
-          "Pathology or lab bill for testing or tissue interpretation.",
-          "Ambulance bill if transport was involved."
-        ]
-      },
-      {
-        title: "How to check whether it is legitimate",
-        keyPoints: [
-          "Match the date of service.",
-          "Match the provider or facility name.",
-          "Match the insurance claim or EOB when available.",
-          "Compare billed charge, allowed amount, insurance payment, adjustment, and patient responsibility.",
-          "Ask whether the bill is facility, professional, lab, imaging, anesthesia, pathology, or transport."
-        ]
-      },
-      {
-        title: "Why this feels unfair",
-        definition: "The patient experiences one event, while the billing system separates organizations, contracts, provider groups, and claim types.",
-        keyPoints: [
-          "The bedside experience is simple: you got care in one place.",
-          "The payment system is not simple: several entities may have provided billable services.",
-          "Insurance may process each claim separately with different cost-sharing rules.",
-          "A delayed bill can feel like a surprise even when it relates to the same original visit."
+        title: "Check who billed for each service",
+        paragraphs: [
+          "The facility can bill for equipment or imaging while a radiology group bills for interpreting the images. Anesthesia, lab work or an ambulance may bring other statements. A different sender or arrival date can be normal. If two statements seem to cover the same service, ask the billing office to identify the service and the claim before assuming it was charged twice.",
         ],
-        watchOut: "The emotional reaction is understandable. The next step is documentation, not automatic payment."
-      }
+      },
+      {
+        title: "Worked example: Two bills and two EOBs",
+        paragraphs: [
+          "Imagine one emergency visit. Both claims were processed in network, the deductible was met, and the plan applies 20% coinsurance. There are no copays, previous payments or secondary coverage. The numbers are illustrative.",
+          "Hospital facility. The EOB shows a $1,200 charge, a $600 allowed amount, a $480 plan payment and a $120 patient share. The hospital bill asks for $120. This pair matches.",
+          "Emergency clinician group. The EOB shows a $400 charge, a $200 allowed amount, a $160 plan payment and a $40 patient share. The clinician bill asks for $400. Compare that bill with the clinician EOB, then ask the group’s billing office about the $360 difference.",
+          "Check that you have the latest bill and EOB. A reprocessed claim or a payment that has not posted can change the comparison. The mismatch alone does not establish what you owe.",
+        ],
+        callout: {
+          label: "What to ask the clinician’s billing office",
+          body: "“The latest EOB for this claim shows $40 in patient responsibility, but your statement asks for $400. Can you confirm you posted the plan payment and adjustment, explain the difference, and send an updated statement? What deadline applies while you review it?”",
+        },
+      },
+      {
+        title: "Keep track of the next response",
+        paragraphs: [
+          "Write down which claim the office is reviewing, who will follow up and by what date. Check the written deadline if you receive a denial or collection notice. If the insurer’s processing is unclear, ask the insurer to explain the claim status and the next step.",
+        ],
+      },
     ],
-    example: {
-      title: "A simple ER example",
-      body: "A patient goes to the ER for abdominal pain. They receive a facility charge, an emergency clinician bill, a CT scan facility charge, a radiologist interpretation bill, lab charges, and a medication charge. The visit was one experience, but the claims can come from several billing entities."
-    },
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
     commonMistakes: [
       "Assuming every separate bill is a duplicate.",
       "Paying a provider bill before insurance finishes processing.",
@@ -184,7 +165,24 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       "Forgetting ambulance, radiology, anesthesia, pathology, or lab bills can arrive separately."
     ],
     takeaway: "One hospital visit can create multiple bills because multiple entities may be involved in the care. Match each bill to the EOB before paying, and ask what type of bill it is.",
-    sources: [CMS_MEDICAL_BILL_RIGHTS, HEALTHCARE_ALLOWED_AMOUNT, HEALTHCARE_BALANCE_BILLING, CMS_KNOW_RIGHTS]
+    sources: [
+      {
+        name: "CMS",
+        pageTitle: "How to read your medical bill",
+        url: "https://www.cms.gov/initiatives/your-patient-rights/medical-bill-rights/get-help/guides-resources/how-read-your-bill",
+        note: "Explains separate bills and EOBs, matching documents, and when to contact the provider.",
+      },
+      {
+        name: "CMS",
+        pageTitle: "How to read a health insurance explanation of benefits",
+        url: "https://www.cms.gov/initiatives/your-patient-rights/medical-bill-rights/get-help/guides-resources/read-explanation-benefits",
+        note: "Defines EOB fields and explains how to compare the provider bill with the patient balance.",
+      },
+      CMS_MEDICAL_BILL_RIGHTS,
+      HEALTHCARE_ALLOWED_AMOUNT,
+      HEALTHCARE_BALANCE_BILLING,
+      CMS_KNOW_RIGHTS,
+    ]
   },
   {
     slug: "facility-fee-vs-professional-fee",

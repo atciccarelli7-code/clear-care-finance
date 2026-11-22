@@ -81,9 +81,10 @@ const supportingUtilities = [
 const Index = () => (
   <>
     <PageHero
-      eyebrow="RN-led reporting on healthcare money and systems"
+      compact
+      eyebrow="RN-led reporting"
       title="Understand the money and machinery behind American healthcare."
-      description="Community Acquired Finance explains hospital prices, insurance rules, payment incentives, discharge barriers, and healthcare-worker finances from inside the system—then connects the explanation to practical, source-backed tools."
+      description="An RN’s view of hospital bills, insurance rules, and what it takes to get care."
     >
       <Button asChild variant="hero" size="lg">
         <Link
@@ -109,11 +110,10 @@ const Index = () => (
       </Button>
     </PageHero>
 
-    <section className="container min-w-0 py-14 md:py-20">
+    <section className="container min-w-0 py-8 md:py-12">
       <SectionHeading
         eyebrow="Featured reporting and explainers"
-        title="Healthcare makes more sense when you can see who pays—and who absorbs the work."
-        description="These articles begin with firsthand RN observations, then test the argument against current government rules, payment evidence, and the parts of the system patients rarely see."
+        title="Start with these stories"
       />
       <div className="mt-9 grid gap-5 md:grid-cols-2">
         {FEATURED_PUBLISHER_ARTICLES.map((article) => (

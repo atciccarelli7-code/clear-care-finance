@@ -21,11 +21,11 @@ export const FEATURED_PUBLISHER_ARTICLES = [
     promise: "The patient may be medically ready to leave. The hospital may be ready to discharge them. But until the next organization says yes, everyone keeps waiting—and the hospital keeps operating around that wait.",
   },
   {
-    slug: "medically-ready-is-not-the-same-as-ready-for-home",
-    title: "Medically Ready Is Not the Same as Ready for Home",
-    category: "Hospital Discharge",
-    readTime: "15 min read",
-    promise: "No longer needing acute hospital care is not quite the same thing as being ready for everything waiting at home.",
+    slug: "20-dollar-tylenol-hospital-prices",
+    title: "The $20 Tylenol Isn’t Really About the Tylenol",
+    category: "Hospital Prices",
+    readTime: "10 min read",
+    promise: "A hospital line-item charge is only one layer of the price—and usually not the amount the hospital collects or the patient ultimately owes.",
   },
   {
     slug: "why-hospitals-become-the-systems-shock-absorber",
@@ -42,10 +42,10 @@ export const FEATURED_PUBLISHER_ARTICLES = [
     promise: "A discharge home can move medication, transportation, monitoring, daily care, coordination, and financial risk outside the hospital; the work does not disappear.",
   },
   {
-    slug: "why-just-send-them-to-rehab-is-not-simple",
-    title: "Why “Just Send Them to Rehab” Is Not That Simple",
-    category: "Hospital Discharge",
-    readTime: "11 min read",
-    promise: "A rehab recommendation starts a chain of clinical review, facility acceptance, coverage rules, authorization, staffing, and logistics—it does not reserve a bed.",
+    slug: "home-health-after-discharge",
+    title: "Home Health After Discharge",
+    category: "Medicare",
+    readTime: "6 min read",
+    promise: "Plan who will help between Medicare home health visits, especially on the first night and during the first week.",
   },
 ] satisfies FeaturedPublisherArticle[];

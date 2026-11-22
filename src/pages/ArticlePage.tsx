@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, Quote } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -15,6 +16,7 @@ import { EditorialTransparency } from "@/components/shared/EditorialTransparency
 import { Button } from "@/components/ui/button";
 import { isArticleDraft } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
+import { AUTHOR_NAME } from "@/lib/seoRegistry";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
 import { HOSPITAL_GUIDE_ROUTE, getHospitalGuideResourceByArticleSlug } from "@/data/hospitalPatientGuide";
 import {
@@ -44,6 +46,9 @@ const getArticleNextSteps = (
   articleCatalog: Article[],
 ): NextStepCard[] => {
   const priorityActionOverrides: Record<string, NextStepCard[]> = {
+    "why-one-hospital-visit-can-create-multiple-bills": [
+      { eyebrow: "Review your documents", title: "Medical Bill Response System", description: "Identify the bill, compare it with the matching EOB, and prepare your next call.", href: "/insurance/medical-bill-review-toolkit#document-router", cta: "Start reviewing your bills" },
+    ],
     "home-health-after-discharge": [
       { eyebrow: "Plan the handoff", title: "Hospital-to-Home Coverage Navigator", description: "Organize the first visit, equipment, coverage questions, and help between visits.", href: "/insurance/hospital-discharge-coverage", cta: "Plan the transition" },
       { eyebrow: "Share the work", title: "“Home With Family” Is Not a Free Care Plan", description: "List the tasks a household is being asked to take on and check who can actually do them.", href: "/articles/home-with-family-is-not-a-free-care-plan", cta: "Map the caregiver tasks" },
@@ -590,12 +595,67 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
     );
   }
 
+  const storyFirst = article.slug === "patient-in-the-bed-and-patient-in-the-chart";
+  const hasBillWalkthrough = article.slug === "why-one-hospital-visit-can-create-multiple-bills";
+  const reviewDetails = (
+    <>
+      <ContentFreshness
+        publishedAt={article.publishedAt}
+        lastReviewedAt={article.lastReviewedAt}
+        rulesEffectiveAt={article.rulesEffectiveAt}
+        nextReviewAt={article.nextReviewAt}
+        timeSensitive={article.timeSensitive}
+        reviewScope={article.reviewScope}
+        updateNote={article.updateNote}
+      />
+      <EditorialTransparency author={article.author} reviewer={article.reviewer} />
+    </>
+  );
+  const systemMap = (
+    article.systemMap && (
+      <section className="rounded-3xl border border-primary/20 bg-primary-soft/25 p-5 shadow-card md:p-7" aria-labelledby="article-system-map-heading">
+        <div className="max-w-2xl">
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">How the system moves</div>
+          <h2 id="article-system-map-heading" className="mt-2 font-display text-xl font-bold text-foreground md:text-2xl">
+            {article.systemMap.title}
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{article.systemMap.description}</p>
+        </div>
+        <ol className="mt-6 grid gap-3 md:grid-cols-2">
+          {article.systemMap.steps.map((step, index) => (
+            <li key={step.title} className="relative rounded-2xl border border-border bg-background/90 p-4">
+              <div className="flex items-start gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-extrabold text-primary-foreground">
+                  {index + 1}
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-bold text-foreground">{step.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  );
+
   return (
     <>
-      <PageHero eyebrow={article.category} title={article.title} description={article.promise}>
+      <PageHero eyebrow={article.category} title={article.title} description={article.promise} compact={storyFirst}>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          {storyFirst && (
+            <Link to="/about" className="font-semibold text-primary underline-offset-4 hover:underline">
+              {article.author ?? AUTHOR_NAME}
+            </Link>
+          )}
           <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> {article.readTime}</span>
         </div>
+        {storyFirst && article.lastReviewedAt && (
+          <a href="#article-review" className="text-sm text-muted-foreground underline underline-offset-4">
+            Reviewed <time dateTime={article.lastReviewedAt}>{article.lastReviewedAt}</time>
+          </a>
+        )}
         {heroAction && (
           <Button asChild variant="hero">
             <DirectionalActionLink
@@ -609,26 +669,20 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
         )}
       </PageHero>
 
-      <article className="container max-w-3xl py-8 md:py-16 space-y-8 md:space-y-12">
-        <ContentFreshness
-          publishedAt={article.publishedAt}
-          lastReviewedAt={article.lastReviewedAt}
-          rulesEffectiveAt={article.rulesEffectiveAt}
-          nextReviewAt={article.nextReviewAt}
-          timeSensitive={article.timeSensitive}
-          reviewScope={article.reviewScope}
-          updateNote={article.updateNote}
-        />
-        <EditorialTransparency author={article.author} reviewer={article.reviewer} />
-        <Section icon={Users} title="Who this is for">
-          <p>{article.audience}</p>
-        </Section>
+      <article className={storyFirst ? "container max-w-3xl space-y-8 py-6 md:space-y-12 md:py-10" : "container max-w-3xl space-y-8 py-8 md:space-y-12 md:py-16"}>
+        {!storyFirst && (<>
+          {reviewDetails}
+          <Section icon={Users} title="Who this is for">
+            <p>{article.audience}</p>
+          </Section>
 
-        <Section icon={Sparkles} title="60-second summary">
-          <p className="text-foreground/90">{article.summary}</p>
-        </Section>
+          <Section icon={Sparkles} title="60-second summary">
+            <p className="text-foreground/90">{article.summary}</p>
+          </Section>
 
-        {voiceNote && (
+        </>)}
+
+        {!storyFirst && voiceNote && (
           <div className="rounded-2xl border border-primary/20 bg-primary-soft/40 p-5 shadow-card md:p-6">
             <div className="flex items-start gap-3">
               <div className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-background text-primary">
@@ -643,58 +697,39 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
           </div>
         )}
 
-        {article.systemMap && (
-          <section className="rounded-3xl border border-primary/20 bg-primary-soft/25 p-5 shadow-card md:p-7" aria-labelledby="article-system-map-heading">
-            <div className="max-w-2xl">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">How the system moves</div>
-              <h2 id="article-system-map-heading" className="mt-2 font-display text-xl font-bold text-foreground md:text-2xl">
-                {article.systemMap.title}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{article.systemMap.description}</p>
-            </div>
-            <ol className="mt-6 grid gap-3 md:grid-cols-2">
-              {article.systemMap.steps.map((step, index) => (
-                <li key={step.title} className="relative rounded-2xl border border-border bg-background/90 p-4">
-                  <div className="flex items-start gap-3">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-extrabold text-primary-foreground">
-                      {index + 1}
-                    </span>
-                    <div>
-                      <h3 className="font-display text-base font-bold text-foreground">{step.title}</h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </section>
-        )}
+        {!storyFirst && systemMap}
 
         {article.editorialSections && article.editorialSections.length > 0 ? (
           <div className="space-y-10 md:space-y-14">
-            {article.editorialSections.map((section) => (
-              <section key={section.title} className="scroll-mt-24">
-                <h2 className="font-display text-xl font-bold tracking-tight text-foreground md:text-2xl">{section.title}</h2>
-                <div className="mt-4 space-y-4 text-[0.98rem] leading-[1.75] text-muted-foreground md:text-base">
-                  {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                  {section.keyPoints && section.keyPoints.length > 0 && (
-                    <ul className="space-y-2.5 pt-1">
-                      {section.keyPoints.map((point) => (
-                        <li key={point} className="flex items-start gap-2.5">
-                          <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                          <span>{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {section.callout && (
-                    <aside className="rounded-2xl border border-primary/20 bg-primary-soft/30 p-4 text-sm leading-relaxed md:p-5 md:text-base">
-                      <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{section.callout.label}</div>
-                      <p className="mt-2 text-foreground/90">{section.callout.body}</p>
-                    </aside>
-                  )}
-                </div>
-              </section>
+            {article.editorialSections.map((section, index) => (
+              <Fragment key={section.title}>
+                <section className="scroll-mt-24">
+                  <h2 className="font-display text-xl font-bold tracking-tight text-foreground md:text-2xl">{section.title}</h2>
+                  <div className="mt-4 space-y-4 text-[0.98rem] leading-[1.75] text-muted-foreground md:text-base">
+                    {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                    {section.keyPoints && section.keyPoints.length > 0 && (
+                      <ul className="space-y-2.5 pt-1">
+                        {section.keyPoints.map((point) => (
+                          <li key={point} className="flex items-start gap-2.5">
+                            <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {section.callout && (
+                      <aside className="rounded-2xl border border-primary/20 bg-primary-soft/30 p-4 text-sm leading-relaxed md:p-5 md:text-base">
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{section.callout.label}</div>
+                        <p className="mt-2 text-foreground/90">{section.callout.body}</p>
+                      </aside>
+                    )}
+                  </div>
+                </section>
+                {storyFirst && index === 0 && systemMap}
+                {hasBillWalkthrough && section.callout && (
+                  <NextStepCards title="Review your own bills" description="Use the bill and its matching EOB to prepare your next call." cards={nextSteps} columns="two" />
+                )}
+              </Fragment>
             ))}
           </div>
         ) : article.sections && article.sections.length > 0 ? (
@@ -870,7 +905,7 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
               placementId: "article_next_action",
             }}
           />
-        ) : (
+        ) : !hasBillWalkthrough && (
           <NextStepCards
             eyebrow={orderedOpenEnrollmentStep ? "Tools and related reading" : "Keep going"}
             title={orderedOpenEnrollmentStep ? "Want to run the numbers instead?" : "Next useful step"}
@@ -878,6 +913,8 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
             cards={nextSteps}
           />
         )}
+
+        {storyFirst && <div id="article-review" className="space-y-4 scroll-mt-24">{reviewDetails}</div>}
 
         {article.sources.length > 0 && (
           <div className="space-y-4">

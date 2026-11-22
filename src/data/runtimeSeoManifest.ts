@@ -23,6 +23,30 @@ export type RuntimeToolSeoMeta = {
 
 const ARTICLE_ROWS = [
   [
+    "patient-in-the-bed-and-patient-in-the-chart",
+    "The Patient in the Bed and the Patient in the Chart",
+    "What a clinician sees in the room has to survive documentation, handoffs, coverage rules and outside review before another organization can act on it.",
+    "Hospital Discharge",
+    "2026-09-08",
+    "2026-09-08"
+  ],
+  [
+    "what-happens-while-hospital-is-waiting-on-insurance",
+    "What Happens While the Hospital Is “Waiting on Insurance”?",
+    "The patient may be medically ready to leave. The hospital may be ready to discharge them. But until the next organization says yes, everyone keeps waiting—and the hospital keeps operating around that wait.",
+    "Hospital Discharge",
+    "2026-09-08",
+    "2026-09-08"
+  ],
+  [
+    "medically-ready-is-not-the-same-as-ready-for-home",
+    "Medically Ready Is Not the Same as Ready for Home",
+    "No longer needing acute hospital care is not quite the same thing as being ready for everything waiting at home.",
+    "Hospital Discharge",
+    "2026-09-08",
+    "2026-09-08"
+  ],
+  [
     "20-dollar-tylenol-hospital-prices",
     "The $20 Tylenol Isn’t Really About the Tylenol",
     "Why a hospital Tylenol charge is not the pill's true cost: understand gross charges, negotiated rates, insurer payment, patient responsibility, and hospital cost.",
@@ -69,6 +93,14 @@ const ARTICLE_ROWS = [
     "Patients & Caregivers",
     "2026-08-30",
     "2026-08-30"
+  ],
+  [
+    "what-medicare-advantage-looks-like-from-hospital-side",
+    "What Medicare Advantage Looks Like From the Hospital Side",
+    "A case-manager view of what changes when a Medicare patient needs rehab, post-acute care, equipment, or another service that has to move through a private Medicare Advantage plan.",
+    "Medicare & Medicaid",
+    "2026-09-29",
+    "2026-09-29"
   ],
   [
     "what-employer-benefit-changes-should-i-compare",
@@ -568,8 +600,8 @@ const ARTICLE_ROWS = [
   ],
   [
     "short-term-rehab-after-hospital",
-    "Short-Term Rehab After the Hospital",
-    "Learn what Medicare and Medicaid may cover when a patient needs rehab after hospitalization.",
+    "Short-Term Rehab After the Hospital: How to Compare Facilities",
+    "Compare what each facility can provide, whether it can admit the patient, and what still has to happen before transfer.",
     "Medicare",
     null,
     null
@@ -577,10 +609,10 @@ const ARTICLE_ROWS = [
   [
     "home-health-after-discharge",
     "Home Health After Discharge",
-    "Understand what Medicare home health can help with after discharge — and what it usually does not replace.",
+    "Plan who will help between Medicare home health visits, especially on the first night and during the first week.",
     "Medicare",
     null,
-    null
+    "2026-11-15"
   ],
   [
     "durable-medical-equipment-after-discharge",

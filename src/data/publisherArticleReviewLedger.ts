@@ -120,7 +120,7 @@ export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
   sensitive("check-hospital-financial-assistance-before-paying"),
   sensitive("insurance-is-future-planning"),
   sensitive("medicare-advantage-vs-original-medicare-2026"),
-  sensitive("medicare-medicaid-changes-january-2027"),
+  sensitive("medicare-medicaid-changes-january-2027", { reviewedAt: "2026-11-22", nextReviewAt: "2026-12-11" }),
   sensitive("medicare-options-explained"),
   sensitive("discharge-coverage-guide"),
   sensitive("short-term-rehab-after-hospital"),

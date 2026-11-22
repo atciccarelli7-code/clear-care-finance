@@ -293,6 +293,14 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Revisit trigger:** 28 and 90 settled days after release; a new Search Console/page-query export; available backlink data; evidence of query cannibalization; an obsolete or unsafe page; or proof that a de-emphasized page serves a distinctive high-value audience job.
 - **Supersedes:** The equal-weight article-directory treatment and its public “Google is testing” module. It refines CAF-D-022 and CAF-D-023 without changing the publication-first identity, content-expansion standard, or existing canonical preservation rules.
 
+### CAF-D-2026-11-22 — One evergreen Medicare/Medicaid changes reference
+
+- **Status:** IMPLEMENTED DRAFT under explicit founder assignment; production approval separate.
+- **Decision:** One `/medicare-medicaid-changes` hub owns dated policy records. Preserve the old January article as background. Separate federal/NC, provider/beneficiary and adopted/proposed scope; remain ad-free.
+- **Evidence/tradeoff:** Current main and November 22 original agency sources; work packet `docs/work-packets/2026-11-22-medicare-medicaid-changes.md`. Curated care-transition relevance rather than exhaustive news.
+- **Scope:** 192 → 193 normalized canonical routes; 81 → 81 articles. Explicit assignment supersedes the older provisional no-new-content experiment only for this focused resource.
+- **Revisit:** NC election/CMS approval by December 11, before January 1 and on agency corrections. AdSense account state unverified; no production release.
+
 ## Updating the ledger
 
 - Add a new entry for every material decision.

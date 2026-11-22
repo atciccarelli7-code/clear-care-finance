@@ -1,98 +1,68 @@
 import type { Article } from "./articles";
-import { SOURCE_PRESETS } from "./sources";
+import { POLICY_SOURCES } from "./medicareMedicaidChanges";
 
+// Preserve the published URL. The evergreen hub owns the evolving timeline.
 export const JANUARY_2027_MEDICARE_MEDICAID_CHANGES_ARTICLE: Article = {
   slug: "medicare-medicaid-changes-january-2027",
-  title: "Medicare and Medicaid Changes Scheduled for January 1, 2027",
+  title: "January Policy Changes and Care Transitions",
   category: "Medicare & Medicaid",
-  readTime: "8 min read",
-  promise: "A plain-English guide to the scheduled 2027 Medicaid eligibility rollout and the practical areas Medicare patients, caregivers, and hospitals should watch.",
-  audience: "Patients, caregivers, healthcare workers, case managers, social workers, discharge planners, and families trying to understand the 2027 Medicare and Medicaid policy environment.",
-  summary: "The major January 1, 2027 change is mainly a Medicaid eligibility and verification change. Some adults will need to meet or document qualifying monthly activity, while states will need to verify eligibility more often. Medicare is less directly changed for most current beneficiaries, but Medicaid changes can still matter for dual-eligible patients, long-term care, hospital discharge planning, transportation, and cost-sharing support.",
+  readTime: "5 min read",
+  lastReviewedAt: "2026-11-22",
+  nextReviewAt: "2026-12-11",
+  timeSensitive: true,
+  reviewScope: "Care-transition context; current dates and statuses live in the central changes hub.",
+  updateNote: "Revised November 22: replaced the generalized rollout summary with care-transition context and primary sources. Medicaid enforcement has a state-selected transition option; NC adoption remains unverified.",
+  promise: "Care-transition questions to ask when healthcare policy changes.",
+  audience: "Patients, caregivers, nurses, case managers and social workers preparing for care across a benefit-year change.",
+  summary: "January brings several separate changes, not one universal Medicare/Medicaid switch. Beneficiary costs, plan-year coverage, Medicaid renewals and application rules affect different people. The care-transition question is which rule controls the next step, who must act and what needs confirmation before care moves to the next setting.",
   body: [
-    "This article is forward-looking. The rules have not fully taken effect yet, and federal guidance and state implementation details may change before or after January 1, 2027.",
-    "The scheduled change is not a broad new Medicare benefit. It is mainly a Medicaid eligibility and verification change. Medicare beneficiaries may still be affected if they also rely on Medicaid for premiums, cost-sharing, long-term care, transportation, or home-based support.",
-    "This article focuses on what the rule does, which groups may be affected, what paperwork may be involved, and what practical effects patients, caregivers, and healthcare workers may see."
+    "A policy announcement becomes useful when it answers a concrete question: Can this person get the next prescription? Has the receiving facility accepted the coverage? Who will receive the Medicaid renewal notice?",
+    "This article explains that care-transition lens. CAF's Medicare & Medicaid Changes hub maintains the dated entries, official citations and current verification gaps. Use that hub as the timeline.",
+    "Provider reimbursement, beneficiary cost sharing and state eligibility are different layers. A payment update does not establish a new patient deductible or a right to rehab. A national regulation does not confirm an individual plan's network."
   ],
   sections: [
     {
-      title: "The quick answer",
-      definition: "January 1, 2027 is the scheduled start date for a major Medicaid work or community-engagement rollout for certain adults.",
+      title: "Separate the payer, the benefit and the paperwork",
+      definition: "A workable discharge plan needs clinical readiness and a confirmed next step.",
       keyPoints: [
-        "The commonly reported standard is 80 hours per month of qualifying activity.",
-        "Qualifying activity may include work, school, job training, volunteering, or similar activity.",
-        "The rules are aimed at certain adults ages 19 to 64, not every Medicaid enrollee.",
-        "States are expected to verify eligibility at least every six months.",
-        "Medicare is not being broadly redesigned for most current beneficiaries, but Medicaid changes can still affect Medicare patients who are dual eligible."
+        "Identify the program covering the service: Original Medicare, Medicare Advantage, Medicaid or another payer.",
+        "Confirm what the receiving provider has agreed to provide, when care starts and whether authorization is complete.",
+        "Identify who handles applications, renewals and document requests. Give that person the written instructions and deadline.",
+        "If care crosses a benefit-year boundary, ask which year's costs and plan documents govern each service."
       ],
-      watchOut: "Rules can vary by state, and details may change as states build their systems."
+      watchOut: "An insurance card, a referral and an accepting provider are three different things. Verify each part."
     },
     {
-      title: "What is changing in Medicaid",
-      definition: "Medicaid is adding more frequent verification and activity documentation for some adults.",
+      title: "The Medicaid work rule does not apply to every member",
+      definition: "Community-engagement requirements concern certain expansion and similar demonstration adults, with exclusions and exceptions.",
       keyPoints: [
-        "Some adults may need to show qualifying activity or an exemption.",
-        "Some eligibility checks may happen twice per year instead of once per year.",
-        "Some enrollees may face more service-level cost-sharing.",
-        "Shorter retroactive coverage windows can matter if someone applies after care already happened.",
-        "States will need to handle more eligibility, communication, and documentation work."
+        "Medicare entitlement is an exclusion. Do not tell a Medicare beneficiary that expansion work rules automatically apply because the person also has Medicaid.",
+        "November federal guidance offers an optional, CMS-approved enforcement transition. Assessment obligations and other eligibility rules remain.",
+        "NC's published start date and its election of the federal option are separate checks. CAF has not verified an NC election as of this review.",
+        "Work-rule exclusions and renewal frequency are different questions. Ask the agency which requirement applies."
       ],
-      watchOut: "A person may qualify but still need to complete forms, notices, uploads, address updates, or exemption steps on time."
+      watchOut: "A headline is not an eligibility determination. Respond to notices and follow appeal instructions in an adverse decision."
     },
     {
-      title: "What is changing in Medicare",
-      definition: "For most Medicare beneficiaries, the January 1 change is not a broad Medicare benefit redesign.",
+      title: "Application timing belongs in the financial care plan",
       keyPoints: [
-        "Medicare and Medicaid remain separate programs.",
-        "Medicare is mainly age or disability-based federal insurance.",
-        "Medicaid is income and need-based assistance administered by states within federal rules.",
-        "Dual-eligible patients may feel Medicaid changes even if their Medicare card stays the same.",
-        "Hospitals and long-term care providers may see effects through coverage checks, placement planning, and payment workflows."
-      ],
-      watchOut: "A Medicare card does not solve every cost-sharing or long-term care need. Some Medicare beneficiaries also rely on Medicaid to fill gaps."
-    },
-    {
-      title: "Possible effects for patients and caregivers",
-      keyPoints: [
-        "More attention to renewal notices, verification letters, and state Medicaid communication.",
-        "More need to keep address, phone, email, and household information updated with the state Medicaid agency.",
-        "More need to save documents related to work, school, volunteering, caregiving, disability, pregnancy, postpartum status, medical frailty, or other possible exemption status.",
-        "Possible delays if Medicaid is needed for discharge planning, long-term care, home care, or transportation.",
-        "More confusion for families when a person has both Medicare and Medicaid."
+        "The retroactive Medicaid coverage window changes for applications beginning in 2027. The central hub separates expansion and other-group limits.",
+        "Eligibility must be established for the relevant months; retroactive coverage does not automatically pay every earlier bill.",
+        "Seek application assistance promptly. Waiting for placement can also change the months of bills that can be considered.",
+        "Keep the application receipt, notices and a list of outstanding provider bills. Share records through official agency channels."
       ]
     },
     {
-      title: "Possible effects for healthcare workers",
+      title: "Make the next step specific",
       keyPoints: [
-        "Case management and social work may see more renewal and verification questions.",
-        "Bedside workers may hear more patient and family questions about Medicaid notices or coverage status.",
-        "Discharge planning may require earlier checks when Medicaid is part of the plan.",
-        "Hospitals that care for many Medicaid or uninsured patients may need to monitor coverage gaps and eligibility timing."
+        "For medication: confirm the covered product, pharmacy, restrictions and first-fill cost.",
+        "For rehab: confirm acceptance, authorization, covered level of care and expected family responsibility.",
+        "For home care: confirm the start date and who helps between visits.",
+        "For Medicaid: confirm the responsible contact, actual deadline and whether an exclusion or assistance pathway needs review."
       ],
-      watchOut: "The practical role is usually to connect patients with case management, social work, the state Medicaid agency, SHIP counselors, or other trusted enrollment help."
+      watchOut: "These are planning questions, not predictions that a rule will cause a particular person to lose coverage or wait longer for discharge."
     }
   ],
-  example: {
-    title: "How this could show up in real life",
-    body: "A patient has Medicare and Medicaid. Medicare helps with hospital and doctor coverage, but Medicaid helps with long-term care, premiums, transportation, or other support. If Medicaid paperwork is incomplete in 2027, the patient may still have Medicare, but the discharge plan, facility placement, home support, or out-of-pocket cost picture can change."
-  },
-  relatedCalculator: { label: "Medicare Cost Exposure Tool", href: "/tools#medicare" },
-  commonMistakes: [
-    "Thinking the January 1 change is mainly a new Medicare benefit.",
-    "Assuming every Medicaid enrollee has the same requirement.",
-    "Assuming exemption paperwork is unnecessary because the person seems obviously exempt.",
-    "Waiting until discharge day or renewal deadline to ask for help.",
-    "Forgetting that Medicaid changes can affect Medicare patients who are dual eligible."
-  ],
-  takeaway: "The January 1, 2027 change is mainly about Medicaid eligibility, verification, and documentation. For patients and caregivers, the practical step is to keep contact information current, open notices quickly, and save documentation. For healthcare workers, the practical effect may appear in discharge planning, coverage checks, long-term care access, and patient questions.",
-  sources: [
-    SOURCE_PRESETS.reutersMedicaidWorkRequirements2027,
-    SOURCE_PRESETS.kiplingerObbbMedicareMedicaid,
-    SOURCE_PRESETS.investopediaObbbMedicaid,
-    SOURCE_PRESETS.medicaidEligibility,
-    SOURCE_PRESETS.medicaidLtss,
-    SOURCE_PRESETS.cmsMedicaidCoordination,
-    SOURCE_PRESETS.medicareLongTermCare,
-    SOURCE_PRESETS.kffMedicareCoverageSnapshot
-  ],
+  takeaway: "Put the rule next to the care task it affects. Confirm the payer, date, responsible person and next action. Use the central hub for current policy status and the agency or plan for an individual determination.",
+  sources: [POLICY_SOURCES.transition, POLICY_SOURCES.ncWork, POLICY_SOURCES.retroactive, POLICY_SOURCES.medicareCosts].map((source) => ({ name: new URL(source.url).hostname, pageTitle: source.label, url: source.url })),
 };

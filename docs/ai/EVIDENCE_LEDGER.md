@@ -321,6 +321,14 @@ Use this structure when a material fact requires ongoing governance:
 - **Limits:** No joined page-query-date data, backlink export, engaged sessions, returners, provider contact/delivery counts. Non-mutating email endpoint validation does not prove signup saving/delivery.
 - **Used for:** CAF-D-025 and CAF-W-022; full scoreboard and sources in the September10 work packet. Replaces earlier search baseline for future comparison; no causal lift claimed.
 
+### CAF-E-2026-11-22 — Medicare/Medicaid hub verification
+
+- **Retrieved:** November 22; main `155877b`, public cost hub/January article, original agency sources in the work packet and typed source registry.
+- **Class:** PRIMARY-SOURCE policy facts; DIRECT-CURRENT local/main checks; SUPPORTED-INFERENCE labeled care-transition implications.
+- **Distinction:** SMD 26-006 offers an optional CMS-approved enforcement transition through June 30, while January implementation remains. NC election unverified. Renewals, retroactive limits and October provider rates have separate populations/dates.
+- **Limits:** No individual eligibility/medical-frailty determination, exhaustive policy coverage or authenticated AdSense approval. Build/browser journeys pass. One unrelated CRLF test failure and 37 inherited type errors reproduced on main.
+- **Use:** CAF-D-2026-11-22; `docs/work-packets/2026-11-22-medicare-medicaid-changes.md`; manual workflow. No production claim.
+
 ## Usage rules
 
 - Retrieve the underlying evidence during each assignment; do not cite this ledger as if it were the source itself.

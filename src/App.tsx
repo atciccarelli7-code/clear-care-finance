@@ -58,6 +58,7 @@ const loadInsuranceBenefitsHub = () => import("./pages/InsuranceBenefitsHub.tsx"
 const loadHealthInsurancePlanTypesPage = () => import("./pages/HealthInsurancePlanTypesPage.tsx");
 const loadSbcGuidePage = () => import("./pages/SbcGuidePage.tsx");
 const loadMedicareCareCostHub = () => import("./pages/MedicareCareCostHub.tsx");
+const loadMedicareMedicaidChangesPage = () => import("./pages/MedicareMedicaidChangesPage.tsx");
 const loadTurning65MedicarePage = () => import("./pages/Turning65MedicarePage.tsx");
 const loadMedicareCoverageDecisionPage = () => import("./pages/MedicareCoverageDecisionPage.tsx");
 const loadMedicareCoverageDecisionAppPage = () => import("./pages/premium/MedicareCoverageDecisionAppPage.tsx");
@@ -148,6 +149,7 @@ const InsuranceBenefitsHub = lazy(loadInsuranceBenefitsHub);
 const HealthInsurancePlanTypesPage = lazy(loadHealthInsurancePlanTypesPage);
 const SbcGuidePage = lazy(loadSbcGuidePage);
 const MedicareCareCostHub = lazy(loadMedicareCareCostHub);
+const MedicareMedicaidChangesPage = lazy(loadMedicareMedicaidChangesPage);
 const Turning65MedicarePage = lazy(loadTurning65MedicarePage);
 const MedicareCoverageDecisionPage = lazy(loadMedicareCoverageDecisionPage);
 const MedicareCoverageDecisionAppPage = lazy(loadMedicareCoverageDecisionAppPage);
@@ -393,6 +395,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/insurance/commercial-insurance-comparison" element={<CommercialInsuranceComparisonPage />} />
             <Route path="/commercial-insurance-comparison" element={<Navigate to="/insurance/commercial-insurance-comparison" replace />} />
             <Route path="/medicare-care-costs" element={<MedicareCareCostHub />} />
+            <Route path="/medicare-medicaid-changes" element={<MedicareMedicaidChangesPage />} />
             <Route path="/medicare-care-costs/turning-65" element={<Turning65MedicarePage />} />
             <Route path="/insurance/medicare-care-costs" element={<Navigate to="/medicare-care-costs" replace />} />
             <Route path="/guides" element={<QuickGuidesLibraryPage />} />

@@ -58,7 +58,7 @@ export const ARTICLE_VOICE_NOTES: Record<string, ArticleVoiceNote> = {
   "medicare-medicaid-changes-january-2027": {
     eyebrow: "From the discharge-planning side",
     title: "Policy details can affect discharge planning.",
-    body: "In the hospital, Medicaid can affect discharge options, long-term care placement, transportation, medications, home support, and patient cost-sharing. This article is meant to help readers understand the January 2027 changes before they show up as paperwork questions or coverage checks.",
+    body: "In the hospital, Medicaid can affect discharge options, long-term care placement, transportation, medications, home support, and patient cost-sharing. This background article explains why the details matter. The central Medicare & Medicaid Changes hub maintains current dates and policy status.",
   },
   "workplace-benefits-definitions": {
     eyebrow: "From the hospital side",

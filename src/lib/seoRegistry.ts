@@ -116,6 +116,10 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Understand Medicare, Medicaid, Medigap, Medicare Advantage, cost exposure, skilled care, custodial care, and long-term care planning.",
     kind: "tool",
   },
+  "/medicare-medicaid-changes": {
+    title: "Medicare & Medicaid Changes",
+    description: "Medicare and Medicaid policy dates, scope, sources and NC rollout.",
+  },
   "/medicare-care-costs/turning-65": {
     title: "Turning 65 Medicare Enrollment Pathway",
     description: "Build a qualified Medicare enrollment timeline using current coverage, active employment, employer size, HSA, prescription coverage, spouse coverage, and official next steps.",

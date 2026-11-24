@@ -1,0 +1,116 @@
+.cfv {
+  color-scheme: light;
+  --cfv-paper: #fbfaf6;
+  --cfv-white: #fff;
+  --cfv-ink: #182820;
+  --cfv-muted: #465850;
+  --cfv-rule: #cdd7cf;
+  --cfv-green: #126456;
+  --cfv-blue: #194d93;
+  --cfv-pale: #ecf5ef;
+  --cfv-blue-pale: #ebf2fa;
+  --cfv-amber: #674719;
+  --cfv-amber-pale: #f8f0dc;
+  container: caf-visual / inline-size;
+  box-sizing: border-box;
+  max-inline-size: 100%;
+  margin: 0;
+  padding: clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--cfv-rule);
+  border-block-start: 4px solid var(--cfv-green);
+  border-radius: 1rem;
+  background: var(--cfv-paper);
+  color: var(--cfv-ink);
+  font: 400 1rem/1.5 system-ui, sans-serif;
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+.cfv *, .cfv *::before, .cfv *::after { box-sizing: border-box; }
+.cfv p, .cfv h1, .cfv h2, .cfv h3, .cfv dl, .cfv dd { margin: 0; }
+.cfv ul, .cfv ol { margin: 0; padding: 0; list-style: none; }
+.cfv figcaption h1, .cfv figcaption h2, .cfv figcaption h3 {
+  margin-block: .45rem .65rem;
+  font: 600 clamp(1.65rem, 4.5cqi, 2.6rem)/1.1 Georgia, serif;
+  letter-spacing: -.028em;
+  text-wrap: balance;
+}
+.cfv .cfv-scope, .cfv-cue {
+  display: block;
+  color: var(--cfv-green);
+  font-size: .875rem;
+  font-weight: 740;
+  letter-spacing: .015em;
+}
+.cfv .cfv-lead { max-inline-size: 64ch; color: var(--cfv-muted); }
+.cfv-body { margin-block: 1.4rem; }
+.cfv strong { font-weight: 740; }
+.cfv-check {
+  padding: .75rem .9rem;
+  border-inline-start: 3px solid var(--cfv-amber);
+  background: var(--cfv-amber-pale);
+  color: var(--cfv-amber);
+}
+.cfv-check strong { display: block; margin-block-end: .2rem; }
+.cfv-evidence { margin-block-start: 1.05rem; color: var(--cfv-muted); font-size: .875rem; }
+.cfv-evidence ul { display: flex; flex-wrap: wrap; gap: .1rem 1rem; margin-block-start: .22rem; }
+.cfv a { color: var(--cfv-blue); text-decoration: underline; text-underline-offset: .16em; }
+.cfv a:focus-visible { outline: 2px solid var(--cfv-blue); outline-offset: 3px; }
+.cfv .cfv-publisher { margin-block-start: .85rem; color: var(--cfv-green); font-size: .875rem; font-weight: 740; }
+.cfv-question { padding: .85rem 1rem; background: var(--cfv-pale); color: var(--cfv-ink); font-weight: 730; border-inline-start: 3px solid var(--cfv-green); border-radius: .4rem; }
+.cfv-connector { display: grid; justify-content: center; margin-block: .15rem; }
+.cfv-arrow { width: 1.35rem; height: 1.35rem; color: var(--cfv-green); }
+.cfv .cfv-outcomes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: .65rem; }
+.cfv-outcomes li { padding: .75rem; border-block-start: 2px solid var(--cfv-green); background: var(--cfv-pale); border-radius: .3rem; }
+.cfv-outcomes p, .cfv-timeline p { color: var(--cfv-muted); margin-block-start: .22rem; }
+.cfv-cue { margin-block-end: .22rem; }
+.cfv-timeline li { display: grid; grid-template-columns: 1.75rem 1fr; gap: .65rem; position: relative; padding-block-end: 1rem; }
+.cfv-timeline li:last-child { padding-block-end: 0; }
+.cfv-timeline li:not(:last-child)::before { content: ""; position: absolute; inset: 1.75rem auto 0 .84rem; width: 2px; background: var(--cfv-rule); }
+.cfv-marker { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--cfv-pale); color: var(--cfv-green); font-weight: 740; }
+.cfv-sequence-ends { margin-block-start: .75rem; }
+.cfv-outcome-label { display: flex; gap: .55rem; align-items: center; margin-block-end: .45rem; }
+.cfv-matrix { border-collapse: collapse; width: 100%; table-layout: fixed; }
+.cfv-matrix th, .cfv-matrix td { text-align: start; vertical-align: top; padding: .63rem .6rem; border-bottom: 1px solid var(--cfv-rule); }
+.cfv-matrix thead { background: var(--cfv-pale); color: var(--cfv-green); }
+.cfv-matrix thead th:first-child { width: 22%; }
+.cfv-matrix td { color: var(--cfv-muted); }
+.cfv-mobile-label { display: none; }
+.cfv-bill-top { display: flex; flex-wrap: wrap; gap: .25rem 1rem; justify-content: space-between; align-items: baseline; }
+.cfv-bill-top strong { font-size: 1.24rem; font-variant-numeric: tabular-nums; }
+.cfv-bill-rule { display: flex; gap: 2px; block-size: .75rem; margin-block: .33rem .55rem; }
+.cfv-bill-rule span:first-child { background: var(--cfv-green); }
+.cfv-bill-rule span:nth-child(2) { background: #d9ded6; }
+.cfv-allowed { margin-block-start: .75rem; padding: .75rem; background: var(--cfv-white); border: 1px solid var(--cfv-rule); }
+.cfv-bill-split span:first-child { background: var(--cfv-blue); }
+.cfv-bill-split span:nth-child(2) { background: var(--cfv-green); }
+.cfv .cfv-legend { display: grid; grid-template-columns: 2fr 1fr; gap: .65rem; margin-top: .6rem; }
+.cfv-legend dt { font-weight: 740; }
+.cfv-legend dd strong { display: block; font-size: 1.28rem; }
+.cfv-legend dd span { display: block; color: var(--cfv-muted); }
+.cfv-legend > div:first-child dt { color: var(--cfv-blue); }
+.cfv-legend > div:last-child dt { color: var(--cfv-green); }
+@container caf-visual (max-width: 490px) {
+  .cfv .cfv-outcomes { grid-template-columns: 1fr; }
+  .cfv-matrix, .cfv-matrix tbody, .cfv-matrix tr, .cfv-matrix th, .cfv-matrix td { display: block; }
+  .cfv-matrix thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .cfv-matrix tbody tr { padding-block-end: .7rem; }
+  .cfv-matrix tbody th { padding: .4rem .45rem; background: var(--cfv-pale); }
+  .cfv-matrix td { padding: .45rem; }
+  .cfv-mobile-label { display: block; color: var(--cfv-green); font-weight: 740; }
+}
+@container caf-visual (max-width: 550px) and (min-width: 491px) {
+  .cfv-matrix-wide th, .cfv-matrix-wide td { padding-inline: .37rem; }
+}
+@media print {
+  .cfv { break-inside: avoid; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .cfv a { color: var(--cfv-ink); }
+}
+@media (forced-colors: active) {
+  .cfv-bill-rule span { outline: 1px solid CanvasText; }
+  .cfv-question { border: 1px solid CanvasText; }
+}
+
+.cfv :where(.cfv-bill-rule, .cfv-allowed) { border-radius: .35rem; }
+.cfv-bill-rule { overflow: hidden; }
+.cfv-matrix tbody tr:nth-child(even) { background: var(--cfv-white); }
+.cfv-check { border-radius: 0 .4rem .4rem 0; }

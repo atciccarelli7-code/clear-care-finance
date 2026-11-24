@@ -1,3 +1,4 @@
+import { visualHref, visualIndexPath } from "@/components/visual-explainers/article-visuals/visualRoutes";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -545,6 +546,12 @@ const MedicareCareCostHub = () => {
             </div>
           </div>
         </section>
+
+        <nav aria-label="Medicare and Medicaid visual explainers" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-primary">
+          <Link className="underline underline-offset-4" to={visualHref("medicare-enrollment")}>How to enroll in Medicare</Link>
+          <Link className="underline underline-offset-4" to={visualHref("disability-coverage")}>Coverage through disability</Link>
+          <Link className="underline underline-offset-4" to={visualIndexPath}>All visual explainers</Link>
+        </nav>
 
         <ComparisonPanel
           eyebrow="Program memory aid"

@@ -1,3 +1,4 @@
+import { VisualExplainerIndex } from "@/components/visual-explainers/article-visuals/VisualExplainer";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -96,6 +97,7 @@ const Articles = () => {
       />
 
       <section className="container py-6 md:py-10">
+        <VisualExplainerIndex />
         <div className="mb-5">
           <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Explore the core library</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

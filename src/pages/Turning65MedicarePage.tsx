@@ -1,3 +1,4 @@
+import { VisualExplainer } from "@/components/visual-explainers/article-visuals/VisualExplainer";
 import { useMemo, useRef, useState } from "react";
 import { AlertTriangle, ArrowRight, Copy, FileText, Printer, RotateCcw, ShieldCheck } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
@@ -65,6 +66,7 @@ export default function Turning65MedicarePage() {
   return <>
     <PageHero eyebrow="Turning 65 Medicare pathway" title="Know what to do, when to do it, and what still must be verified." description="Build a qualified enrollment timeline before choosing a plan. This pathway organizes current coverage, active employment, employer size, HSA timing, drug coverage, spouse coverage, and official next steps." />
     <div className="container max-w-6xl space-y-10 py-10 md:py-16">
+      <VisualExplainer id="medicare-enrollment" />
       <ContentFreshness lastReviewedAt={TURNING_65_LAST_REVIEWED} rulesEffectiveAt="2026-07-12" nextReviewAt="2026-10-01" timeSensitive reviewScope="Official Medicare.gov enrollment timing, active-employment, HSA, creditable drug coverage, and Medigap timing resources." />
 
       <section className="grid gap-4 md:grid-cols-3" aria-label="Important limitations">

@@ -140,9 +140,6 @@ export const HEALTHCARE_CONFUSION_ARTICLES: Article[] = [
       {
         title: "Worked example: Two bills and two EOBs",
         paragraphs: [
-          "Imagine one emergency visit. Both claims were processed in network, the deductible was met, and the plan applies 20% coinsurance. There are no copays, previous payments or secondary coverage. The numbers are illustrative.",
-          "Hospital facility. The EOB shows a $1,200 charge, a $600 allowed amount, a $480 plan payment and a $120 patient share. The hospital bill asks for $120. This pair matches.",
-          "Emergency clinician group. The EOB shows a $400 charge, a $200 allowed amount, a $160 plan payment and a $40 patient share. The clinician bill asks for $400. Compare that bill with the clinician EOB, then ask the group’s billing office about the $360 difference.",
           "Check that you have the latest bill and EOB. A reprocessed claim or a payment that has not posted can change the comparison. The mismatch alone does not establish what you owe.",
         ],
         callout: {

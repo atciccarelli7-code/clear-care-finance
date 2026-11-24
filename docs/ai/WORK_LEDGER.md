@@ -433,3 +433,11 @@ This ledger records the outcome and reusable learning from material assignments.
 
 - Implemented the chart essay presentation pilot, earlier article discovery, the two-claim bill walkthrough and repaired follow-up link, home-health handoff questions, and distinct rehab coverage and facility-selection guidance. Preserved canonical URLs and ad classifications.
 - [Release scope and measurement baseline](../work-packets/2026-11-22-reading-and-billing.md). Recheck the live branch and use the existing next-step events to measure the first settled 28-day window. Newsletter delivery and the separate policy hub have independent acceptance checks.
+
+### Coverage and hospital billing visual explainers
+
+- Date: 2026-11-24
+- Outcome: Added 12 reusable visuals to existing Medicare, Medicaid and hospital-billing pages. The article library indexes the embeds by subject and each embed links to a related figure.
+- Evidence: Medicare.gov enrollment and coverage rules, SSA disability and SSI guidance, Medicaid.gov eligibility and CMS patient billing references appear with verification dates in the figures. The hospital visit example reuses the article’s original two claims.
+- Decision: Keep a single canonical placement per figure and use fragment links from the directory and related content. The change adds no new indexable routes.
+- Reassess: Observe whether readers can distinguish an EOB from a bill and identify their enrollment contact. Recheck official rules when an agency revises its enrollment or eligibility guidance.

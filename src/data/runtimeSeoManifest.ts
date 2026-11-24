@@ -632,8 +632,8 @@ const ARTICLE_ROWS = [
   ],
   [
     "medicaid-dual-eligibility-ltss",
-    "Medicaid, Dual Eligibility, and LTSS",
-    "Understand where Medicaid fits when Medicare does not cover the long-term care a family hoped for.",
+    "How Do You Qualify for Medicaid? Income, Disability and Long-Term Care",
+    "See whose income counts, when Medicaid looks at assets, and what North Carolina checks before covering nursing home care.",
     "Medicaid",
     null,
     null

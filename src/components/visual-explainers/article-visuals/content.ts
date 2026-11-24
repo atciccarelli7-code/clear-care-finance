@@ -36,16 +36,33 @@ export const visuals = {
     sources: [snf, compare],
   },
   "medicaid-pathways": {
-    title: "Which Medicaid rules should you ask about?",
-    takeaway: "Tell the state what you need. The state can screen more than one route.",
+    title: "Which Medicaid eligibility rules apply to you?",
+    takeaway: "The state can check more than one eligibility group. Long-term care adds a review of the care you need.",
     scope: "Federal framework · Your state makes the eligibility decision",
     diagram: { kind: "branch", root: "What type of coverage or help do you need?", branches: [
-      { cue: "Health coverage", title: "Income route (MAGI)", text: "Used for most children, pregnant people, parents and many adults. Uses tax-based income and household rules. No asset test." },
-      { cue: "Age 65+, blindness or disability", title: "Non-MAGI route", text: "These groups generally use different income rules. The state may also look at assets." },
-      { cue: "Ongoing daily support", title: "Long-term care (LTSS)", text: "Ask about both the financial rules and the care-needs assessment. Nursing facility and home-based programs can differ." },
+      { cue: "Health coverage", title: "Income route (MAGI)", text: "Most children, pregnant people, parents and expansion adults use tax-based income and household rules. Savings and other assets are not tested." },
+      { cue: "Age 65+, blindness or disability", title: "Non-MAGI route", text: "Ask how the state counts your income and which assets are included or excluded." },
+      { cue: "Ongoing daily support", title: "Long-term care (LTSS)", text: "Check the financial rules for the specific service and who assesses your care needs. Rules can differ for a nursing facility and services at home." },
     ] },
     check: "Long-term care can use a non-MAGI financial pathway. State residency and citizenship or eligible immigration rules may apply, with exceptions. Ask about Medicare Savings Programs if you have Medicare.",
     sources: [eligibility, institutional, source("Medicaid.gov · Home and community-based services", medicaid + "/home-community-based-services", "State pathways for services in home and community settings.")],
+  },
+  "nc-medicaid-expansion-income": {
+    title: "North Carolina Medicaid expansion income limits",
+    takeaway: "Find your household size, then check the base standard and the separate income disregard. County DSS determines what income counts.",
+    scope: "Adults ages 19–64 · Monthly amounts effective April 1, 2026",
+    diagram: { kind: "matrix", columns: ["Base standard", "Separate income disregard"], rows: [
+      { title: "1 person", cells: ["$1,769", "$66.50"] },
+      { title: "2 people", cells: ["$2,399", "$90.17"] },
+      { title: "3 people", cells: ["$3,028", "$113.83"] },
+      { title: "4 people", cells: ["$3,658", "$137.50"] },
+    ] },
+    check: "The state applies the five-percentage-point disregard when it can affect eligibility under the applicable rules. Ask DSS to screen you if your income is near the limit. Use the separate state rules for age, disability or long-term care.",
+    sources: [
+      source("NC Medicaid · Official income chart", "https://policies.ncdhhs.gov/wp-content/uploads/MA-3321-MAGI-Income-2.pdf", "April 2026 monthly amounts for the adult expansion group and the separate disregard."),
+      source("NC Medicaid · Eligibility", "https://medicaid.ncdhhs.gov/eligibility", "NC eligibility groups and current application rules."),
+      eligibility,
+    ],
   },
   "medicaid-application": {
     title: "What happens after you apply for Medicaid?",

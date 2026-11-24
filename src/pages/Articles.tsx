@@ -97,7 +97,6 @@ const Articles = () => {
       />
 
       <section className="container py-6 md:py-10">
-        <VisualExplainerIndex />
         <div className="mb-5">
           <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Explore the core library</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -137,6 +136,7 @@ const Articles = () => {
 
         {browsingAll && (
           <>
+            <VisualExplainerIndex />
             <div className="mb-12">
               <div className="max-w-3xl">
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Featured now</div>

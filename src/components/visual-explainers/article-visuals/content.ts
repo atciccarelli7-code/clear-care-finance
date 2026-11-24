@@ -163,7 +163,7 @@ export const visuals = {
       { title: "Charge / allowed / plan paid", cells: ["$1,200 / $600 / $480", "$400 / $200 / $160"] },
       { title: "Your share on the EOB", cells: ["$120", "$40"] },
       { title: "Provider statement", cells: ["$120", "$400"] },
-      { title: "Next step", cells: ["The amounts match. Check any payments already made.", "Ask the clinician group to explain the $360 difference and confirm the payment deadline."] },
+      { title: "Next step", cells: ["The amounts match. Check any payments already made.", "If the amounts differ, ask the group’s billing office about the $360 difference and confirm the payment deadline."] },
     ] },
     check: "This example assumes no copays, prior payments or secondary insurance. A mismatch is a reason to check the claim and statement before deciding what you owe.",
     sources: [

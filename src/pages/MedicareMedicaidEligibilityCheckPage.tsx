@@ -1,3 +1,4 @@
+import { VisualExplainer } from "@/components/visual-explainers/article-visuals/VisualExplainer";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -427,6 +428,8 @@ const MedicareMedicaidEligibilityCheckPage = () => {
             <RelatedLink href="/guides/hospital-discharge-medicare" title="Hospital discharge and long-term care guide" description="Prepare for rehab, home health, equipment, Medicaid, and post-hospital care decisions." onOpen={() => trackHandoff("hospital_discharge_guide")} />
           </div>
         </section>
+
+        <VisualExplainer id="disability-coverage" />
 
         <section aria-labelledby="sources-title" className="rounded-[2rem] border border-border bg-card p-5 shadow-card md:p-8">
           <div className="flex items-start gap-3">

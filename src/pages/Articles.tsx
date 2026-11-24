@@ -1,3 +1,4 @@
+import { VisualExplainerIndex } from "@/components/visual-explainers/article-visuals/VisualExplainer";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -135,6 +136,7 @@ const Articles = () => {
 
         {browsingAll && (
           <>
+            <VisualExplainerIndex />
             <div className="mb-12">
               <div className="max-w-3xl">
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Featured now</div>

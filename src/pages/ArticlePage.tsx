@@ -1,3 +1,5 @@
+import { VisualExplainer } from "@/components/visual-explainers/article-visuals/VisualExplainer";
+import { visualForArticle } from "@/components/visual-explainers/article-visuals/visualRoutes";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, Quote } from "lucide-react";
@@ -596,6 +598,7 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
   }
 
   const storyFirst = article.slug === "patient-in-the-bed-and-patient-in-the-chart";
+  const visualId = visualForArticle(article.slug);
   const hasBillWalkthrough = article.slug === "why-one-hospital-visit-can-create-multiple-bills";
   const reviewDetails = (
     <>
@@ -697,6 +700,7 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
           </div>
         )}
 
+        {visualId && !hasBillWalkthrough && <VisualExplainer id={visualId} />}
         {!storyFirst && systemMap}
 
         {article.editorialSections && article.editorialSections.length > 0 ? (
@@ -705,6 +709,9 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
               <Fragment key={section.title}>
                 <section className="scroll-mt-24">
                   <h2 className="font-display text-xl font-bold tracking-tight text-foreground md:text-2xl">{section.title}</h2>
+                  {hasBillWalkthrough && visualId && section.title === "Worked example: Two bills and two EOBs" && (
+                    <div className="mt-4"><VisualExplainer id={visualId} headingLevel={3} /></div>
+                  )}
                   <div className="mt-4 space-y-4 text-[0.98rem] leading-[1.75] text-muted-foreground md:text-base">
                     {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                     {section.keyPoints && section.keyPoints.length > 0 && (

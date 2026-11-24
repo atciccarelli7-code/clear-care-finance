@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         // Keep content hashes while avoiding a large preload map made mostly of long module names.
-        chunkFileNames: "assets/chunk-[hash].js",
+        chunkFileNames: "assets/chunk-[hash:7].js",
       },
     },
   },

@@ -526,107 +526,72 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
   },
   {
     slug: "medicaid-dual-eligibility-ltss",
-    title: "Medicaid, Dual Eligibility, and LTSS",
+    title: "How Do You Qualify for Medicaid? Income, Disability and Long-Term Care",
     category: "Medicaid",
     readTime: "6 min read",
-    promise: "Understand where Medicaid fits when Medicare does not cover the long-term care a family hoped for.",
-    audience: "Patients, caregivers, bedside clinicians, case managers, and families facing long-term care or discharge planning decisions.",
-    summary: "Medicaid is often the long-term care safety net families discover only after Medicare says no. Some people have both Medicare and Medicaid, often called dual eligible. Medicare usually pays first for Medicare-covered services, while Medicaid may help with premiums, cost-sharing, long-term services and supports, nursing facility care, or home and community-based services for people who qualify under state rules.",
-    body: [
-      "Many families do not learn about Medicaid long-term care until a crisis.",
-      "A loved one is medically ready to leave the hospital, but they are not safe alone. Medicare may not pay for long-term custodial care. A short-term rehab stay may not be approved, or coverage may stop. Private-pay nursing home or home care may be unaffordable.",
-      "That is when Medicaid becomes part of the conversation. Medicaid can be powerful, but it is complicated, state-specific, document-heavy, and not automatic."
-    ],
-    sections: [
+    promise: "See whose income counts, when Medicaid looks at assets, and what North Carolina checks before covering nursing home care.",
+    audience: "Adults checking Medicaid eligibility, families planning a hospital discharge, and caregivers comparing long-term care options.",
+    summary: "To qualify for Medicaid, you must meet your state’s rules for an eligibility group. Most children, pregnant people, parents and expansion adults are screened using tax-based household and income rules without an asset test. People applying based on age, blindness or disability usually follow different rules. If you need nursing home care or long-term help at home, ask what the specific service requires in addition to your Medicaid eligibility.",
+    body: [],
+    editorialSections: [
       {
-        title: "Medicare vs. Medicaid",
-        definition: "Medicare is mainly health insurance for older adults and some younger people with disabilities or certain conditions; Medicaid is a joint federal-state program for people who qualify under state rules.",
-        keyPoints: [
-          "Medicare eligibility is not usually based on income.",
-          "Medicaid eligibility can depend on income, resources, disability, age, family status, and medical need.",
-          "Some people have both programs.",
-          "The programs can work together but do not cover the same things in the same way."
+        title: "How much can you make and still qualify for Medicaid?",
+        paragraphs: [
+          "The limit depends on your state, household size and eligibility group. The income rules for an adult applying through expansion may differ from those for a child, someone who is pregnant, or someone applying based on disability. The expansion pathway uses modified adjusted gross income (MAGI). The state typically starts with tax filing relationships when deciding who belongs in your household, with exceptions. The people who live at your address and the people Medicaid counts can be different.",
+          "If you receive disability benefits, tell the state which kind. Social Security Disability Insurance (SSDI) generally counts in MAGI, including the non-taxable portion. Supplemental Security Income (SSI) is excluded from MAGI. Other Medicaid pathways use different rules, so give the agency information about both benefits if you receive them.",
         ],
-        watchOut: "Do not assume Medicare and Medicaid are interchangeable just because the names sound similar."
       },
       {
-        title: "Dual eligible",
-        definition: "A person enrolled in both Medicare and Medicaid.",
-        keyPoints: [
-          "Medicare generally pays first for Medicare-covered services.",
-          "Medicaid may help with costs Medicare does not cover or does not fully cover, depending on eligibility category and state rules.",
-          "Dual eligibility can affect premiums, deductibles, copays, coinsurance, transportation, home services, nursing facility care, and plan options.",
-          "Details vary by state and plan."
+        title: "What are the North Carolina Medicaid income limits?",
+        paragraphs: [
+          "The chart shows North Carolina’s April 2026 income standard for adult expansion, generally for ages 19 through 64. It lists the base standard at 133% of the federal poverty level and the separate five-percentage-point disregard. For example, NC Medicaid’s consumer guide lists about $1,835 per month for an adult in a household of one. If you are close to the limit, ask county DSS what income it counts and whether the disregard applies.",
+          "The chart applies to this expansion group. Children, pregnancy coverage and Medicaid based on age or disability have their own rules. Check the official state eligibility page for current residency and immigration rules and for the community engagement requirements scheduled to start in January 2027 for certain applicants and members.",
         ],
-        watchOut: "Dual eligible does not mean every service is automatically covered without rules, networks, or paperwork."
       },
       {
-        title: "LTSS",
-        definition: "Long-term services and supports that help people with chronic illness, disability, aging-related needs, or functional limitations live safely over time.",
-        keyPoints: [
-          "Can include nursing facility care, personal care assistance, adult day services, home and community-based services, waiver programs, case management, respite care, or self-directed care options.",
-          "The exact services depend on the state and program.",
-          "Some programs may have waiting lists or service limits.",
-          "Eligibility can involve both financial and functional review."
+        title: "Can you get Medicaid if you have a disability or receive SSDI?",
+        paragraphs: [
+          "You can ask the state to check every pathway that fits. SSDI is a cash benefit and does not automatically enroll you in Medicaid. A person whose disability claim is pending might still qualify under an income-based group. If you receive SSI, many states link Medicaid enrollment to the SSI decision and some handle it through a separate state process.",
+          "When the state reviews someone based on disability, blindness or age 65 and older, it usually uses a non-MAGI category. It may review countable assets as well as income. Ask which category the worker is using and what proof of disability or resources it requires.",
         ],
-        watchOut: "LTSS is the long-term care world. It is different from a short-term Medicare-covered rehab stay."
       },
       {
-        title: "Medicaid nursing facility coverage",
-        definition: "Medicaid may cover nursing facility care for people who meet financial and medical eligibility requirements.",
-        keyPoints: [
-          "Different from Medicare short-term skilled nursing facility coverage.",
-          "May apply when a person needs long-term care and qualifies under state rules.",
-          "Facilities may have Medicaid beds, Medicaid-pending policies, and documentation requirements.",
-          "Private-pay costs may apply while eligibility is pending."
+        title: "Does Medicaid count savings, a car, or a house?",
+        paragraphs: [
+          "MAGI groups have no asset test. If your category has one, the state applies rules about which assets count, which are excluded and how ownership is treated. Nursing facility and certain home-based programs may also review transfers and apply protections for a spouse who remains at home. Before selling or transferring property, verify the rules for the program you are applying to.",
         ],
-        watchOut: "A family may need to ask which facilities accept Medicaid or Medicaid pending before a crisis discharge."
       },
       {
-        title: "Medicaid is not instant",
-        definition: "Eligibility can take time and require documentation.",
-        keyPoints: [
-          "Families may need proof of income, bank statements, resource information, insurance information, identity documents, medical records, level-of-care assessments, spousal information, and transfer history.",
-          "Hospital financial counseling, case management, social work, the state Medicaid agency, Area Agency on Aging, SHIP counselors, or elder law attorneys may be useful depending on the issue.",
-          "Rushed asset transfers or spend-down decisions can create problems."
+        title: "What qualifies someone for Medicaid nursing home care?",
+        paragraphs: [
+          "Ask two questions early: which Medicaid category covers the person, and has the person met the nursing facility’s level-of-care criteria? In North Carolina, county DSS needs documentation of the level-of-care decision. Depending on the person’s coverage, other financial reviews can apply. For example, the state’s guidance distinguishes MAGI from non-MAGI members when DSS calculates what a resident contributes toward care.",
+          "A family can map this into three calls. Ask DSS about the eligibility category and any missing documents. Ask the discharge team or health plan who is handling the level-of-care review. Ask the nursing facility whether it can meet the person’s needs, whether it has an available Medicaid bed, and how it handles a pending decision. For care at home, ask about the specific home-based service and whether a slot or provider is available.",
         ],
-        watchOut: "This site should not be used as Medicaid planning advice. State-specific rules and qualified help matter."
       },
       {
-        title: "Questions to ask case management",
-        keyPoints: [
-          "Is this a Medicare skilled care issue or a Medicaid long-term care issue?",
-          "Does the patient already have Medicaid?",
-          "Could they qualify?",
-          "Does the patient need a nursing facility level-of-care assessment?",
-          "Which facilities accept Medicaid or Medicaid pending?",
-          "Is home and community-based care possible?",
-          "Are there waiting lists?",
-          "Who helps with the application and documents?"
-        ]
-      }
+        title: "Can you have Medicare and Medicaid, and how do you apply?",
+        paragraphs: [
+          "Yes. A person can have both, often called dual eligibility. Medicare generally pays first for Medicare-covered services. Medicaid may help with premiums, cost sharing, or services Medicare does not cover, depending on the category. If you want help with Medicare costs, ask about Medicare Savings Programs and whether you also qualify for full Medicaid.",
+          "You can apply year-round. In North Carolina, use ePASS or contact your county Department of Social Services. If you need nursing facility care or ongoing services at home, say that when you apply. Keep a copy of the application and ask when you should expect follow-up. The state makes the decision.",
+        ],
+      },
     ],
     example: {
-      title: "When Medicare says no",
-      body: "A patient no longer qualifies for skilled rehab but cannot safely live alone. The family cannot afford private-pay care for months. The discharge conversation shifts from Medicare skilled coverage to Medicaid long-term services and supports, state eligibility, facility acceptance, documents, and a realistic transition plan."
+      title: "North Carolina discharge example",
+      body: "Imagine a 62-year-old patient who already has Medicaid through expansion and can no longer live safely alone. The care team still needs to check whether the patient meets nursing facility level of care and find a facility that can accept them. County DSS can verify the Medicaid category and say which financial rules apply to that category. The family can ask who owns each step and what remains unresolved before discharge.",
     },
-    commonMistakes: [
-      "Waiting until discharge day to ask whether Medicaid may apply.",
-      "Assuming Medicaid approval is immediate.",
-      "Assuming every facility accepts Medicaid pending.",
-      "Confusing Medicare short-term rehab with Medicaid long-term care.",
-      "Making rushed spend-down or asset-transfer decisions without qualified advice.",
-      "Assuming home and community-based services are always available right away."
-    ],
-    takeaway: "Medicare may cover short-term skilled recovery care. Medicaid may cover long-term services and supports for people who qualify under state rules. Understanding that difference makes discharge and long-term care conversations more honest and less shocking.",
+    relatedCalculator: { label: "Check possible Medicare and Medicaid pathways", href: "/tools/medicare-medicaid-eligibility-check" },
+    takeaway: "Ask the state which Medicaid group it is screening you under. If you need nursing home care or long-term help at home, also ask who confirms the care requirement and when the needed service can start.",
     sources: [
-      SOURCE_PRESETS.medicaidLtss,
       SOURCE_PRESETS.medicaidEligibility,
+      SOURCE_PRESETS.medicaidLtss,
       SOURCE_PRESETS.cmsMedicaidCoordination,
-      SOURCE_PRESETS.medicareLongTermCare,
-      SOURCE_PRESETS.medicareSnf,
-      SOURCE_PRESETS.kffMedicaid101,
-      SOURCE_PRESETS.kffMedicareCoverageSnapshot
+      { name: "HealthCare.gov", pageTitle: "What to include in household income", url: "https://www.healthcare.gov/income-and-household-information/income/", note: "MAGI income sources, including SSDI and SSI." },
+      { name: "Social Security Administration", pageTitle: "SSI and other government programs", url: "https://www.ssa.gov/ssi/text-other-ussi.htm", note: "How SSI and Medicaid enrollment are linked, with state differences." },
+      { name: "NC Medicaid", pageTitle: "Current eligibility rules", url: "https://medicaid.ncdhhs.gov/eligibility", note: "Eligibility groups, state rules and community engagement guidance." },
+      { name: "NC Medicaid", pageTitle: "2026 Medicaid expansion income standards (MA-3321)", url: "https://policies.ncdhhs.gov/wp-content/uploads/MA-3321-MAGI-Income-2.pdf", note: "April 1, 2026 monthly standards and five-percentage-point disregard." },
+      { name: "NC Medicaid", pageTitle: "How to apply", url: "https://medicaid.ncdhhs.gov/apply", note: "Application options, including ePASS and county DSS." },
+      { name: "NC Medicaid", pageTitle: "Nursing facility process for county DSS", url: "https://medicaid.ncdhhs.gov/nc-medicaid-direct-and-nc-medicaid-managed-carenursing-facility-local-dss-process/open", note: "Level-of-care documentation and patient monthly liability by eligibility category." },
     ],
   },
   {

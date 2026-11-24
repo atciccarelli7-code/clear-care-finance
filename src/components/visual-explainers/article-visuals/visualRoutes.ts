@@ -8,6 +8,7 @@ const destinations = {
   "medicare-medicaid": article("medicare-vs-medicaid-what-is-the-difference"),
   "medicare-options": article("medicare-advantage-vs-original-medicare-2026"),
   "medicaid-pathways": article("medicaid-dual-eligibility-ltss"),
+  "nc-medicaid-expansion-income": article("medicaid-dual-eligibility-ltss"),
   "medicaid-application": article("from-the-bedside-long-term-care-medicaid-hospital-delay"),
   "medicare-snf": article("does-medicare-cover-rehab-after-hospital-stay"),
   "nursing-home-payers": article("does-medicare-cover-long-term-care"),
@@ -19,7 +20,7 @@ const destinations = {
 
 export type VisualId = keyof typeof destinations;
 export const groups = [
-  { name: "Medicare and Medicaid", ids: ["medicare-enrollment", "disability-coverage", "medicare-medicaid", "medicare-options", "medicaid-pathways", "medicaid-application", "medicare-snf", "nursing-home-payers"] },
+  { name: "Medicare and Medicaid", ids: ["medicare-enrollment", "disability-coverage", "medicare-medicaid", "medicare-options", "medicaid-pathways", "nc-medicaid-expansion-income", "medicaid-application", "medicare-snf", "nursing-home-payers"] },
   { name: "Hospital bills", ids: ["bill-to-payment", "eob-match", "multiple-bills", "financial-assistance"] },
 ] as const satisfies ReadonlyArray<{ name: string; ids: readonly VisualId[] }>;
 

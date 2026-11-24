@@ -127,7 +127,7 @@ export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
   sensitive("home-health-after-discharge"),
   sensitive("durable-medical-equipment-after-discharge"),
   sensitive("long-term-care-and-custodial-care"),
-  sensitive("medicaid-dual-eligibility-ltss"),
+  sensitive("medicaid-dual-eligibility-ltss", { reviewedAt: "2026-11-24", nextReviewAt: "2027-01-01" }),
   editorial(
     "diagnosis-explained",
     "Reviewed and kept ad-free because it explains the publication system rather than serving as a standalone decision-support article.",

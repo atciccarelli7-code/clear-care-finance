@@ -709,6 +709,9 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
               <Fragment key={section.title}>
                 <section className="scroll-mt-24">
                   <h2 className="font-display text-xl font-bold tracking-tight text-foreground md:text-2xl">{section.title}</h2>
+                  {visualId === "medicaid-pathways" && section.title === "What are the North Carolina Medicaid income limits?" && (
+                    <div className="mt-4"><VisualExplainer id="nc-medicaid-expansion-income" headingLevel={3} /></div>
+                  )}
                   {hasBillWalkthrough && visualId && section.title === "Worked example: Two bills and two EOBs" && (
                     <div className="mt-4"><VisualExplainer id={visualId} headingLevel={3} /></div>
                   )}

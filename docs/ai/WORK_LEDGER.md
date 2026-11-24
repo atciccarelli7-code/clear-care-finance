@@ -441,3 +441,11 @@ This ledger records the outcome and reusable learning from material assignments.
 - Evidence: Medicare.gov enrollment and coverage rules, SSA disability and SSI guidance, Medicaid.gov eligibility and CMS patient billing references appear with verification dates in the figures. The hospital visit example reuses the article’s original two claims.
 - Decision: Keep a single canonical placement per figure and use fragment links from the directory and related content. The change adds no new indexable routes.
 - Reassess: Observe whether readers can distinguish an EOB from a bill and identify their enrollment contact. Recheck official rules when an agency revises its enrollment or eligibility guidance.
+
+### Medicaid eligibility search and editorial update
+
+- Research date: November 24, 2026.
+- First-party baseline: October 23 Search Console export, June 21 through October 21. The existing Medicaid article earned 19 impressions and 0 clicks. The eligibility tool earned 8 impressions and 1 click. The Medicare versus Medicaid article earned 35 impressions and 0 clicks. The query export was capped at 1,000 rows, so absence of a query does not establish zero impressions.
+- Demand discovery: Ten Google autocomplete seeds covered qualifications, income, assets, disability, nursing home care, NC-specific limits, application and community engagement. Public search results confirmed the distinct information needs. Semrush had no available units, OpenSEO had no configured project, and the Trends endpoint rate-limited the comparison. These signals support prioritization and do not establish monthly volume or a national ranking.
+- Outcome: The existing Medicaid article answers the recurring questions and includes a hypothetical North Carolina discharge, an updated eligibility pathway figure and a dated NC expansion income visual. Keep the existing URL and anchors. MA-3321 reports the base and disregard as separate amounts, so the visual preserves both. The general eligibility page remains the source for current state rules.
+- Reassess: Verify NC community engagement implementation on January 1, 2027, refresh the expansion table against the next official standards, and compare page impressions and query mix after a full 28-day post-release period.

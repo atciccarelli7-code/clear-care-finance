@@ -295,6 +295,7 @@
 
 @layer components {
   .caf-masthead-brand { display: flex; flex: none; align-items: center; gap: .6rem; font: 700 1rem/1 Georgia, "Times New Roman", serif; }
+  .caf-masthead-brand:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
   .caf-masthead-brand > span:first-child {
     display: grid;
     place-items: center;
@@ -400,6 +401,10 @@
   .editorial-article-heading > div:first-child { background: none; }
   @media (min-width: 1024px) {
     .publication-masthead-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+    .editorial-story-lead .editorial-story-copy { display: contents; }
+    .editorial-story-lead .editorial-story-meta { order: -3; }
+    .editorial-story-lead .editorial-story-title { order: -2; margin-top: 0; }
+    .editorial-story-lead .editorial-cover { order: -1; }
     .publication-front-page { grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); }
     .publication-latest { border-top: 0; border-left: 1px solid hsl(var(--border)); padding: 0 0 0 1.5rem; }
   }

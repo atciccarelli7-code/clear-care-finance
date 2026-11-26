@@ -16,7 +16,7 @@ Build on the commissioned style with a shorter masthead, larger lead presentatio
 | Editorial and user context | Evidence integrity, publishing, healthcare user research | PASS for evidence preservation and contextual links. WARN for unmeasured user response. Figures remain on reviewed source pages. |
 | Operations and product | Product, information architecture, context steward, UX | PASS. Existing archive and article components carry the design into related surfaces and keep filters and utilities available. |
 | Finance and revenue | Executive strategy, monetization/CRO | PASS. Static delivery with existing hosting and newsletter. No paid media or new commercial action. |
-| Technology and protection | Frontend, systems, backend and security, privacy/legal | PASS for scope. Eight static derivatives, shared metadata pipeline, no new data collection surface. Event submissions use existing consent and sanitization. |
+| Technology and protection | Frontend, systems, backend and security, privacy/legal | PASS for scope. Eight static derivatives, shared metadata pipeline and system typography without third-party font requests. No new data collection surface. Event submissions use existing consent and sanitization. |
 | Discovery | SEO | PASS for route scope. Two additional story previews. All 192 canonical URLs and 39 permanent redirects retained. |
 | Analytics | Analytics and experimentation | WARN. Clicks indicate navigation only. Use a settled cohort before asserting an effect. |
 | Accessibility and release | Accessibility/performance, platform, quality and release | Release gate: local production build, browser accessibility/reflow/navigation, preview and required CI. |
@@ -32,4 +32,4 @@ Build on the commissioned style with a shorter masthead, larger lead presentatio
 
 ## Release checks
 
-Validate the local production build, full unit suite and lint, mobile and desktop publication journeys, figure deep links, image loading and art metadata, article-to-tool links and application performance ceilings. Compare the production sitemap against the baseline. Verify that the Vercel build and public domain serve the merged version before claiming a live release. Review focused changes through a pull request with exact-head checks.
+Validate the local production build, full unit suite and lint, mobile and desktop publication journeys, figure deep links, image loading and art metadata, article-to-tool links and application performance ceilings. Compare the production sitemap against the baseline. Verify that the Vercel build and public domain serve the merged version before claiming a live release. Review focused changes through a pull request with exact-head checks. Use document navigation for the archive’s visual index and the EOB checker’s dashboard link so the browser can restore those fragments from prerendered HTML.

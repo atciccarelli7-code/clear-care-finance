@@ -9,6 +9,7 @@ declare global {
 
 test.describe("mobile-controlling route-group performance governance", () => {
   test.beforeEach(async ({ page }) => {
+    await page.route("**/pagead2.googlesyndication.com/**", route => route.fulfill({ status: 200, contentType: "application/javascript", body: "" }));
     await page.route("**/_vercel/**", async (route) => {
       const isScript = new URL(route.request().url()).pathname.endsWith(".js");
       await route.fulfill(isScript ? { status: 200, contentType: "application/javascript", body: "" } : { status: 204, body: "" });

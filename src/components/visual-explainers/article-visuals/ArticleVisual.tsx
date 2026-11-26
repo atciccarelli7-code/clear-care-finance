@@ -1,7 +1,6 @@
 import { useId } from "react";
 import { reviewed } from "./content";
 import type { Breakdown, Branch, Item, Matrix, Sequence, Visual } from "./types";
-import "./article-visual.css";
 
 const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 const percent = new Intl.NumberFormat("en-US", { style: "percent" });

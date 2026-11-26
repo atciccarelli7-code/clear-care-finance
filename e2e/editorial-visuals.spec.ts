@@ -4,6 +4,7 @@ import { EDITORIAL_COVERS } from "../src/data/editorialCovers";
 
 test.beforeEach(async ({ page }) => {
   await page.route("https://fonts.googleapis.com/**", route => route.fulfill({ status: 200, contentType: "text/css", body: "" }));
+  await page.route("**/pagead2.googlesyndication.com/**", route => route.fulfill({ status: 200, contentType: "application/javascript", body: "" }));
   await page.route("**/_vercel/**", route => route.fulfill({ status: 200, contentType: "application/javascript", body: "" }));
   await page.addInitScript(() => localStorage.setItem("caf-privacy-consent-v1", "necessary"));
 });
@@ -37,6 +38,16 @@ test("article navigation resets social previews and preserves a working utility"
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   const result = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
   expect(result.violations).toEqual([]);
+});
+
+test("read-next recommendations connect reporting to stories and an actual figure", async ({ page }) => {
+  await page.goto("/articles/why-hospitals-become-the-systems-shock-absorber");
+  const readNext = page.getByRole("region", { name: "Continue reading" });
+  await expect(readNext.getByRole("link", { name: "The Patient in the Bed and the Patient in the Chart" })).toHaveAttribute("href", "/articles/patient-in-the-bed-and-patient-in-the-chart");
+  await expect(readNext.locator("a[href='/articles/why-hospitals-care-about-length-of-stay']")).toHaveCount(0);
+  await readNext.getByRole("link", { name: /visual explainer/i }).click();
+  await expect(page).toHaveURL(/does-medicare-cover-rehab-after-hospital-stay#visual-medicare-snf$/);
+  await expect(page.locator("#visual-medicare-snf")).toBeVisible();
 });
 
 for (const [slug, cover] of Object.entries(EDITORIAL_COVERS)) {

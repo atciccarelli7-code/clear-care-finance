@@ -455,3 +455,9 @@ This ledger records the outcome and reusable learning from material assignments.
 - Date: 2026-11-25. Created six original disclosed cover illustrations and responsive/social derivatives; homepage lead-story hierarchy, related card imagery and existing visual-explainer discovery. Preserves all 192 canonicals and article content.
 - Reusable improvement: shared cover registry/component, deferred social/schema updater within the artwork registry and CI browser suite. Existing entry cap retained by deferring optional metadata work; no budget raised.
 - Validation, baseline type/Windows fixture warnings and release evidence: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`.
+
+### CAF-W-024 — Editorial reading and explainer discovery
+
+- Date: 2026-11-26. The six November 25 flagships retain their art. Two recent founder essays gain responsive illustrations and social cards. Homepage and archive layout, in-article visual jumps and contextual related reading bring readers to existing reporting and visual explainers.
+- Reusable assets and release gates: [reading experience work packet](../work-packets/2026-11-26-editorial-reading-experience.md) and [editorial art provenance](../editorial-art.md).
+- Reassess after a settled 28-day window for second-story navigation and explainer use. Consent-gated click events are evidence of navigation, not completed reading.

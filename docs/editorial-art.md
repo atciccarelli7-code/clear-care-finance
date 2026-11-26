@@ -30,3 +30,14 @@ Generation folder: `01a215bf-9d9a-7831-8ea9-d62bfffb8be5`. Discarded rehab draft
 ## Maintenance and measurement
 
 Add a cover only when it strengthens an existing story. Keep provenance, alt, disclosure and derivative sets together. Test image load, canonical/schema/OG parity, 320px reflow, accessible contrast and link destinations before release. Reassess if images fail, layout shifts, loading cost rises or readers misunderstand a metaphor. Measure settled second-story reading, newsletter conversion and visual-explainer use alongside query/device/position-adjusted search CTR; do not claim traffic gains from appearance or build results.
+
+## November 26 follow-up
+
+The six-image flagship set remains in service. The homepage’s recent reporting, archive, and related reading can also use two new original conceptual illustrations. The essay about the patient and chart places the figure after its opening section so readers on small screens reach Andrew’s opening before the artwork.
+
+| Asset | Final subject prompt | Selected generation |
+|---|---|---|
+| bed-and-chart | A hospital bed and simplified patient silhouette on one side of a diptych and an abstract clinical record showing the same bed on the other. | exec-9c28d085-a973-47d3-bf28-b082f5652d9c.png |
+| waiting-on-insurance | A paperwork tray with an unsigned form and a quiet hospital corridor, with floor shadows suggesting a clock. | exec-2b01a7e8-11b3-4806-8a41-a6a733dc8ef6.png |
+
+Both new sets use the existing WebP and 1200×630 JPEG pipeline. The eight new derivatives total 787,489 bytes across the archive. The two thumbnail files total 47,248 bytes. Clinical figures and charts continue to render from text and data in the visual-explainer components.

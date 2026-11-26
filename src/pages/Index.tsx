@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Building2,
+  CalendarDays,
+  ChartNoAxesColumn,
   HeartPulse,
   Receipt,
   ShieldCheck,
@@ -15,6 +17,7 @@ import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { FLAGSHIP_VISUAL_ARTICLES } from "@/data/flagshipVisualArticles";
 import { FEATURED_PUBLISHER_ARTICLES } from "@/data/featuredPublisherArticles";
+import { visualHref, visualIndexPath } from "@/components/visual-explainers/article-visuals/visualRoutes";
 import { trackHomepageNavigation } from "@/lib/analytics";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
 
@@ -78,37 +81,74 @@ const supportingUtilities = [
   },
 ] as const;
 
+const lead = FLAGSHIP_VISUAL_ARTICLES[0];
+const latest = FEATURED_PUBLISHER_ARTICLES.filter(article => !FLAGSHIP_VISUAL_ARTICLES.some(flagship => flagship.slug === article.slug));
+const visualHighlights = [
+  { id: "bill-to-payment", Icon: Receipt, title: "From charge to payment", description: "See how a hospital charge becomes an insurer payment and a patient balance.", labels: ["Charge", "Allowed", "Your share"] },
+  { id: "medicaid-pathways", Icon: ChartNoAxesColumn, title: "How do you qualify for Medicaid?", description: "Compare the paths based on income, disability, and long-term care needs.", labels: ["Income", "Disability", "Long-term care"] },
+  { id: "medicare-enrollment", Icon: CalendarDays, title: "When to enroll in Medicare", description: "Find the enrollment window that applies when you turn 65 or leave job-based coverage.", labels: ["Turning 65", "Still working", "Leaving work"] },
+] as const;
+
+const onStoryClick = (slug: string) => trackHomepageNavigation("featured_article", slug, `/articles/${slug}`);
+
 const Index = () => (
-  <>
-    <header className="publication-intro container py-8 md:py-12">
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">RN-led reporting · Community Acquired Finance</p>
-      <h1 className="mt-4 max-w-4xl text-4xl leading-[1.08] md:text-6xl">Understand the money and machinery behind American healthcare.</h1>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">An RN’s view of hospital bills, insurance rules, and what it takes to get care.</p>
-      <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold">
-        <Link to="/articles" className="text-primary underline underline-offset-4" onClick={() => { trackGrowthEvent("home_primary_cta_clicked", { entry_surface: "home", action_id: "article_library" }); trackHomepageNavigation("hero_action", "article_library", "/articles"); }}>Read the publication</Link>
-        <Link to="/tools" className="text-primary underline underline-offset-4" onClick={() => { trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "supporting_tools" }); trackHomepageNavigation("hero_action", "supporting_tools", "/tools"); }}>Use a guide or tool</Link>
+  <div className="publication-home">
+    <header className="publication-intro">
+      <div className="container publication-masthead">
+        <p className="publication-kicker">Independent · RN-led</p>
+        <div className="publication-masthead-grid">
+          <h1>Understand the money and machinery behind American healthcare.</h1>
+          <div>
+            <p className="publication-deck">An RN’s view of hospital bills, insurance rules, and what it takes to get care.</p>
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm font-semibold">
+              <Link to="/articles" className="publication-link" onClick={() => { trackGrowthEvent("home_primary_cta_clicked", { entry_surface: "home", action_id: "article_library" }); trackHomepageNavigation("hero_action", "article_library", "/articles"); }}>Read the publication</Link>
+              <Link to="/tools" className="publication-link" onClick={() => { trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "supporting_tools" }); trackHomepageNavigation("hero_action", "supporting_tools", "/tools"); }}>Guides &amp; tools</Link>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
-    <section className="container publication-featured pb-12" aria-labelledby="featured-stories-heading">
-      <div className="mb-6 border-t-2 border-foreground pt-4"><h2 id="featured-stories-heading" className="text-xs font-bold uppercase tracking-[0.18em]">Featured reporting and explainers</h2></div>
-      <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
-        <ArticleCard article={FLAGSHIP_VISUAL_ARTICLES[0]} featured onClick={() => trackHomepageNavigation("featured_article", FLAGSHIP_VISUAL_ARTICLES[0].slug, `/articles/${FLAGSHIP_VISUAL_ARTICLES[0].slug}`)} />
-        <aside className="border-t border-border pt-5 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0" aria-label="Latest reporting">
-          <h2 className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-primary">Also from CAF</h2>
-          <div className="space-y-6">{FEATURED_PUBLISHER_ARTICLES.filter(a => !FLAGSHIP_VISUAL_ARTICLES.some(f => f.slug === a.slug)).map(article => <ArticleCard key={article.slug} article={article} onClick={() => trackHomepageNavigation("featured_article", article.slug, `/articles/${article.slug}`)} />)}</div>
-        </aside>
+
+    <section className="container publication-featured" aria-labelledby="featured-stories-heading">
+      <div className="publication-section-rule">
+        <h2 id="featured-stories-heading" className="publication-kicker">Featured reporting and explainers</h2>
       </div>
-      <div className="mt-10 grid gap-x-7 gap-y-9 md:grid-cols-2 lg:grid-cols-3">{FLAGSHIP_VISUAL_ARTICLES.slice(1).map(article => <ArticleCard key={article.slug} article={article} onClick={() => trackHomepageNavigation("featured_article", article.slug, `/articles/${article.slug}`)} />)}</div>
-      <div className="mt-8 flex flex-wrap gap-6 text-sm font-semibold text-primary"><Link to="/articles" className="underline underline-offset-4">Browse all articles</Link><Link to="/articles#visual-explainers" className="underline underline-offset-4">Explore the visual explainers</Link></div>
+      <div className="publication-front-page">
+        <ArticleCard article={lead} featured onClick={() => onStoryClick(lead.slug)} />
+        <section className="publication-latest" aria-labelledby="latest-stories-heading">
+          <h2 id="latest-stories-heading" className="publication-kicker mb-4">Recent reporting &amp; guides</h2>
+          <div>{latest.map(article => <ArticleCard key={article.slug} article={article} variant="brief" onClick={() => onStoryClick(article.slug)} />)}</div>
+        </section>
+      </div>
     </section>
-    <section className="container mb-12" aria-labelledby="visual-discovery-heading">
-      <div className="visual-discovery grid gap-6 border-y border-border py-7 md:grid-cols-[1fr_2fr]">
-        <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">See how it works</p><h2 id="visual-discovery-heading" className="mt-3 font-display text-3xl">Follow the system, one step at a time.</h2></div>
-        <div className="grid gap-5 sm:grid-cols-3">{[
-          ["01", "From charge to payment", "Follow the layers between a hospital charge and what a patient owes.", "/articles/allowed-amount-medical-bills#visual-bill-to-payment"],
-          ["02", "Medicare or Medicaid?", "See how the programs differ and where coverage can overlap.", "/articles/medicare-vs-medicaid-what-is-the-difference#visual-medicare-medicaid"],
-          ["03", "The path to rehab", "Trace the coverage questions behind a post-hospital handoff.", "/articles/does-medicare-cover-rehab-after-hospital-stay#visual-medicare-snf"],
-        ].map(([number, title, description, href]) => <Link key={href} to={href} className="group block border-l-2 border-primary/30 pl-4"><span className="font-display text-3xl text-primary" aria-hidden="true">{number}</span><h3 className="mt-2 font-display text-xl font-bold group-hover:underline">{title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p><span className="mt-3 inline-block text-sm font-semibold text-primary underline underline-offset-4">View explainer</span></Link>)}</div>
+
+    <section className="visual-discovery" aria-labelledby="visual-discovery-heading">
+      <div className="container py-8 md:py-11">
+        <div className="publication-section-rule flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+          <h2 id="visual-discovery-heading" className="publication-section-title">Visual explainers</h2>
+          <a href={visualIndexPath} className="publication-link text-sm font-semibold" onClick={() => trackHomepageNavigation("visual_explainer", "visual_explainers", visualIndexPath)}>Explore the visual explainers</a>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">{visualHighlights.map(({ id, Icon, title, description, labels }) => (
+          <Link key={id} to={visualHref(id)} className="visual-discovery-card" onClick={() => trackHomepageNavigation("visual_explainer", id, visualHref(id))}>
+            <div className="visual-discovery-sketch" aria-hidden="true">
+              <Icon size={20} strokeWidth={1.6} />
+              <div>{labels.map(label => <span key={label}>{label}</span>)}</div>
+            </div>
+            <h3>{title}</h3>
+            <p>{description}</p>
+            <ArrowRight className="mt-auto h-4 w-4 text-primary" aria-hidden="true" />
+          </Link>
+        ))}</div>
+      </div>
+    </section>
+
+    <section className="container publication-featured py-10 md:py-14" aria-labelledby="essential-reading-heading">
+      <div className="publication-section-rule flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+        <h2 id="essential-reading-heading" className="publication-section-title">Essential reading</h2>
+        <Link to="/articles" className="publication-link text-sm font-semibold">Browse all articles</Link>
+      </div>
+      <div className="grid gap-x-7 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+        {FLAGSHIP_VISUAL_ARTICLES.slice(1).map(article => <ArticleCard key={article.slug} article={article} onClick={() => onStoryClick(article.slug)} />)}
       </div>
     </section>
 
@@ -231,7 +271,7 @@ const Index = () => (
         buttonLabel="Join the monthly list"
       />
     </section>
-  </>
+  </div>
 );
 
 export default Index;

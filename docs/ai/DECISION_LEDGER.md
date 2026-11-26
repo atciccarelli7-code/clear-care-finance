@@ -316,3 +316,8 @@ This ledger records material strategic, product, technical, editorial, commercia
 - Use original disclosed conceptual cover illustrations, serif editorial headings and a lead-story homepage; preserve content, URLs, tools and commercial boundaries. Supersedes only the earlier D-025 no-redesign scope for this new assignment.
 - Evidence, independent challenge, validation and release: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`.
 - Reassess on image failure, performance/representation issues, or settled 28/90-day audience evidence.
+
+### CAF-D-027 — Use the existing archive as the visual-explainer directory
+
+- Date: 2026-11-26. Status: EXPERIMENT. Surface three decision-focused visuals on the homepage, link directly to existing figures, and route browsing through the existing archive. Add curated related reads to illustrated reporting and rank other suggestions within the relevant desk.
+- Preserve the existing content and route inventory. Revisit after a full 28-day reading and explainer-navigation cohort or evidence of discovery or performance regressions.

@@ -10,6 +10,9 @@ export type HomepageNavigationType =
   | "starting_path"
   | "featured_topic"
   | "featured_article"
+  | "editorial_desk"
+  | "supporting_utility"
+  | "visual_explainer"
   | "specialty_hub"
   | "section_browse"
   | "closing_cta";

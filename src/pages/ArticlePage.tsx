@@ -1,5 +1,6 @@
 import { VisualExplainer } from "@/components/visual-explainers/article-visuals/VisualExplainer";
-import { visualForArticle } from "@/components/visual-explainers/article-visuals/visualRoutes";
+import { visualForArticle, visualHref } from "@/components/visual-explainers/article-visuals/visualRoutes";
+import { EditorialReadNext } from "@/components/shared/EditorialReadNext";
 import { EditorialCover } from "@/components/shared/EditorialCover";
 import { EDITORIAL_COVERS } from "@/data/editorialCovers";
 import { Fragment } from "react";
@@ -647,9 +648,9 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
 
   return (
     <>
-      <PageHero className={EDITORIAL_COVERS[article.slug] ? "editorial-article-heading" : undefined} eyebrow={article.category} title={article.title} description={article.promise} compact={storyFirst}>
+      <PageHero className="editorial-article-heading" eyebrow={article.category} title={article.title} description={article.promise} compact>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          {storyFirst && (
+          {(storyFirst || EDITORIAL_COVERS[article.slug]) && (
             <Link to="/about" className="font-semibold text-primary underline-offset-4 hover:underline">
               {article.author ?? AUTHOR_NAME}
             </Link>
@@ -661,6 +662,7 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
             Reviewed <time dateTime={article.lastReviewedAt}>{article.lastReviewedAt}</time>
           </a>
         )}
+        {visualId && <Link to={visualHref(visualId)} className="publication-link text-sm font-semibold">Jump to visual explainer</Link>}
         {heroAction && (
           <Button asChild variant="hero">
             <DirectionalActionLink
@@ -674,7 +676,7 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
         )}
       </PageHero>
 
-      <EditorialCover slug={article.slug} priority caption className="container max-w-5xl pt-6" sizes="(min-width: 1024px) 960px, 100vw" />
+      {!storyFirst && <EditorialCover slug={article.slug} priority caption className="container max-w-5xl pt-6" sizes="(min-width: 1024px) 960px, 100vw" />}
 
       <article className={storyFirst ? "container max-w-3xl space-y-8 py-6 md:space-y-12 md:py-10" : "container max-w-3xl space-y-8 py-8 md:space-y-12 md:py-16"}>
         {!storyFirst && (<>
@@ -739,7 +741,10 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
                     )}
                   </div>
                 </section>
-                {storyFirst && index === 0 && systemMap}
+                {storyFirst && index === 0 && <>
+                  <EditorialCover slug={article.slug} caption sizes="(min-width: 768px) 720px, 100vw" />
+                  {systemMap}
+                </>}
                 {hasBillWalkthrough && section.callout && (
                   <NextStepCards title="Review your own bills" description="Use the bill and its matching EOB to prepare your next call." cards={nextSteps} columns="two" />
                 )}
@@ -946,6 +951,12 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
             successMessage="You are on the CAF list. Thank you for reading."
           />
         )}
+
+        <EditorialReadNext
+          article={article}
+          catalog={articleCatalog}
+          existingLinks={[...nextSteps.map(step => step.href), ...(orderedOpenEnrollmentStep ? [orderedOpenEnrollmentStep.href] : [])]}
+        />
 
         <DisclaimerBox />
 

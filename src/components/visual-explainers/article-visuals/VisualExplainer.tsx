@@ -35,16 +35,19 @@ export function VisualExplainer({ id, headingLevel = 2 }: { id: VisualId; headin
 
 export function VisualExplainerIndex() {
   return (
-    <section id="visual-explainers" aria-labelledby="visual-explainers-heading" className="mb-10 scroll-mt-28 border-y border-border py-6">
-      <h2 id="visual-explainers-heading" className="font-display text-2xl font-bold tracking-tight md:text-3xl">Visual explainers</h2>
-      <div className="mt-4 grid gap-5 md:grid-cols-2">
+    <section id="visual-explainers" aria-labelledby="visual-explainers-heading" className="mb-12 scroll-mt-28">
+      <div className="publication-section-rule">
+        <h2 id="visual-explainers-heading" className="publication-section-title">Visual explainers</h2>
+        <p className="mt-2 text-sm text-muted-foreground">Follow enrollment decisions, coverage rules, and hospital bills step by step.</p>
+      </div>
+      <div className="grid gap-5 md:grid-cols-2">
         {groups.map(group => (
-          <div key={group.name}>
-            <h3 className="font-semibold text-foreground">{group.name}</h3>
-            <ul className="mt-1">
+          <div key={group.name} className="visual-index-group">
+            <h3 className="publication-kicker">{group.name}</h3>
+            <ul className="mt-2">
               {group.ids.map(id => (
                 <li key={id}>
-                  <Link to={visualHref(id)} className="inline-block py-1.5 text-sm text-primary underline underline-offset-4">{visuals[id].title}</Link>
+                  <Link to={visualHref(id)} className="visual-index-link">{visuals[id].title}</Link>
                 </li>
               ))}
             </ul>

@@ -20,16 +20,6 @@ const routePath = (route: string) => route.split("#")[0] || "/";
 
 const isServiceActive = (pathname: string, route: string) => pathname === routePath(route);
 
-const LogoMark = () => (
-  <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-primary/30 bg-primary text-[0.62rem] font-extrabold tracking-tight text-primary-foreground">
-    CAF
-    <span aria-hidden="true" className="absolute right-1 top-1 h-2.5 w-2.5 rounded-sm bg-primary-foreground/12">
-      <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-primary-foreground/80" />
-      <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-primary-foreground/80" />
-    </span>
-  </span>
-);
-
 const ServiceLink = ({
   item,
   pathname,
@@ -152,12 +142,11 @@ export const Header = () => {
       <div className="container flex h-16 items-center justify-between gap-3 xl:max-w-[84rem]">
         <Link
           to="/"
-          className="flex min-w-0 shrink-0 items-center gap-2.5 rounded-lg font-display font-semibold tracking-tight text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="caf-masthead-brand"
           aria-label="Community Acquired Finance home"
         >
-          <LogoMark />
-          <span className="hidden whitespace-nowrap text-base 2xl:inline">Community Acquired Finance</span>
-          <span className="whitespace-nowrap text-base 2xl:hidden">CAF</span>
+          <span aria-hidden="true">CAF</span>
+          <span>Community Acquired Finance</span>
         </Link>
 
         <nav className="hidden min-w-max flex-1 items-center justify-center gap-0.5 xl:flex" aria-label="Primary navigation">
@@ -246,7 +235,7 @@ export const Header = () => {
       </div>
 
       {mobileOpen && (
-        <div id="mobile-menu" className="mobile-menu-panel border-t border-border bg-background animate-fade-in xl:hidden">
+        <div id="mobile-menu" className="mobile-menu-panel border-t border-border bg-background xl:hidden">
           <nav
             ref={mobileMenuRef}
             className="container mobile-menu-scroll py-4"

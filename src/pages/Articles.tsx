@@ -10,20 +10,14 @@ import {
   type EditorialAreaId,
   getEditorialAreaId,
 } from "@/data/editorialLibrary";
-import { PageHero } from "@/components/shared/PageHero";
+import { FLAGSHIP_VISUAL_ARTICLES } from "@/data/flagshipVisualArticles";
+import { visualIndexPath } from "@/components/visual-explainers/article-visuals/visualRoutes";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { cn } from "@/lib/utils";
 import { publishedArticles } from "@/lib/article-status";
 import { useSeo } from "@/lib/seo";
 
-const featuredArticleSlugs = [
-  "why-hospitals-become-the-systems-shock-absorber",
-  "home-with-family-is-not-a-free-care-plan",
-  "20-dollar-tylenol-hospital-prices",
-  "what-nonprofit-hospital-actually-means",
-  "why-hospitals-care-about-length-of-stay",
-  "why-just-send-them-to-rehab-is-not-simple",
-] as const;
+const featuredArticleSlugs = new Set(FLAGSHIP_VISUAL_ARTICLES.map(article => article.slug));
 
 const Articles = () => {
   useSeo({
@@ -36,14 +30,14 @@ const Articles = () => {
   const [area, setArea] = useState<EditorialAreaId | "All">("All");
   const published = useMemo(() => publishedArticles(ALL_ARTICLES), []);
   const featuredArticles = useMemo(
-    () => featuredArticleSlugs
+    () => [...featuredArticleSlugs]
       .map((slug) => published.find((article) => article.slug === slug))
       .filter((article): article is (typeof published)[number] => Boolean(article)),
     [published],
   );
   const primaryLibrary = useMemo(
     () => published.filter(
-      (article) => !featuredArticleSlugs.includes(article.slug as (typeof featuredArticleSlugs)[number])
+      (article) => !featuredArticleSlugs.has(article.slug)
         && !DE_EMPHASIZED_ARTICLE_SLUGS.has(article.slug),
     ),
     [published],
@@ -90,11 +84,18 @@ const Articles = () => {
 
   return (
     <>
-      <PageHero
-        compact
-        title="CAF Article Library"
-        description="RN-led reporting and practical guides on healthcare costs, coverage, and care transitions."
-      />
+      <header className="publication-intro">
+        <div className="container publication-masthead">
+          <p className="publication-kicker">Community Acquired Finance</p>
+          <div className="publication-masthead-grid">
+            <h1>CAF Article Library</h1>
+            <div>
+              <p className="publication-deck">RN-led reporting and practical guides on healthcare costs, coverage, and care transitions.</p>
+              <Link to={visualIndexPath} onClick={() => { setQ(""); setArea("All"); }} className="publication-link mt-3 inline-block text-sm font-semibold">Jump to visual explainers</Link>
+            </div>
+          </div>
+        </div>
+      </header>
 
       <section className="container py-6 md:py-10">
         <div className="mb-5">
@@ -115,7 +116,7 @@ const Articles = () => {
           />
         </div>
 
-        <div className="mb-12 flex flex-wrap gap-2" aria-label="Filter the core article library">
+        <div className="mb-12 flex flex-wrap gap-2" role="group" aria-label="Filter the core article library">
           {[{ id: "All" as const, label: "All core articles" }, ...EDITORIAL_AREAS].map((editorialArea) => (
             <button
               key={editorialArea.id}
@@ -136,19 +137,15 @@ const Articles = () => {
 
         {browsingAll && (
           <>
+            <section className="mb-12" aria-labelledby="archive-essential-heading">
+              <div className="publication-section-rule">
+                <h2 id="archive-essential-heading" className="publication-section-title">Essential reading</h2>
+              </div>
+              <div className="grid gap-x-7 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+                {featuredArticles.map(article => <ArticleCard key={article.slug} article={article} />)}
+              </div>
+            </section>
             <VisualExplainerIndex />
-            <div className="mb-12">
-              <div className="max-w-3xl">
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Featured now</div>
-                <h2 className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">Inside hospitals: prices, capacity, classification, and the work after discharge</h2>
-                <p className="mt-3 leading-relaxed text-muted-foreground">
-                  These pieces begin with Andrew's nursing and care-transition observations, then add the payment rules, primary evidence, and practical implications that are usually missing from the conversation.
-                </p>
-              </div>
-              <div className="mt-7 grid gap-5 md:grid-cols-2">
-                {featuredArticles.map((article) => <ArticleCard key={article.slug} article={article} />)}
-              </div>
-            </div>
 
             <nav aria-label="CAF editorial subjects" className="mb-12">
               <div className="mb-5 max-w-3xl">
@@ -183,12 +180,12 @@ const Articles = () => {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((a) => (
-            <ArticleCard key={a.slug} article={a} />
+            <ArticleCard key={a.slug} article={a} headingLevel={2} />
           ))}
         </div>
 
         {filtered.length === 0 && (
-          <div className="text-center py-16 text-muted-foreground">No articles match that search yet.</div>
+          <div role="status" className="text-center py-16 text-muted-foreground">No articles match that search yet.</div>
         )}
 
         {browsingAll && additionalGuides.length > 0 && (

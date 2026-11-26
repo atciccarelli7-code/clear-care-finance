@@ -184,7 +184,7 @@ test("makes the article library discoverable and searchable", async ({ page }) =
   const search = page.getByRole("textbox", { name: "Search the CAF article library" });
   await expect(search).toBeInViewport();
   await expect(
-    page.getByRole("heading", { name: /Inside hospitals: prices, capacity, classification, and the work after discharge/i }),
+    page.getByRole("heading", { name: "Essential reading" }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "The questions CAF helps you understand" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Explore the core library" })).toBeVisible();

@@ -9,6 +9,7 @@ export type NextStepCard = {
   description: string;
   href: string;
   cta?: string;
+  reloadDocument?: boolean;
 };
 
 interface NextStepCardsProps {
@@ -54,6 +55,7 @@ export const NextStepCards = ({
           <Link
             key={`${card.href}-${card.title}`}
             to={card.href}
+            reloadDocument={card.reloadDocument}
             onClick={() => {
               trackSiteEvent("next_step_click", {
                 event_category: "navigation",

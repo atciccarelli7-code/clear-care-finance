@@ -10,7 +10,7 @@ export function EditorialCover({ slug, priority = false, caption = false, classN
       <img src={coverPath(cover.file)}
         srcSet={[480, 960, 1440].map(width => `${coverPath(cover.file, width)} ${width}w`).join(", ")}
         sizes={sizes} width={1440} height={960} alt={caption ? cover.alt : ""}
-        loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} decoding="async" />
+        loading={priority ? "eager" : "lazy"} {...(priority && { fetchpriority: "high" })} decoding="async" />
       {caption && <figcaption>CAF editorial illustration · Created with AI assistance. Conceptual; does not depict an actual event.</figcaption>}
     </figure>
   );

@@ -1,5 +1,7 @@
 /** Original CAF conceptual illustrations. Provenance and prompts: docs/editorial-art.md. */
 export const EDITORIAL_COVERS: Record<string, { file: string; alt: string }> = {
+  "patient-in-the-bed-and-patient-in-the-chart": { file: "bed-and-chart", alt: "Conceptual illustration: a hospital bed and patient at left are represented on a clipboard at right." },
+  "what-happens-while-hospital-is-waiting-on-insurance": { file: "waiting-on-insurance", alt: "Conceptual illustration: forms wait in a tray beside a hospital corridor, where shadows suggest a clock." },
   "why-hospitals-become-the-systems-shock-absorber": { file: "shock-absorber", alt: "Conceptual illustration: care pathways converge on a hospital supported by a spring." },
   "home-with-family-is-not-a-free-care-plan": { file: "family-care", alt: "Conceptual illustration: care tasks travel from a hospital into a home with medication, calendars and paperwork." },
   "20-dollar-tylenol-hospital-prices": { file: "tylenol", alt: "Conceptual illustration: one small tablet sits beneath layers of billing paperwork and hospital infrastructure." },

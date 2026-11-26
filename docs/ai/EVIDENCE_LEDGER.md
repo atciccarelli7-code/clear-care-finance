@@ -334,3 +334,8 @@ Use this structure when a material fact requires ongoing governance:
 
 - Date: 2026-11-25. DIRECT-CURRENT: fresh main d02de4f matches READY production dpl_7r2cSXMDRZq93p2qoeQi96KZkCE4; live desktop/mobile before inspection and local built after inspection. Six original conceptual artworks, 24 derivatives; provenance `docs/editorial-art.md`.
 - Validation and final release evidence: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`. No new readership/AdSense approval evidence; no business uplift claim.
+
+### CAF-E-024 — Reading and visual-discovery implementation
+
+- Date: 2026-11-26. DIRECT-CURRENT: the live homepage and main 10a134bd already contained the six-cover baseline. The follow-up preserves it, adds two illustrated stories and keeps decisions anchored to the existing figure routes. Build reported 192 canonical routes, 192 sitemap URLs, and 39 permanent redirects.
+- Source: live publication, repository registrations and [reading experience work packet](../work-packets/2026-11-26-editorial-reading-experience.md). Post-release audience effects remain unmeasured.

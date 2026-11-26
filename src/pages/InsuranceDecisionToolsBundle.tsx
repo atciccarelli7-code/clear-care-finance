@@ -328,7 +328,7 @@ export const HospitalDischargeCoverageGuide = () => {
             <CardContent><ul className="space-y-3 text-sm text-muted-foreground">{checklist.map((item) => <li key={item} className="flex gap-2"><ClipboardCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{item}</li>)}</ul><Button className="mt-5" type="button" variant="outline" onClick={printPage}><Printer className="h-4 w-4" /> Print/save</Button></CardContent>
           </Card>
         </section>
-        <SourceBox sources={[{ title: "Medicare.gov — Skilled nursing facility care", url: "https://www.medicare.gov/coverage/skilled-nursing-facility-care" }, { title: "Medicare.gov — Home health services", url: "https://www.medicare.gov/coverage/home-health-services" }, { title: "Medicare.gov — Durable medical equipment", url: "https://www.medicare.gov/coverage/durable-medical-equipment-dme-coverage" }]} />
+        <SourceBox sources={[{ title: "Medicare.gov — Skilled nursing facility care", url: "https://www.medicare.gov/coverage/skilled-nursing-facility-care" }, { title: "Medicare.gov — Home health services", url: "https://www.medicare.gov/coverage/home-health-services" }, { title: "Medicare.gov — Durable medical equipment", url: "https://www.medicare.gov/publications/10116-your-medicare-benefits.pdf" }]} />
       </div>
     </>
   );
@@ -610,7 +610,7 @@ export const InsuranceMarketingRealityPage = () => {
         </section>
         <ToolLinkGrid />
         <SourceBox sources={[
-          { title: "Medicare.gov — Medicare Advantage basics", url: "https://www.medicare.gov/health-drug-plans/health-plans/your-coverage-options/medicare-advantage" },
+          { title: "Medicare.gov — Medicare Advantage basics", url: "https://www.medicare.gov/health-drug-plans/health-plans/your-health-plan-options" },
           { title: "Medicare.gov — Compare health and drug plans", url: "https://www.medicare.gov/plan-compare/" },
         ]} />
       </div>

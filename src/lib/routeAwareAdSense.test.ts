@@ -6,6 +6,7 @@ import {
   isAdFreePath,
   syncAdSenseForPath,
 } from "@/lib/routeAwareAdSense";
+import { EDITORIAL_LIBRARY_CLASSIFICATIONS } from "@/data/editorialLibraryAudit";
 import { getExplicitAdEligibleRoutes } from "@/lib/contentGovernance";
 
 const REVIEWED_ARTICLE_PATH = "/articles/how-to-read-an-eob";
@@ -76,7 +77,6 @@ describe("route-aware AdSense guard", () => {
     ["reviewed EOB article", REVIEWED_ARTICLE_PATH],
     ["reviewed prescription coverage article", "/articles/prescription-coverage-open-enrollment-checklist"],
     ["reviewed retirement article", "/articles/how-hospital-403b-matching-works"],
-    ["reviewed wealth article", "/articles/cash-vs-investing-when-you-feel-behind"],
     ["reviewed open-enrollment article", "/articles/open-enrollment-mistakes-healthcare-workers"],
     ["reviewed medical-billing explainer", "/articles/facility-fee-vs-professional-fee"],
     ["reviewed shift-spending article", "/articles/hospital-cafe-habit"],
@@ -87,9 +87,15 @@ describe("route-aware AdSense guard", () => {
 
   it("exposes the reconciled publisher inventory without duplicate routes", () => {
     const routes = getExplicitAdEligibleRoutes();
-    expect(routes).toHaveLength(42);
+    expect(routes).toContain(REVIEWED_ARTICLE_PATH);
     expect(new Set(routes).size).toBe(routes.length);
     expect(routes.every((route) => route.startsWith("/articles/"))).toBe(true);
+  });
+
+  it.each(EDITORIAL_LIBRARY_CLASSIFICATIONS["DE-EMPHASIZE"])("keeps legacy editorial content ad-free: %s", (slug) => {
+    const path = `/articles/${slug}`;
+    expect(syncAdSenseForPath(path, `https://communityacquiredfinance.com${path}`)).toBe("blocked");
+    expect(document.getElementById(ADSENSE_SCRIPT_ID)).toBeNull();
   });
 
   it("loads the managed script once on eligible publisher-content", () => {

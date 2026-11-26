@@ -106,7 +106,7 @@ const documentRoutes: DocumentRoute[] = [
     href: "/tools/medical-bill-review-flow",
     cta: "Start the bill review",
     official:
-      "https://www.irs.gov/charities-non-profits/requirements-for-501c3-hospitals-under-the-affordable-care-act-section-501r",
+      "https://www.irs.gov/charities-non-profits/charitable-organizations/requirements-for-501c3-hospitals-under-the-affordable-care-act-section-501r",
     officialLabel: "IRS hospital requirements",
   },
   {
@@ -188,7 +188,7 @@ const documentRoutes: DocumentRoute[] = [
     href: "/articles/check-hospital-financial-assistance-before-paying",
     cta: "Open the assistance guide",
     official:
-      "https://www.irs.gov/charities-non-profits/requirements-for-501c3-hospitals-under-the-affordable-care-act-section-501r",
+      "https://www.irs.gov/charities-non-profits/charitable-organizations/requirements-for-501c3-hospitals-under-the-affordable-care-act-section-501r",
     officialLabel: "IRS Section 501(r)",
   },
   {
@@ -215,7 +215,7 @@ const documentRoutes: DocumentRoute[] = [
     next: "Verify the account and preserve written records before choosing a response.",
     href: "/tools/medical-bill-review-flow",
     cta: "Organize the review",
-    official: "https://www.consumerfinance.gov/consumer-tools/medical-debt/",
+    official: "https://www.consumerfinance.gov/ask-cfpb/is-there-financial-help-for-my-medical-bills-en-2124/",
     officialLabel: "CFPB medical-debt resources",
   },
   {
@@ -300,11 +300,11 @@ const officialSources = [
   ],
   [
     "IRS Hospital Requirements",
-    "https://www.irs.gov/charities-non-profits/requirements-for-501c3-hospitals-under-the-affordable-care-act-section-501r",
+    "https://www.irs.gov/charities-non-profits/charitable-organizations/requirements-for-501c3-hospitals-under-the-affordable-care-act-section-501r",
   ],
   [
     "CFPB Medical Debt",
-    "https://www.consumerfinance.gov/consumer-tools/medical-debt/",
+    "https://www.consumerfinance.gov/ask-cfpb/is-there-financial-help-for-my-medical-bills-en-2124/",
   ],
   [
     "Medicare Appeals",

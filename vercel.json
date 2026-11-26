@@ -36,6 +36,7 @@
     { "source": "/insurance/discharge-coverage", "destination": "/insurance/hospital-discharge-coverage", "permanent": true },
     { "source": "/insurance/discharge-checklist", "destination": "/insurance/hospital-discharge-coverage/printable", "permanent": true },
     { "source": "/medicare-medicaid", "destination": "/medicare-care-costs", "permanent": true },
+    { "source": "/topics/discounts-perks", "destination": "/articles/healthcare-worker-discounts", "permanent": true },
     { "source": "/topics/medicare-care-costs", "destination": "/medicare-care-costs", "permanent": true },
     { "source": "/sources", "destination": "/methodology", "permanent": true },
     { "source": "/disclaimer", "destination": "/disclosures", "permanent": true },

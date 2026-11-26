@@ -117,7 +117,7 @@ export const SOURCE_PRESETS: Record<string, Source> = {
   medicareDme: {
     name: "Medicare.gov",
     pageTitle: "Durable medical equipment coverage",
-    url: "https://www.medicare.gov/coverage/durable-medical-equipment-dme-coverage",
+    url: "https://www.medicare.gov/publications/10116-your-medicare-benefits.pdf",
     note: "Official Medicare coverage guidance for equipment used at home.",
   },
   medicareParts: {
@@ -153,13 +153,13 @@ export const SOURCE_PRESETS: Record<string, Source> = {
   medicaidEligibility: {
     name: "Medicaid.gov",
     pageTitle: "Medicaid eligibility",
-    url: "https://www.medicaid.gov/medicaid/eligibility/index.html",
+    url: "https://www.medicaid.gov/medicaid/eligibility-policy",
     note: "Federal eligibility framework; each state administers its own program within federal rules.",
   },
   medicaidLtss: {
     name: "Medicaid.gov",
     pageTitle: "Long-term services and supports",
-    url: "https://www.medicaid.gov/medicaid/long-term-services-supports/index.html",
+    url: "https://www.medicaid.gov/medicaid/long-term-services-supports",
     note: "Federal overview of Medicaid long-term services and supports, with state-administered coverage.",
   },
   cmsMedicaidCoordination: {

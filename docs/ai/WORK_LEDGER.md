@@ -455,3 +455,9 @@ This ledger records the outcome and reusable learning from material assignments.
 - Date: 2026-11-25. Created six original disclosed cover illustrations and responsive/social derivatives; homepage lead-story hierarchy, related card imagery and existing visual-explainer discovery. Preserves all 192 canonicals and article content.
 - Reusable improvement: shared cover registry/component, deferred social/schema updater within the artwork registry and CI browser suite. Existing entry cap retained by deferring optional metadata work; no budget raised.
 - Validation, baseline type/Windows fixture warnings and release evidence: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`.
+
+### CAF-W-024 — AdSense editorial remediation
+
+- Date: 2026-11-26. Audited 192 production sitemap pages and verified 11 missing citation URLs. Consolidated the discounts topic into its article, rebuilt the medical costs topic around matching a bill to a claim, and made hospital assistance thresholds clearer on the directory cards and policy pages.
+- Inventory: 192 to 191 canonical routes, 42 to 35 ad-eligible articles. Legacy articles remain accessible. The AdSense check now guards the editorial disposition rather than a fixed count.
+- Evidence, operating decisions and release gates: `docs/work-packets/2026-11-26-adsense-editorial-remediation.md`. Reassess after the next AdSense decision or evidence of a search or reader regression.

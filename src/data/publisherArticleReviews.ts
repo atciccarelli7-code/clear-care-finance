@@ -8,6 +8,7 @@ export type PublisherArticleReview = {
   reviewedAt: string;
   nextReviewAt: string;
   reviewScope: string;
+  includeArticleReviewMetadata?: true;
   reason: string;
 };
 
@@ -27,16 +28,9 @@ const AD_ELIGIBLE_SLUGS = new Set([
   "how-hospital-403b-matching-works",
   "how-to-pick-retirement-investments-at-work",
   "healthcare-worker-money-map",
-  "how-healthcare-workers-can-invest-without-picking-stocks",
-  "savings-rate-that-actually-changes-your-life",
   "roth-vs-traditional-403b-healthcare-workers",
-  "can-healthcare-workers-reach-financial-independence",
-  "cash-vs-investing-when-you-feel-behind",
-  "can-you-live-off-dividends-passive-income-guide",
   "money-stress-after-hard-shift",
   "earn-more-without-burning-out-bedside",
-  "managing-money-has-never-been-easier-or-harder",
-  "use-credit-cards-without-credit-card-debt",
   "open-enrollment-mistakes-healthcare-workers",
   "premium-deductible-out-of-pocket-open-enrollment",
   "spouse-family-health-insurance-open-enrollment",
@@ -100,6 +94,13 @@ const SENSITIVE_SLUGS = new Set([
 ]);
 
 const EDITORIAL_SLUGS = new Set([
+  "how-healthcare-workers-can-invest-without-picking-stocks",
+  "savings-rate-that-actually-changes-your-life",
+  "can-healthcare-workers-reach-financial-independence",
+  "cash-vs-investing-when-you-feel-behind",
+  "can-you-live-off-dividends-passive-income-guide",
+  "managing-money-has-never-been-easier-or-harder",
+  "use-credit-cards-without-credit-card-debt",
   "diagnosis-explained",
   "obbb-overtime-tax-deduction-healthcare-workers",
   "workplace-benefits-definitions",

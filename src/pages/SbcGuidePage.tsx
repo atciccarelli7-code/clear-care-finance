@@ -68,7 +68,7 @@ const redFlags = [
 ];
 
 const sourceLinks = [
-  ["CMS — Summary of Benefits and Coverage resources", "https://www.cms.gov/cciio/resources/forms-reports-and-other-resources/summary-of-benefits-and-coverage-and-uniform-glossary"],
+  ["CMS — Summary of Benefits and Coverage resources", "https://www.cms.gov/marketplace/health-plans-issuers/summary-benefits-coverage"],
   ["HealthCare.gov — Glossary of health coverage and medical terms", "https://www.healthcare.gov/sbc-glossary/"],
   ["HealthCare.gov — Total health care costs", "https://www.healthcare.gov/choose-a-plan/your-total-costs/"],
   ["HealthCare.gov — Plan and network types", "https://www.healthcare.gov/choose-a-plan/plan-types/"],

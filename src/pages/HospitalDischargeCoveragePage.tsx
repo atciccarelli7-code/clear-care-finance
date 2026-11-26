@@ -149,7 +149,7 @@ const futurePlanChecks = [
 
 const sourceLinks = [
   ["Medicare.gov — Inpatient or outpatient hospital status", "https://www.medicare.gov/coverage/inpatient-hospital-care/inpatient-outpatient-status"],
-  ["Medicare.gov — Durable medical equipment coverage", "https://www.medicare.gov/coverage/durable-medical-equipment-dme-coverage"],
+  ["Medicare.gov — Durable medical equipment coverage", "https://www.medicare.gov/publications/10116-your-medicare-benefits.pdf"],
   ["Medicare.gov — Skilled nursing facility care", "https://www.medicare.gov/coverage/skilled-nursing-facility-care"],
   ["Medicare.gov — Home health services", "https://www.medicare.gov/coverage/home-health-services"],
   ["Medicare.gov — Appeals and fast appeals", "https://www.medicare.gov/providers-services/claims-appeals-complaints/appeals"],

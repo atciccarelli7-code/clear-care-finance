@@ -70,7 +70,7 @@ const sourceLinks = [
   ["HealthCare.gov — Health plan categories", "https://www.healthcare.gov/choose-a-plan/plans-categories/"],
   ["HealthCare.gov — Plan and network types", "https://www.healthcare.gov/choose-a-plan/plan-types/"],
   ["HealthCare.gov — Total health care costs", "https://www.healthcare.gov/choose-a-plan/your-total-costs/"],
-  ["CMS — Summary of Benefits and Coverage resources", "https://www.cms.gov/cciio/resources/forms-reports-and-other-resources/summary-of-benefits-and-coverage-and-uniform-glossary"],
+  ["CMS — Summary of Benefits and Coverage resources", "https://www.cms.gov/marketplace/health-plans-issuers/summary-benefits-coverage"],
   ["HealthCare.gov — Find local help", "https://localhelp.healthcare.gov/"],
 ];
 

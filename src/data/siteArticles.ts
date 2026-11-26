@@ -801,7 +801,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
   },
   {
     slug: "healthcare-worker-discounts",
-    title: "Healthcare Worker Discounts and Perks Directory",
+    title: "How to Compare Healthcare Worker Discounts",
     category: "Workplace Benefits",
     readTime: "4 min read",
     promise: "Use healthcare discounts without letting them become an excuse to buy things you did not need.",
@@ -810,7 +810,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
     body: [
       "A healthcare worker discount is only a win if it lowers the price of something you already wanted or needed.",
       "Many discount lists become shopping traps. They make you feel like you are saving money while nudging you toward purchases that were never in your plan.",
-      "This guide is intentionally not a spammy coupon wall. It is a filter for using discounts wisely."
+      "Check the employer benefits portal for any uniform allowance or approved vendor before comparing retailer discounts. If your unit requires a certain color or style, confirm the item meets that policy and can be returned if it does not fit."
     ],
     sections: [
       {
@@ -855,8 +855,8 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       }
     ],
     example: {
-      title: "Discount that actually helps",
-      body: "A nurse needs new work shoes and already planned to spend about $120. A verified healthcare discount brings a durable pair to $96 with free returns. That is a real win. Buying a $180 jacket because it is discounted to $140 is not the same thing if the jacket was never part of the plan."
+      title: "Compare two checkout totals for the same work shoes",
+      body: "A nurse needs work shoes. One retailer takes 20% off a $120 pair, bringing it to $96, then adds $12 shipping for $108 before tax. A second retailer charges $104 with free shipping and free returns. If the size and terms work at both stores, the second option saves $4 up front and reduces the cost of trying the shoes on."
     },
     commonMistakes: [
       "Treating discounts as income instead of lower prices.",
@@ -866,7 +866,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       "Giving sensitive information to questionable coupon sites."
     ],
     takeaway: "Use healthcare discounts as a price reducer, not a shopping trigger. The best discount is on something you already planned to buy, at a final price that beats the alternatives.",
-    sources: [SOURCE_PRESETS.federalReserve],
+    sources: [{ name: "Federal Trade Commission", pageTitle: "Online Shopping", url: "https://consumer.ftc.gov/articles/online-shopping", note: "Compare total cost, verify the seller, and check the return policy." }],
   },
   {
     slug: "burnout-overspending-overeating",

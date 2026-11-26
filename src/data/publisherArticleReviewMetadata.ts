@@ -6,7 +6,7 @@ const REVIEW_BY_SLUG = new Map(PUBLISHER_ARTICLE_REVIEWS.map((review) => [review
 export const applyPublisherArticleReviewMetadata = (articles: Article[]): Article[] =>
   articles.map((article) => {
     const review = REVIEW_BY_SLUG.get(article.slug);
-    if (!review || review.disposition !== "ad-eligible") return article;
+    if (!review || (review.disposition !== "ad-eligible" && !review.includeArticleReviewMetadata)) return article;
 
     const nextReviewAt =
       article.nextReviewAt && article.nextReviewAt < review.nextReviewAt

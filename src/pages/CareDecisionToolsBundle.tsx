@@ -278,7 +278,7 @@ export const MedicarePlanVerificationChecklistPage = () => {
         <OfficialSources sources={[
           { id: "medicare_plan_finder", label: "Medicare Plan Finder", href: "https://www.medicare.gov/plan-compare/", note: "Official plan comparison, drug, pharmacy, and estimated-cost tool." },
           { id: "medicare_ship", label: "Find local SHIP counseling", href: "https://www.shiphelp.org/", note: "Free state-based Medicare counseling and assistance." },
-          { label: "Medicare coverage choices", href: "https://www.medicare.gov/health-drug-plans/health-plans/your-coverage-options", note: "Official overview of Original Medicare and Medicare Advantage choices." },
+          { label: "Medicare coverage choices", href: "https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/your-coverage-options", note: "Official overview of Original Medicare and Medicare Advantage choices." },
           { id: "medicare_turning_65", label: "Turning 65 timeline", href: "/medicare-care-costs/turning-65", note: "Connect enrollment timing, employer coverage, HSA, Part D, Medigap, and IRMAA questions." },
           { id: "medicare_cost_hub", label: "Medicare and care-cost hub", href: "/medicare-care-costs", note: "Review current cost references, coverage gaps, Medicaid, and long-term care context." },
         ]} onOpen={(handoffId) => trackReadinessJourneyEvent("decision_journey_handoff_opened", { journey_id: "medicare_plan_verification", handoff_id: handoffId })} />

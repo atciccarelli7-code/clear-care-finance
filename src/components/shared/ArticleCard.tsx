@@ -1,3 +1,4 @@
+import { EditorialCover } from "./EditorialCover";
 import type { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -10,17 +11,19 @@ type ArticleCardArticle = Pick<Article, "slug" | "title" | "category" | "readTim
 interface ArticleCardProps {
   article: ArticleCardArticle;
   onClick?: MouseEventHandler<HTMLAnchorElement>;
+  featured?: boolean;
 }
 
-export const ArticleCard = ({ article, onClick }: ArticleCardProps) => {
+export const ArticleCard = ({ article, onClick, featured = false }: ArticleCardProps) => {
   const specialTag = article.specialTag;
 
   return (
     <Link
       to={`/articles/${article.slug}`}
       onClick={onClick}
-      className="group relative flex min-w-0 max-w-full flex-col break-words rounded-xl border border-border bg-card/65 p-5 transition-smooth hover:border-primary/35 hover:bg-card md:p-6"
+      className={`editorial-story ${featured ? "editorial-story-lead" : ""} group relative flex min-w-0 max-w-full flex-col break-words transition-smooth`}
     >
+      <EditorialCover slug={article.slug} priority={featured} sizes={featured ? "(min-width: 1024px) 65vw, 100vw" : "(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"} />
       {specialTag && (
         <span className="absolute right-4 top-4 max-w-[9rem] rounded-md border border-primary/20 bg-primary-soft/70 px-2 py-1 text-[0.64rem] font-bold uppercase tracking-[0.12em] text-primary">
           {specialTag}

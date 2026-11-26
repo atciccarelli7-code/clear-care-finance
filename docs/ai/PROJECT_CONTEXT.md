@@ -122,3 +122,7 @@ These must be re-evaluated with current evidence rather than assumed:
 ## Context-maintenance rule
 
 Update this document only when stable platform context changes. Put individual choices in the decision ledger, current source status in the evidence ledger, and assignment outcomes in the work ledger. Remove or mark superseded statements instead of accumulating contradictions.
+
+## Editorial imagery
+
+The November 25 founder assignment authorizes a restrained professional publication treatment and six conceptual flagship cover illustrations. Artwork must have provenance, responsive derivatives, meaningful hero alt text and an explicit conceptual/AI-assistance caption. Preserve founder prose and sources. See `docs/editorial-art.md` and the November 25 visual-overhaul packet for current implementation/release evidence.

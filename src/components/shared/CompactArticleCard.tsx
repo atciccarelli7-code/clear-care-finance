@@ -1,3 +1,4 @@
+import { EditorialCover } from "./EditorialCover";
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock } from "lucide-react";
 import type { Article } from "@/data/articles";
@@ -11,6 +12,7 @@ export const CompactArticleCard = ({ article }: CompactArticleCardProps) => (
     to={`/articles/${article.slug}`}
     className="group flex min-w-0 max-w-full flex-col break-words rounded-2xl border border-border bg-card/80 p-4 shadow-card transition-smooth hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-hover md:p-5"
   >
+    <EditorialCover slug={article.slug} className="mb-4" />
     <div className="mb-2 inline-flex min-w-0 items-center gap-1.5 text-xs font-medium text-muted-foreground">
       <Clock className="h-3.5 w-3.5 shrink-0" />
       <span>{article.readTime}</span>

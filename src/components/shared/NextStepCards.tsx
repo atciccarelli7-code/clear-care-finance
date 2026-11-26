@@ -1,3 +1,4 @@
+import { EditorialCover } from "./EditorialCover";
 import { Link } from "react-router-dom";
 import { ArrowRight, Compass } from "lucide-react";
 import { trackSiteEvent } from "@/lib/analytics";
@@ -64,6 +65,7 @@ export const NextStepCards = ({
             }}
             className="group rounded-2xl border border-border bg-background/70 p-4 shadow-sm transition-smooth hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-card md:p-5"
           >
+            {card.href.startsWith("/articles/") && <EditorialCover slug={card.href.slice(10)} className="mb-4" />}
             {card.eyebrow && (
               <div className="mb-2 text-[0.66rem] font-bold uppercase tracking-[0.16em] text-secondary">{card.eyebrow}</div>
             )}

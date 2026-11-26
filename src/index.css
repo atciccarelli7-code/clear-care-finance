@@ -10,22 +10,22 @@
   :root {
     color-scheme: light;
 
-    --background: 42 30% 98%;
-    --background-soft: 150 20% 96%;
-    --section-bg: 150 14% 94%;
-    --foreground: 158 28% 11%;
+    --background: 42 41% 97%;
+    --background-soft: 42 24% 96%;
+    --section-bg: 42 18% 94%;
+    --foreground: 202 56% 15%;
 
     --card: 0 0% 100%;
     --card-warm: 45 38% 98%;
-    --card-foreground: 158 28% 11%;
+    --card-foreground: 202 56% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 158 28% 11%;
+    --popover-foreground: 202 56% 15%;
 
     /* Primary is an action semantic, not a generic decorative brand wash. */
-    --primary: 216 74% 40%;
+    --primary: 184 48% 27%;
     --primary-foreground: 0 0% 100%;
-    --primary-soft: 214 88% 95%;
+    --primary-soft: 174 25% 94%;
     --action: 216 74% 40%;
     --action-foreground: 0 0% 100%;
     --action-soft: 214 88% 95%;
@@ -62,7 +62,7 @@
     --secondary-soft: 40 38% 92%;
 
     --muted: 150 12% 92%;
-    --muted-foreground: 154 10% 30%;
+    --muted-foreground: 210 13% 32%;
 
     --accent: 216 74% 40%;
     --accent-foreground: 0 0% 100%;
@@ -70,8 +70,8 @@
     --destructive: var(--danger);
     --destructive-foreground: var(--danger-foreground);
 
-    --border: 150 12% 84%;
-    --input: 150 12% 84%;
+    --border: 40 12% 80%;
+    --input: 40 12% 80%;
     --ring: 216 74% 40%;
 
     --radius: 0.875rem;
@@ -250,4 +250,47 @@
 #guided-pilot .overflow-x-auto {
   width: 100%;
   max-width: 100%;
+}
+
+/* Publication surfaces share a restrained editorial vocabulary. Tool semantics remain intact. */
+@layer components {
+  .publication-intro, .publication-featured, .visual-discovery, .editorial-article-heading {
+    --primary: 184 48% 27%;
+    --foreground: 202 56% 15%;
+    --muted-foreground: 210 13% 32%;
+    color: hsl(var(--foreground));
+  }
+  .publication-intro h1, .editorial-story h3, .editorial-article-heading h1,
+  .visual-discovery h2, .visual-discovery h3 {
+    font-family: Georgia, "Times New Roman", serif;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+  .publication-intro { background: #faf8f3; }
+  .editorial-story {
+    color: hsl(var(--foreground));
+    border: 0;
+    border-bottom: 1px solid hsl(var(--border));
+    border-radius: 0;
+    background: transparent;
+    padding: 0 0 1.25rem;
+    box-shadow: none;
+  }
+  .editorial-story:hover { background: transparent; }
+  .editorial-story h3 { font-size: 1.6rem; line-height: 1.15; }
+  .editorial-story-lead h3 { font-size: clamp(2rem, 3.2vw, 3rem); }
+  .editorial-story .editorial-cover { margin-bottom: 1.25rem; }
+  .editorial-cover { min-width: 0; margin-left: 0; margin-right: 0; }
+  .editorial-cover img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: contain; background: #faf8f3; }
+  .editorial-cover figcaption { margin-top: .65rem; font-size: .75rem; line-height: 1.6; color: hsl(var(--muted-foreground)); }
+  .editorial-article-heading { background: #faf8f3; }
+  .editorial-article-heading h1 { font-size: clamp(2.1rem, 4.5vw, 3.8rem); line-height: 1.07; }
+  .editorial-article-heading > div:last-child { padding-top: 2rem; padding-bottom: 2rem; }
+  .editorial-cover.container { margin-left: auto; margin-right: auto; }
+  .editorial-story:focus-visible, .publication-intro a:focus-visible, .visual-discovery a:focus-visible { outline: 3px solid #176b87; outline-offset: 5px; }
+  .dark .publication-intro, .dark .publication-featured, .dark .visual-discovery, .dark .editorial-article-heading {
+    --primary: 170 58% 71%; --foreground: 45 18% 94%; --muted-foreground: 210 15% 76%;
+    background: hsl(var(--background));
+  }
+  @media print { .editorial-cover { break-inside: avoid; } }
 }

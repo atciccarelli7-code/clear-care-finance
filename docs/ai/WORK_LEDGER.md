@@ -449,3 +449,9 @@ This ledger records the outcome and reusable learning from material assignments.
 - Demand discovery: Ten Google autocomplete seeds covered qualifications, income, assets, disability, nursing home care, NC-specific limits, application and community engagement. Public search results confirmed the distinct information needs. Semrush had no available units, OpenSEO had no configured project, and the Trends endpoint rate-limited the comparison. These signals support prioritization and do not establish monthly volume or a national ranking.
 - Outcome: The existing Medicaid article answers the recurring questions and includes a hypothetical North Carolina discharge, an updated eligibility pathway figure and a dated NC expansion income visual. Keep the existing URL and anchors. MA-3321 reports the base and disregard as separate amounts, so the visual preserves both. The general eligibility page remains the source for current state rules.
 - Reassess: Verify NC community engagement implementation on January 1, 2027, refresh the expansion table against the next official standards, and compare page impressions and query mix after a full 28-day post-release period.
+
+### CAF-W-023 — Editorial visual overhaul
+
+- Date: 2026-11-25. Created six original disclosed cover illustrations and responsive/social derivatives; homepage lead-story hierarchy, related card imagery and existing visual-explainer discovery. Preserves all 192 canonicals and article content.
+- Reusable improvement: shared cover registry/component, deferred social/schema updater within the artwork registry and CI browser suite. Existing entry cap retained by deferring optional metadata work; no budget raised.
+- Validation, baseline type/Windows fixture warnings and release evidence: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`.

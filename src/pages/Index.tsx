@@ -10,10 +10,10 @@ import {
   Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { NewsletterSignup } from "@/components/shared/NewsletterSignup";
 import { ArticleCard } from "@/components/shared/ArticleCard";
+import { FLAGSHIP_VISUAL_ARTICLES } from "@/data/flagshipVisualArticles";
 import { FEATURED_PUBLISHER_ARTICLES } from "@/data/featuredPublisherArticles";
 import { trackHomepageNavigation } from "@/lib/analytics";
 import { trackGrowthEvent } from "@/lib/growthAnalytics";
@@ -80,54 +80,35 @@ const supportingUtilities = [
 
 const Index = () => (
   <>
-    <PageHero
-      compact
-      eyebrow="RN-led reporting"
-      title="Understand the money and machinery behind American healthcare."
-      description="An RN’s view of hospital bills, insurance rules, and what it takes to get care."
-    >
-      <Button asChild variant="hero" size="lg">
-        <Link
-          to="/articles"
-          onClick={() => {
-            trackGrowthEvent("home_primary_cta_clicked", { entry_surface: "home", action_id: "article_library" });
-            trackHomepageNavigation("hero_action", "article_library", "/articles");
-          }}
-        >
-          Read the publication <ArrowRight className="h-4 w-4" />
-        </Link>
-      </Button>
-      <Button asChild variant="outline" size="lg">
-        <Link
-          to="/tools"
-          onClick={() => {
-            trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "supporting_tools" });
-            trackHomepageNavigation("hero_action", "supporting_tools", "/tools");
-          }}
-        >
-          Use a guide or tool
-        </Link>
-      </Button>
-    </PageHero>
-
-    <section className="container min-w-0 py-8 md:py-12">
-      <SectionHeading
-        eyebrow="Featured reporting and explainers"
-        title="Start with these stories"
-      />
-      <div className="mt-9 grid gap-5 md:grid-cols-2">
-        {FEATURED_PUBLISHER_ARTICLES.map((article) => (
-          <ArticleCard
-            key={article.slug}
-            article={article}
-            onClick={() => trackHomepageNavigation("featured_article", article.slug, `/articles/${article.slug}`)}
-          />
-        ))}
+    <header className="publication-intro container py-8 md:py-12">
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">RN-led reporting · Community Acquired Finance</p>
+      <h1 className="mt-4 max-w-4xl text-4xl leading-[1.08] md:text-6xl">Understand the money and machinery behind American healthcare.</h1>
+      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">An RN’s view of hospital bills, insurance rules, and what it takes to get care.</p>
+      <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold">
+        <Link to="/articles" className="text-primary underline underline-offset-4" onClick={() => { trackGrowthEvent("home_primary_cta_clicked", { entry_surface: "home", action_id: "article_library" }); trackHomepageNavigation("hero_action", "article_library", "/articles"); }}>Read the publication</Link>
+        <Link to="/tools" className="text-primary underline underline-offset-4" onClick={() => { trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "supporting_tools" }); trackHomepageNavigation("hero_action", "supporting_tools", "/tools"); }}>Use a guide or tool</Link>
       </div>
-      <div className="mt-7">
-        <Button asChild variant="soft">
-          <Link to="/articles">Browse all articles <ArrowRight className="h-4 w-4" /></Link>
-        </Button>
+    </header>
+    <section className="container publication-featured pb-12" aria-labelledby="featured-stories-heading">
+      <div className="mb-6 border-t-2 border-foreground pt-4"><h2 id="featured-stories-heading" className="text-xs font-bold uppercase tracking-[0.18em]">Featured reporting and explainers</h2></div>
+      <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+        <ArticleCard article={FLAGSHIP_VISUAL_ARTICLES[0]} featured onClick={() => trackHomepageNavigation("featured_article", FLAGSHIP_VISUAL_ARTICLES[0].slug, `/articles/${FLAGSHIP_VISUAL_ARTICLES[0].slug}`)} />
+        <aside className="border-t border-border pt-5 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0" aria-label="Latest reporting">
+          <h2 className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-primary">Also from CAF</h2>
+          <div className="space-y-6">{FEATURED_PUBLISHER_ARTICLES.filter(a => !FLAGSHIP_VISUAL_ARTICLES.some(f => f.slug === a.slug)).map(article => <ArticleCard key={article.slug} article={article} onClick={() => trackHomepageNavigation("featured_article", article.slug, `/articles/${article.slug}`)} />)}</div>
+        </aside>
+      </div>
+      <div className="mt-10 grid gap-x-7 gap-y-9 md:grid-cols-2 lg:grid-cols-3">{FLAGSHIP_VISUAL_ARTICLES.slice(1).map(article => <ArticleCard key={article.slug} article={article} onClick={() => trackHomepageNavigation("featured_article", article.slug, `/articles/${article.slug}`)} />)}</div>
+      <div className="mt-8 flex flex-wrap gap-6 text-sm font-semibold text-primary"><Link to="/articles" className="underline underline-offset-4">Browse all articles</Link><Link to="/articles#visual-explainers" className="underline underline-offset-4">Explore the visual explainers</Link></div>
+    </section>
+    <section className="container mb-12" aria-labelledby="visual-discovery-heading">
+      <div className="visual-discovery grid gap-6 border-y border-border py-7 md:grid-cols-[1fr_2fr]">
+        <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">See how it works</p><h2 id="visual-discovery-heading" className="mt-3 font-display text-3xl">Follow the system, one step at a time.</h2></div>
+        <div className="grid gap-5 sm:grid-cols-3">{[
+          ["01", "From charge to payment", "Follow the layers between a hospital charge and what a patient owes.", "/articles/allowed-amount-medical-bills#visual-bill-to-payment"],
+          ["02", "Medicare or Medicaid?", "See how the programs differ and where coverage can overlap.", "/articles/medicare-vs-medicaid-what-is-the-difference#visual-medicare-medicaid"],
+          ["03", "The path to rehab", "Trace the coverage questions behind a post-hospital handoff.", "/articles/does-medicare-cover-rehab-after-hospital-stay#visual-medicare-snf"],
+        ].map(([number, title, description, href]) => <Link key={href} to={href} className="group block border-l-2 border-primary/30 pl-4"><span className="font-display text-3xl text-primary" aria-hidden="true">{number}</span><h3 className="mt-2 font-display text-xl font-bold group-hover:underline">{title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p><span className="mt-3 inline-block text-sm font-semibold text-primary underline underline-offset-4">View explainer</span></Link>)}</div>
       </div>
     </section>
 

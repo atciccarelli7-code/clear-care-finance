@@ -23,6 +23,7 @@ const escapeHtml = (value) =>
 const replaceMeta = (html, selectorPattern, replacement) =>
   selectorPattern.test(html) ? html.replace(selectorPattern, replacement) : html.replace("</head>", `${replacement}\n</head>`);
 
+let socialCover;
 const injectMeta = (html, meta) => {
   const fullTitle = meta.title.includes("Community Acquired Finance")
     ? meta.title
@@ -30,7 +31,8 @@ const injectMeta = (html, meta) => {
   const canonical = `https://communityacquiredfinance.com${meta.canonicalPath === "/" ? "/" : meta.canonicalPath}`;
   const robots = meta.robots || "index, follow, max-image-preview:large";
   const author = meta.author || "Community Acquired Finance";
-  const jsonLd = (meta.jsonLd || [])
+  const cover = socialCover(meta.canonicalPath);
+  const jsonLd = (meta.jsonLd || []).map(value => cover && value["@type"] === "Article" ? { ...value, image: `https://communityacquiredfinance.com${cover.path}` } : value)
     .map(
       (value) =>
         `<script type="application/ld+json" data-caf-seo-jsonld="true">${JSON.stringify(value).replaceAll("<", "\\u003c")}</script>`,
@@ -52,6 +54,14 @@ const injectMeta = (html, meta) => {
   output = replaceMeta(output, /<meta\s+property=["']og:url["'][^>]*>/i, `<meta property="og:url" content="${escapeHtml(canonical)}" />`);
   output = replaceMeta(output, /<meta\s+name=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" content="${escapeHtml(fullTitle)}" />`);
   output = replaceMeta(output, /<meta\s+name=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description" content="${escapeHtml(meta.description)}" />`);
+
+  const image = `https://communityacquiredfinance.com${cover?.path ?? "/icon-512.png"}`;
+  for (const [attr, name, value] of [
+    ["property", "og:image", image], ["property", "og:image:alt", cover?.alt ?? "Community Acquired Finance"],
+    ["property", "og:image:width", cover ? "1200" : "512"], ["property", "og:image:height", cover ? "630" : "512"],
+    ["name", "twitter:image", image], ["name", "twitter:image:alt", cover?.alt ?? "Community Acquired Finance"],
+    ["name", "twitter:card", cover ? "summary_large_image" : "summary"],
+  ]) output = replaceMeta(output, new RegExp(`<meta\\s+${attr}=["']${name}["'][^>]*>`, "i"), `<meta ${attr}="${name}" content="${escapeHtml(value)}" />`);
 
   output = output.replace(/<link\s+rel=["']canonical["'][^>]*>/i, "");
   output = output.replace(/<script[^>]*data-caf-seo-jsonld=["']true["'][^>]*>[\s\S]*?<\/script>/gi, "");
@@ -83,6 +93,7 @@ try {
     vite.ssrLoadModule("/src/lib/seoRegistry.ts"),
   ]);
 
+  ({ socialCover } = await vite.ssrLoadModule("/src/data/editorialCovers.ts"));
   const { canonicalRoutes: routes } = await getCanonicalRoutes(getIndexableRoutes);
   const nonIndexableRoutes = ADDITIONAL_NON_INDEXED_PRERENDER_ROUTES;
   for (const route of [...routes, ...nonIndexableRoutes, ...PRIVATE_APP_SHELL_ROUTES]) {

@@ -1,5 +1,7 @@
 import { VisualExplainer } from "@/components/visual-explainers/article-visuals/VisualExplainer";
 import { visualForArticle } from "@/components/visual-explainers/article-visuals/visualRoutes";
+import { EditorialCover } from "@/components/shared/EditorialCover";
+import { EDITORIAL_COVERS } from "@/data/editorialCovers";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Clock, Sparkles, Users, CheckCircle2, AlertTriangle, ArrowRight, BookOpen, Quote } from "lucide-react";
@@ -645,7 +647,7 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
 
   return (
     <>
-      <PageHero eyebrow={article.category} title={article.title} description={article.promise} compact={storyFirst}>
+      <PageHero className={EDITORIAL_COVERS[article.slug] ? "editorial-article-heading" : undefined} eyebrow={article.category} title={article.title} description={article.promise} compact={storyFirst}>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           {storyFirst && (
             <Link to="/about" className="font-semibold text-primary underline-offset-4 hover:underline">
@@ -671,6 +673,8 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
           </Button>
         )}
       </PageHero>
+
+      <EditorialCover slug={article.slug} priority caption className="container max-w-5xl pt-6" sizes="(min-width: 1024px) 960px, 100vw" />
 
       <article className={storyFirst ? "container max-w-3xl space-y-8 py-6 md:space-y-12 md:py-10" : "container max-w-3xl space-y-8 py-8 md:space-y-12 md:py-16"}>
         {!storyFirst && (<>

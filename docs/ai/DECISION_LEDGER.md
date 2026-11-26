@@ -309,3 +309,10 @@ This ledger records material strategic, product, technical, editorial, commercia
 - **Evidence:** September 7 Search Console export through September 5: 27 clicks/4,257 impressions; six flagships 2 clicks/322 page impressions; only one query click disclosed; CAF-E-022.
 - **Consequences:** One of 77 article journeys changes, 188 canonical URLs preserved; publication newsletter copy aligned. Do not infer non-branded traffic, returning readers, delivery or product-market fit from incomplete evidence.
 - **Revisit trigger:** First settled 30-day post-release dataset; 60/90-day behavioral and discovery thresholds in `docs/work-packets/2026-09-10-audience-validation.md`.
+
+### CAF-D-026 — Restrained editorial imagery for six existing flagships
+
+- Date: 2026-11-25. Status: CONFIRMED by explicit founder assignment.
+- Use original disclosed conceptual cover illustrations, serif editorial headings and a lead-story homepage; preserve content, URLs, tools and commercial boundaries. Supersedes only the earlier D-025 no-redesign scope for this new assignment.
+- Evidence, independent challenge, validation and release: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`.
+- Reassess on image failure, performance/representation issues, or settled 28/90-day audience evidence.

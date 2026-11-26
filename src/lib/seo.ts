@@ -66,8 +66,8 @@ export const useSeo = ({
       setMeta('meta[name="googlebot"]', "content", robots);
     }
     let active = true;
-    void import("./socialSeo").then(({ applySocialSeo }) => {
-      if (active) applySocialSeo(canonicalPath, setMeta, jsonLd);
+    void import("@/data/editorialCovers").then(({ applySocialSeo }) => {
+      if (active) applySocialSeo(canonicalPath, setMeta, jsonLd, SITE_URL);
     });
     return () => { active = false; };
 

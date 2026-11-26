@@ -453,5 +453,5 @@ This ledger records the outcome and reusable learning from material assignments.
 ### CAF-W-023 — Editorial visual overhaul
 
 - Date: 2026-11-25. Created six original disclosed cover illustrations and responsive/social derivatives; homepage lead-story hierarchy, related card imagery and existing visual-explainer discovery. Preserves all 192 canonicals and article content.
-- Reusable improvement: shared cover registry/component, deferred social/schema updater and CI browser suite. Existing entry cap retained by deferring optional metadata work; no budget raised.
+- Reusable improvement: shared cover registry/component, deferred social/schema updater within the artwork registry and CI browser suite. Existing entry cap retained by deferring optional metadata work; no budget raised.
 - Validation, baseline type/Windows fixture warnings and release evidence: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`.

@@ -4,6 +4,7 @@ import { EDITORIAL_COVERS } from "../src/data/editorialCovers";
 
 test.beforeEach(async ({ page }) => {
   await page.route("https://fonts.googleapis.com/**", route => route.fulfill({ status: 200, contentType: "text/css", body: "" }));
+  await page.route("**/_vercel/**", route => route.fulfill({ status: 200, contentType: "application/javascript", body: "" }));
   await page.addInitScript(() => localStorage.setItem("caf-privacy-consent-v1", "necessary"));
 });
 
@@ -18,6 +19,8 @@ test("publication leads into reporting and existing visual explainers", async ({
   expect(await lead.locator("img").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
   await lead.click();
   await expect(page).toHaveURL(/why-hospitals-become-the-systems-shock-absorber/);
+  await expect(page.getByRole("heading", { level: 1, name: "Why the Hospital Becomes the System’s Shock Absorber", exact: true })).toBeVisible();
+  await expect(page.locator("figure img[alt^='Conceptual illustration']").first()).toBeVisible();
   await page.goBack();
   await page.getByRole("link", { name: "Explore the visual explainers", exact: true }).click();
   await expect(page.locator("#visual-explainers-heading")).toBeVisible({ timeout: 20_000 });

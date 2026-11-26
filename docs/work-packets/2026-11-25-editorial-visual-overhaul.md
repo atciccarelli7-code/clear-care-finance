@@ -20,7 +20,7 @@ CAF-D-022/023/024 publication-first and URL-preservation rules retained. D-025's
 | Inherited item | Challenge and disposition | Trigger |
 |---|---|---|
 | Equal-weight text cards | Current browser inspection supports stronger lead hierarchy; retain newest adjacent stories rather than replace them wholesale. | Reader feedback, second-story behavior |
-| Existing 500KiB entry budget | Already nearly full; initial art/metadata implementation exceeded it. Deferred social/JSON-LD updater instead of raising cap. Final 499.94KiB. | Any additional shell code |
+| Existing 500KiB entry budget | Already nearly full; initial art/metadata implementation exceeded it. Deferred social/JSON-LD updater instead of raising cap. Final 499.88KiB. | Any additional shell code |
 | Blanket historical AdSense freeze | Current #38 allows safe tested UX/metadata work; specific founder task governs visual work. No advertising or account status change. | Account-specific restriction or owner correction |
 | New illustration assumed useful | Visual interest does not prove distribution or comprehension; treat readership outcome as hypothesis. | Settled 28/90-day cohort evidence |
 
@@ -84,7 +84,7 @@ Strongest countercase: better art may do nothing for qualified discovery, and ca
 - Global light neutral/brand tokens affect 192/192 routes visually; no eligibility or tool logic changes. Article cards acquire editorial treatment wherever reused; only the six selected stories have artwork.
 - Ad inventory remains 42 explicitly eligible / 150 ad-free; no commercial policy changes.
 - New routes/articles/calculators/accounts/database objects/tracking scripts: 0.
-- Public asset derivatives total 1,477,537 bytes; each page requests selected sizes rather than all variants. Main 499.94KiB under unchanged 500KiB cap. No threshold raised.
+- Public asset derivatives total 1,477,537 bytes; each page requests selected sizes rather than all variants. Main 499.88KiB under unchanged 500KiB cap. No threshold raised.
 
 ## 11. Anomaly gate
 More than 20% of a major surface changes through neutral/primary styling. Explicit founder request authorizes this scope. Independent reviewer challenged tool regression risk; representative utility and homepage axe checks added alongside 320px article reflow. No indexable/commercial/usable inventory reduction. Revert commit restores all visual/metadata changes; no migration required.
@@ -110,8 +110,14 @@ Branch/PR required. Exact head CI and READY preview, review comments and deploye
 Implementation complete locally. Hosted release evidence and final browser results will be appended here before final reporting. Rollback: normal PR revert or previous READY Vercel production deployment. Owner-only follow-up: assess settled audience behavior; account-specific AdSense status remains unknown.
 
 ## 18. Compounding closeout
-Created reusable EditorialCover, editorialCovers registry, deferred social metadata module, image asset/provenance record, asset unit checks and desktop/mobile metadata/loading/accessibility/navigation browser suite wired into Browser certification. Encoded-text corruption caught during rendered review and corrected from original UTF-8 source; future edits must specify encoding explicitly. Context/decision/evidence/work ledgers link this packet. No memory-folder edits.
+Created reusable EditorialCover, editorialCovers registry, deferred social metadata updater, image asset/provenance record, asset unit checks and desktop/mobile metadata/loading/accessibility/navigation browser suite wired into Browser certification. Encoded-text corruption caught during rendered review and corrected from original UTF-8 source; future edits must specify encoding explicitly. Context/decision/evidence/work ledgers link this packet. No memory-folder edits.
 
 ### Local final certification
 
 Expanded browser suite: 16/16 pass on final built CSS, including homepage axe, all six article figures/social responses, 320px reflow, archive navigation, and article-to-EOB-tool navigation with metadata reset and tool axe. Desktop/mobile rendered inspection completed. Full build process exit 0 verified directly. Full lint: 0 errors, 15 inherited warnings. Independent reviewer: no material code blocker, required follow-ups completed. Hosted CI/preview pending.
+
+### Hosted certification and performance correction
+
+First head 74c3c01: Vercel preview READY (dpl_uJKtBDM23v464qQ3DRiQf4PvyMr3); authenticated HTTP 200 and correct canonical/cover/caption/social metadata for all six articles; all six mobile WebP files return image/webp. Hosted CI and Decision Journey checks pass, including full unit suite on Linux. Hosted publication, editorial artwork, core journeys, 403(b), cost-share, navigation and CTA suites pass. Employer intake passed on retry (one existing flaky result). Performance correctly blocked release: appointment-cost-preparation had 46 requests against 45 budget. Combined deferred social updater with artwork registry, eliminating its separate request without raising any threshold. New head must pass the same gates. Local existing publisher regression: 34/34 pass.
+
+Coalesced local performance: 7/7 mobile budgets pass, including appointment-cost-preparation at 45 requests (original limit45), and homepage at 36 requests. Build entry now499.88KiB. Independent coalescing review PASS, no cycle/SSR/metadata regression. The initial local navigation repeat raced an in-flight article load before Back; regression now waits for visible article/cover before navigating back. No product timing or threshold bypass.

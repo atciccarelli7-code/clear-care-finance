@@ -102,7 +102,7 @@ const Index = () => (
             <p className="publication-deck">An RN’s view of hospital bills, insurance rules, and what it takes to get care.</p>
             <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm font-semibold">
               <Link to="/articles" className="publication-link" onClick={() => { trackGrowthEvent("home_primary_cta_clicked", { entry_surface: "home", action_id: "article_library" }); trackHomepageNavigation("hero_action", "article_library", "/articles"); }}>Read the publication</Link>
-              <Link to="/tools" className="publication-link" onClick={() => { trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "supporting_tools" }); trackHomepageNavigation("hero_action", "supporting_tools", "/tools"); }}>Guides &amp; tools</Link>
+              <Link to="/tools" className="publication-link" onClick={() => { trackGrowthEvent("home_secondary_cta_clicked", { entry_surface: "home", action_id: "supporting_tools" }); trackHomepageNavigation("hero_action", "supporting_tools", "/tools"); }}>Use a guide or tool</Link>
             </div>
           </div>
         </div>

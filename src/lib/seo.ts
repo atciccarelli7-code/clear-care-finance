@@ -25,18 +25,6 @@ const setMeta = (selector: string, attr: "content" | "href", value: string) => {
   element.setAttribute(attr, value);
 };
 
-const setJsonLd = (jsonLd: Record<string, unknown>[]) => {
-  document.head.querySelectorAll('script[data-caf-seo-jsonld="true"]').forEach((node) => node.remove());
-
-  jsonLd.forEach((value) => {
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.dataset.cafSeoJsonld = "true";
-    script.textContent = JSON.stringify(value);
-    document.head.appendChild(script);
-  });
-};
-
 export const absoluteUrl = (path: string) => `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
 export const useSeo = ({
@@ -69,7 +57,6 @@ export const useSeo = ({
     setMeta('meta[property="og:type"]', "content", type);
     setMeta('meta[property="og:url"]', "content", canonical);
     setMeta('meta[property="og:site_name"]', "content", SITE_NAME);
-    setMeta('meta[name="twitter:card"]', "content", "summary");
     setMeta('meta[name="twitter:title"]', "content", fullTitle);
     setMeta('meta[name="twitter:description"]', "content", description);
 
@@ -78,6 +65,11 @@ export const useSeo = ({
       setMeta('meta[name="robots"]', "content", robots);
       setMeta('meta[name="googlebot"]', "content", robots);
     }
-    if (jsonLd) setJsonLd(jsonLd);
+    let active = true;
+    void import("./socialSeo").then(({ applySocialSeo }) => {
+      if (active) applySocialSeo(canonicalPath, setMeta, jsonLd);
+    });
+    return () => { active = false; };
+
   }, [title, description, canonicalPath, type, author, robots, jsonLd]);
 };

@@ -329,3 +329,8 @@ Use this structure when a material fact requires ongoing governance:
 - Current-state claims require `DIRECT-CURRENT` evidence whenever the system is accessible.
 - Consequential external claims require `PRIMARY-SOURCE` evidence unless a documented reason prevents it.
 - Screenshots and chat summaries may orient research but remain `STALE-OR-UNVERIFIED` until confirmed.
+
+### CAF-E-023 — Editorial visual implementation evidence
+
+- Date: 2026-11-25. DIRECT-CURRENT: fresh main d02de4f matches READY production dpl_7r2cSXMDRZq93p2qoeQi96KZkCE4; live desktop/mobile before inspection and local built after inspection. Six original conceptual artworks, 24 derivatives; provenance `docs/editorial-art.md`.
+- Validation and final release evidence: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`. No new readership/AdSense approval evidence; no business uplift claim.

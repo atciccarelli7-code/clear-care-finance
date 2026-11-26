@@ -151,7 +151,7 @@ test("makes the publication the public front door while keeping tools subordinat
 
   await expect(page.getByRole("heading", { level: 1, name: "Understand the money and machinery behind American healthcare." })).toBeVisible();
   await expect(page.getByRole("link", { name: /Read the publication/i })).toHaveAttribute("href", "/articles");
-  await expect(page.getByRole("heading", { name: "Start with these stories" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Featured reporting and explainers", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "The same event looks different from every seat." })).toBeVisible();
   await expect(page.getByRole("heading", { name: "When the explanation needs a next step." })).toBeVisible();
   await expect(page.getByRole("heading", { name: /Written from nursing and care-transition experience/i })).toBeVisible();

@@ -35,3 +35,7 @@ The production sitemap and local baseline matched at 192 URLs. All 192 live page
 | Context, evidence, adversarial and process review | Pass with monitoring | Crawl evidence justifies narrow changes. Crawlability, route inventory and content originality are separate from Google's approval decision. |
 
 Reassess with the next AdSense decision and settled Search Console data. Watch the redirect and billing/coverage landing pages. A normal revert restores the prior route and inventory if release validation exposes a regression.
+
+## Browser findings
+
+The refreshed bill review and assistance paths passed the desktop and mobile checks. The local audit caught insufficient contrast on topic introductions. Hosted browser testing also reproduced low text contrast during the mobile menu's opening fade, so the menu now opens immediately. A pre-existing hydration race in the employer source form could discard the first edit and submit the default employer. Form fields now become enabled once the page can keep edits. The submission payload and server validation stay the same.

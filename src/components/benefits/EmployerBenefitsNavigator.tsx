@@ -47,6 +47,7 @@ const EmployerBenefitsNavigator = () => {
   const [employeePopulation, setEmployeePopulation] = useState("");
   const [planYear, setPlanYear] = useState(String(initialEmployer.defaultPlanYear));
   const [website, setWebsite] = useState("");
+  const [sourceFormReady, setSourceFormReady] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>("idle");
   const [submissionMessage, setSubmissionMessage] = useState("");
   const sessionIdRef = useRef(typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : "");
@@ -57,6 +58,8 @@ const EmployerBenefitsNavigator = () => {
   const selectedEmployeeClass = selectedEmployer.employeeClasses.find((employeeClass) => employeeClass.id === employeeClassId) ?? selectedEmployer.employeeClasses[0];
   const readiness = getEmployerPackageReadiness(selectedPackage);
   const previousEmployerSlugRef = useRef(selectedEmployer.slug);
+
+  useEffect(() => setSourceFormReady(true), []);
 
   useEffect(() => {
     if (previousEmployerSlugRef.current === selectedEmployer.slug) return;
@@ -300,35 +303,37 @@ const EmployerBenefitsNavigator = () => {
                 Submit a public employer or insurer link. Do not provide portal credentials, member IDs, claim information, medical information, account numbers, or files containing personal information.
               </p>
 
-              <div className="mt-5 grid gap-4 md:grid-cols-2">
-                <div>
-                  <label htmlFor="source-employer-name" className="text-sm font-bold">Employer</label>
-                  <input id="source-employer-name" required maxLength={160} value={employerName} onChange={(event) => setEmployerName(event.target.value)} className="mt-2 h-11 w-full rounded-xl border border-input bg-background px-3 text-sm" />
+              <fieldset disabled={!sourceFormReady} className="min-w-0">
+                <div className="mt-5 grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label htmlFor="source-employer-name" className="text-sm font-bold">Employer</label>
+                    <input id="source-employer-name" required maxLength={160} value={employerName} onChange={(event) => setEmployerName(event.target.value)} className="mt-2 h-11 w-full rounded-xl border border-input bg-background px-3 text-sm" />
+                  </div>
+                  <div>
+                    <label htmlFor="source-plan-year" className="text-sm font-bold">Plan year</label>
+                    <input id="source-plan-year" required inputMode="numeric" min="2024" max="2035" value={planYear} onChange={(event) => setPlanYear(event.target.value)} className="mt-2 h-11 w-full rounded-xl border border-input bg-background px-3 text-sm" />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label htmlFor="source-url" className="text-sm font-bold">Public source URL <span className="font-normal text-muted-foreground">(optional for an employer request)</span></label>
+                    <input id="source-url" type="url" maxLength={2048} placeholder="https://official-employer-domain.example/benefits-guide.pdf" value={sourceUrl} onChange={(event) => setSourceUrl(event.target.value)} className="mt-2 h-11 w-full rounded-xl border border-input bg-background px-3 text-sm" />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label htmlFor="source-population" className="text-sm font-bold">Employee population <span className="font-normal text-muted-foreground">(optional)</span></label>
+                    <input id="source-population" maxLength={160} placeholder="Example: non-union employees, Triangle region, benefits-eligible teammates" value={employeePopulation} onChange={(event) => setEmployeePopulation(event.target.value)} className="mt-2 h-11 w-full rounded-xl border border-input bg-background px-3 text-sm" />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="source-plan-year" className="text-sm font-bold">Plan year</label>
-                  <input id="source-plan-year" required inputMode="numeric" min="2024" max="2035" value={planYear} onChange={(event) => setPlanYear(event.target.value)} className="mt-2 h-11 w-full rounded-xl border border-input bg-background px-3 text-sm" />
-                </div>
-                <div className="md:col-span-2">
-                  <label htmlFor="source-url" className="text-sm font-bold">Public source URL <span className="font-normal text-muted-foreground">(optional for an employer request)</span></label>
-                  <input id="source-url" type="url" maxLength={2048} placeholder="https://official-employer-domain.example/benefits-guide.pdf" value={sourceUrl} onChange={(event) => setSourceUrl(event.target.value)} className="mt-2 h-11 w-full rounded-xl border border-input bg-background px-3 text-sm" />
-                </div>
-                <div className="md:col-span-2">
-                  <label htmlFor="source-population" className="text-sm font-bold">Employee population <span className="font-normal text-muted-foreground">(optional)</span></label>
-                  <input id="source-population" maxLength={160} placeholder="Example: non-union employees, Triangle region, benefits-eligible teammates" value={employeePopulation} onChange={(event) => setEmployeePopulation(event.target.value)} className="mt-2 h-11 w-full rounded-xl border border-input bg-background px-3 text-sm" />
-                </div>
-              </div>
-              <input tabIndex={-1} autoComplete="off" aria-hidden="true" value={website} onChange={(event) => setWebsite(event.target.value)} className="hidden" />
+                <input tabIndex={-1} autoComplete="off" aria-hidden="true" value={website} onChange={(event) => setWebsite(event.target.value)} className="hidden" />
 
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Button type="submit" disabled={submissionStatus === "saving"}>
-                  {submissionStatus === "saving" ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
-                  Save for review
-                </Button>
-                <div className={`text-sm ${submissionStatus === "error" ? "text-destructive" : submissionStatus === "saved" ? "text-primary" : "text-muted-foreground"}`} role="status" aria-live="polite">
-                  {submissionMessage}
+                <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Button type="submit" disabled={submissionStatus === "saving"}>
+                    {submissionStatus === "saving" ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
+                    Save for review
+                  </Button>
+                  <div className={`text-sm ${submissionStatus === "error" ? "text-destructive" : submissionStatus === "saved" ? "text-primary" : "text-muted-foreground"}`} role="status" aria-live="polite">
+                    {submissionMessage}
+                  </div>
                 </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>

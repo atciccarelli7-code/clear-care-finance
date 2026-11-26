@@ -18,6 +18,8 @@ import { BenefitsLearningPath } from "@/components/shared/BenefitsLearningPath";
 
 const TopicPage = () => {
   const { slug = "" } = useParams();
+  if (slug === "discounts-perks") return <Navigate to="/articles/healthcare-worker-discounts" replace />;
+
   const topic = findTopic(slug);
   if (!topic) return <Navigate to="/topics" replace />;
 
@@ -29,7 +31,7 @@ const TopicPage = () => {
     { href: "#comparison", label: "Compare", show: Boolean(topic.comparison) },
     { href: "#fact-sheet", label: "Fact sheet", show: Boolean(topic.factSheet) },
     { href: "#watch-out", label: "Watch out", show: Boolean(topic.warning) },
-    { href: "#calculator", label: "Tool", show: Boolean(topic.calculator) },
+    { href: "#calculator", label: "Tool", show: Boolean(topic.calculator || topic.toolLink) },
     { href: "#related", label: "Related", show: topic.relatedArticleSlugs.length > 0 },
     { href: "#sources", label: "Sources", show: true },
   ].filter((item) => item.show);
@@ -40,6 +42,11 @@ const TopicPage = () => {
         {topic.calculator && !isBenefitsHub && (
           <Button asChild variant="hero" size="lg">
             <a href="#calculator">Try the calculator <ArrowRight className="h-4 w-4" /></a>
+          </Button>
+        )}
+        {topic.toolLink && (
+          <Button asChild variant="hero" size="lg">
+            <Link to={topic.toolLink.href}>{topic.toolLink.label} <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
           </Button>
         )}
         {isBenefitsHub && (
@@ -115,6 +122,18 @@ const TopicPage = () => {
           <CalculatorCard eyebrow={topic.category} title={topic.calculator.title} description={topic.calculator.description}>
             <CalculatorByKey k={topic.calculator.key} />
           </CalculatorCard>
+        </section>
+      )}
+
+      {topic.toolLink && (
+        <section id="calculator" aria-labelledby="topic-tool-title" className="container min-w-0 scroll-mt-24 py-12">
+          <div className="mx-auto max-w-2xl rounded-2xl border border-border bg-card p-6">
+            <h2 id="topic-tool-title" className="font-display text-2xl font-bold">Check your own bill</h2>
+            <p className="my-3 text-muted-foreground">{topic.toolLink.description}</p>
+            <Button asChild variant="outline">
+              <Link to={topic.toolLink.href}>Open the bill checker <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+            </Button>
+          </div>
         </section>
       )}
 

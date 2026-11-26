@@ -656,7 +656,7 @@ const ARTICLE_ROWS = [
   ],
   [
     "healthcare-worker-discounts",
-    "Healthcare Worker Discounts and Perks Directory",
+    "How to Compare Healthcare Worker Discounts",
     "Use healthcare discounts without letting them become an excuse to buy things you did not need.",
     "Workplace Benefits",
     null,
@@ -690,12 +690,12 @@ const TOPIC_ROWS = [
   [
     "health-insurance",
     "Health Insurance",
-    "Premium, deductible, copay, coinsurance, out-of-pocket max — translated into normal English."
+    "Compare what two health plans could cost before you enroll, and verify the care you need is covered."
   ],
   [
     "patient-medical-costs",
     "Patient Medical Costs",
-    "Hospital bills, EOBs, surprise charges — what's normal, what isn't, and what to ask."
+    "Match an insured medical bill to the right claim and find out what to ask when the numbers differ."
   ],
   [
     "hospital-economics",
@@ -706,11 +706,6 @@ const TOPIC_ROWS = [
     "behavior-burnout",
     "Behavior & Burnout",
     "Money habits that happen after hard shifts — without shame or fake discipline advice."
-  ],
-  [
-    "discounts-perks",
-    "Healthcare Worker Discounts & Perks",
-    "Use discounts as a tool, not as a shopping trigger."
   ]
 ] as const;
 const TOOL_ROWS = [

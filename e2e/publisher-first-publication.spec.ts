@@ -1,6 +1,22 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
+test("readers can match a bill to its claim and find the hospital's assistance policy", async ({ page }) => {
+  await page.goto("/topics/patient-medical-costs");
+  await expect(page.getByRole("heading", { name: "One visit, two statements. Which charge should you check?" })).toBeVisible();
+  await expect(page.getByText(/explain the \$50 difference/)).toBeVisible();
+  const accessibility = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
+  expect(accessibility.violations.map(({ id }) => id)).toEqual([]);
+  await page.getByRole("link", { name: "Compare an EOB with a bill" }).click();
+  await expect(page).toHaveURL(/\/tools\/eob-to-bill-match-checker$/);
+
+  await page.goto("/hospital-financial-assistance/north-carolina");
+  const novant = page.locator('main a[href="/hospital-financial-assistance/novant-health-north-carolina"]');
+  await expect(novant).toContainText("Insured: 200% FPG; uninsured: 300% FPG");
+  await novant.click();
+  await expect(page.getByRole("heading", { name: "Does this policy cover the bill in front of you?" })).toBeVisible();
+});
+
 test("home health readers can plan for gaps between visits", async ({ page }) => {
   await page.goto("/articles/home-health-after-discharge", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: "Who will be there at 10 p.m.?" })).toBeVisible();

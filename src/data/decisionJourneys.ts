@@ -130,7 +130,7 @@ export const DECISION_JOURNEYS: DecisionJourney[] = [
     canonicalPath: "/medicare-care-costs",
     relatedPaths: ["/articles/does-medicare-cover-long-term-care", "/insurance/hospital-discharge-coverage"],
     toolPaths: ["/tools/medicare-medicaid-eligibility-check"],
-    officialVerification: [{ label: "Medicaid long-term services", url: "https://www.medicaid.gov/medicaid/long-term-services-supports/index.html" }],
+    officialVerification: [{ label: "Medicaid long-term services", url: "https://www.medicaid.gov/medicaid/long-term-services-supports" }],
     requiredLayers: FIVE_LAYERS,
     supportsLocalProgress: true,
   },

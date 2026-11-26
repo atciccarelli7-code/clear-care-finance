@@ -334,3 +334,9 @@ Use this structure when a material fact requires ongoing governance:
 
 - Date: 2026-11-25. DIRECT-CURRENT: fresh main d02de4f matches READY production dpl_7r2cSXMDRZq93p2qoeQi96KZkCE4; live desktop/mobile before inspection and local built after inspection. Six original conceptual artworks, 24 derivatives; provenance `docs/editorial-art.md`.
 - Validation and final release evidence: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`. No new readership/AdSense approval evidence; no business uplift claim.
+
+### CAF-E-030 — November publisher remediation baseline
+
+- **Date:** 2026-11-26.
+- **Evidence:** Production sitemap and direct HTML crawl of 192 URLs on main `10a134b`. Link checks returned 404 at 11 unique citation destinations. Meta and ads.txt publisher identifiers matched. The founder’s AdSense notice reported low-value content and a December 3 retry date without identifying URLs.
+- **Limit:** No direct current private audience, Search Console manual-action, or approval evidence. Crawl counts and ad eligibility do not predict AdSense approval. Details in `docs/work-packets/2026-11-26-adsense-editorial-remediation.md`.

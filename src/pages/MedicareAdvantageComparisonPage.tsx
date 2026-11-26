@@ -174,8 +174,8 @@ const sources = [
     url: "https://www.cms.gov/medicare/health-drug-plans/part-c-d-performance-data",
   },
   {
-    title: "KFF — Medicare Advantage enrollment and key trends",
-    url: "https://www.kff.org/medicare/issue-brief/medicare-advantage-in-2025-enrollment-update-and-key-trends/",
+    title: "KFF — Medicare Advantage enrollment and key trends in 2026",
+    url: "https://www.kff.org/medicare/medicare-advantage-in-2026-enrollment-update-and-key-trends/",
   },
 ];
 

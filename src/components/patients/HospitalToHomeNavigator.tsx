@@ -83,7 +83,7 @@ const officialSources = [
   ["Medicare — inpatient or outpatient status", "https://www.medicare.gov/coverage/inpatient-hospital-care/inpatient-outpatient-status"],
   ["Medicare — skilled nursing facility care", "https://www.medicare.gov/coverage/skilled-nursing-facility-care"],
   ["Medicare — home health services", "https://www.medicare.gov/coverage/home-health-services"],
-  ["Medicare — durable medical equipment", "https://www.medicare.gov/coverage/durable-medical-equipment-dme-coverage"],
+  ["Medicare — durable medical equipment", "https://www.medicare.gov/publications/10116-your-medicare-benefits.pdf"],
   ["Medicare — appeals and fast appeals", "https://www.medicare.gov/providers-services/claims-appeals-complaints/appeals"],
   ["Medicare Care Compare", "https://www.medicare.gov/care-compare/"],
 ] as const;

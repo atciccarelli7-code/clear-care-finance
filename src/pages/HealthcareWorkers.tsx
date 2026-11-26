@@ -234,7 +234,7 @@ const HealthcareWorkers = () => {
           <TopicCard icon={PiggyBank} title="Retirement Accounts" description="403(b), 401(a), 457(b), Roth vs Traditional, and fund choices—explained simply." href="/topics/retirement-accounts" cta="Open guide" />
           <TopicCard icon={Shield} title="Health Insurance" description="PPO vs HMO vs HDHP, HSA vs FSA, and how to compare plans." href="/topics/health-insurance" cta="Open guide" />
           <TopicCard icon={Brain} title="Behavior & Burnout" description="Decision fatigue and the money side of long shifts." href="/topics/behavior-burnout" cta="Open guide" />
-          <TopicCard icon={Tag} title="Healthcare Worker Discounts & Perks" description="Legitimate discounts without letting them become shopping traps." href="/topics/discounts-perks" cta="Open guide" />
+          <TopicCard icon={Tag} title="Healthcare Worker Discounts & Perks" description="Compare work-shoe, scrub, and other discounts by checkout cost and return terms." href="/articles/healthcare-worker-discounts" cta="Open guide" />
           <TopicCard icon={Receipt} title="Patient Medical Costs" description="Useful even when you're on the clinician side—patients ask." href="/topics/patient-medical-costs" cta="Open guide" accent="green" />
         </div>
       </section>

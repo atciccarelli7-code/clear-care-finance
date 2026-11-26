@@ -51,6 +51,12 @@ const editorial = (slug: string, reason: string): PublisherArticleReview => ({
   reason,
 });
 
+const legacy = (slug: string, reason: string): PublisherArticleReview => ({
+  ...editorial(slug, reason),
+  nextReviewAt: STANDARD_NEXT_REVIEW,
+  includeArticleReviewMetadata: true,
+});
+
 export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
   sensitive("what-medicare-advantage-looks-like-from-hospital-side", { reviewedAt: "2026-09-29", nextReviewAt: "2027-01-15" }),
   sensitive("patient-in-the-bed-and-patient-in-the-chart", { reviewedAt: "2026-09-08", nextReviewAt: "2027-03-08" }),
@@ -67,16 +73,16 @@ export const PUBLISHER_ARTICLE_REVIEWS: PublisherArticleReview[] = [
   eligible("how-hospital-403b-matching-works"),
   eligible("how-to-pick-retirement-investments-at-work"),
   eligible("healthcare-worker-money-map"),
-  eligible("how-healthcare-workers-can-invest-without-picking-stocks"),
-  eligible("savings-rate-that-actually-changes-your-life"),
+  legacy("how-healthcare-workers-can-invest-without-picking-stocks", "Legacy investing guide with a broad index-fund focus."),
+  legacy("savings-rate-that-actually-changes-your-life", "Legacy savings-rate guide with broad personal-finance intent."),
   eligible("roth-vs-traditional-403b-healthcare-workers"),
-  eligible("can-healthcare-workers-reach-financial-independence"),
-  eligible("cash-vs-investing-when-you-feel-behind"),
-  eligible("can-you-live-off-dividends-passive-income-guide"),
+  legacy("can-healthcare-workers-reach-financial-independence", "Legacy financial-independence guide with broad personal-finance intent."),
+  legacy("cash-vs-investing-when-you-feel-behind", "Legacy cash-versus-investing guide with broad personal-finance intent."),
+  legacy("can-you-live-off-dividends-passive-income-guide", "Legacy dividend-income guide with broad investing intent and a shift-income example."),
   eligible("money-stress-after-hard-shift"),
   eligible("earn-more-without-burning-out-bedside"),
-  eligible("managing-money-has-never-been-easier-or-harder"),
-  eligible("use-credit-cards-without-credit-card-debt"),
+  legacy("managing-money-has-never-been-easier-or-harder", "Legacy personal-finance essay covering broad digital spending and saving habits."),
+  legacy("use-credit-cards-without-credit-card-debt", "Legacy credit-card habits guide with broad personal-finance intent."),
   eligible("open-enrollment-mistakes-healthcare-workers"),
   eligible("premium-deductible-out-of-pocket-open-enrollment"),
   eligible("spouse-family-health-insurance-open-enrollment"),

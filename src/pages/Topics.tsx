@@ -44,8 +44,8 @@ const topicGroups = [
     id: "money-work",
     eyebrow: "Money and work",
     title: "Build financial flexibility around the job you have",
-    description: "Understand retirement accounts, workplace benefits, burnout-driven money habits, and discounts without turning every question into an investment decision.",
-    slugs: ["retirement-accounts", "workplace-benefits", "behavior-burnout", "discounts-perks"],
+    description: "Understand retirement accounts, workplace benefits, and burnout-driven money habits without turning every question into an investment decision.",
+    slugs: ["retirement-accounts", "workplace-benefits", "behavior-burnout"],
   },
   {
     id: "coverage-care",

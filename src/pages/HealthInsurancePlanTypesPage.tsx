@@ -138,7 +138,7 @@ const sourceLinks = [
   ["HealthCare.gov — Health insurance plan and network types", "https://www.healthcare.gov/choose-a-plan/plan-types/"],
   ["HealthCare.gov — Bronze, Silver, Gold, and Platinum categories", "https://www.healthcare.gov/choose-a-plan/plans-categories/"],
   ["HealthCare.gov — Total costs for health care", "https://www.healthcare.gov/choose-a-plan/your-total-costs/"],
-  ["CMS — Summary of Benefits and Coverage resources", "https://www.cms.gov/cciio/resources/forms-reports-and-other-resources/summary-of-benefits-and-coverage-and-uniform-glossary"],
+  ["CMS — Summary of Benefits and Coverage resources", "https://www.cms.gov/marketplace/health-plans-issuers/summary-benefits-coverage"],
 ];
 
 const HealthInsurancePlanTypesPage = () => {

@@ -60,7 +60,7 @@ export const ORIGINAL_MEDICARE_GAPS = [
 export const MEDICARE_VISUAL_SOURCES: VisualSource[] = [
   {
     label: "CMS — 2026 Medicare Parts A & B premiums and deductibles",
-    url: "https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-and-deductibles",
+    url: "https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles",
     reviewed: "July 16, 2026",
     scope: "2026 Part A and Part B premiums, deductibles, hospital coinsurance, and SNF coinsurance.",
   },

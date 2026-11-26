@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { HeartPulse, Briefcase, PiggyBank, Shield, Receipt, Building2, Brain, Tag } from "lucide-react";
+import { HeartPulse, Briefcase, PiggyBank, Shield, Receipt, Building2, Brain } from "lucide-react";
 import { SOURCE_PRESETS, type Source } from "./sources";
 
 export type CalculatorKey = "calc403b" | "calcInsurance" | "calcMedicare" | "calcCafe" | "calcLoan" | "calcOvertime";
@@ -36,6 +36,7 @@ export type Topic = {
   comparison?: { title: string; description?: string; left: ComparisonSide; right: ComparisonSide };
   factSheet?: FactSheet;
   calculator?: { key: CalculatorKey; title: string; description: string };
+  toolLink?: { href: string; label: string; description: string };
   relatedArticleSlugs: string[];
   sources: Source[];
   warning?: { title: string; body: string };
@@ -237,9 +238,9 @@ export const TOPICS: Topic[] = [
     category: "Health Insurance",
     icon: Shield,
     title: "Health Insurance",
-    promise: "Premium, deductible, copay, coinsurance, out-of-pocket max — translated into normal English.",
+    promise: "Compare what two health plans could cost before you enroll, and verify the care you need is covered.",
     startHere:
-      "Health insurance has four moving parts you pay: the monthly premium, the annual deductible, the copay per visit, and the coinsurance % after the deductible. The out-of-pocket max is your worst-case ceiling for a year of covered, in-network care.",
+      "Start with the amount you pay to keep the plan, then estimate what you would pay when you use it. Compare the same doctors, medications, and services under each option. The out-of-pocket maximum caps what you pay for covered in-network care during the plan year. Premiums, care the plan does not cover, and most out-of-network spending are separate.",
     definitions: [
       { term: "Premium", meaning: "What you pay each month for coverage." },
       { term: "Deductible", meaning: "What you pay out of pocket each year before insurance covers most things." },
@@ -252,17 +253,20 @@ export const TOPICS: Topic[] = [
       title: "Health Insurance Visit Cost Calculator",
       description: "Estimate annual cost across premium, deductible, copays, coinsurance, and visits.",
     },
-    relatedArticleSlugs: ["plain-english-glossary", "workplace-benefits-definitions", "why-er-visit-is-expensive"],
-    sources: [SOURCE_PRESETS.healthcareGov, SOURCE_PRESETS.kff],
+    relatedArticleSlugs: ["premium-deductible-out-of-pocket-open-enrollment", "network-checklist-open-enrollment", "prescription-coverage-open-enrollment-checklist"],
+    sources: [
+      { name: "CMS", pageTitle: "Summary of Benefits and Coverage and Uniform Glossary", url: "https://www.cms.gov/marketplace/health-plans-issuers/summary-benefits-coverage" },
+      { name: "HealthCare.gov", pageTitle: "Out-of-pocket maximum", url: "https://www.healthcare.gov/glossary/out-of-pocket-maximum-limit/" },
+    ],
   },
   {
     slug: "patient-medical-costs",
     category: "Patients & Caregivers",
     icon: Receipt,
     title: "Patient Medical Costs",
-    promise: "Hospital bills, EOBs, surprise charges — what's normal, what isn't, and what to ask.",
+    promise: "Match an insured medical bill to the right claim and find out what to ask when the numbers differ.",
     startHere:
-      "An EOB is not a bill. It's a statement from your insurer showing what was billed, what was allowed, what they paid, and what you owe. The actual bill comes from the provider — and it should match what the EOB says you owe.",
+      "Start with the billing provider, date of service, and insurer’s current Explanation of Benefits (EOB). One visit can produce multiple claims, and an earlier EOB can be replaced after the insurer reprocesses a claim. Match the documents before comparing the patient responsibility. For an uninsured or self-pay bill, start with the itemized statement and any written estimate.",
     definitions: [
       { term: "EOB", meaning: "Explanation of Benefits — what your insurer paid and what you owe. Not a bill." },
       { term: "Itemized bill", meaning: "A line-by-line breakdown of charges. Always request one before paying a large bill." },
@@ -270,13 +274,32 @@ export const TOPICS: Topic[] = [
       { term: "Allowed amount", meaning: "The negotiated rate your insurer agreed to pay an in-network provider." },
       { term: "Balance billing", meaning: "When an out-of-network provider bills you for the difference between their charge and what insurance paid." },
     ],
-    calculator: {
-      key: "calcInsurance",
-      title: "Visit Cost Estimator",
-      description: "Use the insurance calculator to estimate what you'll actually owe.",
+    factSheet: {
+      title: "One visit, two statements. Which charge should you check?",
+      description: "In this hypothetical example, the hospital’s bill is for the facility and the physician group bills separately for the clinician’s work.",
+      items: [
+        {
+          title: "Match the facility claim",
+          definition: "The hospital bill says $180. The facility EOB assigns $130 to you.",
+          bullets: ["Confirm the service date and billing organization, then check that this is the latest EOB.", "Ask the hospital to explain the $50 difference and confirm whether it applied the insurer’s adjustment and any payments you already made."],
+        },
+        {
+          title: "Check the clinician separately",
+          definition: "The physician group sends a $45 bill for the same date.",
+          bullets: ["Look for an EOB for the physician group. The facility EOB cannot tell you what you owe the clinician.", "If the clinician’s EOB is missing or the claim is pending, ask the provider and insurer for the claim status and confirm the bill’s due date."],
+        },
+      ],
     },
-    relatedArticleSlugs: ["why-er-visit-is-expensive", "plain-english-glossary"],
-    sources: [SOURCE_PRESETS.healthcareGov, SOURCE_PRESETS.kff, SOURCE_PRESETS.cms],
+    toolLink: {
+      href: "/tools/eob-to-bill-match-checker",
+      label: "Compare an EOB with a bill",
+      description: "Check which figures match, identify the discrepancy to explain, and prepare questions for the right billing office.",
+    },
+    relatedArticleSlugs: ["how-to-read-an-eob", "why-one-hospital-visit-can-create-multiple-bills", "check-hospital-financial-assistance-before-paying"],
+    sources: [
+      { name: "CMS", pageTitle: "How to read a health insurance explanation of benefits", url: "https://www.cms.gov/initiatives/your-patient-rights/medical-bill-rights/get-help/guides-resources/read-explanation-benefits" },
+      { name: "CMS", pageTitle: "How to read your medical bill", url: "https://www.cms.gov/initiatives/your-patient-rights/medical-bill-rights/get-help/guides-resources/how-read-your-bill" },
+    ],
   },
   {
     slug: "hospital-economics",
@@ -352,22 +375,6 @@ export const TOPICS: Topic[] = [
       description: "Turn shift purchases into monthly and yearly numbers without moralizing them.",
     },
     relatedArticleSlugs: ["hospital-cafe-habit", "burnout-overspending-overeating"],
-    sources: [SOURCE_PRESETS.federalReserve],
-  },
-  {
-    slug: "discounts-perks",
-    category: "Discounts & Perks",
-    icon: Tag,
-    title: "Healthcare Worker Discounts & Perks",
-    promise: "Use discounts as a tool, not as a shopping trigger.",
-    startHere:
-      "A discount only helps if it lowers the price of something you already planned to buy. Healthcare-worker perks can be useful, but many lists become shopping traps. Compare final price, return rules, subscriptions, and whether you actually need the item.",
-    definitions: [
-      { term: "Verification", meaning: "A process that confirms healthcare-worker status before a discount is applied." },
-      { term: "Final price", meaning: "The cost after discount, shipping, fees, tax, return rules, and subscriptions." },
-      { term: "False savings", meaning: "Buying something you would not have bought without the discount." },
-    ],
-    relatedArticleSlugs: ["healthcare-worker-discounts"],
     sources: [SOURCE_PRESETS.federalReserve],
   },
 ];

@@ -69,8 +69,6 @@ const ResourceGrid = () => (
 );
 
 const PolicyCard = ({ policy }: { policy: HospitalFinancialAssistancePolicy }) => {
-  const free = Math.max(policy.freeCareThresholdFpl.insured ?? 0, policy.freeCareThresholdFpl.uninsured ?? 0);
-  const discount = Math.max(policy.discountedCareThresholdFpl.insured ?? 0, policy.discountedCareThresholdFpl.uninsured ?? 0);
   return (
     <Link to={`/hospital-financial-assistance/${policy.slug}`} className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/35 hover:shadow-card">
       <div className="flex items-start justify-between gap-3">
@@ -78,9 +76,10 @@ const PolicyCard = ({ policy }: { policy: HospitalFinancialAssistancePolicy }) =
         <span className="rounded-full border border-border bg-muted/30 px-2.5 py-1 text-xs font-bold text-muted-foreground">{policy.stateCode}</span>
       </div>
       <h3 className="mt-4 font-display text-xl font-bold">{policy.name}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        {free ? `Published free-care screening range through ${free}% FPG.` : discount ? `Published assistance screening range through ${discount}% FPG.` : "Current policy and application found; numerical threshold requires direct verification."}
-      </p>
+      <dl className="mt-2 space-y-2 text-sm leading-relaxed text-muted-foreground">
+        <div><dt className="font-semibold text-foreground">Free care</dt><dd>{thresholdText(policy, "free")}</dd></div>
+        <div><dt className="font-semibold text-foreground">Discounted care</dt><dd>{thresholdText(policy, "discounted")}</dd></div>
+      </dl>
       <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary">Review policy details <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden="true" /></span>
     </Link>
   );
@@ -254,6 +253,15 @@ export const HospitalFinancialAssistancePolicyPage = () => {
             ["Insured patients", policy.insuredPatientsMayQualify === "yes" ? "May qualify under published terms" : policy.insuredPatientsMayQualify === "limited" ? "Limited circumstances — verify" : "Requires direct verification"],
             ["Review status", reviewLabel],
           ].map(([label, value]) => <div key={label} className="rounded-2xl border border-border bg-card p-5 shadow-sm"><div className="text-xs font-bold uppercase tracking-[0.12em] text-muted-foreground">{label}</div><div className="mt-2 text-sm font-bold leading-relaxed text-foreground">{value}</div></div>)}
+        </section>
+
+        <section aria-labelledby="match-assistance-policy" className="rounded-2xl border border-border bg-card p-5 md:p-6">
+          <h2 id="match-assistance-policy" className="font-display text-xl font-bold">Does this policy cover the bill in front of you?</h2>
+          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
+            <li>Find the organization that issued the statement and the facility where you received care. Start by checking this policy’s scope: {policy.facilitiesCovered[0]}.</li>
+            <li>If you have a separate clinician, lab, or ambulance bill, ask that billing office which assistance policy applies to its statement. Have the service date and provider name ready.</li>
+            <li>Ask {policy.name} which application, proof of income, and deadline apply to your bill. Keep the submission confirmation and ask what happens to billing or collections while the hospital reviews it.</li>
+          </ol>
         </section>
 
         {policy.stateCode === "NC" ? <section className="rounded-2xl border border-primary/25 bg-primary-soft/30 p-5 md:p-6"><p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">North Carolina statewide program</p><h2 className="mt-2 font-display text-xl font-bold">Statewide participating-hospital discounts may be more important than an older or incomplete system summary.</h2><p className="mt-3 text-sm leading-relaxed text-muted-foreground">NCDHHS publishes a 100% discount below 200% FPG, at least 75% from 200–250%, and at least 50% from 250–300% for insured and uninsured North Carolina residents at participating acute-care hospitals. Verify that the facility, service, and bill fall within the current state program and hospital policy.</p><a href="https://www.ncdhhs.gov/medicaldebt" target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary">Verify with NCDHHS <ExternalLink className="h-4 w-4" /></a></section> : null}

@@ -23,7 +23,7 @@ export const TopicOverview = ({ startHere, definitions }: TopicOverviewProps) =>
   return (
     <div className="min-w-0 space-y-10">
       <div className="mx-auto max-w-2xl min-w-0 break-words">
-        <div className="mb-4 inline-flex max-w-full break-words rounded-full bg-secondary-soft px-3 py-1 text-xs font-semibold uppercase tracking-wider text-secondary">
+        <div className="mb-4 inline-flex max-w-full break-words rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
           Start here
         </div>
         <div className="space-y-3 text-left min-w-0">

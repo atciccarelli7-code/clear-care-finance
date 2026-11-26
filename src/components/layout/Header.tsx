@@ -246,7 +246,7 @@ export const Header = () => {
       </div>
 
       {mobileOpen && (
-        <div id="mobile-menu" className="mobile-menu-panel border-t border-border bg-background animate-fade-in xl:hidden">
+        <div id="mobile-menu" className="mobile-menu-panel border-t border-border bg-background xl:hidden">
           <nav
             ref={mobileMenuRef}
             className="container mobile-menu-scroll py-4"

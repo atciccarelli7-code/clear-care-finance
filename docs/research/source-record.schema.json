@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://communityacquiredfinance.com/schemas/research-source-record.json",
+  "title": "CAF Research Source Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "domain",
+    "sourceType",
+    "status",
+    "confidence",
+    "sensitivity",
+    "reviewedAt",
+    "affectedAssets",
+    "limitations",
+    "nextAction"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]+$"
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "organization": { "type": ["string", "null"] },
+    "domain": {
+      "enum": [
+        "government-regulation",
+        "healthcare-occupations",
+        "hospital-patient-workflows",
+        "ux-competitors",
+        "product-pricing",
+        "technical-architecture",
+        "first-party-interviews",
+        "synthesis-decisions"
+      ]
+    },
+    "sourceType": {
+      "enum": [
+        "primary-official",
+        "first-party",
+        "academic",
+        "market-research",
+        "competitor",
+        "technical",
+        "analytics",
+        "interview",
+        "synthesis"
+      ]
+    },
+    "status": {
+      "enum": ["intake", "indexed", "extracted", "verified", "build-ready", "superseded"]
+    },
+    "confidence": {
+      "enum": [
+        "verified_primary",
+        "verified_secondary",
+        "frontline_evidence",
+        "inference",
+        "hypothesis",
+        "superseded"
+      ]
+    },
+    "sensitivity": {
+      "enum": ["public", "internal", "private", "restricted"]
+    },
+    "jurisdiction": { "type": ["string", "null"] },
+    "publishedAt": { "type": ["string", "null"], "format": "date" },
+    "effectiveFrom": { "type": ["string", "null"], "format": "date" },
+    "effectiveThrough": { "type": ["string", "null"], "format": "date" },
+    "reviewedAt": { "type": "string", "format": "date" },
+    "reviewCadence": { "type": ["string", "null"] },
+    "originalUrl": { "type": ["string", "null"], "format": "uri" },
+    "driveUrl": { "type": ["string", "null"], "format": "uri" },
+    "notionUrl": { "type": ["string", "null"], "format": "uri" },
+    "completeness": {
+      "enum": ["complete", "partial", "unknown", "not-applicable"]
+    },
+    "controllingStatus": {
+      "enum": ["controlling", "official-summary", "explanatory", "observational", "derived", "unknown"]
+    },
+    "affectedAssets": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "relatedProducts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "default": []
+    },
+    "supportedClaims": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "nextAction": { "type": "string", "minLength": 1 },
+    "supersedes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    }
+  }
+}

@@ -27,7 +27,7 @@ test("insurance readers reach the bill checker directly and old tool bookmarks s
   const card = page.locator("#tool-eob-to-bill-match-checker");
   await expect(card).toHaveClass(/ring-2/);
   await expect(card).toBeInViewport();
-  await expect(card.getByRole("link")).toHaveAttribute("href", "/tools/eob-to-bill-match-checker");
+  await expect(card.getByRole("link", { name: /Open EOB-to-Bill Match Checker/i })).toHaveAttribute("href", "/tools/eob-to-bill-match-checker");
 });
 
 test("home health readers can plan for gaps between visits", async ({ page }) => {

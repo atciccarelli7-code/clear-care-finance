@@ -340,3 +340,10 @@ Use this structure when a material fact requires ongoing governance:
 - **Date:** 2026-11-26.
 - **Evidence:** Production sitemap and direct HTML crawl of 192 URLs on main `10a134b`. Link checks returned 404 at 11 unique citation destinations. Meta and ads.txt publisher identifiers matched. The founder’s AdSense notice reported low-value content and a December 3 retry date without identifying URLs.
 - **Limit:** No direct current private audience, Search Console manual-action, or approval evidence. Crawl counts and ad eligibility do not predict AdSense approval. Details in `docs/work-packets/2026-11-26-adsense-editorial-remediation.md`.
+
+### CAF-E-031 — Hospital bill flagship provenance and implementation baseline
+
+- Date: 2026-11-27. DIRECT-CURRENT: refreshed GitHub main `9337cbd`; tracked production sitemap 191 canonical routes; existing stack, lazy route, static SEO/prerender, consent and source/newsletter contracts inspected. Fresh open-PR read distinguishes this branch from unmerged #298, #293, #287, #286 and #283.
+- PRIMARY-SOURCE: source-specific CMS/Medicare/state/IRS records and retrieval limitations are retained in `src/data/hospitalBillSources.ts` and `docs/hospital-bill-research.md`; the prior chat's dollar example is a lead, not independent evidence.
+- Integration evidence: 61 focused SEO/privacy/advertising-governance tests pass. No claim that this partial pass certifies the whole financial product or production.
+- Limitation: Current private Search Console, audience, AdSense approval and newsletter delivery not established. Product effectiveness remains an experiment. Final financial/browser/build/hosted release evidence is recorded in `docs/work-packets/2026-11-27-hospital-bill.md`.

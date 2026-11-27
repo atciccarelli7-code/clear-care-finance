@@ -53,7 +53,7 @@ const normalizePathname = (pathname: string) => {
   return clean || "/";
 };
 
-const TRUST_ROUTES = new Set(["/about", "/methodology", "/editorial-policy", "/disclosures", "/accessibility"]);
+const TRUST_ROUTES = new Set(["/about", "/methodology", "/hospital-bill-anatomy/methodology", "/editorial-policy", "/disclosures", "/accessibility"]);
 const LEGAL_ROUTES = new Set(["/privacy-policy", "/terms-of-use"]);
 const FORM_ROUTES = new Set(["/newsletter", "/contact"]);
 const PRINTABLE_ROUTES = new Set(["/insurance/hospital-discharge-coverage/printable"]);
@@ -73,6 +73,7 @@ const HUB_ROUTES = new Set([
   "/glossary",
 ]);
 const NON_TOOL_WORKFLOWS = new Set([
+  "/hospital-bill-anatomy",
   "/healthcare-workers/career-decisions",
   "/medicare-care-costs/turning-65",
   "/insurance/medical-bill-review-toolkit",

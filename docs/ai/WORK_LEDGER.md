@@ -473,3 +473,15 @@ This ledger records the outcome and reusable learning from material assignments.
 - Date: 2026-11-26. Used the live Medigap comparison, burnout topic and savings-rate pages to identify weak decision support, claims with mismatched sourcing, and publisher-review terminology appearing in reader-facing bylines.
 - The existing Medicare comparison now walks through switching windows, a separate Medigap application and effective dates. The shift-spending topic and related article use a bounded practical decision and direct CDC/NIOSH sources. The savings article now calculates a base-pay and overtime month. The retirement topic shows how to reconcile plan terms, payroll and employer deposits. Topic pages present calculator headings once.
 - Preserve article-authored review details and dates. Keep the publisher's advertising-review rationale in the publisher ledger rather than copying it into article copy. No change to existing URLs or ad inventory. Revisit as Medicare rules or sources change, or when reader evidence shows a guide still leaves an important decision unanswered.
+
+### CAF-W-031 — Hospital bill flagship integration
+
+- Date: 2026-11-27. Isolated branch from main `9337cbd`. Adds integrated bill-anatomy and methodology routes, static SEO/canonical registration, ad-free governance and contextual incoming links from nine billing/founder articles, homepage and tools. Existing URLs, article prose/citations, utility destinations, payments/auth and infrastructure are preserved.
+- Reusable prevention: fixed-action `hospitalBillAnalytics` API and consent/payload regressions prohibit entered financial values or clinical selection details in custom events. Main and methodology remain separately governed and discoverable.
+- Baseline: 191 canonical routes; intended addition 2/191 (1.05%), no deletions or ad-inventory removal. 61 focused integration tests pass; complete product, source, financial, browser/build and release results remain in the work packet. Do not infer production deployment from this entry.
+- Records: `docs/work-packets/2026-11-27-hospital-bill.md`, `docs/hospital-bill-research.md`. Reassess on financial/privacy regressions, annual rules/data revisions and settled reader evidence.
+
+#### Hospital bill entry-path verification amendment
+
+- The unchanged entry budget caught 500.99 KiB after flagship integration. Extracting the existing route SEO effect into a lazy shared component reduces entry to 444.74 KiB; largest chunk 553.42 KiB, unchanged 500/600 KiB caps pass. Immediate server-rendered metadata remains unchanged. This prevents future metadata growth from consuming the initial-entry budget.
+- Dedicated flagship browser tests now run in CI and browser certification. Post-extraction focused checks pass; final full build/browser/hosted evidence remains in the November 27 work packet.

@@ -105,7 +105,7 @@ const Index = () => (
       <div className="visual-discovery grid gap-6 border-y border-border py-7 md:grid-cols-[1fr_2fr]">
         <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">See how it works</p><h2 id="visual-discovery-heading" className="mt-3 font-display text-3xl">Follow the system, one step at a time.</h2></div>
         <div className="grid gap-5 sm:grid-cols-3">{[
-          ["01", "From charge to payment", "Follow the layers between a hospital charge and what a patient owes.", "/articles/allowed-amount-medical-bills#visual-bill-to-payment"],
+          ["01", "The Anatomy of a Hospital Bill", "Explore an itemized bill and compare what different insurance arrangements change.", "/hospital-bill-anatomy"],
           ["02", "Medicare or Medicaid?", "See how the programs differ and where coverage can overlap.", "/articles/medicare-vs-medicaid-what-is-the-difference#visual-medicare-medicaid"],
           ["03", "The path to rehab", "Trace the coverage questions behind a post-hospital handoff.", "/articles/does-medicare-cover-rehab-after-hospital-stay#visual-medicare-snf"],
         ].map(([number, title, description, href]) => <Link key={href} to={href} className="group block border-l-2 border-primary/30 pl-4"><span className="font-display text-3xl text-primary" aria-hidden="true">{number}</span><h3 className="mt-2 font-display text-xl font-bold group-hover:underline">{title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p><span className="mt-3 inline-block text-sm font-semibold text-primary underline underline-offset-4">View explainer</span></Link>)}</div>

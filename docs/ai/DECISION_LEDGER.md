@@ -316,3 +316,12 @@ This ledger records material strategic, product, technical, editorial, commercia
 - Use original disclosed conceptual cover illustrations, serif editorial headings and a lead-story homepage; preserve content, URLs, tools and commercial boundaries. Supersedes only the earlier D-025 no-redesign scope for this new assignment.
 - Evidence, independent challenge, validation and release: `docs/work-packets/2026-11-25-editorial-visual-overhaul.md`.
 - Reassess on image failure, performance/representation issues, or settled 28/90-day audience evidence.
+
+### CAF-D-031 — Source-transparent hospital bill flagship
+
+- Date: 2026-11-27. Status: EXPERIMENT authorized by the founder's explicit 23-section implementation brief.
+- Decision: Build one integrated Anatomy of a Hospital Bill experience and a dedicated methodology route. Preserve existing billing, assistance and founder-reporting destinations; do not make disease-specific shallow landing pages or monetize before useful readership evidence.
+- Reconciles: The earlier CAF-D-025 no-new-tools cycle does not prohibit this newly authorized assignment. This decision does not establish product-market fit or supersede the publication-first identity.
+- Evidence, role findings, validation and release state: `docs/work-packets/2026-11-27-hospital-bill.md` and `docs/hospital-bill-research.md`.
+- Rules: CMS observations stay aggregate benchmarks; simulated itemized charges and modeled payments remain separately labeled. Never infer an individual insurer payment from a historical total-payment average. No patient uploads, real claims or user financial/health analytics.
+- Revisit: New Medicare year, CMS data/definition changes, financial reconciliation failure, user confusion or 28 settled days of audience evidence. Release remains subject to current-head validation and the normal PR process.

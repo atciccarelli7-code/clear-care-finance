@@ -1,0 +1,413 @@
+{
+  "retrievedAt": "2026-11-27",
+  "queries": [
+    {
+      "dataset_key": "inpatient_hospital_payments_by_provider_and_service",
+      "dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+      "dataset_version": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+      "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?size=10&offset=0&sort=Rndrng_Prvdr_CCN%2CDRG_Cd&filter%5Bfilter-0%5D%5Bcondition%5D%5Bpath%5D=Rndrng_Prvdr_Org_Name&filter%5Bfilter-0%5D%5Bcondition%5D%5Boperator%5D=CONTAINS&filter%5Bfilter-0%5D%5Bcondition%5D%5Bvalue%5D=Presbyterian&filter%5BDRG_Cd%5D=194&filter%5BRndrng_Prvdr_State_Abrvtn%5D=NC",
+      "source": {
+        "dataset_key": "inpatient_hospital_payments_by_provider_and_service",
+        "title": "Medicare Inpatient Hospitals - by Provider and Service",
+        "dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+        "dataset_version": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+        "version_title": "Medicare Inpatient Hospitals - by Provider and Service : 2024-01-01",
+        "landing_page": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service",
+        "data_dictionary_url": "https://data.cms.gov/resources/medicare-inpatient-hospitals-by-provider-and-service-data-dictionary-0",
+        "license_url": null,
+        "modified": "2026-04-23",
+        "temporal": "2024-01-01/2024-12-31",
+        "reporting_year": 2024,
+        "available_years": [
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "source_catalog_url": "https://data.cms.gov/data.json"
+      },
+      "attribution": "Source: Centers for Medicare & Medicaid Services (CMS).",
+      "filters": [
+        {
+          "field": "Rndrng_Prvdr_Org_Name",
+          "operator": "contains",
+          "value": "Presbyterian"
+        },
+        {
+          "field": "DRG_Cd",
+          "operator": "equals",
+          "value": "194"
+        },
+        {
+          "field": "Rndrng_Prvdr_State_Abrvtn",
+          "operator": "equals",
+          "value": "NC"
+        }
+      ],
+      "ranking": null,
+      "columns": [
+        "Rndrng_Prvdr_CCN",
+        "Rndrng_Prvdr_Org_Name",
+        "Rndrng_Prvdr_City",
+        "Rndrng_Prvdr_State_Abrvtn",
+        "DRG_Cd",
+        "DRG_Desc",
+        "Tot_Dschrgs",
+        "Avg_Submtd_Cvrd_Chrg",
+        "Avg_Tot_Pymt_Amt",
+        "Avg_Mdcr_Pymt_Amt"
+      ],
+      "returned_count": 1,
+      "offset": 0,
+      "matched_rows": 1,
+      "total_rows": 145879,
+      "next_offset": null,
+      "has_more": false,
+      "pagination_limited": false,
+      "truncated_values": false,
+      "field_pages": [],
+      "rows": [
+        {
+          "record_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786:340053:194",
+          "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?size=10&offset=0&sort=Rndrng_Prvdr_CCN%2CDRG_Cd&filter%5Bfilter-0%5D%5Bcondition%5D%5Bpath%5D=Rndrng_Prvdr_Org_Name&filter%5Bfilter-0%5D%5Bcondition%5D%5Boperator%5D=CONTAINS&filter%5Bfilter-0%5D%5Bcondition%5D%5Bvalue%5D=Presbyterian&filter%5BDRG_Cd%5D=194&filter%5BRndrng_Prvdr_State_Abrvtn%5D=NC",
+          "publication_date": "2026-04-23",
+          "reporting_period": "2024-01-01/2024-12-31",
+          "values": {
+            "Rndrng_Prvdr_CCN": "340053",
+            "Rndrng_Prvdr_Org_Name": "Novant Health Presbyterian Medical Center",
+            "Rndrng_Prvdr_City": "Charlotte",
+            "Rndrng_Prvdr_State_Abrvtn": "NC",
+            "DRG_Cd": "194",
+            "DRG_Desc": "SIMPLE PNEUMONIA AND PLEURISY WITH CC",
+            "Tot_Dschrgs": "24",
+            "Avg_Submtd_Cvrd_Chrg": "35054.958333",
+            "Avg_Tot_Pymt_Amt": "7540.9583333",
+            "Avg_Mdcr_Pymt_Amt": "5686.375"
+          },
+          "truncated_fields": []
+        }
+      ],
+      "suppression_notice": "CMS excludes provider-DRG records with 10 or fewer discharges.",
+      "caveats": [
+        "Review the returned dataset-specific license, data dictionary, and temporal coverage before reuse.",
+        "Payment and utilization fields are aggregate public-use data, not patient-level facts.",
+        "Public CMS data is not medical advice, a coverage decision, or government endorsement.",
+        "When pagination_limited is true, matched rows remain beyond supported pagination."
+      ]
+    },
+    {
+      "dataset_key": "inpatient_hospital_payments_by_provider_and_service",
+      "dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+      "dataset_version": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+      "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?size=10&offset=0&sort=Rndrng_Prvdr_CCN%2CDRG_Cd&filter%5Bfilter-0%5D%5Bcondition%5D%5Bpath%5D=Rndrng_Prvdr_Org_Name&filter%5Bfilter-0%5D%5Bcondition%5D%5Boperator%5D=CONTAINS&filter%5Bfilter-0%5D%5Bcondition%5D%5Bvalue%5D=Carolinas+Medical+Center&filter%5BDRG_Cd%5D=194&filter%5BRndrng_Prvdr_State_Abrvtn%5D=NC",
+      "source": {
+        "dataset_key": "inpatient_hospital_payments_by_provider_and_service",
+        "title": "Medicare Inpatient Hospitals - by Provider and Service",
+        "dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+        "dataset_version": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+        "version_title": "Medicare Inpatient Hospitals - by Provider and Service : 2024-01-01",
+        "landing_page": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service",
+        "data_dictionary_url": "https://data.cms.gov/resources/medicare-inpatient-hospitals-by-provider-and-service-data-dictionary-0",
+        "license_url": null,
+        "modified": "2026-04-23",
+        "temporal": "2024-01-01/2024-12-31",
+        "reporting_year": 2024,
+        "available_years": [
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "source_catalog_url": "https://data.cms.gov/data.json"
+      },
+      "attribution": "Source: Centers for Medicare & Medicaid Services (CMS).",
+      "filters": [
+        {
+          "field": "Rndrng_Prvdr_Org_Name",
+          "operator": "contains",
+          "value": "Carolinas Medical Center"
+        },
+        {
+          "field": "DRG_Cd",
+          "operator": "equals",
+          "value": "194"
+        },
+        {
+          "field": "Rndrng_Prvdr_State_Abrvtn",
+          "operator": "equals",
+          "value": "NC"
+        }
+      ],
+      "ranking": null,
+      "columns": [
+        "Rndrng_Prvdr_CCN",
+        "Rndrng_Prvdr_Org_Name",
+        "Rndrng_Prvdr_City",
+        "Rndrng_Prvdr_State_Abrvtn",
+        "DRG_Cd",
+        "DRG_Desc",
+        "Tot_Dschrgs",
+        "Avg_Submtd_Cvrd_Chrg",
+        "Avg_Tot_Pymt_Amt",
+        "Avg_Mdcr_Pymt_Amt"
+      ],
+      "returned_count": 1,
+      "offset": 0,
+      "matched_rows": 1,
+      "total_rows": 145879,
+      "next_offset": null,
+      "has_more": false,
+      "pagination_limited": false,
+      "truncated_values": false,
+      "field_pages": [],
+      "rows": [
+        {
+          "record_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786:340113:194",
+          "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?size=10&offset=0&sort=Rndrng_Prvdr_CCN%2CDRG_Cd&filter%5Bfilter-0%5D%5Bcondition%5D%5Bpath%5D=Rndrng_Prvdr_Org_Name&filter%5Bfilter-0%5D%5Bcondition%5D%5Boperator%5D=CONTAINS&filter%5Bfilter-0%5D%5Bcondition%5D%5Bvalue%5D=Carolinas+Medical+Center&filter%5BDRG_Cd%5D=194&filter%5BRndrng_Prvdr_State_Abrvtn%5D=NC",
+          "publication_date": "2026-04-23",
+          "reporting_period": "2024-01-01/2024-12-31",
+          "values": {
+            "Rndrng_Prvdr_CCN": "340113",
+            "Rndrng_Prvdr_Org_Name": "Carolinas Medical Center/Behav Health",
+            "Rndrng_Prvdr_City": "Charlotte",
+            "Rndrng_Prvdr_State_Abrvtn": "NC",
+            "DRG_Cd": "194",
+            "DRG_Desc": "SIMPLE PNEUMONIA AND PLEURISY WITH CC",
+            "Tot_Dschrgs": "65",
+            "Avg_Submtd_Cvrd_Chrg": "43645.307692",
+            "Avg_Tot_Pymt_Amt": "12976.215385",
+            "Avg_Mdcr_Pymt_Amt": "6931.5692308"
+          },
+          "truncated_fields": []
+        }
+      ],
+      "suppression_notice": "CMS excludes provider-DRG records with 10 or fewer discharges.",
+      "caveats": [
+        "Review the returned dataset-specific license, data dictionary, and temporal coverage before reuse.",
+        "Payment and utilization fields are aggregate public-use data, not patient-level facts.",
+        "Public CMS data is not medical advice, a coverage decision, or government endorsement.",
+        "When pagination_limited is true, matched rows remain beyond supported pagination."
+      ]
+    },
+    {
+      "dataset_key": "inpatient_hospital_payments_by_provider_and_service",
+      "dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+      "dataset_version": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+      "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?size=10&offset=0&sort=Rndrng_Prvdr_CCN%2CDRG_Cd&filter%5Bfilter-0%5D%5Bcondition%5D%5Bpath%5D=Rndrng_Prvdr_Org_Name&filter%5Bfilter-0%5D%5Bcondition%5D%5Boperator%5D=CONTAINS&filter%5Bfilter-0%5D%5Bcondition%5D%5Bvalue%5D=Presbyterian&filter%5BDRG_Cd%5D=291&filter%5BRndrng_Prvdr_State_Abrvtn%5D=NC",
+      "source": {
+        "dataset_key": "inpatient_hospital_payments_by_provider_and_service",
+        "title": "Medicare Inpatient Hospitals - by Provider and Service",
+        "dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+        "dataset_version": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+        "version_title": "Medicare Inpatient Hospitals - by Provider and Service : 2024-01-01",
+        "landing_page": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service",
+        "data_dictionary_url": "https://data.cms.gov/resources/medicare-inpatient-hospitals-by-provider-and-service-data-dictionary-0",
+        "license_url": null,
+        "modified": "2026-04-23",
+        "temporal": "2024-01-01/2024-12-31",
+        "reporting_year": 2024,
+        "available_years": [
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "source_catalog_url": "https://data.cms.gov/data.json"
+      },
+      "attribution": "Source: Centers for Medicare & Medicaid Services (CMS).",
+      "filters": [
+        {
+          "field": "Rndrng_Prvdr_Org_Name",
+          "operator": "contains",
+          "value": "Presbyterian"
+        },
+        {
+          "field": "DRG_Cd",
+          "operator": "equals",
+          "value": "291"
+        },
+        {
+          "field": "Rndrng_Prvdr_State_Abrvtn",
+          "operator": "equals",
+          "value": "NC"
+        }
+      ],
+      "ranking": null,
+      "columns": [
+        "Rndrng_Prvdr_CCN",
+        "Rndrng_Prvdr_Org_Name",
+        "Rndrng_Prvdr_City",
+        "Rndrng_Prvdr_State_Abrvtn",
+        "DRG_Cd",
+        "DRG_Desc",
+        "Tot_Dschrgs",
+        "Avg_Submtd_Cvrd_Chrg",
+        "Avg_Tot_Pymt_Amt",
+        "Avg_Mdcr_Pymt_Amt"
+      ],
+      "returned_count": 1,
+      "offset": 0,
+      "matched_rows": 1,
+      "total_rows": 145879,
+      "next_offset": null,
+      "has_more": false,
+      "pagination_limited": false,
+      "truncated_values": false,
+      "field_pages": [],
+      "rows": [
+        {
+          "record_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786:340053:291",
+          "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?size=10&offset=0&sort=Rndrng_Prvdr_CCN%2CDRG_Cd&filter%5Bfilter-0%5D%5Bcondition%5D%5Bpath%5D=Rndrng_Prvdr_Org_Name&filter%5Bfilter-0%5D%5Bcondition%5D%5Boperator%5D=CONTAINS&filter%5Bfilter-0%5D%5Bcondition%5D%5Bvalue%5D=Presbyterian&filter%5BDRG_Cd%5D=291&filter%5BRndrng_Prvdr_State_Abrvtn%5D=NC",
+          "publication_date": "2026-04-23",
+          "reporting_period": "2024-01-01/2024-12-31",
+          "values": {
+            "Rndrng_Prvdr_CCN": "340053",
+            "Rndrng_Prvdr_Org_Name": "Novant Health Presbyterian Medical Center",
+            "Rndrng_Prvdr_City": "Charlotte",
+            "Rndrng_Prvdr_State_Abrvtn": "NC",
+            "DRG_Cd": "291",
+            "DRG_Desc": "HEART FAILURE AND SHOCK WITH MCC",
+            "Tot_Dschrgs": "109",
+            "Avg_Submtd_Cvrd_Chrg": "37941.761468",
+            "Avg_Tot_Pymt_Amt": "10122.889908",
+            "Avg_Mdcr_Pymt_Amt": "9135.6880734"
+          },
+          "truncated_fields": []
+        }
+      ],
+      "suppression_notice": "CMS excludes provider-DRG records with 10 or fewer discharges.",
+      "caveats": [
+        "Review the returned dataset-specific license, data dictionary, and temporal coverage before reuse.",
+        "Payment and utilization fields are aggregate public-use data, not patient-level facts.",
+        "Public CMS data is not medical advice, a coverage decision, or government endorsement.",
+        "When pagination_limited is true, matched rows remain beyond supported pagination."
+      ]
+    },
+    {
+      "dataset_key": "inpatient_hospital_payments_by_provider_and_service",
+      "dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+      "dataset_version": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+      "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?size=10&offset=0&sort=Rndrng_Prvdr_CCN%2CDRG_Cd&filter%5Bfilter-0%5D%5Bcondition%5D%5Bpath%5D=Rndrng_Prvdr_Org_Name&filter%5Bfilter-0%5D%5Bcondition%5D%5Boperator%5D=CONTAINS&filter%5Bfilter-0%5D%5Bcondition%5D%5Bvalue%5D=Carolinas+Medical+Center&filter%5BDRG_Cd%5D=291&filter%5BRndrng_Prvdr_State_Abrvtn%5D=NC",
+      "source": {
+        "dataset_key": "inpatient_hospital_payments_by_provider_and_service",
+        "title": "Medicare Inpatient Hospitals - by Provider and Service",
+        "dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+        "dataset_version": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+        "version_title": "Medicare Inpatient Hospitals - by Provider and Service : 2024-01-01",
+        "landing_page": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service",
+        "data_dictionary_url": "https://data.cms.gov/resources/medicare-inpatient-hospitals-by-provider-and-service-data-dictionary-0",
+        "license_url": null,
+        "modified": "2026-04-23",
+        "temporal": "2024-01-01/2024-12-31",
+        "reporting_year": 2024,
+        "available_years": [
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "source_catalog_url": "https://data.cms.gov/data.json"
+      },
+      "attribution": "Source: Centers for Medicare & Medicaid Services (CMS).",
+      "filters": [
+        {
+          "field": "Rndrng_Prvdr_Org_Name",
+          "operator": "contains",
+          "value": "Carolinas Medical Center"
+        },
+        {
+          "field": "DRG_Cd",
+          "operator": "equals",
+          "value": "291"
+        },
+        {
+          "field": "Rndrng_Prvdr_State_Abrvtn",
+          "operator": "equals",
+          "value": "NC"
+        }
+      ],
+      "ranking": null,
+      "columns": [
+        "Rndrng_Prvdr_CCN",
+        "Rndrng_Prvdr_Org_Name",
+        "Rndrng_Prvdr_City",
+        "Rndrng_Prvdr_State_Abrvtn",
+        "DRG_Cd",
+        "DRG_Desc",
+        "Tot_Dschrgs",
+        "Avg_Submtd_Cvrd_Chrg",
+        "Avg_Tot_Pymt_Amt",
+        "Avg_Mdcr_Pymt_Amt"
+      ],
+      "returned_count": 1,
+      "offset": 0,
+      "matched_rows": 1,
+      "total_rows": 145879,
+      "next_offset": null,
+      "has_more": false,
+      "pagination_limited": false,
+      "truncated_values": false,
+      "field_pages": [],
+      "rows": [
+        {
+          "record_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786:340113:291",
+          "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?size=10&offset=0&sort=Rndrng_Prvdr_CCN%2CDRG_Cd&filter%5Bfilter-0%5D%5Bcondition%5D%5Bpath%5D=Rndrng_Prvdr_Org_Name&filter%5Bfilter-0%5D%5Bcondition%5D%5Boperator%5D=CONTAINS&filter%5Bfilter-0%5D%5Bcondition%5D%5Bvalue%5D=Carolinas+Medical+Center&filter%5BDRG_Cd%5D=291&filter%5BRndrng_Prvdr_State_Abrvtn%5D=NC",
+          "publication_date": "2026-04-23",
+          "reporting_period": "2024-01-01/2024-12-31",
+          "values": {
+            "Rndrng_Prvdr_CCN": "340113",
+            "Rndrng_Prvdr_Org_Name": "Carolinas Medical Center/Behav Health",
+            "Rndrng_Prvdr_City": "Charlotte",
+            "Rndrng_Prvdr_State_Abrvtn": "NC",
+            "DRG_Cd": "291",
+            "DRG_Desc": "HEART FAILURE AND SHOCK WITH MCC",
+            "Tot_Dschrgs": "155",
+            "Avg_Submtd_Cvrd_Chrg": "49953.258065",
+            "Avg_Tot_Pymt_Amt": "15709.303226",
+            "Avg_Mdcr_Pymt_Amt": "10502.954839"
+          },
+          "truncated_fields": []
+        }
+      ],
+      "suppression_notice": "CMS excludes provider-DRG records with 10 or fewer discharges.",
+      "caveats": [
+        "Review the returned dataset-specific license, data dictionary, and temporal coverage before reuse.",
+        "Payment and utilization fields are aggregate public-use data, not patient-level facts.",
+        "Public CMS data is not medical advice, a coverage decision, or government endorsement.",
+        "When pagination_limited is true, matched rows remain beyond supported pagination."
+      ]
+    }
+  ]
+}

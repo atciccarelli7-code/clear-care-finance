@@ -1,12 +1,10 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Layout } from "@/components/layout/Layout";
-import { resolveSiteSeoMeta } from "@/lib/siteSeoMeta";
-import { useSeo } from "@/lib/seo";
 
 const loadIndex = () => import("./pages/Index.tsx");
 const loadStartHere = () => import("./pages/StartHere.tsx");
@@ -26,6 +24,8 @@ const loadHospitalPatientGuidePage = () => import("./pages/HospitalPatientGuideP
 const loadHeartFailureGuidePage = () => import("./pages/HeartFailureGuidePage.tsx");
 const loadCopdGuidePage = () => import("./pages/CopdGuidePage.tsx");
 const loadConditionGuidePage = () => import("./pages/ConditionGuidePage.tsx");
+const loadHospitalBillAnatomyPage = () => import("./pages/HospitalBillAnatomyPage.tsx");
+const loadHospitalBillMethodologyPage = () => import("./pages/HospitalBillMethodologyPage.tsx");
 const loadTools = () => import("./pages/Tools.tsx");
 const loadToolPage = () => import("./pages/ToolPage.tsx");
 const loadBenefitsCommandCenterPage = () => import("./pages/BenefitsCommandCenterPage.tsx");
@@ -115,6 +115,8 @@ const HospitalPatientGuidePage = lazy(loadHospitalPatientGuidePage);
 const HeartFailureGuidePage = lazy(loadHeartFailureGuidePage);
 const CopdGuidePage = lazy(loadCopdGuidePage);
 const ConditionGuidePage = lazy(loadConditionGuidePage);
+const HospitalBillAnatomyPage = lazy(loadHospitalBillAnatomyPage);
+const HospitalBillMethodologyPage = lazy(loadHospitalBillMethodologyPage);
 const Tools = lazy(loadTools);
 const ToolPage = lazy(loadToolPage);
 const BenefitsCommandCenterPage = lazy(loadBenefitsCommandCenterPage);
@@ -197,6 +199,8 @@ const routeLoader = (pathname: string) => {
   if (pathname === "/patients-families/diagnosis-explained/copd") return loadCopdGuidePage;
   if (pathname.startsWith("/patients-families/diagnosis-explained/")) return loadConditionGuidePage;
   if (pathname === "/student-loans") return loadStudentLoans;
+  if (pathname === "/hospital-bill-anatomy") return loadHospitalBillAnatomyPage;
+  if (pathname === "/hospital-bill-anatomy/methodology") return loadHospitalBillMethodologyPage;
   if (pathname === "/tools") return loadTools;
   if (pathname === "/tools/benefits-command-center") return loadBenefitsCommandCenterPage;
   if (pathname === "/tools/benefits-change-detector") return loadBenefitsChangeDetectorPage;
@@ -268,12 +272,7 @@ declare global {
 
 const queryClient = new QueryClient();
 
-const RouteSeo = () => {
-  const location = useLocation();
-  const meta = useMemo(() => resolveSiteSeoMeta(location.pathname), [location.pathname]);
-  useSeo(meta);
-  return null;
-};
+const RouteSeo = lazy(() => import("@/components/shared/RouteSeo"));
 
 const GoogleAnalyticsPageView = () => {
   const location = useLocation();
@@ -281,8 +280,8 @@ const GoogleAnalyticsPageView = () => {
     if (typeof window.gtag !== "function") return;
     window.gtag("event", "page_view", {
       page_title: document.title,
-      page_path: `${location.pathname}${location.search}`,
-      page_location: window.location.href,
+      page_path: location.pathname.startsWith("/hospital-bill-anatomy") ? location.pathname : `${location.pathname}${location.search}`,
+      page_location: location.pathname.startsWith("/hospital-bill-anatomy") ? `${window.location.origin}${location.pathname}` : window.location.href,
     });
   }, [location.pathname, location.search]);
   return null;
@@ -319,7 +318,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <RouteSeo />
+      <Suspense fallback={null}><RouteSeo /></Suspense>
       <GoogleAnalyticsPageView />
       <ScrollToTop />
       <Suspense fallback={<RouteLoadingFallback />}>
@@ -356,6 +355,8 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
             <Route path="/patients-families/diagnosis-explained/copd" element={<CopdGuidePage />} />
             <Route path="/patients-families/diagnosis-explained/:slug" element={<ConditionGuidePage />} />
             <Route path="/student-loans" element={<StudentLoans />} />
+            <Route path="/hospital-bill-anatomy" element={<HospitalBillAnatomyPage />} />
+            <Route path="/hospital-bill-anatomy/methodology" element={<HospitalBillMethodologyPage />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/benefits-command-center" element={<BenefitsCommandCenterPage />} />
             <Route path="/tools/benefits-change-detector" element={<BenefitsChangeDetectorPage />} />

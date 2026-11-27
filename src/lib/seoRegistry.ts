@@ -51,6 +51,15 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "RN-led, source-backed reporting on hospital prices, insurance rules, payment incentives, discharge barriers, patient costs, and healthcare-worker finances.",
     kind: "collection",
   },
+  "/hospital-bill-anatomy": {
+    title: "The Anatomy of a Hospital Bill",
+    description: "Explore a fictional itemized hospital bill, compare insurance coverage, read an EOB, and follow charges, payments, patient costs and hospital economics with transparent sources.",
+    kind: "tool",
+  },
+  "/hospital-bill-anatomy/methodology": {
+    title: "Hospital Bill Anatomy: Sources and Methodology",
+    description: "Understand which hospital bill figures are observed CMS aggregates, simulated charges, hypothetical benefits and modeled payments, with definitions and update limitations.",
+  },
   "/start-here": {
     title: "Start Here",
     description: "Choose a practical starting point for medical bills, healthcare-worker finances, insurance benefits, Medicare, Medicaid, or retirement decisions.",

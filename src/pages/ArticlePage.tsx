@@ -534,6 +534,12 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
     author: article.author,
   });
 
+  const showHospitalBillAnatomy = [
+    "20-dollar-tylenol-hospital-prices", "what-nonprofit-hospital-actually-means",
+    "why-hospitals-care-about-length-of-stay", "why-hospitals-become-the-systems-shock-absorber",
+    "why-just-send-them-to-rehab-is-not-simple", "allowed-amount-medical-bills",
+    "how-to-read-an-eob", "facility-fee-vs-professional-fee", "observation-vs-inpatient-status",
+  ].includes(article.slug);
   const voiceNote = ARTICLE_VOICE_NOTES[article.slug];
   const showOutOfPocketMaxTool = ["how-to-read-an-eob", "deductible-copay-coinsurance-out-of-pocket-max"].includes(article.slug);
   const nextSteps = getArticleNextSteps(article.slug, article.category, article.relatedCalculator, articleCatalog);
@@ -705,6 +711,14 @@ export const ArticlePageView = ({ article, articleCatalog = [] }: { article: Art
         )}
 
         {visualId && !hasBillWalkthrough && <VisualExplainer id={visualId} />}
+        {showHospitalBillAnatomy && (
+          <aside className="border-y border-primary/25 py-5" aria-label="Explore a fictional hospital bill">
+            <p className="text-xs font-bold uppercase tracking-widest text-primary">Interactive companion</p>
+            <h2 className="mt-2 font-display text-xl">The Anatomy of a Hospital Bill</h2>
+            <p className="mt-2 text-muted-foreground">Follow a fictional stay through itemized charges, coverage rules, an EOB and patient responsibility. Public data, simulated charges and modeled payments are labeled separately.</p>
+            <Link to="/hospital-bill-anatomy" className="mt-3 inline-block font-semibold text-primary underline underline-offset-4">Explore the hospital bill</Link>
+          </aside>
+        )}
         {!storyFirst && systemMap}
 
         {article.editorialSections && article.editorialSections.length > 0 ? (

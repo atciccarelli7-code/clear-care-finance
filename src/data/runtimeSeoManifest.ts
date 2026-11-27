@@ -196,7 +196,7 @@ const ARTICLE_ROWS = [
     "Why savings rate matters more than tiny budgeting hacks, especially for healthcare workers trying to buy back time.",
     "Build Wealth",
     null,
-    "2026-07-31"
+    "2026-11-26"
   ],
   [
     "roth-vs-traditional-403b-healthcare-workers",
@@ -665,7 +665,7 @@ const ARTICLE_ROWS = [
   [
     "burnout-overspending-overeating",
     "Burnout, Overspending, and Overeating After Hard Shifts",
-    "Understand why hard shifts can trigger expensive or unhealthy coping patterns — without shame.",
+    "Plan meals and spending after a hard shift.",
     "Spending",
     null,
     "2026-07-31"
@@ -685,7 +685,7 @@ const TOPIC_ROWS = [
   [
     "retirement-accounts",
     "Retirement Accounts",
-    "403(b), 401(a), 457(b), Roth vs Traditional — the workplace retirement vocabulary in plain English."
+    "Check your hospital retirement plan, employer match and pay stub."
   ],
   [
     "health-insurance",
@@ -705,7 +705,7 @@ const TOPIC_ROWS = [
   [
     "behavior-burnout",
     "Behavior & Burnout",
-    "Money habits that happen after hard shifts — without shame or fake discipline advice."
+    "Plan meals and spending for long shifts and late breaks."
   ]
 ] as const;
 const TOOL_ROWS = [

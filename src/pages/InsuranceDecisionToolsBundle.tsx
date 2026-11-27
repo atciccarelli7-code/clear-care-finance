@@ -16,6 +16,7 @@ import {
   Stethoscope,
   WalletCards,
 } from "lucide-react";
+import { ContentFreshness } from "@/components/shared/ContentFreshness";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
@@ -531,34 +532,74 @@ export const HealthcareWorkerPaycheckTools = () => {
 export const MedicareAdvantageVsMedigap = () => {
   useSeo({
     title: "Medicare Advantage vs Medigap",
-    description: "A plain-English comparison of Medicare Advantage and Original Medicare plus Medigap tradeoffs.",
+    description: "Check when you can switch to Original Medicare and how to line up Medigap and drug coverage.",
     canonicalPath: "/insurance/medicare-advantage-vs-medigap",
   });
 
   const rows = [
-    ["Monthly premium", "Often lower, but varies by county and plan.", "Often higher because Medigap and Part D premiums are separate."],
+    ["Monthly premium", "Check the plan premium in addition to any Part B premium you pay.", "Compare the Part B premium, Medigap quote and any separate Part D premium."],
     ["Network flexibility", "Usually plan-network based; HMO/PPO rules matter.", "Original Medicare is generally broader for providers who accept Medicare."],
     ["Prior authorization", "More likely for selected services and post-acute care.", "Usually less plan-managed for Medicare-covered services."],
-    ["Drug coverage", "Often included in MA-PD plans.", "Usually requires separate Part D plan."],
+    ["Drug coverage", "Often included in MA-PD plans.", "Medigap policies sold today do not include prescription drug coverage. Check whether you need a separate Part D plan."],
     ["Out-of-pocket predictability", "Has a plan max out-of-pocket for Part A/B covered services.", "Depends on Medigap plan design and premiums."],
     ["Travel", "Emergency/urgent rules and network access vary.", "Often stronger domestic flexibility; foreign travel depends on coverage."],
   ];
 
   return (
     <>
-      <PageHero eyebrow="Medicare comparison" title="Medicare Advantage vs Medigap" description="The real tradeoff is usually lower premium and extra benefits versus provider flexibility, prior authorization, and supplemental coverage cost." />
+      <PageHero eyebrow="Medicare comparison" title="Medicare Advantage vs Medigap" description="Compare both coverage options and find out what to confirm before leaving a Medicare Advantage plan." />
+      <ContentFreshness lastReviewedAt="2026-11-26" timeSensitive reviewScope="Medicare plan enrollment dates, federal Medigap protections, and coordinating supplemental and drug coverage." />
       <div className="container space-y-16 py-12 md:py-16">
-        <SoftWarning title="Do not treat either option as universally best" body="The better fit depends on doctors, hospitals, prescriptions, travel, income, Medigap enrollment timing, state rules, and risk tolerance." />
+        <section aria-labelledby="medigap-switch-timing" className="mx-auto max-w-3xl space-y-5">
+          <h2 id="medigap-switch-timing" className="font-display text-3xl font-bold">Check two separate enrollment decisions</h2>
+          <p className="leading-relaxed text-muted-foreground">Leaving Medicare Advantage changes how you get Part A and Part B coverage. Buying Medigap is a separate application with its own rules. Medigap helps pay certain Original Medicare costs and cannot be used to pay Medicare Advantage cost-sharing.</p>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <h3 className="font-display text-xl font-bold">When can I return to Original Medicare?</h3>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
+                <li>During annual Medicare Open Enrollment, October 15 through December 7, a switch takes effect January 1 of the following year.</li>
+                <li>If you already have Medicare Advantage, January 1 through March 31 is another window to return to Original Medicare and join a separate drug plan. Confirm the effective date with Medicare.</li>
+                <li>A move, plan termination or another qualifying event can give you a Special Enrollment Period. Ask Medicare which dates apply to your situation.</li>
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <h3 className="font-display text-xl font-bold">Will a Medigap insurer take my application?</h3>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
+                <li>The federal six-month Medigap window begins the first month you are 65 or older and enrolled in Part B.</li>
+                <li>Outside that window, an insurer may use medical underwriting unless a guaranteed-issue right or state protection applies. Some people switching within their first year of Medicare Advantage qualify for a trial right.</li>
+                <li>Ask your State Health Insurance Assistance Program (SHIP) which protections and deadlines apply, especially if you have Medicare before age 65.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
         <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-card">
-          <div className="overflow-x-auto">
-            <table className="min-w-[820px] w-full text-left text-sm">
-              <thead><tr className="border-b border-border bg-muted/40"><th className="p-4">Question</th><th className="p-4">Medicare Advantage</th><th className="p-4">Original Medicare + Medigap</th></tr></thead>
-              <tbody>{rows.map(([label, ma, medigap]) => <tr key={label} className="border-b border-border/70 last:border-0"><th className="bg-muted/20 p-4 align-top font-semibold">{label}</th><td className="p-4 align-top text-muted-foreground">{ma}</td><td className="p-4 align-top text-muted-foreground">{medigap}</td></tr>)}</tbody>
+          <div className="overflow-x-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary" role="region" aria-label="Plan comparison table" tabIndex={0}>
+            <table className="min-w-[540px] w-full text-left text-sm">
+              <thead><tr className="border-b border-border bg-muted/40"><th scope="col" className="p-4">Question</th><th scope="col" className="p-4">Medicare Advantage</th><th scope="col" className="p-4">Original Medicare + Medigap</th></tr></thead>
+              <tbody>{rows.map(([label, ma, medigap]) => <tr key={label} className="border-b border-border/70 last:border-0"><th scope="row" className="bg-muted/20 p-4 align-top font-semibold">{label}</th><td className="p-4 align-top text-muted-foreground">{ma}</td><td className="p-4 align-top text-muted-foreground">{medigap}</td></tr>)}</tbody>
             </table>
           </div>
         </div>
-        <ToolLinkGrid />
-        <SourceBox sources={[{ title: "Medicare.gov — Compare Original Medicare and Medicare Advantage", url: "https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/your-coverage-options/compare-original-medicare-medicare-advantage" }, { title: "Medicare.gov — Medigap", url: "https://www.medicare.gov/health-drug-plans/medigap" }]} />
+        <section aria-labelledby="medigap-before-switching" className="mx-auto max-w-3xl space-y-4">
+          <h2 id="medigap-before-switching" className="font-display text-3xl font-bold">What to verify before switching</h2>
+          <p className="leading-relaxed text-muted-foreground"><strong>Example:</strong> If you request a switch in November, January 1 may be your date for returning to Original Medicare. Ask whether the Medigap insurer can approve your application for that date and whether a separate drug plan can start on the same day. If Medigap is still pending, compare the costs you would face with Original Medicare alone before deciding.</p>
+          <ol className="list-decimal space-y-2 pl-6 leading-relaxed text-muted-foreground">
+            <li>Ask Medicare for the date Medicare Advantage ends and Original Medicare begins.</li>
+            <li>Ask the Medigap insurer for written confirmation of acceptance, premium and start date if you plan to rely on that policy. Check any deadline attached to your application rights.</li>
+            <li>Verify drug coverage for the exact prescription, dose and pharmacy. If you have employer or retiree coverage, ask that benefits office how a switch could affect you or a covered spouse.</li>
+            <li>Confirm that your doctors and hospital take Original Medicare and can continue your care. Ask about any scheduled service or treatment already underway.</li>
+          </ol>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild><a href="https://www.medicare.gov/talk-to-someone">Get free SHIP counseling</a></Button>
+            <Button asChild variant="outline"><Link to="/tools/medicare-plan-verification-checklist">Open the plan verification checklist</Link></Button>
+          </div>
+        </section>
+        <SourceBox sources={[
+          { title: "Medicare.gov — Compare Original Medicare and Medicare Advantage", url: "https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/your-coverage-options/compare-original-medicare-medicare-advantage" },
+          { title: "Medicare.gov — Enrollment periods and start dates", url: "https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan" },
+          { title: "Medicare.gov — When you can buy Medigap", url: "https://www.medicare.gov/health-drug-plans/medigap/ready-to-buy/when" },
+          { title: "Medicare.gov — Switching or joining drug coverage", url: "https://www.medicare.gov/health-drug-plans/part-d/basics/choose-coverage/switch-drop-rejoin" },
+        ]} />
       </div>
     </>
   );

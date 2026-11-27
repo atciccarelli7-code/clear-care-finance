@@ -873,12 +873,12 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
     title: "Burnout, Overspending, and Overeating After Hard Shifts",
     category: "Spending",
     readTime: "6 min read",
-    promise: "Understand why hard shifts can trigger expensive or unhealthy coping patterns — without shame.",
+    promise: "Plan meals and spending after a hard shift.",
     audience: "Healthcare workers whose hardest money and food decisions happen after stressful shifts.",
-    summary: "After a hard shift, the brain wants relief. Spending, takeout, alcohol, snacks, and online shopping can become fast ways to feel better. The solution is not shame or perfect discipline. The solution is to build recovery defaults before the shift: food ready, money rules simple, friction on impulse purchases, and a plan for real rest.",
+    summary: "NIOSH describes how long work hours can reduce recovery time and contribute to fatigue. Use this guide to plan for meals, convenience spending and rest around the shifts you actually work.",
     body: [
-      "Healthcare workers often make their worst financial decisions when they are the most exhausted.",
-      "After a 12-hour shift, it is normal to want relief. The problem is when relief always comes through spending, overeating, alcohol, or impulse ordering that creates more stress later.",
+      "Start with the last purchase that surprised you after a shift. Look at what happened before it, such as a missed break, an empty fridge or a late clock-out.",
+      "A planned convenience purchase can make a difficult shift easier. If an expense keeps surprising you, decide before the shift what you want to keep and which backup you can realistically use.",
       "This guide is educational and not medical or mental health advice. If stress, alcohol use, eating patterns, anxiety, depression, or burnout feel unmanageable, use professional support and workplace resources."
     ],
     sections: [
@@ -933,10 +933,13 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       "Trying to cut every comfort instead of planning better ones.",
       "Leaving food decisions until after the shift.",
       "Shopping online immediately after emotionally hard shifts.",
-      "Ignoring burnout until it becomes a financial, health, or relationship problem."
+      "Expecting a spending plan to solve a work schedule or break-coverage problem."
     ],
     takeaway: "Hard shifts create predictable weak points. Build defaults before the shift, budget for reasonable comfort, and make the expensive impulse choice less automatic.",
-    sources: [SOURCE_PRESETS.federalReserve],
+    sources: [
+      { name: "CDC / NIOSH", pageTitle: "How shift work and long work hours increase health and safety risks", url: "https://www.cdc.gov/niosh/work-hour-training-for-nurses/longhours/mod2/01.html", note: "Background on long hours, fatigue and reduced recovery time." },
+      { name: "CDC / NIOSH", pageTitle: "Rest breaks for nurses", url: "https://www.cdc.gov/niosh/work-hour-training-for-nurses/longhours/mod5/10.html", note: "Workplace approaches to making breaks possible." },
+    ],
   },
 ];
 

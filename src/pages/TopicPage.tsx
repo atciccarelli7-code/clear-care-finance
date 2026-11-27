@@ -118,8 +118,7 @@ const TopicPage = () => {
 
       {topic.calculator && (
         <section id="calculator" className="container min-w-0 py-12 scroll-mt-24">
-          <SectionHeading centered eyebrow="Tool" title={topic.calculator.title} description={topic.calculator.description} />
-          <CalculatorCard eyebrow={topic.category} title={topic.calculator.title} description={topic.calculator.description}>
+          <CalculatorCard title={topic.calculator.title} description={topic.calculator.description}>
             <CalculatorByKey k={topic.calculator.key} />
           </CalculatorCard>
         </section>

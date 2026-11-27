@@ -157,6 +157,8 @@ export const WEALTH_ARTICLES: Article[] = [
     title: "The Savings Rate That Actually Changes Your Life",
     category: "Build Wealth",
     readTime: "5 min read",
+    lastReviewedAt: "2026-11-26",
+    reviewScope: "Checked the worked savings-rate calculation, including gross pay, payroll contributions and overtime.",
     promise: "Why savings rate matters more than tiny budgeting hacks, especially for healthcare workers trying to buy back time.",
     audience: "Healthcare workers who want financial independence, fewer required shifts, more career flexibility, or a cleaner path out of burnout.",
     summary: "Savings rate is the percent of income that gets kept, invested, or used to improve the balance sheet instead of being spent. A higher savings rate does two things at once: it increases how much money is working for the future and reduces the lifestyle that future investments must support. That is why savings rate is one of the most powerful financial independence levers.",
@@ -176,12 +178,12 @@ export const WEALTH_ARTICLES: Article[] = [
         ]
       },
       {
-        title: "Why it changes the timeline",
-        definition: "Higher savings both increases investment contributions and lowers the future lifestyle that must be funded.",
+        title: "Measure the rate the same way each month",
+        definition: "For this example, divide employee retirement contributions and new cash savings by gross pay. Use the same definition each month.",
         keyPoints: [
-          "A person saving 5% is mostly dependent on work income for a long time.",
-          "A person saving 25% to 40% builds flexibility much faster.",
-          "The exact target depends on income, family needs, debt, health, housing, and goals."
+          "Count employee payroll contributions once, even though they never reach your checking account.",
+          "Track employer deposits and extra debt principal separately if you want to see them without changing this rate.",
+          "Compare a typical month with an overtime month to see whether the extra pay increased what you kept."
         ],
         watchOut: "A high savings rate that creates misery is not durable. The goal is a system you can keep."
       },
@@ -205,8 +207,8 @@ export const WEALTH_ARTICLES: Article[] = [
       }
     ],
     example: {
-      title: "The cafe example",
-      body: "A nurse buying coffee, a snack, and lunch every shift may spend thousands per year at work. Cutting that in half does not require misery. It may simply mean bringing lunch two shifts per week and redirecting the difference to retirement or emergency savings."
+      title: "One base-pay month and one overtime month",
+      body: "Suppose a nurse earns $4,800 gross and puts $240 into a workplace account plus $240 into cash savings. That is $480 ÷ $4,800, or 10%. The next month, overtime brings gross pay to $5,400. If savings stay at $480, the rate is about 8.9%. If total savings rise by $200 to $680, the rate is about 12.6%. Compare the dollars as well as the rate. The example uses gross pay and different savings totals without estimating the overtime check’s take-home amount."
     },
     relatedCalculator: { label: "Hospital Cafe Savings Rate Calculator", href: "/tools/hospital-cafe-savings-calculator" },
     commonMistakes: [

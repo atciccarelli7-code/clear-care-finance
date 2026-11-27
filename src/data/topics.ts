@@ -215,23 +215,34 @@ export const TOPICS: Topic[] = [
     category: "Retirement",
     icon: PiggyBank,
     title: "Retirement Accounts",
-    promise: "403(b), 401(a), 457(b), Roth vs Traditional — the workplace retirement vocabulary in plain English.",
+    promise: "Check your hospital retirement plan, employer match and pay stub.",
     startHere:
-      "Hospitals and health systems usually offer a 403(b). Some also offer a 401(a) for required or matching contributions, and a 457(b) for additional deferral. You don't need to be an investor to use them well — you need to enroll, contribute enough to get the match, and choose a low-cost diversified fund.",
+      "Start with the plan name in your offer or benefits packet. Then look for the retirement deduction on your pay stub and the employer deposit on your plan statement. A new hire can see a payroll deduction before becoming eligible for employer money. The plan document tells you the eligibility date, what pay counts and when you keep the employer contribution if you leave.",
     definitions: [
-      { term: "403(b)", meaning: "Workplace retirement plan for hospital, school, and nonprofit employees." },
+      { term: "403(b)", meaning: "A workplace retirement plan available through eligible employers, such as public schools and certain tax-exempt organizations." },
       { term: "401(a)", meaning: "Employer retirement plan often used for mandatory or matching contributions." },
       { term: "457(b)", meaning: "Deferred-compensation plan some government and nonprofit employers offer." },
       { term: "Expense ratio", meaning: "Annual fee a fund charges you, as a percent of your balance. Lower = better." },
       { term: "Target-date fund", meaning: "All-in-one fund that auto-adjusts its mix as you approach a chosen retirement year." },
     ],
+    factSheet: {
+      title: "Check the employer formula against a real paycheck",
+      description: "In this hypothetical example, $2,000 in eligible pay and a 4% employee election produce an $80 contribution.",
+      items: [
+        { title: "Read the formula", definition: "A 50% match on the first 4% of eligible pay would add $40.", bullets: ["Check whether overtime and differentials count as eligible pay.", "Ask when employer contributions begin and how the vesting schedule works."] },
+        { title: "Compare the records", definition: "Your pay stub shows the employee deduction. The plan statement shows the employer deposit.", bullets: ["Check both records before treating a difference as missing money.", "Ask payroll whether the formula applies per paycheck and whether there is a year-end true-up."] },
+      ],
+    },
     calculator: {
       key: "calc403b",
       title: "403(b) Paycheck Contribution Calculator",
       description: "Model contribution %, employer match, and estimated annual contribution.",
     },
-    relatedArticleSlugs: ["how-to-pick-retirement-investments-at-work", "workplace-benefits-definitions"],
-    sources: [SOURCE_PRESETS.irs, SOURCE_PRESETS.federalReserve],
+    relatedArticleSlugs: ["how-hospital-403b-matching-works", "roth-vs-traditional-403b-healthcare-workers", "how-to-pick-retirement-investments-at-work"],
+    sources: [
+      { name: "IRS", pageTitle: "403(b) tax-sheltered annuity plans", url: "https://www.irs.gov/retirement-plans/irc-403b-tax-sheltered-annuity-plans" },
+      { name: "IRS", pageTitle: "457(b) deferred compensation plans", url: "https://www.irs.gov/retirement-plans/irc-457b-deferred-compensation-plans" },
+    ],
   },
   {
     slug: "health-insurance",
@@ -360,22 +371,28 @@ export const TOPICS: Topic[] = [
     category: "Behavior & Burnout",
     icon: Brain,
     title: "Behavior & Burnout",
-    promise: "Money habits that happen after hard shifts — without shame or fake discipline advice.",
+    promise: "Plan meals and spending for long shifts and late breaks.",
     startHere:
-      "Burnout does not just affect mood. It affects spending, eating, alcohol, impulse purchases, and whether you have energy to plan. The fix is not shame. It is better defaults before the shift happens.",
-    definitions: [
-      { term: "Decision fatigue", meaning: "The worn-down feeling after making too many decisions or managing too much stress." },
-      { term: "Burnout spending", meaning: "Spending used as quick relief after a hard shift or emotional overload." },
-      { term: "Recovery budget", meaning: "A planned amount for convenience and comfort that does not sabotage bigger goals." },
-      { term: "Default", meaning: "The easiest choice when you are tired. Good defaults beat willpower." },
-    ],
+      "Long shifts can leave less time for recovery, and a late break may leave you with fewer places to buy food. Start by checking what is actually open on your shift. Make one plan for a normal break and one for a late break or late clock-out.",
+    definitions: [],
+    factSheet: {
+      title: "Make a plan for the shift that runs late",
+      description: "In this hypothetical example, a café meal costs $14 and a packed fallback costs $5. Using the fallback twice in the same week frees up $18.",
+      items: [
+        { title: "Before the shift", definition: "Choose one meal you can eat if the café is closed or you cannot get away when you expected.", bullets: ["Check what storage and heating are available on your unit.", "Budget for the purchases you actually want to keep."] },
+        { title: "After the shift", definition: "Check what you bought and what changed your plan.", bullets: ["If the issue was a missed break, a cheaper lunch cannot fix staffing or coverage. Ask how breaks are covered on your unit.", "If the fallback worked, use what you actually saved to decide what to set aside."] },
+      ],
+    },
     calculator: {
       key: "calcCafe",
       title: "Hospital Café Savings Rate Calculator",
       description: "Turn shift purchases into monthly and yearly numbers without moralizing them.",
     },
     relatedArticleSlugs: ["hospital-cafe-habit", "burnout-overspending-overeating"],
-    sources: [SOURCE_PRESETS.federalReserve],
+    sources: [
+      { name: "CDC / NIOSH", pageTitle: "How shift work and long work hours increase health and safety risks", url: "https://www.cdc.gov/niosh/work-hour-training-for-nurses/longhours/mod2/01.html", note: "Background on long work hours, fatigue and recovery time." },
+      { name: "CDC / NIOSH", pageTitle: "Rest breaks for nurses", url: "https://www.cdc.gov/niosh/work-hour-training-for-nurses/longhours/mod5/10.html", note: "Explains the employer's role in providing coverage for breaks." },
+    ],
   },
 ];
 

@@ -184,3 +184,46 @@ Reusable prevention: the analytics helper cannot accept open-ended user properti
 - Focused post-extraction checks: 20/20 SEO/privacy/fixture tests pass; changed App/shared metadata lint has zero errors and the inherited App Fast Refresh warning. Earlier 61/61 route/governance/privacy tests also passed.
 - The broad local suite initially reported one pre-existing Windows CRLF SQL string-fixture failure with 817 other tests passing. Normalizing only the fixture's working-copy line endings to original Git LF bytes makes the 12-test document-intake suite pass. This is not a SQL implementation or test change; no SQL file belongs in the release diff. The orchestrator records the final complete-suite outcome separately.
 - Full production/prerender, actual browser navigation/metadata and hosted release evidence must still be recorded against the final head. No production release is claimed by this amendment.
+
+## 16. Completed product validation and release review
+
+Implementation commit: `69de84d5b0b797e2ce5b659e550b5efe0fbc7b69`, PR #302. Subsequent closeout changes are documentation/whitespace only unless separately recorded.
+
+- Financial engine: 40 named tests, 54 scenario/coverage/year/professional combinations and 300 deterministic mixed-input cases. All monetary ledgers reconcile in integer cents. Independent hand check: pneumonia Medicare facility $1,736; standard Plan G facility $0; Plan G plus the hypothetical assigned professional claim $283; default PPO $4,080. Medicare prior benefit-period days prevent a duplicate deductible, whether the first bill has been paid or not. Invalid reserve banks are rejected.
+- Source audit: four CMS records retained with exact queries and raw responses; provenance tests compare displayed observations to those responses. Original Medicare observation and MA inpatient-observation combinations return unavailable. No historical average becomes a fictional patient's insurer payment. Same-year statutory parameters verified independently on Medicare.gov.
+- Whole unit suite: **829/829**, 143 files, passes. Initial Windows-only CRLF fixture failure was resolved for validation using original LF bytes; no SQL logic, migration or test assertion changed and no SQL file is staged.
+- TypeScript app and API checks pass. Lint: zero errors and 15 inherited Fast Refresh warnings. Governance/publication/freshness/AdSense/search/boundary checks and production prerender pass; 193 canonicals and sitemap URLs, 40 redirects, zero search warnings. Entry 444.74 KiB and largest JS chunk 553.42 KiB fit unchanged 500/600 KiB budgets.
+- Exact-head hosted CI `46081999162`, job `140782855212`, **PASS**. Its dedicated browser run reports **18/18** in 36.3 seconds across mobile 390px, tablet 768px and desktop 1440px. Includes coverage changes, separate professional ledger, invalid accumulator handling, observation boundaries, EOB denial state, keyboard operation, assistance handoff, no horizontal page overflow, metadata after navigation, and static content with JavaScript disabled. Axe checks target WCAG 2.2 AA and report no violations for the exercised main/methodology states. Existing patient guide and premium browser suites also pass in that job.
+- Local browser checks exercised the same 18 journeys and generated desktop/mobile/tablet visual evidence; Windows worker/server cleanup did not emit a final summary. Hosted Linux CI supplies authoritative completion. No live human screen-reader user study or comprehensive all-browser certification is claimed.
+- Independent final financial presentation review **PASS** after fixing high-value chart clipping, keeping professional collections outside hospital economics, and withholding economics on invalid/unsupported coverage. Independent source review found and corrected two links to an unregistered journey route. Direct hosted browser checks confirm $1,736 Medicare, $283 combined Plan G, synchronized EOB, observation unavailable state, homepage incoming link and methodology navigation/title with 16 source entries.
+- Vercel preview `dpl_hBdRRjFqqAfeBF4DF9DGKxRgycPm` is **READY**, exact implementation SHA. Authenticated Vercel reads returned HTTP 200, expected title and real application root on 11 representative old/new routes. No unresolved PR review threads or requested changes were present at review.
+- Automated deployed smoke job `140783105503` **FAILS FOR ACCESS**: its existing `VERCEL_AUTOMATION_BYPASS_SECRET` is empty, and every request gets the Vercel sign-in page. This is not an application failure. Connected-account authenticated fetches and direct preview interaction replace the inaccessible anonymous probe for this release review. Protection and credential settings remain unchanged. Future maintenance should restore authenticated CI access rather than weaken protection or report this check as passed.
+
+### Final role dispositions
+
+| Registered role | Disposition | Evidence / accepted limitation |
+|---|---|---|
+| Orchestrator | PASS | All 23 sections traced; cohesive implemented core and recorded exclusions |
+| Context steward | PASS | Existing resources preserved; prior payment error corrected; provenance and ledgers retained |
+| Capability router | PASS | Official sources, CMS connector, code tests and authenticated preview used |
+| Executive strategy | PASS | Bounded publication experiment; no invented demand or revenue |
+| Product management | PASS | Select care/coverage, interpret documents, compare, reach assistance |
+| Healthcare user research | WARN accepted | Scenario workflows checked; real-reader interviews/comprehension study remain absent |
+| Information architecture | PASS | Two new canonicals, existing routes and primary article journeys retained |
+| UX and design system | PASS | Progressive details; mobile/tablet/desktop checked; visual evidence reviewed |
+| Content and evidence integrity | PASS | Independent source audit; aggregate/simulation/model classes visible |
+| Frontend engineering | PASS | Typed layered data/rules/presentation, hydration-safe scenario fragments, browser journey checks |
+| Systems architecture | PASS | Reuses stack and newsletter; no database or infrastructure addition |
+| Backend, data and security | PASS | Local cents engine, no patient data, reconciliation/property tests |
+| Platform and DevOps | WARN accepted | READY authenticated preview; existing anonymous smoke access gap documented |
+| SEO and discovery | PASS | Canonical/schema/sitemap/prerender/internal links and navigation metadata verified |
+| Monetization and conversion | PASS | Free/ad-free, voluntary existing signup; no claims of actual conversion uplift |
+| Analytics and experimentation | PASS | Consent-gated strict event allowlist tested; no inputs/clinical selections transmitted |
+| Accessibility, performance and reliability | WARN accepted | Automated WCAG2.2 checks, keyboard, responsive and bundle checks pass; no human screen-reader study |
+| Privacy, legal and user protection | PASS | No uploads or input persistence; protections scoped; no payable documents or personal estimates |
+| Publishing and governance | PASS for release readiness | Sources/dates/update/correction paths set; actual production status must be appended after release |
+| Quality and release | PASS for validated core | Hosted CI and authenticated preview directly verified; broader hosted certification still monitored |
+| Adversarial red team | PASS | Financial/source integration defects fixed; unsupported cases fail explicitly |
+| Process improvement | PASS | Regression suites, fixed event contract and metadata critical-path extraction are reusable controls |
+
+All executive perspectives map to these final dispositions using section 7's role mapping. Technical validation: **PASS for the bounded core with the documented access/testing limitations**. Business validation: **PASS as an experiment**, with audience comprehension, repeat readership and conversion still unproven. Release owner must inspect the final head/remaining required CI and append actual production evidence; no production deployment is asserted by this readiness record.

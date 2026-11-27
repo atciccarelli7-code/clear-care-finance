@@ -129,16 +129,20 @@ const DESTINATION_BY_TARGET: Record<string, InsuranceDestinationId> = {
   "/articles/facility-fee-vs-professional-fee": "facility_fees",
   "/insurance/medical-bill-review-toolkit": "medical_bill_review",
   "/tools#eob-bill-match": "eob_bill_match",
+  "/tools/eob-to-bill-match-checker": "eob_bill_match",
   "/tools/out-of-pocket-max-estimator": "out_of_pocket_max",
   "/open-enrollment": "open_enrollment",
   "/tools#open-enrollment": "open_enrollment",
+  "/tools/open-enrollment-true-cost-calculator": "open_enrollment",
   "/medicare-care-costs": "medicare_hub",
   "/medicare-care-costs#cost-estimator": "medicare_hub",
   "/articles/prescription-coverage-open-enrollment-checklist": "prescription_checklist",
   "/articles/spouse-family-health-insurance-open-enrollment": "spouse_coverage",
   "/articles/accident-critical-illness-hospital-indemnity-open-enrollment": "supplemental_policies",
   "/tools#hsa-fsa": "hsa_fsa",
+  "/tools/hsa-vs-fsa-decision-helper": "hsa_fsa",
   "/tools#paycheck-impact": "paycheck_impact",
+  "/tools/open-enrollment-paycheck-impact-calculator": "paycheck_impact",
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>

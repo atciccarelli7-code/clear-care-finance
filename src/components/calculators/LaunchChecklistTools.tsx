@@ -110,7 +110,7 @@ export const HospitalBillChecklistTool = () => (
     nextSteps={[
       { label: "Match the bill to the EOB", href: "/tools/eob-to-bill-match-checker", helper: "Use the EOB checker before deciding the balance is final." },
       { label: "Read the medical bill toolkit", href: "/insurance/medical-bill-review-toolkit", helper: "Use the full guide for billing calls and documentation." },
-      { label: "Check financial assistance", href: "/tools#financial-assistance-checklist", helper: "Large hospital bills should be screened before paying in full." },
+      { label: "Check financial assistance", href: "/tools/financial-assistance-checklist", helper: "Large hospital bills should be screened before paying in full." },
     ]}
   />
 );
@@ -180,7 +180,7 @@ export const OpenEnrollmentChecklistTool = () => (
     incompleteText="Open enrollment choices often lock in for a year. Finish the remaining checks before submitting."
     nextSteps={[
       { label: "Compare two plans by total cost", href: "/tools/open-enrollment-true-cost-calculator", helper: "Run the plan comparison before submitting elections." },
-      { label: "Estimate paycheck impact", href: "/tools#paycheck-impact", helper: "Check the take-home pay effect before the first paycheck surprise." },
+      { label: "Estimate paycheck impact", href: "/tools/open-enrollment-paycheck-impact-calculator", helper: "Check the take-home pay effect before the first paycheck surprise." },
       { label: "Return to the open enrollment guide", href: "/open-enrollment", helper: "Use the full ordered path if anything is still unresolved." },
     ]}
   />

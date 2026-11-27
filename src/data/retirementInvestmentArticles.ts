@@ -90,7 +90,7 @@ export const RETIREMENT_INVESTMENT_ARTICLES: Article[] = [
       title: "A Fidelity NetBenefits-style example",
       body: "A nurse logs into a workplace retirement account and sees that contributions are going into a 2065 target-date fund. The fund is diversified, but the nurse checks the expense ratio, stock/bond mix, and available index funds. The plan also offers a State Street S&P 500 index option. The S&P 500 fund is not the absolute cheapest fund in the world, but it is low-cost, simple, and aligned with a long time horizon. The nurse decides whether to keep the target-date fund, use the S&P 500 fund, or build a blend based on risk tolerance and time horizon."
     },
-    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools/403b-paycheck-calculator" },
     commonMistakes: [
       "Thinking the employer chooses the best investment automatically.",
       "Changing the contribution percentage but never choosing the investment inside the account.",

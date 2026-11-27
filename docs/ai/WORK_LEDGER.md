@@ -461,3 +461,9 @@ This ledger records the outcome and reusable learning from material assignments.
 - Date: 2026-11-26. Audited 192 production sitemap pages and verified 11 missing citation URLs. Consolidated the discounts topic into its article, rebuilt the medical costs topic around matching a bill to a claim, and made hospital assistance thresholds clearer on the directory cards and policy pages.
 - Inventory: 192 to 191 canonical routes, 42 to 35 ad-eligible articles. Legacy articles remain accessible. The AdSense check now guards the editorial disposition rather than a fixed count.
 - Evidence, operating decisions and release gates: `docs/work-packets/2026-11-26-adsense-editorial-remediation.md`. Reassess after the next AdSense decision or evidence of a search or reader regression.
+
+### Reader links to calculators and checklists
+
+- Date: 2026-11-26. Follow-up crawl inspected the HTML for all 191 sitemap routes. Internal page paths resolved, but article, insurance and benefits calls to action still used old tools directory fragments that require JavaScript and open a directory card before the named tool.
+- Updated those links to the tools' existing canonical pages. Old bookmarks still use the tools directory's legacy fragment behavior. The insurance engagement contract maps old and new destinations to the same event IDs. The search-readiness build now checks rendered links for legacy tool fragments.
+- Scope: navigation, compatibility and measurement continuity. Canonicals, existing tools, ad settings and article guidance stay in place. Validate the direct insurance-to-bill-checker handoff, a legacy bookmark, the prerender audit and hosted release checks. Reassess on a navigation regression or once enough visits exist to evaluate tool engagement.

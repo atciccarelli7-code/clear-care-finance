@@ -219,7 +219,7 @@ const getArticleNextSteps = (
         eyebrow: "Check the bill",
         title: "Use the EOB-to-Bill Match Checker",
         description: "Compare the provider bill against the allowed amount, insurance payment, and patient responsibility.",
-        href: "/tools#eob-bill-match",
+        href: "/tools/eob-to-bill-match-checker",
         cta: "Check bill vs EOB",
       },
       {
@@ -245,7 +245,7 @@ const getArticleNextSteps = (
         eyebrow: "Run the math",
         title: "Health Insurance Visit Cost Calculator",
         description: "Estimate visit cost using premium, deductible, copay, coinsurance, allowed amount, and OOP max details.",
-        href: "/tools#insurance",
+        href: "/tools/health-insurance-visit-cost-calculator",
         cta: "Estimate visit cost",
       },
       {
@@ -271,7 +271,7 @@ const getArticleNextSteps = (
         eyebrow: "Calculator",
         title: relatedCalculator?.label ?? "Open Enrollment True Cost Calculator",
         description: "Compare premiums, expected care, employer account money, and bad-year exposure before choosing a plan.",
-        href: relatedCalculator?.href ?? "/tools#open-enrollment",
+        href: relatedCalculator?.href ?? "/tools/open-enrollment-true-cost-calculator",
         cta: "Open calculator",
       },
       {
@@ -338,7 +338,7 @@ const getArticleNextSteps = (
           eyebrow: "Tool",
           title: relatedCalculator?.label ?? "403(b) Calculator",
           description: "Run the contribution math that builds the asset base passive income eventually requires.",
-          href: relatedCalculator?.href ?? "/tools#403b",
+          href: relatedCalculator?.href ?? "/tools/403b-paycheck-calculator",
           cta: "Open calculator",
         },
       ];

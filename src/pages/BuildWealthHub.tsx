@@ -73,7 +73,7 @@ const stages: Stage[] = [
         eyebrow: "Small leak",
         title: "Cafe Savings Rate Calculator",
         body: "See how shift spending adds up and decide whether any of it should be redirected.",
-        href: "/tools#cafe",
+        href: "/tools/hospital-cafe-savings-calculator",
         cta: "Check spend",
         icon: Coffee,
       },
@@ -89,7 +89,7 @@ const stages: Stage[] = [
         eyebrow: "Tool",
         title: "403(b) Paycheck Calculator",
         body: "Estimate per-paycheck contributions, annual savings, and employer match impact.",
-        href: "/tools#403b",
+        href: "/tools/403b-paycheck-calculator",
         cta: "Run math",
         icon: Calculator,
       },
@@ -113,7 +113,7 @@ const stages: Stage[] = [
         eyebrow: "Paycheck",
         title: "Overtime Deduction Estimator",
         body: "Estimate how qualifying overtime premium pay may affect paycheck planning.",
-        href: "/tools#overtime",
+        href: "/tools/obbb-overtime-deduction-estimator",
         cta: "Estimate",
         icon: BadgeDollarSign,
       },
@@ -202,7 +202,7 @@ const BuildWealthHub = () => {
             <Link to="/articles/healthcare-worker-money-map">Start with money map</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/tools#403b">Run 403(b) math</Link>
+            <Link to="/tools/403b-paycheck-calculator">Run 403(b) math</Link>
           </Button>
         </div>
       </PageHero>

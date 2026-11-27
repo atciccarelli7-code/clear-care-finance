@@ -86,6 +86,11 @@ describe("first-party evidence contract", () => {
   });
 
   it("maps only known same-site insurance destinations and rejects query strings", () => {
+    expect(resolveInsuranceDestinationId("/tools#eob-bill-match")).toBe("eob_bill_match");
+    expect(resolveInsuranceDestinationId("/tools/eob-to-bill-match-checker")).toBe("eob_bill_match");
+    expect(resolveInsuranceDestinationId("/tools/open-enrollment-true-cost-calculator")).toBe("open_enrollment");
+    expect(resolveInsuranceDestinationId("/tools/open-enrollment-paycheck-impact-calculator")).toBe("paycheck_impact");
+    expect(resolveInsuranceDestinationId("/tools/hsa-vs-fsa-decision-helper")).toBe("hsa_fsa");
     expect(resolveInsuranceDestinationId("/insurance/commercial-insurance-comparison#comparison-tool")).toBe("commercial_comparison");
     expect(resolveInsuranceDestinationId("/tools/out-of-pocket-max-estimator?amount=5000")).toBeNull();
     expect(resolveInsuranceDestinationId("https://example.com/insurance")).toBeNull();

@@ -90,7 +90,7 @@ const OpenEnrollmentTrueCostCalculatorPage = () => {
           cards={[
             { eyebrow: "Checklist", title: "Open Enrollment Guide", description: "Use the ordered guide before submitting health, tax account, disability, life, and supplemental elections.", href: "/open-enrollment", cta: "Open guide" },
             { eyebrow: "Bad year", title: "Out-of-Pocket Max Estimator", description: "Stress-test how a large covered in-network claim could move you toward the yearly cap.", href: "/tools/out-of-pocket-max-estimator", cta: "Estimate exposure" },
-            { eyebrow: "Paycheck", title: "Paycheck Impact Calculator", description: "Estimate how benefit elections may change take-home pay after pre-tax and after-tax deductions.", href: "/tools#paycheck-impact", cta: "Check paycheck" },
+            { eyebrow: "Paycheck", title: "Paycheck Impact Calculator", description: "Estimate how benefit elections may change take-home pay after pre-tax and after-tax deductions.", href: "/tools/open-enrollment-paycheck-impact-calculator", cta: "Check paycheck" },
             { eyebrow: "Plan rules", title: "Medication Coverage Checklist", description: "Verify formulary tiers, prior authorization, quantity limits, and preferred pharmacy pricing.", href: "/insurance/medication-coverage-checklist", cta: "Check coverage" },
           ]}
         />

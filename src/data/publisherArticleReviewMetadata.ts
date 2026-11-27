@@ -17,6 +17,5 @@ export const applyPublisherArticleReviewMetadata = (articles: Article[]): Articl
       ...article,
       lastReviewedAt: article.lastReviewedAt ?? review.reviewedAt,
       nextReviewAt,
-      reviewScope: article.reviewScope ?? review.reviewScope,
     };
   });

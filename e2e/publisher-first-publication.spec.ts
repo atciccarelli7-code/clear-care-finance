@@ -30,6 +30,16 @@ test("insurance readers reach the bill checker directly and old tool bookmarks s
   await expect(card.getByRole("link", { name: /Open EOB-to-Bill Match Checker/i })).toHaveAttribute("href", "/tools/eob-to-bill-match-checker");
 });
 
+test("the Medigap comparison explains switching and the two enrollment decisions", async ({ page }) => {
+  await page.goto("/insurance/medicare-advantage-vs-medigap");
+  await expect(page.getByRole("heading", { name: "Check two separate enrollment decisions" })).toBeVisible();
+  await expect(page.getByText(/October 15 through December 7/)).toBeVisible();
+  await expect(page.getByText(/federal six-month Medigap window/)).toBeVisible();
+  await expect(page.getByRole("link", { name: "Get free SHIP counseling" })).toHaveAttribute("href", "https://www.medicare.gov/talk-to-someone");
+  await expect(page.getByRole("region", { name: "Plan comparison table" })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize()!.width);
+});
+
 test("home health readers can plan for gaps between visits", async ({ page }) => {
   await page.goto("/articles/home-health-after-discharge", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: "Who will be there at 10 p.m.?" })).toBeVisible();

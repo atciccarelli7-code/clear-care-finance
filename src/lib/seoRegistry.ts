@@ -168,7 +168,7 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
   },
   "/insurance/medicare-advantage-vs-medigap": {
     title: "Medicare Advantage vs Medigap",
-    description: "Compare Medicare Advantage and Original Medicare with Medigap by provider access, premiums, cost-sharing, travel, networks, and underwriting considerations.",
+    description: "Check when you can switch to Original Medicare and how to line up Medigap and drug coverage.",
   },
   "/insurance/what-medicare-advantage-marketing-may-not-emphasize": {
     title: "What Medicare Advantage Marketing May Not Emphasize",

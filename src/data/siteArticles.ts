@@ -88,7 +88,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       title: "Two Medicare paths",
       body: "One person chooses Original Medicare plus Part D and Medigap because they travel often and want broad provider access. Another chooses Medicare Advantage because their doctors are in-network, the plan includes drugs, and they value a single plan with a covered-service out-of-pocket limit. Neither choice is automatically better. The better fit depends on doctors, medications, costs, travel, plan rules, and long-term care risk."
     },
-    relatedCalculator: { label: "Medicare Cost Exposure Tool", href: "/tools#medicare" },
+    relatedCalculator: { label: "Medicare Cost Exposure Tool", href: "/tools/medicare-cost-exposure-tool" },
     commonMistakes: [
       "Assuming Medicare means care is free.",
       "Choosing Medicare Advantage without checking doctors, hospitals, drugs, referrals, prior authorization, and travel coverage.",
@@ -716,7 +716,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
         watchOut: "A service can be necessary for safety and still not be covered by Medicare."
       }
     ],
-    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools#insurance" },
+    relatedCalculator: { label: "Health Insurance Visit Cost Calculator", href: "/tools/health-insurance-visit-cost-calculator" },
     commonMistakes: [
       "Thinking the premium is the full price of insurance.",
       "Ignoring the deductible, coinsurance, and out-of-pocket maximum.",
@@ -788,7 +788,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       title: "Four shifts a week",
       body: "A nurse spends $6 on coffee, $5 on a snack, and $13 on lunch during four shifts each week. That is $24 per shift, about $96 per week, and roughly $400 per month before any post-shift takeout. Cutting that in half could free up about $200 per month without requiring a second job."
     },
-    relatedCalculator: { label: "Hospital Café Savings Rate Calculator", href: "/tools#cafe" },
+    relatedCalculator: { label: "Hospital Café Savings Rate Calculator", href: "/tools/hospital-cafe-savings-calculator" },
     commonMistakes: [
       "Thinking small purchases do not matter because each one is under $15.",
       "Trying to eliminate every treat and then rebounding into bigger spending.",
@@ -927,7 +927,7 @@ const PUBLISHED_ARTICLE_OVERRIDES: Article[] = [
       title: "The post-shift loop",
       body: "A respiratory therapist leaves work drained, orders $28 of delivery, buys a few online items while scrolling, and feels guilty the next morning. A better system is not shame. It is a freezer meal, a planned $40 weekly convenience budget, app notifications turned off, and a rule that nonessential purchases wait until after sleep."
     },
-    relatedCalculator: { label: "Hospital Café Savings Rate Calculator", href: "/tools#cafe" },
+    relatedCalculator: { label: "Hospital Café Savings Rate Calculator", href: "/tools/hospital-cafe-savings-calculator" },
     commonMistakes: [
       "Calling it laziness when it is often exhaustion and stress.",
       "Trying to cut every comfort instead of planning better ones.",

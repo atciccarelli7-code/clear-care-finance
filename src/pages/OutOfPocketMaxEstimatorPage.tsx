@@ -33,7 +33,7 @@ const OutOfPocketMaxEstimatorPage = () => {
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero"><Link to="/articles/how-to-read-an-eob">Read an EOB first</Link></Button>
-          <Button asChild variant="outline"><Link to="/tools#eob-bill-match">Compare EOB vs bill</Link></Button>
+          <Button asChild variant="outline"><Link to="/tools/eob-to-bill-match-checker">Compare EOB vs bill</Link></Button>
         </div>
       </PageHero>
 
@@ -102,7 +102,7 @@ const OutOfPocketMaxEstimatorPage = () => {
               eyebrow: "Bill review",
               title: "EOB-to-Bill Match Checker",
               description: "Compare the insurer explanation with the provider bill and identify mismatches.",
-              href: "/tools#eob-bill-match",
+              href: "/tools/eob-to-bill-match-checker",
               cta: "Check bill",
             },
             {

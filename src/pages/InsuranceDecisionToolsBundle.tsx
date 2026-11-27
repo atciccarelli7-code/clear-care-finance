@@ -462,11 +462,11 @@ export const HealthcareWorkerPaycheckTools = () => {
   });
 
   const tools = [
-    ["403(b) paycheck contribution", "/tools#403b", "See paycheck contribution, annual amount, and rough employer match."],
-    ["Overtime deduction estimator", "/tools#overtime", "Estimate qualifying overtime premium and rough federal tax savings."],
-    ["Hospital cafe savings", "/tools#cafe", "See how daily convenience spending affects savings rate."],
-    ["Open enrollment paycheck impact", "/tools#paycheck-impact", "Estimate how benefit elections may change take-home pay."],
-    ["HSA vs FSA decision helper", "/tools#hsa-fsa", "Compare tax savings, forfeiture risk, and plan fit."],
+    ["403(b) paycheck contribution", "/tools/403b-paycheck-calculator", "See paycheck contribution, annual amount, and rough employer match."],
+    ["Overtime deduction estimator", "/tools/obbb-overtime-deduction-estimator", "Estimate qualifying overtime premium and rough federal tax savings."],
+    ["Hospital cafe savings", "/tools/hospital-cafe-savings-calculator", "See how daily convenience spending affects savings rate."],
+    ["Open enrollment paycheck impact", "/tools/open-enrollment-paycheck-impact-calculator", "Estimate how benefit elections may change take-home pay."],
+    ["HSA vs FSA decision helper", "/tools/hsa-vs-fsa-decision-helper", "Compare tax savings, forfeiture risk, and plan fit."],
   ];
 
   return (

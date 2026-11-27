@@ -31,7 +31,7 @@ const featuredTools = [
     icon: HeartPulse,
     title: "Estimate Medicare cost exposure",
     description: "Rough out premiums, deductibles, prescriptions, and coinsurance before comparing options.",
-    href: "/tools#medicare",
+    href: "/tools/medicare-cost-exposure-tool",
     cta: "Estimate Medicare",
     accent: "green" as const,
   },

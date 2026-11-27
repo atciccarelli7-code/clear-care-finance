@@ -17,6 +17,19 @@ test("readers can match a bill to its claim and find the hospital's assistance p
   await expect(page.getByRole("heading", { name: "Does this policy cover the bill in front of you?" })).toBeVisible();
 });
 
+test("insurance readers reach the bill checker directly and old tool bookmarks still resolve", async ({ page }) => {
+  await page.goto("/insurance");
+  await page.getByRole("link", { name: /EOB-to-bill checker/i }).first().click();
+  await expect(page).toHaveURL(/\/tools\/eob-to-bill-match-checker$/);
+  await expect(page.getByRole("heading", { name: "EOB-to-Bill Match Checker", exact: true })).toBeVisible();
+
+  await page.goto("/tools#eob-bill-match");
+  const card = page.locator("#tool-eob-to-bill-match-checker");
+  await expect(card).toHaveClass(/ring-2/);
+  await expect(card).toBeInViewport();
+  await expect(card.getByRole("link")).toHaveAttribute("href", "/tools/eob-to-bill-match-checker");
+});
+
 test("home health readers can plan for gaps between visits", async ({ page }) => {
   await page.goto("/articles/home-health-after-discharge", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: "Who will be there at 10 p.m.?" })).toBeVisible();

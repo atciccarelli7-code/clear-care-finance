@@ -141,7 +141,7 @@ export const WEALTH_ARTICLES: Article[] = [
       title: "A boring but powerful setup",
       body: "A respiratory therapist contributes to a 403(b) every paycheck, uses a low-cost target-date fund, keeps a separate emergency fund, and increases the contribution by 1% after each raise. The strategy is not flashy, but it is repeatable."
     },
-    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools/403b-paycheck-calculator" },
     commonMistakes: [
       "Waiting to invest because the market feels high or scary.",
       "Owning too many random funds without knowing what they do.",
@@ -208,7 +208,7 @@ export const WEALTH_ARTICLES: Article[] = [
       title: "The cafe example",
       body: "A nurse buying coffee, a snack, and lunch every shift may spend thousands per year at work. Cutting that in half does not require misery. It may simply mean bringing lunch two shifts per week and redirecting the difference to retirement or emergency savings."
     },
-    relatedCalculator: { label: "Hospital Cafe Savings Rate Calculator", href: "/tools#cafe" },
+    relatedCalculator: { label: "Hospital Cafe Savings Rate Calculator", href: "/tools/hospital-cafe-savings-calculator" },
     commonMistakes: [
       "Only tracking expenses without deciding what the saved money is for.",
       "Letting overtime disappear into lifestyle inflation.",
@@ -276,7 +276,7 @@ export const WEALTH_ARTICLES: Article[] = [
       title: "Two workers, both reasonable",
       body: "One young nurse uses Roth because rent is manageable, debt is low, and the long runway matters. Another nurse uses traditional because the tax savings helps them keep the full employer match while building a cash buffer and paying down private student loans. Neither is automatically wrong. The better choice is the one that strengthens the whole plan."
     },
-    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools/403b-paycheck-calculator" },
     commonMistakes: [
       "Choosing Roth only because it sounds more advanced.",
       "Choosing traditional only because the paycheck feels better without saving the tax savings intentionally.",
@@ -343,7 +343,7 @@ export const WEALTH_ARTICLES: Article[] = [
       title: "The FI ladder",
       body: "A bedside nurse first builds a $10,000 emergency fund, then captures the match, then pays down high-interest debt, then raises retirement contributions, then starts taxable investing. They are not financially independent yet, but they are less trapped than before. That is real progress."
     },
-    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools/403b-paycheck-calculator" },
     commonMistakes: [
       "Thinking FI is only for tech workers or high earners.",
       "Using overtime to fund lifestyle inflation instead of freedom.",
@@ -410,7 +410,7 @@ export const WEALTH_ARTICLES: Article[] = [
       title: "The known-expense problem",
       body: "A worker has retirement contributions running but also knows a car repair, travel, and a family expense may hit within a year. Investing every spare dollar might look optimal, but it can backfire if those expenses land on a credit card. A cash bucket for known expenses protects the long-term investing plan."
     },
-    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools/403b-paycheck-calculator" },
     commonMistakes: [
       "Thinking cash is useless because it earns less than stocks over long periods.",
       "Investing money that is needed for near-term obligations.",
@@ -477,7 +477,7 @@ export const WEALTH_ARTICLES: Article[] = [
       title: "Could dividends replace one pickup shift a month?",
       body: "Suppose skipping a shift leaves a $300 monthly gap after you account for taxes and the childcare or commuting costs you would avoid. That is $3,600 a year. At an illustrative 3% distribution yield, $120,000 would produce $3,600 before investment taxes. If the payout fell by a quarter, it would provide $2,700 a year, or $225 a month on average, leaving a $75 monthly gap even before taxes. Look at the actual payout schedule, what the distribution consists of, and what you would use to cover a shortfall."
     },
-    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools#403b" },
+    relatedCalculator: { label: "403(b) Paycheck Contribution Calculator", href: "/tools/403b-paycheck-calculator" },
     commonMistakes: [
       "Assuming dividends are safer than selling shares.",
       "Chasing the highest yield without studying risk.",
@@ -618,7 +618,7 @@ export const WEALTH_ARTICLES: Article[] = [
       title: "From extra shifts to leverage",
       body: "A nurse uses three months of extra shifts to build a career buffer, updates a resume around charge experience and patient-flow problem solving, applies to utilization review and informatics-adjacent roles, and keeps retirement contributions running. The goal is not just a higher paycheck. The goal is less dependency on bedside overtime."
     },
-    relatedCalculator: { label: "OBBB Overtime Deduction Estimator", href: "/tools#overtime" },
+    relatedCalculator: { label: "OBBB Overtime Deduction Estimator", href: "/tools/obbb-overtime-deduction-estimator" },
     commonMistakes: [
       "Assuming the only way to earn more is more bedside overtime.",
       "Waiting to feel completely ready before applying.",

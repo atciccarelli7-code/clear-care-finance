@@ -67,9 +67,10 @@ const vite = await createServer({
 });
 
 try {
-  const [{ getIndexableRoutes }, { resolveSiteSeoMeta }] = await Promise.all([
+  const [{ getIndexableRoutes }, { resolveSiteSeoMeta }, { getToolByLegacyAnchor }] = await Promise.all([
     vite.ssrLoadModule("/src/lib/seoRegistry.ts"),
     vite.ssrLoadModule("/src/lib/siteSeoMeta.ts"),
+    vite.ssrLoadModule("/src/data/tools.ts"),
   ]);
 
   const { permanentRedirects, registryRoutes, canonicalRoutes } = await getCanonicalRoutes(getIndexableRoutes);
@@ -181,6 +182,12 @@ try {
       const target = normalizeInternalHref(href);
       if (!target) continue;
       internalTargets.add(target);
+
+      if (target === "/tools") {
+        const anchor = new URL(href, siteUrl).hash.slice(1);
+        const tool = getToolByLegacyAnchor(anchor);
+        if (tool) errors.push(`${route} links to a legacy directory anchor ${href}; link directly to /tools/${tool.slug}.`);
+      }
 
       if (permanentRedirects.has(target)) {
         errors.push(`${route} links internally through permanent redirect ${target}; link directly to ${permanentRedirects.get(target)}.`);

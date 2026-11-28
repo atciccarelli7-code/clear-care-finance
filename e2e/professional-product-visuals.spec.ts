@@ -33,7 +33,7 @@ test("captures the publisher-first homepage", async ({ page }, testInfo) => {
 
 test("captures the free searchable Tools directory", async ({ page }, testInfo) => {
   await preparePage(page, "/tools");
-  await expect(page.getByRole("heading", { level: 1, name: /Use every public tool on this page without paying/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Find the right tool for a bill, a discharge, or a benefits decision/i })).toBeVisible();
   const directoryStatus = page.getByText(/Showing .* tools for all decisions/i);
   await expect(directoryStatus).toBeVisible();
   await expect(page.getByText(/Preview only|checkout off|not available for purchase yet/i)).toHaveCount(0);

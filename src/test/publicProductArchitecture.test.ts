@@ -64,7 +64,7 @@ describe("finished public product architecture", () => {
     expect(indexSource).toContain("Featured reporting and explainers");
     expect(indexSource).toContain("remain free supporting utilities");
     expect(startHereSource).toContain("complete browser-local Benefits Decision System now");
-    expect(toolsSource).toContain("Free · browser-local");
+    expect(toolsSource).toContain("The system is free to use, and your progress stays in this browser.");
     expect(workerSource).toContain("Available now · free");
     expect(offerPageSource).toContain("Start the guided system");
     expect(workflowSource).toContain("Browser-local decision system");

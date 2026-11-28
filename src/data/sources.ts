@@ -302,14 +302,14 @@ export const SOURCE_PRESETS: Record<string, Source> = {
   },
   investorGovMutualFunds: {
     name: "Investor.gov",
-    pageTitle: "Mutual Funds and ETFs",
-    url: "https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs",
+    pageTitle: "Characteristics of Mutual Funds and Exchange-Traded Funds (ETFs)",
+    url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/characteristics-mutual-funds-exchange-traded-funds",
     note: "Investor education resource for fund structure, diversification, fees, and investment product basics.",
   },
   secTargetDateFunds: {
     name: "SEC Investor.gov",
-    pageTitle: "Target Date Retirement Funds",
-    url: "https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/target-date-retirement-funds",
+    pageTitle: "Target Date Funds",
+    url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/target-date-funds-investor-bulletin",
     note: "Investor education resource explaining target-date funds and how their asset mix changes over time.",
   },
   sp500Methodology: {

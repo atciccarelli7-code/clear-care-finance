@@ -1,6 +1,21 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
+test("the facility-fee guide matches two claims and directs the reader to the right billing office", async ({ page }) => {
+  await page.goto("/articles/facility-fee-vs-professional-fee");
+  await expect(page.getByRole("heading", { level: 1, name: "Facility Fee vs. Professional Fee: How to Check Both Bills" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /One fictional CT scan/ })).toBeVisible();
+  const table = page.getByRole("table", { name: /Quick comparison table for Facility Fee/ });
+  await expect(table.getByRole("row", { name: "Patient share on processed EOB $100 $20" })).toBeVisible();
+  await expect(table.getByRole("row", { name: "Current provider bill balance $100 $55" })).toBeVisible();
+  await expect(table.getByRole("row", { name: "Difference to check $0 $35" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Who to call about each bill" })).toBeVisible();
+  await expect(page.getByText(/ask the radiology billing office what accounts for the extra/)).toBeVisible();
+  await expect(page.locator('main a[href="/tools/eob-to-bill-match-checker"]').first()).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://communityacquiredfinance.com/articles/facility-fee-vs-professional-fee");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize()!.width);
+});
+
 test("the tool directory routes readers by the decision they face", async ({ page }) => {
   await page.goto("/tools");
   const paths = page.getByRole("region", { name: "Start with what you need to resolve" });

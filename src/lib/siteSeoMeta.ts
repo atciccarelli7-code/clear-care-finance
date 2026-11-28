@@ -37,14 +37,6 @@ const diagnosisGuideOverrides = Object.fromEntries(
 ) as Record<string, Pick<SeoRouteMeta, "title" | "description" | "robots">>;
 
 const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "robots">> = {
-  "/": {
-    title: "The Money and Machinery Behind American Healthcare",
-    description: "RN-led, source-backed reporting on hospital prices, insurance rules, payment incentives, discharge barriers, patient costs, and healthcare-worker finances.",
-  },
-  "/start-here": {
-    title: "Financial Navigator: Build Your Next Money Action Plan",
-    description: "Build one private, prioritized action plan for cash, debt, retirement, workplace benefits, healthcare costs, Medicare, Medicaid, or a healthcare-career decision.",
-  },
   "/healthcare-workers": {
     title: "Healthcare Worker Benefits, Pay, and Financial Decisions",
     description: "Use healthcare-worker benefits, compensation, retirement, paycheck, and open-enrollment resources, including CAF's guided Benefits Decision System.",
@@ -56,18 +48,6 @@ const overrides: Record<string, Pick<SeoRouteMeta, "title" | "description" | "ro
   "/open-enrollment": {
     title: "Open Enrollment and Workplace Benefits Guide",
     description: "Compare premiums, deductibles, networks, prescriptions, HSAs, FSAs, supplemental benefits, retirement options, and paycheck impact before choosing benefits.",
-  },
-  "/tools": {
-    title: "Free Financial Calculators, Checklists, and Decision Tools",
-    description: "Browse free calculators, checklists, comparisons, and guides for benefits, medical bills, Medicare, student loans, retirement, and everyday money.",
-  },
-  "/articles": {
-    title: "Healthcare Economics and Finance Articles",
-    description: "Read RN-led, source-backed articles about hospital economics, medical bills, insurance, care transitions, Medicare, Medicaid, and healthcare-worker finances.",
-  },
-  "/topics": {
-    title: "Healthcare Economics and Finance Topic Guides",
-    description: "Explore hospital economics, healthcare costs, insurance, care transitions, Medicare, Medicaid, workplace benefits, and healthcare-worker finance topic guides.",
   },
   "/newsletter": {
     title: "Community Acquired Finance Newsletter",
@@ -166,7 +146,6 @@ const diagnosisGuideJsonLd = (path: string, title: string, description: string):
 const updateJsonLd = (jsonLd: SeoJsonLd[] | undefined, title: string, description: string) =>
   jsonLd?.map((item) => {
     const type = item["@type"];
-    if (type === "WebSite") return { ...item, description: "RN-led reporting and practical guidance about healthcare costs, hospital economics, insurance, care transitions, and healthcare-worker finances." };
     if (type === "BreadcrumbList" && Array.isArray(item.itemListElement)) {
       const entries = item.itemListElement as Array<Record<string, unknown>>;
       return {

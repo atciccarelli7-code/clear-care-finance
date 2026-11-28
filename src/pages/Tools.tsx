@@ -119,6 +119,15 @@ const Tools = () => {
         <Button asChild variant="outline" size="lg"><Link to="/start-here">Not sure? Start Here</Link></Button>
       </PageHero>
 
+      <section className="container max-w-5xl pt-10" aria-labelledby="hospital-bill-explainer-heading">
+        <div className="border-y border-border py-6">
+          <p className="text-xs font-bold uppercase tracking-widest text-primary">Interactive explainer</p>
+          <h2 id="hospital-bill-explainer-heading" className="mt-2 font-display text-2xl">The Anatomy of a Hospital Bill</h2>
+          <p className="mt-3 max-w-3xl text-muted-foreground">Start with a fictional hospital stay. Explore its itemized charges, switch coverage, follow an explanation of benefits, and see why a charge, a payment and a patient balance are different numbers.</p>
+          <Link to="/hospital-bill-anatomy" className="mt-4 inline-block font-semibold text-primary underline underline-offset-4">Explore the hospital bill</Link>
+        </div>
+      </section>
+
       <section className="container max-w-5xl min-w-0 pt-10 md:pt-12" aria-labelledby="free-tool-boundary-heading">
         <div className="grid gap-5 rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 shadow-card md:grid-cols-[1fr_auto] md:items-center md:p-8">
           <div>

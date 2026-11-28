@@ -126,3 +126,7 @@ Update this document only when stable platform context changes. Put individual c
 ## Editorial imagery
 
 The November 25 founder assignment authorizes a restrained professional publication treatment and six conceptual flagship cover illustrations. Artwork must have provenance, responsive derivatives, meaningful hero alt text and an explicit conceptual/AI-assistance caption. Preserve founder prose and sources. See `docs/editorial-art.md` and the November 25 visual-overhaul packet for current implementation/release evidence.
+
+## Hospital billing flagship
+
+The November 27, 2026 founder assignment authorizes The Anatomy of a Hospital Bill as one source-transparent interactive editorial asset, with a separate methodology route and existing bill-review, assistance and care-transition handoffs. This supersedes the earlier no-new-tools measurement-cycle scope only for this explicitly approved assignment. Observed CMS aggregates, simulated individual lines, hypothetical plan designs and modeled payments must remain separate. Product/release evidence and reassessment triggers: `docs/work-packets/2026-11-27-hospital-bill.md` (CAF-D-031 / CAF-E-031 / CAF-W-031). Its effectiveness remains an audience experiment; no demand, savings or approval claim follows from implementation.

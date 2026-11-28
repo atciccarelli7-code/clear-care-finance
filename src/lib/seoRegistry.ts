@@ -51,9 +51,18 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "RN-led, source-backed reporting on hospital prices, insurance rules, payment incentives, discharge barriers, patient costs, and healthcare-worker finances.",
     kind: "collection",
   },
+  "/hospital-bill-anatomy": {
+    title: "The Anatomy of a Hospital Bill",
+    description: "Explore a fictional itemized hospital bill, compare insurance coverage, read an EOB, and follow charges, payments, patient costs and hospital economics with transparent sources.",
+    kind: "tool",
+  },
+  "/hospital-bill-anatomy/methodology": {
+    title: "Hospital Bill Anatomy: Sources and Methodology",
+    description: "Understand which hospital bill figures are observed CMS aggregates, simulated charges, hypothetical benefits and modeled payments, with definitions and update limitations.",
+  },
   "/start-here": {
-    title: "Start Here",
-    description: "Choose a practical starting point for medical bills, healthcare-worker finances, insurance benefits, Medicare, Medicaid, or retirement decisions.",
+    title: "Financial Navigator: Build Your Next Money Action Plan",
+    description: "Build one private, prioritized action plan for cash, debt, retirement, workplace benefits, healthcare costs, Medicare, Medicaid, or a healthcare-career decision.",
   },
   "/healthcare-workers": {
     title: "Financial Guides for Healthcare Workers",
@@ -175,8 +184,8 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Review networks, prior authorization, post-acute care, drug coverage, travel, and maximum out-of-pocket exposure before choosing a plan.",
   },
   "/tools": {
-    title: "Healthcare Finance Calculators and Checklists",
-    description: "Free calculators and decision tools for 403(b) contributions, health insurance costs, medical bills, Medicare, open enrollment, and hospital discharge.",
+    title: "Free Financial Calculators, Checklists, and Decision Tools",
+    description: "Browse free calculators, checklists, comparisons, and guides for benefits, medical bills, Medicare, student loans, retirement, and everyday money.",
     kind: "collection",
   },
   "/tools/benefits-change-detector": {

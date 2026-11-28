@@ -4,7 +4,6 @@ import {
   ArrowRight,
   Calculator,
   Check,
-  CheckCircle2,
   ClipboardCheck,
   Coffee,
   Compass,
@@ -42,6 +41,45 @@ const iconByKey: Record<ToolIconKey, typeof Calculator> = {
 };
 
 const allTools = [...tools, ...roadmapTools];
+
+const firstSteps = [
+  {
+    situation: "The hospital bill and insurance statement show different balances.",
+    action: "Compare your bill with your EOB",
+    href: "/tools/eob-to-bill-match-checker",
+    detail: "Check that both statements describe the same claim and flag the number to ask about.",
+  },
+  {
+    situation: "I want to understand where a hospital bill comes from.",
+    action: "Explore a worked hospital bill",
+    href: "/hospital-bill-anatomy",
+    detail: "Follow one fictional stay from itemized charges through insurance and patient responsibility.",
+  },
+  {
+    situation: "I cannot afford the balance.",
+    action: "Look up hospital financial assistance",
+    href: "/medical-bills/financial-assistance",
+    detail: "Find the hospital's policy and check whether it covers your income, coverage and bill type.",
+  },
+  {
+    situation: "My family is planning for discharge.",
+    action: "Work through the discharge coverage guide",
+    href: "/insurance/hospital-discharge-coverage",
+    detail: "Ask what help is covered, who will provide it, and what the family may still need to arrange.",
+  },
+  {
+    situation: "I have several workplace benefits to choose.",
+    action: "Compare connected benefits decisions",
+    href: "/products/healthcare-worker-benefits-decision-system",
+    detail: "Work through plan costs, prescriptions, accounts and deadlines in one place.",
+  },
+  {
+    situation: "I am deciding how to get Medicare coverage.",
+    action: "Work through your Medicare options",
+    href: "/products/medicare-coverage-decision-system",
+    detail: "Compare how coverage choices affect your doctors, prescriptions, costs and enrollment steps.",
+  },
+];
 
 type ToolJob = "All decisions" | "Work, pay & benefits" | "Healthcare costs & bills" | "Medicare & caregiving" | "Loans, debt & retirement";
 
@@ -112,47 +150,26 @@ const Tools = () => {
     <>
       <PageHero
         eyebrow="Free calculators and decision tools"
-        title="Use every public tool on this page without paying."
-        description="Search by the decision in front of you. Each calculator, checklist, comparison, and guide completes one bounded task without requiring an account or purchase."
+        title="Find the right tool for a bill, a discharge, or a benefits decision."
+        description="Start with the question you need to answer. Check a bill against your insurer's records, work through a discharge plan, or compare the benefits your employer offers."
       >
         <Button asChild variant="hero" size="lg"><a href="#tool-search-heading">Search free tools</a></Button>
         <Button asChild variant="outline" size="lg"><Link to="/start-here">Not sure? Start Here</Link></Button>
       </PageHero>
 
-      <section className="container max-w-5xl pt-10" aria-labelledby="hospital-bill-explainer-heading">
-        <div className="border-y border-border py-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-primary">Interactive explainer</p>
-          <h2 id="hospital-bill-explainer-heading" className="mt-2 font-display text-2xl">The Anatomy of a Hospital Bill</h2>
-          <p className="mt-3 max-w-3xl text-muted-foreground">Start with a fictional hospital stay. Explore its itemized charges, switch coverage, follow an explanation of benefits, and see why a charge, a payment and a patient balance are different numbers.</p>
-          <Link to="/hospital-bill-anatomy" className="mt-4 inline-block font-semibold text-primary underline underline-offset-4">Explore the hospital bill</Link>
-        </div>
-      </section>
-
-      <section className="container max-w-5xl min-w-0 pt-10 md:pt-12" aria-labelledby="free-tool-boundary-heading">
-        <div className="grid gap-5 rounded-3xl border border-primary/20 bg-primary-soft/20 p-6 shadow-card md:grid-cols-[1fr_auto] md:items-center md:p-8">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">
-              <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Public tools
+      <section className="container max-w-5xl pt-10" aria-labelledby="tool-start-heading">
+        <h2 id="tool-start-heading" className="font-display text-2xl font-bold">Start with what you need to resolve</h2>
+        <dl className="mt-4 divide-y divide-border border-y border-border">
+          {firstSteps.map(({ situation, action, href, detail }) => (
+            <div key={href} className="grid gap-2 py-4 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-6">
+              <dt className="font-semibold">{situation}</dt>
+              <dd>
+                <Link to={href} className="font-semibold text-primary underline underline-offset-4">{action}</Link>
+                <p className="mt-1 text-sm text-muted-foreground">{detail}</p>
+              </dd>
             </div>
-            <h2 id="free-tool-boundary-heading" className="mt-2 font-display text-2xl font-bold tracking-tight">
-              A useful result stays free.
-            </h2>
-            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              Use a focused tool for one bounded question. When several workplace-benefit decisions need to be coordinated together, the complete Benefits Decision System is also available as a free browser-local workflow.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
-            <Button asChild>
-              <Link to="/products/healthcare-worker-benefits-decision-system">
-                Open Benefits Decision System <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link to="/products/medicare-coverage-decision-system">Open Medicare Decision System</Link>
-            </Button>
-            <span className="text-center text-xs font-semibold text-muted-foreground">Free · browser-local</span>
-          </div>
-        </div>
+          ))}
+        </dl>
       </section>
 
       <section className="container max-w-4xl min-w-0 pt-10 md:pt-12" aria-labelledby="tool-search-heading">

@@ -1,6 +1,48 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
+test("the tool directory routes readers by the decision they face", async ({ page }) => {
+  await page.goto("/tools");
+  const paths = page.getByRole("region", { name: "Start with what you need to resolve" });
+  await expect(paths.getByRole("link", { name: "Look up hospital financial assistance" })).toHaveAttribute("href", "/medical-bills/financial-assistance");
+  await expect(paths.getByRole("link", { name: "Work through the discharge coverage guide" })).toHaveAttribute("href", "/insurance/hospital-discharge-coverage");
+  await paths.getByRole("link", { name: "Compare your bill with your EOB" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "EOB-to-Bill Match Checker" })).toBeVisible();
+});
+
+test("the glossary explains the allowed amount and leads to a worked hospital bill", async ({ page }) => {
+  await page.goto("/glossary");
+  await page.getByRole("button", { name: "Insurance", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Insurance", exact: true })).toHaveAttribute("aria-pressed", "true");
+  const search = page.getByRole("textbox", { name: "Search glossary terms" });
+  await search.fill("no matching term");
+  await expect(page.getByRole("status").filter({ hasText: "No terms match that search." })).toBeVisible();
+  await page.getByRole("button", { name: "Clear search and filters" }).click();
+  await expect(search).toBeEmpty();
+  await search.fill("allowed amount");
+  await expect(page.getByRole("heading", { name: "Allowed amount", exact: true })).toBeVisible();
+  await expect(page.getByText(/the insurer pays \$240/)).toBeVisible();
+  const accessibility = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
+  expect(accessibility.violations.map(({ id }) => id)).toEqual([]);
+  await page.getByRole("link", { name: "Explore a worked hospital bill" }).click();
+  await expect(page).toHaveURL(/\/hospital-bill-anatomy$/);
+});
+
+test("selected calculators show a result, its assumptions, and where to go next", async ({ page }) => {
+  const cases = [
+    ["health-insurance-visit-cost-calculator", /\$260/, "Compare your bill with your EOB"],
+    ["student-loan-payment-calculator", /\$10,379/, "Review your student loan options"],
+    ["hospital-cafe-savings-calculator", /\$520/, "Read the hospital cafe spending guide"],
+  ] as const;
+  for (const [slug, result, next] of cases) {
+    await page.goto(`/tools/${slug}`);
+    const example = page.locator('section[aria-labelledby="worked-example-heading"]');
+    await expect(example).toContainText(result);
+    await expect(example.getByRole("link", { name: next })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize()!.width);
+  }
+});
+
 test("readers can match a bill to its claim and find the hospital's assistance policy", async ({ page }) => {
   await page.goto("/topics/patient-medical-costs");
   await expect(page.getByRole("heading", { name: "One visit, two statements. Which charge should you check?" })).toBeVisible();

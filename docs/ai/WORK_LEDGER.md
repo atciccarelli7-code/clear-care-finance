@@ -485,3 +485,9 @@ This ledger records the outcome and reusable learning from material assignments.
 
 - The unchanged entry budget caught 500.99 KiB after flagship integration. Extracting the existing route SEO effect into a lazy shared component reduces entry to 444.74 KiB; largest chunk 553.42 KiB, unchanged 500/600 KiB caps pass. Immediate server-rendered metadata remains unchanged. This prevents future metadata growth from consuming the initial-entry budget.
 - Dedicated flagship browser tests now run in CI and browser certification. Post-extraction focused checks pass; final full build/browser/hosted evidence remains in the November 27 work packet.
+
+### Reader decision consistency
+
+- Date: 2026-11-27. Updated five existing utility pages out of 193 canonicals, using six decision-based entry links, three worked calculator examples, and five sourced insurance glossary entries.
+- Useful standard for future utility updates: help the reader answer the question, see where the answer changes, and take a specific next step. Reuse existing destinations when they already complete the task.
+- Scope, source checks, validation criteria and rollback: `docs/work-packets/2026-11-27-caf-reader-consistency.md`.

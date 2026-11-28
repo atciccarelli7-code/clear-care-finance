@@ -30,8 +30,9 @@ const Glossary = () => {
       />
       <section className="container py-12">
         <div className="max-w-xl mx-auto relative mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
           <Input
+            aria-label="Search glossary terms"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search terms..."
@@ -43,6 +44,8 @@ const Glossary = () => {
           {GLOSSARY_CATEGORIES.map((c) => (
             <button
               key={c}
+              type="button"
+              aria-pressed={cat === c}
               onClick={() => setCat(c)}
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-semibold transition-smooth border",
@@ -63,7 +66,10 @@ const Glossary = () => {
         </div>
 
         {filtered.length === 0 && (
-          <div className="text-center py-16 text-muted-foreground">No terms match that search.</div>
+          <div className="space-y-3 py-12 text-center text-muted-foreground">
+            <p role="status">No terms match that search.</p>
+            <button type="button" onClick={() => { setQ(""); setCat("All"); }} className="font-semibold text-primary underline underline-offset-4">Clear search and filters</button>
+          </div>
         )}
 
         <div className="max-w-3xl mx-auto mt-16">

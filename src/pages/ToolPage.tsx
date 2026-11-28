@@ -6,6 +6,7 @@ import { PageHero } from "@/components/shared/PageHero";
 import { Button } from "@/components/ui/button";
 import { roadmapTools } from "@/data/roadmapTools";
 import { getToolBySlug, getToolHref, tools } from "@/data/tools";
+import { toolWorkedExamples } from "@/data/toolWorkedExamples";
 import { useSeo } from "@/lib/seo";
 import { RoadmapToolRouter } from "@/pages/RoadmapToolRouter";
 import { audienceForTool, decisionCategoryForToolCategory, getToolStartLabel } from "@/lib/directionalCtaRoutes";
@@ -32,6 +33,7 @@ const ToolPage = () => {
   if (tool.href && tool.href !== `/tools/${tool.slug}`) return <Navigate to={tool.href} replace />;
   if (!tool.componentKey) return <Navigate to="/tools" replace />;
 
+  const workedExample = toolWorkedExamples[tool.slug];
   const relatedTools = tools
     .filter((candidate) => candidate.slug !== tool.slug && candidate.category === tool.category)
     .slice(0, 3);
@@ -76,6 +78,19 @@ const ToolPage = () => {
       </PageHero>
 
       <div className="container min-w-0 space-y-10 py-10 md:space-y-14 md:py-14">
+        {workedExample ? (
+          <section className="rounded-3xl border border-border bg-card p-5 shadow-card md:p-7" aria-labelledby="worked-example-heading">
+            <h2 id="worked-example-heading" className="font-display text-2xl font-bold">{workedExample.title}</h2>
+            <p className="mt-3 max-w-3xl leading-relaxed">{workedExample.example}</p>
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">{workedExample.check}</p>
+            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+              <Link className="font-semibold text-primary underline underline-offset-4" to={workedExample.next.href}>{workedExample.next.label}</Link>
+              {workedExample.source && (
+                <a className="text-primary underline underline-offset-4" href={workedExample.source.href}>{workedExample.source.label}</a>
+              )}
+            </div>
+          </section>
+        ) : (
         <section className="grid gap-4 md:grid-cols-3" aria-label="Tool details">
           <div className="rounded-3xl border border-border bg-card p-5 shadow-card">
             <Clock3 className="h-5 w-5 text-primary" aria-hidden="true" />
@@ -93,6 +108,7 @@ const ToolPage = () => {
             <p className="mt-1 text-sm text-muted-foreground">Verify final numbers with official records and plan documents</p>
           </div>
         </section>
+        )}
 
         <section id="tool" className="scroll-mt-28">
           <CalculatorCard

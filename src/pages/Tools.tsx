@@ -290,7 +290,7 @@ const Tools = () => {
             <div className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Need a coordinated benefits workflow?</div>
             <h2 id="coordinated-workflow-heading" className="mt-2 font-display text-2xl font-bold">Use the Benefits Decision System when several choices connect.</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              The guided workflow brings plan costs, prescriptions, accounts, retirement, protection benefits, deadlines, verification questions, browser-local progress, and a final decision brief into one sequence. It is available now without an account or purchase.
+              Compare plan costs, prescriptions, savings accounts, retirement and protection benefits together. The system is free to use, and your progress stays in this browser.
             </p>
           </div>
           <Button asChild variant="outline">

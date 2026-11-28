@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from "rea
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import RouteSeo from "@/components/shared/RouteSeo";
 import { Layout } from "@/components/layout/Layout";
 
 const loadIndex = () => import("./pages/Index.tsx");
@@ -272,7 +273,6 @@ declare global {
 
 const queryClient = new QueryClient();
 
-const RouteSeo = lazy(() => import("@/components/shared/RouteSeo"));
 
 const GoogleAnalyticsPageView = () => {
   const location = useLocation();
@@ -318,7 +318,7 @@ export const AppContent = ({ includeRuntimeTelemetry = true }: { includeRuntimeT
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <Suspense fallback={null}><RouteSeo /></Suspense>
+      <RouteSeo />
       <GoogleAnalyticsPageView />
       <ScrollToTop />
       <Suspense fallback={<RouteLoadingFallback />}>

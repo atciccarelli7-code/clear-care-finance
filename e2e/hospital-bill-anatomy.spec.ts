@@ -1,8 +1,17 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+const runtimeErrors = new WeakMap<Page,string[]>();
 
 test.beforeEach(async ({page}) => {
+  const errors: string[]=[];
+  runtimeErrors.set(page,errors);
+  page.on("pageerror",error => errors.push(error.message));
   await page.addInitScript(() => localStorage.setItem("caf-privacy-consent-v1","necessary"));
+});
+
+test.afterEach(async ({page}) => {
+  expect(runtimeErrors.get(page) ?? []).toEqual([]);
 });
 
 test("a reader changes coverage, opens the itemization and matches the EOB", async ({ page }) => {
@@ -76,6 +85,22 @@ test("a keyboard reader can open detail and reach the financial-assistance path"
   await expect(page.getByLabel("Coverage rule year")).toBeFocused();
   await page.getByRole("link",{name:"Find hospital financial assistance →",exact:true}).click();
   await expect(page).toHaveURL(/\/medical-bills\/financial-assistance$/);
+});
+
+test("voluntary newsletter signup excludes the financial model and does not overstate delivery", async ({page}) => {
+  let submitted: Record<string,unknown> | undefined;
+  await page.route("**/api/send",async route => {
+    submitted=route.request().postDataJSON() as Record<string,unknown>;
+    await route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({ok:true,saved:true,emailDelivered:false})});
+  });
+  await page.goto("/hospital-bill-anatomy");
+  await page.getByLabel("Coverage arrangement",{exact:true}).selectOption("hdhp");
+  await page.getByLabel("Email",{exact:true}).fill("education-test@example.org");
+  await page.getByLabel("I agree to receive educational emails from Community Acquired Finance. I can unsubscribe anytime.",{exact:true}).check();
+  await page.getByRole("button",{name:"Join the monthly list",exact:true}).click();
+  await expect(page.getByText("You are on the list. Welcome email delivery is still being finalized.",{exact:true})).toBeVisible();
+  expect(Object.keys(submitted ?? {}).sort()).toEqual(["consent","email","firstName","source","type","website"]);
+  expect(submitted).toMatchObject({source:"hospital-bill-anatomy",type:"newsletter",consent:true});
 });
 
 test("core education is present in the prerendered HTML with JavaScript disabled", async ({browser,baseURL}) => {

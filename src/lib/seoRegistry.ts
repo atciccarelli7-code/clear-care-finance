@@ -61,8 +61,8 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Understand which hospital bill figures are observed CMS aggregates, simulated charges, hypothetical benefits and modeled payments, with definitions and update limitations.",
   },
   "/start-here": {
-    title: "Start Here",
-    description: "Choose a practical starting point for medical bills, healthcare-worker finances, insurance benefits, Medicare, Medicaid, or retirement decisions.",
+    title: "Financial Navigator: Build Your Next Money Action Plan",
+    description: "Build one private, prioritized action plan for cash, debt, retirement, workplace benefits, healthcare costs, Medicare, Medicaid, or a healthcare-career decision.",
   },
   "/healthcare-workers": {
     title: "Financial Guides for Healthcare Workers",
@@ -184,8 +184,8 @@ const STATIC_PAGE_META: Record<string, StaticPageMeta> = {
     description: "Review networks, prior authorization, post-acute care, drug coverage, travel, and maximum out-of-pocket exposure before choosing a plan.",
   },
   "/tools": {
-    title: "Healthcare Finance Calculators and Checklists",
-    description: "Free calculators and decision tools for 403(b) contributions, health insurance costs, medical bills, Medicare, open enrollment, and hospital discharge.",
+    title: "Free Financial Calculators, Checklists, and Decision Tools",
+    description: "Browse free calculators, checklists, comparisons, and guides for benefits, medical bills, Medicare, student loans, retirement, and everyday money.",
     kind: "collection",
   },
   "/tools/benefits-change-detector": {

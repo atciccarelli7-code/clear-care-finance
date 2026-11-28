@@ -261,7 +261,7 @@ export const SOURCE_PRESETS: Record<string, Source> = {
   dolWorkersFamilies: {
     name: "U.S. Department of Labor, EBSA",
     pageTitle: "Workers and Families",
-    url: "https://www.dol.gov/agencies/ebsa/workers-and-families",
+    url: "https://www.dol.gov/node/67500",
     note: "Official resources for comparing job-based health and retirement benefits during major life and employment events.",
   },
   healthcareGovSbc: {

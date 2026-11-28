@@ -130,8 +130,8 @@ export const HSA_FSA_ARTICLE: Article = {
     },
     {
       name: "HealthEquity",
-      pageTitle: "Health Savings Account administration",
-      url: "https://www.healthequity.com/hsa/administration",
+      pageTitle: "HSA Solutions for Business",
+      url: "https://www.healthequity.com/hsa",
       note: "Employer HSA platform features, investment tools, and support information."
     },
     {

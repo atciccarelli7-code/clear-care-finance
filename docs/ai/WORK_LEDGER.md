@@ -491,3 +491,9 @@ This ledger records the outcome and reusable learning from material assignments.
 - Date: 2026-11-27. Updated five existing utility pages out of 193 canonicals, using six decision-based entry links, three worked calculator examples, and five sourced insurance glossary entries.
 - Useful standard for future utility updates: help the reader answer the question, see where the answer changes, and take a specific next step. Reuse existing destinations when they already complete the task.
 - Scope, source checks, validation criteria and rollback: `docs/work-packets/2026-11-27-caf-reader-consistency.md`.
+
+### Facility-fee article and targeted indexing
+
+- Date: 2026-11-27. Search Console showed 677 impressions and three clicks for the facility-fee article in the October 29–November 25 baseline. One existing article now provides a fictional CT claim reconciliation, specific contacts and call language, and the existing bill checker at the point of need. Compare clicks, impressions, position and click-through rate over a full comparable window after Google recrawls the article.
+- Google confirmed receipt of indexing requests for the hospital-bill flagship and the two previously soft-404 billing articles. Both flagged articles passed Google's live indexability test. The original exclusions remain historical evidence until Google updates its index.
+- Existing article path, author credit and advertising disposition are preserved. Review the original medical-bill source guidance, both claim totals, mobile and desktop behavior, metadata, and production rendering. Revert the article change as one unit if needed.

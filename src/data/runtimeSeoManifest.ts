@@ -456,11 +456,11 @@ const ARTICLE_ROWS = [
   ],
   [
     "facility-fee-vs-professional-fee",
-    "Facility Fee vs. Professional Fee: Why One Visit Can Produce Two Bills",
-    "Learn the difference between a facility fee and professional fee, why one visit can create two bills, and what to verify before paying.",
+    "Facility Fee vs. Professional Fee: How to Check Both Bills",
+    "One hospital visit can produce a facility fee and a professional fee. Follow a worked example to match both bills to insurance and see whom to call about a mismatch.",
     "Hospital Bills",
     null,
-    "2026-07-13"
+    "2026-11-27"
   ],
   [
     "observation-vs-inpatient-status",
